@@ -36,6 +36,11 @@ export default function RewardsPage() {
   const [showFullHistory, setShowFullHistory] = useState(false);
   const [showAllRewards, setShowAllRewards] = useState(false);
   const [redeemedId, setRedeemedId] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -173,7 +178,7 @@ export default function RewardsPage() {
       </div>
 
       {/* Full History Modal - Portal to escape overflow-hidden layout */}
-      {showFullHistory && createPortal(
+      {mounted && showFullHistory && createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-12" dir="rtl">
           <div className="absolute inset-0 bg-black/90 backdrop-blur-xl" onClick={() => setShowFullHistory(false)} />
           <div className="relative w-full max-w-2xl bg-[#0D0D0D]/80 backdrop-blur-2xl rounded-[48px] border border-white/10 shadow-[0_0_100px_rgba(255,159,10,0.1)] overflow-hidden flex flex-col max-h-[85vh] animate-in fade-in zoom-in duration-300">
@@ -222,7 +227,7 @@ export default function RewardsPage() {
       )}
 
       {/* All Rewards Modal - Portal to escape overflow-hidden layout */}
-      {showAllRewards && createPortal(
+      {mounted && showAllRewards && createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-12" dir="rtl">
           <div className="absolute inset-0 bg-black/90 backdrop-blur-xl" onClick={() => { setShowAllRewards(false); setRedeemedId(null); }} />
           <div className="relative w-full max-w-3xl bg-[#0D0D0D]/80 backdrop-blur-2xl rounded-[48px] border border-white/10 shadow-[0_0_100px_rgba(255,159,10,0.1)] overflow-hidden flex flex-col max-h-[85vh] animate-in fade-in zoom-in duration-300">

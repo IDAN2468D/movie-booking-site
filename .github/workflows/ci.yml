@@ -39,11 +39,11 @@ jobs:
       env:
         NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        NEXT_PUBLIC_TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
 
     - name: Build
       run: npm run build
       env:
         NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        NEXT_PUBLIC_TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
