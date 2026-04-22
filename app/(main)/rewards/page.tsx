@@ -39,7 +39,10 @@ export default function RewardsPage() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const timeout = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {
@@ -112,8 +115,16 @@ export default function RewardsPage() {
           <div className="space-y-6">
              <div className="flex items-center justify-between px-4 flex-row">
                 <h2 className="text-xl font-bold text-white tracking-tight">מימוש הטבות</h2>
-                <button onClick={() => setShowAllRewards(true)} className="text-xs text-slate-500 font-black hover:text-primary transition-colors tracking-widest uppercase">צפה בהכל</button>
-             </div>
+                 <button 
+                   onClick={() => {
+                     console.log('Opening rewards modal...');
+                     setShowAllRewards(true);
+                   }} 
+                   className="text-xs text-primary font-black hover:text-white transition-all tracking-widest uppercase px-4 py-2 bg-primary/10 rounded-full hover:bg-primary/20 border border-primary/20 hover:border-primary/40"
+                 >
+                   צפה בהכל
+                 </button>
+              </div>
              
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {rewards.slice(0, 4).map((reward) => (
@@ -167,19 +178,21 @@ export default function RewardsPage() {
               )}
            </div>
            
-           <button 
-            onClick={() => setShowFullHistory(true)}
-            disabled={bookings.length === 0}
-            className="w-full mt-10 p-5 rounded-2xl bg-white/5 border border-white/5 text-white font-bold text-xs uppercase tracking-[0.2em] hover:bg-white/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-           >
-             היסטוריית נקודות מלאה
-           </button>
+            <button 
+             onClick={() => {
+               console.log('Opening history modal...');
+               setShowFullHistory(true);
+             }}
+             className="w-full mt-10 p-5 rounded-2xl bg-primary/10 border border-primary/20 text-white font-bold text-xs uppercase tracking-[0.2em] hover:bg-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            >
+              היסטוריית נקודות מלאה
+            </button>
         </div>
       </div>
 
       {/* Full History Modal - Portal to escape overflow-hidden layout */}
-      {mounted && showFullHistory && createPortal(
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-12" dir="rtl">
+      {mounted && showFullHistory && typeof document !== 'undefined' && createPortal(
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-6 sm:p-12" dir="rtl">
           <div className="absolute inset-0 bg-black/90 backdrop-blur-xl" onClick={() => setShowFullHistory(false)} />
           <div className="relative w-full max-w-2xl bg-[#0D0D0D]/80 backdrop-blur-2xl rounded-[48px] border border-white/10 shadow-[0_0_100px_rgba(255,159,10,0.1)] overflow-hidden flex flex-col max-h-[85vh] animate-in fade-in zoom-in duration-300">
             <div className="p-10 border-b border-white/5 flex items-center justify-between flex-row">
@@ -227,8 +240,8 @@ export default function RewardsPage() {
       )}
 
       {/* All Rewards Modal - Portal to escape overflow-hidden layout */}
-      {mounted && showAllRewards && createPortal(
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-12" dir="rtl">
+      {mounted && showAllRewards && typeof document !== 'undefined' && createPortal(
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-6 sm:p-12" dir="rtl">
           <div className="absolute inset-0 bg-black/90 backdrop-blur-xl" onClick={() => { setShowAllRewards(false); setRedeemedId(null); }} />
           <div className="relative w-full max-w-3xl bg-[#0D0D0D]/80 backdrop-blur-2xl rounded-[48px] border border-white/10 shadow-[0_0_100px_rgba(255,159,10,0.1)] overflow-hidden flex flex-col max-h-[85vh] animate-in fade-in zoom-in duration-300">
             <div className="p-10 border-b border-white/5 flex items-center justify-between flex-row">
