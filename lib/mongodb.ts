@@ -10,9 +10,14 @@ let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
 if (!uri) {
-  // In development, we don't want to crash the whole app if the URI is missing
-  // especially during module evaluation or static build phases.
-  clientPromise = Promise.reject(new Error('Invalid/Missing environment variable: "MONGODB_URI"'));
+  // In development, we don't want to crash the whole app with an unhandled rejection
+  // if the URI is missing during module evaluation or static build phases.
+  clientPromise = new Promise((_, reject) => {
+    if (typeof window === 'undefined') {
+      console.warn('⚠️ MONGODB_URI is missing. Database dependent features will fail.');
+    }
+    // We don't reject immediately to avoid global unhandledRejection
+  });
 } else {
   if (process.env.NODE_ENV === 'development') {
     const globalWithMongo = global as typeof globalThis & {

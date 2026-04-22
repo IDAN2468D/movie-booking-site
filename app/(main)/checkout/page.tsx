@@ -322,7 +322,7 @@ export default function CheckoutPage() {
              
              <h3 className="text-xl font-bold text-white mb-8 tracking-tight">סיכום הזמנה</h3>
              
-             {selectedMovie && (
+             {selectedMovie ? (
                <div className="flex gap-4 mb-8 flex-row-reverse">
                   <div className="w-20 h-28 relative rounded-xl overflow-hidden shadow-lg border border-white/5">
                     <NextImage 
@@ -348,19 +348,19 @@ export default function CheckoutPage() {
                     </div>
                   </div>
                </div>
-             )}
+             ) : null}
 
              <div className="space-y-4 pt-6 border-t border-white/5">
                 <div className="flex justify-between text-sm flex-row-reverse">
                    <span className="text-slate-500 font-medium">כרטיסים ({seatCount}x)</span>
                    <span className="text-white font-bold">₪{(seatCount * ticketPrice).toFixed(2)}</span>
                 </div>
-                {selectedFood.length > 0 && (
+                {selectedFood.length > 0 ? (
                   <div className="flex justify-between text-sm flex-row-reverse">
                     <span className="text-slate-500 font-medium">אוכל ונשנושים</span>
                     <span className="text-white font-bold">₪{foodTotal.toFixed(2)}</span>
                   </div>
-                )}
+                ) : null}
                 <div className="flex justify-between text-sm flex-row-reverse">
                    <span className="text-slate-500 font-medium">מיסים ועמלות (17%)</span>
                    <span className="text-white font-bold">₪{tax.toFixed(2)}</span>
