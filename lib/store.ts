@@ -8,8 +8,9 @@ interface BookingState {
   selectedFood: { id: number; quantity: number }[];
   favorites: Movie[];
   location: string;
+  draggingMovieName: string | null;
   
-  setSelectedMovie: (movie: Movie) => void;
+  setSelectedMovie: (movie: Movie | null) => void;
   setSelectedShowtime: (time: string) => void;
   setSeats: (seatIds: string[]) => void;
   toggleSeat: (seatId: string) => void;
@@ -17,7 +18,16 @@ interface BookingState {
   toggleFavorite: (movie: Movie) => void;
   activeCategory: string;
   setActiveCategory: (category: string) => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  filters: {
+    genre: string;
+    rating: number;
+    year: string;
+  };
+  setFilters: (filters: Partial<{ genre: string; rating: number; year: string }>) => void;
   setLocation: (location: string) => void;
+  setDraggingMovieName: (name: string | null) => void;
   resetBooking: () => void;
 }
 
@@ -29,6 +39,20 @@ export const useBookingStore = create<BookingState>((set) => ({
   favorites: [],
   location: 'תל אביב',
   activeCategory: 'all',
+  searchQuery: '',
+  filters: {
+    genre: 'הכל',
+    rating: 0,
+    year: 'הכל',
+  },
+  draggingMovieName: null,
+
+  setSearchQuery: (query) => set({ searchQuery: query }),
+  setFilters: (newFilters) => set((state) => ({ 
+    filters: { ...state.filters, ...newFilters } 
+  })),
+
+  setDraggingMovieName: (name) => set({ draggingMovieName: name }),
 
   toggleFavorite: (movie) => set((state) => ({
     favorites: state.favorites.find(m => m.id === movie.id)
@@ -73,5 +97,11 @@ export const useBookingStore = create<BookingState>((set) => ({
     selectedShowtime: '19:30',
     selectedSeats: [],
     selectedFood: [],
+    searchQuery: '',
+    filters: {
+      genre: 'הכל',
+      rating: 0,
+      year: 'הכל',
+    },
   }),
 }));

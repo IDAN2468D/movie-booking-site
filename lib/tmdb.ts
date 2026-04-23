@@ -14,6 +14,7 @@ export interface Movie {
 }
 
 export const GENRE_MAP: Record<string, number> = {
+  // English keys (for CategoryTabs)
   action: 28,
   adventure: 12,
   animation: 16,
@@ -32,7 +33,26 @@ export const GENRE_MAP: Record<string, number> = {
   thriller: 53,
   war: 10752,
   western: 37,
-  series: 10770, // TV Movie / Series proxy
+  series: 10770,
+  // Hebrew keys (for FilterModal)
+  'פעולה': 28,
+  'הרפתקאות': 12,
+  'אנימציה': 16,
+  'קומדיה': 35,
+  'פשע': 80,
+  'דוקומנטרי': 99,
+  'דרמה': 18,
+  'משפחה': 10751,
+  'פנטזיה': 14,
+  'היסטוריה': 36,
+  'אימה': 27,
+  'מוזיקה': 10402,
+  'מסתורין': 9648,
+  'רומנטיקה': 10749,
+  'מדע בדיוני': 878,
+  'מתח': 53,
+  'מלחמה': 10752,
+  'מערבון': 37,
 };
 
 export const getImageUrl = (path: string | null, size: 'w500' | 'original' = 'w500') => {
@@ -109,6 +129,14 @@ export async function searchMovies(query: string): Promise<Movie[]> {
     query: query,
     include_adult: 'false',
     page: '1'
+  });
+  return (data.results || []).map(formatMovieData);
+}
+
+export async function getMoviesByGenre(genreId: number): Promise<Movie[]> {
+  const data = await fetchFromTMDB<{ results: TMDBMovie[] }>('/discover/movie', {
+    with_genres: genreId.toString(),
+    sort_by: 'popularity.desc'
   });
   return (data.results || []).map(formatMovieData);
 }

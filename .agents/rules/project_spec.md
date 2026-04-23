@@ -1,57 +1,50 @@
-# Movie Booking Site - Specification (SPEC.md)
+# Movie Booking Site - Specification (SPEC.md) v2.0
 
 ## 1. Project Overview
 A premium, high-performance web platform for discovering movies, checking showtimes, and booking tickets seamlessly. The focus is on a stunning UI/UX with smooth interactions and a robust backend.
 
 ## 2. Technical Stack & Governance
 - **Frontend**: Next.js 15+ (App Router)
-- **State Management**: React 19 Hooks
-- **Styling**: Tailwind CSS (Liquid Glass Design System)
-- **Database**: MongoDB
+- **State Management**: Zustand (Global Store) + React 19 Hooks
+- **Styling**: Tailwind CSS (Liquid Glass Design System 2.0)
+- **Database**: MongoDB (Native Driver)
+- **Validation**: Zod (Schema validation)
 - **Governance**: AI agents must follow [.agents/rules/movie-booking-site.md](./.agents/rules/movie-booking-site.md) for all coding and communication standards.
 
-## 3. Core Features
-### 3.1 Global Layout (Sidebar & TopBar)
-- **Sidebar Navigation**: Home, My Tickets, Bonuses, Food & Drinks, Notification, Setting, Logout.
-- **Top Search & Categories**: Universal search bar with autocomplete and quick filters.
-- **User Profile**: Integrated profile card with quick access to "My Tickets".
+## 3. Data Model (MongoDB)
+### 3.1 Collections
+- **Movies**: `title`, `description`, `genre` (array), `rating`, `duration`, `posterUrl`, `trailerUrl`, `cast` (array).
+- **Showtimes**: `movieId`, `cinemaId`, `startTime`, `format` (IMAX, 4DX, Standard), `availableSeats` (number), `price`.
+- **Bookings**: `userId`, `showtimeId`, `seats` (array), `totalPrice`, `status` (confirmed, pending), `timestamp`.
+- **Users**: `name`, `email`, `preferences` (genres), `loyaltyPoints`, `subscriptionType`.
 
-### 3.2 Home Dashboard
-- **Featured Hero**: Large banner for trending movies with integrated trailer playback.
-- **AI Recommendations**: Personalized "Recommended for You" section based on user history.
-- **Movie Sections**: "Popular Movie" and "Continue Watching" grids.
+## 4. API & Server Actions Contract
+All Server Actions and API routes MUST return the following structure:
+```typescript
+{
+  success: boolean;
+  data?: any;
+  error?: {
+    code: string;
+    message: string;
+  };
+}
+```
 
-### 3.3 Advanced Booking Flow
-- **Interactive Seat Map**: High-fidelity map with "Best View" and "Handicap" indicators.
-- **Food & Beverage Pre-order**: Interactive menu to add snacks/drinks during checkout.
-- **Cinema Selector**: Switch between different venues, showtimes, and screen types (IMAX, 4DX).
+## 5. Core Features
+### 5.1 Global Layout (Sidebar & TopBar)
+- **Sidebar**: Home, My Tickets, Bonuses, Food & Drinks, Setting.
+- **TopBar**: Universal search with Zod-validated input and dynamic suggestions.
 
-### 3.4 Loyalty, Rewards & Social
-- **Bonuses System**: Points-based loyalty program with a dedicated rewards dashboard.
-- **Digital Wallet**: "My Tickets" area with dynamic QR codes for fast entry.
-- **Social Features**: "Invite Friends" sharing links and "Add to Calendar" integration.
-- **Reviews & Ratings**: User-generated reviews and cast biographies (via TMDB).
+### 5.2 Advanced Booking Flow
+- **Seat Map**: Vector-based interactive map with real-time availability.
+- **Checkout**: Multi-step flow with snack upsell and secure payment simulation.
 
-#### 3.5 Personalization & Settings
-- **My Tickets**: Access upcoming and past cinematic journeys.
-- **Favourites List**: Save movies for later.
-- **Notifications Center**: Reminders for upcoming shows and promotional alerts.
-- **Profile Settings**: Manage account details, payment methods, and theme preferences.
+## 6. Design Guidelines
+- **Aesthetic**: "Liquid Glass" - High translucency, `backdrop-filter: blur(20px)`, thin borders (`1px solid rgba(255,255,255,0.1)`).
+- **Colors**: Deep Zinc (#09090B), Vibrant Orange (#FF9F0A), Electric Cyan (#0AEFFF).
+- **Typography**: Outfit (Headings), Inter (Body).
 
-## 4. Design Guidelines (Reference Image)
-- **Primary Colors**: Dark Graphite (#1A1A1A) and Vibrant Orange (#FF9F0A).
-- **Aesthetic**: Modern, "Liquid Glass" layout with translucency, refraction, and depth.
-- **Typography**: Premium sans-serif (Inter/Outfit) with bold hierarchy.
-- **Micro-animations**: Functional motion for transitions and feedback.
-
-## 5. Development Standards
-- **Modular Code**: Small, reusable components (max 200 lines).
-- **Security**: Server-side logic for database interactions and sensitive data handling.
-## 6. QA & CI/CD
-- **Linting**: Automated lint checks on every push to ensure code consistency.
-- **Build Validation**: CI checks to ensure the project builds correctly before merging.
-- **Testing**:
-  - Unit tests for critical logic (e.g., price calculations).
-  - Integration tests for API routes.
-  - End-to-End (E2E) tests for the main booking flow.
-- **Continuous Integration**: GitHub Actions workflow to automate quality checks.
+## 7. QA Standards
+- **Testing**: Vitest for `lib/` logic, Playwright for `/checkout` and `/auth` flows.
+- **Types**: 100% strict TypeScript. No `any`.
