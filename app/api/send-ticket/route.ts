@@ -78,7 +78,11 @@ export async function POST(req: Request) {
         doc.rect(0, 0, width, 5).fill('#FF9F0A');
         
         // Decorative Watermark
-        doc.fillColor('rgba(255, 255, 255, 0.03)').fontSize(80).font('Helvetica-Bold').text('TICKET', 20, 200, { rotation: 45 });
+        doc.save();
+        doc.fillColor('rgba(255, 255, 255, 0.03)').fontSize(80).font('Helvetica-Bold');
+        doc.rotate(45, { origin: [width / 2, height / 2] });
+        doc.text('TICKET', 0, height / 2, { align: 'center', width: width });
+        doc.restore();
 
         // Poster Image with Glow
         if (imageBuffer) {
