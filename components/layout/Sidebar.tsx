@@ -8,7 +8,7 @@ import { signOut } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
 
 import { motion } from 'framer-motion';
-import BranchSelector from '../booking/BranchSelector';
+import { useRouter } from 'next/navigation';
 
 const navItems = [
   { icon: Home, label: 'בית', href: '/' },
@@ -24,9 +24,9 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { location, setLocation } = useBookingStore();
   const [isUpdating, setIsUpdating] = React.useState(false);
-  const [isBranchSelectorOpen, setIsBranchSelectorOpen] = React.useState(false);
 
   const handleGPS = () => {
     if ("geolocation" in navigator) {
@@ -114,7 +114,7 @@ export default function Sidebar() {
       <div className="space-y-6 mt-8 relative">
         {/* Futuristic Location Card */}
         <div 
-          onClick={() => setIsBranchSelectorOpen(true)}
+          onClick={() => router.push('/branches')}
           className="p-5 rounded-[32px] bg-white/[0.03] backdrop-blur-3xl border border-white/10 relative overflow-hidden group shadow-2xl cursor-pointer active:scale-95 transition-transform duration-300"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
@@ -150,11 +150,6 @@ export default function Sidebar() {
           {/* Animated Background Decor */}
           <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/25 transition-all duration-1000" />
         </div>
-
-        <BranchSelector 
-          isOpen={isBranchSelectorOpen} 
-          onClose={() => setIsBranchSelectorOpen(false)} 
-        />
 
         <button 
           onClick={() => signOut()}

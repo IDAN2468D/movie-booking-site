@@ -8,8 +8,8 @@ export const FOOD_ITEMS = [
 ];
 
 export const CINEMA_BRANCHES = [
-  { id: 'tlv', name: 'MovieBook תל אביב', city: 'תל אביב', address: 'רוטשילד 101', image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=400', feature: 'Imax 4D' },
-  { id: 'haifa', name: 'MovieBook חיפה', city: 'חיפה', address: 'גרנד קניון', image: 'https://images.unsplash.com/photo-1517604401119-59e3e05128dd?auto=format&fit=crop&q=80&w=400', feature: 'VIP Only' },
-  { id: 'jerusalem', name: 'MovieBook ירושלים', city: 'ירושלים', address: 'סינמה סיטי החדש', image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&q=80&w=400', feature: 'Dolby Atmos' },
-  { id: 'beer-sheva', name: 'MovieBook באר שבע', city: 'באר שבע', address: 'מול 7', image: 'https://images.unsplash.com/photo-1595769816263-9b910be24d5f?auto=format&fit=crop&q=80&w=400', feature: 'Laser Projection' },
+  { id: 'tlv', name: 'MovieBook תל אביב', city: 'תל אביב', address: 'רוטשילד 101', image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=400', feature: 'Imax 4D', lat: 32.0628, lng: 34.7766 },
+  { id: 'haifa', name: 'MovieBook חיפה', city: 'חיפה', address: 'גרנד קניון', image: 'https://images.unsplash.com/photo-1517604401119-59e3e05128dd?auto=format&fit=crop&q=80&w=400', feature: 'VIP Only', lat: 32.7936, lng: 35.0044 },
+  { id: 'jerusalem', name: 'MovieBook ירושלים', city: 'ירושלים', address: 'סינמה סיטי החדש', image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&q=80&w=400', feature: 'Dolby Atmos', lat: 31.7833, lng: 35.2167 },
+  { id: 'beer-sheva', name: 'MovieBook באר שבע', city: 'באר שבע', address: 'מול 7', image: 'https://images.unsplash.com/photo-1595769816263-9b910be24d5f?auto=format&fit=crop&q=80&w=400', feature: 'Laser Projection', lat: 31.2457, lng: 34.7915 },
 ];
