@@ -119,6 +119,14 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         className="absolute pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-2xl"
       />
 
+      {/* Rainbow Holographic Streak */}
+      <motion.div 
+        initial={{ x: '-100%', skewX: -20 }}
+        whileHover={{ x: '200%' }}
+        transition={{ duration: 1.2, ease: "easeInOut" }}
+        className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent mix-blend-overlay"
+      />
+
       <Link href={`/movie/${movie.id}`} className="block">
         <div className="aspect-[2/3] relative w-full overflow-hidden" style={{ transform: 'translateZ(20px)' }}>
           <Image

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     if (q.includes('סרטים חמים') || q.includes('המלצה') || q.includes('hot movies')) {
       const res = await fetch(`${TMDB_BASE_URL}/movie/now_playing?api_key=${TMDB_API_KEY}&language=he-IL&page=1`);
       const data = await res.json();
-      const movies = data.results?.slice(0, 3).map((m: any) => m.title).join(', ');
+      const movies = data.results?.slice(0, 3).map((m: { title: string }) => m.title).join(', ');
       
       return NextResponse.json({ 
         success: true, 

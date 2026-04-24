@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/providers/AuthProvider";
+import { CinematicFX } from "@/components/fx/CinematicFX";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="he" dir="rtl" className="dark" suppressHydrationWarning>
       <body className={`${inter.className} antialiased bg-[#1A1A1A] text-slate-200`}>
         <AuthProvider>
+          <CinematicFX />
           {children}
         </AuthProvider>
       </body>

@@ -4,7 +4,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, Sparkles, Bot, Zap, Ticket, Popcorn, Film, MessageSquare, Star } from 'lucide-react';
 import { useUIStore } from '@/lib/store/ui-store';
-import { usePathname } from 'next/navigation';
 
 export const AIConcierge = () => {
   const { 
@@ -14,7 +13,6 @@ export const AIConcierge = () => {
   
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
 
   useEffect(() => {
     const handleOpenChat = () => {
