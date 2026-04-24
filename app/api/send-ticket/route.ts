@@ -1,15 +1,21 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import { NextResponse } from 'next/server';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 export async function POST(req: Request) {
   try {
     const { email, movieTitle, seats, price, orderId, posterUrl } = await req.json();
 
-    const { data, error } = await resend.emails.send({
-      from: 'MovieBook <tickets@resend.dev>',
-      to: [email],
+    const mailOptions = {
+      from: `"MovieBook" <${process.env.GMAIL_USER}>`,
+      to: email,
       subject: `🎬 הכרטיסים שלך ל-${movieTitle} מחכים לך!`,
       html: `
         <div dir="rtl" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0F0F0F; color: #FFFFFF; padding: 40px; border-radius: 24px; max-width: 600px; margin: auto; border: 1px solid rgba(255, 159, 10, 0.2);">
@@ -54,14 +60,13 @@ export async function POST(req: Request) {
           </div>
         </div>
       `,
-    });
+    };
 
-    if (error) {
-      return NextResponse.json({ error }, { status: 400 });
-    }
+    await transporter.sendMail(mailOptions);
 
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true });
   } catch (err) {
+    console.error('Email error:', err);
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
 }
