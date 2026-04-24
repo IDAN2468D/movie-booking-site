@@ -22,6 +22,8 @@ const navItems = [
 ];
 
 
+import Image from 'next/image';
+
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -62,8 +64,13 @@ export default function Sidebar() {
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
       
       <div className="flex items-center gap-4 mb-14 px-2 relative group">
-        <div className="w-12 h-12 bg-primary/20 backdrop-blur-xl border border-white/10 rounded-2xl flex items-center justify-center shadow-[0_0_40px_rgba(255,159,10,0.15)] group-hover:scale-110 transition-transform duration-700">
-          <Clapperboard className="text-primary w-6 h-6 drop-shadow-[0_0_10px_rgba(255,159,10,0.5)]" />
+        <div className="w-12 h-12 bg-primary/20 backdrop-blur-xl border border-white/10 rounded-2xl flex items-center justify-center shadow-[0_0_40px_rgba(255,159,10,0.15)] group-hover:scale-110 transition-transform duration-700 overflow-hidden relative">
+          <Image 
+            src="/logo.png" 
+            alt="Logo" 
+            fill 
+            className="object-cover scale-125"
+          />
         </div>
         <div className="flex flex-col">
           <span className="text-xl font-black text-white tracking-tighter font-outfit leading-none">MOVIEBOOK</span>
