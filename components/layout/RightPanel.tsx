@@ -2,27 +2,64 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { MapPin, Calendar, Clock, ChevronRight, Clapperboard, X } from 'lucide-react';
+import { MapPin, Calendar, Clock, ChevronRight, Clapperboard, X, Mail, CheckCircle2, Loader2 } from 'lucide-react';
 import SeatMap from '../booking/SeatMap';
 import ShowtimeSelector from '../booking/ShowtimeSelector';
+import { useSession } from 'next-auth/react';
 
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const runningShows = [
   { id: 1, title: 'דדפול & וולברין', time: '14:30', screen: 'אולם 4', type: 'IMAX', language: 'אנגלית', seats: '20/30' },
   { id: 2, title: 'הקול בראש 2', time: '16:00', screen: 'אולם 1', type: '4DX', language: 'אנגלית', seats: '15/30' },
   { id: 3, title: 'בורדרלנדס', time: '18:15', screen: 'אולם 2', type: '3D', language: 'אנגלית', seats: '28/30' },
 ];
-
 export default function RightPanel() {
+  const { data: session } = useSession();
   const { 
     selectedMovie, setSelectedMovie, selectedSeats, location, 
     draggingMovieName, selectedFood, updateFoodQuantity 
   } = useBookingStore();
   const [isDraggingOver, setIsDraggingOver] = React.useState(false);
+  const [isSendingEmail, setIsSendingEmail] = React.useState(false);
+  const [emailStatus, setEmailStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
   const dragCounter = React.useRef(0);
+
+  const handleSendEmail = async () => {
+    if (!selectedMovie || selectedSeats.length === 0 || !session?.user?.email) return;
+
+    setIsSendingEmail(true);
+    setEmailStatus('idle');
+
+    try {
+      const response = await fetch('/api/send-ticket', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: session.user.email,
+          movieTitle: selectedMovie.title,
+          seats: selectedSeats,
+          price: selectedSeats.length * 45, // Simplified price
+          orderId: Math.random().toString(36).substr(2, 9).toUpperCase(),
+          posterUrl: `https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`
+        }),
+      });
+
+      if (response.ok) {
+        setEmailStatus('success');
+        setTimeout(() => setEmailStatus('idle'), 3000);
+      } else {
+        setEmailStatus('error');
+      }
+    } catch (err) {
+      console.error(err);
+      setEmailStatus('error');
+    } finally {
+      setIsSendingEmail(false);
+    }
+  };
   const seatCount = selectedSeats.length;
 
   const handleDragEnter = (e: React.DragEvent) => {
@@ -243,6 +280,34 @@ export default function RightPanel() {
                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
                  )}
                </Link>
+
+               {/* Send to Email Button */}
+               <AnimatePresence mode="wait">
+                 {seatCount > 0 && session?.user?.email && (
+                   <motion.button
+                     initial={{ opacity: 0, y: 10 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     exit={{ opacity: 0, y: -10 }}
+                     onClick={handleSendEmail}
+                     disabled={isSendingEmail}
+                     className="w-full mt-4 py-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.08] hover:border-primary/30 transition-all flex items-center justify-center gap-3 group relative overflow-hidden"
+                   >
+                     <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                     
+                     {isSendingEmail ? (
+                       <Loader2 className="w-4 h-4 text-primary animate-spin" />
+                     ) : emailStatus === 'success' ? (
+                       <CheckCircle2 className="w-4 h-4 text-green-400" />
+                     ) : (
+                       <Mail className="w-4 h-4 text-slate-400 group-hover:text-primary transition-colors" />
+                     )}
+                     
+                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 group-hover:text-white transition-colors">
+                       {isSendingEmail ? 'שולח...' : emailStatus === 'success' ? 'הכרטיסים נשלחו!' : 'שלח סיכום למייל'}
+                     </span>
+                   </motion.button>
+                 )}
+               </AnimatePresence>
             </div>
           </div>
         </>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import NextImage from 'next/image';
-import { Ticket, Calendar, Clock, MapPin, QrCode, Share2, Download, Loader2 } from 'lucide-react';
+import { Ticket, Calendar, Clock, MapPin, QrCode, Share2, Download, Loader2, Mail } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 
 interface TicketType {
@@ -147,8 +147,33 @@ export default function TicketsPage() {
                        <p className="text-xs text-white font-black">{ticket.id}</p>
                      </div>
                   </div>
-                  
-                  <div className="flex flex-col gap-2">
+                                    <div className="flex flex-col gap-2">
+                    <button 
+                      onClick={async () => {
+                        if (!session?.user?.email) return;
+                        try {
+                          await fetch('/api/send-ticket', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              email: session.user.email,
+                              movieTitle: ticket.movie,
+                              seats: ticket.seats,
+                              price: ticket.seats.length * 45,
+                              orderId: ticket.id,
+                              posterUrl: ticket.image
+                            }),
+                          });
+                          alert('הכרטיס נשלח שוב למייל שלך!');
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      }}
+                      className="p-3 rounded-2xl bg-white/5 text-slate-400 hover:text-[#FF9F0A] hover:bg-white/10 transition-all"
+                      title="שלח שוב למייל"
+                    >
+                      <Mail size={18} />
+                    </button>
                     <button 
                       onClick={() => {
                         if (navigator.share) {
