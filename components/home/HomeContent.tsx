@@ -29,15 +29,19 @@ export default function HomeContent({
 
   React.useEffect(() => {
     const genreId = GENRE_MAP[activeCategory];
-    // Check if it's a genre category and not already fetched
     if (genreId && !genreMovies[activeCategory] && !['trending', 'recent', 'top', 'all'].includes(activeCategory)) {
-      setIsLoadingGenre(true);
-      getMoviesByGenre(genreId)
-        .then(movies => {
+      const fetchGenreMovies = async () => {
+        setIsLoadingGenre(true);
+        try {
+          const movies = await getMoviesByGenre(genreId);
           setGenreMovies(prev => ({ ...prev, [activeCategory]: movies }));
-        })
-        .catch(console.error)
-        .finally(() => setIsLoadingGenre(false));
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setIsLoadingGenre(false);
+        }
+      };
+      fetchGenreMovies();
     }
   }, [activeCategory, genreMovies]);
 
@@ -101,7 +105,7 @@ export default function HomeContent({
     <div className="pb-20">
       <FeaturedHero movie={trendingMovies[0]} />
 
-      <div className="px-10 mt-8">
+      <div className="px-2 mt-8">
         <CategoryFilters />
       </div>
 

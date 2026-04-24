@@ -8,7 +8,7 @@ import ShowtimeSelector from '../booking/ShowtimeSelector';
 
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const runningShows = [
   { id: 1, title: 'דדפול & וולברין', time: '14:30', screen: 'אולם 4', type: 'IMAX', language: 'אנגלית', seats: '20/30' },
@@ -63,7 +63,7 @@ export default function RightPanel() {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`w-[400px] h-screen bg-[#0F0F0F]/80 backdrop-blur-3xl saturate-[200%] brightness-110 border-r border-white/10 flex flex-col p-8 overflow-y-auto hidden xl:flex text-right relative transition-all duration-700 ${
+      className={`w-[480px] h-screen bg-[#0F0F0F]/80 backdrop-blur-3xl saturate-[200%] brightness-110 border-r border-white/10 flex flex-col p-8 overflow-y-auto hidden xl:flex text-right relative transition-all duration-700 ${
         isDraggingOver ? 'ring-2 ring-primary/50 ring-inset shadow-[0_0_100px_rgba(255,159,10,0.1)]' : ''
       }`} 
       dir="rtl"

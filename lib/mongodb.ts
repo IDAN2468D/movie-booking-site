@@ -8,7 +8,7 @@ let clientPromise: Promise<MongoClient>;
 
 if (!uri) {
   // Mock promise that never resolves if URI is missing
-  clientPromise = new Promise((resolve) => {
+  clientPromise = new Promise(() => {
     if (typeof window === 'undefined') {
       console.warn('⚠️ MONGODB_URI is missing. Database dependent features will fail.');
     }

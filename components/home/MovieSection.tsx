@@ -27,7 +27,7 @@ const item = {
 
 export default function MovieSection({ title, movies, onSeeAll }: MovieSectionProps) {
   return (
-    <section className="px-10 py-8">
+    <section className="px-2 py-8">
       <motion.div 
         initial={{ opacity: 0, x: 20 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -42,8 +42,8 @@ export default function MovieSection({ title, movies, onSeeAll }: MovieSectionPr
           onClick={onSeeAll}
           className="text-sm font-medium text-slate-500 hover:text-[#FF9F0A] transition-colors flex items-center gap-1 group"
         >
-          <ChevronRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
           ראה הכל
+          <ChevronRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
         </button>
       </motion.div>
 
@@ -52,7 +52,7 @@ export default function MovieSection({ title, movies, onSeeAll }: MovieSectionPr
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
-        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6"
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8"
       >
         {movies.map((movie) => (
           <motion.div key={movie.id} variants={item}>

@@ -55,7 +55,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="hidden md:flex h-screen w-64 bg-white/[0.02] backdrop-blur-3xl border-l border-white/10 flex-col py-10 px-6 z-50 flex-shrink-0 shadow-[20px_0_80px_rgba(0,0,0,0.6)] relative overflow-hidden">
+    <aside className="hidden md:flex h-screen w-64 bg-white/[0.02] backdrop-blur-3xl border-l border-white/10 flex-col py-10 px-6 z-50 flex-shrink-0 shadow-[20px_0_80px_rgba(0,0,0,0.6)] relative overflow-y-auto custom-scrollbar">
       {/* Decorative background glow */}
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
       
@@ -109,7 +109,7 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="space-y-6 relative">
+      <div className="space-y-6 mt-8 relative">
         {/* Futuristic Location Card */}
         <div className="p-5 rounded-[32px] bg-white/[0.03] backdrop-blur-3xl border border-white/10 relative overflow-hidden group shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
