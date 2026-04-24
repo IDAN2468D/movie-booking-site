@@ -59,10 +59,10 @@ export const AIConcierge = () => {
       }
       return "הפופקורן שלנו מיוצר במקום עם חמאה הולנדית. מומלץ להוסיף גם נאצ'וס!";
     }
-    if (q.includes('הזמנ') || q.includes('book') || q.includes('כרטיס')) {
-      return "אני יכול לעזור לך להשלים את ההזמנה. רק תבחר מושבים ואני אדאג לכל השאר!";
+    if (q.includes('המדריך הקולי') || q.includes('audio guide')) {
+      return `אני מכין לך את המדריך הקולי הייחודי ל-${currentMovieTitle || 'סרט'}. המדריך מבוסס על ניתוח עומק של העלילה והדמויות דרך NotebookLM. רגע אחד... 🎧`;
     }
-    
+
     return "אני כאן כדי לעזור לך! אני יכול להמליץ על סרטים, לעזור עם ההזמנה או לסדר לך פינוקים מהמזנון.";
   };
 
@@ -112,9 +112,17 @@ export const AIConcierge = () => {
                   <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-[#0A0A0F] rounded-full" />
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-white tracking-tight">
-                    {isMoviePage ? 'מומחה קולנוע AI' : 'הקונסיירז׳ הדיגיטלי'}
-                  </h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base font-black text-white tracking-tight">
+                      {isMoviePage ? 'מומחה קולנוע AI' : 'הקונסיירז׳ הדיגיטלי'}
+                    </h3>
+                    {isMoviePage && (
+                      <div className="flex items-center gap-1 px-1.5 py-0.5 bg-cyan-400/10 border border-cyan-400/20 rounded-md">
+                        <Sparkles size={8} className="text-cyan-400" />
+                        <span className="text-[7px] font-black text-cyan-400 uppercase tracking-tighter">NotebookLM Enhanced</span>
+                      </div>
+                    )}
+                  </div>
                   <div className="flex items-center gap-2">
                     <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${isMoviePage ? 'bg-cyan-400' : 'bg-primary'}`} />
                     <p className="text-[10px] text-slate-400 font-black tracking-widest uppercase">
@@ -167,6 +175,7 @@ export const AIConcierge = () => {
               {(isMoviePage ? [
                 { label: 'פרטים על העלילה', icon: MessageSquare },
                 { label: 'דירוג המבקרים', icon: Star },
+                { label: 'המדריך הקולי', icon: Zap },
                 { label: 'הזמן עכשיו', icon: Ticket }
               ] : [
                 { label: 'סרטים חמים', icon: Zap },

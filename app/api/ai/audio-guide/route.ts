@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const { movieId, movieTitle, overview } = await req.json();
+    console.log(`Generating audio guide for ${movieTitle} (ID: ${movieId}). Overview: ${overview?.substring(0, 50)}...`);
 
     // Note: In a real implementation, we would call the NotebookLM MCP tools here.
     // Since I (the AI) have access to these tools, I can perform the workflow.

@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Users, UserPlus, X, CreditCard } from 'lucide-react';
-import { useUIStore } from '@/lib/store/ui-store';
+import { Users, UserPlus, X, CreditCard, Copy, Check } from 'lucide-react';
+import { useSocialStore } from '@/lib/store/social-store';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface SplitPayPanelProps {
@@ -11,9 +11,36 @@ interface SplitPayPanelProps {
 }
 
 export const SplitPayPanel = ({ splitTotal }: Omit<SplitPayPanelProps, 'total'>) => {
-  const { isSocialMode, setSocialMode, groupMembers, addGroupMember, removeGroupMember } = useUIStore();
+  const { 
+    isSocialMode, 
+    setSocialMode, 
+    groupMembers, 
+    addGroupMember, 
+    removeGroupMember,
+    inviteCode,
+    generateInviteCode
+  } = useSocialStore();
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  const copyInviteCode = () => {
+    if (inviteCode) {
+      navigator.clipboard.writeText(inviteCode);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const handleToggleMode = () => {
+    if (!isSocialMode) {
+      setSocialMode(true);
+      if (!inviteCode) generateInviteCode();
+    } else {
+      setSocialMode(false);
+    }
+  };
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,14 +64,32 @@ export const SplitPayPanel = ({ splitTotal }: Omit<SplitPayPanelProps, 'total'>)
           <Users className="text-primary" /> Social Cinema
         </h2>
         <button 
-          onClick={() => setSocialMode(!isSocialMode)}
-          className={`px-6 py-2 rounded-full text-xs font-black transition-all ${isSocialMode ? 'bg-primary text-background' : 'bg-white/10 text-white'}`}
+          onClick={handleToggleMode}
+          className={`px-6 py-2 rounded-full text-xs font-black transition-all ${isSocialMode ? 'bg-primary text-background shadow-[0_0_20px_rgba(255,159,10,0.4)]' : 'bg-white/10 text-white'}`}
         >
           {isSocialMode ? 'ביטול פיצול' : 'פצל תשלום'}
         </button>
       </div>
 
       <AnimatePresence>
+        {isSocialMode && inviteCode && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-4 rounded-2xl bg-cyan-400/5 border border-cyan-400/20 flex items-center justify-between flex-row-reverse"
+          >
+            <div className="text-right">
+              <p className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">קוד הצטרפות לקבוצה</p>
+              <p className="text-xl font-mono font-black text-white">{inviteCode}</p>
+            </div>
+            <button 
+              onClick={copyInviteCode}
+              className="p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all text-cyan-400"
+            >
+              {copied ? <Check size={18} /> : <Copy size={18} />}
+            </button>
+          </motion.div>
+        )}
         {isSocialMode && (
           <motion.div 
             initial={{ height: 0, opacity: 0 }}

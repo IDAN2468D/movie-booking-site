@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, TrendingDown, Users, Zap, Gift } from 'lucide-react';
+import { Sparkles, TrendingDown, Users, Gift } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface SmartCheckoutInsightsProps {

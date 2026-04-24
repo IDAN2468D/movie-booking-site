@@ -41,7 +41,7 @@ function formatCurrency(amount: number): string {
 
 export default function MovieDetailsContent({ movie, cast, director, similarMovies, videos }: Props) {
   const { setSelectedMovie, favorites, toggleFavorite } = useBookingStore();
-  const { setMovieContext, toggleConcierge } = useUIStore();
+  const { setMovieContext } = useUIStore();
   const [showTrailer, setShowTrailer] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const isFavorite = favorites.some(m => m.id === movie.id);

@@ -17,7 +17,7 @@ const runningShows = [
   { id: 3, title: 'בורדרלנדס', time: '18:15', screen: 'אולם 2', type: '3D', language: 'אנגלית', seats: '28/30' },
 ];
 export default function RightPanel() {
-  const { data: session } = useSession();
+  useSession();
   const { 
     selectedMovie, setSelectedMovie, selectedSeats, location, 
     draggingMovieName, selectedFood, updateFoodQuantity

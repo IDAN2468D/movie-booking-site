@@ -2,7 +2,7 @@
 
 import React from 'react';
 import NextImage from 'next/image';
-import { Calendar, Clock, Ticket, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, Ticket, ArrowRight, Zap } from 'lucide-react';
 import { Movie } from '@/lib/tmdb';
 
 interface OrderSummaryProps {
@@ -15,10 +15,11 @@ interface OrderSummaryProps {
   total: number;
   isProcessing: boolean;
   onPayment: () => void;
+  priceInsights?: string[];
 }
 
 export const OrderSummary = ({
-  movie, seats, seatCount, ticketPrice, foodTotal, tax, total, isProcessing, onPayment
+  movie, seats, seatCount, ticketPrice, foodTotal, tax, total, isProcessing, onPayment, priceInsights = []
 }: OrderSummaryProps) => {
   return (
     <div 
@@ -69,10 +70,23 @@ export const OrderSummary = ({
                 <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">סכום כולל</p>
                 <p className="text-3xl font-black text-white tracking-tighter">₪{total.toFixed(2)}</p>
              </div>
-             <div className="px-3 py-1 bg-primary/20 text-primary text-[10px] font-black rounded-full border border-primary/30">
-                חיסכון ₪18.00
-             </div>
+             {priceInsights.length > 0 && (
+                <div className="px-3 py-1 bg-cyan-400/20 text-cyan-400 text-[10px] font-black rounded-full border border-cyan-400/30">
+                   מחיר דינמי
+                </div>
+              )}
           </div>
+
+          {priceInsights.length > 0 && (
+             <div className="mt-4 space-y-2">
+               {priceInsights.map((insight, i) => (
+                 <div key={i} className="flex items-center gap-2 p-2 bg-white/5 rounded-lg border border-white/5 flex-row-reverse">
+                   <Zap size={10} className="text-cyan-400 fill-cyan-400/20" />
+                   <p className="text-[9px] text-slate-400 font-bold text-right">{insight}</p>
+                 </div>
+               ))}
+             </div>
+           )}
        </div>
 
        <button 

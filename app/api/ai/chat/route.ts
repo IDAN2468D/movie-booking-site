@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   try {
     const { movieId, message } = await req.json();
+    console.log(`AI Chat message for movie ${movieId}: ${message}`);
 
     // In a production scenario, we would:
     // 1. Get/Create a notebook for this movieId

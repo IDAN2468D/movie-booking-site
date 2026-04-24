@@ -6,12 +6,6 @@ interface Message {
   timestamp: number;
 }
 
-interface GroupMember {
-  id: string;
-  name: string;
-  email: string;
-  isPaid: boolean;
-}
 
 interface UIState {
   // AI Concierge
@@ -26,12 +20,6 @@ interface UIState {
   currentMovieId?: number;
   currentMovieTitle?: string;
 
-  // Social Features (Split Pay)
-  isSocialMode: boolean;
-  groupMembers: GroupMember[];
-  setSocialMode: (val: boolean) => void;
-  addGroupMember: (name: string, email: string) => void;
-  removeGroupMember: (id: string) => void;
 }
 
 export const useUIStore = create<UIState>((set) => ({
@@ -54,13 +42,4 @@ export const useUIStore = create<UIState>((set) => ({
   setThinking: (val) => set({ isThinking: val }),
   setMovieContext: (id, title) => set({ currentMovieId: id, currentMovieTitle: title }),
 
-  isSocialMode: false,
-  groupMembers: [],
-  setSocialMode: (val) => set({ isSocialMode: val }),
-  addGroupMember: (name, email) => set((state) => ({
-    groupMembers: [...state.groupMembers, { id: Math.random().toString(36).substr(2, 9), name, email, isPaid: false }]
-  })),
-  removeGroupMember: (id) => set((state) => ({
-    groupMembers: state.groupMembers.filter(m => m.id !== id)
-  })),
 }));

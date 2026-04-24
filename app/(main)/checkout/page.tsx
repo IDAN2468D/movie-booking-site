@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { ChevronLeft, ShieldCheck, Ticket } from 'lucide-react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
-import { useUIStore } from '@/lib/store/ui-store';
+import { useSocialStore } from '@/lib/store/social-store';
 import { FOOD_ITEMS } from '@/lib/constants';
+import { calculateDynamicPrice, getPriceInsights } from '@/lib/utils/pricing-engine';
 
 // Modular Components
 import { OrderSummary } from '@/components/checkout/OrderSummary';
@@ -22,7 +23,7 @@ export default function CheckoutPage() {
     selectedMovie, selectedSeats, selectedFood, updateFoodQuantity, resetBooking,
     selectedDate, selectedShowtime, selectedHall
   } = useBookingStore();
-  const { isSocialMode, groupMembers } = useUIStore();
+  const { isSocialMode, groupMembers } = useSocialStore();
   
   const [isProcessing, setIsProcessing] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
@@ -31,18 +32,40 @@ export default function CheckoutPage() {
 
   const pricing = useMemo(() => {
     const seatCount = selectedSeats.length;
-    const ticketPrice = 45.00;
+    
+    // Dynamic Pricing Factors
+    const now = new Date();
+    const showtimeHour = parseInt(selectedShowtime?.split(':')[0] || '19');
+    const isWeekend = [5, 6].includes(now.getDay()); // Fri, Sat
+    
+    const baseTicketPrice = calculateDynamicPrice({
+      basePrice: 45.00,
+      occupancyRate: 0.75, // Mocked occupancy
+      isWeekend,
+      daysUntilShow: 1, // Mocked
+      isPrimeTime: showtimeHour >= 18 && showtimeHour <= 22
+    });
+
     const foodTotal = selectedFood.reduce((acc, curr) => {
       const item = FOOD_ITEMS.find(f => f.id === curr.id);
       return acc + (curr.quantity * (item?.price || 0));
     }, 0);
-    const subtotal = (seatCount * ticketPrice) + foodTotal;
+
+    const subtotal = (seatCount * baseTicketPrice) + foodTotal;
     const tax = subtotal * 0.17;
     const total = subtotal + tax;
     const splitTotal = isSocialMode ? total / (groupMembers.length + 1) : total;
     
-    return { seatCount, ticketPrice, foodTotal, subtotal, tax, total, splitTotal };
-  }, [selectedSeats, selectedFood, isSocialMode, groupMembers]);
+    const priceInsights = getPriceInsights({
+      basePrice: 45.00,
+      occupancyRate: 0.75,
+      isWeekend,
+      daysUntilShow: 1,
+      isPrimeTime: showtimeHour >= 18 && showtimeHour <= 22
+    });
+
+    return { seatCount, ticketPrice: baseTicketPrice, foodTotal, subtotal, tax, total, splitTotal, priceInsights };
+  }, [selectedSeats, selectedFood, isSocialMode, groupMembers, selectedShowtime]);
 
   if (!selectedMovie) return <EmptyState />;
   if (isSuccess) return <SuccessView resetBooking={resetBooking} />;
@@ -96,7 +119,7 @@ export default function CheckoutPage() {
 
       <div className="flex flex-col lg:flex-row gap-12">
         <div className="lg:w-2/3 space-y-8 order-2 lg:order-1">
-          {isSocialMode && <SplitPayPanel splitTotal={pricing.splitTotal} />}
+          <SplitPayPanel splitTotal={pricing.splitTotal} />
           <FoodUpsell selectedFood={selectedFood} updateFoodQuantity={updateFoodQuantity} />
           <PaymentForm formData={formData} setFormData={setFormData} errors={errors} />
           <SecurityBadge />
@@ -109,6 +132,7 @@ export default function CheckoutPage() {
               ticketPrice={pricing.ticketPrice} foodTotal={pricing.foodTotal} 
               tax={pricing.tax} total={isSocialMode ? pricing.splitTotal : pricing.total} 
               isProcessing={isProcessing} onPayment={handlePayment} 
+              priceInsights={pricing.priceInsights}
             />
             <div className="mt-6">
               <SmartCheckoutInsights movieTitle={selectedMovie.title} totalAmount={isSocialMode ? pricing.splitTotal : pricing.total} />

@@ -101,7 +101,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileTap={{ scale: 0.95 }}
-      className={`group relative overflow-hidden rounded-[32px] transition-all duration-500 cursor-pointer border ${
+      className={`movie-card group relative overflow-hidden rounded-[32px] transition-all duration-500 cursor-pointer border ${
         isSelected 
           ? 'border-primary bg-primary/10 shadow-[0_0_60px_rgba(255,159,10,0.2)]' 
           : 'border-white/10 bg-white/[0.03] backdrop-blur-3xl saturate-[200%] brightness-110 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.05)]'
