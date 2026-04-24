@@ -24,6 +24,7 @@ export default function RightPanel() {
     selectedShowtime, selectedDate, selectedHall
   } = useBookingStore();
   const [isDraggingOver, setIsDraggingOver] = React.useState(false);
+  const dragCounter = React.useRef(0);
 
   const seatCount = selectedSeats.length;
 
