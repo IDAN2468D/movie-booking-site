@@ -8,6 +8,7 @@ import { signOut } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
 
 import { motion } from 'framer-motion';
+import BranchSelector from '../booking/BranchSelector';
 
 const navItems = [
   { icon: Home, label: 'בית', href: '/' },
@@ -25,6 +26,7 @@ export default function Sidebar() {
   const pathname = usePathname();
   const { location, setLocation } = useBookingStore();
   const [isUpdating, setIsUpdating] = React.useState(false);
+  const [isBranchSelectorOpen, setIsBranchSelectorOpen] = React.useState(false);
 
   const handleGPS = () => {
     if ("geolocation" in navigator) {
@@ -111,7 +113,10 @@ export default function Sidebar() {
 
       <div className="space-y-6 mt-8 relative">
         {/* Futuristic Location Card */}
-        <div className="p-5 rounded-[32px] bg-white/[0.03] backdrop-blur-3xl border border-white/10 relative overflow-hidden group shadow-2xl">
+        <div 
+          onClick={() => setIsBranchSelectorOpen(true)}
+          className="p-5 rounded-[32px] bg-white/[0.03] backdrop-blur-3xl border border-white/10 relative overflow-hidden group shadow-2xl cursor-pointer active:scale-95 transition-transform duration-300"
+        >
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           
           <div className="relative z-10">
@@ -120,7 +125,10 @@ export default function Sidebar() {
                 <MapPin className="w-5 h-5 text-primary" />
               </div>
               <button 
-                onClick={handleGPS}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleGPS();
+                }}
                 disabled={isUpdating}
                 className="w-8 h-8 flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all duration-300 group/btn active:scale-90"
               >
@@ -130,7 +138,7 @@ export default function Sidebar() {
             
             <div className="space-y-1.5">
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">מוקד פעיל</p>
-              <p className="text-sm font-black text-white truncate font-outfit">{location}</p>
+              <p className="text-sm font-black text-white truncate font-outfit">{location || 'בחר סניף...'}</p>
             </div>
 
             <div className="mt-5 pt-5 border-t border-white/5 flex items-center gap-2.5">
@@ -142,6 +150,11 @@ export default function Sidebar() {
           {/* Animated Background Decor */}
           <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/25 transition-all duration-1000" />
         </div>
+
+        <BranchSelector 
+          isOpen={isBranchSelectorOpen} 
+          onClose={() => setIsBranchSelectorOpen(false)} 
+        />
 
         <button 
           onClick={() => signOut()}
