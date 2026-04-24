@@ -6,7 +6,11 @@ import { motion, useSpring } from 'framer-motion';
 export const CinematicFX = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({
         x: (e.clientX / window.innerWidth - 0.5) * 20,
@@ -65,7 +69,7 @@ export const CinematicFX = () => {
       />
 
       {/* 3. Refractive Particles (Floating Glass) */}
-      {particles.map((p) => (
+      {mounted && particles.map((p) => (
         <motion.div
           key={p.id}
           style={{
