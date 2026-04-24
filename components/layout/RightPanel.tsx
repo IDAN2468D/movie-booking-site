@@ -2,14 +2,14 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { MapPin, Calendar, Clock, ChevronRight, Clapperboard, X, Mail, CheckCircle2, Loader2 } from 'lucide-react';
+import { MapPin, Calendar, Clock, ChevronRight, Clapperboard, X } from 'lucide-react';
 import SeatMap from '../booking/SeatMap';
 import ShowtimeSelector from '../booking/ShowtimeSelector';
 import { useSession } from 'next-auth/react';
 
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const runningShows = [
   { id: 1, title: 'דדפול & וולברין', time: '14:30', screen: 'אולם 4', type: 'IMAX', language: 'אנגלית', seats: '20/30' },
@@ -20,8 +20,7 @@ export default function RightPanel() {
   const { data: session } = useSession();
   const { 
     selectedMovie, setSelectedMovie, selectedSeats, location, 
-    draggingMovieName, selectedFood, updateFoodQuantity,
-    selectedShowtime, selectedDate, selectedHall
+    draggingMovieName, selectedFood, updateFoodQuantity
   } = useBookingStore();
   const [isDraggingOver, setIsDraggingOver] = React.useState(false);
   const dragCounter = React.useRef(0);

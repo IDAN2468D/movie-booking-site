@@ -161,6 +161,7 @@ export interface MovieDetails {
   revenue: number;
   original_language: string;
   production_companies: { id: number; name: string; logo_path: string | null }[];
+  popularity: number;
 }
 
 export interface CastMember {

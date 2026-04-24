@@ -18,12 +18,14 @@ const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
 // Helper to handle Hebrew text in PDFKit
 const fixHebrew = (text: string) => {
   if (!text) return '';
-  // Only reverse if contains Hebrew characters
-  const hasHebrew = /[\u0590-\u05FF]/.test(text);
-  if (!hasHebrew) return text;
-  
-  // Naive reversal for Hebrew - PDFKit doesn't handle RTL
-  return text.split('').reverse().join('');
+  // PDFKit doesn't handle RTL. We need to reverse Hebrew words but keep non-Hebrew ones.
+  return text.split(/(\s+)/).map(part => {
+    const hasHebrew = /[\u0590-\u05FF]/.test(part);
+    if (hasHebrew) {
+      return part.split('').reverse().join('');
+    }
+    return part;
+  }).join('');
 };
 
 export async function POST(req: Request) {
@@ -57,7 +59,7 @@ export async function POST(req: Request) {
           font: hasFont ? fontPath : undefined
         });
 
-        const chunks: any[] = [];
+        const chunks: Uint8Array[] = [];
         doc.on('data', (chunk) => chunks.push(chunk));
         doc.on('end', () => resolve(Buffer.concat(chunks)));
         doc.on('error', reject);

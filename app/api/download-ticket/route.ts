@@ -6,9 +6,15 @@ import fs from 'fs';
 // Helper to handle Hebrew text in PDFKit
 const fixHebrew = (text: string) => {
   if (!text) return '';
-  const hasHebrew = /[\u0590-\u05FF]/.test(text);
-  if (!hasHebrew) return text;
-  return text.split('').reverse().join('');
+  // PDFKit doesn't handle RTL. We need to reverse Hebrew words but keep non-Hebrew ones.
+  // This smarter version splits by words/numbers.
+  return text.split(/(\s+)/).map(part => {
+    const hasHebrew = /[\u0590-\u05FF]/.test(part);
+    if (hasHebrew) {
+      return part.split('').reverse().join('');
+    }
+    return part;
+  }).join('');
 };
 
 export async function POST(req: Request) {
@@ -39,7 +45,7 @@ export async function POST(req: Request) {
           font: hasFont ? fontPath : undefined
         });
 
-        const chunks: any[] = [];
+        const chunks: Uint8Array[] = [];
         doc.on('data', (chunk) => chunks.push(chunk));
         doc.on('end', () => resolve(Buffer.concat(chunks)));
         doc.on('error', reject);
