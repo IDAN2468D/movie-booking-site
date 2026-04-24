@@ -11,8 +11,10 @@ interface BookingState {
   favorites: Movie[];
   location: string;
   draggingMovieName: string | null;
+  selectedBranchId: string | null;
   
   setSelectedMovie: (movie: Movie | null) => void;
+  setSelectedBranchId: (id: string | null) => void;
   setSelectedShowtime: (time: string) => void;
   setSelectedDate: (date: string) => void;
   setSelectedHall: (hall: string) => void;
@@ -44,6 +46,7 @@ export const useBookingStore = create<BookingState>((set) => ({
   selectedFood: [],
   favorites: [],
   location: 'תל אביב',
+  selectedBranchId: null,
   activeCategory: 'all',
   searchQuery: '',
   filters: {
@@ -67,7 +70,8 @@ export const useBookingStore = create<BookingState>((set) => ({
   })),
 
   setActiveCategory: (category) => set({ activeCategory: category }),
-  setSelectedMovie: (movie) => set({ selectedMovie: movie, activeCategory: 'all', selectedSeats: [] }), 
+  setSelectedMovie: (movie) => set({ selectedMovie: movie, activeCategory: 'all', selectedSeats: [], selectedBranchId: null }), 
+  setSelectedBranchId: (id) => set({ selectedBranchId: id }),
   setSelectedShowtime: (time) => set({ selectedShowtime: time }),
   setSelectedDate: (date) => set({ selectedDate: date }),
   setSelectedHall: (hall) => set({ selectedHall: hall }),
@@ -107,6 +111,7 @@ export const useBookingStore = create<BookingState>((set) => ({
     selectedHall: 'אולם 1',
     selectedSeats: [],
     selectedFood: [],
+    selectedBranchId: null,
     searchQuery: '',
     filters: {
       genre: 'הכל',

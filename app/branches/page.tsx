@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   MapPin, Navigation, Star, Zap, Compass, ShieldCheck, 
   Search, Coffee, Car, Wifi, Accessibility, ExternalLink, Clock, CreditCard,
-  Heart, Filter, Map as MapIcon, ChevronRight
+  Heart, Filter, Map as MapIcon, ChevronRight, Ticket
 } from 'lucide-react';
 import { CINEMA_BRANCHES } from '@/lib/constants';
 import { useBookingStore } from '@/lib/store';
@@ -43,7 +43,7 @@ const regions: Record<string, string> = {
 
 export default function BranchesPage() {
   const router = useRouter();
-  const { location, setLocation } = useBookingStore();
+  const { location, setLocation, selectedMovie, setSelectedBranchId } = useBookingStore();
   const [userCoords, setUserCoords] = useState<{ lat: number, lng: number } | null>(null);
   const [isLocating, setIsLocating] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -391,19 +391,35 @@ export default function BranchesPage() {
                       </div>
 
                       <div className="flex items-center gap-3 mt-auto">
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setLocation(`${branch.name}, ישראל`);
-                            router.push('/');
-                          }}
-                          className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl font-black text-xs transition-all duration-500 ${
-                            isSelected ? 'bg-white text-black' : 'bg-primary text-white shadow-[0_10px_30px_rgba(255,159,10,0.2)]'
-                          }`}
-                        >
-                          {isSelected ? 'הסניף הנבחר' : 'הזמן עכשיו'}
-                          <ChevronRight className="w-4 h-4" />
-                        </button>
+                        {selectedMovie ? (
+                          <motion.button 
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedBranchId(branch.id);
+                              router.push(`/book/${selectedMovie.id}/${branch.id}`);
+                            }}
+                            className="flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl font-black text-xs bg-primary text-white shadow-[0_10px_30px_rgba(255,159,10,0.2)] transition-all duration-500 group"
+                          >
+                            <Ticket size={16} className="group-hover:rotate-12 transition-transform" />
+                            בחר סניף להזמנה
+                          </motion.button>
+                        ) : (
+                          <button 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setLocation(`${branch.name}, ישראל`);
+                              router.push('/');
+                            }}
+                            className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl font-black text-xs transition-all duration-500 ${
+                              isSelected ? 'bg-white text-black' : 'bg-primary text-white shadow-[0_10px_30px_rgba(255,159,10,0.2)]'
+                            }`}
+                          >
+                            {isSelected ? 'הסניף הנבחר' : 'הפוך לסניף שלי'}
+                            {!isSelected && <ChevronRight className="w-4 h-4" />}
+                          </button>
+                        )}
                         
                         <a 
                           href={`https://www.google.com/maps/search/?api=1&query=${branch.lat},${branch.lng}`}

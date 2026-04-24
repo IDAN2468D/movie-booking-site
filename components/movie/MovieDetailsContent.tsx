@@ -90,6 +90,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
       overview: movie.overview,
       genre_ids: movie.genres.map(g => g.id),
     });
+    router.push('/branches');
   };
 
   const handleShare = () => {

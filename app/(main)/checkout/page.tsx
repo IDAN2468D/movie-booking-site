@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
 import { useSocialStore } from '@/lib/store/social-store';
-import { FOOD_ITEMS } from '@/lib/constants';
+import { FOOD_ITEMS, CINEMA_BRANCHES } from '@/lib/constants';
 import { calculateDynamicPrice, getPriceInsights } from '@/lib/utils/pricing-engine';
 
 // Modular Components
@@ -21,9 +21,11 @@ export default function CheckoutPage() {
   const { data: session } = useSession();
   const { 
     selectedMovie, selectedSeats, selectedFood, updateFoodQuantity, resetBooking,
-    selectedDate, selectedShowtime, selectedHall
+    selectedDate, selectedShowtime, selectedHall, selectedBranchId
   } = useBookingStore();
   const { isSocialMode, groupMembers } = useSocialStore();
+
+  const branch = CINEMA_BRANCHES.find(b => b.id === selectedBranchId);
   
   const [isProcessing, setIsProcessing] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
@@ -79,7 +81,15 @@ export default function CheckoutPage() {
       const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ movie: selectedMovie, seats: selectedSeats, food: selectedFood, total: pricing.total, paymentInfo: formData }),
+        body: JSON.stringify({ 
+          movie: selectedMovie, 
+          seats: selectedSeats, 
+          food: selectedFood, 
+          total: pricing.total, 
+          paymentInfo: formData,
+          branchId: selectedBranchId,
+          branchName: branch?.name
+        }),
       });
       if (res.ok) {
         setIsSuccess(true);
@@ -98,6 +108,7 @@ export default function CheckoutPage() {
               date: selectedDate,
               time: selectedShowtime,
               hall: selectedHall,
+              branchName: branch?.name,
               userName: session.user?.name || 'אורח'
             }),
           });
