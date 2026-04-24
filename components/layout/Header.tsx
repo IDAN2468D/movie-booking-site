@@ -13,7 +13,7 @@ export const Header = () => {
       <Container className="h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group">
           <div className="w-8 h-8 rounded-lg bg-primary/20 border border-white/10 flex items-center justify-center overflow-hidden relative shadow-[0_0_20px_rgba(255,159,10,0.2)]">
-            <Image src="/logo.png" alt="Logo" fill className="object-cover scale-125" />
+            <Image src="/logo.png" alt="Logo" fill unoptimized className="object-cover scale-125" />
           </div>
           <span className="text-xl font-black tracking-tighter text-white font-outfit">MOVIEBOOK</span>
         </Link>

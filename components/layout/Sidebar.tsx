@@ -69,6 +69,7 @@ export default function Sidebar() {
             src="/logo.png" 
             alt="Logo" 
             fill 
+            unoptimized
             className="object-cover scale-125"
           />
         </div>
