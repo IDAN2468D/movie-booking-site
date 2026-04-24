@@ -345,7 +345,6 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
       onClose={() => setShowTrailer(false)}
       movieTitle={movie.title}
     />
-    />
     </>
   );
 }
