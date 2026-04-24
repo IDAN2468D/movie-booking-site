@@ -14,6 +14,7 @@ import { FoodUpsell } from '@/components/checkout/FoodUpsell';
 import { PaymentForm } from '@/components/checkout/PaymentForm';
 import { SuccessView } from '@/components/checkout/SuccessView';
 import { SplitPayPanel } from '@/components/social/SplitPayPanel';
+import SmartCheckoutInsights from '@/components/checkout/SmartCheckoutInsights';
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
@@ -109,6 +110,9 @@ export default function CheckoutPage() {
               tax={pricing.tax} total={isSocialMode ? pricing.splitTotal : pricing.total} 
               isProcessing={isProcessing} onPayment={handlePayment} 
             />
+            <div className="mt-6">
+              <SmartCheckoutInsights movieTitle={selectedMovie.title} totalAmount={isSocialMode ? pricing.splitTotal : pricing.total} />
+            </div>
           </div>
         </div>
       </div>
