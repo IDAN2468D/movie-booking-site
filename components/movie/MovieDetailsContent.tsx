@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Share2, Headphones, Sparkles, Loader2 } from 'lucide-react';
 import { MovieDetails, CastMember, CrewMember, Movie, VideoResult, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
@@ -40,6 +41,7 @@ function formatCurrency(amount: number): string {
 }
 
 export default function MovieDetailsContent({ movie, cast, director, similarMovies, videos }: Props) {
+  const router = useRouter();
   const { setSelectedMovie, favorites, toggleFavorite } = useBookingStore();
   const { setMovieContext } = useUIStore();
   const [showTrailer, setShowTrailer] = useState(false);
