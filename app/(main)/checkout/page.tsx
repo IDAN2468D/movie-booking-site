@@ -54,7 +54,26 @@ export default function CheckoutPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ movie: selectedMovie, seats: selectedSeats, food: selectedFood, total: pricing.total, paymentInfo: formData }),
       });
-      if (res.ok) setIsSuccess(true);
+      if (res.ok) {
+        setIsSuccess(true);
+        // Automatically send email after purchase
+        try {
+          fetch('/api/send-ticket', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: session.user?.email,
+              movieTitle: selectedMovie.title,
+              seats: selectedSeats,
+              price: pricing.total,
+              orderId: Math.random().toString(36).substr(2, 9).toUpperCase(),
+              posterUrl: `https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`
+            }),
+          });
+        } catch (emailErr) {
+          console.error('Auto-email failed:', emailErr);
+        }
+      }
       else alert('נכשלנו ביצירת ההזמנה. נסה שוב.');
     } catch { alert('שגיאת תקשורת. נסה שוב מאוחר יותר.'); }
     finally { setIsProcessing(false); }
