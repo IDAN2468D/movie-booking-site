@@ -47,3 +47,7 @@ This document is the **Single Source of Truth**. Adherence is mandatory for all 
 ---
 > [!IMPORTANT]
 > Always check `.agents/skills/` for feature-specific logic before implementation.
+
+## 📤 5. Deployment & Version Control
+- **GitHub Policy**: Code changes and new features will be pushed to GitHub ONLY after explicit approval from the USER.
+- **Commit Strategy**: Use descriptive, atomic commits for every major update.
