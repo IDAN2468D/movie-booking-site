@@ -33,37 +33,25 @@ export const AIConcierge = () => {
 
   // Combined logic: Concierge + Movie Expert
   const getAIResponse = async (query: string) => {
-    // If we have a movie context, try to use the specialized API first
-    if (currentMovieId) {
-      try {
-        const response = await fetch('/api/ai/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ movieId: currentMovieId, message: query }),
-        });
-        const data = await response.json();
-        if (data.success) return data.response;
-      } catch (error) {
-        console.error('Unified AI Error:', error);
-      }
+    try {
+      const response = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          movieId: currentMovieId, 
+          message: query 
+        }),
+      });
+      
+      const data = await response.json();
+      if (data.success) return data.response;
+      
+      // Graceful fallback only if API fails
+      return "סליחה, אני חווה קושי קטן בחיבור לשרת. אולי כדאי לנסות שוב בעוד רגע?";
+    } catch (error) {
+      console.error('Unified AI Error:', error);
+      return "משהו השתבש... אני מנסה להתחבר מחדש. תרצה לנסות לשאול שוב?";
     }
-
-    // Fallback/General Concierge logic
-    const q = query.toLowerCase();
-    if (q.includes('סרט') || q.includes('movie')) {
-      return "יש לנו כמה סרטים חמים עכשיו! אני ממליץ על 'דדפול & וולברין' או 'הקול בראש 2'. תרצה שאראה לך שעות הקרנה?";
-    }
-    if (q.includes('אוכל') || q.includes('food') || q.includes('פופקורן')) {
-      if (pathname !== '/food') {
-        return "רעב? אני יכול להעביר אותך לתפריט הנשנושים שלנו או להוסיף פופקורן להזמנה!";
-      }
-      return "הפופקורן שלנו מיוצר במקום עם חמאה הולנדית. מומלץ להוסיף גם נאצ'וס!";
-    }
-    if (q.includes('המדריך הקולי') || q.includes('audio guide')) {
-      return `אני מכין לך את המדריך הקולי הייחודי ל-${currentMovieTitle || 'סרט'}. המדריך מבוסס על ניתוח עומק של העלילה והדמויות דרך NotebookLM. רגע אחד... 🎧`;
-    }
-
-    return "אני כאן כדי לעזור לך! אני יכול להמליץ על סרטים, לעזור עם ההזמנה או לסדר לך פינוקים מהמזנון.";
   };
 
   const handleSend = async (customQuery?: string) => {
