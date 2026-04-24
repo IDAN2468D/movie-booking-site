@@ -22,6 +22,9 @@ interface UIState {
   toggleConcierge: () => void;
   addMessage: (content: string, role: 'user' | 'assistant') => void;
   setThinking: (val: boolean) => void;
+  setMovieContext: (movieId?: number, movieTitle?: string) => void;
+  currentMovieId?: number;
+  currentMovieTitle?: string;
 
   // Social Features (Split Pay)
   isSocialMode: boolean;
@@ -49,6 +52,7 @@ export const useUIStore = create<UIState>((set) => ({
   })),
   
   setThinking: (val) => set({ isThinking: val }),
+  setMovieContext: (id, title) => set({ currentMovieId: id, currentMovieTitle: title }),
 
   isSocialMode: false,
   groupMembers: [],

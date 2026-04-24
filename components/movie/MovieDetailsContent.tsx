@@ -10,9 +10,9 @@ import { useBookingStore } from '@/lib/store';
 import MovieCastSection from './MovieCastSection';
 import MovieSimilarSection from './MovieSimilarSection';
 import TrailerModal from './TrailerModal';
-import MovieAIChat from './MovieAIChat';
 import MovieInfographic from './MovieInfographic';
 import MovieTrivia from './MovieTrivia';
+import { useUIStore } from '@/lib/store/ui-store';
 
 interface Props {
   movie: MovieDetails;
@@ -41,9 +41,15 @@ function formatCurrency(amount: number): string {
 
 export default function MovieDetailsContent({ movie, cast, director, similarMovies, videos }: Props) {
   const { setSelectedMovie, favorites, toggleFavorite } = useBookingStore();
+  const { setMovieContext, toggleConcierge } = useUIStore();
   const [showTrailer, setShowTrailer] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const isFavorite = favorites.some(m => m.id === movie.id);
+
+  React.useEffect(() => {
+    setMovieContext(movie.id, movie.title);
+    return () => setMovieContext(undefined, undefined);
+  }, [movie.id, movie.title, setMovieContext]);
 
   const handleGenerateAudioGuide = async () => {
     if (isGeneratingAudio) return;
@@ -339,7 +345,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
       onClose={() => setShowTrailer(false)}
       movieTitle={movie.title}
     />
-    <MovieAIChat movieId={movie.id} movieTitle={movie.title} />
+    />
     </>
   );
 }
