@@ -4,6 +4,8 @@ import { Movie } from './tmdb';
 interface BookingState {
   selectedMovie: Movie | null;
   selectedShowtime: string | null;
+  selectedDate: string | null;
+  selectedHall: string | null;
   selectedSeats: string[];
   selectedFood: { id: number; quantity: number }[];
   favorites: Movie[];
@@ -12,6 +14,8 @@ interface BookingState {
   
   setSelectedMovie: (movie: Movie | null) => void;
   setSelectedShowtime: (time: string) => void;
+  setSelectedDate: (date: string) => void;
+  setSelectedHall: (hall: string) => void;
   setSeats: (seatIds: string[]) => void;
   toggleSeat: (seatId: string) => void;
   updateFoodQuantity: (foodId: number, delta: number) => void;
@@ -34,6 +38,8 @@ interface BookingState {
 export const useBookingStore = create<BookingState>((set) => ({
   selectedMovie: null,
   selectedShowtime: '19:30',
+  selectedDate: new Date().toLocaleDateString('he-IL'),
+  selectedHall: 'אולם 1',
   selectedSeats: [],
   selectedFood: [],
   favorites: [],
@@ -63,6 +69,8 @@ export const useBookingStore = create<BookingState>((set) => ({
   setActiveCategory: (category) => set({ activeCategory: category }),
   setSelectedMovie: (movie) => set({ selectedMovie: movie, activeCategory: 'all', selectedSeats: [] }), 
   setSelectedShowtime: (time) => set({ selectedShowtime: time }),
+  setSelectedDate: (date) => set({ selectedDate: date }),
+  setSelectedHall: (hall) => set({ selectedHall: hall }),
   setSeats: (seatIds) => set({ selectedSeats: seatIds }),
   
   toggleSeat: (seatId) => set((state) => ({
@@ -95,6 +103,8 @@ export const useBookingStore = create<BookingState>((set) => ({
   resetBooking: () => set({
     selectedMovie: null,
     selectedShowtime: '19:30',
+    selectedDate: new Date().toLocaleDateString('he-IL'),
+    selectedHall: 'אולם 1',
     selectedSeats: [],
     selectedFood: [],
     searchQuery: '',

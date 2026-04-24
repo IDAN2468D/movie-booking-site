@@ -14,9 +14,9 @@ const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
 
 export async function POST(req: Request) {
   try {
-    const { email, movieTitle, seats, price, orderId, posterUrl } = await req.json();
+    const { email, movieTitle, seats, price, orderId, posterUrl, date, time, hall } = await req.json();
 
-    const subject = `🎬 הכרטיסים שלך ל-${movieTitle} מחכים לך!`;
+    const subject = `🎬 הכרטיס שלך לסרט ${movieTitle} מוכן!`;
     const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
     
     const messageParts = [
@@ -27,44 +27,72 @@ export async function POST(req: Request) {
       `Subject: ${utf8Subject}`,
       '',
       `
-        <div dir="rtl" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0F0F0F; color: #FFFFFF; padding: 40px; border-radius: 24px; max-width: 600px; margin: auto; border: 1px solid rgba(255, 159, 10, 0.2);">
-          <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: #FF9F0A; font-size: 28px; margin: 0; letter-spacing: -1px;">MOVIEBOOK</h1>
-            <p style="color: rgba(255, 159, 10, 0.6); font-size: 12px; text-transform: uppercase; letter-spacing: 2px;">Premium Cinema Experience</p>
+        <div dir="rtl" style="font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif; background-color: #050505; color: #FFFFFF; padding: 40px; border-radius: 32px; max-width: 600px; margin: auto; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+          
+          <!-- Logo Section -->
+          <div style="text-align: center; margin-bottom: 40px;">
+            <div style="display: inline-block; padding: 10px 20px; background: rgba(255, 159, 10, 0.1); border: 1px solid rgba(255, 159, 10, 0.2); border-radius: 12px;">
+              <h1 style="color: #FF9F0A; font-size: 24px; margin: 0; font-weight: 900; letter-spacing: 2px;">MOVIEBOOK</h1>
+            </div>
+            <p style="color: #94A3B8; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; margin-top: 10px;">The Premium Cinema Experience</p>
           </div>
 
-          <div style="background: rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 30px; border: 1px solid rgba(255, 255, 255, 0.1);">
-            <div style="margin-bottom: 25px; text-align: center;">
-              <img src="${posterUrl}" alt="${movieTitle}" style="width: 150px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);" />
-            </div>
-
-            <h2 style="font-size: 22px; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">פרטי ההזמנה</h2>
+          <!-- Main Ticket Card -->
+          <div style="background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%); border-radius: 28px; padding: 35px; border: 1px solid rgba(255, 255, 255, 0.1); position: relative; overflow: hidden;">
             
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <span style="color: #94A3B8;">סרט:</span>
-              <span style="font-weight: bold;">${movieTitle}</span>
+            <!-- Glow Effect -->
+            <div style="position: absolute; top: -100px; left: -100px; width: 200px; height: 200px; background: rgba(255, 159, 10, 0.05); filter: blur(60px); border-radius: 50%;"></div>
+
+            <!-- Movie Poster & Title -->
+            <div style="text-align: center; margin-bottom: 30px;">
+              <img src="${posterUrl}" alt="${movieTitle}" style="width: 160px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;" />
+              <h2 style="font-size: 28px; font-weight: 800; margin: 0; color: #FFFFFF; line-height: 1.2;">${movieTitle}</h2>
             </div>
 
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <span style="color: #94A3B8;">מושבים:</span>
-              <span style="font-weight: bold; color: #FF9F0A;">${seats.join(', ')}</span>
+            <!-- Details Grid -->
+            <div style="background: rgba(0,0,0,0.3); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.05);">
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td style="padding-bottom: 15px;">
+                    <span style="color: #64748B; font-size: 12px; display: block; margin-bottom: 4px;">תאריך</span>
+                    <span style="font-weight: 700; color: #F1F5F9;">${date || 'ייקבע בקרוב'}</span>
+                  </td>
+                  <td style="padding-bottom: 15px; text-align: left;">
+                    <span style="color: #64748B; font-size: 12px; display: block; margin-bottom: 4px;">שעה</span>
+                    <span style="font-weight: 700; color: #F1F5F9;">${time || 'ייקבע בקרוב'}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <span style="color: #64748B; font-size: 12px; display: block; margin-bottom: 4px;">אולם</span>
+                    <span style="font-weight: 700; color: #F1F5F9;">${hall || 'אולם 1'}</span>
+                  </td>
+                  <td style="padding-top: 15px; text-align: left; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <span style="color: #64748B; font-size: 12px; display: block; margin-bottom: 4px;">מושבים</span>
+                    <span style="font-weight: 700; color: #FF9F0A;">${seats.join(', ')}</span>
+                  </td>
+                </tr>
+              </table>
             </div>
 
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-              <span style="color: #94A3B8;">מספר הזמנה:</span>
-              <span style="font-family: monospace;">#${orderId}</span>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; margin-top: 20px; padding-top: 20px; border-top: 1px dotted rgba(255,255,255,0.2);">
-              <span style="font-size: 18px;">סה"כ לתשלום:</span>
-              <span style="font-size: 18px; font-weight: bold; color: #FF9F0A;">₪${price}</span>
+            <!-- Order ID Barcode-ish -->
+            <div style="margin-top: 30px; padding-top: 25px; border-top: 2px dashed rgba(255,255,255,0.1); text-align: center;">
+              <span style="color: #64748B; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 10px;">מספר הזמנה</span>
+              <span style="font-family: 'Courier New', Courier, monospace; font-size: 20px; font-weight: bold; color: #FFFFFF; letter-spacing: 4px;">#${orderId}</span>
             </div>
           </div>
 
-          <div style="margin-top: 30px; text-align: center; color: #94A3B8; font-size: 14px;">
-            <p>תודה שבחרת ב-MovieBook! נתראה בקולנוע.</p>
-            <div style="margin-top: 20px;">
-              <div style="display: inline-block; padding: 12px 24px; background-color: #FF9F0A; color: #000000; border-radius: 12px; text-decoration: none; font-weight: bold;">הצג כרטיס דיגיטלי</div>
+          <!-- Price & Footer -->
+          <div style="margin-top: 35px; text-align: center;">
+            <div style="margin-bottom: 25px;">
+              <span style="color: #94A3B8; font-size: 14px;">סה"כ שולם:</span>
+              <span style="font-size: 24px; font-weight: 900; color: #FF9F0A; margin-right: 8px;">₪${price}</span>
+            </div>
+            
+            <p style="color: #64748B; font-size: 14px; line-height: 1.6;">תודה שבחרת ב-MovieBook. אנחנו מחכים להעניק לך את החוויה הקולנועית הטובה ביותר.</p>
+            
+            <div style="margin-top: 30px;">
+              <a href="#" style="display: inline-block; padding: 16px 32px; background: #FF9F0A; color: #000000; border-radius: 16px; text-decoration: none; font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 20px rgba(255, 159, 10, 0.2);">הורדת כרטיס למכשיר</a>
             </div>
           </div>
         </div>

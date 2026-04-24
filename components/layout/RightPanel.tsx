@@ -20,7 +20,8 @@ export default function RightPanel() {
   const { data: session } = useSession();
   const { 
     selectedMovie, setSelectedMovie, selectedSeats, location, 
-    draggingMovieName, selectedFood, updateFoodQuantity 
+    draggingMovieName, selectedFood, updateFoodQuantity,
+    selectedShowtime, selectedDate, selectedHall
   } = useBookingStore();
   const [isDraggingOver, setIsDraggingOver] = React.useState(false);
   const [isSendingEmail, setIsSendingEmail] = React.useState(false);
@@ -43,7 +44,10 @@ export default function RightPanel() {
           seats: selectedSeats,
           price: selectedSeats.length * 45, // Simplified price
           orderId: Math.random().toString(36).substr(2, 9).toUpperCase(),
-          posterUrl: `https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`
+          posterUrl: `https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`,
+          date: selectedDate,
+          time: selectedShowtime,
+          hall: selectedHall
         }),
       });
 

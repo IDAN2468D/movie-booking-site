@@ -161,7 +161,10 @@ export default function TicketsPage() {
                               seats: ticket.seats,
                               price: ticket.seats.length * 45,
                               orderId: ticket.id,
-                              posterUrl: ticket.image
+                              posterUrl: ticket.image,
+                              date: ticket.date,
+                              time: ticket.time,
+                              hall: ticket.hall
                             }),
                           });
                           alert('הכרטיס נשלח שוב למייל שלך!');

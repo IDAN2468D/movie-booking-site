@@ -17,13 +17,16 @@ import { SplitPayPanel } from '@/components/social/SplitPayPanel';
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
-  const { selectedMovie, selectedSeats, selectedFood, updateFoodQuantity, resetBooking } = useBookingStore();
+  const { 
+    selectedMovie, selectedSeats, selectedFood, updateFoodQuantity, resetBooking,
+    selectedDate, selectedShowtime, selectedHall
+  } = useBookingStore();
   const { isSocialMode, groupMembers } = useUIStore();
   
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [formData, setFormData] = useState({ cardName: '', cardNumber: '', expiryDate: '', cvv: '' });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isProcessing, setIsProcessing] = React.useState(false);
+  const [isSuccess, setIsSuccess] = React.useState(false);
+  const [formData, setFormData] = React.useState({ cardName: '', cardNumber: '', expiryDate: '', cvv: '' });
+  const [errors, setErrors] = React.useState<Record<string, string>>({});
 
   const pricing = useMemo(() => {
     const seatCount = selectedSeats.length;
@@ -67,7 +70,10 @@ export default function CheckoutPage() {
               seats: selectedSeats,
               price: pricing.total,
               orderId: Math.random().toString(36).substr(2, 9).toUpperCase(),
-              posterUrl: `https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`
+              posterUrl: `https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`,
+              date: selectedDate,
+              time: selectedShowtime,
+              hall: selectedHall
             }),
           });
         } catch (emailErr) {
