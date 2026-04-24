@@ -1,23 +1,33 @@
-import nodemailer from 'nodemailer';
+import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
+const oauth2Client = new google.auth.OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.NEXTAUTH_URL // Or any authorized redirect URI
+);
+
+oauth2Client.setCredentials({
+  refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
 });
+
+const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
 
 export async function POST(req: Request) {
   try {
     const { email, movieTitle, seats, price, orderId, posterUrl } = await req.json();
 
-    const mailOptions = {
-      from: `"MovieBook" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: `🎬 הכרטיסים שלך ל-${movieTitle} מחכים לך!`,
-      html: `
+    const subject = `🎬 הכרטיסים שלך ל-${movieTitle} מחכים לך!`;
+    const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
+    
+    const messageParts = [
+      `From: MovieBook <${process.env.GMAIL_USER}>`,
+      `To: ${email}`,
+      `Content-Type: text/html; charset=utf-8`,
+      `MIME-Version: 1.0`,
+      `Subject: ${utf8Subject}`,
+      '',
+      `
         <div dir="rtl" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0F0F0F; color: #FFFFFF; padding: 40px; border-radius: 24px; max-width: 600px; margin: auto; border: 1px solid rgba(255, 159, 10, 0.2);">
           <div style="text-align: center; margin-bottom: 30px;">
             <h1 style="color: #FF9F0A; font-size: 28px; margin: 0; letter-spacing: -1px;">MOVIEBOOK</h1>
@@ -60,13 +70,25 @@ export async function POST(req: Request) {
           </div>
         </div>
       `,
-    };
+    ];
 
-    await transporter.sendMail(mailOptions);
+    const message = messageParts.join('\n');
+    const encodedMessage = Buffer.from(message)
+      .toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+
+    await gmail.users.messages.send({
+      userId: 'me',
+      requestBody: {
+        raw: encodedMessage,
+      },
+    });
 
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error('Email error:', err);
+    console.error('Gmail API error:', err);
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
 }
