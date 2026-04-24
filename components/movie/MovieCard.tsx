@@ -135,7 +135,11 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           
           <div className="absolute top-4 left-4 bg-[#0F0F0F]/60 backdrop-blur-xl px-3 py-1.5 rounded-2xl border border-white/10 flex items-center gap-1.5 shadow-2xl">
             <Star className="w-3.5 h-3.5 text-primary fill-primary" />
-            <span className="text-[11px] font-black text-white tracking-tighter">{movie.vote_average.toFixed(1)}</span>
+            <span className="text-[11px] font-black text-white tracking-tighter">
+              {typeof movie.vote_average === 'number' && !isNaN(movie.vote_average) 
+                ? movie.vote_average.toFixed(1) 
+                : '0.0'}
+            </span>
           </div>
 
           <div className="absolute top-4 right-4 flex flex-col gap-2.5 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0">
@@ -176,7 +180,9 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           </motion.button>
           <div className="flex items-center gap-1.5 text-slate-500 font-bold">
             <Calendar className="w-3.5 h-3.5" />
-            <span className="text-[11px] tracking-widest uppercase">{new Date(movie.release_date).getFullYear()}</span>
+            <span className="text-[11px] tracking-widest uppercase">
+              {movie.release_date ? new Date(movie.release_date).getFullYear() || 'N/A' : 'N/A'}
+            </span>
           </div>
         </div>
       </div>

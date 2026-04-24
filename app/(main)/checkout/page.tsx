@@ -73,7 +73,8 @@ export default function CheckoutPage() {
               posterUrl: `https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`,
               date: selectedDate,
               time: selectedShowtime,
-              hall: selectedHall
+              hall: selectedHall,
+              userName: session.user?.name || 'אורח'
             }),
           });
         } catch (emailErr) {

@@ -149,10 +149,11 @@ export default function TicketsPage() {
                   </div>
                                     <div className="flex flex-col gap-2">
                     <button 
+                      disabled={isLoading}
                       onClick={async () => {
                         if (!session?.user?.email) return;
                         try {
-                          await fetch('/api/send-ticket', {
+                          const res = await fetch('/api/send-ticket', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -164,15 +165,18 @@ export default function TicketsPage() {
                               posterUrl: ticket.image,
                               date: ticket.date,
                               time: ticket.time,
-                              hall: ticket.hall
+                              hall: ticket.hall,
+                              userName: session.user.name || 'אורח'
                             }),
                           });
-                          alert('הכרטיס נשלח שוב למייל שלך!');
+                          if (res.ok) alert('הכרטיס נשלח שוב למייל שלך!');
+                          else alert('נכשלנו בשליחת המייל. וודא שההגדרות תקינות.');
                         } catch (err) {
                           console.error(err);
+                          alert('שגיאה בשליחת המייל.');
                         }
                       }}
-                      className="p-3 rounded-2xl bg-white/5 text-slate-400 hover:text-[#FF9F0A] hover:bg-white/10 transition-all"
+                      className="p-3 rounded-2xl bg-white/5 text-slate-400 hover:text-[#FF9F0A] hover:bg-white/10 transition-all disabled:opacity-50"
                       title="שלח שוב למייל"
                     >
                       <Mail size={18} />
@@ -194,7 +198,44 @@ export default function TicketsPage() {
                     >
                       <Share2 size={18} />
                     </button>
-                    <button className="p-3 rounded-2xl bg-white/5 text-slate-400 hover:text-[#FF9F0A] hover:bg-white/10 transition-all">
+                    <button 
+                      onClick={async () => {
+                        try {
+                          const res = await fetch('/api/download-ticket', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              movieTitle: ticket.movie,
+                              seats: ticket.seats,
+                              price: ticket.seats.length * 45,
+                              orderId: ticket.id,
+                              date: ticket.date,
+                              time: ticket.time,
+                              hall: ticket.hall,
+                              userName: session?.user?.name || 'אורח',
+                              posterUrl: ticket.image
+                            }),
+                          });
+                          if (res.ok) {
+                            const blob = await res.blob();
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `ticket-${ticket.id}.pdf`;
+                            document.body.appendChild(a);
+                            a.click();
+                            a.remove();
+                          } else {
+                            alert('נכשלנו בהורדת ה-PDF.');
+                          }
+                        } catch (err) {
+                          console.error(err);
+                          alert('שגיאה בהורדת ה-PDF.');
+                        }
+                      }}
+                      className="p-3 rounded-2xl bg-white/5 text-slate-400 hover:text-[#FF9F0A] hover:bg-white/10 transition-all"
+                      title="הורד כרטיס PDF"
+                    >
                       <Download size={18} />
                     </button>
                   </div>
