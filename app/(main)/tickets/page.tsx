@@ -25,7 +25,10 @@ export default function TicketsPage() {
 
   useEffect(() => {
     const fetchTickets = async () => {
-      if (!session) return;
+      if (!session) {
+        setIsLoading(false);
+        return;
+      }
       
       try {
         const response = await fetch('/api/bookings');

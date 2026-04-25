@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, Sparkles, Bot, Zap, Ticket, Popcorn, Film, MessageSquare, Star } from 'lucide-react';
 import { useUIStore } from '@/lib/store/ui-store';
-import { useBookingStore } from '@/lib/store';
+import { BookingWizard } from './BookingWizard';
 
 export const AIConcierge = () => {
   const { 
@@ -65,16 +65,17 @@ export const AIConcierge = () => {
     const response = await getAIResponse(queryToUse);
     
     // Parse Actions
-    if (response.includes('[ACTION:BOOK:')) {
-      const match = response.match(/\[ACTION:BOOK:(\d+)\]/);
+    let actionTriggered = false;
+    if (response.includes('[ACTION:BOOK:') || response.includes('[ACTION:PURCHASE:')) {
+      const match = response.match(/\[ACTION:(?:BOOK|PURCHASE):(\d+)\]/);
       if (match) {
         const movieId = parseInt(match[1], 10);
-        // Fetch movie details to populate store correctly
         try {
           const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=he-IL`);
           const movieData = await res.json();
-          const { setSelectedMovie } = useBookingStore.getState();
-          setSelectedMovie({
+          
+          // Instead of redirecting, we add a wizard message
+          addMessage(response, 'assistant', 'booking-wizard', {
             id: movieData.id,
             title: movieData.title,
             displayTitle: movieData.title,
@@ -85,23 +86,16 @@ export const AIConcierge = () => {
             overview: movieData.overview,
             genre_ids: movieData.genres?.map((g: any) => g.id) || [],
           });
-          // Small delay for effect
-          setTimeout(() => {
-            window.location.href = '/branches';
-          }, 1500);
+          actionTriggered = true;
         } catch (e) {
           console.error("Action error:", e);
         }
       }
     }
 
-    if (response.includes('[ACTION:PURCHASE:')) {
-       // Similar to book but maybe redirect directly to a purchase flow if implemented
-       const match = response.match(/\[ACTION:PURCHASE:(\d+)\]/);
-       if (match) window.location.href = `/movie/${match[1]}`;
+    if (!actionTriggered) {
+      addMessage(response, 'assistant');
     }
-    
-    addMessage(response, 'assistant');
     setThinking(false);
   };
 
@@ -179,12 +173,21 @@ export const AIConcierge = () => {
                   animate={{ opacity: 1, x: 0 }}
                   className={`flex ${msg.role === 'user' ? 'justify-start' : 'justify-end'}`}
                 >
-                  <div className={`max-w-[85%] p-5 rounded-3xl text-sm leading-relaxed shadow-lg ${
-                    msg.role === 'user' 
-                      ? 'bg-primary text-background font-black rounded-bl-none' 
-                      : 'bg-white/5 text-slate-200 border border-white/10 rounded-br-none backdrop-blur-md'
-                  }`}>
-                    {renderMessageContent(msg.content)}
+                  <div className={`max-w-[90%] space-y-4 ${msg.role === 'user' ? 'w-full flex justify-start' : 'w-full flex flex-col items-end'}`}>
+                    {msg.content && (
+                      <div className={`p-5 rounded-3xl text-sm leading-relaxed shadow-lg ${
+                        msg.role === 'user' 
+                          ? 'bg-primary text-background font-black rounded-bl-none' 
+                          : 'bg-white/5 text-slate-200 border border-white/10 rounded-br-none backdrop-blur-md'
+                      }`}>
+                        {renderMessageContent(msg.content)}
+                      </div>
+                    )}
+                    {msg.type === 'booking-wizard' && msg.movieData && (
+                      <div className="w-full max-w-[340px]">
+                        <BookingWizard movie={msg.movieData} />
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
