@@ -8,6 +8,8 @@ import { useBookingStore } from '@/lib/store';
 import { Movie, getImageUrl } from '@/lib/tmdb';
 import Image from 'next/image';
 
+import { useSession } from 'next-auth/react';
+
 interface BookingWizardProps {
   movie: Movie;
   onComplete?: () => void;
@@ -16,6 +18,7 @@ interface BookingWizardProps {
 const SHOWTIMES = ['16:00', '18:30', '19:30', '21:00', '22:45'];
 
 export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
+  const { data: session } = useSession();
   const { 
     setSelectedMovie, setSelectedBranchId, setSelectedShowtime, 
     selectedBranchId, selectedShowtime, selectedSeats, toggleSeat 
@@ -23,6 +26,14 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
   
   const [step, setStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [userEmail, setUserEmail] = useState(session?.user?.email || '');
+
+  // Update email if session loads later
+  useEffect(() => {
+    if (session?.user?.email && !userEmail) {
+      setUserEmail(session.user.email);
+    }
+  }, [session, userEmail]);
 
   useEffect(() => {
     setSelectedMovie(movie);
@@ -33,13 +44,45 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
   const nextStep = () => setStep(s => s + 1);
   const prevStep = () => setStep(s => s - 1);
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
+    if (!userEmail) {
+      alert('נא להזין כתובת מייל למשלוח הכרטיסים');
+      return;
+    }
+
     setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
+    try {
+      const orderId = `MB-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+      
+      const response = await fetch('/api/send-ticket', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: userEmail,
+          movieTitle: movie.title,
+          seats: selectedSeats,
+          price: selectedSeats.length * 45,
+          orderId,
+          posterUrl: getImageUrl(movie.poster_path, 'w500'),
+          date: new Date().toLocaleDateString('he-IL'),
+          time: selectedShowtime,
+          hall: 'אולם IMAX',
+          userName: session?.user?.name || 'אורח'
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send ticket');
+      }
+
       setStep(5);
       if (onComplete) onComplete();
-    }, 2000);
+    } catch (error) {
+      console.error('Error sending ticket:', error);
+      alert('אירעה שגיאה בשליחת הכרטיסים. נא לנסות שוב.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const renderBranchStep = () => (
@@ -166,6 +209,19 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
             <span className="text-[10px] text-slate-500 font-bold uppercase">Secure Pay</span>
           </div>
         </div>
+
+        {!session && (
+          <div className="pt-4 border-t border-white/5 space-y-2">
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">כתובת מייל למשלוח</label>
+            <input 
+              type="email" 
+              value={userEmail}
+              onChange={(e) => setUserEmail(e.target.value)}
+              placeholder="your@email.com"
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-primary/50 transition-colors"
+            />
+          </div>
+        )}
       </div>
       
       <div className="flex gap-3">
