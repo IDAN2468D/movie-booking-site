@@ -52,11 +52,17 @@ export async function POST(req: NextRequest) {
       4. שמור על סגנון "Liquid Glass" - מודרני, נקי ומתקדם.
     `;
 
+    // Gemini requires the first message in history to be from the 'user'
+    const formattedHistory = history.map((msg: any) => ({
+      role: msg.role === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.content }],
+    }));
+
+    const firstUserIndex = formattedHistory.findIndex((m: any) => m.role === 'user');
+    const validHistory = firstUserIndex !== -1 ? formattedHistory.slice(firstUserIndex) : [];
+
     const chat = model.startChat({
-      history: history.map((msg: any) => ({
-        role: msg.role === 'user' ? 'user' : 'model',
-        parts: [{ text: msg.content }],
-      })),
+      history: validHistory,
       generationConfig: {
         maxOutputTokens: 500,
       },
