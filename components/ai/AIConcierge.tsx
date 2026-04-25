@@ -126,14 +126,14 @@ export const AIConcierge = () => {
   const isMoviePage = !!currentMovieId;
 
   return (
-    <div className="fixed bottom-10 right-10 md:right-72 z-[2000]" dir="rtl">
+    <div className="fixed bottom-28 md:bottom-10 right-6 md:right-72 z-[2000]" dir="rtl">
       <AnimatePresence>
         {isConciergeOpen && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 40, filter: 'blur(20px)' }}
             animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, scale: 0.9, y: 40, filter: 'blur(20px)' }}
-            className="absolute bottom-24 right-0 w-[90vw] md:w-[420px] h-[600px] overflow-hidden rounded-[48px] border border-white/10 flex flex-col shadow-2xl origin-bottom-right"
+            className="absolute bottom-24 right-0 w-[calc(100vw-48px)] md:w-[420px] h-[70vh] md:h-[600px] overflow-hidden rounded-[40px] md:rounded-[48px] border border-white/10 flex flex-col shadow-2xl origin-bottom-right"
             style={{
               background: 'rgba(10, 10, 15, 0.85)',
               backdropFilter: 'blur(50px) saturate(210%) brightness(1.1)',

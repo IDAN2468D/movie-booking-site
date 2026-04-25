@@ -4,10 +4,11 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Clapperboard, Utensils, Bell, Settings } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const navItems = [
   { icon: Home, label: 'בית', href: '/' },
-  { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets' },
+  { icon: Clapperboard, label: 'הכרטיסים', href: '/tickets' },
   { icon: Utensils, label: 'אוכל', href: '/food' },
   { icon: Bell, label: 'התראות', href: '/notifications' },
   { icon: Settings, label: 'פרופיל', href: '/profile' },
@@ -17,7 +18,10 @@ export default function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#1A1A1A]/95 backdrop-blur-lg border-t border-white/5 px-6 flex items-center justify-between z-50 flex-row-reverse">
+    <nav className="md:hidden fixed bottom-6 inset-x-4 h-16 bg-white/[0.03] backdrop-blur-3xl saturate-[200%] brightness-110 rounded-[24px] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.05)] flex items-center justify-around z-50 flex-row-reverse overflow-hidden">
+      {/* Holographic Gradient Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#FF9F0A]/5 via-transparent to-[#0AEFFF]/5 pointer-events-none" />
+      
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = pathname === item.href;
@@ -26,14 +30,32 @@ export default function MobileNav() {
           <Link
             key={item.label}
             href={item.href}
-            className={`flex flex-col items-center gap-1 transition-all duration-300 ${
-              isActive ? 'text-[#FF9F0A]' : 'text-slate-500'
+            className={`relative flex flex-col items-center gap-1 transition-all duration-500 py-2 px-3 rounded-xl ${
+              isActive ? 'text-primary' : 'text-slate-500 hover:text-slate-300'
             }`}
           >
-            <div className={`p-1 rounded-lg transition-all ${isActive ? 'bg-[#FF9F0A]/10 scale-110' : ''}`}>
-              <Icon className="w-5 h-5" />
+            {isActive && (
+              <motion.div
+                layoutId="mobileNavActive"
+                className="absolute inset-0 bg-white/[0.05] rounded-xl"
+                initial={false}
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              />
+            )}
+            
+            <div className={`relative z-10 transition-transform duration-500 ${isActive ? 'scale-110 -translate-y-0.5' : ''}`}>
+              <Icon className={`w-5 h-5 ${isActive ? 'drop-shadow-[0_0_12px_rgba(255,159,10,0.6)]' : ''}`} />
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider">{item.label}</span>
+            <span className={`relative z-10 text-[9px] font-black uppercase tracking-[0.15em] transition-all duration-500 font-outfit ${isActive ? 'opacity-100 text-glow' : 'opacity-40'}`}>
+              {item.label}
+            </span>
+
+            {isActive && (
+              <motion.div 
+                layoutId="activeDot"
+                className="absolute -bottom-1 w-1 h-1 bg-primary rounded-full shadow-[0_0_8px_rgba(255,159,10,0.8)]"
+              />
+            )}
           </Link>
         );
       })}

@@ -18,7 +18,7 @@ export default function MainLayout({
       {/* Main Center Area */}
       <div className="flex-1 flex flex-col min-w-0">
         <TopBar />
-        <main className="flex-1 overflow-y-auto scrollbar-hide pb-20 md:pb-0">
+        <main className="flex-1 overflow-y-auto scrollbar-hide pb-32 md:pb-0">
           {children}
         </main>
       </div>
