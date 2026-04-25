@@ -5,6 +5,10 @@ import QRCode from 'qrcode';
 import path from 'path';
 import fs from 'fs';
 
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET || !process.env.GOOGLE_REFRESH_TOKEN) {
+  console.error('Missing Google OAuth2 environment variables!');
+}
+
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET
