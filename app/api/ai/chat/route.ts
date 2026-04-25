@@ -26,37 +26,29 @@ export async function POST(req: NextRequest) {
       specificMovie = await movieRes.json();
     }
 
-    // 3. Initialize Gemini
+    // 3. Initialize Gemini with systemInstruction for persistence
     const model = genAI.getGenerativeModel({ 
       model: 'gemini-3.1-flash-lite-preview',
+      systemInstruction: `
+        אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
+        הזהות שלך: עוזר אישי (Concierge), מקצועי, ויוקרתי.
+        
+        חוקי ברזל (MANDATORY):
+        1. **לעולם אל תפנה לאתרים חיצוניים** (סינמה סיטי, יס פלאנט וכו'). אל תיתן קישורים חיצוניים.
+        2. **יכולת הזמנה**: בניגוד לבינה מלאכותית רגילה, לך **יש** יכולת להזמין כרטיסים! אתה עושה זאת על ידי שימוש בתגית: [ACTION:BOOK:MOVIE_ID].
+        3. **אל תסרב להזמין**: אם המשתמש רוצה להזמין, אל תגיד "אני לא יכול". פשוט תפעיל את האשף עם התגית.
+        
+        פרוטוקול פעולה:
+        - הזמנת כרטיס/רכישה: [ACTION:BOOK:ID]
+        - הסבר למשתמש: "בשמחה! אני פותח לך כעת את מערכת ההזמנות היוקרתית שלנו כאן בצ'אט."
+        
+        הקשר סרטים:
+        ${JSON.stringify(hotMovies)}
+        ID: 533535 - דדפול & וולברין (Deadpool & Wolverine)
+        ${specificMovie ? `סרט נוכחי: ${specificMovie.title} (ID: ${specificMovie.id})` : ''}
+      `,
     });
-    
-    const systemPrompt = `
-      אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
-      הזהות שלך: מקצועי, אדיב, ויוקרתי (Premium).
-      שפה: עברית רהוטה.
-      
-      חוק בל יעבור (CRITICAL):
-      **אסור בהחלט להפנות את המשתמש לאתרים חיצוניים** (סינמה סיטי, יס פלאנט, רב חן, גלובוס מקס וכו').
-      אל תשלח קישורים חיצוניים ואל תסביר איך להזמין באתרים אחרים.
-      כל הזמנת כרטיסים מתבצעת אך ורק בתוך אתר MovieBook באמצעות מערכת ה-Booking Wizard שלך.
-      
-      פרוטוקול הזמנה (Action Protocol):
-      1. המטרה שלך היא להשאיר את המשתמש באתר ולהזמין לו כרטיסים כאן.
-      2. ברגע שמשתמש רוצה להזמין (למשל: "תזמין לי לדדפול", "אני רוצה לקנות כרטיסים"), השתמש מיד בתגית: [ACTION:BOOK:MOVIE_ID].
-      3. הסבר למשתמש: "אני פותח לך כעת את אשף ההזמנה האינטראקטיבי שלנו ישירות כאן בצ'אט. תוכל לבחור סניף, שעה ומושבים בקלות."
-      
-      הקשר נוכחי:
-      סרטים חמים כרגע: ${JSON.stringify(hotMovies)}
-      ${specificMovie ? `המשתמש נמצא כרגע בדף של הסרט: ${specificMovie.title}. תקציר: ${specificMovie.overview}` : ''}
-      
-      רשימת סרטים זמינים (ID: Title):
-      533535: דדפול & וולברין (Deadpool & Wolverine) - סרט חובה!
-      ${hotMovies.map((m: any) => `${m.id}: ${m.title}`).join(', ')}
-      ${specificMovie ? `${specificMovie.id}: ${specificMovie.title} (הסרט הנוכחי)` : ''}
-    `;
 
-    // Gemini requires the first message in history to be from the 'user'
     const formattedHistory = history.map((msg: any) => ({
       role: msg.role === 'user' ? 'user' : 'model',
       parts: [{ text: msg.content }],
@@ -67,14 +59,9 @@ export async function POST(req: NextRequest) {
 
     const chat = model.startChat({
       history: validHistory,
-      generationConfig: {
-        maxOutputTokens: 500,
-      },
     });
 
-    // We can't easily pass a system prompt to startChat in all SDK versions, 
-    // so we include it in the first message if history is empty, or as a prefix.
-    const result = await chat.sendMessage(history.length === 0 ? `${systemPrompt}\n\n${message}` : message);
+    const result = await chat.sendMessage(message);
     const responseText = result.response.text();
 
     return NextResponse.json({ 
