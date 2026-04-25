@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, Sparkles, Bot, Zap, Ticket, Popcorn, Film, MessageSquare, Star } from 'lucide-react';
 import { useUIStore } from '@/lib/store/ui-store';
+import { useBookingStore } from '@/lib/store';
 
 export const AIConcierge = () => {
   const { 
@@ -62,8 +63,51 @@ export const AIConcierge = () => {
     setThinking(true);
     
     const response = await getAIResponse(queryToUse);
+    
+    // Parse Actions
+    if (response.includes('[ACTION:BOOK:')) {
+      const match = response.match(/\[ACTION:BOOK:(\d+)\]/);
+      if (match) {
+        const movieId = parseInt(match[1], 10);
+        // Fetch movie details to populate store correctly
+        try {
+          const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=he-IL`);
+          const movieData = await res.json();
+          const { setSelectedMovie } = useBookingStore.getState();
+          setSelectedMovie({
+            id: movieData.id,
+            title: movieData.title,
+            displayTitle: movieData.title,
+            poster_path: movieData.poster_path,
+            backdrop_path: movieData.backdrop_path,
+            vote_average: movieData.vote_average,
+            release_date: movieData.release_date,
+            overview: movieData.overview,
+            genre_ids: movieData.genres?.map((g: any) => g.id) || [],
+          });
+          // Small delay for effect
+          setTimeout(() => {
+            window.location.href = '/branches';
+          }, 1500);
+        } catch (e) {
+          console.error("Action error:", e);
+        }
+      }
+    }
+
+    if (response.includes('[ACTION:PURCHASE:')) {
+       // Similar to book but maybe redirect directly to a purchase flow if implemented
+       const match = response.match(/\[ACTION:PURCHASE:(\d+)\]/);
+       if (match) window.location.href = `/movie/${match[1]}`;
+    }
+    
     addMessage(response, 'assistant');
     setThinking(false);
+  };
+
+  const renderMessageContent = (content: string) => {
+    // Clean up action tags for display
+    return content.replace(/\[ACTION:.*?\]/g, '').trim();
   };
 
   const isMoviePage = !!currentMovieId;
@@ -140,7 +184,7 @@ export const AIConcierge = () => {
                       ? 'bg-primary text-background font-black rounded-bl-none' 
                       : 'bg-white/5 text-slate-200 border border-white/10 rounded-br-none backdrop-blur-md'
                   }`}>
-                    {msg.content}
+                    {renderMessageContent(msg.content)}
                   </div>
                 </motion.div>
               ))}
