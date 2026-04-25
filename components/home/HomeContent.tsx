@@ -72,7 +72,7 @@ export default function HomeContent({
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       movies = movies.filter(movie => 
-        movie.title.toLowerCase().includes(q) || 
+        movie.displayTitle.toLowerCase().includes(q) || 
         movie.overview?.toLowerCase().includes(q)
       );
     }
@@ -177,7 +177,7 @@ export default function HomeContent({
               <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 overflow-hidden relative shadow-2xl group-hover:scale-105 transition-transform duration-500">
                 <NextImage 
                   src={`https://image.tmdb.org/t/p/w200${selectedMovie.poster_path}`} 
-                  alt={selectedMovie.title}
+                  alt={selectedMovie.displayTitle}
                   fill
                   sizes="56px"
                   className="object-cover saturate-[1.1]"
@@ -185,7 +185,7 @@ export default function HomeContent({
               </div>
              <div className="text-right">
                 <p className="text-[10px] text-primary font-black uppercase tracking-[0.2em] mb-1">הסרט שנבחר</p>
-                <p className="text-base text-white font-black line-clamp-1 font-outfit leading-tight">{selectedMovie.title}</p>
+                <p className="text-base text-white font-black line-clamp-1 font-outfit leading-tight">{selectedMovie.displayTitle}</p>
              </div>
           </div>
           

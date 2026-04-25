@@ -20,6 +20,7 @@ This unified governance file replaces multiple separate audit/QA files to ensure
 - **Surgical Fixes**: Fix errors with minimal, targeted code changes.
 - **Verification**: Run `lint`, `build`, and `test` (Playwright/Vitest) before turn completion.
 - **TS Quality**: Zero `any` types; zero lint warnings allowed.
+- **Pre-Deploy Check**: MANDATORY to run `npm run build` or `npx tsc --noEmit` before pushing to GitHub to prevent Render deployment failures.
 - **Build**: Ensure Next.js build passes locally before pushing.
 
 ## 💎 4. RTL & Design System (Liquid Glass 2.0)

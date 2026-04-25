@@ -9,8 +9,9 @@ import { validateBookingTotal, calculatePointsEarned } from "@/lib/pricing";
 const BookingRequestSchema = z.object({
   movie: z.object({
     id: z.number(),
-    title: z.string(),
-    poster_path: z.string(),
+    title: z.string().optional(),
+    displayTitle: z.string(),
+    poster_path: z.string().nullable(),
   }),
   seats: z.array(z.string()),
   food: z.array(z.any()).default([]),

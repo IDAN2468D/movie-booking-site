@@ -55,8 +55,8 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
     e.stopPropagation();
     if (navigator.share) {
       navigator.share({
-        title: movie.title,
-        text: `Check out this movie: ${movie.title}`,
+        title: movie.displayTitle,
+        text: `Check out this movie: ${movie.displayTitle}`,
         url: window.location.origin + `/movie/${movie.id}`,
       });
     } else {
@@ -73,7 +73,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
   const handleDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData('movie', JSON.stringify(movie));
     e.dataTransfer.effectAllowed = 'copy';
-    setDraggingMovieName(movie.title);
+    setDraggingMovieName(movie.displayTitle);
     
     const dragIcon = document.createElement('div');
     dragIcon.className = 'w-20 h-32 bg-primary/20 backdrop-blur-xl rounded-xl border border-primary/30 fixed top-[-1000px]';
@@ -131,7 +131,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         <div className="aspect-[2/3] relative w-full overflow-hidden" style={{ transform: 'translateZ(20px)' }}>
           <Image
             src={getImageUrl(movie.poster_path)}
-            alt={movie.title}
+            alt={movie.displayTitle}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105 saturate-[1.1]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -172,7 +172,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       </Link>
       
       <div className="p-5 relative text-right" style={{ transform: 'translateZ(30px)' }}>
-        <h3 className="text-base font-black text-white line-clamp-1 group-hover:text-primary transition-colors tracking-tight font-outfit mb-1">{movie.title}</h3>
+        <h3 className="text-base font-black text-white line-clamp-1 group-hover:text-primary transition-colors tracking-tight font-outfit mb-1">{movie.displayTitle}</h3>
         <div className="flex items-center justify-between mt-3">
           <motion.button 
             whileHover={{ scale: 1.05 }}
@@ -189,7 +189,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           <div className="flex items-center gap-1.5 text-slate-500 font-bold">
             <Calendar className="w-3.5 h-3.5" />
             <span className="text-[11px] tracking-widest uppercase">
-              {movie.release_date ? new Date(movie.release_date).getFullYear() || 'N/A' : 'N/A'}
+              {movie.release_date ? new Date(movie.release_date).getFullYear() || 'TBA' : 'TBA'}
             </span>
           </div>
         </div>

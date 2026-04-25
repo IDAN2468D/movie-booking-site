@@ -112,6 +112,7 @@ export default function AIRecommendations() {
                 const movieProxy: Movie = {
                   id: index + 1000,
                   title: rec.title,
+                  displayTitle: rec.title,
                   poster_path: '', // AI recs might not have these yet
                   backdrop_path: '',
                   vote_average: 9.5,
@@ -171,6 +172,7 @@ export default function AIRecommendations() {
             const movieProxy: Movie = {
               id: 9999,
               title: bestRec.title,
+              displayTitle: bestRec.title,
               poster_path: '',
               backdrop_path: '',
               vote_average: 9.8,

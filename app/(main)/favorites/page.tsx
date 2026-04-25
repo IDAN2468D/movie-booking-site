@@ -13,8 +13,8 @@ export default function FavoritesPage() {
   const handleShare = (movie: Movie) => {
     if (navigator.share) {
       navigator.share({
-        title: movie.title,
-        text: `בדוק את הסרט הזה: ${movie.title}`,
+        title: movie.displayTitle,
+        text: `בדוק את הסרט הזה: ${movie.displayTitle}`,
         url: window.location.origin + `/movie/${movie.id}`,
       });
     } else {
@@ -53,7 +53,7 @@ export default function FavoritesPage() {
               <div className="h-[400px] relative overflow-hidden">
                 <NextImage 
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
-                  alt={movie.title} 
+                  alt={movie.displayTitle} 
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110" 
                 />
@@ -87,9 +87,9 @@ export default function FavoritesPage() {
               </div>
               
               <div className="p-6 text-right">
-                <h3 className="text-xl font-black text-white mb-2 line-clamp-1">{movie.title}</h3>
+                <h3 className="text-xl font-black text-white mb-2 line-clamp-1">{movie.displayTitle}</h3>
                 <div className="flex items-center gap-4 justify-end">
-                   <p className="text-xs font-bold text-slate-500">{new Date(movie.release_date).getFullYear()}</p>
+                   <p className="text-xs font-bold text-slate-500">{movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}</p>
                    <div className="w-1 h-1 rounded-full bg-slate-700" />
                    <p className="text-xs font-black text-primary">★ {movie.vote_average.toFixed(1)}</p>
                 </div>

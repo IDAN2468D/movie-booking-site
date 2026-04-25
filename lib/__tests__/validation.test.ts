@@ -5,8 +5,9 @@ import { z } from 'zod';
 const BookingRequestSchema = z.object({
   movie: z.object({
     id: z.number(),
-    title: z.string(),
-    poster_path: z.string(),
+    title: z.string().optional(),
+    displayTitle: z.string(),
+    poster_path: z.string().nullable(),
   }),
   seats: z.array(z.string()),
   food: z.array(z.any()).default([]),
@@ -29,7 +30,7 @@ describe('API Validation Schemas', () => {
   describe('BookingRequestSchema', () => {
     it('should validate correct booking data', () => {
       const validData = {
-        movie: { id: 123, title: 'Test Movie', poster_path: '/path.jpg' },
+        movie: { id: 123, title: 'Test Movie', displayTitle: 'Test Movie', poster_path: '/path.jpg' },
         seats: ['A1', 'A2'],
         total: 90,
         paymentInfo: { cardName: 'Idan K', cardNumber: '1234567812345678' }

@@ -125,7 +125,7 @@ export default function RightPanel() {
         <>
           <div className="mb-6 flex items-center justify-between">
             <h3 className="text-xl font-black text-white font-outfit">
-              מוכנים ל-<span className="text-primary tracking-tight">{selectedMovie.title}</span>!
+              מוכנים ל-<span className="text-primary tracking-tight">{selectedMovie.displayTitle}</span>!
             </h3>
             <button 
               onClick={() => setSelectedMovie(null)}
@@ -143,17 +143,17 @@ export default function RightPanel() {
           >
             <NextImage 
               src={selectedMovie.backdrop_path ? `https://image.tmdb.org/t/p/w500${selectedMovie.backdrop_path}` : 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80'} 
-              alt={selectedMovie.title}
+              alt={selectedMovie.displayTitle}
               fill
               sizes="400px"
               className="object-cover group-hover:scale-110 transition-transform duration-1000 saturate-[1.2]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-transparent to-transparent opacity-80" />
             <div className="absolute bottom-6 right-6 text-right">
-              <h3 className="text-2xl font-black text-white tracking-tighter mb-1 drop-shadow-2xl">{selectedMovie.title}</h3>
+              <h3 className="text-2xl font-black text-white tracking-tighter mb-1 drop-shadow-2xl">{selectedMovie.displayTitle}</h3>
               <div className="flex items-center gap-2 justify-end">
                 <span className="px-2 py-0.5 bg-primary/20 border border-primary/30 rounded text-[10px] font-black text-primary uppercase tracking-tighter">PREMIUM EXPERIENCE</span>
-                <p className="text-xs text-slate-300 font-bold">{selectedMovie.release_date.split('-')[0]}</p>
+                <p className="text-xs text-slate-300 font-bold">{selectedMovie.release_date?.split('-')[0] || 'TBA'}</p>
               </div>
             </div>
           </motion.div>

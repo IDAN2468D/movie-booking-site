@@ -146,7 +146,7 @@ export default function CheckoutPage() {
               priceInsights={pricing.priceInsights}
             />
             <div className="mt-6">
-              <SmartCheckoutInsights movieTitle={selectedMovie.title} totalAmount={isSocialMode ? pricing.splitTotal : pricing.total} />
+              <SmartCheckoutInsights movieTitle={selectedMovie.displayTitle} totalAmount={isSocialMode ? pricing.splitTotal : pricing.total} />
             </div>
           </div>
         </div>

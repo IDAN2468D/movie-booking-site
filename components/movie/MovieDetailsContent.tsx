@@ -85,6 +85,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
     setSelectedMovie({
       id: movie.id,
       title: movie.title,
+      displayTitle: movie.title,
       poster_path: movie.poster_path,
       backdrop_path: movie.backdrop_path,
       vote_average: movie.vote_average,
@@ -112,6 +113,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
     toggleFavorite({
       id: movie.id,
       title: movie.title,
+      displayTitle: movie.title,
       poster_path: movie.poster_path,
       backdrop_path: movie.backdrop_path,
       vote_average: movie.vote_average,

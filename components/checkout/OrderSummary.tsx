@@ -38,14 +38,14 @@ export const OrderSummary = ({
           <div className="w-20 h-28 relative rounded-xl overflow-hidden shadow-2xl border border-white/10">
             <NextImage 
               src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} 
-              alt={movie.title} 
+              alt={movie.displayTitle} 
               fill
               sizes="80px"
               className="object-cover" 
             />
           </div>
           <div className="flex-1 py-1 text-right">
-            <h4 className="text-white font-black text-sm mb-2">{movie.title}</h4>
+            <h4 className="text-white font-black text-sm mb-2">{movie.displayTitle}</h4>
             <div className="space-y-1.5">
               <p className="text-[10px] text-slate-500 flex items-center gap-1.5 flex-row-reverse">
                 <Calendar size={10} className="text-primary" /> {new Date().toLocaleDateString('he-IL', { month: 'short', day: 'numeric', year: 'numeric' })}

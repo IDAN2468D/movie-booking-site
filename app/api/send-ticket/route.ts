@@ -1,6 +1,7 @@
 import { google } from 'googleapis';
 import { NextResponse } from 'next/server';
 import PDFDocument from 'pdfkit';
+import QRCode from 'qrcode';
 import path from 'path';
 import fs from 'fs';
 

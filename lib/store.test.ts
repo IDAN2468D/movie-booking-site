@@ -23,7 +23,8 @@ describe('Booking Store', () => {
       vote_average: 8.8,
       release_date: '2010-07-16',
       overview: 'Test overview',
-      genre_ids: [1]
+      genre_ids: [1],
+      displayTitle: 'Inception'
     };
     useBookingStore.getState().toggleFavorite(movie);
     expect(useBookingStore.getState().favorites).toContainEqual(movie);
@@ -41,7 +42,8 @@ describe('Booking Store', () => {
       vote_average: 8.8,
       release_date: '2010-07-16',
       overview: 'Test overview',
-      genre_ids: [1]
+      genre_ids: [1],
+      displayTitle: 'Inception'
     };
     useBookingStore.getState().setSelectedMovie(movie);
     expect(useBookingStore.getState().selectedMovie).toEqual(movie);

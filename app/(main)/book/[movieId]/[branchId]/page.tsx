@@ -46,7 +46,7 @@ export default function BookingPage() {
       <div className="max-w-7xl mx-auto mb-10 flex items-center gap-4 text-xs font-black uppercase tracking-[0.2em] text-slate-500">
         <Link href="/" className="hover:text-primary transition-colors">ראשי</Link>
         <ChevronRight size={12} className="rotate-180" />
-        <Link href={`/movie/${selectedMovie.id}`} className="hover:text-primary transition-colors">{selectedMovie.title}</Link>
+        <Link href={`/movie/${selectedMovie.id}`} className="hover:text-primary transition-colors">{selectedMovie.displayTitle}</Link>
         <ChevronRight size={12} className="rotate-180" />
         <Link href="/branches" className="hover:text-primary transition-colors">בחר סניף</Link>
         <ChevronRight size={12} className="rotate-180" />
@@ -67,14 +67,14 @@ export default function BookingPage() {
               <div className="w-24 h-36 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 border border-white/10">
                 <Image 
                   src={`https://image.tmdb.org/t/p/w200${selectedMovie.poster_path}`} 
-                  alt={selectedMovie.title}
+                  alt={selectedMovie.displayTitle}
                   width={96}
                   height={144}
                   className="object-cover h-full"
                 />
               </div>
               <div className="flex-1 text-center md:text-right">
-                <h1 className="text-3xl font-black mb-2 font-outfit">{selectedMovie.title}</h1>
+                <h1 className="text-3xl font-black mb-2 font-outfit">{selectedMovie.displayTitle}</h1>
                 <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-400">
                   <div className="flex items-center gap-1.5">
                     <MapPin size={14} className="text-primary" />

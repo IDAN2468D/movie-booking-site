@@ -23,7 +23,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
       {/* Background Image */}
       <Image
         src={getImageUrl(movie.backdrop_path, 'original')}
-        alt={movie.title}
+        alt={movie.displayTitle}
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1400px"
         className="object-cover transition-transform duration-1000 group-hover:scale-105"
@@ -81,7 +81,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
             צפה עכשיו
           </button>
           
-          <TrailerButton movieId={movie.id} movieTitle={movie.title} variant="hero" />
+          <TrailerButton movieId={movie.id} movieTitle={movie.displayTitle} variant="hero" />
 
           <Link 
             href={`/movie/${movie.id}`}
