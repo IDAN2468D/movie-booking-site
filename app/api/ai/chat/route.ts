@@ -31,14 +31,8 @@ export async function POST(req: NextRequest) {
     // Note: If the specific version is not available in the SDK yet, we might need to fallback or use the latest stable,
     // but I will try to use the requested string first.
     const model = genAI.getGenerativeModel({ 
-      model: 'gemini-1.5-flash', // Fallback to stable if lite-preview fails, but trying to follow user
+      model: 'gemini-3.1-flash-lite-preview',
     });
-    
-    // Actually, I'll use the user's requested model if it's supported by the SDK
-    // But since I don't know for sure if it's in the SDK list yet, I'll stick to a robust one 
-    // unless I'm sure. Wait, the user is very specific about gemini-3.1-flash-lite-preview.
-    // I will use that string.
-    const customModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }); // I will use 1.5-flash as it's standard, 3.1 might be a typo or future.
     // Actually, wait, Gemini 2.0 is out, but 3.1? Maybe the user meant 2.0 or 1.5. 
     // I'll use gemini-1.5-flash for reliability but I'll add a comment.
     
@@ -58,7 +52,7 @@ export async function POST(req: NextRequest) {
       4. שמור על סגנון "Liquid Glass" - מודרני, נקי ומתקדם.
     `;
 
-    const chat = customModel.startChat({
+    const chat = model.startChat({
       history: history.map((msg: any) => ({
         role: msg.role === 'user' ? 'user' : 'model',
         parts: [{ text: msg.content }],
