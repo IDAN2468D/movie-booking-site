@@ -64,13 +64,17 @@ export async function POST(req: Request) {
     // 2. Generate PDF
     const pdfBuffer = await new Promise<Buffer>((resolve, reject) => {
       try {
-        const fontPath = path.join(process.cwd(), 'public', 'fonts', 'Assistant-Bold.ttf');
+        const root = process.cwd();
+        const fontPath = path.join(root, 'public', 'fonts', 'Assistant-Bold.ttf');
         const hasFont = fs.existsSync(fontPath);
         
+        console.log('Font path check:', fontPath, 'Exists:', hasFont);
+
+        // Avoid standard fonts entirely to prevent ENOENT errors on serverless/Render
         const doc = new PDFDocument({ 
           margin: 0, 
           size: [400, 640],
-          font: hasFont ? fontPath : undefined
+          font: hasFont ? fontPath : undefined // Set default font immediately
         });
 
         const chunks: Uint8Array[] = [];
@@ -78,7 +82,10 @@ export async function POST(req: Request) {
         doc.on('end', () => resolve(Buffer.concat(chunks)));
         doc.on('error', reject);
 
-        if (hasFont) doc.registerFont('Hebrew', fontPath);
+        if (hasFont) {
+          doc.registerFont('MainFont', fontPath);
+          doc.font('MainFont');
+        }
 
         const width = doc.page.width;
         const height = doc.page.height;
@@ -100,7 +107,7 @@ export async function POST(req: Request) {
         }
 
         // Header
-        doc.fillColor('#FF9F0A').fontSize(10).font(hasFont ? 'Hebrew' : 'Helvetica-Bold').text('MOVIEBOOK PREMIUM CINEMA', 0, 20, { align: 'center' });
+        doc.fillColor('#FF9F0A').fontSize(10).text('MOVIEBOOK PREMIUM CINEMA', 0, 20, { align: 'center' });
 
         // Movie Title
         const titleY = 270;
@@ -135,8 +142,8 @@ export async function POST(req: Request) {
           doc.image(qrBuffer, width / 2 - qrSize/2, stubY + 25, { width: qrSize, height: qrSize });
         }
 
-        doc.fillColor('rgba(255, 255, 255, 0.3)').fontSize(8).font('Helvetica').text(`ORDER ID: ${orderId}`, 0, stubY + 115, { align: 'center', width: width });
-        doc.fillColor('#FF9F0A').fontSize(11).font(hasFont ? 'Hebrew' : 'Helvetica-Bold').text(fixHebrew('תודה שבחרת ב-MovieBook!'), 0, stubY + 135, { align: 'center', width: width });
+        doc.fillColor('rgba(255, 255, 255, 0.3)').fontSize(8).text(`ORDER ID: ${orderId}`, 0, stubY + 115, { align: 'center', width: width });
+        doc.fillColor('#FF9F0A').fontSize(11).text(fixHebrew('תודה שבחרת ב-MovieBook!'), 0, stubY + 135, { align: 'center', width: width });
 
         doc.end();
       } catch (e) {
