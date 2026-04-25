@@ -27,10 +27,10 @@ export default function CategoryFilters() {
         <button
           key={category.id}
           onClick={() => setActiveCategory(category.id)}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-full whitespace-nowrap transition-all duration-300 ${
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-full whitespace-nowrap transition-all duration-500 border-[0.5px] ${
             activeCategory === category.id
-              ? 'bg-primary text-background font-bold scale-105 shadow-lg shadow-primary/20'
-              : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/5'
+              ? 'bg-primary border-primary text-background font-bold scale-105 shadow-[0_10px_30px_rgba(255,159,10,0.3)]'
+              : 'bg-white/5 border-white/10 backdrop-blur-[40px] text-slate-400 hover:bg-white/10 hover:text-white'
           }`}
         >
           <category.icon size={18} />

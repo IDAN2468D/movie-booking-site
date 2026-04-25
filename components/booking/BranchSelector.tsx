@@ -25,7 +25,8 @@ export default function BranchSelector({ isOpen, onClose }: BranchSelectorProps)
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-xl z-[60]"
+            className="fixed inset-0 bg-black/80 backdrop-blur-[40px] z-[60]"
+
           />
 
           {/* Modal */}
@@ -35,7 +36,7 @@ export default function BranchSelector({ isOpen, onClose }: BranchSelectorProps)
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl z-[70] p-8"
           >
-            <div className="relative bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-[40px] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.8)]">
+            <div className="relative bg-black/60 backdrop-blur-[40px] border-[0.5px] border-white/20 rounded-[48px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.9)]">
               {/* Background Accents */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />

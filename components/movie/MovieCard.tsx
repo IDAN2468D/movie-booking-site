@@ -24,12 +24,13 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [15, -15]), { stiffness: 150, damping: 20 });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-15, 15]), { stiffness: 150, damping: 20 });
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [15, -15]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-15, 15]), { stiffness: 300, damping: 30 });
   
   // Glint Position
-  const glintX = useSpring(useTransform(mouseX, [0, 100], [-50, 150]), { stiffness: 200, damping: 30 });
-  const glintY = useSpring(useTransform(mouseY, [0, 100], [-50, 150]), { stiffness: 200, damping: 30 });
+  const glintX = useSpring(useTransform(mouseX, [0, 100], [-50, 150]), { stiffness: 400, damping: 40 });
+  const glintY = useSpring(useTransform(mouseY, [0, 100], [-50, 150]), { stiffness: 400, damping: 40 });
+
 
   function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
     if (!cardRef.current) return;
@@ -101,11 +102,12 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileTap={{ scale: 0.95 }}
-      className={`movie-card group relative overflow-hidden rounded-[32px] transition-all duration-500 cursor-pointer border ${
+      className={`movie-card group relative overflow-hidden rounded-[32px] transition-all duration-500 cursor-pointer border-[0.5px] ${
         isSelected 
-          ? 'border-primary bg-primary/10 shadow-[0_0_60px_rgba(255,159,10,0.2)]' 
-          : 'border-white/10 bg-white/[0.03] backdrop-blur-3xl saturate-[200%] brightness-110 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.05)]'
+          ? 'border-primary bg-primary/10 shadow-[0_0_60px_rgba(255,159,10,0.3)]' 
+          : 'border-white/20 bg-black/20 backdrop-blur-[40px] saturate-[200%] brightness-110 shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(255,255,255,0.05)]'
       }`}
+
     >
       {/* Holographic Glint */}
       <motion.div 

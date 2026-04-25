@@ -133,12 +133,12 @@ export const AIConcierge = () => {
             initial={{ opacity: 0, scale: 0.9, y: 40, filter: 'blur(20px)' }}
             animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, scale: 0.9, y: 40, filter: 'blur(20px)' }}
-            className="absolute bottom-24 right-0 w-[calc(100vw-48px)] md:w-[420px] h-[70vh] md:h-[600px] overflow-hidden rounded-[40px] md:rounded-[48px] border border-white/10 flex flex-col shadow-2xl origin-bottom-right"
+            className="absolute bottom-24 right-0 w-[calc(100vw-48px)] md:w-[420px] h-[70vh] md:h-[600px] overflow-hidden rounded-[40px] md:rounded-[48px] border-[0.5px] border-white/20 flex flex-col shadow-[0_40px_120px_rgba(0,0,0,0.8)] origin-bottom-right"
             style={{
-              background: 'rgba(10, 10, 15, 0.85)',
-              backdropFilter: 'blur(50px) saturate(210%) brightness(1.1)',
-              boxShadow: '0 30px 100px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.1)'
+              background: 'rgba(10, 10, 15, 0.6)',
+              backdropFilter: 'blur(40px) saturate(200%) brightness(1.1)',
             }}
+
           >
 
             {/* Glossy Overlay */}
@@ -194,11 +194,12 @@ export const AIConcierge = () => {
                 >
                   <div className={`max-w-[90%] space-y-4 ${msg.role === 'user' ? 'w-full flex justify-start' : 'w-full flex flex-col items-end'}`}>
                     {msg.content && (
-                      <div className={`p-5 rounded-3xl text-sm leading-relaxed shadow-lg ${
+                      <div className={`p-5 rounded-3xl text-sm leading-relaxed shadow-lg border-[0.5px] ${
                         msg.role === 'user' 
-                          ? 'bg-primary text-background font-black rounded-bl-none' 
-                          : 'bg-white/5 text-slate-200 border border-white/10 rounded-br-none backdrop-blur-md'
+                          ? 'bg-primary text-background font-black rounded-bl-none border-primary/20' 
+                          : 'bg-white/5 text-slate-200 border-white/20 rounded-br-none backdrop-blur-[40px]'
                       }`}>
+
                         {renderMessageContent(msg.content)}
                       </div>
                     )}
@@ -275,12 +276,13 @@ export const AIConcierge = () => {
         onClick={toggleConcierge}
         whileHover={{ scale: 1.05, boxShadow: isMoviePage ? '0 0 50px rgba(6, 182, 212, 0.4)' : '0 0 50px rgba(255, 159, 10, 0.4)' }}
         whileTap={{ scale: 0.95 }}
-        className="relative w-20 h-20 rounded-full flex items-center justify-center overflow-hidden border border-white/20 group z-20"
+        className="relative w-20 h-20 rounded-full flex items-center justify-center overflow-hidden border-[0.5px] border-white/30 group z-20"
         style={{
-          background: isMoviePage ? 'rgba(6, 182, 212, 0.05)' : 'rgba(255, 159, 10, 0.05)',
-          backdropFilter: 'blur(30px) saturate(180%)',
-          boxShadow: '0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1)'
+          background: isMoviePage ? 'rgba(6, 182, 212, 0.1)' : 'rgba(255, 159, 10, 0.1)',
+          backdropFilter: 'blur(40px) saturate(200%)',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1)'
         }}
+
       >
         {/* Organic Background Movement */}
         <motion.div 

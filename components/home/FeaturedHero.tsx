@@ -39,11 +39,13 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+
           className="flex items-center gap-3 mb-4"
         >
           <div className="bg-[#FF9F0A] text-white text-[10px] font-black px-2 py-1 rounded tracking-widest uppercase">חדש בקולנוע</div>
-          <div className="flex items-center gap-1 bg-white/10 backdrop-blur-md px-2 py-1 rounded text-white text-xs border border-white/10">
+          <div className="flex items-center gap-1 bg-white/10 backdrop-blur-[40px] px-2 py-1 rounded text-white text-xs border-[0.5px] border-white/20">
+
             <Star className="w-3 h-3 text-[#FF9F0A] fill-[#FF9F0A]" />
             דירוג {movie.vote_average.toFixed(1)}
           </div>
@@ -85,7 +87,8 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
 
           <Link 
             href={`/movie/${movie.id}`}
-            className="w-14 h-14 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center transition-all border border-white/5"
+            className="w-14 h-14 bg-white/5 hover:bg-white/10 backdrop-blur-[40px] rounded-2xl flex items-center justify-center transition-all border-[0.5px] border-white/20"
+
           >
             <Info className="w-6 h-6 text-white" />
           </Link>

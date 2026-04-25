@@ -19,7 +19,7 @@ export default function TopBar() {
 
   return (
     <>
-      <header className="h-16 md:h-24 flex items-center justify-between px-4 md:px-10 bg-white/[0.01] backdrop-blur-3xl saturate-[200%] brightness-110 sticky top-0 z-40 border-b border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_0_0_1px_rgba(255,255,255,0.05)] transition-all duration-700">
+      <header className="h-16 md:h-24 flex items-center justify-between px-4 md:px-10 bg-black/40 backdrop-blur-[40px] saturate-[200%] brightness-110 sticky top-0 z-40 border-b-[0.5px] border-white/20 shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.05)] transition-all duration-700">
         {/* Mobile Logo */}
         <Link href="/" className="flex md:hidden items-center gap-3">
           <div className="w-10 h-10 bg-primary/20 backdrop-blur-xl border border-white/10 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,159,10,0.15)] overflow-hidden relative">

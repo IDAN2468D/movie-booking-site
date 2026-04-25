@@ -17,7 +17,8 @@ export default function ShowtimeSelector() {
   const { selectedShowtime, setSelectedShowtime } = useBookingStore();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-md mx-auto">
+
       <div className="flex items-center justify-between">
         <h3 className="text-white font-bold flex items-center gap-2">
           <Calendar size={18} className="text-primary" />
@@ -31,11 +32,12 @@ export default function ShowtimeSelector() {
           <button
             key={show.time}
             onClick={() => setSelectedShowtime(show.time)}
-            className={`group relative flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${
+            className={`group relative flex items-center justify-between p-4 rounded-2xl border-[0.5px] transition-all duration-300 ${
               selectedShowtime === show.time
                 ? 'bg-primary border-primary shadow-lg shadow-primary/20 scale-[1.02]'
-                : 'bg-white/5 border-white/5 hover:bg-white/10'
+                : 'bg-white/5 border-white/10 backdrop-blur-[40px] hover:bg-white/10'
             }`}
+
           >
             <div className="flex items-center gap-4">
               <div className={`p-2.5 rounded-xl transition-colors ${

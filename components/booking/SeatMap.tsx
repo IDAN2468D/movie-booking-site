@@ -21,7 +21,8 @@ export default function SeatMap() {
   const cols = [1, 2, 3, 'aisle', 4, 5, 6];
 
   return (
-    <div className="flex flex-col items-center py-10 px-6 bg-[#0A0A0F]/60 backdrop-blur-3xl rounded-[40px] border border-white/10 shadow-2xl relative overflow-hidden w-full">
+    <div className="flex flex-col items-center py-10 px-6 max-w-md mx-auto bg-black/40 backdrop-blur-[40px] rounded-[44px] border-[0.5px] border-white/20 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] relative overflow-hidden w-full transition-all duration-500">
+
       {/* Glossy Refraction */}
       <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-cyan-500/5 pointer-events-none" />
 
@@ -110,7 +111,8 @@ export default function SeatMap() {
       </div>
 
       {/* Legend */}
-      <div className="flex justify-between w-full max-w-sm px-8 py-5 bg-white/[0.03] rounded-3xl border border-white/5 backdrop-blur-md">
+      <div className="flex justify-between w-full max-w-sm px-8 py-5 bg-white/[0.03] rounded-3xl border-[0.5px] border-white/20 backdrop-blur-[40px]">
+
         {[
           { color: 'bg-white/10', label: 'פנוי' },
           { color: 'bg-primary shadow-[0_0_15px_rgba(255,159,10,0.5)]', label: 'נבחר' },

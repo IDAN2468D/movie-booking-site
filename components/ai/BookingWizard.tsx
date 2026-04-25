@@ -173,13 +173,14 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
         <button 
           disabled={selectedSeats.length === 0}
           onClick={nextStep}
-          className="bg-primary text-background px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest disabled:opacity-50"
+          className="bg-primary text-background px-6 py-3 rounded-2xl text-[11px] font-black uppercase tracking-[0.15em] disabled:opacity-50 shadow-lg shadow-primary/20 active:scale-95 transition-all"
         >
           המשך לסיכום
         </button>
       </div>
     </div>
   );
+
 
   const renderSummaryStep = () => (
     <div className="space-y-6">
@@ -273,7 +274,10 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
   );
 
   return (
-    <div className="w-full bg-white/[0.02] backdrop-blur-3xl rounded-[32px] border border-white/5 p-6 overflow-hidden relative" dir="rtl">
+    <div className="w-full max-w-md mx-auto bg-black/40 backdrop-blur-[40px] rounded-[32px] border-[0.5px] border-white/20 p-6 overflow-hidden relative shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.05)] transition-all duration-500" dir="rtl">
+      {/* Holographic Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#FF9F0A]/5 via-transparent to-[#0AEFFF]/5 pointer-events-none" />
+
       {/* Step Indicator */}
       {step < 5 && (
         <div className="flex gap-1 mb-6">
@@ -289,7 +293,8 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.3 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+
         >
           {step === 1 && renderBranchStep()}
           {step === 2 && renderTimeStep()}

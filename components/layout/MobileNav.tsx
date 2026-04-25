@@ -18,7 +18,7 @@ export default function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="md:hidden fixed bottom-6 inset-x-4 h-16 bg-white/[0.03] backdrop-blur-3xl saturate-[200%] brightness-110 rounded-[24px] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.05)] flex items-center justify-around z-50 flex-row-reverse overflow-hidden">
+    <nav className="md:hidden fixed bottom-8 inset-x-0 mx-auto w-[92%] max-w-md h-16 bg-white/[0.03] backdrop-blur-[40px] saturate-[200%] brightness-110 rounded-[28px] border-[0.5px] border-white/20 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(255,255,255,0.05)] flex items-center justify-around z-50 flex-row-reverse overflow-hidden transition-all duration-500">
       {/* Holographic Gradient Overlays */}
       <div className="absolute inset-0 bg-gradient-to-tr from-[#FF9F0A]/5 via-transparent to-[#0AEFFF]/5 pointer-events-none" />
       

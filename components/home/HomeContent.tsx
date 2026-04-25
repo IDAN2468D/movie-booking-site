@@ -168,7 +168,8 @@ export default function HomeContent({
         <motion.div 
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="xl:hidden fixed bottom-24 left-6 right-6 bg-white/[0.03] backdrop-blur-[40px] p-5 rounded-[32px] flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)] z-40 border border-white/10 overflow-hidden group"
+          className="xl:hidden fixed bottom-28 left-6 right-6 mx-auto max-w-md bg-black/40 backdrop-blur-[40px] p-5 rounded-[32px] flex items-center justify-between shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] z-40 border-[0.5px] border-white/20 overflow-hidden group"
+
         >
           {/* Holographic background glow */}
           <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-cyan-500/5 opacity-40" />
