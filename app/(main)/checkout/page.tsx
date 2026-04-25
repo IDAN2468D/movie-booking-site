@@ -95,16 +95,16 @@ export default function CheckoutPage() {
         setIsSuccess(true);
         // Automatically send email after purchase
         try {
-          fetch('/api/send-ticket', {
+          const emailRes = await fetch('/api/send-ticket', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               email: session.user?.email,
-              movieTitle: selectedMovie.title,
+              movieTitle: selectedMovie.displayTitle,
               seats: selectedSeats,
               price: pricing.total,
               orderId: Math.random().toString(36).substr(2, 9).toUpperCase(),
-              posterUrl: `https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`,
+              posterUrl: getImageUrl(selectedMovie.poster_path, 'w500'),
               date: selectedDate,
               time: selectedShowtime,
               hall: selectedHall,
@@ -112,6 +112,10 @@ export default function CheckoutPage() {
               userName: session.user?.name || 'אורח'
             }),
           });
+          const emailData = await emailRes.json();
+          if (!emailData.success) {
+            console.error('Email API returned error:', emailData.error);
+          }
         } catch (emailErr) {
           console.error('Auto-email failed:', emailErr);
         }

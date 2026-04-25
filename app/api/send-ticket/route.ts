@@ -209,11 +209,15 @@ export async function POST(req: Request) {
       userId: 'me',
       requestBody: { raw: encodedMessage },
     });
-    console.log('Gmail send response status:', gmailRes.status);
+    console.log('Gmail send response status:', gmailRes.status, 'Data:', gmailRes.data);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, data: { messageId: gmailRes.data.id } });
   } catch (err) {
-    console.error('Gmail API error:', err);
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+    console.error('Gmail API error details:', err);
+    return NextResponse.json({ 
+      success: false, 
+      error: (err as Error).message,
+      details: err 
+    }, { status: 500 });
   }
 }

@@ -188,7 +188,7 @@ export default function TicketsPage() {
                               email: session.user.email,
                               movieTitle: ticket.movie,
                               seats: ticket.seats,
-                              price: ticket.seats.length * 45,
+                              price: ticket.total || (ticket.seats.length * 45),
                               orderId: ticket.id,
                               posterUrl: ticket.image,
                               date: ticket.date,
@@ -197,11 +197,18 @@ export default function TicketsPage() {
                               userName: session.user.name || 'אורח'
                             }),
                           });
-                          if (res.ok) alert('הכרטיס נשלח שוב למייל שלך!');
-                          else alert('נכשלנו בשליחת המייל. וודא שההגדרות תקינות.');
+                          
+                          const data = await res.json();
+                          if (res.ok && data.success) {
+                            alert('הכרטיס נשלח שוב למייל שלך!');
+                          } else {
+                            const errorMsg = data.error || 'תקלה לא ידועה';
+                            alert(`נכשלנו בשליחת המייל: ${errorMsg}`);
+                            console.error('Email failure details:', data);
+                          }
                         } catch (err) {
-                          console.error(err);
-                          alert('שגיאה בשליחת המייל.');
+                          console.error('Fetch error:', err);
+                          alert('שגיאת תקשורת בשליחת המייל.');
                         }
                       }}
                       className="p-3 rounded-2xl bg-white/5 text-slate-400 hover:text-[#FF9F0A] hover:bg-white/10 transition-all disabled:opacity-50"

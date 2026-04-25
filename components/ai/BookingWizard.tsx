@@ -59,7 +59,7 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: userEmail,
-          movieTitle: movie.title,
+          movieTitle: movie.displayTitle,
           seats: selectedSeats,
           price: selectedSeats.length * 45,
           orderId,
@@ -71,15 +71,16 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to send ticket');
+      const data = await response.json();
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Failed to send ticket');
       }
 
       setStep(5);
       if (onComplete) onComplete();
     } catch (error) {
       console.error('Error sending ticket:', error);
-      alert('אירעה שגיאה בשליחת הכרטיסים. נא לנסות שוב.');
+      alert(`אירעה שגיאה בשליחת הכרטיסים: ${(error as Error).message}`);
     } finally {
       setIsProcessing(false);
     }
