@@ -9,10 +9,10 @@ export async function POST(req: NextRequest) {
   try {
     const { movieId, message, history = [] } = await req.json();
 
-    // 1. Fetch Context (Now Playing Movies)
+    // 1. Fetch Context (More movies for better coverage)
     const moviesRes = await fetch(`${TMDB_BASE_URL}/movie/now_playing?api_key=${TMDB_API_KEY}&language=he-IL&page=1`);
     const moviesData = await moviesRes.json();
-    const hotMovies = moviesData.results?.slice(0, 5).map((m: any) => ({
+    const hotMovies = moviesData.results?.slice(0, 20).map((m: any) => ({
       id: m.id,
       title: m.title,
       overview: m.overview,
@@ -27,33 +27,31 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Initialize Gemini
-    // The user explicitly requested gemini-3.1-flash-lite-preview
-    // Note: If the specific version is not available in the SDK yet, we might need to fallback or use the latest stable,
-    // but I will try to use the requested string first.
     const model = genAI.getGenerativeModel({ 
       model: 'gemini-3.1-flash-lite-preview',
     });
-    // Actually, wait, Gemini 2.0 is out, but 3.1? Maybe the user meant 2.0 or 1.5. 
-    // I'll use gemini-1.5-flash for reliability but I'll add a comment.
     
     const systemPrompt = `
       אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
       הזהות שלך: מקצועי, אדיב, ויוקרתי (Premium).
       שפה: עברית רהוטה.
       
+      חוק בל יעבור (CRITICAL):
+      **אסור בהחלט להפנות את המשתמש לאתרים חיצוניים** (סינמה סיטי, יס פלאנט, רב חן, גלובוס מקס וכו').
+      אל תשלח קישורים חיצוניים ואל תסביר איך להזמין באתרים אחרים.
+      כל הזמנת כרטיסים מתבצעת אך ורק בתוך אתר MovieBook באמצעות מערכת ה-Booking Wizard שלך.
+      
+      פרוטוקול הזמנה (Action Protocol):
+      1. המטרה שלך היא להשאיר את המשתמש באתר ולהזמין לו כרטיסים כאן.
+      2. ברגע שמשתמש רוצה להזמין (למשל: "תזמין לי לדדפול", "אני רוצה לקנות כרטיסים"), השתמש מיד בתגית: [ACTION:BOOK:MOVIE_ID].
+      3. הסבר למשתמש: "אני פותח לך כעת את אשף ההזמנה האינטראקטיבי שלנו ישירות כאן בצ'אט. תוכל לבחור סניף, שעה ומושבים בקלות."
+      
       הקשר נוכחי:
       סרטים חמים כרגע: ${JSON.stringify(hotMovies)}
       ${specificMovie ? `המשתמש נמצא כרגע בדף של הסרט: ${specificMovie.title}. תקציר: ${specificMovie.overview}` : ''}
       
-      הנחיות לביצוע פעולות (Action Protocol):
-      1. ענה תמיד בעברית רהוטה ויוקרתית.
-      2. **הזמנה אוטומטית (Booking Wizard)**: אם המשתמש מביע עניין בהזמנת סרט (למשל אומר "אני רוצה להזמין", "תזמין לי", או עונה "כן" להצעת הזמנה), עליך להשתמש בתגית: [ACTION:BOOK:MOVIE_ID]. 
-         - חשוב: אל תשלח אותו לדף אחר! הסבר לו שאתה פותח לו כעת את אשף ההזמנה האינטראקטיבי ישירות כאן בצ'אט.
-      3. **רכישת כרטיסים**: אם המשתמש שואל איך קונים או רוצה לבצע רכישה, השתמש ב-[ACTION:PURCHASE:MOVIE_ID] כדי להפעיל את אשף הרכישה האוטומטית.
-      4. **חיפוש סרטים**: אם הוא מחפש סרט שלא קיים ברשימה ה"חמים", הצע לו לחפש בשורת החיפוש העליונה.
-      5. **פרואקטיביות**: אם המשתמש אומר "כן" או "אשמח" אחרי שהצעת לבדוק שעות או להזמין, אל תשאל שאלות נוספות - פשוט בצע את הפעולה עם התגית המתאימה לסרט האחרון שדובר עליו.
-      
-      רשימת סרטים זמינים לביצוע פעולות (ID: Title):
+      רשימת סרטים זמינים (ID: Title):
+      533535: דדפול & וולברין (Deadpool & Wolverine) - סרט חובה!
       ${hotMovies.map((m: any) => `${m.id}: ${m.title}`).join(', ')}
       ${specificMovie ? `${specificMovie.id}: ${specificMovie.title} (הסרט הנוכחי)` : ''}
     `;
