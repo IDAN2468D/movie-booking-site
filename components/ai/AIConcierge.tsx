@@ -37,7 +37,8 @@ export const AIConcierge = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           movieId: currentMovieId, 
-          message: query 
+          message: query,
+          history: conciergeMessages // Pass the full history
         }),
       });
       
