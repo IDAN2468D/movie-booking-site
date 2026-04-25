@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import NextImage from 'next/image';
-import { Ticket, Calendar, Clock, MapPin, QrCode, Share2, Download, Loader2, Mail, Sparkles } from 'lucide-react';
+import { Ticket, Calendar, Clock, MapPin, QrCode, Share2, Download, Loader2, Mail, Sparkles, Bot } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 
 interface TicketType {
@@ -62,7 +62,21 @@ export default function TicketsPage() {
         <p className="text-slate-400 font-medium">המסעות הקולנועיים הקרובים והקודמים שלך</p>
       </div>
 
-      {tickets.length === 0 ? (
+      {!session ? (
+        <div className="min-h-[40vh] glass rounded-[48px] flex flex-col items-center justify-center p-12 text-center border border-white/5 bg-white/5 backdrop-blur-2xl">
+          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6 border border-primary/20">
+            <Bot size={32} className="text-primary" />
+          </div>
+          <h2 className="text-2xl font-black text-white mb-2">עליך להתחבר כדי לצפות בכרטיסים</h2>
+          <p className="text-slate-500 mb-8 max-w-xs">התחבר לחשבון שלך כדי לראות את כל ההזמנות והכרטיסים הדיגיטליים שלך.</p>
+          <button 
+            onClick={() => window.location.href = '/login'}
+            className="px-8 py-4 bg-primary text-background font-black rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all uppercase tracking-widest text-xs"
+          >
+            התחבר עכשיו
+          </button>
+        </div>
+      ) : tickets.length === 0 ? (
         <div className="min-h-[40vh] glass rounded-[48px] flex flex-col items-center justify-center p-12 text-center border border-white/5">
           <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
             <Ticket size={32} className="text-slate-600" />
