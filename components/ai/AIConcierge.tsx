@@ -100,8 +100,27 @@ export const AIConcierge = () => {
   };
 
   const renderMessageContent = (content: string) => {
-    // Clean up action tags for display
-    return content.replace(/\[ACTION:.*?\]/g, '').trim();
+    // 1. Clean up action tags for display
+    let cleaned = content.replace(/\[ACTION:.*?\]/g, '').trim();
+    
+    // 2. FORBIDDEN LINKS FILTER:
+    // If the AI somehow still hallucinates external links, we mask them.
+    const forbiddenPatterns = [/cinema-city\.co\.il/gi, /yesplanet\.co\.il/gi, /rav-hen\.co\.il/gi, /hotcinema\.co\.il/gi, /globusmax\.co\.il/gi];
+    const hasForbidden = forbiddenPatterns.some(p => p.test(cleaned));
+    
+    if (hasForbidden) {
+      return (
+        <div className="space-y-2">
+          <p>{cleaned.split('\n')[0]}...</p>
+          <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-[10px] font-bold">
+            שים לב: אנחנו מבצעים הזמנות אך ורק דרך MovieBook. 
+            כתוב "הזמן כרטיס" כדי להפעיל את המערכת שלנו.
+          </div>
+        </div>
+      );
+    }
+
+    return cleaned;
   };
 
   const isMoviePage = !!currentMovieId;
