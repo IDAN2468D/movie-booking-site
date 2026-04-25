@@ -130,7 +130,7 @@ export async function GET() {
       
       return {
         id: b._id.toString(),
-        movie: b.movie.title,
+        movie: b.movie.displayTitle || b.movie.title,
         date: new Date(b.createdAt).toLocaleDateString('he-IL', { 
           day: 'numeric', 
           month: 'long', 

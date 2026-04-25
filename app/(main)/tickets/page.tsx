@@ -31,7 +31,7 @@ export default function TicketsPage() {
         const response = await fetch('/api/bookings');
         if (response.ok) {
           const data = await response.json();
-          setTickets(data);
+          setTickets(data.bookings || []);
         }
       } catch (error) {
         console.error('Error fetching tickets:', error);
