@@ -8,6 +8,7 @@ import { useBookingStore } from '@/lib/store';
 import { useSocialStore } from '@/lib/store/social-store';
 import { FOOD_ITEMS, CINEMA_BRANCHES } from '@/lib/constants';
 import { calculateDynamicPrice, getPriceInsights } from '@/lib/utils/pricing-engine';
+import { getImageUrl } from '@/lib/tmdb';
 
 // Modular Components
 import { OrderSummary } from '@/components/checkout/OrderSummary';
