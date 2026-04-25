@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import NextImage from 'next/image';
-import { Ticket, Calendar, Clock, MapPin, QrCode, Share2, Download, Loader2, Mail } from 'lucide-react';
+import { Ticket, Calendar, Clock, MapPin, QrCode, Share2, Download, Loader2, Mail, Sparkles } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 
 interface TicketType {
@@ -14,6 +14,8 @@ interface TicketType {
   seats: string[];
   image: string;
   active: boolean;
+  points?: number; // Added points field
+  total?: number;
 }
 
 export default function TicketsPage() {
@@ -147,6 +149,15 @@ export default function TicketsPage() {
                        <p className="text-xs text-white font-black">{ticket.id}</p>
                      </div>
                   </div>
+                  {ticket.points && (
+                    <div className="flex flex-col items-end gap-1">
+                      <p className="text-[9px] font-black text-primary uppercase tracking-[0.2em]">צברת ברכישה</p>
+                      <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                        <Sparkles size={10} className="text-primary" />
+                        <span className="text-xs text-primary font-black">{ticket.points} נקודות</span>
+                      </div>
+                    </div>
+                  )}
                                     <div className="flex flex-col gap-2">
                     <button 
                       disabled={isLoading}

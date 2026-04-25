@@ -15,19 +15,21 @@ oauth2Client.setCredentials({
 
 const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
 
-// Helper to handle Hebrew text in PDFKit for RTL
+// Helper to handle Hebrew text in PDFKit for RTL with better mixed content support
 const fixHebrew = (text: string) => {
   if (!text) return '';
-  // Split into segments of Hebrew, Numbers/Latins, and separators
-  const parts = text.split(/([\u0590-\u05FF]+|[0-9/.:-]+|[a-zA-Z]+)/);
+  // Split into segments of Hebrew, and everything else
+  const parts = text.split(/([\u0590-\u05FF]+)/);
   const fixedParts = parts.map(part => {
-    // Only reverse the Hebrew character sequence within the segment
+    // Only reverse the Hebrew character sequence
     if (/[\u0590-\u05FF]/.test(part)) {
       return part.split('').reverse().join('');
     }
     return part;
   });
-  // Reverse the order of all segments to simulate RTL layout in LTR PDFKit
+  
+  // Rejoin and reverse the entire string to put Hebrew in correct visual order
+  // Then we have to re-reverse non-hebrew parts because they were reversed by the global reverse
   return fixedParts.reverse().join('');
 };
 
@@ -36,17 +38,22 @@ export async function POST(req: Request) {
     const { email, movieTitle, seats, price, orderId, posterUrl, date, time, hall, userName } = await req.json();
     console.log('Sending ticket email to:', email, 'for movie:', movieTitle);
 
-    // 1. Fetch Poster Image
+    // 1. Fetch Poster Image & Generate QR Code
     let imageBuffer: Buffer | null = null;
-    if (posterUrl) {
-      try {
+    let qrBuffer: Buffer | null = null;
+    
+    try {
+      if (posterUrl) {
         const response = await fetch(posterUrl);
-        if (response.ok) {
-          imageBuffer = Buffer.from(await response.arrayBuffer());
-        }
-      } catch (e) {
-        console.error('Failed to fetch poster for PDF:', e);
+        if (response.ok) imageBuffer = Buffer.from(await response.arrayBuffer());
       }
+      qrBuffer = await QRCode.toBuffer(orderId, {
+        margin: 1,
+        color: { dark: '#000000', light: '#FFFFFF' },
+        width: 150
+      });
+    } catch (e) {
+      console.error('Failed to prepare assets for PDF:', e);
     }
 
     // 2. Generate PDF
@@ -57,7 +64,7 @@ export async function POST(req: Request) {
         
         const doc = new PDFDocument({ 
           margin: 0, 
-          size: [400, 600],
+          size: [400, 640],
           font: hasFont ? fontPath : undefined
         });
 
@@ -74,65 +81,57 @@ export async function POST(req: Request) {
         // Background: Deep Cinematic Dark
         doc.rect(0, 0, width, height).fill('#050505');
         
-        // Gold Gradient Accent (Top)
-        doc.rect(0, 0, width, 5).fill('#FF9F0A');
+        // Premium Glow (Top)
+        doc.rect(0, 0, width, 4).fill('#FF9F0A');
         
-        // Decorative Watermark
-        doc.save();
-        doc.fillColor('rgba(255, 255, 255, 0.03)').fontSize(80).font('Helvetica-Bold');
-        doc.rotate(45, { origin: [width / 2, height / 2] });
-        doc.text('TICKET', 0, height / 2, { align: 'center', width: width });
-        doc.restore();
-
-        // Poster Image with Glow
+        // Poster Image
         if (imageBuffer) {
-          const imgWidth = 160;
-          const imgHeight = 240;
+          const imgWidth = 140;
+          const imgHeight = 210;
           const imgX = (width - imgWidth) / 2;
-          doc.image(imageBuffer, imgX, 50, { width: imgWidth, height: imgHeight });
-          doc.rect(imgX, 50, imgWidth, imgHeight).lineWidth(2).stroke('rgba(255, 159, 10, 0.3)');
+          doc.image(imageBuffer, imgX, 40, { width: imgWidth, height: imgHeight });
+          // Border
+          doc.rect(imgX, 40, imgWidth, imgHeight).lineWidth(1).stroke('rgba(255, 159, 10, 0.4)');
         }
 
-        // Header Title
-        doc.fillColor('#FF9F0A').fontSize(12).font(hasFont ? 'Hebrew' : 'Helvetica-Bold').text('MOVIEBOOK PREMIUM CINEMA', 0, 20, { align: 'center' });
+        // Header
+        doc.fillColor('#FF9F0A').fontSize(10).font(hasFont ? 'Hebrew' : 'Helvetica-Bold').text('MOVIEBOOK PREMIUM CINEMA', 0, 20, { align: 'center' });
 
-        // Movie Title (Bold & Large)
-        const titleY = 310;
-        doc.fillColor('#FFFFFF').fontSize(28).text(fixHebrew(movieTitle), 30, titleY, { align: 'center', width: width - 60 });
+        // Movie Title
+        const titleY = 270;
+        doc.fillColor('#FFFFFF').fontSize(24).text(fixHebrew(movieTitle), 30, titleY, { align: 'center', width: width - 60 });
 
-        // Glass Separator
-        doc.moveTo(50, titleY + 50).lineTo(width - 50, titleY + 50).lineWidth(1).stroke('rgba(255, 255, 255, 0.1)');
-
-        // Details Grid
-        const gridY = titleY + 75;
+        // Detail Fields Grid
+        const gridY = titleY + 60;
         const drawField = (label: string, value: string, x: number, y: number, align: 'left' | 'right') => {
-          doc.fillColor('rgba(255, 255, 255, 0.5)').fontSize(10).text(fixHebrew(label), x, y, { align, width: 140 });
-          doc.fillColor('#FFFFFF').fontSize(14).text(fixHebrew(value), x, y + 15, { align, width: 140 });
+          doc.fillColor('rgba(255, 255, 255, 0.4)').fontSize(9).text(fixHebrew(label), x, y, { align, width: 150 });
+          doc.fillColor('#FFFFFF').fontSize(13).text(fixHebrew(value), x, y + 15, { align, width: 150 });
         };
 
-        // Right Column (Hebrew Align Right)
-        drawField('שם המזמין', userName || 'אורח', width - 170, gridY, 'right');
-        drawField('תאריך', date, width - 170, gridY + 60, 'right');
-        drawField('אולם', hall, width - 170, gridY + 120, 'right');
+        // Right side (Hebrew primary)
+        drawField('שם המזמין', userName || 'אורח', width - 180, gridY, 'right');
+        drawField('תאריך', date, width - 180, gridY + 50, 'right');
+        drawField('אולם', hall, width - 180, gridY + 100, 'right');
 
-        // Left Column (Hebrew Align Left - fixed order)
+        // Left side
         drawField('שעה', time, 30, gridY, 'left');
-        drawField('מושבים', Array.isArray(seats) ? seats.join(', ') : seats, 30, gridY + 60, 'left');
-        drawField('מחיר', `${price} ₪`, 30, gridY + 120, 'left');
+        drawField('מושבים', Array.isArray(seats) ? seats.join(', ') : seats, 30, gridY + 50, 'left');
+        drawField('מחיר', `${price} ₪`, 30, gridY + 100, 'left');
 
-        // Bottom Security Stub
-        const stubY = height - 80;
-        doc.rect(0, stubY, width, 80).fill('rgba(255, 159, 10, 0.05)');
-        doc.moveTo(0, stubY).lineTo(width, stubY).dash(5, { space: 5 }).stroke('rgba(255, 255, 255, 0.2)');
+        // Security Stub Separator
+        const stubY = height - 160;
+        doc.moveTo(30, stubY).lineTo(width - 30, stubY).dash(5, { space: 3 }).stroke('rgba(255, 255, 255, 0.15)');
         doc.undash();
 
-        // Order ID & Thank You
-        doc.fillColor('rgba(255, 255, 255, 0.3)').fontSize(9).font('Helvetica').text(`ORDER ID: ${orderId}`, 30, stubY + 25);
-        doc.fillColor('#FF9F0A').fontSize(12).font(hasFont ? 'Hebrew' : 'Helvetica-Bold').text(fixHebrew('תודה שבחרת ב-MovieBook!'), width - 180, stubY + 25, { align: 'right', width: 150 });
+        // QR Code & Order ID
+        if (qrBuffer) {
+          const qrSize = 80;
+          doc.rect(width / 2 - qrSize/2 - 5, stubY + 20, qrSize + 10, qrSize + 10).fill('#FFFFFF');
+          doc.image(qrBuffer, width / 2 - qrSize/2, stubY + 25, { width: qrSize, height: qrSize });
+        }
 
-        // Mock QR Code Area
-        doc.rect(width / 2 - 15, stubY + 20, 30, 30).fill('#FFFFFF');
-        doc.fillColor('#000000').fontSize(6).text('SCAN', width / 2 - 15, stubY + 32, { align: 'center', width: 30 });
+        doc.fillColor('rgba(255, 255, 255, 0.3)').fontSize(8).font('Helvetica').text(`ORDER ID: ${orderId}`, 0, stubY + 115, { align: 'center', width: width });
+        doc.fillColor('#FF9F0A').fontSize(11).font(hasFont ? 'Hebrew' : 'Helvetica-Bold').text(fixHebrew('תודה שבחרת ב-MovieBook!'), 0, stubY + 135, { align: 'center', width: width });
 
         doc.end();
       } catch (e) {

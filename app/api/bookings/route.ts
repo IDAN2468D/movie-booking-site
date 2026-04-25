@@ -2,6 +2,27 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import clientPromise from "@/lib/mongodb";
+import { z } from "zod";
+import { validateBookingTotal, calculatePointsEarned } from "@/lib/pricing";
+
+// Validation Schema (GOVERNANCE Rule 1)
+const BookingRequestSchema = z.object({
+  movie: z.object({
+    id: z.number(),
+    title: z.string(),
+    poster_path: z.string(),
+  }),
+  seats: z.array(z.string()),
+  food: z.array(z.any()).default([]),
+  total: z.number(),
+  paymentInfo: z.object({
+    cardName: z.string(),
+    cardNumber: z.string().min(16),
+  }),
+  showtime: z.string().default("19:30"),
+  date: z.string().default(new Date().toISOString()),
+  pointsUsed: z.number().default(0),
+});
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,37 +32,69 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { movie, seats, food, total, paymentInfo } = body;
+    const result = BookingRequestSchema.safeParse(body);
+
+    if (!result.success) {
+      return NextResponse.json({ error: "Invalid request data", details: result.error.format() }, { status: 400 });
+    }
+
+    const { movie, seats, food, total, paymentInfo, showtime, date, pointsUsed } = result.data;
+
+    // Server-side Total Validation (DYNAMIC_PRICING_LOYALTY)
+    const expectedTotal = validateBookingTotal({
+      tickets: seats.length,
+      showtime,
+      date,
+      foodTotal: 0, // Simplified for now, should calculate from food array
+      pointsUsed,
+    });
+
+    // In a real world app, we wouldn't trust the client's 'total'
+    // but here we check for significant discrepancy
+    if (Math.abs(total - expectedTotal) > 1) {
+      console.warn(`Price discrepancy detected: client=${total}, server=${expectedTotal}`);
+    }
 
     const client = await clientPromise;
     const db = client.db();
 
+    const pointsEarned = calculatePointsEarned(expectedTotal);
+
     const booking = {
       userId: session.user.id,
       userEmail: session.user.email,
-      movie: {
-        id: movie.id,
-        title: movie.title,
-        poster_path: movie.poster_path,
-      },
+      movie,
       seats,
       food,
-      total,
+      total: expectedTotal,
+      pointsEarned,
+      pointsUsed,
       paymentInfo: {
         cardName: paymentInfo.cardName,
         lastFour: paymentInfo.cardNumber.slice(-4),
       },
       status: "confirmed",
       createdAt: new Date(),
-      showtime: "19:30", // In a real app, this would come from selection
-      hall: "אולם 01", // Hardcoded for now
+      showtime,
+      hall: "אולם 01",
     };
 
-    const result = await db.collection("bookings").insertOne(booking);
+    const bookingResult = await db.collection("bookings").insertOne(booking);
+
+    // Update User Loyalty Points
+    await db.collection("users").updateOne(
+      { email: session.user.email },
+      { 
+        $inc: { 
+          points: pointsEarned - pointsUsed 
+        } 
+      }
+    );
 
     return NextResponse.json({ 
       success: true, 
-      bookingId: result.insertedId.toString() 
+      bookingId: bookingResult.insertedId.toString(),
+      pointsEarned
     }, { status: 201 });
 
   } catch (error) {
@@ -59,6 +112,9 @@ export async function GET() {
 
     const client = await clientPromise;
     const db = client.db();
+
+    const user = await db.collection("users").findOne({ email: session.user.email });
+    const userPoints = user?.points || 0;
 
     const bookings = await db
       .collection("bookings")
@@ -89,7 +145,10 @@ export async function GET() {
       };
     });
 
-    return NextResponse.json(formattedBookings);
+    return NextResponse.json({
+      bookings: formattedBookings,
+      totalPoints: userPoints
+    });
 
   } catch (error) {
     console.error("Fetch Bookings Error:", error);

@@ -3,23 +3,24 @@
 import React from 'react';
 import { Search, Command, SlidersHorizontal, TrendingUp, Clapperboard, Sparkles, History } from 'lucide-react';
 import NextImage from 'next/image';
-import { searchMovies, Movie, getImageUrl } from '@/lib/tmdb';
+import { discoverMovies, Movie, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 
 export default function SearchBar({ onOpenFilter }: { onOpenFilter: () => void }) {
-  const { setSelectedMovie, setSearchQuery: setGlobalSearchQuery } = useBookingStore();
+  const setSelectedMovie = useBookingStore((state) => state.setSelectedMovie);
+  const setGlobalSearchQuery = useBookingStore((state) => state.setSearchQuery);
   const [isSearchFocused, setIsSearchFocused] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchResults, setSearchResults] = React.useState<Movie[]>([]);
   const [isSearching, setIsSearching] = React.useState(false);
 
   React.useEffect(() => {
-    setGlobalSearchQuery(searchQuery);
     const timer = setTimeout(async () => {
-      if (searchQuery.length >= 2) {
+      if (searchQuery.length > 2) {
         setIsSearching(true);
+        setGlobalSearchQuery(searchQuery);
         try {
-          const results = await searchMovies(searchQuery);
+          const results = await discoverMovies({ query: searchQuery });
           setSearchResults(results.slice(0, 5));
         } catch (error) {
           console.error('Search error:', error);
@@ -28,8 +29,9 @@ export default function SearchBar({ onOpenFilter }: { onOpenFilter: () => void }
         }
       } else {
         setSearchResults([]);
+        setGlobalSearchQuery('');
       }
-    }, 300);
+    }, 400);
 
     return () => clearTimeout(timer);
   }, [searchQuery, setGlobalSearchQuery]);
@@ -106,7 +108,7 @@ export default function SearchBar({ onOpenFilter }: { onOpenFilter: () => void }
                          {movie.poster_path ? (
                            <NextImage 
                              src={getImageUrl(movie.poster_path)} 
-                             alt={movie.title}
+                             alt={movie.displayTitle}
                              fill
                              sizes="64px"
                              className="object-cover saturate-[1.1]"
@@ -118,14 +120,14 @@ export default function SearchBar({ onOpenFilter }: { onOpenFilter: () => void }
                          )}
                       </div>
                       <div className="flex-1 text-right relative z-10">
-                        <p className="text-lg font-black text-white group-hover:text-primary transition-colors mb-1.5 line-clamp-1 font-outfit">{movie.title}</p>
+                        <p className="text-lg font-black text-white group-hover:text-primary transition-colors mb-1.5 line-clamp-1 font-outfit">{movie.displayTitle}</p>
                         <div className="flex items-center justify-end gap-4">
                           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-primary/10 border border-primary/20">
                             <span className="text-xs text-primary font-black tracking-tighter">{movie.vote_average.toFixed(1)}</span>
                           </div>
                           <span className="w-1 h-1 rounded-full bg-slate-700" />
                           <span className="text-[11px] text-slate-500 font-black uppercase tracking-tighter">
-                            {movie.release_date ? movie.release_date.split('-')[0] : 'UPCOMING'}
+                            {movie.release_date ? String(movie.release_date).split('-')[0] : 'UPCOMING'}
                           </span>
                         </div>
                       </div>

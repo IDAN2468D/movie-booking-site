@@ -6,9 +6,10 @@ import { motion } from 'framer-motion';
 
 interface RewardStatsProps {
   totalPoints: number;
+  isLoading?: boolean;
 }
 
-export const RewardStats = ({ totalPoints }: RewardStatsProps) => {
+export const RewardStats = ({ totalPoints, isLoading }: RewardStatsProps) => {
   return (
     <div 
       className="relative rounded-[48px] p-12 overflow-hidden border border-white/5 transition-all duration-700"
@@ -36,18 +37,23 @@ export const RewardStats = ({ totalPoints }: RewardStatsProps) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
           <StatBox 
             label="נקודות זמינות" 
-            value={totalPoints.toLocaleString()} 
+            value={isLoading ? '---' : totalPoints.toLocaleString()} 
             sub="+12% החודש" 
             subIcon={<ArrowUpRight size={14} />} 
+            isLoading={isLoading}
           />
          
           <div className="p-8 rounded-[32px] bg-white/5 border border-white/5 backdrop-blur-md">
              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">דירוג נוכחי</p>
-             <p className="text-5xl font-black text-white mb-2 tracking-tighter">זהב</p>
+             {isLoading ? (
+               <div className="h-12 w-24 bg-white/10 rounded-xl animate-pulse mb-2" />
+             ) : (
+               <p className="text-5xl font-black text-white mb-2 tracking-tighter">זהב</p>
+             )}
              <div className="w-full h-1.5 bg-white/10 rounded-full mt-4 overflow-hidden">
                <motion.div 
                  initial={{ width: 0 }}
-                 animate={{ width: '75%' }}
+                 animate={{ width: isLoading ? 0 : '75%' }}
                  transition={{ duration: 1.5, ease: "easeOut" }}
                  className="h-full bg-gradient-to-r from-primary to-orange-300 shadow-[0_0_10px_rgba(255,159,10,0.5)]" 
                />
@@ -61,16 +67,21 @@ export const RewardStats = ({ totalPoints }: RewardStatsProps) => {
             sub="הטבות לכל החיים" 
             subIcon={<TrendingUp size={14} />} 
             subColor="text-green-400"
+            isLoading={isLoading}
           />
       </div>
     </div>
   );
 };
 
-const StatBox = ({ label, value, sub, subIcon, subColor = "text-primary" }: { label: string; value: string; sub: string; subIcon: React.ReactNode; subColor?: string }) => (
+const StatBox = ({ label, value, sub, subIcon, subColor = "text-primary", isLoading }: { label: string; value: string; sub: string; subIcon: React.ReactNode; subColor?: string; isLoading?: boolean }) => (
   <div className="p-8 rounded-[32px] bg-white/5 border border-white/5 backdrop-blur-md hover:bg-white/10 transition-colors">
      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">{label}</p>
-     <p className="text-5xl font-black text-white mb-2 tracking-tighter">{value}</p>
+     {isLoading ? (
+       <div className="h-12 w-full bg-white/10 rounded-xl animate-pulse mb-2" />
+     ) : (
+       <p className="text-5xl font-black text-white mb-2 tracking-tighter">{value}</p>
+     )}
      <div className={`flex items-center gap-1.5 text-xs ${subColor} font-bold justify-start`}>
        {sub} {subIcon}
      </div>

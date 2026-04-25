@@ -32,6 +32,7 @@ export default function RewardsPage() {
   const [showFullHistory, setShowFullHistory] = useState(false);
   const [showAllRewards, setShowAllRewards] = useState(false);
   const [redeemedId, setRedeemedId] = useState<number | null>(null);
+  const [currentPoints, setCurrentPoints] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -39,28 +40,31 @@ export default function RewardsPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
+  const refreshData = async () => {
     if (!session) return;
-    const fetchBookings = async () => {
-      try {
-        const res = await fetch('/api/bookings');
-        if (res.ok) setBookings(await res.json());
-      } catch (err) {
-        console.error('Error fetching bookings:', err);
-      } finally {
-        setIsLoading(false);
+    try {
+      const res = await fetch('/api/bookings');
+      if (res.ok) {
+        const data = await res.json();
+        setBookings(data.bookings || []);
+        setCurrentPoints(data.totalPoints || 0);
       }
-    };
-    fetchBookings();
-  }, [session]);
+    } catch (err) {
+      console.error('Error fetching data:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const totalPoints = bookings.reduce((acc, curr) => acc + (curr.points || 0), 0) + 1500;
+  useEffect(() => {
+    refreshData();
+  }, [session]);
 
   return (
     <div className="p-10 pb-20 text-right" dir="rtl">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 space-y-10">
-          <RewardStats totalPoints={totalPoints} />
+          <RewardStats totalPoints={currentPoints} isLoading={isLoading} />
 
           <div className="space-y-6">
             <div className="flex items-center justify-between px-4 flex-row">
@@ -96,9 +100,12 @@ export default function RewardsPage() {
         setShowAllRewards={setShowAllRewards}
         bookings={bookings}
         rewards={REWARDS_DATA}
-        totalPoints={totalPoints}
+        totalPoints={currentPoints}
         redeemedId={redeemedId}
-        setRedeemedId={setRedeemedId}
+        setRedeemedId={(id) => {
+          setRedeemedId(id);
+          if (id) refreshData(); // Refresh points after redemption
+        }}
       />
     </div>
   );
