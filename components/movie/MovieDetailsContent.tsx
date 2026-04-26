@@ -134,19 +134,19 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
           priority
         />
         {/* Dynamic Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/40 to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-l from-[#0F0F0F]/80 to-transparent hidden md:block z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-l from-[#0A0A0A]/80 to-transparent hidden md:block z-10" />
         <div className="absolute inset-0 bg-black/20 opacity-40 md:hidden z-10" />
 
         {/* Holographic Scanner Line (Liquid Glass 2.0) */}
         <motion.div 
           animate={{ y: ['0%', '1000%', '0%'] }}
           transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-          className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#0AEFFF]/40 to-transparent shadow-[0_0_25px_rgba(10,239,255,0.6)] z-20"
+          className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent shadow-[0_0_25px_rgba(255,20,100,0.6)] z-20"
         />
 
         {/* Premium Refraction Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-cyan-500/5 opacity-30 z-20 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-yellow/5 opacity-30 z-20 pointer-events-none" />
 
         {/* Back Button - Premium Glass */}
         <Link
@@ -185,7 +185,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             {movie.tagline && (
               <p className="text-primary text-xs md:text-sm font-black mb-2 uppercase tracking-widest opacity-90 drop-shadow-lg">&quot;{movie.tagline}&quot;</p>
             )}
-            <h1 className="text-4xl md:text-6xl font-black text-white mb-4 leading-[0.9] tracking-tighter text-glow font-outfit">{movie.title}</h1>
+            <h1 className="text-4xl md:text-6xl font-black text-white mb-4 leading-[0.9] tracking-tighter text-glow font-display uppercase">{movie.title}</h1>
 
             {/* Meta Pills - Scrollable on mobile */}
             <div className="flex overflow-x-auto no-scrollbar gap-2 md:gap-3 mb-6 pb-2 md:pb-0">
@@ -213,7 +213,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                   onClick={handleFavorite}
                   className={`w-10 md:w-12 h-full rounded-full flex items-center justify-center border transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden group ${
                     isFavorite 
-                    ? 'bg-primary border-primary text-background shadow-[0_0_20px_rgba(255,159,10,0.4)]' 
+                    ? 'bg-primary border-primary text-white shadow-[0_0_20px_rgba(255,20,100,0.4)]' 
                     : 'bg-white/5 backdrop-blur-3xl saturate-[200%] border-white/10 text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]'
                   }`}
                 >
@@ -261,14 +261,14 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
               {/* Main Booking Action - High Depth & Glow */}
               <motion.button
                 data-testid="book-now-button"
-                whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 40px rgba(255,159,10,0.4)' }}
+                whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 40px rgba(255,20,100,0.4)' }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleBook}
-                className="flex-1 h-14 md:h-16 bg-gradient-to-br from-primary via-[#FF7A00] to-primary text-background rounded-[1.25rem] font-black flex items-center justify-center gap-3 transition-all shadow-[0_15px_40px_rgba(255,159,10,0.4)] relative overflow-hidden group border border-white/10"
+                className="flex-1 h-14 md:h-16 bg-gradient-to-br from-primary via-yellow/20 to-primary text-white rounded-[1.25rem] font-black flex items-center justify-center gap-3 transition-all shadow-[0_15px_40px_rgba(255,20,100,0.4)] relative overflow-hidden group border border-white/10"
               >
                 <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.3),transparent)] -translate-x-full group-hover:animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
                 <Ticket size={22} className="relative z-10 group-hover:rotate-12 transition-transform" />
-                <span className="relative z-10 text-sm md:text-lg uppercase tracking-[0.1em] drop-shadow-sm">הזמן עכשיו</span>
+                <span className="relative z-10 text-sm md:text-lg uppercase tracking-[0.1em] drop-shadow-sm font-display">הזמן עכשיו</span>
               </motion.button>
             </div>
           </motion.div>
@@ -286,9 +286,9 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             transition={{ delay: 0.4 }}
             className="lg:col-span-2"
           >
-            <h2 className="text-2xl font-black text-white mb-4 flex items-center gap-2">
+            <h2 className="text-2xl font-black text-white mb-4 flex items-center gap-2 font-display uppercase">
               תקציר
-              <div className="w-2 h-2 rounded-full bg-[#FF9F0A]" />
+              <div className="w-2 h-2 rounded-full bg-primary" />
             </h2>
             <p className="text-slate-300 leading-[1.9] text-base font-medium mb-10">
               {movie.overview || 'אין תקציר זמין עבור סרט זה.'}
@@ -308,13 +308,13 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                 <div className="relative z-10">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                     <div className="flex items-center gap-5">
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary/30 to-cyan-500/20 rounded-2xl flex items-center justify-center border border-white/20 shadow-[0_0_40px_rgba(255,159,10,0.2)] relative group-hover:scale-110 transition-transform duration-700">
-                        <Sparkles className="text-primary w-8 h-8 drop-shadow-[0_0_15px_rgba(255,159,10,0.8)]" />
+                      <div className="w-16 h-16 bg-gradient-to-br from-primary/30 to-yellow/20 rounded-2xl flex items-center justify-center border border-white/20 shadow-[0_0_40px_rgba(255,20,100,0.2)] relative group-hover:scale-110 transition-transform duration-700">
+                        <Sparkles className="text-primary w-8 h-8 drop-shadow-[0_0_15px_rgba(255,20,100,0.8)]" />
                         <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                       </div>
                       <div>
                         <p className="text-[10px] text-primary font-black uppercase tracking-[0.4em] mb-1">Advanced Engine</p>
-                        <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter font-outfit">תובנות קולנועיות AI</h3>
+                        <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter font-display uppercase">תובנות קולנועיות AI</h3>
                       </div>
                     </div>
                     
@@ -353,15 +353,15 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                        <div className="relative z-10">
                           <div className="flex justify-between items-end mb-4">
                              <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">עיבוד רגשות וסגנון</p>
-                             <span className="text-2xl font-black text-primary font-outfit tracking-tighter">75%</span>
+                             <span className="text-2xl font-black text-primary font-display tracking-tighter">75%</span>
                           </div>
                           
-                          <div className="h-3 bg-white/5 rounded-full overflow-hidden border border-white/10 p-[1.5px] mb-6">
+                          <div className="h-3 bg-[#0A0A0A]/5 rounded-full overflow-hidden border border-white/10 p-[1.5px] mb-6">
                              <motion.div 
                                initial={{ width: 0 }}
                                whileInView={{ width: '75%' }}
                                transition={{ duration: 2, ease: "easeOut" }}
-                               className="h-full bg-gradient-to-r from-primary via-orange-400 to-primary rounded-full relative shadow-[0_0_15px_rgba(255,159,10,0.5)]"
+                               className="h-full bg-gradient-to-r from-primary via-yellow/40 to-primary rounded-full relative shadow-[0_0_15px_rgba(255,20,100,0.5)]"
                              >
                                 <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent)] animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
                              </motion.div>

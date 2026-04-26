@@ -9,6 +9,7 @@ import { useBookingStore } from '@/lib/store';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
+import LangToggle from './TopBar/LangToggle';
 
 export default function TopBar() {
   const { filters, setFilters } = useBookingStore();
@@ -36,7 +37,7 @@ export default function TopBar() {
                 className="object-cover scale-125 saturate-[1.2]"
               />
             </div>
-            <span className="text-xl font-black text-white tracking-tighter font-outfit leading-none drop-shadow-lg">MOVIEBOOK</span>
+            <span className="text-xl font-black text-white tracking-tighter font-display leading-none drop-shadow-lg">MOVIEBOOK</span>
           </Link>
         )}
 
@@ -65,9 +66,12 @@ export default function TopBar() {
           )}
         </div>
 
-        {/* User Profile - Hidden on mobile search */}
+        {/* User Profile & Lang Toggle - Hidden on mobile search */}
         {!isMobileSearchOpen && (
-          <div className="relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
+          <div className="flex items-center gap-3 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
+            <div className="hidden md:block">
+              <LangToggle />
+            </div>
             <UserProfile />
           </div>
         )}

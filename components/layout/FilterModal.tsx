@@ -50,7 +50,7 @@ export default function FilterModal({
             className="relative w-full max-w-[900px] bg-[#0A0A0A]/80 backdrop-blur-3xl border border-white/10 rounded-[40px] shadow-[0_0_80px_rgba(0,0,0,0.8),inset_0_0_0_1px_rgba(255,255,255,0.05)] overflow-hidden"
           >
             {/* Holographic Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-cyan-500/5 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-yellow/5 pointer-events-none" />
             <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
             <div className="p-8 sm:p-12 relative z-10 max-h-[90vh] overflow-y-auto custom-scrollbar">
@@ -58,12 +58,12 @@ export default function FilterModal({
                 <div className="flex items-center gap-6">
                   <div className="relative group">
                     <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-orange-600 flex items-center justify-center shadow-2xl shadow-primary/20 rotate-3 group-hover:rotate-0 transition-transform duration-500">
-                      <Filter className="text-black" size={24} strokeWidth={2.5} />
+                    <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-yellow flex items-center justify-center shadow-2xl shadow-primary/20 rotate-3 group-hover:rotate-0 transition-transform duration-500">
+                      <Filter className="text-white" size={24} strokeWidth={2.5} />
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-3xl font-black text-white leading-none tracking-tight mb-2 font-outfit text-right">מסנן קולנועי</h3>
+                    <h3 className="text-3xl font-black text-white leading-none tracking-tight mb-2 font-display uppercase text-right">מסנן קולנועי</h3>
                     <div className="flex items-center gap-2 justify-end">
                       <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em]">AI-POWERED OPTIMIZATION</p>
                       <Sparkles size={10} className="text-primary" />
@@ -100,7 +100,7 @@ export default function FilterModal({
                           {g}
                         </span>
                         {selectedGenre !== g && (
-                          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-yellow/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         )}
                       </button>
                     ))}
@@ -116,7 +116,7 @@ export default function FilterModal({
                         דירוג מינימלי
                       </label>
                       <div className="flex items-center gap-1">
-                        <span className="text-xl font-black text-white font-outfit">{minRating}</span>
+                        <span className="text-xl font-black text-white font-display uppercase">{minRating}</span>
                         <span className="text-[10px] text-slate-500 font-bold">.0+</span>
                       </div>
                     </div>
@@ -183,7 +183,7 @@ export default function FilterModal({
                 </button>
                 <button 
                   onClick={onClose}
-                  className="flex-1 w-full py-5 rounded-3xl bg-gradient-to-r from-primary to-orange-600 text-black font-black text-sm shadow-[0_20px_50px_rgba(255,159,10,0.3)] hover:scale-[1.02] hover:shadow-primary/40 active:scale-95 transition-all flex items-center justify-center gap-3 group overflow-hidden relative"
+                  className="flex-1 w-full py-5 rounded-3xl bg-gradient-to-r from-primary to-yellow text-white font-black text-sm shadow-[0_20px_50px_rgba(255,20,100,0.3)] hover:scale-[1.02] hover:shadow-primary/40 active:scale-95 transition-all flex items-center justify-center gap-3 group overflow-hidden relative"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                   <span className="relative z-10">הפעלת מסננים</span>

@@ -53,7 +53,7 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
   return (
     <div className={`relative flex-1 group ${isMobile ? 'w-full' : 'max-w-5xl'}`}>
       <div className={`relative flex items-center transition-all duration-1000 ${isSearchFocused ? 'scale-[1.01]' : ''}`}>
-        <div className={`absolute inset-0 rounded-[28px] transition-all duration-700 bg-gradient-to-r from-primary/30 to-cyan-500/10 opacity-0 ${isSearchFocused ? 'opacity-100 blur-[30px]' : ''}`} />
+        <div className={`absolute inset-0 rounded-[28px] transition-all duration-700 bg-gradient-to-r from-primary/30 to-yellow/10 opacity-0 ${isSearchFocused ? 'opacity-100 blur-[30px]' : ''}`} />
         
         {/* Mobile Back Button */}
         {isMobile && (
@@ -92,7 +92,7 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
             className={`${isMobile ? 'w-9 h-9' : 'w-12 h-12'} flex items-center justify-center rounded-2xl transition-all duration-700 relative overflow-hidden border bg-white/[0.05] text-slate-400 hover:bg-white/10 border-white/10 hover:border-white/20`}
           >
             <SlidersHorizontal size={isMobile ? 16 : 20} className="relative z-10 transition-transform duration-700 group-hover/filter:rotate-[20deg]" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/0 via-primary/10 to-cyan-500/5 opacity-0 group-hover/filter:opacity-100 transition-opacity duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/0 via-primary/10 to-yellow/5 opacity-0 group-hover/filter:opacity-100 transition-opacity duration-700" />
           </button>
         </div>
       </div>
@@ -138,7 +138,7 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
                          )}
                       </div>
                       <div className="flex-1 text-right relative z-10">
-                        <p className={`${isMobile ? 'text-sm' : 'text-lg'} font-black text-white group-hover:text-primary transition-colors mb-1 line-clamp-1 font-outfit`}>{movie.displayTitle}</p>
+                        <p className={`${isMobile ? 'text-sm' : 'text-lg'} font-black text-white group-hover:text-primary transition-colors mb-1 line-clamp-1 font-display uppercase`}>{movie.displayTitle}</p>
                         <div className="flex items-center justify-end gap-3">
                           <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20">
                             <span className="text-[10px] text-primary font-black">{movie.vote_average.toFixed(1)}</span>
@@ -159,13 +159,13 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
             </div>
           ) : (
             <div className={`flex flex-col ${isMobile ? 'gap-6' : 'gap-10'}`}>
-              <div className={`${isMobile ? 'p-4' : 'p-6'} rounded-[24px] bg-gradient-to-r from-primary/15 via-primary/5 to-cyan-500/5 border border-primary/30 relative overflow-hidden group`}>
+              <div className={`${isMobile ? 'p-4' : 'p-6'} rounded-[24px] bg-gradient-to-r from-primary/15 via-primary/5 to-yellow/5 border border-primary/30 relative overflow-hidden group`}>
                 <div className="flex items-center gap-4">
                   <div className={`${isMobile ? 'w-10 h-10' : 'w-14 h-14'} rounded-xl bg-primary/10 backdrop-blur-2xl flex items-center justify-center border border-primary/20`}>
                     <Sparkles size={isMobile ? 20 : 28} className="text-primary" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-white group-hover:text-primary transition-colors tracking-tight font-outfit">
+                    <p className="text-[10px] font-black text-white group-hover:text-primary transition-colors tracking-tight font-display uppercase">
                       מנוע ההמלצות החדש מוכן!
                     </p>
                   </div>

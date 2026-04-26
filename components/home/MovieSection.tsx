@@ -33,13 +33,13 @@ export default function MovieSection({ title, movies, onSeeAll }: MovieSectionPr
         animate={{ opacity: 1, x: 0 }}
         className="flex items-center justify-between mb-6 px-4"
       >
-        <h2 className="text-xl md:text-2xl font-black text-white tracking-tight flex items-center gap-2 font-outfit">
+        <h2 className="text-xl md:text-2xl font-black text-white tracking-tight flex items-center gap-2 font-display uppercase">
           {title}
-          <div className="w-1.5 h-1.5 rounded-full bg-[#FF9F0A] shadow-[0_0_10px_rgba(255,159,10,0.5)]" />
+          <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(255,20,100,0.5)]" />
         </h2>
         <button 
           onClick={onSeeAll}
-          className="text-xs font-black text-slate-500 hover:text-[#FF9F0A] transition-all flex items-center gap-1 group uppercase tracking-widest"
+          className="text-xs font-black text-slate-500 hover:text-primary transition-all flex items-center gap-1 group uppercase tracking-widest"
         >
           ראה הכל
           <ChevronRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
