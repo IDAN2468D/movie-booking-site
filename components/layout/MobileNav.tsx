@@ -43,11 +43,11 @@ export default function MobileNav() {
                 />
               )}
               
-              <div className="relative z-10 flex flex-col items-center gap-1.5 pt-1">
-                <div className={`relative transition-all duration-500 ${isActive ? 'scale-110 -translate-y-1' : 'opacity-40 group-hover:opacity-100'}`}>
+              <div className="relative z-10 flex flex-col items-center justify-center">
+                <div className={`relative transition-all duration-500 ${isActive ? 'scale-125 -translate-y-0.5' : 'opacity-40 hover:opacity-100'}`}>
                   <Icon 
-                    size={22} 
-                    className={`${isActive ? 'text-primary drop-shadow-[0_0_15px_rgba(255,159,10,0.8)]' : 'text-white'}`}
+                    size={24} 
+                    className={`${isActive ? 'text-primary drop-shadow-[0_0_20px_rgba(255,159,10,0.8)]' : 'text-white'}`}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
                   
@@ -55,16 +55,10 @@ export default function MobileNav() {
                   {isActive && (
                     <motion.div 
                       layoutId="activeAura"
-                      className="absolute inset-0 bg-primary/20 blur-md rounded-full -z-10"
+                      className="absolute inset-0 bg-primary/20 blur-xl rounded-full -z-10"
                     />
                   )}
                 </div>
-                
-                <span className={`text-[9px] font-black uppercase tracking-[0.2em] font-outfit transition-all duration-500 ${
-                  isActive ? 'text-primary opacity-100' : 'text-slate-500 opacity-40'
-                }`}>
-                  {item.label}
-                </span>
               </div>
 
               {isActive && (

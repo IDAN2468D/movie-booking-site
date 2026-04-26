@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import NextImage from 'next/image';
 import { Ticket, Calendar, Clock, MapPin, QrCode, Share2, Download, Loader2, Mail, Sparkles, Bot } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { motion } from 'framer-motion';
 
 interface TicketType {
   id: string;
@@ -56,234 +57,194 @@ export default function TicketsPage() {
   }
 
   return (
-    <div className="p-10 pb-20 text-right">
-      <div className="mb-12">
-        <h1 className="text-4xl font-black text-white tracking-tighter mb-2">הכרטיסים <span className="text-primary">שלי</span></h1>
-        <p className="text-slate-400 font-medium">המסעות הקולנועיים הקרובים והקודמים שלך</p>
+    <div className="min-h-screen pb-32 px-4 md:px-10 pt-10 text-right overflow-x-hidden bg-background">
+      {/* Header Section - Premium Glass */}
+      <div className="mb-16 relative">
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="relative z-10"
+        >
+          <div className="flex items-center gap-4 mb-4 justify-end">
+            <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center border border-primary/30 shadow-[0_0_20px_rgba(255,159,10,0.2)]">
+               <Ticket className="text-primary w-6 h-6" />
+            </div>
+            <p className="text-[10px] md:text-xs text-primary font-black uppercase tracking-[0.4em]">Personal Cinema Collection</p>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4 font-outfit">
+             הכרטיסים <span className="text-primary drop-shadow-[0_0_20px_rgba(255,159,10,0.4)]">שלי</span>
+          </h1>
+          <p className="text-sm md:text-base text-slate-400 font-medium max-w-xl mr-auto md:mr-0">
+             המסעות הקולנועיים הקרובים והקודמים שלך, מעובדים ומאובטחים במנוע ה-AI של MovieBook.
+          </p>
+        </motion.div>
+        
+        {/* Decorative background glow */}
+        <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
       </div>
 
       {!session ? (
-        <div className="min-h-[40vh] glass rounded-[48px] flex flex-col items-center justify-center p-12 text-center border border-white/5 bg-white/5 backdrop-blur-2xl">
-          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6 border border-primary/20">
-            <Bot size={32} className="text-primary" />
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-2xl mx-auto min-h-[450px] relative group"
+        >
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-cyan-500/10 to-primary/20 rounded-[48px] blur-2xl opacity-50" />
+          <div className="relative h-full bg-black/40 backdrop-blur-[60px] saturate-[200%] rounded-[48px] flex flex-col items-center justify-center p-12 text-center border border-white/20 shadow-[0_40px_80px_rgba(0,0,0,0.7)]">
+            <div className="w-24 h-24 bg-gradient-to-br from-primary/30 to-orange-500/10 rounded-3xl flex items-center justify-center mb-8 border border-white/10 shadow-[0_15px_35px_rgba(255,159,10,0.3)]">
+              <Bot size={48} className="text-primary drop-shadow-[0_0_15px_rgba(255,159,10,0.8)]" />
+            </div>
+            <h2 className="text-3xl font-black text-white mb-4 tracking-tighter font-outfit">חבר את הפרופיל שלך</h2>
+            <p className="text-slate-400 mb-10 max-w-sm leading-relaxed">עליך להתחבר כדי שנוכל לאחזר את הכרטיסים וההטבות הממתינות לך במערכת ה-AI שלנו.</p>
+            <button 
+              onClick={() => window.location.href = '/login'}
+              className="px-12 py-5 bg-primary text-background font-black rounded-2xl shadow-[0_20px_40px_rgba(255,159,10,0.3)] hover:scale-105 active:scale-95 transition-all uppercase tracking-[0.2em] text-xs font-outfit"
+            >
+              התחבר למערכת
+            </button>
           </div>
-          <h2 className="text-2xl font-black text-white mb-2">עליך להתחבר כדי לצפות בכרטיסים</h2>
-          <p className="text-slate-500 mb-8 max-w-xs">התחבר לחשבון שלך כדי לראות את כל ההזמנות והכרטיסים הדיגיטליים שלך.</p>
-          <button 
-            onClick={() => window.location.href = '/login'}
-            className="px-8 py-4 bg-primary text-background font-black rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all uppercase tracking-widest text-xs"
-          >
-            התחבר עכשיו
-          </button>
-        </div>
+        </motion.div>
       ) : tickets.length === 0 ? (
-        <div className="min-h-[40vh] glass rounded-[48px] flex flex-col items-center justify-center p-12 text-center border border-white/5">
-          <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
-            <Ticket size={32} className="text-slate-600" />
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-2xl mx-auto min-h-[400px] relative group"
+        >
+          <div className="absolute -inset-1 bg-gradient-to-r from-white/5 to-white/[0.02] rounded-[48px] blur-xl opacity-50" />
+          <div className="relative h-full bg-black/40 backdrop-blur-[60px] saturate-[200%] rounded-[48px] flex flex-col items-center justify-center p-12 text-center border border-white/10">
+            <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mb-8 border border-white/10">
+              <Ticket size={40} className="text-slate-600" />
+            </div>
+            <h2 className="text-2xl font-black text-white mb-2 tracking-tight">עדיין אין כרטיסים באוסף</h2>
+            <p className="text-slate-500 mb-8 max-w-xs leading-relaxed">הזמן את הסרט הבא שלך והוא יופיע כאן ככרטיס דיגיטלי יוקרתי ומאובטח.</p>
+            <button 
+              onClick={() => window.location.href = '/'}
+              className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-black rounded-2xl border border-white/10 transition-all uppercase tracking-widest text-xs"
+            >
+              גלה סרטים חדשים
+            </button>
           </div>
-          <h2 className="text-2xl font-bold text-white mb-2">אין לך כרטיסים עדיין</h2>
-          <p className="text-slate-500 mb-8 max-w-xs">כשתזמין כרטיסים לסרטים, הם יופיעו כאן בצורה מסודרת.</p>
-        </div>
+        </motion.div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
-          {tickets.map((ticket) => (
-          <div key={ticket.id} className={`relative flex flex-col group transition-all duration-700 ${ticket.active ? 'hover:-translate-y-2' : 'opacity-60 grayscale-[0.5]'}`}>
-            
-            {/* Top Section: Movie Art */}
-            <div className="relative h-[480px] rounded-t-[48px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-16">
+          {tickets.map((ticket, index) => (
+          <motion.div 
+            key={ticket.id} 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className={`relative flex flex-col group transition-all duration-700 ${ticket.active ? 'hover:-translate-y-4' : 'opacity-60 grayscale-[0.5] filter'}`}
+          >
+            {/* Top Section: Movie Art (The Ticket Head) */}
+            <div className="relative h-[420px] md:h-[480px] rounded-t-[48px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.8)] z-10 border-t border-x border-white/20">
               <NextImage 
                 src={ticket.image} 
                 alt={ticket.movie} 
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 saturate-[1.2]" 
               />
               
-              {/* Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700" />
+              {/* Premium Overlays */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
               
-              {/* Badge */}
+              {/* Holographic Label */}
               {ticket.active && (
-                <div className="absolute top-8 left-8 px-5 py-2.5 bg-[#FF9F0A] rounded-full text-[10px] font-black text-background uppercase tracking-[0.3em] shadow-[0_0_20px_rgba(255,159,10,0.5)] animate-pulse">
-                  כרטיס פרמיירה
+                <div className="absolute top-10 left-1/2 -translate-x-1/2 px-6 py-2.5 bg-primary/20 backdrop-blur-3xl border border-primary/40 rounded-full text-[9px] font-black text-primary uppercase tracking-[0.4em] shadow-[0_0_30px_rgba(255,159,10,0.3)] flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                  Premiere Access 2026
                 </div>
               )}
 
               {/* Movie Info Overlay */}
-              <div className="absolute bottom-8 right-8 left-8 text-right">
-                <p className="text-[10px] font-black text-[#FF9F0A] uppercase tracking-[0.4em] mb-2 drop-shadow-lg">עכשיו במוקד הקולנועי 2026</p>
-                <h2 className="text-3xl font-black text-white tracking-tight leading-none drop-shadow-2xl">{ticket.movie}</h2>
+              <div className="absolute bottom-10 right-10 left-10 text-right">
+                <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-3 drop-shadow-[0_0_10px_rgba(255,159,10,0.5)]">חווית צפייה אופטימלית</p>
+                <h2 className="text-4xl font-black text-white tracking-tighter leading-none drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] font-outfit">{ticket.movie}</h2>
               </div>
             </div>
 
-            {/* Middle Section: Perforated Connector */}
-            <div className="relative h-12 bg-[#1A1A1A] flex items-center justify-center overflow-hidden">
-               {/* Notches */}
-               <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#0F0F0F] rounded-full shadow-inner" />
-               <div className="absolute -right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#0F0F0F] rounded-full shadow-inner" />
-               
-               {/* Perforation Line */}
-               <div className="w-full h-[2px] border-t-2 border-dashed border-white/10 px-8 mx-6" />
+            {/* Middle Section: Perforated Connector (Tactile Stub) */}
+            <div className="relative h-14 bg-black/60 backdrop-blur-3xl flex items-center justify-center overflow-hidden border-x border-white/20">
+               <div className="absolute -left-7 top-1/2 -translate-y-1/2 w-14 h-14 bg-background rounded-full shadow-[inset_-10px_0_15px_rgba(0,0,0,0.5)] border-r border-white/10" />
+               <div className="absolute -right-7 top-1/2 -translate-y-1/2 w-14 h-14 bg-background rounded-full shadow-[inset_10px_0_15px_rgba(0,0,0,0.5)] border-l border-white/10" />
+               <div className="w-[85%] h-[1px] border-t-2 border-dashed border-white/20 opacity-40" />
             </div>
 
-            {/* Bottom Section: Ticket Stub */}
-            <div className="bg-[#1A1A1A] rounded-b-[48px] p-8 border-x border-b border-white/5 shadow-2xl relative text-right">
-               <div className="grid grid-cols-2 gap-8 mb-10">
-                  <div className="space-y-1.5">
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 justify-start">
-                      <Calendar size={12} className="text-[#FF9F0A]" /> תאריך
+            {/* Bottom Section: Ticket Stub (The Info Base) */}
+            <div className="bg-black/60 backdrop-blur-[50px] saturate-[200%] rounded-b-[48px] p-10 border-x border-b border-white/20 shadow-[0_40px_80px_rgba(0,0,0,0.6)] relative text-right">
+               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-cyan-500/5 opacity-50 pointer-events-none" />
+
+               <div className="grid grid-cols-2 gap-y-10 gap-x-6 mb-12 relative z-10">
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 justify-end">
+                      תאריך <Calendar size={12} className="text-primary" />
                     </p>
-                    <p className="text-sm text-white font-bold">{ticket.date}</p>
+                    <p className="text-base text-white font-black font-outfit">{ticket.date}</p>
                   </div>
-                  <div className="space-y-1.5">
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 justify-start">
-                      <Clock size={12} className="text-[#FF9F0A]" /> שעה
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 justify-end">
+                      שעה <Clock size={12} className="text-primary" />
                     </p>
-                    <p className="text-sm text-white font-bold">{ticket.time}</p>
+                    <p className="text-base text-white font-black font-outfit">{ticket.time}</p>
                   </div>
-                  <div className="space-y-1.5">
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 justify-start">
-                      <MapPin size={12} className="text-[#FF9F0A]" /> אולם
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 justify-end">
+                      אולם <MapPin size={12} className="text-primary" />
                     </p>
-                    <p className="text-sm text-white font-bold">{ticket.hall}</p>
+                    <p className="text-base text-white font-black font-outfit">{ticket.hall}</p>
                   </div>
-                  <div className="space-y-1.5">
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 justify-start">
-                      <Ticket size={12} className="text-[#FF9F0A]" /> מושבים
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2 justify-end">
+                      מושבים <Ticket size={12} className="text-primary" />
                     </p>
-                    <p className="text-sm text-white font-bold">{ticket.seats.join(', ')}</p>
+                    <p className="text-base text-white font-black font-outfit tracking-tighter">{ticket.seats.join(', ')}</p>
                   </div>
                </div>
 
-               <div className="flex items-center justify-between gap-6 pt-8 border-t border-white/5">
-                  <div className="flex items-center gap-4">
-                     <div className="p-3 bg-white rounded-[20px] shadow-2xl group-hover:scale-105 transition-transform duration-500">
-                       <QrCode size={40} className="text-black" />
+               <div className="flex flex-col sm:flex-row items-center justify-between gap-8 pt-10 border-t border-white/10 relative z-10">
+                  <div className="flex items-center gap-5 w-full sm:w-auto">
+                     <div className="p-4 bg-white rounded-3xl shadow-[0_0_30px_rgba(255,255,255,0.2)] group-hover:scale-110 transition-transform duration-700 relative overflow-hidden">
+                       <QrCode size={56} className="text-black relative z-10" />
+                       <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/20 transition-colors" />
                      </div>
                      <div className="text-right">
-                       <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] mb-0.5">מזהה אימות</p>
-                       <p className="text-xs text-white font-black">{ticket.id}</p>
+                       <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] mb-1">מזהה כרטיס</p>
+                       <p className="text-xs text-white font-black tracking-widest">{ticket.id.substring(0, 12)}...</p>
                      </div>
                   </div>
-                  {ticket.points && (
-                    <div className="flex flex-col items-end gap-1">
-                      <p className="text-[9px] font-black text-primary uppercase tracking-[0.2em]">צברת ברכישה</p>
-                      <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-                        <Sparkles size={10} className="text-primary" />
-                        <span className="text-xs text-primary font-black">{ticket.points} נקודות</span>
-                      </div>
-                    </div>
-                  )}
-                                    <div className="flex flex-col gap-2">
+                  
+                  <div className="flex flex-row gap-3 w-full sm:w-auto justify-end">
                     <button 
-                      disabled={isLoading}
-                      onClick={async () => {
-                        if (!session?.user?.email) return;
-                        try {
-                          const res = await fetch('/api/send-ticket', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                              email: session.user.email,
-                              movieTitle: ticket.movie,
-                              seats: ticket.seats,
-                              price: ticket.total || (ticket.seats.length * 45),
-                              orderId: ticket.id,
-                              posterUrl: ticket.image,
-                              date: ticket.date,
-                              time: ticket.time,
-                              hall: ticket.hall,
-                              userName: session.user.name || 'אורח'
-                            }),
-                          });
-                          
-                          const data = await res.json();
-                          if (res.ok && data.success) {
-                            alert('הכרטיס נשלח שוב למייל שלך!');
-                          } else {
-                            const errorMsg = data.error || 'תקלה לא ידועה';
-                            alert(`נכשלנו בשליחת המייל: ${errorMsg}`);
-                            console.error('Email failure details:', data);
-                          }
-                        } catch (err) {
-                          console.error('Fetch error:', err);
-                          alert('שגיאת תקשורת בשליחת המייל.');
-                        }
-                      }}
-                      className="p-3 rounded-2xl bg-white/5 text-slate-400 hover:text-[#FF9F0A] hover:bg-white/10 transition-all disabled:opacity-50"
-                      title="שלח שוב למייל"
+                      className="p-4 rounded-2xl bg-white/5 text-slate-400 hover:text-primary hover:bg-white/10 border border-white/5 transition-all active:scale-90"
+                      title="שלח למייל"
                     >
-                      <Mail size={18} />
+                      <Mail size={20} />
                     </button>
                     <button 
-                      onClick={() => {
-                        if (navigator.share) {
-                          navigator.share({
-                            title: `כרטיס ל${ticket.movie}`,
-                            text: `היי! הזמנתי כרטיסים ל${ticket.movie} ב${ticket.date} בשעה ${ticket.time}. בואו איתי!`,
-                            url: window.location.href,
-                          });
-                        } else {
-                          navigator.clipboard.writeText(window.location.href);
-                          alert('הקישור הועתק ללוח!');
-                        }
-                      }}
-                      className="p-3 rounded-2xl bg-white/5 text-slate-400 hover:text-[#FF9F0A] hover:bg-white/10 transition-all"
+                      className="p-4 rounded-2xl bg-white/5 text-slate-400 hover:text-primary hover:bg-white/10 border border-white/5 transition-all active:scale-90"
                     >
-                      <Share2 size={18} />
+                      <Share2 size={20} />
                     </button>
                     <button 
-                      onClick={async () => {
-                        try {
-                          const res = await fetch('/api/download-ticket', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                              movieTitle: ticket.movie,
-                              seats: ticket.seats,
-                              price: ticket.seats.length * 45,
-                              orderId: ticket.id,
-                              date: ticket.date,
-                              time: ticket.time,
-                              hall: ticket.hall,
-                              userName: session?.user?.name || 'אורח',
-                              posterUrl: ticket.image
-                            }),
-                          });
-                          if (res.ok) {
-                            const blob = await res.blob();
-                            const url = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = `ticket-${ticket.id}.pdf`;
-                            document.body.appendChild(a);
-                            a.click();
-                            a.remove();
-                          } else {
-                            alert('נכשלנו בהורדת ה-PDF.');
-                          }
-                        } catch (err) {
-                          console.error(err);
-                          alert('שגיאה בהורדת ה-PDF.');
-                        }
-                      }}
-                      className="p-3 rounded-2xl bg-white/5 text-slate-400 hover:text-[#FF9F0A] hover:bg-white/10 transition-all"
-                      title="הורד כרטיס PDF"
+                      className="p-4 rounded-2xl bg-primary text-background hover:bg-orange-400 transition-all shadow-[0_10px_20px_rgba(255,159,10,0.2)] active:scale-90"
+                      title="הורד PDF"
                     >
-                      <Download size={18} />
+                      <Download size={20} />
                     </button>
                   </div>
                </div>
 
-               {/* Holographic Security Label */}
-               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-6 py-1 bg-gradient-to-r from-transparent via-white/5 to-transparent text-[8px] text-slate-700 font-black tracking-[0.5em] uppercase whitespace-nowrap">
-                  נכס דיגיטלי מאובטח • 2026
+               {/* Holographic Security Label - Floating */}
+               <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-8 py-2 bg-black/40 backdrop-blur-3xl border border-white/10 rounded-full flex items-center gap-3 shadow-2xl">
+                  <Sparkles size={10} className="text-primary animate-pulse" />
+                  <span className="text-[8px] text-slate-400 font-black tracking-[0.4em] uppercase">
+                     Digital Asset Secured by MovieBook AI • 2026
+                  </span>
                </div>
             </div>
-          </div>
-        ))}
-      </div>
+          </motion.div>
+          ))}
+        </div>
       )}
     </div>
   );

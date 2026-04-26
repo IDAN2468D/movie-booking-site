@@ -221,3 +221,22 @@ export async function getMovieVideos(id: number): Promise<VideoResult[]> {
       return 0;
     });
 }
+// --- Reviews ---
+
+export interface TMDBReview {
+  id: string;
+  author: string;
+  content: string;
+  created_at: string;
+  author_details: {
+    name: string;
+    username: string;
+    avatar_path: string | null;
+    rating: number | null;
+  };
+}
+
+export async function getMovieReviews(id: number): Promise<TMDBReview[]> {
+  const data = await fetchFromTMDB<{ results: TMDBReview[] }>(`/movie/${id}/reviews`);
+  return data.results || [];
+}

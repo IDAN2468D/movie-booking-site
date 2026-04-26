@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Share2, Headphones, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Headphones, Sparkles, Loader2 } from 'lucide-react';
 import { MovieDetails, CastMember, CrewMember, Movie, VideoResult, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import MovieCastSection from './MovieCastSection';
@@ -14,6 +14,8 @@ import TrailerModal from './TrailerModal';
 import MovieInfographic from './MovieInfographic';
 import MovieTrivia from './MovieTrivia';
 import { useUIStore } from '@/lib/store/ui-store';
+import ReviewsSection from './ReviewsSection';
+import { TMDBReview } from '@/lib/tmdb';
 
 interface Props {
   movie: MovieDetails;
@@ -21,6 +23,7 @@ interface Props {
   director: CrewMember | null;
   similarMovies: Movie[];
   videos: VideoResult[];
+  tmdbReviews?: TMDBReview[];
 }
 
 const LANG_MAP: Record<string, string> = {
@@ -40,7 +43,7 @@ function formatCurrency(amount: number): string {
   return '$' + amount.toLocaleString('en-US');
 }
 
-export default function MovieDetailsContent({ movie, cast, director, similarMovies, videos }: Props) {
+export default function MovieDetailsContent({ movie, cast, director, similarMovies, videos, tmdbReviews }: Props) {
   const router = useRouter();
   const { setSelectedMovie, favorites, toggleFavorite } = useBookingStore();
   const { setMovieContext } = useUIStore();
@@ -96,18 +99,6 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
     router.push('/branches');
   };
 
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: movie.title,
-        text: `בדוק את הסרט הזה: ${movie.title}`,
-        url: window.location.origin + `/movie/${movie.id}`,
-      });
-    } else {
-      alert('השיתוף אינו נתמך בדפדפן זה. הקישור הועתק ללוח.');
-      navigator.clipboard.writeText(window.location.origin + `/movie/${movie.id}`);
-    }
-  };
 
   const handleFavorite = () => {
     toggleFavorite({
@@ -379,6 +370,13 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
 
         {/* Cast */}
         <MovieCastSection cast={cast} />
+
+        {/* Reviews Section */}
+        <ReviewsSection 
+          movieId={movie.id} 
+          movieTitle={movie.title} 
+          tmdbReviews={tmdbReviews}
+        />
 
         {/* Similar Movies */}
         {similarMovies.length > 0 && <MovieSimilarSection movies={similarMovies} />}
