@@ -1,10 +1,11 @@
 import { create } from 'zustand';
+import { Movie } from '@/lib/tmdb';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   type?: 'text' | 'booking-wizard';
-  movieData?: any;
+  movieData?: Movie;
   timestamp: number;
 }
 
@@ -16,7 +17,7 @@ interface UIState {
   isThinking: boolean;
   
   toggleConcierge: () => void;
-  addMessage: (content: string, role: 'user' | 'assistant', type?: 'text' | 'booking-wizard', movieData?: any) => void;
+  addMessage: (content: string, role: 'user' | 'assistant', type?: 'text' | 'booking-wizard', movieData?: Movie) => void;
   setThinking: (val: boolean) => void;
   setMovieContext: (movieId?: number, movieTitle?: string) => void;
   currentMovieId?: number;

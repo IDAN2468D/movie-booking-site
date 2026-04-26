@@ -191,10 +191,14 @@ const ModalWrapper = ({ children, onClose, title, subtitle }: { children: React.
     >
       <div className="p-10 border-b border-white/5 flex items-center justify-between flex-row">
         <div>
-          <h2 className="text-2xl font-black text-white">{title}</h2>
+          <h2 data-testid="modal-title" className="text-2xl font-black text-white">{title}</h2>
           {subtitle && <p className="text-xs text-slate-500 font-medium mt-1">{subtitle}</p>}
         </div>
-        <button onClick={onClose} className="p-3 hover:bg-white/10 rounded-2xl text-slate-500 transition-all hover:text-white">
+        <button 
+          data-testid="close-modal"
+          onClick={onClose} 
+          className="p-3 hover:bg-white/10 rounded-2xl text-slate-500 transition-all hover:text-white"
+        >
           <X size={24} />
         </button>
       </div>

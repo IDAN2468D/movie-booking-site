@@ -135,7 +135,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-r from-transparent via-white/10 to-transparent mix-blend-overlay"
       />
 
-      <Link href={`/movie/${movie.id}`} className="block">
+      <Link href={`/movie/${movie.id}`} className="block" data-testid="movie-link">
         <div className="aspect-[2/3] relative w-full overflow-hidden" style={{ transform: 'translateZ(20px)' }}>
           <Image
             src={getImageUrl(movie.poster_path)}

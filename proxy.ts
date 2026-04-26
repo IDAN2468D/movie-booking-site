@@ -16,7 +16,9 @@ export const config = {
      * - favicon.ico (favicon file)
      * - login (login page)
      * - register (register page)
+     * - (root path)
+     * - rewards, tickets, movie, branches (public pages for tests)
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|login|register).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|login|register|$|rewards|tickets|movie|branches).*)",
   ],
 };

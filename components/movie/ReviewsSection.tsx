@@ -240,7 +240,7 @@ export default function ReviewsSection({ movieId, movieTitle, tmdbReviews = [] }
               <p className="text-slate-400 font-black tracking-widest text-xs uppercase">טוען ביקורות...</p>
             </div>
           ) : reviews.length > 0 ? (
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence>
               {reviews.map((review, idx) => (
                 <motion.div
                   key={review.id}

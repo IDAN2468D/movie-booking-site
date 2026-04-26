@@ -49,12 +49,18 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   const { setMovieContext } = useUIStore();
   const [showTrailer, setShowTrailer] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const isFavorite = favorites.some(m => m.id === movie.id);
 
   React.useEffect(() => {
+    setMounted(true);
     setMovieContext(movie.id, movie.title);
     return () => setMovieContext(undefined, undefined);
   }, [movie.id, movie.title, setMovieContext]);
+
+  if (!mounted) {
+    return <div className="min-h-screen bg-[#0F0F0F] animate-pulse" />;
+  }
 
   const handleGenerateAudioGuide = async () => {
     if (isGeneratingAudio) return;
@@ -254,6 +260,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
               
               {/* Main Booking Action - High Depth & Glow */}
               <motion.button
+                data-testid="book-now-button"
                 whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 40px rgba(255,159,10,0.4)' }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleBook}
@@ -323,10 +330,10 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                   <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
                     <div className="lg:col-span-3 space-y-6">
                        <div className="space-y-3">
-                          <p className="text-xs text-primary font-black uppercase tracking-[0.2em] flex items-center gap-2">
+                          <div className="text-xs text-primary font-black uppercase tracking-[0.2em] flex items-center gap-2">
                              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                              למה כדאי לצפות?
-                          </p>
+                          </div>
                           <p className="text-lg md:text-xl text-white/90 leading-relaxed font-medium">
                              ה-AI שלנו מנתח את <span className="text-primary font-black underline decoration-primary/30 decoration-4 underline-offset-4">{movie.title}</span> כחוויה {movie.vote_average > 7.5 ? 'חובה לחובבי קולנוע איכותי וסיפור סיפורים עוצמתי' : 'בידורית קלילה, מהנה ומושלמת לערב קולנועי רגוע'}.
                           </p>
@@ -411,15 +418,15 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
         {/* Similar Movies */}
         {similarMovies.length > 0 && <MovieSimilarSection movies={similarMovies} />}
       </div>
-    </div>
 
-    {/* Trailer Modal */}
-    <TrailerModal
-      videos={videos}
-      isOpen={showTrailer}
-      onClose={() => setShowTrailer(false)}
-      movieTitle={movie.title}
-    />
+      {/* Trailer Modal - Moved inside main div */}
+      <TrailerModal
+        videos={videos}
+        isOpen={showTrailer}
+        onClose={() => setShowTrailer(false)}
+        movieTitle={movie.title}
+      />
+    </div>
     </>
   );
 }

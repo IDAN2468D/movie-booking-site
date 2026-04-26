@@ -14,25 +14,80 @@ import Image from 'next/image';
 export default function BookingPage() {
   const params = useParams();
   const router = useRouter();
-  const { selectedMovie, selectedSeats, selectedShowtime, selectedDate, setSelectedBranchId } = useBookingStore();
+  const { 
+    selectedMovie, 
+    setSelectedBranchId, 
+    selectedDate, 
+    selectedShowtime, 
+    selectedSeats 
+  } = useBookingStore();
+  const [branch, setBranch] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(true);
   
-  const branch = CINEMA_BRANCHES.find(b => b.id === params.branchId);
-  
-  // Sync branchId to store if missing
+  // Sync branchId to store and fetch branch details
   useEffect(() => {
-    if (params.branchId) {
+    async function loadBranch() {
+      if (!params.branchId) return;
+      
       setSelectedBranchId(params.branchId as string);
+      
+      // Try local constants first
+      const staticBranch = CINEMA_BRANCHES.find(b => b.id === params.branchId);
+      if (staticBranch) {
+        setBranch(staticBranch);
+        setLoading(false);
+        return;
+      }
+      
+      // Fallback: Fetch from MongoDB (using the getCinemas helper for now or just find it)
+      try {
+        const { getCinemas } = await import('@/lib/actions/cinemas');
+        const result = await getCinemas();
+        if (result.success) {
+          const found = result.data?.find((b: any) => b._id === params.branchId || b.id === params.branchId);
+          if (found) {
+            setBranch(found);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load branch details:', err);
+      } finally {
+        setLoading(false);
+      }
     }
+    
+    loadBranch();
   }, [params.branchId, setSelectedBranchId]);
 
-  // Safety redirect if movie is missing
+  // Ensure we have a movie in the store - recover if missing (e.g. refresh)
   useEffect(() => {
-    if (!selectedMovie) {
-      router.push('/');
+    async function loadMovie() {
+      if (!params.movieId || selectedMovie) return;
+      
+      console.log('[DEBUG] Missing movie in store, fetching details for ID:', params.movieId);
+      try {
+        const { getMovieById } = await import('@/lib/tmdb');
+        const movie = await getMovieById(Number(params.movieId));
+        if (movie) {
+          useBookingStore.getState().setSelectedMovie(movie);
+          console.log('[DEBUG] Successfully recovered movie:', movie.displayTitle);
+        }
+      } catch (err) {
+        console.error('[DEBUG] Failed to recover movie details:', err);
+      }
     }
-  }, [selectedMovie, router]);
+    
+    loadMovie();
+  }, [params.movieId, selectedMovie]);
 
-  if (!selectedMovie || !branch) {
+  console.log('[DEBUG] BookingPage state:', {
+    hasMovie: !!selectedMovie,
+    hasBranch: !!branch,
+    loading,
+    params
+  });
+
+  if (loading || !selectedMovie || !branch) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#050505]">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary"></div>

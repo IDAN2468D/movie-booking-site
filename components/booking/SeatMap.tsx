@@ -74,6 +74,7 @@ export default function SeatMap() {
                 return (
                   <motion.button
                     key={seatId}
+                    data-testid="seat-button"
                     disabled={isOccupied}
                     onClick={() => toggleSeat(seatId)}
                     whileHover={{ scale: isOccupied ? 1 : 1.2, zIndex: 10 }}

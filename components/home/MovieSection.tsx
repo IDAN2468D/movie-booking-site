@@ -30,8 +30,7 @@ export default function MovieSection({ title, movies, onSeeAll }: MovieSectionPr
         <section className="py-8">
       <motion.div 
         initial={{ opacity: 0, x: 20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, x: 0 }}
         className="flex items-center justify-between mb-6 px-4"
       >
         <h2 className="text-xl md:text-2xl font-black text-white tracking-tight flex items-center gap-2 font-outfit">
@@ -50,8 +49,7 @@ export default function MovieSection({ title, movies, onSeeAll }: MovieSectionPr
       <motion.div 
         variants={container}
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
+        animate="show"
         className="flex overflow-x-auto pb-8 gap-4 px-4 no-scrollbar md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 md:gap-8 md:px-0"
       >
         {movies.map((movie) => (

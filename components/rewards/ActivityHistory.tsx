@@ -63,7 +63,7 @@ export const ActivityHistory = ({ bookings, isLoading, onShowFull }: ActivityHis
          onClick={onShowFull}
          className="w-full mt-10 p-5 rounded-2xl bg-primary/10 border border-primary/20 text-white font-bold text-xs uppercase tracking-[0.2em] hover:bg-primary/20 hover:border-primary/40 transition-all hover:scale-[1.02] active:scale-[0.98]"
         >
-          היסטוריית נקודות מלאה
+          היסטוריה מלאה
         </button>
     </div>
   );

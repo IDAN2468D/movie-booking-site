@@ -33,7 +33,20 @@ const UserSchema = z.object({
 });
 ```
 
+## 🗄️ MongoDB MCP Protocols
+When using the `mongodb-mcp-server`, the agent must:
+1. **Schema Validation**: Always call `collection-schema` before performing complex inserts to ensure data integrity.
+2. **Atomic Operations**: Prefer `insert-many` or `update-many` for batch operations to minimize MCP roundtrips.
+3. **Index Awareness**: Before scaling, use `collection-indexes` to ensure queries are performant.
+4. **Data Privacy**: Never export or log sensitive user credentials (passwords, PII) in the chat.
+
+## 🚀 Capabilities
+- **Direct Management**: Creating collections for users, bookings, and reviews.
+- **Query Analysis**: Running aggregations to generate business insights (e.g., top-selling movies).
+- **Migration Support**: Programmatically updating data structures as the app evolves.
+
 ## 🔍 Audit Checklist
 - [ ] Is there a loading state for the data fetch?
 - [ ] Are error messages translated into user-friendly Hebrew?
 - [ ] Is `fetch` wrapped in a centralized utility for consistent headers?
+- [ ] For DB operations: Was the schema verified before writing?

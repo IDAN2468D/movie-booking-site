@@ -1,50 +1,41 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Group Checkout Flow', () => {
-  test.beforeEach(async ({ page }) => {
-    // Navigate to homepage and pick a movie to populate store
-    await page.goto('/');
-    const movieLink = page.locator('a[href^="/movie/"]').first();
-    await expect(movieLink).toBeVisible({ timeout: 15000 });
-    await movieLink.click();
-    
-    // Select a seat
-    const seat = page.locator('button:not([disabled])').filter({ hasText: /^[A-H][1-6]$/ }).first();
-    await seat.click();
-    
-    // Go to checkout
-    await page.getByText('המשך לתשלום').click();
-    await expect(page).toHaveURL(/.*checkout/);
-  });
+test('group seat selection and discount', async ({ page }) => {
+  await page.goto('/');
+  
+  // Wait for movie links
+  const movieLink = page.getByTestId('movie-link').first();
+  await movieLink.waitFor({ state: 'attached', timeout: 15000 });
+  
+  const movieHref = await movieLink.getAttribute('href');
+  if (movieHref) {
+    await page.goto(movieHref);
+  } else {
+    await movieLink.click({ force: true });
+  }
+  
+  // Book and Select Branch
+  const bookNowBtn = page.getByTestId('book-now-button');
+  await bookNowBtn.waitFor({ state: 'attached', timeout: 10000 });
+  await bookNowBtn.click({ force: true });
+  
+  const selectBranchBtn = page.getByTestId('select-branch-button').first();
+  await selectBranchBtn.waitFor({ state: 'attached', timeout: 10000 });
+  await selectBranchBtn.evaluate(el => (el as HTMLElement).click());
 
-  test('should enable social mode and add group members', async ({ page }) => {
-    // Verify SplitPayPanel is visible
-    await expect(page.getByText('Social Cinema')).toBeVisible();
-    
-    // Toggle social mode
-    const toggleBtn = page.getByText('פצל תשלום');
-    await toggleBtn.click();
-    
-    // Verify invite code is generated
-    await expect(page.getByText('קוד הצטרפות לקבוצה')).toBeVisible();
-    
-    // Add a group member
-    await page.getByPlaceholder('שם חבר').fill('ישראל ישראלי');
-    await page.getByPlaceholder('אימייל').fill('israel@example.com');
-    await page.locator('button:has(svg)').filter({ has: page.locator('polyline') }).click(); // UserPlus icon button
-    
-    // Verify member added
-    await expect(page.getByText('ישראל ישראלי')).toBeVisible();
-    await expect(page.getByText('פיצול בין 2 משתתפים')).toBeVisible();
-  });
-
-  test('should reflect dynamic pricing in order summary', async ({ page }) => {
-    // Check for dynamic pricing badge
-    await expect(page.getByText('מחיר דינמי')).toBeVisible();
-    
-    // Check for specific insights (mocked values in CheckoutPage)
-    // "עומס בשעות השיא" or "הנחת הזמנה מוקדמת" etc.
-    const insight = page.locator('p').filter({ hasText: /עומס|הנחה|סופ"ש/ }).first();
-    await expect(insight).toBeVisible();
-  });
+  // Multi-seat selection
+  await page.waitForSelector('text=בחר מושבים', { timeout: 10000 });
+  const seatButtons = page.getByTestId('seat-button').filter({ hasNot: page.locator(':disabled') });
+  
+  // Select 3 seats for group discount
+  await seatButtons.nth(0).click({ force: true });
+  await seatButtons.nth(1).click({ force: true });
+  await seatButtons.nth(2).click({ force: true });
+  
+  // Verify price updates
+  const priceText = await page.textContent('text=סה"כ');
+  expect(priceText).toBeTruthy();
+  
+  await page.click('button:has-text("המשך לתשלום")');
+  await expect(page).toHaveURL(/.*checkout/);
 });

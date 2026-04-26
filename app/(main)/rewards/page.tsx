@@ -41,7 +41,10 @@ export default function RewardsPage() {
   }, []);
 
   const refreshData = async () => {
-    if (!session) return;
+    if (!session) {
+      setIsLoading(false);
+      return;
+    }
     try {
       const res = await fetch('/api/bookings');
       if (res.ok) {
@@ -68,7 +71,7 @@ export default function RewardsPage() {
 
           <div className="space-y-6">
             <div className="flex items-center justify-between px-4 flex-row">
-              <h2 className="text-xl font-bold text-white tracking-tight">מימוש הטבות</h2>
+              <h2 className="text-xl font-bold text-white tracking-tight">הטבות זמינות</h2>
               <button 
                 onClick={() => setShowAllRewards(true)} 
                 className="text-xs text-primary font-black hover:text-white transition-all tracking-widest uppercase px-6 py-3 bg-primary/10 rounded-full border border-primary/20 hover:border-primary/40"

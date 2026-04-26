@@ -26,7 +26,7 @@ export default function MovieInfographic({ voteAverage, voteCount, popularity }:
           icon={<TrendingUp className="text-emerald-400" />}
           label="מדד שביעות רצון"
           value={`${(voteAverage * 10).toFixed(0)}%`}
-          subValue={`${voteCount.toLocaleString()} מדרגים`}
+          subValue={`${voteCount.toLocaleString('he-IL')} מדרגים`}
           color="emerald"
         />
 

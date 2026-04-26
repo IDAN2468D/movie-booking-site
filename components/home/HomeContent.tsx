@@ -6,6 +6,7 @@ import CategoryFilters from './CategoryFilters';
 import MovieSection from './MovieSection';
 import FeaturedHero from './FeaturedHero';
 import AIRecommendations from './AIRecommendations';
+import CinemaShowcase from './CinemaShowcase';
 import { Movie, GENRE_MAP, getMoviesByGenre } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
@@ -114,6 +115,7 @@ export default function HomeContent({
         </div>
 
       {activeCategory === 'all' && <AIRecommendations />}
+      {activeCategory === 'all' && <CinemaShowcase />}
 
       <div className="space-y-4">
         {isLoadingGenre ? (

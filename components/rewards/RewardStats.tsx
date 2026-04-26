@@ -36,8 +36,8 @@ export const RewardStats = ({ totalPoints, isLoading }: RewardStatsProps) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
           <StatBox 
-            label="נקודות זמינות" 
-            value={isLoading ? '---' : totalPoints.toLocaleString()} 
+            label="סה&quot;כ נקודות" 
+            value={isLoading ? '---' : totalPoints.toLocaleString('he-IL')} 
             sub="+12% החודש" 
             subIcon={<ArrowUpRight size={14} />} 
             isLoading={isLoading}
@@ -75,12 +75,12 @@ export const RewardStats = ({ totalPoints, isLoading }: RewardStatsProps) => {
 };
 
 const StatBox = ({ label, value, sub, subIcon, subColor = "text-primary", isLoading }: { label: string; value: string; sub: string; subIcon: React.ReactNode; subColor?: string; isLoading?: boolean }) => (
-  <div className="p-8 rounded-[32px] bg-white/5 border border-white/5 backdrop-blur-md hover:bg-white/10 transition-colors">
-     <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">{label}</p>
+  <div className="p-8 rounded-[32px] bg-white/5 border border-white/5 backdrop-blur-md hover:bg-white/10 transition-colors" data-testid="stat-box">
+     <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2" data-testid="stat-label">{label}</p>
      {isLoading ? (
        <div className="h-12 w-full bg-white/10 rounded-xl animate-pulse mb-2" />
      ) : (
-       <p className="text-5xl font-black text-white mb-2 tracking-tighter">{value}</p>
+       <p className="text-5xl font-black text-white mb-2 tracking-tighter" data-testid="stat-value">{value}</p>
      )}
      <div className={`flex items-center gap-1.5 text-xs ${subColor} font-bold justify-start`}>
        {sub} {subIcon}

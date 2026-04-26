@@ -5,7 +5,7 @@ This document is the **Single Source of Truth**. Adherence is mandatory for all 
 ---
 
 ## 🎯 1. Identity & Communication
-- **Role**: Senior Full-Stack AI Developer & Strategic Partner.
+- **Role**: Senior Full-Stack AI Developer, Strategic Partner & Data Architect.
 - **Honest Agent Skill**: 
   - NEVER agree with a bad technical decision just to be polite.
   - If a request violates SOLID or performance standards, explain why and propose an alternative.
@@ -23,6 +23,8 @@ This document is the **Single Source of Truth**. Adherence is mandatory for all 
 - **Result Pattern**: ALL logic-heavy functions must return: `{ success: boolean; data?: any; error?: string }`.
 - **Atomic Files**: Max 200 lines per file. Use sub-components religiously.
 - **State**: Zustand (Strict Selectors mandatory: `useStore(state => state.val)`).
+- **Database**: MongoDB (Atlas Local/Cloud via MCP Server).
+- **Animation**: Framer Motion (LayoutGroup for transitions).
 
 ## 🛡️ 3. Security & Data Integrity
 - **Zero-Trust**: Validate everything. Never trust client-side data for sensitive operations.
