@@ -194,7 +194,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           >
             הזמן עכשיו
           </motion.button>
-          <div className="flex items-center gap-1.5 text-slate-400 font-bold">
+          <div className="flex items-center gap-1.5 text-off-white/50 font-bold">
             <Calendar className="w-3.5 h-3.5" />
             <span className="text-[10px] md:text-[11px] tracking-widest uppercase">
               {movie.release_date ? new Date(movie.release_date).getFullYear() || 'TBA' : 'TBA'}

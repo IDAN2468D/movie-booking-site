@@ -73,7 +73,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="text-slate-300 text-sm md:text-lg mb-8 line-clamp-3 leading-relaxed max-w-lg font-medium opacity-80"
+          className="text-off-white/90 text-sm md:text-lg mb-8 line-clamp-3 leading-relaxed-hebrew max-w-lg font-medium"
         >
           {movie.overview}
         </motion.p>

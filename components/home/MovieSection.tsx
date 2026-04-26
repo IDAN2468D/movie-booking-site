@@ -39,7 +39,7 @@ export default function MovieSection({ title, movies, onSeeAll }: MovieSectionPr
         </h2>
         <button 
           onClick={onSeeAll}
-          className="text-xs font-black text-slate-500 hover:text-primary transition-all flex items-center gap-1 group uppercase tracking-widest"
+          className="text-xs font-black text-off-white/40 hover:text-primary transition-all flex items-center gap-1 group uppercase tracking-widest"
         >
           ראה הכל
           <ChevronRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />

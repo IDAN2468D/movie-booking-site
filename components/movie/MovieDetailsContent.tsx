@@ -142,7 +142,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
         <motion.div 
           animate={{ y: ['0%', '1000%', '0%'] }}
           transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-          className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent shadow-[0_0_25px_rgba(255,20,100,0.6)] z-20"
+          className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent shadow-[0_0_25px_rgba(255,20,100,0.4)] z-20"
         />
 
         {/* Premium Refraction Overlay */}
@@ -190,7 +190,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             {/* Meta Pills - Scrollable on mobile */}
             <div className="flex overflow-x-auto no-scrollbar gap-2 md:gap-3 mb-6 pb-2 md:pb-0">
               <MetaPill icon={<Star size={14} className="text-primary fill-primary" />}>
-                {movie.vote_average.toFixed(1)}
+                <span className="text-off-white">{movie.vote_average.toFixed(1)}</span>
               </MetaPill>
               {movie.runtime > 0 && (
                 <MetaPill icon={<Clock size={14} />}>{formatRuntime(movie.runtime)}</MetaPill>
@@ -253,7 +253,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                     : 'bg-white/5 opacity-40 cursor-not-allowed border-white/5 text-slate-500'
                 }`}
               >
-                <span className="relative z-10 text-sm md:text-base tracking-tight drop-shadow-md">טריילר</span>
+                <span className="relative z-10 text-sm md:text-base tracking-tight drop-shadow-md text-white">טריילר</span>
                 <Play className="fill-white w-4 h-4 relative z-10 group-hover:scale-110 transition-transform" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               </motion.button>
@@ -290,7 +290,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
               תקציר
               <div className="w-2 h-2 rounded-full bg-primary" />
             </h2>
-            <p className="text-slate-300 leading-[1.9] text-base font-medium mb-10">
+            <p className="text-off-white/90 leading-relaxed-hebrew text-lg font-medium mb-10">
               {movie.overview || 'אין תקציר זמין עבור סרט זה.'}
             </p>
 
@@ -320,8 +320,8 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                     
                     <div className="px-6 py-3 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-2xl flex items-center gap-4">
                       <div className="flex flex-col items-end">
-                        <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">NotebookLM Analysis</span>
-                        <span className="text-sm font-black text-white">מעבד נתונים...</span>
+                        <span className="text-[9px] text-off-white/50 font-bold uppercase tracking-widest">NotebookLM Analysis</span>
+                        <span className="text-sm font-black text-off-white">מעבד נתונים...</span>
                       </div>
                       <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
                     </div>
@@ -334,14 +334,14 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                              למה כדאי לצפות?
                           </div>
-                          <p className="text-lg md:text-xl text-white/90 leading-relaxed font-medium">
+                          <p className="text-lg md:text-xl text-off-white leading-relaxed-hebrew font-medium">
                              ה-AI שלנו מנתח את <span className="text-primary font-black underline decoration-primary/30 decoration-4 underline-offset-4">{movie.title}</span> כחוויה {movie.vote_average > 7.5 ? 'חובה לחובבי קולנוע איכותי וסיפור סיפורים עוצמתי' : 'בידורית קלילה, מהנה ומושלמת לערב קולנועי רגוע'}.
                           </p>
                        </div>
                        
                        <div className="flex flex-wrap gap-3 pt-2">
                           {movie.genres.slice(0, 3).map(g => (
-                            <span key={g.id} className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] backdrop-blur-xl">
+                            <span key={g.id} className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black text-off-white/80 uppercase tracking-[0.2em] backdrop-blur-xl">
                                #{g.name}
                             </span>
                           ))}
@@ -352,7 +352,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                        <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
                        <div className="relative z-10">
                           <div className="flex justify-between items-end mb-4">
-                             <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">עיבוד רגשות וסגנון</p>
+                             <p className="text-[10px] text-off-white/50 font-black uppercase tracking-[0.2em]">עיבוד רגשות וסגנון</p>
                              <span className="text-2xl font-black text-primary font-display tracking-tighter">75%</span>
                           </div>
                           
@@ -367,7 +367,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                              </motion.div>
                           </div>
                           
-                          <p className="text-[10px] text-slate-500 italic leading-relaxed">
+                          <p className="text-[10px] text-off-white/40 italic leading-relaxed">
                              הבינה המלאכותית אוספת ומצליבה נתונים מ-NotebookLM ומקורות קולנוע גלובליים ליצירת פרופיל פסיכולוגי של הסרט...
                           </p>
                        </div>
@@ -435,7 +435,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
 
 function MetaPill({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-1.5 bg-white/5 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-xl text-xs text-slate-300 font-bold">
+    <div className="flex items-center gap-1.5 bg-white/5 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-xl text-xs text-off-white/80 font-bold">
       {icon}
       {children}
     </div>
@@ -445,7 +445,7 @@ function MetaPill({ icon, children }: { icon: React.ReactNode; children: React.R
 function InfoCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
-      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{label}</p>
+      <p className="text-[10px] font-black text-off-white/40 uppercase tracking-widest mb-1">{label}</p>
       <p className="text-sm font-bold text-white">{value}</p>
     </div>
   );
