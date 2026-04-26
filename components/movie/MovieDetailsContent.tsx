@@ -126,8 +126,6 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   return (
     <>
     <div className="pb-20 text-right" dir="rtl">
-      {/* Hero Backdrop */}
-    <div className="pb-20 text-right" dir="rtl">
       {/* Hero Backdrop - Premium Vertical Focus on Mobile */}
       <section className="relative w-full h-[600px] md:h-[550px] overflow-hidden">
         <Image
