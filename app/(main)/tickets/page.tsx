@@ -234,13 +234,6 @@ export default function TicketsPage() {
                   </div>
                </div>
 
-               {/* Holographic Security Label - Floating */}
-               <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-8 py-2 bg-black/40 backdrop-blur-3xl border border-white/10 rounded-full flex items-center gap-3 shadow-2xl">
-                  <Sparkles size={10} className="text-primary animate-pulse" />
-                  <span className="text-[8px] text-slate-400 font-black tracking-[0.4em] uppercase">
-                     Digital Asset Secured by MovieBook AI • 2026
-                  </span>
-               </div>
             </div>
           </motion.div>
           ))}
