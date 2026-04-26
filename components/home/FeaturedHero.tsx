@@ -20,7 +20,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
   const isFavorite = favorites.some(m => m.id === movie.id);
 
   return (
-    <section className="relative w-full h-[600px] md:h-[550px] rounded-[56px] overflow-hidden group mx-auto max-w-[95%] mt-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)]">
+        <section className="relative w-full h-[600px] md:h-[500px] rounded-[2.5rem] overflow-hidden group mx-auto max-w-[95%] mt-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)]">
       {/* Background Image */}
       <Image
         src={getImageUrl(movie.backdrop_path, 'original')}
@@ -32,18 +32,18 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
       />
       
       {/* Dynamic Gradients for premium depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent md:bg-gradient-to-l md:from-black md:via-black/40 md:to-transparent z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/40 to-transparent md:bg-gradient-to-l md:from-[#0F0F0F] md:via-[#0F0F0F]/40 md:to-transparent z-10" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent opacity-60 z-10" />
 
-      {/* Holographic Scanner Line (YUV-DESIGN Pink) */}
+      {/* Holographic Scanner Line (Liquid Glass 2.0) */}
       <motion.div 
         animate={{ y: ['0%', '1000%', '0%'] }}
         transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-        className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent shadow-[0_0_20px_rgba(255,20,100,0.8)] z-20"
+        className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent shadow-[0_0_20px_rgba(10,239,255,0.8)] z-20"
       />
       
       {/* Liquid Glass Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-yellow/10 opacity-40 z-20 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-cyan-500/5 opacity-40 z-20 pointer-events-none" />
 
       {/* Content Container */}
       <div className="absolute inset-0 flex flex-col justify-end items-start p-8 md:p-16 max-w-full text-right z-30">
@@ -53,10 +53,10 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           className="flex items-center gap-2 md:gap-3 mb-4"
         >
-          <div className="bg-primary text-off-white text-[9px] md:text-[10px] font-display px-3 py-1.5 rounded-full tracking-widest uppercase shadow-[0_4px_12px_rgba(255,20,100,0.3)]">חדש בקולנוע</div>
-          <div className="flex items-center gap-1.5 bg-white/5 backdrop-blur-[40px] px-3 py-1.5 rounded-full text-off-white text-[10px] md:text-xs border-[0.5px] border-white/20 shadow-xl font-display uppercase tracking-wider">
-            <Star className="w-3 h-3 text-yellow fill-yellow" />
-            <span className="">דירוג {movie.vote_average.toFixed(1)}</span>
+          <div className="bg-[#FF9F0A] text-white text-[9px] md:text-[10px] font-black px-2.5 py-1.5 rounded-lg tracking-widest uppercase shadow-[0_4px_12px_rgba(255,159,10,0.3)]">חדש בקולנוע</div>
+          <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-[40px] px-2.5 py-1.5 rounded-lg text-white text-[10px] md:text-xs border-[0.5px] border-white/20 shadow-xl">
+            <Star className="w-3 h-3 text-[#FF9F0A] fill-[#FF9F0A]" />
+            <span className="font-black">דירוג {movie.vote_average.toFixed(1)}</span>
           </div>
         </motion.div>
 
@@ -64,16 +64,16 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-8xl font-display text-off-white mb-4 tracking-tighter leading-[0.9] max-w-3xl drop-shadow-2xl uppercase"
+          className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter leading-[0.9] max-w-2xl text-glow font-outfit"
         >
-          {movie.displayTitle}
+          {movie.title}
         </motion.h1>
         
         <motion.p 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="text-off-white/70 text-sm md:text-lg mb-8 line-clamp-3 leading-relaxed max-w-lg font-medium opacity-80"
+          className="text-slate-300 text-sm md:text-lg mb-8 line-clamp-3 leading-relaxed max-w-lg font-medium opacity-80"
         >
           {movie.overview}
         </motion.p>
@@ -92,19 +92,21 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
               onClick={() => toggleFavorite(movie)}
               className={`w-10 md:w-12 h-full rounded-full flex items-center justify-center border transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden group ${
                 isFavorite 
-                ? 'bg-primary border-primary text-off-white shadow-[0_0_20px_rgba(255,20,100,0.4)]' 
-                : 'bg-white/5 backdrop-blur-3xl saturate-[200%] border-white/10 text-off-white hover:bg-white/10'
+                ? 'bg-primary border-primary text-background shadow-[0_0_20px_rgba(255,159,10,0.4)]' 
+                : 'bg-white/10 backdrop-blur-3xl saturate-[200%] border-white/20 text-white hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]'
               }`}
             >
               <Heart size={20} className={`${isFavorite ? 'fill-current' : ''} relative z-10 transition-transform duration-300 group-hover:scale-110`} />
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </motion.button>
 
             <motion.button
               whileHover={{ scale: 1.1, translateY: -2 }}
               whileTap={{ scale: 0.9 }}
-              className="w-10 md:w-12 h-full rounded-full flex items-center justify-center border bg-white/5 backdrop-blur-3xl saturate-[200%] border-white/10 text-off-white hover:bg-white/10 transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden group"
+              className="w-10 md:w-12 h-full rounded-full flex items-center justify-center border bg-white/10 backdrop-blur-3xl saturate-[200%] border-white/20 text-white hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden group"
             >
               <Headphones size={20} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </motion.button>
           </div>
 
@@ -113,20 +115,21 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
           </div>
 
           <motion.button 
-            whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 40px rgba(255,20,100,0.5)' }}
+            whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 40px rgba(255,159,10,0.5)' }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setSelectedMovie(movie)}
-            className="flex-1 md:flex-none bg-primary text-off-white px-8 h-14 md:h-16 rounded-full font-display flex items-center justify-center gap-3 transition-all shadow-[0_15px_40px_rgba(255,20,100,0.4)] group/btn relative overflow-hidden border border-white/10"
+            className="flex-1 md:flex-none bg-gradient-to-br from-primary via-[#FF7A00] to-primary text-background px-8 h-14 md:h-16 rounded-[1.25rem] font-black flex items-center justify-center gap-3 transition-all shadow-[0_15px_40px_rgba(255,159,10,0.4)] group/btn relative overflow-hidden border border-white/10"
           >
+            <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.3),transparent)] -translate-x-full group-hover/btn:animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
             <Ticket className="w-5 h-5 relative z-10 group-hover:rotate-12 transition-transform" />
-            <span className="relative z-10 text-sm md:text-lg uppercase tracking-widest">הזמן עכשיו</span>
+            <span className="relative z-10 text-sm md:text-base uppercase tracking-widest drop-shadow-sm">הזמן עכשיו</span>
           </motion.button>
           
           <Link 
             href={`/movie/${movie.id}`}
-            className="w-14 h-14 md:w-16 md:h-16 bg-white/5 hover:bg-white/10 backdrop-blur-3xl rounded-full flex items-center justify-center transition-all border border-white/10 shadow-2xl shrink-0 group"
+            className="w-14 h-14 md:w-16 md:h-16 bg-white/5 hover:bg-white/10 backdrop-blur-3xl rounded-[1.25rem] flex items-center justify-center transition-all border border-white/10 shadow-2xl shrink-0 group"
           >
-            <Info className="w-6 h-6 text-off-white group-hover:scale-110 transition-transform" />
+            <Info className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
           </Link>
         </motion.div>
       </div>

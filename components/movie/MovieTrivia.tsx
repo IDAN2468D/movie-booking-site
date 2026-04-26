@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { HelpCircle, RefreshCw, Trophy, Brain } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HelpCircle, RefreshCw, Sparkles, Trophy, Brain } from 'lucide-react';
 
 interface TriviaItem {
   question: string;
@@ -24,123 +24,74 @@ export default function MovieTrivia({ movieTitle }: { movieTitle: string }) {
     setIsFlipped(false);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev + 1) % MOCK_TRIVIA.length);
-    }, 150);
+    }, 200);
   };
 
   return (
-    <section className="mt-24 text-right" dir="rtl">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-        <div className="flex items-center gap-5">
-          <div className="w-14 h-14 bg-yellow/20 rounded-[20px] flex items-center justify-center border border-yellow/30 text-yellow shadow-[0_0_30px_rgba(229,255,0,0.2)]">
-            <Brain size={28} />
+    <section className="mt-16 text-right" dir="rtl">
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/30 text-primary">
+            <Brain size={20} />
           </div>
-          <div>
-            <p className="text-[10px] text-yellow font-display uppercase tracking-[0.5em] mb-1">CINE-QUIZ MODE</p>
-            <h2 className="text-4xl font-display text-off-white tracking-tighter uppercase leading-none">אתגר הטריוויה</h2>
-            <p className="text-xs text-off-white/40 font-body mt-2">{movieTitle}</p>
-          </div>
+          <h2 className="text-2xl font-black text-white tracking-tight">אתגר הטריוויה: {movieTitle}</h2>
         </div>
-
-        <div className="flex items-center gap-6">
-          <div className="flex flex-col items-end">
-            <span className="text-[9px] font-display text-primary uppercase tracking-[0.3em]">TOTAL SCORE</span>
-            <span className="text-2xl font-display text-off-white tracking-tighter">{score} <span className="text-primary">PTS</span></span>
-          </div>
-          <button 
-            onClick={handleNext}
-            className="group flex items-center gap-3 bg-white/5 hover:bg-primary/20 border border-white/10 hover:border-primary/40 px-6 py-4 rounded-full transition-all duration-500"
-          >
-            <span className="text-[10px] font-display text-off-white/60 group-hover:text-primary uppercase tracking-[0.2em]">NEXT QUESTION</span>
-            <RefreshCw size={14} className="text-primary group-hover:rotate-180 transition-transform duration-700" />
-          </button>
+        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-2xl border border-white/10">
+          <Trophy size={16} className="text-primary" />
+          <span className="text-xs font-black text-white">ניקוד: {score}</span>
         </div>
       </div>
 
-      <div className="relative perspective-2000 h-[450px] w-full max-w-2xl mx-auto">
+      <div className="relative h-[250px] [perspective:1000px]">
+
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            initial={{ opacity: 0, y: 20, rotateX: -10 }}
-            animate={{ opacity: 1, y: 0, rotateX: 0 }}
-            exit={{ opacity: 0, y: -20, rotateX: 10 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, rotateY: -20 }}
+            animate={{ opacity: 1, rotateY: 0 }}
+            exit={{ opacity: 0, rotateY: 20 }}
             className="w-full h-full"
-            style={{ transformStyle: 'preserve-3d' }}
           >
-            <motion.div
-              className="relative w-full h-full cursor-pointer"
+            <div 
+              className={`w-full h-full cursor-pointer transition-all duration-500 [transform-style:preserve-3d] ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}
+
               onClick={() => {
-                if (!isFlipped) setScore(s => s + 50);
+                if (!isFlipped) setScore(s => s + 10);
                 setIsFlipped(!isFlipped);
               }}
-              animate={{ rotateY: isFlipped ? 180 : 0 }}
-              transition={{ duration: 0.8, type: 'spring', stiffness: 260, damping: 20 }}
-              style={{ transformStyle: 'preserve-3d' }}
             >
-              {/* Front Side */}
-              <div 
-                className="absolute inset-0 backface-hidden bg-white/[0.03] border border-white/10 rounded-[48px] p-12 flex flex-col items-center justify-center text-center overflow-hidden group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-yellow/10 opacity-30" />
-                <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.05)_50%,transparent_75%)] bg-[length:250%_250%] group-hover:animate-shimmer" />
-                
-                <div className="relative mb-8">
-                  <div className="absolute inset-0 blur-2xl bg-primary/20 scale-150 animate-pulse" />
-                  <HelpCircle size={48} className="text-primary relative" />
-                </div>
-                
-                <p className="text-[10px] font-display text-primary uppercase tracking-[0.6em] mb-6">QUESTION {currentIndex + 1}</p>
-                <h3 className="text-3xl md:text-4xl font-body text-off-white leading-[1.3] font-light max-w-md">
+              {/* Front */}
+              <div className="absolute inset-0 [backface-visibility:hidden] bg-white/[0.02] border border-white/5 rounded-[40px] p-10 flex flex-col items-center justify-center text-center backdrop-blur-md">
+
+                <HelpCircle size={40} className="text-primary/40 mb-6" />
+                <h3 className="text-xl font-bold text-white leading-relaxed max-w-[500px]">
                   {MOCK_TRIVIA[currentIndex].question}
                 </h3>
-                
-                <div className="mt-12 flex items-center gap-2 text-off-white/20">
-                  <span className="text-[9px] font-display uppercase tracking-widest italic">לחץ לחשיפת התשובה</span>
-                </div>
+                <p className="mt-6 text-[10px] text-slate-500 font-black uppercase tracking-[0.2em]">לחץ לחשיפת התשובה</p>
               </div>
 
-              {/* Back Side */}
-              <div 
-                className="absolute inset-0 backface-hidden bg-primary border border-primary/50 rounded-[48px] p-12 flex flex-col items-center justify-center text-center overflow-hidden"
-                style={{ transform: 'rotateY(180deg)' }}
-              >
-                <div className="absolute inset-0 bg-black/20" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(229,255,0,0.2)_0%,transparent_70%)]" />
-                
-                <Trophy size={48} className="text-yellow mb-8 drop-shadow-[0_0_20px_rgba(229,255,0,0.5)]" />
-                
-                <p className="text-[10px] font-display text-yellow uppercase tracking-[0.6em] mb-6">CORRECT ANSWER</p>
-                <h3 className="text-3xl md:text-4xl font-display text-off-white leading-tight uppercase tracking-tighter max-w-md">
-                  {MOCK_TRIVIA[currentIndex].answer}
-                </h3>
-                
-                <div className="mt-12 flex items-center gap-4">
-                  <div className="px-6 py-2 bg-black/20 rounded-full border border-white/10">
-                    <span className="text-[10px] font-display text-white/60 uppercase tracking-widest">BOOSTED +50</span>
-                  </div>
+              {/* Back */}
+              <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-primary/10 border border-primary/20 rounded-[40px] p-10 flex flex-col items-center justify-center text-center backdrop-blur-md">
+
+                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-6">
+                  <Trophy size={24} className="text-primary" />
                 </div>
+                <p className="text-lg font-black text-white">{MOCK_TRIVIA[currentIndex].answer}</p>
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNext();
+                  }}
+                  className="mt-8 flex items-center gap-2 text-[10px] text-primary font-black uppercase tracking-widest hover:underline"
+                >
+                  לשאלה הבאה <RefreshCw size={12} />
+                </button>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      <style jsx global>{`
-        .perspective-2000 {
-          perspective: 2000px;
-        }
-        .backface-hidden {
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-        }
-        @keyframes shimmer {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-        .animate-shimmer {
-          animation: shimmer 3s infinite linear;
-        }
-      `}</style>
     </section>
   );
 }
