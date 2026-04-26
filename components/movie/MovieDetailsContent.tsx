@@ -266,34 +266,87 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
               {movie.overview || 'אין תקציר זמין עבור סרט זה.'}
             </p>
 
-            {/* AI Cinematic Insights Section */}
-            <div className="bg-gradient-to-br from-primary/10 via-transparent to-cyan-500/5 rounded-[40px] p-8 border border-primary/20 relative overflow-hidden group">
-               <div className="absolute top-0 left-0 w-full h-full bg-grid-white/[0.02] pointer-events-none" />
-               <div className="relative z-10">
-                 <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/30">
-                      <Sparkles className="text-primary w-5 h-5" />
+            {/* AI Cinematic Insights Section - Liquid Glass 2.0 Premium */}
+            <div className="relative group mt-12 mb-16">
+              {/* Outer Glow / Portal Effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-cyan-500/10 to-primary/20 rounded-[44px] blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-1000" />
+              
+              <div className="relative bg-black/40 backdrop-blur-[60px] saturate-[250%] brightness-125 rounded-[40px] p-8 md:p-12 border border-white/20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8),inset_0_0_0_1px_rgba(255,255,255,0.1)] overflow-hidden">
+                {/* Holographic Mesh Background */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 mix-blend-overlay pointer-events-none" />
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-cyan-500/10 blur-[100px] rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+
+                <div className="relative z-10">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+                    <div className="flex items-center gap-5">
+                      <div className="w-16 h-16 bg-gradient-to-br from-primary/30 to-cyan-500/20 rounded-2xl flex items-center justify-center border border-white/20 shadow-[0_0_40px_rgba(255,159,10,0.2)] relative group-hover:scale-110 transition-transform duration-700">
+                        <Sparkles className="text-primary w-8 h-8 drop-shadow-[0_0_15px_rgba(255,159,10,0.8)]" />
+                        <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] text-primary font-black uppercase tracking-[0.4em] mb-1">Advanced Engine</p>
+                        <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter font-outfit">תובנות קולנועיות AI</h3>
+                      </div>
                     </div>
-                    <h3 className="text-xl font-black text-white tracking-tight">בינה מלאכותית: תובנות קולנועיות</h3>
-                 </div>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                       <p className="text-sm text-slate-400 font-bold uppercase tracking-widest">למה כדאי לצפות?</p>
-                       <p className="text-sm text-white/80 leading-relaxed">ה-AI שלנו מנתח את {movie.title} כחוויה {movie.vote_average > 7.5 ? 'חובה לחובבי קולנוע איכותי' : 'בידורית קלילה ומהנה'}. הסרט מתאפיין ב-{movie.genres.map(g => g.name).slice(0, 2).join(' ו-')}.</p>
+                    
+                    <div className="px-6 py-3 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-2xl flex items-center gap-4">
+                      <div className="flex flex-col items-end">
+                        <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">NotebookLM Analysis</span>
+                        <span className="text-sm font-black text-white">מעבד נתונים...</span>
+                      </div>
+                      <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
                     </div>
-                    <div className="p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                       <p className="text-[10px] text-primary font-black uppercase tracking-[0.2em] mb-2">סטטוס ניתוח NotebookLM</p>
-                       <div className="flex items-center gap-3">
-                          <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
-                             <div className="h-full bg-primary w-3/4 animate-pulse" />
-                          </div>
-                          <span className="text-xs font-bold text-white">75% מוכן</span>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+                    <div className="lg:col-span-3 space-y-6">
+                       <div className="space-y-3">
+                          <p className="text-xs text-primary font-black uppercase tracking-[0.2em] flex items-center gap-2">
+                             <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                             למה כדאי לצפות?
+                          </p>
+                          <p className="text-lg md:text-xl text-white/90 leading-relaxed font-medium">
+                             ה-AI שלנו מנתח את <span className="text-primary font-black underline decoration-primary/30 decoration-4 underline-offset-4">{movie.title}</span> כחוויה {movie.vote_average > 7.5 ? 'חובה לחובבי קולנוע איכותי וסיפור סיפורים עוצמתי' : 'בידורית קלילה, מהנה ומושלמת לערב קולנועי רגוע'}.
+                          </p>
                        </div>
-                       <p className="text-[9px] text-slate-500 mt-3 italic">ה-AI אוסף נתונים ממקורות קולנוע גלובליים...</p>
+                       
+                       <div className="flex flex-wrap gap-3 pt-2">
+                          {movie.genres.slice(0, 3).map(g => (
+                            <span key={g.id} className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] backdrop-blur-xl">
+                               #{g.name}
+                            </span>
+                          ))}
+                       </div>
                     </div>
-                 </div>
-               </div>
+
+                    <div className="lg:col-span-2 p-8 rounded-[32px] bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 backdrop-blur-2xl shadow-2xl relative overflow-hidden group/card">
+                       <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
+                       <div className="relative z-10">
+                          <div className="flex justify-between items-end mb-4">
+                             <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">עיבוד רגשות וסגנון</p>
+                             <span className="text-2xl font-black text-primary font-outfit tracking-tighter">75%</span>
+                          </div>
+                          
+                          <div className="h-3 bg-white/5 rounded-full overflow-hidden border border-white/10 p-[1.5px] mb-6">
+                             <motion.div 
+                               initial={{ width: 0 }}
+                               whileInView={{ width: '75%' }}
+                               transition={{ duration: 2, ease: "easeOut" }}
+                               className="h-full bg-gradient-to-r from-primary via-orange-400 to-primary rounded-full relative shadow-[0_0_15px_rgba(255,159,10,0.5)]"
+                             >
+                                <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent)] animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
+                             </motion.div>
+                          </div>
+                          
+                          <p className="text-[10px] text-slate-500 italic leading-relaxed">
+                             הבינה המלאכותית אוספת ומצליבה נתונים מ-NotebookLM ומקורות קולנוע גלובליים ליצירת פרופיל פסיכולוגי של הסרט...
+                          </p>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Infographic Dashboard */}
