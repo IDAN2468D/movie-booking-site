@@ -109,24 +109,30 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       }`}
 
     >
-      {/* Holographic Glint */}
+      {/* Liquid Glass 2.0 Holographic Overlays */}
+      <div className="absolute inset-0 pointer-events-none z-10">
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#FF9F0A]/5 via-transparent to-[#0AEFFF]/5 opacity-60" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(255,255,255,0.1),transparent_70%)]" />
+      </div>
+
+      {/* Holographic Glint (Follows Mouse) */}
       <motion.div 
         style={{
-          background: 'radial-gradient(circle at center, rgba(10, 239, 255, 0.15) 0%, transparent 70%)',
+          background: 'radial-gradient(circle at center, rgba(10, 239, 255, 0.2) 0%, transparent 70%)',
           left: glintX,
           top: glintY,
-          width: '200px',
-          height: '200px',
+          width: '240px',
+          height: '240px',
         }}
-        className="absolute pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-2xl"
+        className="absolute pointer-events-none z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-3xl"
       />
 
       {/* Rainbow Holographic Streak */}
       <motion.div 
         initial={{ x: '-100%', skewX: -20 }}
         whileHover={{ x: '200%' }}
-        transition={{ duration: 1.2, ease: "easeInOut" }}
-        className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent mix-blend-overlay"
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+        className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-r from-transparent via-white/10 to-transparent mix-blend-overlay"
       />
 
       <Link href={`/movie/${movie.id}`} className="block">

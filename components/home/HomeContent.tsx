@@ -9,6 +9,7 @@ import AIRecommendations from './AIRecommendations';
 import { Movie, GENRE_MAP, getMoviesByGenre } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
+import HolographicBackground from '@/components/ui/HolographicBackground';
 
 interface HomeContentProps {
   popularMovies: Movie[];
@@ -102,12 +103,15 @@ export default function HomeContent({
   const isGlobalFiltering = searchQuery !== '' || filters.genre !== 'הכל' || filters.rating > 0 || filters.year !== 'הכל';
 
   return (
-    <div className="pb-20">
-      <FeaturedHero movie={trendingMovies[0]} />
+    <div className="relative min-h-screen pb-20">
+      <HolographicBackground />
+      
+      <div className="relative z-10">
+        <FeaturedHero movie={trendingMovies[0]} />
 
-      <div className="px-2 mt-8">
-        <CategoryFilters />
-      </div>
+        <div className="px-2 mt-8">
+          <CategoryFilters />
+        </div>
 
       {activeCategory === 'all' && <AIRecommendations />}
 
@@ -198,6 +202,7 @@ export default function HomeContent({
           </button>
         </motion.div>
       )}
+      </div>
     </div>
   );
 }

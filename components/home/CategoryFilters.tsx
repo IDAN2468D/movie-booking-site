@@ -27,12 +27,16 @@ export default function CategoryFilters() {
         <button
           key={category.id}
           onClick={() => setActiveCategory(category.id)}
-          className={`flex items-center gap-2 px-6 py-2.5 rounded-full whitespace-nowrap transition-all duration-500 border-[0.5px] ${
+          className={`flex items-center gap-2 px-6 py-2.5 rounded-full whitespace-nowrap transition-all duration-500 border-[0.5px] relative overflow-hidden group ${
             activeCategory === category.id
               ? 'bg-primary border-primary text-background font-bold scale-105 shadow-[0_10px_30px_rgba(255,159,10,0.3)]'
               : 'bg-white/5 border-white/10 backdrop-blur-[40px] text-slate-400 hover:bg-white/10 hover:text-white'
           }`}
         >
+          {/* Holographic Tint */}
+          {activeCategory !== category.id && (
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#FF9F0A]/5 via-transparent to-[#0AEFFF]/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+          )}
           <category.icon size={18} />
           <span>{category.name}</span>
         </button>

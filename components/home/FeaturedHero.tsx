@@ -32,11 +32,21 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
       />
       
       {/* Dynamic Gradients for premium depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/40 to-transparent md:bg-gradient-to-l md:from-[#0F0F0F] md:via-[#0F0F0F]/40 md:to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent opacity-60" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/40 to-transparent md:bg-gradient-to-l md:from-[#0F0F0F] md:via-[#0F0F0F]/40 md:to-transparent z-10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent opacity-60 z-10" />
+
+      {/* Holographic Scanner Line (Liquid Glass 2.0) */}
+      <motion.div 
+        animate={{ y: ['0%', '1000%', '0%'] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent shadow-[0_0_20px_rgba(10,239,255,0.8)] z-20"
+      />
+      
+      {/* Liquid Glass Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-cyan-500/5 opacity-40 z-20 pointer-events-none" />
 
       {/* Content Container */}
-      <div className="absolute inset-0 flex flex-col justify-end items-start p-8 md:p-16 max-w-full text-right">
+      <div className="absolute inset-0 flex flex-col justify-end items-start p-8 md:p-16 max-w-full text-right z-30">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

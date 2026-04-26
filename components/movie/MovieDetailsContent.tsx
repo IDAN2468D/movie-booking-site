@@ -128,9 +128,19 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
           priority
         />
         {/* Dynamic Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-l from-[#0F0F0F]/80 to-transparent hidden md:block" />
-        <div className="absolute inset-0 bg-black/20 opacity-40 md:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/40 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-l from-[#0F0F0F]/80 to-transparent hidden md:block z-10" />
+        <div className="absolute inset-0 bg-black/20 opacity-40 md:hidden z-10" />
+
+        {/* Holographic Scanner Line (Liquid Glass 2.0) */}
+        <motion.div 
+          animate={{ y: ['0%', '1000%', '0%'] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#0AEFFF]/40 to-transparent shadow-[0_0_25px_rgba(10,239,255,0.6)] z-20"
+        />
+
+        {/* Premium Refraction Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-cyan-500/5 opacity-30 z-20 pointer-events-none" />
 
         {/* Back Button - Premium Glass */}
         <Link
