@@ -18,24 +18,24 @@ This document is the **Single Source of Truth**. Adherence is mandatory for all 
 - **Language Policy**: 
   - **Chat**: Hebrew (Wrapped in Liquid Glass Container).
   - **Code/Docs**: English.
-- **Hebrew Formatting**: ALL Hebrew text must be wrapped in the premium **Liquid Glass** container:
-  ```html
-  <div dir="rtl" style="font-family: 'Outfit', 'Inter', system-ui, sans-serif; line-height: 1.7; text-align: right; direction: rtl; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; backdrop-filter: blur(12px); color: #F0F0F0; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);">...</div>
-  ```
+- **Hebrew Formatting**: ALL Hebrew text must be wrapped in the premium **Liquid Glass** container.
 
 ## 🛠️ 2. Core Development Rules
 - **Skill-Driven Architecture**: Use `.agents/skills/*.md` for domain-specific agent instructions.
+- **YUV-DESIGN Foundation**: Always follow rules and patterns in `.agents/skills/yuv-design/`.
 - **Atomic Files**: Max 200 lines. Use sub-components religiously.
 - **Data Integrity**: Zod is mandatory for all data boundaries.
 - **Result Pattern**: `{ success: boolean; data?: any; error?: string }`.
 
-## 🎨 3. Design System: Liquid Glass 2.0
-- **Theme**: Premium futuristic dark mode with high optical depth.
+## 🎨 3. Design System: Liquid Glass 2.0 + YUV-DESIGN
+- **Theme**: Premium futuristic dark mode with high optical depth, grounded in YUV-DESIGN defaults.
 - **Visual Tokens**:
+  - **Colors**: Pink (`#FF1464`) is the brand thread. Yellow (`#E5FF00`) for dominance. Off-white (`#FAFAF7`) replaces pure white.
+  - **Typography**: Anton/Rubik (Headings), Inter/Assistant (Body).
   - **Refraction**: `backdrop-blur-3xl saturate-[200%] brightness-110`.
   - **Depth**: Use `box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1)`.
-  - **Holography**: Use `linear-gradient` overlays with orange (`#FF9F0A`) and cyan (`#0AEFFF`) at 5% opacity.
-  - **Typography**: Outfit (Headings), Inter (Body).
+  - **Holography**: Use `linear-gradient` overlays with pink (`#FF1464`) and cyan (`#0AEFFF`) at 5% opacity.
+  - **Layout**: Asymmetric > grid-perfect. Section padding 120-160px (desktop).
 - **Loading**: Skeleton-first strategy for every async component.
 
 ## 🚀 4. Technology Stack

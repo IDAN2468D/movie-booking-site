@@ -5,6 +5,7 @@ import FilterModal from './FilterModal';
 import SearchBar from './TopBar/SearchBar';
 import CategoryTabs from './TopBar/CategoryTabs';
 import UserProfile from './TopBar/UserProfile';
+import BilingualToggle from './BilingualToggle';
 import { useBookingStore } from '@/lib/store';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,7 +28,7 @@ export default function TopBar() {
         {/* Mobile Logo - Hidden when searching */}
         {!isMobileSearchOpen && (
           <Link href="/" className="flex md:hidden items-center gap-3 relative z-10 animate-in fade-in slide-in-from-right-4 duration-500">
-            <div className="w-10 h-10 bg-primary/20 backdrop-blur-xl border border-white/20 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,159,10,0.15)] overflow-hidden">
+            <div className="w-10 h-10 bg-primary/20 backdrop-blur-xl border border-white/20 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,20,100,0.15)] overflow-hidden">
               <Image 
                 src="/logo.png" 
                 alt="Logo" 
@@ -36,7 +37,7 @@ export default function TopBar() {
                 className="object-cover scale-125 saturate-[1.2]"
               />
             </div>
-            <span className="text-xl font-black text-white tracking-tighter font-outfit leading-none drop-shadow-lg">MOVIEBOOK</span>
+            <span className="text-xl font-display text-off-white tracking-tighter leading-none drop-shadow-lg">MOVIEBOOK</span>
           </Link>
         )}
 
@@ -54,6 +55,10 @@ export default function TopBar() {
             <CategoryTabs />
           </div>
 
+          <div className="hidden md:block">
+            <BilingualToggle />
+          </div>
+
           {/* Mobile Search Toggle Button */}
           {!isMobileSearchOpen && (
             <button 
@@ -67,7 +72,10 @@ export default function TopBar() {
 
         {/* User Profile - Hidden on mobile search */}
         {!isMobileSearchOpen && (
-          <div className="relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
+          <div className="flex items-center gap-4 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
+            <div className="md:hidden">
+              <BilingualToggle />
+            </div>
             <UserProfile />
           </div>
         )}

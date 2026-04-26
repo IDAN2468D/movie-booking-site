@@ -27,36 +27,46 @@ const item = {
 
 export default function MovieSection({ title, movies, onSeeAll }: MovieSectionProps) {
   return (
-        <section className="py-8">
+    <section className="py-12">
       <motion.div 
         initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="flex items-center justify-between mb-6 px-4"
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        className="flex items-center justify-between mb-10 px-6"
       >
-        <h2 className="text-xl md:text-2xl font-black text-white tracking-tight flex items-center gap-2 font-outfit">
-          {title}
-          <div className="w-1.5 h-1.5 rounded-full bg-[#FF9F0A] shadow-[0_0_10px_rgba(255,159,10,0.5)]" />
-        </h2>
-        <button 
-          onClick={onSeeAll}
-          className="text-xs font-black text-slate-500 hover:text-[#FF9F0A] transition-all flex items-center gap-1 group uppercase tracking-widest"
-        >
-          ראה הכל
-          <ChevronRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
-        </button>
+        <div className="flex flex-col gap-1">
+          <p className="text-[10px] font-display text-primary uppercase tracking-[0.4em] mb-1">CURATED COLLECTION</p>
+          <h2 className="text-3xl md:text-4xl font-display text-off-white tracking-tighter uppercase flex items-center gap-3">
+            {title}
+            <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_15px_rgba(255,20,100,0.6)]" />
+          </h2>
+        </div>
+
+        {onSeeAll && (
+          <button 
+            onClick={onSeeAll}
+            className="group flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 hover:border-primary/40 transition-all duration-500"
+          >
+            <span className="text-[10px] font-display text-off-white/40 group-hover:text-primary uppercase tracking-[0.2em] transition-colors">
+              SEE ALL
+            </span>
+            <ChevronRight className="w-4 h-4 text-off-white/20 group-hover:text-primary rotate-180 transition-all" />
+          </button>
+        )}
       </motion.div>
 
       <motion.div 
         variants={container}
         initial="hidden"
-        animate="show"
-        className="flex overflow-x-auto pb-8 gap-4 px-4 no-scrollbar md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 md:gap-8 md:px-0"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="flex overflow-x-auto pb-10 gap-6 px-6 no-scrollbar md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 md:gap-10"
       >
         {movies.map((movie) => (
           <motion.div 
             key={movie.id} 
             variants={item}
-            className="min-w-[160px] sm:min-w-[200px] md:min-w-0"
+            className="min-w-[180px] sm:min-w-[220px] md:min-w-0"
           >
             <MovieCard movie={movie} />
           </motion.div>
