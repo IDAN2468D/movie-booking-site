@@ -187,52 +187,72 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
               </MetaPill>
             </div>
 
-            {/* Action Buttons Group */}
-            <div className="grid grid-cols-4 sm:flex items-center gap-3 md:gap-4">
-              <button
-                onClick={handleBook}
-                className="col-span-4 sm:flex-1 bg-primary hover:bg-[#FF7A00] text-background px-8 py-4 rounded-2xl font-black flex items-center justify-center gap-3 transition-all shadow-[0_15px_30px_rgba(255,159,10,0.3)] active:scale-95 text-sm md:text-lg uppercase tracking-widest"
-              >
-                <Ticket size={24} />
-                הזמן עכשיו
-              </button>
-              
-              <button
-                onClick={() => videos.length > 0 && setShowTrailer(true)}
-                disabled={videos.length === 0}
-                className={`col-span-2 sm:flex-none h-14 md:h-16 px-6 rounded-2xl font-black flex items-center justify-center gap-2 transition-all border border-white/10 active:scale-95 text-xs md:text-sm ${
-                  videos.length > 0
-                    ? 'bg-white/10 backdrop-blur-xl text-white hover:bg-white/20'
-                    : 'bg-white/5 opacity-40 cursor-not-allowed text-slate-500'
-                }`}
-              >
-                <Play className="fill-white w-4 h-4" />
-                טריילר
-              </button>
-              
-              <div className="col-span-2 flex items-center gap-2 md:gap-4">
-                <button
+            {/* Action Buttons Group - Liquid Glass 2.0 Premium Redesign */}
+            <div className="flex flex-wrap md:flex-nowrap items-center gap-3 md:gap-4 mt-8">
+              {/* Secondary Actions: Vertical Pills */}
+              <div className="flex items-center gap-2 h-14 md:h-16">
+                <motion.button
+                  whileHover={{ scale: 1.05, translateY: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleFavorite}
+                  className={`w-10 md:w-12 h-full rounded-full flex items-center justify-center border transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden group ${
+                    isFavorite 
+                    ? 'bg-primary border-primary text-background shadow-[0_0_20px_rgba(255,159,10,0.4)]' 
+                    : 'bg-white/5 backdrop-blur-3xl saturate-[200%] border-white/10 text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]'
+                  }`}
+                >
+                  <Heart size={20} className={`${isFavorite ? 'fill-current' : ''} relative z-10 transition-transform duration-300 group-hover:scale-110`} />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05, translateY: -2 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={handleGenerateAudioGuide}
                   disabled={isGeneratingAudio}
-                  className={`flex-1 h-14 md:h-16 rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${
+                  className={`w-10 md:w-12 h-full rounded-full flex items-center justify-center border transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden group ${
                     isGeneratingAudio 
                     ? 'bg-primary/20 border-primary/40 text-primary' 
-                    : 'bg-white/10 backdrop-blur-xl border-white/10 text-white'
+                    : 'bg-white/5 backdrop-blur-3xl saturate-[200%] border-white/10 text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]'
                   }`}
                 >
-                  {isGeneratingAudio ? <Loader2 size={18} className="animate-spin" /> : <Headphones size={18} />}
-                </button>
-                <button 
-                  onClick={handleFavorite}
-                  className={`flex-1 h-14 md:h-16 rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${
-                    isFavorite 
-                    ? 'bg-primary border-primary text-background' 
-                    : 'bg-white/10 backdrop-blur-xl border-white/10 text-white'
-                  }`}
-                >
-                  <Heart size={18} className={isFavorite ? 'fill-current' : ''} />
-                </button>
+                  {isGeneratingAudio ? (
+                    <Loader2 size={20} className="animate-spin relative z-10" />
+                  ) : (
+                    <Headphones size={20} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                </motion.button>
               </div>
+
+              {/* Trailer Button - Premium Refraction */}
+              <motion.button
+                whileHover={{ scale: 1.02, translateY: -2 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => videos.length > 0 && setShowTrailer(true)}
+                disabled={videos.length === 0}
+                className={`h-14 md:h-16 px-8 rounded-[1.25rem] font-black flex items-center justify-center gap-3 transition-all border shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative overflow-hidden group ${
+                  videos.length > 0
+                    ? 'bg-white/10 backdrop-blur-3xl saturate-[250%] brightness-125 border-white/20 text-white hover:shadow-[0_0_30px_rgba(255,255,255,0.15)]'
+                    : 'bg-white/5 opacity-40 cursor-not-allowed border-white/5 text-slate-500'
+                }`}
+              >
+                <span className="relative z-10 text-sm md:text-base tracking-tight drop-shadow-md">טריילר</span>
+                <Play className="fill-white w-4 h-4 relative z-10 group-hover:scale-110 transition-transform" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.button>
+              
+              {/* Main Booking Action - High Depth & Glow */}
+              <motion.button
+                whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 40px rgba(255,159,10,0.4)' }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleBook}
+                className="flex-1 h-14 md:h-16 bg-gradient-to-br from-primary via-[#FF7A00] to-primary text-background rounded-[1.25rem] font-black flex items-center justify-center gap-3 transition-all shadow-[0_15px_40px_rgba(255,159,10,0.4)] relative overflow-hidden group border border-white/10"
+              >
+                <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.3),transparent)] -translate-x-full group-hover:animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
+                <Ticket size={22} className="relative z-10 group-hover:rotate-12 transition-transform" />
+                <span className="relative z-10 text-sm md:text-lg uppercase tracking-[0.1em] drop-shadow-sm">הזמן עכשיו</span>
+              </motion.button>
             </div>
           </motion.div>
         </div>

@@ -4,19 +4,20 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Movie, getImageUrl } from '@/lib/tmdb';
-import { Play, Star, Info } from 'lucide-react';
+import { Play, Star, Info, Heart, Headphones, Ticket } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
 import TrailerButton from '@/components/movie/TrailerButton';
-
-interface FeaturedHeroProps {
-  movie?: Movie;
-}
-
 import { motion } from 'framer-motion';
 
+interface FeaturedHeroProps {
+  movie: Movie;
+}
+
 export default function FeaturedHero({ movie }: FeaturedHeroProps) {
-  const { setSelectedMovie } = useBookingStore();
+  const { setSelectedMovie, favorites, toggleFavorite } = useBookingStore();
   if (!movie) return null;
+
+  const isFavorite = favorites.some(m => m.id === movie.id);
 
   return (
         <section className="relative w-full h-[600px] md:h-[500px] rounded-[2.5rem] overflow-hidden group mx-auto max-w-[95%] mt-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)]">
@@ -71,25 +72,54 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="flex items-center gap-4 w-full md:w-auto"
+          className="flex flex-wrap md:flex-nowrap items-center gap-3 md:gap-4 w-full md:w-auto"
         >
-          <button 
-            onClick={() => setSelectedMovie(movie)}
-            className="flex-1 md:flex-none bg-[#FF9F0A] hover:bg-[#FF7A00] text-white px-8 py-4 rounded-2xl font-black flex items-center justify-center gap-3 transition-all shadow-[0_15px_30px_rgba(255,159,10,0.3)] active:scale-95 group/btn text-sm md:text-base uppercase tracking-widest"
-          >
-            <Play className="w-5 h-5 fill-white group-hover/btn:-translate-x-1 transition-transform rotate-180" />
-            צפה עכשיו
-          </button>
-          
-          <div className="hidden sm:block">
+          {/* Secondary Actions: Vertical Pills */}
+          <div className="flex items-center gap-2 h-14 md:h-16">
+            <motion.button
+              whileHover={{ scale: 1.1, translateY: -2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => toggleFavorite(movie)}
+              className={`w-10 md:w-12 h-full rounded-full flex items-center justify-center border transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden group ${
+                isFavorite 
+                ? 'bg-primary border-primary text-background shadow-[0_0_20px_rgba(255,159,10,0.4)]' 
+                : 'bg-white/10 backdrop-blur-3xl saturate-[200%] border-white/20 text-white hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]'
+              }`}
+            >
+              <Heart size={20} className={`${isFavorite ? 'fill-current' : ''} relative z-10 transition-transform duration-300 group-hover:scale-110`} />
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.1, translateY: -2 }}
+              whileTap={{ scale: 0.9 }}
+              className="w-10 md:w-12 h-full rounded-full flex items-center justify-center border bg-white/10 backdrop-blur-3xl saturate-[200%] border-white/20 text-white hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.3)] relative overflow-hidden group"
+            >
+              <Headphones size={20} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            </motion.button>
+          </div>
+
+          <div className="flex-1 md:flex-none">
             <TrailerButton movieId={movie.id} movieTitle={movie.displayTitle} variant="hero" />
           </div>
 
+          <motion.button 
+            whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 40px rgba(255,159,10,0.5)' }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setSelectedMovie(movie)}
+            className="flex-1 md:flex-none bg-gradient-to-br from-primary via-[#FF7A00] to-primary text-background px-8 h-14 md:h-16 rounded-[1.25rem] font-black flex items-center justify-center gap-3 transition-all shadow-[0_15px_40px_rgba(255,159,10,0.4)] group/btn relative overflow-hidden border border-white/10"
+          >
+            <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.3),transparent)] -translate-x-full group-hover/btn:animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
+            <Ticket className="w-5 h-5 relative z-10 group-hover:rotate-12 transition-transform" />
+            <span className="relative z-10 text-sm md:text-base uppercase tracking-widest drop-shadow-sm">הזמן עכשיו</span>
+          </motion.button>
+          
           <Link 
             href={`/movie/${movie.id}`}
-            className="w-14 h-14 bg-white/10 hover:bg-white/20 backdrop-blur-[40px] rounded-2xl flex items-center justify-center transition-all border-[0.5px] border-white/20 shadow-2xl shrink-0"
+            className="w-14 h-14 md:w-16 md:h-16 bg-white/5 hover:bg-white/10 backdrop-blur-3xl rounded-[1.25rem] flex items-center justify-center transition-all border border-white/10 shadow-2xl shrink-0 group"
           >
-            <Info className="w-6 h-6 text-white" />
+            <Info className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
           </Link>
         </motion.div>
       </div>
