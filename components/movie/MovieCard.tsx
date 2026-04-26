@@ -173,23 +173,23 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         </div>
       </Link>
       
-      <div className="p-3 md:p-5 relative text-right" style={{ transform: 'translateZ(30px)' }}>
-        <h3 className="text-sm md:text-base font-black text-white line-clamp-1 group-hover:text-primary transition-colors tracking-tight font-outfit mb-1">{movie.displayTitle}</h3>
-        <div className="flex flex-col md:flex-row md:items-center justify-between mt-2 md:mt-3 gap-2">
+      <div className="p-4 md:p-5 relative text-right" style={{ transform: 'translateZ(30px)' }}>
+        <h3 className="text-sm md:text-lg font-black text-white line-clamp-1 group-hover:text-primary transition-colors tracking-tighter font-outfit mb-1">{movie.displayTitle}</h3>
+        <div className="flex items-center justify-between mt-3 gap-2">
           <motion.button 
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.92 }}
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               setSelectedMovie(movie);
             }}
-            className="text-[10px] md:text-[11px] font-black bg-primary text-background px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 shadow-[0_10px_20px_rgba(255,159,10,0.2)] md:translate-y-2 md:group-hover:translate-y-0 uppercase tracking-widest w-full md:w-auto text-center"
+            className="text-[10px] md:text-[11px] font-black bg-primary text-background px-4 py-2 md:px-5 md:py-2.5 rounded-xl md:rounded-2xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 shadow-[0_15px_30px_rgba(255,159,10,0.3)] md:translate-y-2 md:group-hover:translate-y-0 uppercase tracking-widest flex-1 md:flex-none text-center"
           >
             הזמן עכשיו
           </motion.button>
-          <div className="flex items-center gap-1.5 text-slate-500 font-bold self-end md:self-auto">
-            <Calendar className="w-3 h-3 md:w-3.5 md:h-3.5" />
+          <div className="flex items-center gap-1.5 text-slate-400 font-bold">
+            <Calendar className="w-3.5 h-3.5" />
             <span className="text-[10px] md:text-[11px] tracking-widest uppercase">
               {movie.release_date ? new Date(movie.release_date).getFullYear() || 'TBA' : 'TBA'}
             </span>

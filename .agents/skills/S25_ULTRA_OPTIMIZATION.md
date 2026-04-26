@@ -27,3 +27,7 @@ This skill governs UI/UX adaptations specifically for ultra-high-resolution, lar
 - **Container Sizing**: Use `max-w-screen-sm` for centered content on large screens to avoid "stretching" the UI too wide horizontally.
 - **Typography Scale**: Increase base font-size slightly for "Ultra" layouts to maintain readability without overwhelming the vertical space.
 - **Spacing**: Use `space-y-6` or `space-y-8` instead of standard `space-y-4` to utilize the extra vertical real estate.
+
+## 🔍 6. Contextual Web Research
+- **Responsive References**: When modifying or creating new mobile UI components, use your web search capabilities to find real-world examples of responsive mobile design from premium entertainment or movie booking platforms (e.g., Alamo Drafthouse, AMC, premium VOD apps).
+- **Pattern Adaptation**: Analyze how these leading platforms handle similar layouts on ultra-wide or high-density mobile screens (e.g., seat maps, video players, horizontal scrolling grids). Adapt those proven ergonomic patterns into our unique **Liquid Glass 2.0** design system.

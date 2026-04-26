@@ -127,7 +127,9 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
     <>
     <div className="pb-20 text-right" dir="rtl">
       {/* Hero Backdrop */}
-      <section className="relative w-full h-[550px] overflow-hidden">
+    <div className="pb-20 text-right" dir="rtl">
+      {/* Hero Backdrop - Premium Vertical Focus on Mobile */}
+      <section className="relative w-full h-[600px] md:h-[550px] overflow-hidden">
         <Image
           src={getImageUrl(movie.backdrop_path, 'original')}
           alt={movie.title}
@@ -136,124 +138,110 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
           className="object-cover"
           priority
         />
-        {/* Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-[#111]/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-l from-[#111]/80 to-transparent" />
+        {/* Dynamic Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-l from-[#0F0F0F]/80 to-transparent hidden md:block" />
+        <div className="absolute inset-0 bg-black/20 opacity-40 md:hidden" />
 
-        {/* Back Button */}
+        {/* Back Button - Premium Glass */}
         <Link
           href="/"
-          className="absolute top-8 right-8 z-10 flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 text-white text-sm font-bold hover:bg-white/10 transition-all"
+          className="absolute top-6 right-6 md:top-8 md:right-8 z-10 flex items-center justify-center w-10 h-10 md:w-auto md:px-5 md:py-2.5 rounded-xl md:rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 text-white text-sm font-black hover:bg-white/10 transition-all shadow-2xl"
         >
-          <ArrowRight size={18} />
-          חזור
+          <ArrowRight size={20} className="md:ml-2" />
+          <span className="hidden md:inline">חזור למסך הבית</span>
         </Link>
 
         {/* Hero Content */}
-        <div className="absolute bottom-0 right-0 left-0 p-6 md:p-12 flex flex-col md:flex-row items-end gap-4 md:gap-8">
-          {/* Poster */}
+        <div className="absolute bottom-0 right-0 left-0 p-6 md:p-12 flex flex-col md:flex-row items-end gap-6 md:gap-10">
+          {/* Poster - Responsive visibility */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="hidden md:block w-[220px] h-[330px] rounded-3xl overflow-hidden border-2 border-white/10 shadow-2xl flex-shrink-0 relative"
+            className="w-[120px] h-[180px] md:w-[220px] md:h-[330px] rounded-2xl md:rounded-[2.5rem] overflow-hidden border-2 border-white/20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)] flex-shrink-0 relative self-start md:self-end"
           >
             <Image
               src={getImageUrl(movie.poster_path)}
               alt={movie.title}
               fill
-              sizes="220px"
-              className="object-cover"
+              sizes="(max-width: 768px) 120px, 220px"
+              className="object-cover saturate-[1.1]"
             />
           </motion.div>
 
-          {/* Info */}
+          {/* Info Area */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="flex-1 mb-2"
+            className="flex-1 w-full"
           >
             {movie.tagline && (
-              <p className="text-[#FF9F0A] text-sm font-bold mb-2 italic">&quot;{movie.tagline}&quot;</p>
+              <p className="text-primary text-xs md:text-sm font-black mb-2 uppercase tracking-widest opacity-90 drop-shadow-lg">&quot;{movie.tagline}&quot;</p>
             )}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 md:mb-4 leading-tight">{movie.title}</h1>
+            <h1 className="text-4xl md:text-6xl font-black text-white mb-4 leading-[0.9] tracking-tighter text-glow font-outfit">{movie.title}</h1>
 
-            {/* Meta Pills */}
-            <div className="flex flex-wrap gap-3 mb-6">
-              <MetaPill icon={<Star size={14} className="text-[#FF9F0A] fill-[#FF9F0A]" />}>
-                {movie.vote_average.toFixed(1)} ({movie.vote_count.toLocaleString()})
+            {/* Meta Pills - Scrollable on mobile */}
+            <div className="flex overflow-x-auto no-scrollbar gap-2 md:gap-3 mb-6 pb-2 md:pb-0">
+              <MetaPill icon={<Star size={14} className="text-primary fill-primary" />}>
+                {movie.vote_average.toFixed(1)}
               </MetaPill>
               {movie.runtime > 0 && (
                 <MetaPill icon={<Clock size={14} />}>{formatRuntime(movie.runtime)}</MetaPill>
               )}
               <MetaPill icon={<Calendar size={14} />}>
-                {new Date(movie.release_date).toLocaleDateString('he-IL')}
+                {new Date(movie.release_date).getFullYear()}
               </MetaPill>
               <MetaPill icon={<Globe size={14} />}>
                 {LANG_MAP[movie.original_language] || movie.original_language}
               </MetaPill>
             </div>
 
-            {/* Genre Tags */}
-            <div className="flex flex-wrap gap-2 mb-6">
-              {movie.genres.map(g => (
-                <span key={g.id} className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] font-black text-slate-300 uppercase tracking-widest">
-                  {g.name}
-                </span>
-              ))}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex items-center gap-3 md:gap-4 flex-wrap">
+            {/* Action Buttons Group */}
+            <div className="grid grid-cols-4 sm:flex items-center gap-3 md:gap-4">
               <button
                 onClick={handleBook}
-                className="bg-[#FF9F0A] hover:bg-[#FF7A00] text-white px-6 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl font-bold flex items-center gap-2 md:gap-3 transition-all shadow-xl shadow-orange-500/20 active:scale-95 text-sm md:text-base w-full sm:w-auto justify-center"
+                className="col-span-4 sm:flex-1 bg-primary hover:bg-[#FF7A00] text-background px-8 py-4 rounded-2xl font-black flex items-center justify-center gap-3 transition-all shadow-[0_15px_30px_rgba(255,159,10,0.3)] active:scale-95 text-sm md:text-lg uppercase tracking-widest"
               >
-                <Ticket size={20} className="w-4 h-4 md:w-5 md:h-5" />
-                הזמן כרטיסים
+                <Ticket size={24} />
+                הזמן עכשיו
               </button>
+              
               <button
                 onClick={() => videos.length > 0 && setShowTrailer(true)}
                 disabled={videos.length === 0}
-                className={`backdrop-blur-md text-white px-4 py-3 md:px-6 md:py-4 rounded-xl md:rounded-2xl font-bold flex items-center gap-2 md:gap-3 transition-all border border-white/10 active:scale-95 text-sm md:text-base flex-1 sm:flex-none justify-center ${
+                className={`col-span-2 sm:flex-none h-14 md:h-16 px-6 rounded-2xl font-black flex items-center justify-center gap-2 transition-all border border-white/10 active:scale-95 text-xs md:text-sm ${
                   videos.length > 0
-                    ? 'bg-white/5 hover:bg-white/10 cursor-pointer'
-                    : 'bg-white/[0.02] opacity-40 cursor-not-allowed'
+                    ? 'bg-white/10 backdrop-blur-xl text-white hover:bg-white/20'
+                    : 'bg-white/5 opacity-40 cursor-not-allowed text-slate-500'
                 }`}
               >
-                <Play className="fill-white w-4 h-4 md:w-5 md:h-5" />
-                {videos.length > 0 ? 'טריילר' : 'אין טריילר'}
+                <Play className="fill-white w-4 h-4" />
+                טריילר
               </button>
               
-              <div className="flex items-center gap-2 md:gap-4 flex-1 sm:flex-none justify-end md:justify-start">
+              <div className="col-span-2 flex items-center gap-2 md:gap-4">
                 <button
                   onClick={handleGenerateAudioGuide}
                   disabled={isGeneratingAudio}
-                  className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${
+                  className={`flex-1 h-14 md:h-16 rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${
                     isGeneratingAudio 
                     ? 'bg-primary/20 border-primary/40 text-primary' 
-                    : 'bg-white/5 hover:bg-white/10 border-white/5 text-white'
+                    : 'bg-white/10 backdrop-blur-xl border-white/10 text-white'
                   }`}
-                  title="מדריך קולי AI"
                 >
-                  {isGeneratingAudio ? <Loader2 size={18} className="animate-spin md:w-5 md:h-5" /> : <Headphones size={18} className="md:w-5 md:h-5" />}
+                  {isGeneratingAudio ? <Loader2 size={18} className="animate-spin" /> : <Headphones size={18} />}
                 </button>
                 <button 
                   onClick={handleFavorite}
-                  className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${
+                  className={`flex-1 h-14 md:h-16 rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${
                     isFavorite 
                     ? 'bg-primary border-primary text-background' 
-                    : 'bg-white/5 hover:bg-white/10 border-white/5 text-white'
+                    : 'bg-white/10 backdrop-blur-xl border-white/10 text-white'
                   }`}
                 >
-                  <Heart size={18} className={`md:w-5 md:h-5 ${isFavorite ? 'fill-current' : ''}`} />
-                </button>
-                <button 
-                  onClick={handleShare}
-                  className="w-12 h-12 md:w-14 md:h-14 bg-white/5 hover:bg-white/10 rounded-xl md:rounded-2xl flex items-center justify-center border border-white/5 transition-all text-white active:scale-95"
-                >
-                  <Share2 size={18} className="md:w-5 md:h-5" />
+                  <Heart size={18} className={isFavorite ? 'fill-current' : ''} />
                 </button>
               </div>
             </div>

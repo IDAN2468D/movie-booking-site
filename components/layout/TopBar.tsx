@@ -19,22 +19,25 @@ export default function TopBar() {
 
   return (
     <>
-      <header className="h-16 md:h-24 flex items-center justify-between px-4 md:px-10 bg-black/40 backdrop-blur-[40px] saturate-[200%] brightness-110 sticky top-0 z-40 border-b-[0.5px] border-white/20 shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.05)] transition-all duration-700">
+      <header className="h-16 md:h-24 flex items-center justify-between px-4 md:px-10 bg-black/40 backdrop-blur-[40px] saturate-[200%] brightness-110 sticky top-0 z-40 border-b-[0.5px] border-white/20 shadow-[0_15px_45px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(255,255,255,0.05)] transition-all duration-700">
+        {/* Holographic Subtle Glow */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-cyan-500/5 pointer-events-none" />
+
         {/* Mobile Logo */}
-        <Link href="/" className="flex md:hidden items-center gap-3">
-          <div className="w-10 h-10 bg-primary/20 backdrop-blur-xl border border-white/10 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,159,10,0.15)] overflow-hidden relative">
+        <Link href="/" className="flex md:hidden items-center gap-3 relative z-10">
+          <div className="w-10 h-10 bg-primary/20 backdrop-blur-xl border border-white/20 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,159,10,0.15)] overflow-hidden">
             <Image 
               src="/logo.png" 
               alt="Logo" 
               fill 
               unoptimized
-              className="object-cover scale-125"
+              className="object-cover scale-125 saturate-[1.2]"
             />
           </div>
-          <span className="text-xl font-black text-white tracking-tighter font-outfit leading-none">MOVIEBOOK</span>
+          <span className="text-xl font-black text-white tracking-tighter font-outfit leading-none drop-shadow-lg">MOVIEBOOK</span>
         </Link>
 
-        <div className="flex items-center gap-4 md:gap-10 flex-1 max-w-7xl justify-end md:justify-start">
+        <div className="flex items-center gap-4 md:gap-10 flex-1 max-w-7xl justify-end md:justify-start relative z-10">
           <div className="hidden md:block flex-1">
             <SearchBar onOpenFilter={() => setIsFilterOpen(true)} />
           </div>
@@ -42,16 +45,18 @@ export default function TopBar() {
             <CategoryTabs />
           </div>
 
-          {/* Mobile Search Button */}
+          {/* Mobile Search Button - Refined Glass */}
           <button 
             onClick={() => setIsFilterOpen(true)}
-            className="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/10 text-slate-400 active:scale-95 transition-transform"
+            className="md:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-white/5 backdrop-blur-2xl border border-white/10 text-white shadow-xl active:scale-90 transition-all group"
           >
-            <Search className="w-5 h-5" />
+            <Search className="w-5 h-5 group-hover:text-primary transition-colors" />
           </button>
         </div>
 
-        <UserProfile />
+        <div className="relative z-10">
+          <UserProfile />
+        </div>
       </header>
 
       <FilterModal 
