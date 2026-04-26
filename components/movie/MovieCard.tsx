@@ -143,16 +143,16 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-transparent to-transparent opacity-60" />
           
-          <div className="absolute top-4 left-4 bg-[#0F0F0F]/60 backdrop-blur-xl px-3 py-1.5 rounded-2xl border border-white/10 flex items-center gap-1.5 shadow-2xl">
-            <Star className="w-3.5 h-3.5 text-primary fill-primary" />
-            <span className="text-[11px] font-black text-white tracking-tighter">
+          <div className="absolute top-2 right-2 md:top-4 md:right-4 bg-[#0F0F0F]/60 backdrop-blur-xl px-2 py-1 md:px-3 md:py-1.5 rounded-xl md:rounded-2xl border border-white/10 flex items-center gap-1.5 shadow-2xl">
+            <Star className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary fill-primary" />
+            <span className="text-[10px] md:text-[11px] font-black text-white tracking-tighter">
               {typeof movie.vote_average === 'number' && !isNaN(movie.vote_average) 
                 ? movie.vote_average.toFixed(1) 
                 : '0.0'}
             </span>
           </div>
 
-          <div className="absolute top-4 right-4 flex flex-col gap-2.5 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0">
+          <div className="absolute top-2 left-2 md:top-4 md:left-4 flex flex-col gap-2 md:gap-2.5 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 md:translate-x-4 md:group-hover:translate-x-0">
             <button 
               onClick={handleFavorite}
               className={`w-10 h-10 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-xl ${
@@ -173,9 +173,9 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         </div>
       </Link>
       
-      <div className="p-5 relative text-right" style={{ transform: 'translateZ(30px)' }}>
-        <h3 className="text-base font-black text-white line-clamp-1 group-hover:text-primary transition-colors tracking-tight font-outfit mb-1">{movie.displayTitle}</h3>
-        <div className="flex items-center justify-between mt-3">
+      <div className="p-3 md:p-5 relative text-right" style={{ transform: 'translateZ(30px)' }}>
+        <h3 className="text-sm md:text-base font-black text-white line-clamp-1 group-hover:text-primary transition-colors tracking-tight font-outfit mb-1">{movie.displayTitle}</h3>
+        <div className="flex flex-col md:flex-row md:items-center justify-between mt-2 md:mt-3 gap-2">
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -184,13 +184,13 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
               e.stopPropagation();
               setSelectedMovie(movie);
             }}
-            className="text-[11px] font-black bg-primary text-background px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-[0_10px_20px_rgba(255,159,10,0.2)] translate-y-2 group-hover:translate-y-0 uppercase tracking-widest"
+            className="text-[10px] md:text-[11px] font-black bg-primary text-background px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 shadow-[0_10px_20px_rgba(255,159,10,0.2)] md:translate-y-2 md:group-hover:translate-y-0 uppercase tracking-widest w-full md:w-auto text-center"
           >
             הזמן עכשיו
           </motion.button>
-          <div className="flex items-center gap-1.5 text-slate-500 font-bold">
-            <Calendar className="w-3.5 h-3.5" />
-            <span className="text-[11px] tracking-widest uppercase">
+          <div className="flex items-center gap-1.5 text-slate-500 font-bold self-end md:self-auto">
+            <Calendar className="w-3 h-3 md:w-3.5 md:h-3.5" />
+            <span className="text-[10px] md:text-[11px] tracking-widest uppercase">
               {movie.release_date ? new Date(movie.release_date).getFullYear() || 'TBA' : 'TBA'}
             </span>
           </div>

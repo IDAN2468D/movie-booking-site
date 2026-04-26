@@ -172,10 +172,10 @@ export default function HomeContent({
 
         >
           {/* Holographic background glow */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-cyan-500/5 opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-cyan-500/5 opacity-40 pointer-events-none" />
           
-          <div className="flex items-center gap-4 relative z-10">
-              <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 overflow-hidden relative shadow-2xl group-hover:scale-105 transition-transform duration-500">
+          <div className="flex items-center gap-3 md:gap-4 relative z-10 flex-1 min-w-0">
+              <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 overflow-hidden relative shadow-2xl group-hover:scale-105 transition-transform duration-500 shrink-0">
                 <NextImage 
                   src={`https://image.tmdb.org/t/p/w200${selectedMovie.poster_path}`} 
                   alt={selectedMovie.displayTitle}
@@ -184,15 +184,15 @@ export default function HomeContent({
                   className="object-cover saturate-[1.1]"
                 />
               </div>
-             <div className="text-right">
-                <p className="text-[10px] text-primary font-black uppercase tracking-[0.2em] mb-1">הסרט שנבחר</p>
-                <p className="text-base text-white font-black line-clamp-1 font-outfit leading-tight">{selectedMovie.displayTitle}</p>
+             <div className="text-right flex-1 min-w-0">
+                <p className="text-[9px] md:text-[10px] text-primary font-black uppercase tracking-[0.2em] mb-0.5 md:mb-1">הסרט שנבחר</p>
+                <p className="text-sm md:text-base text-white font-black truncate font-outfit leading-tight">{selectedMovie.displayTitle}</p>
              </div>
           </div>
           
           <button 
             onClick={() => window.dispatchEvent(new CustomEvent('open-mobile-booking'))}
-            className="px-6 py-3 bg-primary text-background font-black rounded-2xl text-[11px] uppercase tracking-widest relative z-10 shadow-[0_10px_20px_rgba(255,159,10,0.2)] active:scale-95 transition-all duration-300"
+            className="px-4 py-2.5 md:px-6 md:py-3 bg-primary text-background font-black rounded-xl md:rounded-2xl text-[10px] md:text-[11px] uppercase tracking-widest relative z-10 shadow-[0_10px_20px_rgba(255,159,10,0.2)] active:scale-95 transition-all duration-300 shrink-0 ml-2"
           >
             הזמן עכשיו
           </button>

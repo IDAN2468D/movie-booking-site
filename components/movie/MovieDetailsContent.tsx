@@ -150,7 +150,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
         </Link>
 
         {/* Hero Content */}
-        <div className="absolute bottom-0 right-0 left-0 p-12 flex items-end gap-8">
+        <div className="absolute bottom-0 right-0 left-0 p-6 md:p-12 flex flex-col md:flex-row items-end gap-4 md:gap-8">
           {/* Poster */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -177,7 +177,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             {movie.tagline && (
               <p className="text-[#FF9F0A] text-sm font-bold mb-2 italic">&quot;{movie.tagline}&quot;</p>
             )}
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">{movie.title}</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 md:mb-4 leading-tight">{movie.title}</h1>
 
             {/* Meta Pills */}
             <div className="flex flex-wrap gap-3 mb-6">
@@ -205,61 +205,64 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 md:gap-4 flex-wrap">
               <button
                 onClick={handleBook}
-                className="bg-[#FF9F0A] hover:bg-[#FF7A00] text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-xl shadow-orange-500/20 active:scale-95"
+                className="bg-[#FF9F0A] hover:bg-[#FF7A00] text-white px-6 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl font-bold flex items-center gap-2 md:gap-3 transition-all shadow-xl shadow-orange-500/20 active:scale-95 text-sm md:text-base w-full sm:w-auto justify-center"
               >
-                <Ticket size={20} />
+                <Ticket size={20} className="w-4 h-4 md:w-5 md:h-5" />
                 הזמן כרטיסים
               </button>
               <button
                 onClick={() => videos.length > 0 && setShowTrailer(true)}
                 disabled={videos.length === 0}
-                className={`backdrop-blur-md text-white px-6 py-4 rounded-2xl font-bold flex items-center gap-3 transition-all border border-white/10 active:scale-95 ${
+                className={`backdrop-blur-md text-white px-4 py-3 md:px-6 md:py-4 rounded-xl md:rounded-2xl font-bold flex items-center gap-2 md:gap-3 transition-all border border-white/10 active:scale-95 text-sm md:text-base flex-1 sm:flex-none justify-center ${
                   videos.length > 0
                     ? 'bg-white/5 hover:bg-white/10 cursor-pointer'
                     : 'bg-white/[0.02] opacity-40 cursor-not-allowed'
                 }`}
               >
-                <Play size={20} className="fill-white" />
+                <Play className="fill-white w-4 h-4 md:w-5 md:h-5" />
                 {videos.length > 0 ? 'טריילר' : 'אין טריילר'}
               </button>
-              <button
-                onClick={handleGenerateAudioGuide}
-                disabled={isGeneratingAudio}
-                className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${
-                  isGeneratingAudio 
-                  ? 'bg-primary/20 border-primary/40 text-primary' 
-                  : 'bg-white/5 hover:bg-white/10 border-white/5 text-white'
-                }`}
-                title="מדריך קולי AI"
-              >
-                {isGeneratingAudio ? <Loader2 size={20} className="animate-spin" /> : <Headphones size={20} />}
-              </button>
-              <button 
-                onClick={handleFavorite}
-                className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${
-                  isFavorite 
-                  ? 'bg-primary border-primary text-background' 
-                  : 'bg-white/5 hover:bg-white/10 border-white/5 text-white'
-                }`}
-              >
-                <Heart size={20} className={isFavorite ? 'fill-current' : ''} />
-              </button>
-              <button 
-                onClick={handleShare}
-                className="w-14 h-14 bg-white/5 hover:bg-white/10 rounded-2xl flex items-center justify-center border border-white/5 transition-all text-white active:scale-95"
-              >
-                <Share2 size={20} />
-              </button>
+              
+              <div className="flex items-center gap-2 md:gap-4 flex-1 sm:flex-none justify-end md:justify-start">
+                <button
+                  onClick={handleGenerateAudioGuide}
+                  disabled={isGeneratingAudio}
+                  className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${
+                    isGeneratingAudio 
+                    ? 'bg-primary/20 border-primary/40 text-primary' 
+                    : 'bg-white/5 hover:bg-white/10 border-white/5 text-white'
+                  }`}
+                  title="מדריך קולי AI"
+                >
+                  {isGeneratingAudio ? <Loader2 size={18} className="animate-spin md:w-5 md:h-5" /> : <Headphones size={18} className="md:w-5 md:h-5" />}
+                </button>
+                <button 
+                  onClick={handleFavorite}
+                  className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center border transition-all active:scale-95 ${
+                    isFavorite 
+                    ? 'bg-primary border-primary text-background' 
+                    : 'bg-white/5 hover:bg-white/10 border-white/5 text-white'
+                  }`}
+                >
+                  <Heart size={18} className={`md:w-5 md:h-5 ${isFavorite ? 'fill-current' : ''}`} />
+                </button>
+                <button 
+                  onClick={handleShare}
+                  className="w-12 h-12 md:w-14 md:h-14 bg-white/5 hover:bg-white/10 rounded-xl md:rounded-2xl flex items-center justify-center border border-white/5 transition-all text-white active:scale-95"
+                >
+                  <Share2 size={18} className="md:w-5 md:h-5" />
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Main Content Grid */}
-      <div className="px-8 md:px-12 mt-12 space-y-12">
+      <div className="px-4 md:px-12 mt-8 md:mt-12 space-y-8 md:space-y-12">
         {/* Overview + Sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Overview */}
