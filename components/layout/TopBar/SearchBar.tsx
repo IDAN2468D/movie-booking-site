@@ -65,7 +65,7 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
           </button>
         )}
 
-        <Search className={`absolute ${isMobile ? 'right-12' : 'right-6'} w-5 h-5 transition-all duration-700 ${isSearchFocused ? 'text-primary scale-110 rotate-[15deg]' : 'text-slate-500'}`} />
+        <Search className={`absolute ${isMobile ? 'right-12' : 'right-6'} w-5 h-5 transition-all duration-700 ${isSearchFocused ? 'text-primary scale-110 rotate-[15deg]' : 'text-off-white/40'}`} />
         <input 
           type="text" 
           value={searchQuery}
@@ -73,14 +73,14 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
           onFocus={() => setIsSearchFocused(true)}
           onBlur={() => setTimeout(() => setIsSearchFocused(false), 250)}
           placeholder={isMobile ? "חפשו..." : "חפשו סרטים, במאים או חווית קולנוע..."}
-          className={`w-full bg-white/[0.04] backdrop-blur-3xl border border-white/10 rounded-[28px] ${isMobile ? 'py-3.5 pr-20 pl-16 text-sm' : 'py-6 pr-16 pl-32 text-base'} text-white focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all duration-700 placeholder:text-slate-500/50 font-bold tracking-tight shadow-3xl saturate-[1.5]`}
+          className={`w-full bg-white/[0.04] backdrop-blur-3xl border border-white/10 rounded-[28px] ${isMobile ? 'py-3.5 pr-20 pl-16 text-sm' : 'py-6 pr-16 pl-32 text-base'} text-white focus:outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all duration-700 placeholder:text-off-white/30 font-bold tracking-tight shadow-3xl saturate-[1.5]`}
         />
         
         <div className={`absolute left-4 flex items-center gap-3`}>
           {!isMobile && (
             <div className={`hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-white/[0.05] border border-white/10 shadow-inner transition-all duration-700 ${isSearchFocused ? 'border-primary/40 scale-90 opacity-40' : ''}`}>
-              <Command size={11} className="text-slate-500" />
-              <span className="text-[11px] font-black text-slate-500 tracking-tighter">K</span>
+              <Command size={11} className="text-off-white/40" />
+              <span className="text-[11px] font-black text-off-white/40 tracking-tighter">K</span>
             </div>
           )}
           <button 
@@ -106,7 +106,7 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
                   <div className="w-2 h-2 bg-primary rounded-full animate-ping" />
                   <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">תוצאות</p>
                 </div>
-                {!isMobile && <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest opacity-60">Scanning Database</span>}
+                {!isMobile && <span className="text-[10px] text-off-white/30 font-black uppercase tracking-widest opacity-60">Scanning Database</span>}
               </div>
               <div className="space-y-3">
                 {isSearching ? (
@@ -143,7 +143,7 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
                           <div className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20">
                             <span className="text-[10px] text-primary font-black">{movie.vote_average.toFixed(1)}</span>
                           </div>
-                          <span className="text-[10px] text-slate-500 font-black uppercase">
+                          <span className="text-[10px] text-off-white/40 font-black uppercase">
                             {movie.release_date ? String(movie.release_date).split('-')[0] : 'UPCOMING'}
                           </span>
                         </div>
@@ -152,7 +152,7 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
                   ))
                 ) : (
                   <div className="flex flex-col items-center justify-center py-10 gap-4">
-                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">אין תוצאות</p>
+                    <p className="text-[10px] font-black text-off-white/30 uppercase tracking-widest italic">אין תוצאות</p>
                   </div>
                 )}
               </div>
@@ -179,7 +179,7 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
                 </div>
                 <div className="flex flex-wrap gap-2 md:gap-4">
                   {trendingSearches.map(term => (
-                    <button key={term} className={`px-4 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-[10px] font-black text-slate-300 hover:bg-primary hover:text-background transition-all duration-500`}>
+                    <button key={term} className={`px-4 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-[10px] font-black text-off-white/80 hover:bg-primary hover:text-background transition-all duration-500`}>
                       {term}
                     </button>
                   ))}

@@ -20,10 +20,10 @@ export default function CategoryTabs() {
         <button 
           key={cat.id}
           onClick={() => setActiveCategory(cat.id)}
-          className={`px-7 py-2.5 rounded-2xl text-xs font-black transition-all duration-500 whitespace-nowrap uppercase tracking-widest border ${
+          className={`px-7 py-2.5 rounded-2xl text-sm font-bold transition-all duration-500 whitespace-nowrap border font-display tracking-tight ${
             activeCategory === cat.id 
-              ? 'bg-primary border-primary text-background shadow-[0_10px_30px_rgba(255,159,10,0.3)]' 
-              : 'text-slate-400 border-transparent hover:text-white hover:bg-white/5 hover:border-white/10'
+              ? 'bg-primary border-primary text-black shadow-[0_10px_30px_rgba(255,20,100,0.4)]' 
+              : 'text-off-white/60 border-transparent hover:text-white hover:bg-white/5 hover:border-white/10'
           }`}
         >
           {cat.name}

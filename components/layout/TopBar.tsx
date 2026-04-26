@@ -9,7 +9,6 @@ import { useBookingStore } from '@/lib/store';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-import LangToggle from './TopBar/LangToggle';
 
 export default function TopBar() {
   const { filters, setFilters } = useBookingStore();
@@ -28,7 +27,7 @@ export default function TopBar() {
         {/* Mobile Logo - Hidden when searching */}
         {!isMobileSearchOpen && (
           <Link href="/" className="flex md:hidden items-center gap-3 relative z-10 animate-in fade-in slide-in-from-right-4 duration-500">
-            <div className="w-10 h-10 bg-primary/20 backdrop-blur-xl border border-white/20 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,159,10,0.15)] overflow-hidden">
+            <div className="w-10 h-10 bg-primary/20 backdrop-blur-xl border border-white/20 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,20,100,0.2)] overflow-hidden">
               <Image 
                 src="/logo.png" 
                 alt="Logo" 
@@ -69,9 +68,6 @@ export default function TopBar() {
         {/* User Profile & Lang Toggle - Hidden on mobile search */}
         {!isMobileSearchOpen && (
           <div className="flex items-center gap-3 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
-            <div className="hidden md:block">
-              <LangToggle />
-            </div>
             <UserProfile />
           </div>
         )}
