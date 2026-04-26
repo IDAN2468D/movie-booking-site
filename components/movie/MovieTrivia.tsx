@@ -42,7 +42,8 @@ export default function MovieTrivia({ movieTitle }: { movieTitle: string }) {
         </div>
       </div>
 
-      <div className="relative h-[250px] perspective-1000">
+      <div className="relative h-[250px] [perspective:1000px]">
+
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -52,14 +53,16 @@ export default function MovieTrivia({ movieTitle }: { movieTitle: string }) {
             className="w-full h-full"
           >
             <div 
-              className={`w-full h-full cursor-pointer transition-all duration-500 preserve-3d ${isFlipped ? 'rotate-y-180' : ''}`}
+              className={`w-full h-full cursor-pointer transition-all duration-500 [transform-style:preserve-3d] ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}
+
               onClick={() => {
                 if (!isFlipped) setScore(s => s + 10);
                 setIsFlipped(!isFlipped);
               }}
             >
               {/* Front */}
-              <div className="absolute inset-0 backface-hidden bg-white/[0.02] border border-white/5 rounded-[40px] p-10 flex flex-col items-center justify-center text-center backdrop-blur-md">
+              <div className="absolute inset-0 [backface-visibility:hidden] bg-white/[0.02] border border-white/5 rounded-[40px] p-10 flex flex-col items-center justify-center text-center backdrop-blur-md">
+
                 <HelpCircle size={40} className="text-primary/40 mb-6" />
                 <h3 className="text-xl font-bold text-white leading-relaxed max-w-[500px]">
                   {MOCK_TRIVIA[currentIndex].question}
@@ -68,7 +71,8 @@ export default function MovieTrivia({ movieTitle }: { movieTitle: string }) {
               </div>
 
               {/* Back */}
-              <div className="absolute inset-0 backface-hidden rotate-y-180 bg-primary/10 border border-primary/20 rounded-[40px] p-10 flex flex-col items-center justify-center text-center backdrop-blur-md">
+              <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-primary/10 border border-primary/20 rounded-[40px] p-10 flex flex-col items-center justify-center text-center backdrop-blur-md">
+
                 <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-6">
                   <Trophy size={24} className="text-primary" />
                 </div>
@@ -88,12 +92,7 @@ export default function MovieTrivia({ movieTitle }: { movieTitle: string }) {
         </AnimatePresence>
       </div>
 
-      <style jsx>{`
-        .perspective-1000 { perspective: 1000px; }
-        .preserve-3d { transform-style: preserve-3d; }
-        .backface-hidden { backface-visibility: hidden; }
-        .rotate-y-180 { transform: rotateY(180deg); }
-      `}</style>
     </section>
   );
 }
+
