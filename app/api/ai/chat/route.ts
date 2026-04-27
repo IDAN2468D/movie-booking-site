@@ -38,21 +38,21 @@ export async function POST(req: NextRequest) {
     // Ensure history starts with user and alternates
     const firstUserIndex = formattedHistory.findIndex((m: any) => m.role === 'user');
     let validHistory = firstUserIndex !== -1 ? formattedHistory.slice(firstUserIndex) : [];
-    
+
     // Deduplicate consecutive roles (Gemini requirement)
     validHistory = validHistory.filter((msg: any, i: number) => {
       if (i === 0) return true;
-      return msg.role !== validHistory[i-1].role;
+      return msg.role !== validHistory[i - 1].role;
     });
 
     let modelUsed = '';
     try {
-      const modelNames = ['gemini-2.5-flash', 'gemini-3.1-flash-lite-preview', 'gemini-1.5-flash'];
+      const modelNames = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-3.1-flash-lite-preview', 'gemini-1.5-flash-latest'];
       const { callGeminiWithRetry } = await import('@/lib/gemini');
-      
+
       const resultData = await callGeminiWithRetry(modelNames, async (model) => {
         // Use the system instruction from the previous context
-        const chatModel = genAI.getGenerativeModel({ 
+        const chatModel = genAI.getGenerativeModel({
           model: model.model,
           systemInstruction: `
             אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
         const result = await chat.sendMessage(message);
         return { text: result.response.text(), modelName: model.model };
       });
-      
+
       responseText = resultData.text;
       modelUsed = resultData.modelName;
     } catch (err: any) {
@@ -91,17 +91,17 @@ export async function POST(req: NextRequest) {
       throw err;
     }
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       response: responseText,
       model: modelUsed
     });
 
   } catch (error: any) {
     console.error('AI Chat Error:', error);
-    return NextResponse.json({ 
-      success: false, 
-      error: error.message || 'Failed to process chat message' 
+    return NextResponse.json({
+      success: false,
+      error: error.message || 'Failed to process chat message'
     }, { status: 500 });
   }
 }

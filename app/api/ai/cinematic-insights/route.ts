@@ -27,29 +27,29 @@ export async function POST(req: NextRequest) {
       }
     `;
 
-    const modelNames = ['gemini-2.5-flash', 'gemini-3.1-flash-lite-preview', 'gemini-1.5-flash'];
+    const modelNames = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-3.1-flash-lite-preview', 'gemini-1.5-flash-latest'];
     const { callGeminiWithRetry } = await import('@/lib/gemini');
-    
+
     const { text, modelUsed } = await callGeminiWithRetry(modelNames, async (model) => {
       const result = await model.generateContent(prompt);
       return { text: result.response.text(), modelUsed: model.model };
     });
-    
+
     // Clean JSON if needed
     const jsonStr = text.replace(/```json|```/g, '').trim();
     const insights = JSON.parse(jsonStr);
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       insights,
       model: modelUsed
     });
 
   } catch (error) {
     console.error('AI Insights Error:', error);
-    return NextResponse.json({ 
-      success: false, 
-      error: 'Failed to generate insights' 
+    return NextResponse.json({
+      success: false,
+      error: 'Failed to generate insights'
     }, { status: 500 });
   }
 }
