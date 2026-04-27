@@ -34,7 +34,7 @@ export const GENRE_MAP: Record<string, number> = {
 };
 
 export const getImageUrl = (path: string | null, size: 'w500' | 'original' = 'w500') => {
-  if (!path) return 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=300';
+  if (!path) return 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&q=80&w=400';
   return `${IMAGE_BASE_URL}/${size}${path}`;
 };
 

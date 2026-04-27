@@ -26,11 +26,9 @@ export async function POST(req: NextRequest) {
       specificMovie = await movieRes.json();
     }
 
-    // 3. Robust Gemini Call with 3-tier Fallback
-    const modelTiers = ['gemini-3.1-flash-lite-preview', 'gemini-1.5-flash', 'gemini-1.5-pro'];
+    // 3. Simple Gemini Call (User requested ONLY 3.1 Flash Lite)
+    const modelName = 'gemini-3.1-flash-lite-preview';
     let responseText = '';
-    let success = false;
-    let lastError = null;
 
     const formattedHistory = history.map((msg: any) => ({
       role: msg.role === 'user' ? 'user' : 'model',
@@ -47,9 +45,13 @@ export async function POST(req: NextRequest) {
       return msg.role !== validHistory[i-1].role;
     });
 
-    for (const modelName of modelTiers) {
-      try {
-        const model = genAI.getGenerativeModel({ 
+    try {
+      const modelName = 'gemini-3.1-flash-lite-preview';
+      const { callGeminiWithRetry } = await import('@/lib/gemini');
+      
+      responseText = await callGeminiWithRetry(modelName, async (model) => {
+        // Use the system instruction from the previous context
+        const chatModel = genAI.getGenerativeModel({ 
           model: modelName,
           systemInstruction: `
             אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
@@ -73,28 +75,22 @@ export async function POST(req: NextRequest) {
           `,
         });
 
-        const chat = model.startChat({
+        const chat = chatModel.startChat({
           history: validHistory,
         });
 
         const result = await chat.sendMessage(message);
-        responseText = result.response.text();
-        success = true;
-        break; // Exit loop if successful
-      } catch (err: any) {
-        console.warn(`Model ${modelName} failed, trying next...`, err.message);
-        lastError = err;
-        // Continue to next tier
-      }
-    }
-
-    if (!success) {
-      throw lastError || new Error('All AI models failed');
+        return result.response.text();
+      });
+    } catch (err: any) {
+      console.error(`AI Chat Error after retries:`, err.message);
+      throw err;
     }
 
     return NextResponse.json({ 
       success: true, 
-      response: responseText 
+      response: responseText,
+      model: modelName
     });
 
   } catch (error: any) {

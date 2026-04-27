@@ -21,7 +21,7 @@ export default function HolographicBackground() {
           repeat: Infinity, 
           ease: "linear" 
         }}
-        className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(10,239,255,0.03)_0%,transparent_50%)] blur-[60px] will-change-transform"
+        className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(10,239,255,0.03)_0%,transparent_50%)] blur-[20px] will-change-transform"
       />
       
       <motion.div 
@@ -35,7 +35,7 @@ export default function HolographicBackground() {
           repeat: Infinity, 
           ease: "linear" 
         }}
-        className="absolute -bottom-[50%] -right-[50%] w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(255,159,10,0.03)_0%,transparent_50%)] blur-[60px] will-change-transform"
+        className="absolute -bottom-[50%] -right-[50%] w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(255,159,10,0.03)_0%,transparent_50%)] blur-[20px] will-change-transform"
       />
 
       {/* Static Refraction Grid */}

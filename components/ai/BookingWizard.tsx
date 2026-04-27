@@ -50,11 +50,46 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
       return;
     }
 
+    if (!session) {
+      alert('יש להתחבר למערכת כדי לבצע הזמנה');
+      return;
+    }
+
     setIsProcessing(true);
     try {
-      const orderId = `MB-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+      // 1. Create Booking in DB
+      const bookingResponse = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          movie: {
+            id: movie.id,
+            title: movie.title || '',
+            displayTitle: movie.displayTitle,
+            poster_path: movie.poster_path,
+          },
+          seats: selectedSeats,
+          food: [],
+          total: selectedSeats.length * 45,
+          paymentInfo: {
+            cardName: session?.user?.name || 'AI Booking',
+            cardNumber: '4580000000001234', // Mock for AI Concierge
+          },
+          showtime: selectedShowtime || '19:30',
+          date: new Date().toISOString(),
+          pointsUsed: 0,
+        }),
+      });
+
+      const bookingData = await bookingResponse.json();
+      if (!bookingResponse.ok || !bookingData.success) {
+        throw new Error(bookingData.error || 'Failed to create booking');
+      }
+
+      const orderId = bookingData.bookingId;
       
-      const response = await fetch('/api/send-ticket', {
+      // 2. Send Ticket via Email
+      const emailResponse = await fetch('/api/send-ticket', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -65,22 +100,23 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
           orderId,
           posterUrl: getImageUrl(movie.poster_path, 'w500'),
           date: new Date().toLocaleDateString('he-IL'),
-          time: selectedShowtime,
+          time: selectedShowtime || '19:30',
           hall: 'אולם IMAX',
           userName: session?.user?.name || 'אורח'
         }),
       });
 
-      const data = await response.json();
-      if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Failed to send ticket');
+      const emailData = await emailResponse.json();
+      if (!emailResponse.ok || !emailData.success) {
+        console.error('Email send failed but booking was created:', emailData);
+        // We still show success since the booking exists in DB
       }
 
       setStep(5);
       if (onComplete) onComplete();
     } catch (error) {
-      console.error('Error sending ticket:', error);
-      alert(`אירעה שגיאה בשליחת הכרטיסים: ${(error as Error).message}`);
+      console.error('Error in handleFinish:', error);
+      alert(`אירעה שגיאה בתהליך ההזמנה: ${(error as Error).message}`);
     } finally {
       setIsProcessing(false);
     }

@@ -27,30 +27,13 @@ export async function POST(req: NextRequest) {
       }
     `;
 
-    let result;
-    let usedModel = 'gemini-3.1-flash-lite-preview';
-
-    try {
-      // Primary attempt with 3.1 Flash Lite (requested by user)
-      const targetModel = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite-preview' });
-      result = await targetModel.generateContent(prompt);
-    } catch (e: any) {
-      console.warn('Gemini 3.1 Flash Lite unavailable, trying stable 1.5 Flash...', e.message);
-      try {
-        // Fallback attempt with stable 1.5 Flash
-        usedModel = 'gemini-1.5-flash';
-        const fallbackModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-        result = await fallbackModel.generateContent(prompt);
-      } catch (e2: any) {
-        console.warn('Gemini 1.5 Flash also unavailable, trying 1.5 Pro...', e2.message);
-        // Last resort fallback
-        usedModel = 'gemini-1.5-pro';
-        const lastResortModel = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
-        result = await lastResortModel.generateContent(prompt);
-      }
-    }
-
-    const responseText = result.response.text();
+    const modelName = 'gemini-3.1-flash-lite-preview';
+    const { callGeminiWithRetry } = await import('@/lib/gemini');
+    
+    const responseText = await callGeminiWithRetry(modelName, async (model) => {
+      const result = await model.generateContent(prompt);
+      return result.response.text();
+    });
     
     // Clean JSON if needed
     const jsonStr = responseText.replace(/```json|```/g, '').trim();
@@ -59,7 +42,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ 
       success: true, 
       insights,
-      model: usedModel
+      model: modelName
     });
 
   } catch (error) {

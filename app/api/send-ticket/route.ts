@@ -153,10 +153,10 @@ export async function POST(req: Request) {
     });
 
     const subject = `🎬 הכרטיס שלך לסרט ${movieTitle} מוכן!`;
-    const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
+    const encodedSubject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
     
     // 2. Build Multipart Email Message
-    const boundary = '__boundary__';
+    const boundary = `----=_Part_${Math.random().toString(36).substring(2)}`;
     const nl = '\r\n';
     
     const htmlBody = `
@@ -187,18 +187,21 @@ export async function POST(req: Request) {
         </div>
     `;
 
-    const message = [
-      `From: MovieBook <${process.env.GMAIL_USER}>`,
+    // Encode HTML part to base64 to safely handle Hebrew
+    const htmlBase64 = Buffer.from(htmlBody).toString('base64');
+
+    const messageParts = [
+      `From: MovieBook <${process.env.GMAIL_USER || 'no-reply@moviebook.com'}>`,
       `To: ${email}`,
-      `Subject: ${utf8Subject}`,
+      `Subject: ${encodedSubject}`,
       `MIME-Version: 1.0`,
       `Content-Type: multipart/mixed; boundary="${boundary}"`,
       '',
       `--${boundary}`,
       `Content-Type: text/html; charset=utf-8`,
-      `Content-Transfer-Encoding: 7bit`,
+      `Content-Transfer-Encoding: base64`,
       '',
-      htmlBody,
+      htmlBase64,
       '',
       `--${boundary}`,
       `Content-Type: application/pdf`,
@@ -208,7 +211,9 @@ export async function POST(req: Request) {
       pdfBuffer.toString('base64'),
       '',
       `--${boundary}--`,
-    ].join(nl);
+    ];
+
+    const message = messageParts.join(nl);
 
     const encodedMessage = Buffer.from(message)
       .toString('base64')

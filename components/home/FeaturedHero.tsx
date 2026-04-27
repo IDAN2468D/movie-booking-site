@@ -56,12 +56,12 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
             className="flex items-center gap-3 mb-6"
           >
             <div className="bg-primary text-black text-[10px] font-black px-3 py-1.5 rounded-xl tracking-[0.2em] uppercase shadow-lg shadow-primary/20 font-display">PREMIUM AI CHOICE</div>
-            <div className="flex items-center gap-1.5 bg-white/5 backdrop-blur-3xl px-3 py-1.5 rounded-xl text-white text-[10px] md:text-xs border border-white/10 shadow-2xl">
+            <div className="flex items-center gap-1.5 bg-white/5 backdrop-blur-xl px-3 py-1.5 rounded-xl text-white text-[10px] md:text-xs border border-white/10 shadow-2xl">
               <Star className="w-3.5 h-3.5 text-primary fill-primary" />
               <span className="font-black text-white/90">דירוג {movie.vote_average.toFixed(1)}</span>
             </div>
             {movie.release_date && (
-              <div className="bg-white/5 backdrop-blur-3xl px-3 py-1.5 rounded-xl text-white/70 text-[10px] md:text-xs border border-white/10 font-black">
+              <div className="bg-white/5 backdrop-blur-xl px-3 py-1.5 rounded-xl text-white/70 text-[10px] md:text-xs border border-white/10 font-black">
                 {movie.release_date.split('-')[0]}
               </div>
             )}
@@ -148,8 +148,8 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
       </div>
 
       {/* Holographic Refraction Glow */}
-      <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen opacity-50" />
-      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen opacity-50" />
+      <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-[60px] pointer-events-none mix-blend-screen opacity-50" />
+      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-[60px] pointer-events-none mix-blend-screen opacity-50" />
     </section>
   );
 }
