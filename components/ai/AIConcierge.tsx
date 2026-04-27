@@ -66,30 +66,35 @@ export const AIConcierge = () => {
     
     // Parse Actions
     let actionTriggered = false;
-    if (response.includes('[ACTION:BOOK:') || response.includes('[ACTION:PURCHASE:')) {
-      const match = response.match(/\[ACTION:(?:BOOK|PURCHASE):(\d+)\]/);
-      if (match) {
-        const movieId = parseInt(match[1], 10);
-        try {
-          const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=he-IL`);
-          const movieData = await res.json();
-          
-          // Instead of redirecting, we add a wizard message
-          addMessage(response, 'assistant', 'booking-wizard', {
-            id: movieData.id,
-            title: movieData.title,
-            displayTitle: movieData.title,
-            poster_path: movieData.poster_path,
-            backdrop_path: movieData.backdrop_path,
-            vote_average: movieData.vote_average,
-            release_date: movieData.release_date,
-            overview: movieData.overview,
-            genre_ids: movieData.genres?.map((g: any) => g.id) || [],
-          });
-          actionTriggered = true;
-        } catch (e) {
-          console.error("Action error:", e);
-        }
+    const actionRegex = /\[ACTION:(?:BOOK|PURCHASE):\s*(\d+)\]/i;
+    const match = response.match(actionRegex);
+
+    if (match) {
+      const movieId = parseInt(match[1], 10);
+      try {
+        setThinking(true); // Re-show thinking for the fetch
+        const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=he-IL`);
+        
+        if (!res.ok) throw new Error('Failed to fetch movie details');
+        
+        const movieData = await res.json();
+        
+        addMessage(response, 'assistant', 'booking-wizard', {
+          id: movieData.id,
+          title: movieData.title,
+          displayTitle: movieData.title,
+          poster_path: movieData.poster_path,
+          backdrop_path: movieData.backdrop_path,
+          vote_average: movieData.vote_average,
+          release_date: movieData.release_date,
+          overview: movieData.overview,
+          genre_ids: movieData.genres?.map((g: any) => g.id) || [],
+        });
+        actionTriggered = true;
+      } catch (e) {
+        console.error("Action error:", e);
+        addMessage("חלקה שגיאה קטנה בטעינת פרטי הסרט. תרצה שאנסה שוב?", 'assistant');
+        actionTriggered = true; // Still mark as triggered to avoid double message
       }
     }
 
@@ -120,25 +125,24 @@ export const AIConcierge = () => {
       );
     }
 
-    return cleaned;
+    return <span className="whitespace-pre-wrap">{cleaned}</span>;
   };
 
   const isMoviePage = !!currentMovieId;
 
   return (
-    <div className="fixed bottom-28 md:bottom-10 right-6 md:right-72 z-[2000]" dir="rtl">
+    <div className="fixed inset-0 pointer-events-none md:inset-auto md:bottom-10 md:right-72 z-[2000]" dir="rtl">
       <AnimatePresence>
         {isConciergeOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 40, filter: 'blur(20px)' }}
+            initial={{ opacity: 0, scale: 0.95, y: 20, filter: 'blur(20px)' }}
             animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, scale: 0.9, y: 40, filter: 'blur(20px)' }}
-            className="absolute bottom-24 right-0 w-[calc(100vw-48px)] md:w-[420px] h-[70vh] md:h-[600px] overflow-hidden rounded-[40px] md:rounded-[48px] border-[0.5px] border-white/20 flex flex-col shadow-[0_40px_120px_rgba(0,0,0,0.8)] origin-bottom-right"
+            exit={{ opacity: 0, scale: 0.95, y: 20, filter: 'blur(20px)' }}
+            className="pointer-events-auto absolute bottom-0 right-0 w-full md:w-[420px] h-[100dvh] md:h-[600px] md:bottom-24 md:right-0 overflow-hidden md:rounded-[48px] border-[0.5px] border-white/20 flex flex-col shadow-[0_40px_120px_rgba(0,0,0,0.8)] origin-bottom"
             style={{
-              background: 'rgba(10, 10, 15, 0.6)',
-              backdropFilter: 'blur(40px) saturate(200%) brightness(1.1)',
+              background: 'rgba(10, 10, 15, 0.85)',
+              backdropFilter: 'blur(60px) saturate(220%) brightness(1.2)',
             }}
-
           >
 
             {/* Glossy Overlay */}
@@ -276,7 +280,7 @@ export const AIConcierge = () => {
         onClick={toggleConcierge}
         whileHover={{ scale: 1.05, boxShadow: isMoviePage ? '0 0 50px rgba(6, 182, 212, 0.4)' : '0 0 50px rgba(255, 159, 10, 0.4)' }}
         whileTap={{ scale: 0.95 }}
-        className="relative w-20 h-20 rounded-full flex items-center justify-center overflow-hidden border-[0.5px] border-white/30 group z-20"
+        className="pointer-events-auto fixed bottom-28 md:bottom-10 right-6 md:right-72 w-20 h-20 rounded-full flex items-center justify-center overflow-hidden border-[0.5px] border-white/30 group z-20"
         style={{
           background: isMoviePage ? 'rgba(6, 182, 212, 0.1)' : 'rgba(255, 159, 10, 0.1)',
           backdropFilter: 'blur(40px) saturate(200%)',

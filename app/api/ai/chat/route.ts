@@ -26,52 +26,82 @@ export async function POST(req: NextRequest) {
       specificMovie = await movieRes.json();
     }
 
-    // 3. Initialize Gemini with systemInstruction for persistence
-    const model = genAI.getGenerativeModel({ 
-      model: 'gemini-3.1-flash-lite-preview',
-      systemInstruction: `
-        אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
-        הזהות שלך: עוזר אישי (Concierge), מקצועי, ויוקרתי.
-        
-        חוקי ברזל (MANDATORY):
-        1. **לעולם אל תפנה לאתרים חיצוניים** (סינמה סיטי, יס פלאנט וכו'). אל תיתן קישורים חיצוניים.
-        2. **יכולת הזמנה**: בניגוד לבינה מלאכותית רגילה, לך **יש** יכולת להזמין כרטיסים! אתה עושה זאת על ידי שימוש בתגית: [ACTION:BOOK:MOVIE_ID].
-        3. **אל תסרב להזמין**: אם המשתמש רוצה להזמין, אל תגיד "אני לא יכול". פשוט תפעיל את האשף עם התגית.
-        
-        פרוטוקול פעולה:
-        - הזמנת כרטיס/רכישה: [ACTION:BOOK:ID]
-        - הסבר למשתמש: "בשמחה! אני פותח לך כעת את מערכת ההזמנות היוקרתית שלנו כאן בצ'אט."
-        
-        הקשר סרטים:
-        ${JSON.stringify(hotMovies)}
-        ID: 533535 - דדפול & וולברין (Deadpool & Wolverine)
-        ${specificMovie ? `סרט נוכחי: ${specificMovie.title} (ID: ${specificMovie.id})` : ''}
-      `,
-    });
+    // 3. Robust Gemini Call with 3-tier Fallback
+    const modelTiers = ['gemini-3.1-flash-lite-preview', 'gemini-1.5-flash', 'gemini-1.5-pro'];
+    let responseText = '';
+    let success = false;
+    let lastError = null;
 
     const formattedHistory = history.map((msg: any) => ({
       role: msg.role === 'user' ? 'user' : 'model',
       parts: [{ text: msg.content }],
     }));
 
+    // Ensure history starts with user and alternates
     const firstUserIndex = formattedHistory.findIndex((m: any) => m.role === 'user');
-    const validHistory = firstUserIndex !== -1 ? formattedHistory.slice(firstUserIndex) : [];
-
-    const chat = model.startChat({
-      history: validHistory,
+    let validHistory = firstUserIndex !== -1 ? formattedHistory.slice(firstUserIndex) : [];
+    
+    // Deduplicate consecutive roles (Gemini requirement)
+    validHistory = validHistory.filter((msg: any, i: number) => {
+      if (i === 0) return true;
+      return msg.role !== validHistory[i-1].role;
     });
 
-    const result = await chat.sendMessage(message);
-    const responseText = result.response.text();
+    for (const modelName of modelTiers) {
+      try {
+        const model = genAI.getGenerativeModel({ 
+          model: modelName,
+          systemInstruction: `
+            אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
+            הזהות שלך: עוזר אישי (Concierge), מקצועי, ויוקרתי.
+            
+            חוקי ברזל (MANDATORY):
+            1. **לעולם אל תפנה לאתרים חיצוניים** (סינמה סיטי, יס פלאנט וכו'). אל תיתן קישורים חיצוניים.
+            2. **יכולת הזמנה**: בניגוד לבינה מלאכותית רגילה, לך **יש** יכולת להזמין כרטיסים! אתה עושה זאת על ידי שימוש בתגית: [ACTION:BOOK:MOVIE_ID].
+            3. **אל תסרב להזמין**: אם המשתמש רוצה להזמין, אל תגיד "אני לא יכול". פשוט תפעיל את האשף עם התגית.
+            4. **סרטים ספציפיים**: 
+               - אם המשתמש מבקש את הסרט "פרא" (The Wild Robot), ה-ID הוא 1184918.
+               - אם המשתמש מבקש "דדפול", ה-ID הוא 533535.
+            
+            פרוטוקול פעולה:
+            - הזמנת כרטיס/רכישה: [ACTION:BOOK:ID]
+            - הסבר למשתמש: "בשמחה! אני פותח לך כעת את מערכת ההזמנות היוקרתית שלנו כאן בצ'אט."
+            
+            הקשר סרטים חמים:
+            ${JSON.stringify(hotMovies)}
+            ${specificMovie ? `סרט נוכחי: ${specificMovie.title} (ID: ${specificMovie.id})` : ''}
+          `,
+        });
+
+        const chat = model.startChat({
+          history: validHistory,
+        });
+
+        const result = await chat.sendMessage(message);
+        responseText = result.response.text();
+        success = true;
+        break; // Exit loop if successful
+      } catch (err: any) {
+        console.warn(`Model ${modelName} failed, trying next...`, err.message);
+        lastError = err;
+        // Continue to next tier
+      }
+    }
+
+    if (!success) {
+      throw lastError || new Error('All AI models failed');
+    }
 
     return NextResponse.json({ 
       success: true, 
       response: responseText 
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('AI Chat Error:', error);
-    // Fallback to simpler logic if Gemini fails
-    return NextResponse.json({ error: 'Failed to process chat message' }, { status: 500 });
+    return NextResponse.json({ 
+      success: false, 
+      error: error.message || 'Failed to process chat message' 
+    }, { status: 500 });
   }
 }
