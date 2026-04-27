@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import CategoryFilters from './CategoryFilters';
 import MovieSection from './MovieSection';
 import FeaturedHero from './FeaturedHero';
-import AIRecommendations from './AIRecommendations';
 import CinemaShowcase from './CinemaShowcase';
 import { Movie, GENRE_MAP, getMoviesByGenre } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
@@ -17,13 +16,15 @@ interface HomeContentProps {
   topRatedMovies: Movie[];
   trendingMovies: Movie[];
   nowPlayingMovies: Movie[];
+  recommendationsNode?: React.ReactNode;
 }
 
 export default function HomeContent({ 
   popularMovies, 
   topRatedMovies, 
   trendingMovies,
-  nowPlayingMovies
+  nowPlayingMovies,
+  recommendationsNode
 }: HomeContentProps) {
   const { activeCategory, setActiveCategory, selectedMovie, searchQuery, filters } = useBookingStore();
   const [genreMovies, setGenreMovies] = React.useState<Record<string, Movie[]>>({});
@@ -104,18 +105,29 @@ export default function HomeContent({
   const isGlobalFiltering = searchQuery !== '' || filters.genre !== 'הכל' || filters.rating > 0 || filters.year !== 'הכל';
 
   return (
-    <div className="relative min-h-screen pb-20">
+    <div className="relative min-h-screen pb-20 overflow-x-hidden [transform:translateZ(0)]">
       <HolographicBackground />
       
-      <div className="relative z-10">
+      <div className="relative z-10 [transform:translateZ(0)]">
         <FeaturedHero movie={trendingMovies[0]} />
 
-        <div className="px-2 mt-8">
+        <div className="px-4 mt-8">
           <CategoryFilters />
         </div>
 
-      {activeCategory === 'all' && <AIRecommendations />}
-      {activeCategory === 'all' && <CinemaShowcase />}
+        {/* 🚀 Smart Picks - AI Recommendations (Now at the Top) */}
+        {activeCategory === 'all' && (
+          <div className="relative z-20">
+            <div className="absolute inset-0 bg-primary/5 blur-[120px] pointer-events-none" />
+            {recommendationsNode}
+          </div>
+        )}
+
+        {activeCategory === 'all' && (
+          <React.Fragment key="all-content">
+            <CinemaShowcase />
+          </React.Fragment>
+        )}
 
       <div className="space-y-4">
         {isLoadingGenre ? (
@@ -129,23 +141,26 @@ export default function HomeContent({
             movies={moviesToShow} 
           />
         ) : activeCategory === 'all' ? (
-          <>
+          <React.Fragment key="default-movie-sections">
             <MovieSection 
+              key="now-playing"
               title="מוקרן כעת" 
               movies={nowPlayingMovies.slice(0, 12)} 
               onSeeAll={() => setActiveCategory('recent')}
             />
             <MovieSection 
+              key="popular"
               title="סרטים פופולריים" 
               movies={popularMovies.slice(0, 12)} 
               onSeeAll={() => setActiveCategory('trending')}
             />
             <MovieSection 
+              key="top-rated"
               title="הכי מדורגים" 
               movies={topRatedMovies.slice(0, 12)} 
               onSeeAll={() => setActiveCategory('top')}
             />
-          </>
+          </React.Fragment>
         ) : (
           <MovieSection 
             title={activeCategory === 'trending' ? 'במגמה' : 

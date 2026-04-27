@@ -231,6 +231,15 @@ export async function getSimilarMovies(id: number): Promise<Movie[]> {
   }
 }
 
+export async function getRecommendations(id: number): Promise<Movie[]> {
+  try {
+    const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>(`/movie/${id}/recommendations`);
+    return data.results.map(formatMovieData);
+  } catch {
+    return [];
+  }
+}
+
 export async function getMovieById(id: number): Promise<Movie | null> {
   try {
     const data = await fetchFromTMDB<TMDBMovie>(`/movie/${id}`);

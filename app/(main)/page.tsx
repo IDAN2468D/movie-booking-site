@@ -1,5 +1,8 @@
+import { Suspense } from 'react';
 import { getPopularMovies, getTopRatedMovies, getTrendingMovies, getNowPlayingMovies, type Movie } from '@/lib/tmdb';
 import HomeContent from '@/components/home/HomeContent';
+import SmartPicks from '@/components/home/SmartPicks';
+import SmartPicksSkeleton from '@/components/home/SmartPicksSkeleton';
 
 export default async function Home() {
   let popularMovies: Movie[] = [], 
@@ -18,7 +21,7 @@ export default async function Home() {
     console.error('Failed to fetch movies from TMDB:', error);
   }
 
-  // Fallback for E2E tests and offline mode (GOVERNANCE Rule: Reliability)
+  // Fallback for E2E tests and offline mode
   if (popularMovies.length === 0) {
     const mockMovie = (id: number, title: string): Movie => ({
       id,
@@ -48,6 +51,11 @@ export default async function Home() {
       topRatedMovies={topRatedMovies}
       trendingMovies={trendingMovies}
       nowPlayingMovies={nowPlayingMovies}
+      recommendationsNode={
+        <Suspense key="ai-recommendations-suspense" fallback={<SmartPicksSkeleton />}>
+          <SmartPicks />
+        </Suspense>
+      }
     />
   );
 }

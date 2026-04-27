@@ -187,7 +187,13 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
       <div className="bg-white/5 rounded-3xl p-5 border border-white/10 space-y-4">
         <div className="flex gap-4">
           <div className="w-16 h-24 rounded-xl overflow-hidden relative border border-white/10">
-            <Image src={getImageUrl(movie.poster_path, 'w500')} alt={movie.displayTitle} fill className="object-cover" />
+            <Image 
+              src={getImageUrl(movie.poster_path, 'w500')} 
+              alt={movie.displayTitle} 
+              fill 
+              sizes="64px"
+              className="object-cover" 
+            />
           </div>
           <div className="flex-1 text-right">
             <h4 className="text-sm font-black text-white mb-1">{movie.title}</h4>

@@ -42,7 +42,7 @@ export default function CinemaShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
             viewport={{ once: true }}
-            className="group relative overflow-hidden rounded-[32px] p-8 bg-white/5 border-[0.5px] border-white/10 backdrop-blur-[40px] hover:border-primary/50 transition-all duration-500"
+            className="group relative overflow-hidden rounded-[32px] p-8 bg-white/5 border-[0.5px] border-white/10 backdrop-blur-[40px] hover:border-primary/50 transition-all duration-500 will-change-transform"
           >
             {/* Background Holographic Glow */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-primary/20 transition-colors" />

@@ -85,7 +85,7 @@ export const CinematicFX = () => {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute w-24 h-24 rounded-full"
+          className="absolute w-24 h-24 rounded-full will-change-transform"
           initial={{
             top: p.top,
             left: p.left,
@@ -93,7 +93,8 @@ export const CinematicFX = () => {
             scale: p.scale,
           }}
         >
-          <div className="w-full h-full bg-white/5 border border-white/10 backdrop-blur-3xl rounded-[30%_70%_70%_30%/30%_30%_70%_70%] animate-pulse" />
+          {/* Optimized particle: removed backdrop-blur-3xl which kills performance */}
+          <div className="w-full h-full bg-white/10 border border-white/20 rounded-[30%_70%_70%_30%/30%_30%_70%_70%] animate-pulse shadow-[0_0_30px_rgba(255,255,255,0.1)]" />
         </motion.div>
       ))}
 

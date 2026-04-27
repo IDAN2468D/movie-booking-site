@@ -27,7 +27,7 @@ export default function TopBar() {
         {/* Mobile Logo - Hidden when searching */}
         {!isMobileSearchOpen && (
           <Link href="/" className="flex md:hidden items-center gap-3 relative z-10 animate-in fade-in slide-in-from-right-4 duration-500">
-            <div className="w-10 h-10 bg-primary/20 backdrop-blur-xl border border-white/20 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,20,100,0.2)] overflow-hidden">
+            <div className="w-10 h-10 relative bg-primary/20 backdrop-blur-xl border border-white/20 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(255,20,100,0.2)] overflow-hidden">
               <Image 
                 src="/logo.png" 
                 alt="Logo" 

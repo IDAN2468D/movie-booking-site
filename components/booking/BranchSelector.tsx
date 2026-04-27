@@ -84,6 +84,7 @@ export default function BranchSelector({ isOpen, onClose }: BranchSelectorProps)
                             src={branch.image} 
                             alt={branch.name} 
                             fill
+                            sizes="56px"
                             className="object-cover" 
                           />
                         </div>

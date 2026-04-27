@@ -44,7 +44,13 @@ export function BranchCard({
         <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none" />
         
         <div className="absolute -left-10 -top-10 w-40 h-40 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity duration-700 pointer-events-none rotate-12">
-          <Image src={branch.image} alt={branch.name} fill className="object-cover rounded-full" />
+          <Image 
+            src={branch.image} 
+            alt={branch.name} 
+            fill 
+            sizes="160px"
+            className="object-cover rounded-full" 
+          />
         </div>
 
         <div className="relative z-10 flex flex-col h-full">

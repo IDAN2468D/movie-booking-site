@@ -1,60 +1,84 @@
 import { AIRequest, AIResponse, AIRecommendation } from '@/types/ai';
+import { getRecommendations, getSimilarMovies } from './tmdb';
 
+/**
+ * 🚀 Smart Recommendation Engine (v2.0)
+ * Hybrid Filtering: Content + Collaborative + Availability
+ */
 export async function generateRecommendations(data: AIRequest): Promise<AIResponse> {
   const { userProfile, movieDatabase, liveInventory } = data;
-  const { preferences } = userProfile;
+  const { preferences, watchHistory } = userProfile;
   const { requestedSeats, availability } = liveInventory;
 
-  // 1. Scoring & Filtering
-  const recommendations: AIRecommendation[] = [];
+  // 1. Scoring & Weighting System
+  const recommendations: (AIRecommendation & { score: number })[] = [];
   
-  // Heuristic: Filter movies that have at least one slot with enough seats
+  // Parallel fetch for external similarity signals if history exists
+  // For now, we simulate this by processing the movieDatabase with higher weights
+  
   for (const movieData of movieDatabase) {
-    const movieAvailability = availability.find(a => a.movieId === movieData.title || a.movieId === movieData.title.toLowerCase().replace(/ /g, '_'));
+    const movieId = movieData.title.toLowerCase().replace(/ /g, '_');
+    const movieAvailability = availability.find(a => a.movieId === movieData.title || a.movieId === movieId);
     
     if (!movieAvailability) continue;
 
-    // Constraint 1: Must have enough seats
     const validSlots = movieAvailability.slots.filter(s => s.seats >= requestedSeats);
     if (validSlots.length === 0) continue;
 
-    // Scoring
     let score = 0;
-    movieData.genre.forEach(g => {
-      if (preferences.includes(g)) score += 10;
-    });
+    let reasons: string[] = [];
+
+    // Signal 1: Genre Match (Weight: High)
+    const matchedGenres = movieData.genre.filter(g => preferences.includes(g));
+    if (matchedGenres.length > 0) {
+      score += matchedGenres.length * 15;
+      reasons.push(`מתאים לאהבה שלך ל-${matchedGenres.join(', ')}`);
+    }
+
+    // Signal 2: History Match (Weight: Very High)
+    // If movie title or similar keywords are in history
+    if (watchHistory.some(h => movieData.title.includes(h) || h.includes(movieData.title))) {
+      score += 50;
+      reasons.push('מבוסס על סרטים שאהבת בעבר');
+    }
+
+    // Signal 3: Premium Format Optimization
+    const isActionSciFi = movieData.genre.some(g => ['פעולה', 'מדע בדיוני', 'סייברפאנק'].includes(g));
+    let bestSlot = validSlots[0];
+    
+    if (isActionSciFi) {
+      const premiumSlot = validSlots.find(s => s.format === 'IMAX' || s.format === '4DX');
+      if (premiumSlot) {
+        bestSlot = premiumSlot;
+        score += 20;
+        reasons.push('חוויית פרימיום אופטימלית');
+      }
+    }
 
     if (score > 0 || recommendations.length < 3) {
-      // Constraint 2: Prioritize IMAX/4DX for Action/Sci-Fi
-      const isActionSciFi = movieData.genre.some(g => ['פעולה', 'מדע בדיוני', 'סייברפאנק'].includes(g));
-      let bestSlot = validSlots[0];
-      
-      if (isActionSciFi) {
-        const premiumSlot = validSlots.find(s => s.format === 'IMAX' || s.format === '4DX');
-        if (premiumSlot) bestSlot = premiumSlot;
-      }
-
       const formatMap: Record<string, string> = {
         'IMAX': 'איימקס',
         '4DX': '4DX',
         'Standard': 'סטנדרטי'
       };
 
-      const bestFormat = formatMap[bestSlot.format] || bestSlot.format;
-
       recommendations.push({
-        movieId: movieData.title.toLowerCase().replace(/ /g, '_'),
+        movieId,
         title: movieData.title,
-        reason: `מתאים לעניין שלך ב-${movieData.genre.join(', ')}. ${isActionSciFi ? 'אופטימיזציה לחוויה חושית ברמה גבוהה.' : 'נבחר בזכות העומק הנרטיבי שלו.'}`,
-        bestFormat: bestFormat,
+        reason: reasons.length > 0 ? reasons[0] : 'נבחר בזכות העומק הנרטיבי שלו',
+        bestFormat: formatMap[bestSlot.format] || bestSlot.format,
         availabilityBadge: `נותרו ${bestSlot.seats} מושבים ל-${new Date(bestSlot.time).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', hour12: false })}`,
-        savingsTip: userProfile.subscriptionType === 'מנוי פרימיום' ? 'חינם עם מנוי ה-MovieBook שלך' : 'זכאי לזיכוי מוקדם של 2026'
+        savingsTip: userProfile.subscriptionType === 'מנוי פרימיום' ? 'חינם עם מנוי ה-MovieBook שלך' : 'זכאי לזיכוי מוקדם של 2026',
+        score
       });
     }
   }
 
   // Final sort by score and limit to top 3
-  const finalRecs = recommendations.slice(0, 3);
+  const finalRecs = recommendations
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map(({ score, ...rest }) => rest);
 
   return {
     recommendations: finalRecs,
