@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Implementation Plan - AI Booking Assistant 🤖
 
 Add a premium, conversational AI chatbot that enables users to discover and book movies through a natural language interface.
