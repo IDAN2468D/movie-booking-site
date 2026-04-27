@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       }
     `;
 
-    const modelNames = ['gemini-3.1-flash-lite-preview', 'gemini-1.5-flash'];
+    const modelNames = ['gemini-3.1-flash-lite-preview', 'gemini-2.5-flash'];
     const { callGeminiWithRetry } = await import('@/lib/gemini');
     
     const { text, modelUsed } = await callGeminiWithRetry(modelNames, async (model) => {
