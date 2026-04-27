@@ -27,22 +27,22 @@ export async function POST(req: NextRequest) {
       }
     `;
 
-    const modelName = 'gemini-3.1-flash-lite-preview';
+    const modelNames = ['gemini-3.1-flash-lite-preview', 'gemini-1.5-flash'];
     const { callGeminiWithRetry } = await import('@/lib/gemini');
     
-    const responseText = await callGeminiWithRetry(modelName, async (model) => {
+    const { text, modelUsed } = await callGeminiWithRetry(modelNames, async (model) => {
       const result = await model.generateContent(prompt);
-      return result.response.text();
+      return { text: result.response.text(), modelUsed: model.model };
     });
     
     // Clean JSON if needed
-    const jsonStr = responseText.replace(/```json|```/g, '').trim();
+    const jsonStr = text.replace(/```json|```/g, '').trim();
     const insights = JSON.parse(jsonStr);
 
     return NextResponse.json({ 
       success: true, 
       insights,
-      model: modelName
+      model: modelUsed
     });
 
   } catch (error) {

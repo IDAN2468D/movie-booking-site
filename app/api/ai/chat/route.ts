@@ -45,14 +45,15 @@ export async function POST(req: NextRequest) {
       return msg.role !== validHistory[i-1].role;
     });
 
+    let modelUsed = '';
     try {
-      const modelName = 'gemini-3.1-flash-lite-preview';
+      const modelNames = ['gemini-3.1-flash-lite-preview', 'gemini-1.5-flash'];
       const { callGeminiWithRetry } = await import('@/lib/gemini');
       
-      responseText = await callGeminiWithRetry(modelName, async (model) => {
+      const resultData = await callGeminiWithRetry(modelNames, async (model) => {
         // Use the system instruction from the previous context
         const chatModel = genAI.getGenerativeModel({ 
-          model: modelName,
+          model: model.model,
           systemInstruction: `
             אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
             הזהות שלך: עוזר אישי (Concierge), מקצועי, ויוקרתי.
@@ -80,8 +81,11 @@ export async function POST(req: NextRequest) {
         });
 
         const result = await chat.sendMessage(message);
-        return result.response.text();
+        return { text: result.response.text(), modelName: model.model };
       });
+      
+      responseText = resultData.text;
+      modelUsed = resultData.modelName;
     } catch (err: any) {
       console.error(`AI Chat Error after retries:`, err.message);
       throw err;
@@ -90,7 +94,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ 
       success: true, 
       response: responseText,
-      model: modelName
+      model: modelUsed
     });
 
   } catch (error: any) {
