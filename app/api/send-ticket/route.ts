@@ -41,6 +41,15 @@ const fixHebrew = (text: string) => {
 export async function POST(req: Request) {
   try {
     const { email, movieTitle, seats, price, orderId, posterUrl, date, time, hall, userName } = await req.json();
+    
+    // Check for missing environment variables
+    if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET || !process.env.GOOGLE_REFRESH_TOKEN) {
+      return NextResponse.json({ 
+        success: false, 
+        error: 'Missing Google OAuth2 credentials. Please set GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_REFRESH_TOKEN in your .env file.' 
+      }, { status: 500 });
+    }
+
     console.log('Sending ticket email to:', email, 'for movie:', movieTitle);
 
     // 1. Fetch Poster Image & Generate QR Code
@@ -63,91 +72,95 @@ export async function POST(req: Request) {
 
     // 2. Generate PDF
     const pdfBuffer = await new Promise<Buffer>((resolve, reject) => {
+      const chunks: Buffer[] = [];
       try {
         const root = process.cwd();
         const fontPath = path.join(root, 'public', 'fonts', 'Assistant-Bold.ttf');
-        const hasFont = fs.existsSync(fontPath);
         
-        console.log('Font path check:', fontPath, 'Exists:', hasFont);
+        if (!fs.existsSync(fontPath)) {
+          throw new Error(`Font not found at ${fontPath}.`);
+        }
 
-        // Avoid standard fonts entirely to prevent ENOENT errors on serverless/Render
+        const fontBuffer = fs.readFileSync(fontPath);
+
+        // Initialize document
         const doc = new PDFDocument({ 
           margin: 0, 
           size: [400, 640],
-          font: hasFont ? fontPath : undefined // Set default font immediately
+          font: fontPath
         });
 
-        const chunks: Uint8Array[] = [];
         doc.on('data', (chunk) => chunks.push(chunk));
         doc.on('end', () => resolve(Buffer.concat(chunks)));
-        doc.on('error', reject);
+        doc.on('error', (err) => reject(err));
 
-        if (hasFont) {
-          doc.registerFont('MainFont', fontPath);
-          doc.font('MainFont');
+        // Register and use font explicitly
+        try {
+          doc.registerFont('HebrewFont', fontPath);
+          doc.font('HebrewFont');
+        } catch (fErr) {
+          console.error('Font registration failed in email PDF:', fErr);
+          doc.font('Helvetica-Bold');
         }
 
         const width = doc.page.width;
         const height = doc.page.height;
 
-        // Background: Deep Cinematic Dark
+        // Background
         doc.rect(0, 0, width, height).fill('#050505');
-        
-        // Premium Glow (Top)
         doc.rect(0, 0, width, 4).fill('#FF9F0A');
         
         // Poster Image
         if (imageBuffer) {
-          const imgWidth = 140;
-          const imgHeight = 210;
-          const imgX = (width - imgWidth) / 2;
-          doc.image(imageBuffer, imgX, 40, { width: imgWidth, height: imgHeight });
-          // Border
-          doc.rect(imgX, 40, imgWidth, imgHeight).lineWidth(1).stroke('rgba(255, 159, 10, 0.4)');
+          try {
+            const imgWidth = 140;
+            const imgHeight = 210;
+            const imgX = (width - imgWidth) / 2;
+            doc.image(imageBuffer, imgX, 40, { width: imgWidth, height: imgHeight });
+            doc.rect(imgX, 40, imgWidth, imgHeight).lineWidth(1).stroke('rgba(255, 159, 10, 0.4)');
+          } catch (imgErr) {
+            console.error('Image placement failed in email PDF:', imgErr);
+          }
         }
 
-        // Header
         doc.fillColor('#FF9F0A').fontSize(10).text('MOVIEBOOK PREMIUM CINEMA', 0, 20, { align: 'center' });
 
-        // Movie Title
         const titleY = 270;
-        doc.fillColor('#FFFFFF').fontSize(24).text(fixHebrew(movieTitle), 30, titleY, { align: 'center', width: width - 60 });
+        doc.fillColor('#FFFFFF').fontSize(24).text(fixHebrew(movieTitle || 'Movie Ticket'), 30, titleY, { align: 'center', width: width - 60 });
 
-        // Detail Fields Grid
         const gridY = titleY + 60;
         const drawField = (label: string, value: string, x: number, y: number, align: 'left' | 'right') => {
           doc.fillColor('rgba(255, 255, 255, 0.4)').fontSize(9).text(fixHebrew(label), x, y, { align, width: 150 });
-          doc.fillColor('#FFFFFF').fontSize(13).text(fixHebrew(value), x, y + 15, { align, width: 150 });
+          doc.fillColor('#FFFFFF').fontSize(13).text(fixHebrew(value || '-'), x, y + 15, { align, width: 150 });
         };
 
-        // Right side (Hebrew primary)
         drawField('שם המזמין', userName || 'אורח', width - 180, gridY, 'right');
-        drawField('תאריך', date, width - 180, gridY + 50, 'right');
-        drawField('אולם', hall, width - 180, gridY + 100, 'right');
+        drawField('תאריך', date || '-', width - 180, gridY + 50, 'right');
+        drawField('אולם', hall || '-', width - 180, gridY + 100, 'right');
 
-        // Left side
-        drawField('שעה', time, 30, gridY, 'left');
-        drawField('מושבים', Array.isArray(seats) ? seats.join(', ') : seats, 30, gridY + 50, 'left');
-        drawField('מחיר', `${price} ₪`, 30, gridY + 100, 'left');
+        drawField('שעה', time || '-', 30, gridY, 'left');
+        drawField('מושבים', Array.isArray(seats) ? seats.join(', ') : (seats || '-'), 30, gridY + 50, 'left');
+        drawField('מחיר', `${price || 0} ₪`, 30, gridY + 100, 'left');
 
-        // Security Stub Separator
         const stubY = height - 160;
         doc.moveTo(30, stubY).lineTo(width - 30, stubY).dash(5, { space: 3 }).stroke('rgba(255, 255, 255, 0.15)');
         doc.undash();
 
-        // QR Code & Order ID
         if (qrBuffer) {
-          const qrSize = 80;
-          doc.rect(width / 2 - qrSize/2 - 5, stubY + 20, qrSize + 10, qrSize + 10).fill('#FFFFFF');
-          doc.image(qrBuffer, width / 2 - qrSize/2, stubY + 25, { width: qrSize, height: qrSize });
+          try {
+            const qrSize = 80;
+            doc.rect(width / 2 - qrSize/2 - 5, stubY + 20, qrSize + 10, qrSize + 10).fill('#FFFFFF');
+            doc.image(qrBuffer, width / 2 - qrSize/2, stubY + 25, { width: qrSize, height: qrSize });
+          } catch (qrErr) {
+            console.error('QR placement failed in email PDF:', qrErr);
+          }
         }
 
-        doc.fillColor('rgba(255, 255, 255, 0.3)').fontSize(8).text(`ORDER ID: ${orderId}`, 0, stubY + 115, { align: 'center', width: width });
+        doc.fillColor('rgba(255, 255, 255, 0.3)').fontSize(8).text(`ORDER ID: ${orderId || 'N/A'}`, 0, stubY + 115, { align: 'center', width: width });
         doc.fillColor('#FF9F0A').fontSize(11).text(fixHebrew('תודה שבחרת ב-MovieBook!'), 0, stubY + 135, { align: 'center', width: width });
 
         doc.end();
       } catch (e) {
-        console.error('PDF Generation Error:', e);
         reject(e);
       }
     });

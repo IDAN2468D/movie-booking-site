@@ -93,10 +93,11 @@ export default function CheckoutPage() {
         }),
       });
       if (res.ok) {
+        const bookingData = await res.json();
         setIsSuccess(true);
         // Automatically send email after purchase
         try {
-          const emailRes = await fetch('/api/send-ticket', {
+          await fetch('/api/send-ticket', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -104,7 +105,7 @@ export default function CheckoutPage() {
               movieTitle: selectedMovie.displayTitle,
               seats: selectedSeats,
               price: pricing.total,
-              orderId: Math.random().toString(36).substr(2, 9).toUpperCase(),
+              orderId: bookingData.bookingId,
               posterUrl: getImageUrl(selectedMovie.poster_path, 'w500'),
               date: selectedDate,
               time: selectedShowtime,
@@ -113,10 +114,6 @@ export default function CheckoutPage() {
               userName: session.user?.name || 'אורח'
             }),
           });
-          const emailData = await emailRes.json();
-          if (!emailData.success) {
-            console.error('Email API returned error:', emailData.error);
-          }
         } catch (emailErr) {
           console.error('Auto-email failed:', emailErr);
         }

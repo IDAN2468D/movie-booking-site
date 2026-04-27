@@ -23,6 +23,74 @@ export default function TicketsPage() {
   const { data: session } = useSession();
   const [tickets, setTickets] = useState<TicketType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [processingId, setProcessingId] = useState<string | null>(null);
+
+  const handleEmailTicket = async (ticket: TicketType) => {
+    setProcessingId(`${ticket.id}-email`);
+    try {
+      const res = await fetch('/api/send-ticket', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: session?.user?.email,
+          movieTitle: ticket.movie,
+          seats: ticket.seats,
+          price: ticket.total || 45,
+          orderId: ticket.id,
+          posterUrl: ticket.image,
+          date: ticket.date,
+          time: ticket.time,
+          hall: ticket.hall,
+          userName: session?.user?.name
+        })
+      });
+      if (res.ok) alert('הכרטיס נשלח למייל בהצלחה!');
+      else alert('אירעה שגיאה בשליחת המייל');
+    } catch (err) {
+      alert('שגיאת תקשורת בשליחת המייל');
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  const handleDownloadPDF = async (ticket: TicketType) => {
+    setProcessingId(`${ticket.id}-pdf`);
+    try {
+      const res = await fetch('/api/download-ticket', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          movieTitle: ticket.movie,
+          seats: ticket.seats,
+          price: ticket.total || 45,
+          orderId: ticket.id,
+          date: ticket.date,
+          time: ticket.time,
+          hall: ticket.hall,
+          userName: session?.user?.name,
+          posterUrl: ticket.image
+        })
+      });
+      
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ticket-${ticket.id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else {
+        const errorData = await res.json();
+        alert(`שגיאה ביצירת ה-PDF: ${errorData.error || 'שגיאה לא ידועה'}`);
+      }
+    } catch (err) {
+      alert(`שגיאת תקשורת בהורדת ה-PDF: ${(err as Error).message}`);
+    } finally {
+      setProcessingId(null);
+    }
+  };
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -215,21 +283,37 @@ export default function TicketsPage() {
                   
                   <div className="flex flex-row gap-3 w-full sm:w-auto justify-end">
                     <button 
-                      className="p-4 rounded-2xl bg-white/5 text-slate-400 hover:text-primary hover:bg-white/10 border border-white/5 transition-all active:scale-90"
+                      onClick={() => handleEmailTicket(ticket)}
+                      disabled={processingId === `${ticket.id}-email`}
+                      className="p-4 rounded-2xl bg-white/5 text-slate-400 hover:text-primary hover:bg-white/10 border border-white/5 transition-all active:scale-90 disabled:opacity-50 disabled:cursor-not-allowed"
                       title="שלח למייל"
                     >
-                      <Mail size={20} />
+                      {processingId === `${ticket.id}-email` ? <Loader2 size={20} className="animate-spin" /> : <Mail size={20} />}
                     </button>
                     <button 
+                      onClick={() => {
+                        if (navigator.share) {
+                          navigator.share({
+                            title: `הכרטיס שלי לסרט ${ticket.movie}`,
+                            text: `קניתי כרטיס לסרט ${ticket.movie} ב-MovieBook! מושבים: ${ticket.seats.join(', ')}`,
+                            url: window.location.href,
+                          });
+                        } else {
+                          alert('שיתוף לא נתמך בדפדפן זה');
+                        }
+                      }}
                       className="p-4 rounded-2xl bg-white/5 text-slate-400 hover:text-primary hover:bg-white/10 border border-white/5 transition-all active:scale-90"
+                      title="שתף כרטיס"
                     >
                       <Share2 size={20} />
                     </button>
                     <button 
-                      className="p-4 rounded-2xl bg-primary text-background hover:bg-orange-400 transition-all shadow-[0_10px_20px_rgba(255,159,10,0.2)] active:scale-90"
+                      onClick={() => handleDownloadPDF(ticket)}
+                      disabled={processingId === `${ticket.id}-pdf`}
+                      className="p-4 rounded-2xl bg-primary text-background hover:bg-orange-400 transition-all shadow-[0_10px_20px_rgba(255,159,10,0.2)] active:scale-90 disabled:opacity-50 disabled:cursor-not-allowed"
                       title="הורד PDF"
                     >
-                      <Download size={20} />
+                      {processingId === `${ticket.id}-pdf` ? <Loader2 size={20} className="animate-spin" /> : <Download size={20} />}
                     </button>
                   </div>
                </div>
