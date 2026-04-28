@@ -10,8 +10,8 @@ const BookingRequestSchema = z.object({
   movie: z.object({
     id: z.number(),
     title: z.string().optional(),
-    displayTitle: z.string(),
-    poster_path: z.string().nullable(),
+    displayTitle: z.string().optional(),
+    poster_path: z.string().nullable().optional(),
   }),
   seats: z.array(z.string()),
   food: z.array(z.any()).default([]),
@@ -36,7 +36,13 @@ export async function POST(req: NextRequest) {
     const result = BookingRequestSchema.safeParse(body);
 
     if (!result.success) {
-      return NextResponse.json({ error: "Invalid request data", details: result.error.format() }, { status: 400 });
+      console.error("Booking Validation Failed:", result.error.format());
+      console.error("Received Body:", JSON.stringify(body, null, 2));
+      return NextResponse.json({ 
+        error: "Invalid request data", 
+        details: result.error.format(),
+        received: body 
+      }, { status: 400 });
     }
 
     const { movie, seats, food, total, paymentInfo, showtime, date, pointsUsed } = result.data;

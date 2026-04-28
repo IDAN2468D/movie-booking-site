@@ -2,7 +2,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import TopBar from "@/components/layout/TopBar";
 import RightPanel from "@/components/layout/RightPanel";
 import MobileNav from "@/components/layout/MobileNav";
-import { AIConcierge } from "@/components/ai/AIConcierge";
+import MovieChatBot from "@/components/chat/MovieChatBot";
 
 
 export default function MainLayout({
@@ -29,8 +29,8 @@ export default function MainLayout({
       {/* Mobile Navigation */}
       <MobileNav />
 
-      {/* AI Concierge (Liquid Glass 2.0) */}
-      <AIConcierge />
+      {/* Premium AI Chatbot (Liquid Glass 2.0) */}
+      <MovieChatBot />
 
     </div>
   );

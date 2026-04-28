@@ -13,11 +13,13 @@ export async function POST(req: Request) {
       );
     }
 
+    const normalizedEmail = email.toLowerCase();
+
     const client = await clientPromise;
     const db = client.db();
 
     // Check if user already exists
-    const existingUser = await db.collection("users").findOne({ email });
+    const existingUser = await db.collection("users").findOne({ email: normalizedEmail });
     if (existingUser) {
       return NextResponse.json(
         { message: "User already exists" },
@@ -31,7 +33,7 @@ export async function POST(req: Request) {
     // Create user
     const result = await db.collection("users").insertOne({
       name,
-      email,
+      email: normalizedEmail,
       password: hashedPassword,
       createdAt: new Date(),
     });

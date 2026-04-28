@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, useSpring } from 'framer-motion';
+import { MeshBackground } from '../effects/MeshBackground';
 
 export const CinematicFX = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -35,7 +36,8 @@ export const CinematicFX = () => {
   );
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[1] overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      <MeshBackground />
       {/* 1. Cinematic Film Grain */}
       <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
 

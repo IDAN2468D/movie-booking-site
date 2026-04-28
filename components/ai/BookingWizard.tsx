@@ -58,27 +58,31 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
     setIsProcessing(true);
     try {
       // 1. Create Booking in DB
+      const bookingPayload = {
+        movie: {
+          id: movie.id,
+          title: movie.title || '',
+          displayTitle: movie.displayTitle,
+          poster_path: movie.poster_path,
+        },
+        seats: selectedSeats,
+        food: [],
+        total: selectedSeats.length * 45,
+        paymentInfo: {
+          cardName: session?.user?.name || 'AI Booking',
+          cardNumber: '4580000000001234', // Mock for AI Concierge
+        },
+        showtime: selectedShowtime || '19:30',
+        date: new Date().toISOString(),
+        pointsUsed: 0,
+      };
+
+      console.log('Sending Booking Payload:', bookingPayload);
+
       const bookingResponse = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          movie: {
-            id: movie.id,
-            title: movie.title || '',
-            displayTitle: movie.displayTitle,
-            poster_path: movie.poster_path,
-          },
-          seats: selectedSeats,
-          food: [],
-          total: selectedSeats.length * 45,
-          paymentInfo: {
-            cardName: session?.user?.name || 'AI Booking',
-            cardNumber: '4580000000001234', // Mock for AI Concierge
-          },
-          showtime: selectedShowtime || '19:30',
-          date: new Date().toISOString(),
-          pointsUsed: 0,
-        }),
+        body: JSON.stringify(bookingPayload),
       });
 
       const bookingData = await bookingResponse.json();

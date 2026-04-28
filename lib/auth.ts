@@ -23,7 +23,8 @@ export const authOptions: NextAuthOptions = {
 
         const client = await clientPromise;
         const db = client.db();
-        const user = await db.collection("users").findOne({ email: credentials.email });
+        const normalizedEmail = credentials.email.toLowerCase();
+        const user = await db.collection("users").findOne({ email: normalizedEmail });
 
         if (!user || !user.password) return null;
 
@@ -45,6 +46,24 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === "google") {
+        const client = await clientPromise;
+        const db = client.db();
+        const normalizedEmail = user.email?.toLowerCase();
+        const existingUser = await db.collection("users").findOne({ email: normalizedEmail });
+        
+        if (!existingUser) {
+          await db.collection("users").insertOne({
+            email: normalizedEmail,
+            name: user.name,
+            image: user.image,
+            createdAt: new Date(),
+          });
+        }
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;

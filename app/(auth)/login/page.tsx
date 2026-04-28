@@ -2,9 +2,12 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, ArrowRight } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Sparkles } from 'lucide-react';
+import { MagneticButton } from '@/components/ui/MagneticButton';
+import { KineticText } from '@/components/effects/KineticText';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,32 +22,46 @@ export default function LoginPage() {
     setError('');
 
     try {
+      console.log("Attempting sign in for:", email);
       const res = await signIn('credentials', {
         email,
         password,
         redirect: false,
       });
 
+      console.log("Sign in result:", res);
+
       if (res?.error) {
+        console.error("Sign in error:", res.error);
         setError('פרטי התחברות שגויים');
       } else {
+        console.log("Sign in successful, redirecting...");
         router.push('/');
         router.refresh();
       }
-    } catch {
-      setError('אירעה שגיאה. אנא נסו שוב.');
+    } catch (err) {
+      console.error("Unexpected login error:", err);
+      setError('אירעה שגיאה בתקשורת עם השרת');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="glass-orange rounded-[40px] p-10 border border-white/5 shadow-2xl relative overflow-hidden">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="glass-orange rounded-[40px] p-10 border border-white/5 shadow-2xl relative overflow-hidden"
+    >
       <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-16 -mt-16" />
       
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-black text-white tracking-tighter mb-2">
-          ברוכים <span className="text-primary">השבים</span>
+        <h1 className="text-4xl font-black text-white tracking-tighter mb-2 flex items-center justify-center gap-2">
+          <KineticText text="ברוכים" tag="span" />
+          <span className="text-primary">
+            <KineticText text="השבים" tag="span" />
+          </span>
         </h1>
         <p className="text-slate-400 text-sm font-medium">אנא הזינו את הפרטים שלכם כדי להתחבר</p>
       </div>
@@ -85,14 +102,18 @@ export default function LoginPage() {
 
         {error && <p className="text-red-500 text-xs font-bold text-center">{error}</p>}
 
-        <button
+        <MagneticButton
           type="submit"
           disabled={loading}
-          className="w-full bg-primary hover:bg-[#FF7A00] text-background py-5 rounded-2xl font-black text-sm tracking-[0.2em] transition-all shadow-lg shadow-orange-500/20 active:scale-95 flex items-center justify-center gap-2 group"
+          className="w-full bg-primary hover:bg-[#FF7A00] text-background py-5 rounded-2xl font-black text-sm tracking-[0.2em] transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 group"
         >
-          {loading ? 'מתחבר...' : 'כניסה'}
-          <ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
-        </button>
+          {loading ? 'מתחבר...' : (
+            <>
+              כניסה
+              <ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
+            </>
+          )}
+        </MagneticButton>
 
         <div className="relative my-8">
           <div className="absolute inset-0 flex items-center">
@@ -136,6 +157,6 @@ export default function LoginPage() {
           צור אחד עכשיו
         </Link>
       </p>
-    </div>
+    </motion.div>
   );
 }

@@ -4,6 +4,8 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { Container } from "../ui/Container";
 import Link from "next/link";
 import Image from "next/image";
+import { KineticText } from "../effects/KineticText";
+import { MagneticButton } from "../ui/MagneticButton";
 
 export const Header = () => {
   const { data: session } = useSession();
@@ -22,7 +24,7 @@ export const Header = () => {
               className="object-cover scale-125" 
             />
           </div>
-          <span className="text-xl font-black tracking-tighter text-white font-outfit">MOVIEBOOK</span>
+          <KineticText text="MOVIEBOOK" tag="h1" className="text-xl font-black tracking-tighter text-white font-outfit" />
         </Link>
 
         <nav className="flex items-center gap-6">
@@ -39,12 +41,15 @@ export const Header = () => {
               </button>
             </>
           ) : (
-            <button
-              onClick={() => signIn()}
-              className="text-sm font-bold text-black px-5 py-2 rounded-full bg-white hover:bg-zinc-200 transition-colors"
+            <MagneticButton
+              onClick={() => {
+                console.log("Sign in clicked");
+                signIn();
+              }}
+              className="text-sm font-bold text-black px-5 py-2 rounded-full bg-white hover:bg-[#FAFAF7] transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]"
             >
               Sign In
-            </button>
+            </MagneticButton>
           )}
         </nav>
       </Container>

@@ -57,7 +57,7 @@ interface TMDBResponse<T> {
   total_results: number;
 }
 
-function formatMovieData(movie: TMDBMovie): Movie {
+export function formatMovieData(movie: TMDBMovie): Movie {
   const validated = MovieSchema.parse(movie);
   return {
     ...validated,

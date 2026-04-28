@@ -1,0 +1,66 @@
+/* Yuv-Inspired Cinematic Effects Styles */
+
+:root {
+  --yuv-off-white: #FAFAF7;
+  --yuv-pink: #FF1464;
+  --yuv-yellow: #E5FF00;
+  --yuv-charcoal: #1A1A1A;
+  --yuv-glass-radius: 24px;
+  --yuv-glass-radius-large: 56px;
+  --yuv-easing: cubic-bezier(0.175, 0.885, 0.32, 1.275); /* back.out(1.7) equivalent */
+}
+
+/* Aggregate Shimmer Effect */
+.shimmer-mask {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-mask::after {
+  content: "";
+  position: absolute;
+  inset: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    45deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.05) 35%,
+    rgba(255, 255, 255, 0.1) 40%,
+    rgba(255, 255, 255, 0.05) 45%,
+    transparent 55%
+  );
+  mask-image: radial-gradient(circle, black, transparent);
+  animation: shimmer-swipe 3s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes shimmer-swipe {
+  0% { transform: translate(-30%, -30%) rotate(0deg); }
+  100% { transform: translate(10%, 10%) rotate(5deg); }
+}
+
+/* Liquid Glass Utilities */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--yuv-glass-radius);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.37),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Kinetic Typography Helpers */
+.kinetic-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Performance Optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
