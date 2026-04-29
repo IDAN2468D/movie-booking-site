@@ -7,6 +7,7 @@ import { X, Send, Sparkles, Bot, Zap, Ticket, Popcorn, Film, MessageSquare, Star
 import { useUIStore } from '@/lib/store/ui-store';
 import { useBookingStore } from '@/lib/store';
 import { BookingWizard } from '../ai/BookingWizard';
+import { formatMovieData } from '@/lib/tmdb';
 
 
 

@@ -22,7 +22,9 @@ export const KineticText: React.FC<KineticTextProps> = ({
 }) => {
   const isRTL = /[\u0590-\u05FF]/.test(text);
   const words = text.split(" ");
-  const Tag = (motion as any)[tag] || motion.div;
+  
+  // Fix: Correctly handle dynamic tags for framer-motion
+  const Tag = typeof tag === 'string' ? (motion as any)[tag] : motion(tag as any);
 
   const container: Variants = {
     hidden: { opacity: 0 },

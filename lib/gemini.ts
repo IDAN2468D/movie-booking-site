@@ -33,7 +33,7 @@ export async function callGeminiWithRetry<T>(
         }
         
         // If we've exhausted retries for this model, break to try the next model in the list
-        console.error(`Gemini model ${modelName} failed after retries:`, err.message);
+        console.error(`Gemini model ${modelName} failed after retries:`, error.message);
         break; 
       }
     }

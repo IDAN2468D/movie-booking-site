@@ -121,10 +121,10 @@ export async function POST(req: NextRequest) {
 
   } catch (error: unknown) {
     const err = error as Error;
-    console.error('AI Chat Error:', error);
+    console.error('AI Chat Error:', err);
     return NextResponse.json({
       success: false,
-      error: error.message || 'Failed to process chat message'
+      error: err.message || 'Failed to process chat message'
     }, { status: 500 });
   }
 }
