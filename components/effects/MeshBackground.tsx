@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 export const MeshBackground = () => {

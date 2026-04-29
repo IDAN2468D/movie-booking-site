@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Search, Command, SlidersHorizontal, TrendingUp, Clapperboard, Sparkles, History, ArrowRight, X } from 'lucide-react';
+import { Search, Command, SlidersHorizontal, TrendingUp, Clapperboard, Sparkles, ArrowRight } from 'lucide-react';
 import NextImage from 'next/image';
 import { discoverMovies, Movie, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';

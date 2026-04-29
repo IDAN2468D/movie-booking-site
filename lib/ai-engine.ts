@@ -1,5 +1,5 @@
 import { AIRequest, AIResponse, AIRecommendation } from '@/types/ai';
-import { getRecommendations, getSimilarMovies } from './tmdb';
+
 
 /**
  * 🚀 Smart Recommendation Engine (v2.0)
@@ -26,7 +26,7 @@ export async function generateRecommendations(data: AIRequest): Promise<AIRespon
     if (validSlots.length === 0) continue;
 
     let score = 0;
-    let reasons: string[] = [];
+    const reasons: string[] = [];
 
     // Signal 1: Genre Match (Weight: High)
     const matchedGenres = movieData.genre.filter(g => preferences.includes(g));

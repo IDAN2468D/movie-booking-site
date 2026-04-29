@@ -2,12 +2,12 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MarkerHighlight } from '../fx/MarkerHighlight';
+
 import { X, Send, Sparkles, Bot, Zap, Ticket, Popcorn, Film, MessageSquare, Star } from 'lucide-react';
 import { useUIStore } from '@/lib/store/ui-store';
 import { useBookingStore } from '@/lib/store';
 import { BookingWizard } from '../ai/BookingWizard';
-import { formatMovieData } from '@/lib/tmdb';
+
 
 
 export default function MovieChatBot() {
@@ -94,7 +94,7 @@ export default function MovieChatBot() {
 
   const renderMessageContent = (content: string) => {
     // Clean up action tags for display
-    let cleaned = content.replace(/\[ACTION:.*?\]/g, '').trim();
+    const cleaned = content.replace(/\[ACTION:.*?\]/g, '').trim();
     return <span className="whitespace-pre-wrap">{cleaned}</span>;
   };
 

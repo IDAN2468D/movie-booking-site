@@ -4,12 +4,11 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Movie, getImageUrl } from '@/lib/tmdb';
-import { Play, Star, Info, Heart, Headphones, Ticket } from 'lucide-react';
+import { Star, Info, Heart, Ticket } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
 import TrailerButton from '@/components/movie/TrailerButton';
 import { motion } from 'framer-motion';
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
-import { KineticText } from '@/components/effects/KineticText';
 
 interface FeaturedHeroProps {
   movie: Movie;

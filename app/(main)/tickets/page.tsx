@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import NextImage from 'next/image';
-import { Ticket, Calendar, Clock, MapPin, QrCode, Share2, Download, Loader2, Mail, Sparkles, Bot } from 'lucide-react';
+import { Ticket, Calendar, Clock, MapPin, QrCode, Share2, Download, Loader2, Mail, Bot } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 

@@ -1,14 +1,14 @@
-import { withAuth } from "next-auth/middleware";
+import { NextRequest, NextFetchEvent, NextMiddleware } from "next/server";
 
 const authMiddleware = withAuth({
   pages: {
     signIn: "/login",
   },
-});
+}) as NextMiddleware;
 
 // Next.js 16 requires the function name to be 'proxy'
-export function proxy(req: any, event: any) {
-  return (authMiddleware as any)(req, event);
+export function proxy(req: NextRequest, event: NextFetchEvent) {
+  return authMiddleware(req, event);
 }
 
 export const config = {

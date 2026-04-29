@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
-import { useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { useRef, useEffect } from 'react';
+import { useMotionValue, useSpring } from 'framer-motion';
 
 /**
  * useMagnetic Hook
@@ -9,8 +9,8 @@ import { useMotionValue, useSpring, useTransform } from 'framer-motion';
  * @param strength - How strong the pull is (0 to 1)
  * @param springConfig - Custom spring configuration
  */
-export function useMagnetic(strength = 0.5, springOptions = { damping: 15, stiffness: 150, mass: 0.1 }) {
-  const ref = useRef<HTMLElement>(null);
+export function useMagnetic<T extends HTMLElement = HTMLElement>(strength = 0.5, springOptions = { damping: 15, stiffness: 150, mass: 0.1 }) {
+  const ref = useRef<T>(null);
   
   const x = useMotionValue(0);
   const y = useMotionValue(0);

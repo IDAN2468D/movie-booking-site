@@ -84,7 +84,10 @@ export default function ReviewsSection({ movieId, movieTitle, tmdbReviews = [] }
   }, [movieId, tmdbReviews]);
 
   useEffect(() => {
-    fetchReviews();
+    const load = async () => {
+      await fetchReviews();
+    };
+    load();
   }, [fetchReviews]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -118,7 +121,7 @@ export default function ReviewsSection({ movieId, movieTitle, tmdbReviews = [] }
       } else {
         setError(data.error || 'נכשל בשליחת הביקורת');
       }
-    } catch (err) {
+    } catch {
       setError('שגיאת תקשורת');
     } finally {
       setSubmitting(false);

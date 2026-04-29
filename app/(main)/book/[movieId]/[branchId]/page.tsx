@@ -11,6 +11,8 @@ import ShowtimeSelector from '@/components/booking/ShowtimeSelector';
 import SeatMap from '@/components/booking/SeatMap';
 import Image from 'next/image';
 
+type CinemaBranch = (typeof CINEMA_BRANCHES)[number] & { _id?: string };
+
 export default function BookingPage() {
   const params = useParams();
   const router = useRouter();
@@ -21,7 +23,7 @@ export default function BookingPage() {
     selectedShowtime, 
     selectedSeats 
   } = useBookingStore();
-  const [branch, setBranch] = React.useState<any>(null);
+  const [branch, setBranch] = React.useState<CinemaBranch | null>(null);
   const [loading, setLoading] = React.useState(true);
   
   // Sync branchId to store and fetch branch details
@@ -44,7 +46,7 @@ export default function BookingPage() {
         const { getCinemas } = await import('@/lib/actions/cinemas');
         const result = await getCinemas();
         if (result.success) {
-          const found = result.data?.find((b: any) => b._id === params.branchId || b.id === params.branchId);
+          const found = result.data?.find((b: CinemaBranch) => b._id === params.branchId || b.id === params.branchId);
           if (found) {
             setBranch(found);
           }

@@ -11,8 +11,6 @@ import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
 import { motion } from 'framer-motion';
 import { MarkerHighlight } from '../fx/MarkerHighlight';
-import { KineticText } from '@/components/effects/KineticText';
-
 const runningShows = [
   { id: 1, title: 'דדפול & וולברין', time: '14:30', screen: 'אולם 4', type: 'IMAX', language: 'אנגלית', seats: '20/30' },
   { id: 2, title: 'הקול בראש 2', time: '16:00', screen: 'אולם 1', type: '4DX', language: 'אנגלית', seats: '15/30' },

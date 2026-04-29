@@ -61,6 +61,10 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
 
   React.useEffect(() => {
     setMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (!mounted) return;
     setMovieContext(movie.id, movie.title);
 
     const fetchInsights = async () => {

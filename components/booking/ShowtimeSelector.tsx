@@ -1,10 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Calendar, Clock, Monitor, ChevronLeft } from 'lucide-react';
+import { Calendar, Clock, ChevronLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBookingStore } from '@/lib/store';
-import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 
 const showtimes = [
   { time: '10:30', type: '2D', price: '₪45', hall: 'אולם 04' },

@@ -23,7 +23,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
 
   return (
     <motion.button
-      ref={ref as any}
+      ref={ref}
       style={{ x, y }}
       onClick={onClick}
       type={type}

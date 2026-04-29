@@ -65,7 +65,7 @@ export async function POST(req: Request) {
           throw new Error(`Font not found at ${fontPath}. Please ensure public/fonts/Assistant-Bold.ttf exists.`);
         }
 
-        const fontBuffer = fs.readFileSync(fontPath);
+        // Font path is used directly by PDFDocument
         
         // Initialize document WITH the font path string (TS requires string)
         const doc = new PDFDocument({ 

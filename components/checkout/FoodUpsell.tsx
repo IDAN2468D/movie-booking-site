@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-import NextImage from 'next/image';
-import Link from 'next/link';
-import { ShoppingBasket, Plus, Minus, ArrowRight, Sparkles, Zap, Flame } from 'lucide-react';
+import { ShoppingBasket, Plus, Minus, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { FOOD_ITEMS } from '@/lib/constants';
 

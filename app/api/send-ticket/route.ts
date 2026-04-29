@@ -81,7 +81,7 @@ export async function POST(req: Request) {
           throw new Error(`Font not found at ${fontPath}.`);
         }
 
-        const fontBuffer = fs.readFileSync(fontPath);
+        // Font path is used directly by PDFDocument
 
         // Initialize document
         const doc = new PDFDocument({ 

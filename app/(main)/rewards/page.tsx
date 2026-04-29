@@ -60,7 +60,27 @@ export default function RewardsPage() {
   };
 
   useEffect(() => {
-    refreshData();
+    if (!session) {
+      setIsLoading(false);
+      return;
+    }
+    
+    const fetchData = async () => {
+      try {
+        const res = await fetch('/api/bookings');
+        if (res.ok) {
+          const data = await res.json();
+          setBookings(data.bookings || []);
+          setCurrentPoints(data.totalPoints || 0);
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, [session]);
 
   return (

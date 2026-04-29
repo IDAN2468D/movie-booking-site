@@ -252,7 +252,7 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
           </div>
         </div>
         <div className="pt-4 border-t border-white/5 flex justify-between items-center">
-          <p className="text-xs font-black text-white">סה"כ לתשלום: ₪{(selectedSeats.length * 45).toFixed(2)}</p>
+          <p className="text-xs font-black text-white">סה&quot;כ לתשלום: ₪{(selectedSeats.length * 45).toFixed(2)}</p>
           <div className="flex items-center gap-2">
             <CreditCard size={14} className="text-slate-500" />
             <span className="text-[10px] text-slate-500 font-bold uppercase">Secure Pay</span>

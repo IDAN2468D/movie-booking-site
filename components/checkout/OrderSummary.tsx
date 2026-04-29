@@ -2,10 +2,10 @@
 
 import React from 'react';
 import NextImage from 'next/image';
-import { Calendar, Clock, Ticket, ArrowRight, Zap, MapPin, Armchair } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, Zap, MapPin, Armchair } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Movie } from '@/lib/tmdb';
-import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
+
 
 interface OrderSummaryProps {
   movie: Movie;

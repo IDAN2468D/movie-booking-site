@@ -38,7 +38,7 @@ export const useUIStore = create<UIState>((set) => ({
   
   toggleConcierge: () => set((state) => ({ isConciergeOpen: !state.isConciergeOpen })),
   
-  addMessage: (content, role, type = 'text', movieData?: any) => set((state) => ({
+  addMessage: (content, role, type = 'text', movieData?: Movie) => set((state) => ({
     conciergeMessages: [...state.conciergeMessages, { role, content, type, movieData, timestamp: Date.now() }]
   })),
   

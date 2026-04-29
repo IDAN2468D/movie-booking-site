@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, User, ArrowRight, Sparkles } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight } from 'lucide-react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { KineticText } from '@/components/effects/KineticText';
 

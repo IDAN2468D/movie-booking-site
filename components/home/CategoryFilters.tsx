@@ -3,7 +3,7 @@
 import React from 'react';
 import { Sparkles, Flame, Play, Clock, Heart, Ghost, Rocket, Tv, Clapperboard, MonitorPlay } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const categories = [
   { id: 'all', name: 'כל הסרטים', icon: Sparkles },

@@ -4,6 +4,7 @@ import { generateRecommendations } from '../ai-engine';
 import { getPopularMovies, getNowPlayingMovies } from '../tmdb';
 import clientPromise from '../mongodb';
 import { AIResponse, AIRequest } from '@/types/ai';
+import { ObjectId } from 'mongodb';
 
 /**
  * 🎫 Server Action: Fetch Smart Recommendations
@@ -27,7 +28,9 @@ export async function getSmartRecommendationsAction(userId?: string): Promise<AI
 
     if (userId && client) {
       const db = client.db('moviebook');
-      const user = await db.collection('users').findOne({ _id: userId as any });
+      const user = await db.collection('users').findOne({ 
+        _id: new ObjectId(userId) as any 
+      });
       if (user) {
         userProfile = {
           preferences: user.aiPreferences?.genres || userProfile.preferences,

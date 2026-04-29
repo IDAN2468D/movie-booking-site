@@ -8,7 +8,7 @@ interface KineticTextProps {
   className?: string;
   stagger?: number;
   once?: boolean;
-  tag?: any;
+  tag?: React.ElementType;
   delay?: number;
 }
 

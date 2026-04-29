@@ -5,14 +5,35 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '');
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
+interface TMDBResult {
+  id: number;
+  title: string;
+  overview: string;
+  vote_average: number;
+}
+
+interface ChatHistoryItem {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+interface GeminiHistoryItem {
+  role: 'user' | 'model';
+  parts: { text: string }[];
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const { movieId, message, history = [] } = await req.json();
+    const { movieId, message, history = [] }: { 
+      movieId?: string; 
+      message: string; 
+      history: ChatHistoryItem[] 
+    } = await req.json();
 
     // 1. Fetch Context (More movies for better coverage)
     const moviesRes = await fetch(`${TMDB_BASE_URL}/movie/now_playing?api_key=${TMDB_API_KEY}&language=he-IL&page=1`);
     const moviesData = await moviesRes.json();
-    const hotMovies = moviesData.results?.slice(0, 20).map((m: any) => ({
+    const hotMovies = moviesData.results?.slice(0, 20).map((m: TMDBResult) => ({
       id: m.id,
       title: m.title,
       overview: m.overview,
@@ -30,17 +51,17 @@ export async function POST(req: NextRequest) {
     const modelName = 'gemini-3.1-flash-lite-preview';
     let responseText = '';
 
-    const formattedHistory = history.map((msg: any) => ({
+    const formattedHistory: GeminiHistoryItem[] = history.map((msg) => ({
       role: msg.role === 'user' ? 'user' : 'model',
       parts: [{ text: msg.content }],
     }));
 
     // Ensure history starts with user and alternates
-    const firstUserIndex = formattedHistory.findIndex((m: any) => m.role === 'user');
+    const firstUserIndex = formattedHistory.findIndex((m) => m.role === 'user');
     let validHistory = firstUserIndex !== -1 ? formattedHistory.slice(firstUserIndex) : [];
 
     // Deduplicate consecutive roles (Gemini requirement)
-    validHistory = validHistory.filter((msg: any, i: number) => {
+    validHistory = validHistory.filter((msg, i) => {
       if (i === 0) return true;
       return msg.role !== validHistory[i - 1].role;
     });
@@ -86,9 +107,10 @@ export async function POST(req: NextRequest) {
 
       responseText = resultData.text;
       modelUsed = resultData.modelName;
-    } catch (err: any) {
-      console.error(`AI Chat Error after retries:`, err.message);
-      throw err;
+    } catch (err: unknown) {
+      const error = err as Error;
+      console.error(`AI Chat Error after retries:`, error.message);
+      throw error;
     }
 
     return NextResponse.json({
@@ -97,7 +119,8 @@ export async function POST(req: NextRequest) {
       model: modelUsed
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as Error;
     console.error('AI Chat Error:', error);
     return NextResponse.json({
       success: false,
