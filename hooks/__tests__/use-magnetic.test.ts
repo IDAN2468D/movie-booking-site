@@ -24,7 +24,7 @@ describe('useMagnetic', () => {
       removeEventListener: vi.fn(),
     };
 
-    // @ts-ignore
+    // @ts-expect-error - overriding readonly ref for testing
     result.current.ref.current = mockRef;
 
     // Simulate mouse move near center (150, 150)
@@ -49,7 +49,7 @@ describe('useMagnetic', () => {
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
     };
-    // @ts-ignore
+    // @ts-expect-error - overriding readonly ref for testing
     result.current.ref.current = mockRef;
 
     // Center is (50, 50). Move mouse to (500, 500) (> proximity 100)

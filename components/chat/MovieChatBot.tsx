@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { X, Send, Sparkles, Bot, Zap, Ticket, Popcorn, Film, MessageSquare, Star } from 'lucide-react';
 import { useUIStore } from '@/lib/store/ui-store';
-import { useBookingStore } from '@/lib/store';
 import { BookingWizard } from '../ai/BookingWizard';
 import { formatMovieData } from '@/lib/tmdb';
 
@@ -19,7 +18,6 @@ export default function MovieChatBot() {
   
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { setSelectedMovie } = useBookingStore();
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -205,9 +203,7 @@ export default function MovieChatBot() {
                   className="flex-shrink-0 flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-black text-slate-400 hover:bg-primary/20 hover:text-primary hover:border-primary/30 transition-all active:scale-95 backdrop-blur-md"
                 >
                   <chip.icon size={12} />
-                  <MarkerHighlight color="#FF9F0A" delay={0.3} strokeWidth={6}>
-                    {chip.label}
-                  </MarkerHighlight>
+                  {chip.label}
                 </button>
               ))}
             </div>

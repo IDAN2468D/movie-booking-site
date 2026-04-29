@@ -61,7 +61,7 @@ export default function RewardsPage() {
 
   useEffect(() => {
     if (!session) {
-      setIsLoading(false);
+      requestAnimationFrame(() => setIsLoading(false));
       return;
     }
     

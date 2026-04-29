@@ -60,7 +60,9 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   const isFavorite = favorites.some(m => m.id === movie.id);
 
   React.useEffect(() => {
-    setMounted(true);
+    // Use requestAnimationFrame to avoid synchronous setState in effect warning
+    const frame = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   React.useEffect(() => {
@@ -92,7 +94,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
 
     fetchInsights();
     return () => setMovieContext(undefined, undefined);
-  }, [movie.id, movie.title, movie.overview, movie.genres, setMovieContext]);
+  }, [movie.id, movie.title, movie.overview, movie.genres, setMovieContext, mounted]);
 
   if (!mounted) {
     return <div className="min-h-screen bg-[#0F0F0F] animate-pulse" />;

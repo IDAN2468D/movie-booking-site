@@ -78,7 +78,7 @@ export async function generateRecommendations(data: AIRequest): Promise<AIRespon
   const finalRecs = recommendations
     .sort((a, b) => b.score - a.score)
     .slice(0, 3)
-    .map(({ score, ...rest }) => rest);
+    .map(({ score: _score, ...rest }) => rest); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   return {
     recommendations: finalRecs,

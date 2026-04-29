@@ -49,12 +49,13 @@ export function useMagnetic<T extends HTMLElement = HTMLElement>(strength = 0.5,
       y.set(0);
     };
 
+    const element = ref.current;
     window.addEventListener('mousemove', handleMouseMove);
-    ref.current?.addEventListener('mouseleave', handleMouseLeave);
+    element?.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      ref.current?.removeEventListener('mouseleave', handleMouseLeave);
+      element?.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [strength, x, y]);
 

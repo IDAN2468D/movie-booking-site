@@ -29,7 +29,7 @@ export async function getSmartRecommendationsAction(userId?: string): Promise<AI
     if (userId && client) {
       const db = client.db('moviebook');
       const user = await db.collection('users').findOne({ 
-        _id: new ObjectId(userId) as any 
+        _id: new ObjectId(userId)
       });
       if (user) {
         userProfile = {

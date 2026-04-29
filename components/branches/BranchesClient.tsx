@@ -53,7 +53,8 @@ export default function BranchesClient({ initialBranches }: { initialBranches: C
     const saved = localStorage.getItem('moviebook_favorites');
     if (saved) {
       try {
-        setFavorites(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        requestAnimationFrame(() => setFavorites(parsed));
       } catch {
         console.error('Failed to parse favorites');
       }
@@ -87,7 +88,7 @@ export default function BranchesClient({ initialBranches }: { initialBranches: C
   }, []);
 
   useEffect(() => {
-    handleGetLocation();
+    requestAnimationFrame(() => handleGetLocation());
   }, [handleGetLocation]);
 
   const isBranchOpen = (hours: string) => {

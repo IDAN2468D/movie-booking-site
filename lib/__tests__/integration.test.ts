@@ -44,12 +44,13 @@ describe('Rewards API Integration', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (getServerSession as any).mockResolvedValue(mockSession);
+    // @ts-expect-error - mocking session with partial data
+    vi.mocked(getServerSession).mockResolvedValue(mockSession);
     process.env.MONGODB_URI = 'mongodb://localhost:27017';
   });
 
   it('should return 401 if not authenticated', async () => {
-    (getServerSession as any).mockResolvedValue(null);
+    vi.mocked(getServerSession).mockResolvedValue(null);
     const req = new Request('http://localhost/api/rewards/redeem', {
       method: 'POST',
       body: JSON.stringify({ rewardId: 1, points: 500 }),

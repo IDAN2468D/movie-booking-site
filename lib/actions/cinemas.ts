@@ -31,12 +31,14 @@ export async function getCinemas() {
     const db = client.db('movie-booking');
     const cinemas = await db.collection('cinemas').find({}).toArray();
     
+    const formattedCinemas = JSON.parse(JSON.stringify(cinemas)).map((c: { _id: string }) => ({
+      ...c,
+      id: c._id?.toString() || ""
+    })) as Cinema[];
+
     return { 
       success: true, 
-      data: JSON.parse(JSON.stringify(cinemas)).map((c: any) => ({
-        ...c,
-        id: c._id.toString()
-      })) as Cinema[] 
+      data: formattedCinemas
     };
   } catch (error) {
     console.error('Failed to fetch cinemas:', error);

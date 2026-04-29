@@ -32,7 +32,8 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
   // Update email if session loads later
   useEffect(() => {
     if (session?.user?.email && !userEmail) {
-      setUserEmail(session.user.email);
+      const email = session.user.email;
+      requestAnimationFrame(() => setUserEmail(email));
     }
   }, [session, userEmail]);
 

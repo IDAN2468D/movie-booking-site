@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 interface ShimmerPosterProps {
@@ -13,10 +14,11 @@ export const ShimmerPoster: React.FC<ShimmerPosterProps> = ({ src, alt, classNam
   return (
     <div className={`relative group overflow-hidden rounded-[24px] ${className}`}>
       {/* Base Image */}
-      <img 
+      <Image 
         src={src} 
         alt={alt} 
-        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        fill
+        className="object-cover transition-transform duration-500 group-hover:scale-110"
       />
 
       {/* Aggregate Shimmer Layer */}

@@ -46,9 +46,9 @@ export default function BookingPage() {
         const { getCinemas } = await import('@/lib/actions/cinemas');
         const result = await getCinemas();
         if (result.success) {
-          const found = (result.data as any[])?.find((b: any) => b._id === params.branchId || b.id === params.branchId);
+          const found = (result.data as CinemaBranch[])?.find((b) => b._id === params.branchId || b.id === params.branchId);
           if (found) {
-            setBranch(found as CinemaBranch);
+            setBranch(found);
           }
         }
       } catch (err) {
