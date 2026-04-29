@@ -1,4 +1,5 @@
 import { NextRequest, NextFetchEvent, NextMiddleware } from "next/server";
+import { withAuth } from "next-auth/middleware";
 
 const authMiddleware = withAuth({
   pages: {

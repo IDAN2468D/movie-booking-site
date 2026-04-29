@@ -19,7 +19,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   type = "button",
   disabled = false
 }) => {
-  const { ref, x, y } = useMagnetic(0.3);
+  const { ref, x, y } = useMagnetic<HTMLButtonElement>(0.3);
 
   return (
     <motion.button
