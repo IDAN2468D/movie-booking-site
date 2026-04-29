@@ -1,5 +1,4 @@
-import type { Metadata } from "next";
-import { Inter, Anton, Rubik, Assistant } from "next/font/google";
+import { Inter, Anton, Rubik, Assistant, Outfit } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { CinematicFX } from "@/components/fx/CinematicFX";
@@ -26,6 +25,12 @@ const assistant = Assistant({
   variable: '--font-assistant',
 });
 
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  weight: ['400', '500', '700', '900'],
+});
+
 export const metadata: Metadata = {
   title: "MOVIEBOOK | הזמנת סרטים פרימיום",
   description: "חווית קולנוע כמו שמעולם לא חוויתם עם MOVIEBOOK",
@@ -41,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="he" dir="rtl" className="dark" suppressHydrationWarning>
-      <body className={`${inter.variable} ${anton.variable} ${rubik.variable} ${assistant.variable} antialiased bg-[#0A0A0A] text-[#FAFAF7] font-body`}>
+      <body className={`${inter.variable} ${anton.variable} ${rubik.variable} ${assistant.variable} ${outfit.variable} antialiased bg-[#0A0A0A] text-[#FAFAF7] font-body`}>
         <AuthProvider>
           <CinematicFX />
           {children}
