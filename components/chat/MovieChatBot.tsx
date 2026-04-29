@@ -100,10 +100,11 @@ export default function MovieChatBot() {
             initial={{ opacity: 0, y: 40, scale: 0.9, filter: 'blur(20px)' }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 40, scale: 0.9, filter: 'blur(20px)' }}
-            className="pointer-events-auto w-full md:w-[460px] h-[85dvh] md:h-[750px] mb-24 overflow-hidden rounded-[40px] border border-white/10 flex flex-col shadow-[0_40px_120px_rgba(0,0,0,0.9)] relative"
+            className="pointer-events-auto w-full md:w-[460px] h-[85dvh] md:h-[750px] mb-24 overflow-hidden rounded-[40px] border border-white/10 flex flex-col shadow-[0_40px_120px_rgba(0,0,0,0.9)] relative transition-all"
             style={{
               background: 'rgba(0, 0, 0, 0.65)',
-              backdropFilter: 'blur(40px) saturate(200%) brightness(1.1)',
+              backdropFilter: 'blur(24px) saturate(200%) brightness(1.1)', // Reduced from 40px for performance
+              willChange: 'transform, opacity, filter',
             }}
           >
             {/* Liquid Glass Effects */}

@@ -20,6 +20,7 @@ This directory contains domain-specific instructions (Skills) for the AI Agent. 
 
 ### 📦 [Shared](./shared/) (Global Defaults)
 - **[yuv-design](./shared/yuv-design/)**: Yuval Avidani's signature defaults (Secondary to Project Brand).
+- **[RENDER_DEPLOYMENT.md](./shared/RENDER_DEPLOYMENT.md)**: Deployment protocols and optimization for Render.com.
 
 ---
 > [!NOTE]
