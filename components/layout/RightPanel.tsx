@@ -234,7 +234,7 @@ export default function RightPanel() {
 
                <Link 
                 href="/checkout"
-                className={`block w-full mt-10 h-20 rounded-[2rem] font-black flex items-center justify-center transition-all duration-500 shadow-2xl active:scale-[0.95] relative overflow-hidden group ${
+                className={`block w-full mt-10 h-16 md:h-20 rounded-[1.5rem] md:rounded-[2rem] font-black flex items-center justify-center transition-all duration-500 shadow-2xl active:scale-[0.95] relative overflow-hidden group ${
                   seatCount > 0 
                     ? 'bg-primary text-black shadow-[0_20px_50px_rgba(255,159,10,0.3)] hover:shadow-[0_25px_60px_rgba(255,159,10,0.4)] hover:-translate-y-1' 
                     : 'bg-white/10 text-white/40 pointer-events-none border border-white/5'
@@ -243,21 +243,21 @@ export default function RightPanel() {
                  {/* Premium Liquid Glass Effects */}
                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-30 z-10 pointer-events-none" />
                  <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.4),transparent)] -translate-x-full group:animate-shimmer z-20" style={{ backgroundSize: '200% 100%' }} />
-
-                 <div className="relative z-30 flex flex-col items-center">
+ 
+                 <div className="relative z-30 flex flex-col items-center text-center">
                     {seatCount > 0 ? (
                       <>
-                        <span className="text-sm font-black uppercase tracking-widest text-black font-rubik leading-none mb-1">חווית צפייה פרמיום</span>
+                        <span className="text-[9px] md:text-sm font-black uppercase tracking-widest text-black/70 font-rubik leading-none mb-0.5 md:mb-1">חווית צפייה פרמיום</span>
                         <div className="relative">
-                          <MarkerHighlight color="rgba(0,0,0,0.08)" delay={0.1} strokeWidth={8}>
-                            <span className="text-xl md:text-2xl font-black font-rubik text-black block tracking-tight">
+                          <MarkerHighlight color="rgba(0,0,0,0.06)" delay={0.1} strokeWidth={4}>
+                            <span className="text-base md:text-2xl font-black font-rubik text-black block tracking-tight">
                               {`הזמן ${seatCount} כרטיסים`}
                             </span>
                           </MarkerHighlight>
                         </div>
                       </>
                     ) : (
-                      <span className="text-base font-black font-rubik uppercase tracking-widest text-white/50">בחר מושבים להמשך</span>
+                      <span className="text-sm md:text-base font-black font-rubik uppercase tracking-widest text-white/50">בחר מושבים להמשך</span>
                     )}
                  </div>
                </Link>

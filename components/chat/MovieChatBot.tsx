@@ -93,14 +93,14 @@ export default function MovieChatBot() {
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[1000] flex flex-col items-start justify-end p-4 md:p-10" dir="rtl">
+    <div className="fixed inset-0 pointer-events-none z-[1000] flex flex-col items-center md:items-start justify-center md:justify-start md:pt-28 md:pr-10 p-4" dir="rtl">
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.9, filter: 'blur(20px)' }}
+            <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95, filter: 'blur(20px)' }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: 40, scale: 0.9, filter: 'blur(20px)' }}
-            className="pointer-events-auto w-full md:w-[460px] h-[85dvh] md:h-[750px] mb-24 overflow-hidden rounded-[40px] border border-white/10 flex flex-col shadow-[0_40px_120px_rgba(0,0,0,0.9)] relative transition-all"
+            exit={{ opacity: 0, y: -20, scale: 0.95, filter: 'blur(20px)' }}
+            className="pointer-events-auto w-full md:w-[460px] h-[85dvh] md:h-[750px] overflow-hidden rounded-[40px] border border-white/10 flex flex-col shadow-[0_40px_120px_rgba(0,0,0,0.9)] relative transition-all"
             style={{
               background: 'rgba(0, 0, 0, 0.65)',
               backdropFilter: 'blur(24px) saturate(200%) brightness(1.1)', // Reduced from 40px for performance
@@ -249,58 +249,6 @@ export default function MovieChatBot() {
         )}
       </AnimatePresence>
 
-      {/* 🔮 The Refractive Orb Trigger (Bottom Left) */}
-      <motion.button
-        onClick={toggleOpen}
-        layout
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="pointer-events-auto w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center overflow-hidden border border-white/30 group relative z-20"
-        style={{
-          background: currentMovieId ? 'rgba(6, 182, 212, 0.15)' : 'rgba(255, 159, 10, 0.15)',
-          backdropFilter: 'blur(32px) saturate(200%)',
-          boxShadow: `0 25px 80px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 40px ${currentMovieId ? 'rgba(6, 182, 212, 0.2)' : 'rgba(255, 159, 10, 0.2)'}`
-        }}
-      >
-        {/* Animated Background Layers */}
-        <motion.div 
-          animate={{ 
-            rotate: [0, 360],
-            scale: [1, 1.2, 1]
-          }}
-          transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-          className={`absolute inset-[-50%] opacity-40 bg-gradient-to-tr from-transparent via-transparent ${currentMovieId ? 'to-cyan-400/40' : 'to-primary/40'}`}
-        />
-        
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.6, 0.3]
-          }}
-          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-          className={`absolute inset-0 bg-gradient-to-br ${currentMovieId ? 'from-cyan-500/20' : 'from-primary/20'} to-transparent`}
-        />
-
-        <div className={`relative z-10 transition-all duration-700 transform group-hover:scale-110 group-hover:rotate-12 ${currentMovieId ? 'text-cyan-400' : 'text-primary'}`}>
-          {isOpen ? <X className="w-8 h-8 md:w-10 md:h-10" /> : <Sparkles className="w-8 h-8 md:w-10 md:h-10 drop-shadow-[0_0_15px_currentColor]" />}
-        </div>
-        
-        <AnimatePresence>
-          {isThinking && (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className="absolute inset-0 p-1"
-            >
-              <div className={`w-full h-full rounded-full border-[3px] border-t-transparent animate-spin ${currentMovieId ? 'border-cyan-400' : 'border-primary'} opacity-80`} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Refractive Lens Flare */}
-        <div className="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] bg-gradient-to-br from-white/20 to-transparent rotate-45 pointer-events-none" />
-      </motion.button>
     </div>
   );
 }

@@ -103,7 +103,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
               }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedMovie(movie)}
-              className="flex-1 md:flex-none bg-primary text-black px-12 h-20 rounded-[2rem] font-black flex items-center justify-center gap-4 transition-all shadow-[0_20px_50px_rgba(255,159,10,0.4)] group/btn relative overflow-hidden border border-white/20"
+              className="flex-1 md:flex-none bg-primary text-black px-6 md:px-12 h-16 md:h-20 rounded-[1.5rem] md:rounded-[2rem] font-black flex items-center justify-center gap-3 md:gap-4 transition-all shadow-[0_20px_50px_rgba(255,159,10,0.4)] group/btn relative overflow-hidden border border-white/20"
             >
               {/* Premium Liquid Glass Effects */}
               <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-30 z-10 pointer-events-none" />
@@ -112,16 +112,16 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
               <motion.div
                 initial={{ rotate: 0 }}
                 whileHover={{ rotate: 12, scale: 1.2 }}
-                className="relative z-30"
+                className="relative z-30 shrink-0"
               >
-                <Ticket className="w-6 h-6 text-black" />
+                <Ticket className="w-5 h-5 md:w-6 md:h-6 text-black" />
               </motion.div>
 
-              <div className="relative z-30 flex flex-col items-start">
-                <span className="text-sm font-black uppercase tracking-widest text-black font-rubik leading-none mb-1">חווית צפייה פרמיום</span>
+              <div className="relative z-30 flex flex-col items-start text-right min-w-0">
+                <span className="text-[9px] md:text-sm font-black uppercase tracking-widest text-black/70 font-rubik leading-none mb-0.5 md:mb-1 truncate">חווית צפייה פרמיום</span>
                 <div className="relative">
-                  <MarkerHighlight color="rgba(0,0,0,0.08)" delay={0.2} strokeWidth={8}>
-                    <span className="text-xl md:text-2xl font-black font-rubik text-black block tracking-tight">
+                  <MarkerHighlight color="rgba(0,0,0,0.06)" delay={0.2} strokeWidth={4}>
+                    <span className="text-base md:text-2xl font-black font-rubik text-black block tracking-tight whitespace-nowrap">
                       הזמן 3 כרטיסים
                     </span>
                   </MarkerHighlight>
