@@ -4,8 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Sparkles, MonitorPlay, Zap } from 'lucide-react';
 import { getCinemas, Cinema } from '@/lib/actions/cinemas';
+import { useRouter } from 'next/navigation';
+import { useBookingStore } from '@/lib/store';
 
 export default function CinemaShowcase() {
+  const router = useRouter();
+  const { setLocation, setSelectedBranchId } = useBookingStore();
   const [cinemas, setCinemas] = useState<Cinema[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,12 +24,18 @@ export default function CinemaShowcase() {
     load();
   }, []);
 
+  const handleViewShowtimes = (cinema: Cinema) => {
+    setLocation(`${cinema.city}, ישראל`);
+    setSelectedBranchId(cinema._id);
+    router.push('/branches');
+  };
+
   if (loading) return null;
 
   return (
     <div className="py-12">
       <div className="flex items-center justify-between mb-8 px-4">
-        <h2 className="text-2xl md:text-3xl font-black text-white tracking-tighter font-outfit">
+        <h2 className="text-2xl md:text-3xl font-black text-white tracking-tighter font-outfit text-right">
           מתחמי <span className="text-primary">Liquid Glass</span>
         </h2>
         <div className="flex items-center gap-2 text-slate-500 text-sm font-bold">
@@ -49,11 +59,11 @@ export default function CinemaShowcase() {
             
             <div className="relative z-10">
               <div className="flex items-start justify-between mb-6">
-                <div>
+                <div className="text-right">
                   <h3 className="text-xl md:text-2xl font-black text-white mb-2 font-outfit">{cinema.name}</h3>
-                  <div className="flex items-center gap-2 text-slate-400 text-sm">
-                    <MapPin size={14} className="text-primary" />
+                  <div className="flex items-center gap-2 text-slate-400 text-sm justify-end">
                     <span>{cinema.location}</span>
+                    <MapPin size={14} className="text-primary" />
                   </div>
                 </div>
                 <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center border border-primary/30">
@@ -61,14 +71,14 @@ export default function CinemaShowcase() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 mb-8">
+              <div className="flex flex-wrap gap-2 mb-8 justify-end">
                 {cinema.facilities?.map((facility) => (
                   <span 
                     key={facility}
                     className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] md:text-xs font-bold text-slate-300 flex items-center gap-1.5"
                   >
-                    <Sparkles size={10} className="text-cyan-400" />
                     {facility}
+                    <Sparkles size={10} className="text-cyan-400" />
                   </span>
                 ))}
               </div>
@@ -81,9 +91,18 @@ export default function CinemaShowcase() {
                      </div>
                    ))}
                 </div>
-                <button className="text-[10px] md:text-xs font-black uppercase tracking-widest text-primary hover:text-white transition-colors">
-                  צפה בלוח שידורים ←
-                </button>
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleViewShowtimes(cinema);
+                  }}
+                  className="px-5 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-[10px] md:text-xs font-black uppercase tracking-widest text-primary hover:bg-primary hover:text-white transition-all flex items-center gap-2 group/btn cursor-pointer z-50"
+                >
+                  <span className="relative z-10">צפה בלוח שידורים</span>
+                  <MonitorPlay size={14} className="relative z-10 group-hover/btn:rotate-12 transition-transform" />
+                </motion.button>
               </div>
             </div>
           </motion.div>
@@ -92,3 +111,4 @@ export default function CinemaShowcase() {
     </div>
   );
 }
+

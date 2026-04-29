@@ -93,7 +93,7 @@ export default function MovieChatBot() {
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[1000] flex flex-col items-center md:items-start justify-center md:justify-start md:pt-28 md:pr-10 p-4" dir="rtl">
+    <div className="fixed inset-0 pointer-events-none z-[1000] flex flex-col items-center md:items-start justify-start pt-20 md:pt-28 md:pr-10 p-4" dir="rtl">
       <AnimatePresence>
         {isOpen && (
             <motion.div

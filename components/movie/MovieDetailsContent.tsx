@@ -253,11 +253,14 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                 whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 50px rgba(255,159,10,0.4)' }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleBook}
-                className="flex-1 md:flex-none px-12 h-16 bg-primary text-black rounded-2xl font-black flex items-center justify-center gap-3 transition-all shadow-[0_15px_40px_rgba(255,159,10,0.3)] relative overflow-hidden group border border-white/10"
+                className="flex-1 md:flex-none px-6 md:px-12 h-16 md:h-20 bg-primary text-black rounded-2xl md:rounded-[2rem] font-black flex items-center justify-center gap-3 md:gap-4 transition-all shadow-[0_15px_40px_rgba(255,159,10,0.3)] relative overflow-hidden group border border-white/10"
               >
                 <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.4),transparent)] -translate-x-full group-hover:animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
                 <Ticket size={24} className="relative z-10 group-hover:rotate-12 transition-transform" />
-                <span className="relative z-10 text-sm md:text-xl uppercase tracking-widest font-display">הזמן עכשיו</span>
+                <div className="relative z-10 flex flex-col items-start text-right min-w-0">
+                  <span className="text-[10px] md:text-sm font-black uppercase tracking-[0.1em] md:tracking-widest text-black/70 font-rubik leading-none mb-1 truncate w-full">חווית צפייה פרמיום</span>
+                  <span className="text-base md:text-2xl font-black font-rubik text-black block tracking-tight whitespace-nowrap">הזמן 3 כרטיסים</span>
+                </div>
               </motion.button>
 
               {/* Action Buttons: Trailer + More */}

@@ -39,7 +39,7 @@ const regions: Record<string, string> = {
 };
 
 export default function BranchesClient({ initialBranches }: { initialBranches: Cinema[] }) {
-  const { location, setLocation, selectedMovie, setSelectedBranchId } = useBookingStore();
+  const { location, setLocation, selectedMovie, setSelectedBranchId, selectedBranchId } = useBookingStore();
   const [userCoords, setUserCoords] = useState<{ lat: number, lng: number } | null>(null);
   const [isLocating, setIsLocating] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -90,6 +90,17 @@ export default function BranchesClient({ initialBranches }: { initialBranches: C
   useEffect(() => {
     requestAnimationFrame(() => handleGetLocation());
   }, [handleGetLocation]);
+
+  useEffect(() => {
+    if (selectedBranchId) {
+      setTimeout(() => {
+        const element = document.getElementById(`branch-${selectedBranchId}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 500);
+    }
+  }, [selectedBranchId]);
 
   const isBranchOpen = (hours: string) => {
     try {
@@ -155,7 +166,7 @@ export default function BranchesClient({ initialBranches }: { initialBranches: C
             <BranchCard 
               key={branch._id}
               branch={branch}
-              isSelected={location === `${branch.name}, ישראל`}
+              isSelected={selectedBranchId === branch._id}
               isFav={favorites.includes(branch._id)}
               isOpen={isBranchOpen(branch.hours)}
               distance={userCoords ? calculateDistance(userCoords.lat, userCoords.lng, branch.lat, branch.lng).toFixed(1) : null}

@@ -3,6 +3,7 @@ import TopBar from "@/components/layout/TopBar";
 import RightPanel from "@/components/layout/RightPanel";
 import MobileNav from "@/components/layout/MobileNav";
 import MovieChatBot from "@/components/chat/MovieChatBot";
+import { HeartbeatInit } from "@/components/utils/HeartbeatInit";
 
 
 export default function MainLayout({
@@ -31,7 +32,9 @@ export default function MainLayout({
 
       {/* Premium AI Chatbot (Liquid Glass 2.0) */}
       <MovieChatBot />
-
+      
+      {/* Performance Optimization for Render */}
+      <HeartbeatInit />
     </div>
   );
 }

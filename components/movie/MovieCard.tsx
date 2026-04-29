@@ -192,7 +192,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
               e?.preventDefault();
               setSelectedMovie(movie);
             }}
-            className="text-[10px] md:text-[11px] font-black bg-gradient-to-r from-primary to-yellow text-white px-4 py-2 md:px-5 md:py-2.5 rounded-xl md:rounded-2xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 shadow-[0_15px_30px_rgba(255,20,100,0.3)] md:translate-y-2 md:group-hover:translate-y-0 uppercase tracking-widest flex-1 md:flex-none text-center"
+            className="text-[11px] md:text-xs font-black bg-gradient-to-r from-primary to-yellow text-white px-5 py-2.5 md:px-6 md:py-3 rounded-xl md:rounded-2xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 shadow-[0_15px_30px_rgba(255,20,100,0.3)] md:translate-y-2 md:group-hover:translate-y-0 uppercase tracking-widest flex-1 md:flex-none text-center"
           >
             <MarkerHighlight color="#000000" delay={0.1} strokeWidth={4}>
               הזמן 3 כרטיסים

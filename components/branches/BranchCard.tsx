@@ -30,6 +30,7 @@ export function BranchCard({
 
   return (
     <motion.div
+      id={`branch-${branch._id}`}
       layout
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -44,13 +45,17 @@ export function BranchCard({
         <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none" />
         
         <div className="absolute -left-10 -top-10 w-40 h-40 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity duration-700 pointer-events-none rotate-12">
-          <Image 
-            src={branch.image} 
-            alt={branch.name} 
-            fill 
-            sizes="160px"
-            className="object-cover rounded-full" 
-          />
+          {branch.image && typeof branch.image === 'string' && branch.image.trim() !== "" && branch.image !== "undefined" ? (
+            <Image 
+              src={branch.image} 
+              alt={branch.name} 
+              fill 
+              sizes="160px"
+              className="object-cover rounded-full" 
+            />
+          ) : (
+            <div className="w-full h-full bg-primary/20 rounded-full" />
+          )}
         </div>
 
         <div className="relative z-10 flex flex-col h-full">

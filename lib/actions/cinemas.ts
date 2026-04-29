@@ -31,10 +31,17 @@ export async function getCinemas() {
     const db = client.db('movie-booking');
     const cinemas = await db.collection('cinemas').find({}).toArray();
     
-    const formattedCinemas = JSON.parse(JSON.stringify(cinemas)).map((c: { _id: string }) => ({
-      ...c,
-      id: c._id?.toString() || ""
-    })) as Cinema[];
+    const DEFAULT_CINEMA_IMAGE = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=400";
+
+    const formattedCinemas = JSON.parse(JSON.stringify(cinemas)).map((c: any) => {
+      // Robust image check
+      const hasImage = c.image && typeof c.image === 'string' && c.image.trim() !== "" && c.image !== "undefined";
+      return {
+        ...c,
+        id: c._id?.toString() || "",
+        image: hasImage ? c.image : DEFAULT_CINEMA_IMAGE
+      };
+    }) as Cinema[];
 
     return { 
       success: true, 
