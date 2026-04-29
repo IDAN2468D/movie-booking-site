@@ -9,6 +9,7 @@ import { useBookingStore } from '@/lib/store';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
+import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 
 export default function TopBar() {
   const { filters, setFilters } = useBookingStore();
@@ -36,7 +37,9 @@ export default function TopBar() {
                 className="object-cover scale-125 saturate-[1.2]"
               />
             </div>
-            <span className="text-xl font-black text-white tracking-tighter font-display leading-none drop-shadow-lg">MOVIEBOOK</span>
+            <span className="text-xl font-black text-white tracking-tighter font-display leading-none drop-shadow-lg">
+              <MarkerHighlight delay={1.5} color="#FF1464">MOVIEBOOK</MarkerHighlight>
+            </span>
           </Link>
         )}
 

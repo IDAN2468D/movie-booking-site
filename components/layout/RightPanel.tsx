@@ -10,6 +10,8 @@ import { useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
 import { motion } from 'framer-motion';
+import { MarkerHighlight } from '../fx/MarkerHighlight';
+import { KineticText } from '@/components/effects/KineticText';
 
 const runningShows = [
   { id: 1, title: 'דדפול & וולברין', time: '14:30', screen: 'אולם 4', type: 'IMAX', language: 'אנגלית', seats: '20/30' },
@@ -234,16 +236,32 @@ export default function RightPanel() {
 
                <Link 
                 href="/checkout"
-                className={`block w-full mt-10 py-6 rounded-[28px] font-black text-xs text-center tracking-[0.3em] uppercase transition-all duration-500 shadow-2xl active:scale-[0.98] relative overflow-hidden group ${
+                className={`block w-full mt-10 h-20 rounded-[2rem] font-black flex items-center justify-center transition-all duration-500 shadow-2xl active:scale-[0.95] relative overflow-hidden group ${
                   seatCount > 0 
-                    ? 'bg-primary text-background shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.02]' 
-                    : 'bg-white/5 text-slate-500 pointer-events-none border border-white/10 opacity-50'
+                    ? 'bg-primary text-black shadow-[0_20px_50px_rgba(255,159,10,0.3)] hover:shadow-[0_25px_60px_rgba(255,159,10,0.4)] hover:-translate-y-1' 
+                    : 'bg-white/10 text-white/40 pointer-events-none border border-white/5'
                 }`}
                >
-                 <span className="relative z-10">{seatCount > 0 ? `הזמן ${seatCount} כרטיסים` : 'בחר מושבים'}</span>
-                 {seatCount > 0 && (
-                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
-                 )}
+                 {/* Premium Liquid Glass Effects */}
+                 <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-30 z-10 pointer-events-none" />
+                 <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.4),transparent)] -translate-x-full group:animate-shimmer z-20" style={{ backgroundSize: '200% 100%' }} />
+
+                 <div className="relative z-30 flex flex-col items-center">
+                    {seatCount > 0 ? (
+                      <>
+                        <span className="text-sm font-black uppercase tracking-widest text-black font-rubik leading-none mb-1">חווית צפייה פרמיום</span>
+                        <div className="relative">
+                          <MarkerHighlight color="rgba(0,0,0,0.08)" delay={0.1} strokeWidth={8}>
+                            <span className="text-xl md:text-2xl font-black font-rubik text-black block tracking-tight">
+                              {`הזמן ${seatCount} כרטיסים`}
+                            </span>
+                          </MarkerHighlight>
+                        </div>
+                      </>
+                    ) : (
+                      <span className="text-base font-black font-rubik uppercase tracking-widest text-white/50">בחר מושבים להמשך</span>
+                    )}
+                 </div>
                </Link>
 
 

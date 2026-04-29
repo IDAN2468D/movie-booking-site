@@ -9,6 +9,7 @@ import { Movie, getImageUrl } from '@/lib/tmdb';
 import Image from 'next/image';
 
 import { useSession } from 'next-auth/react';
+import { MarkerHighlight } from '../fx/MarkerHighlight';
 
 interface BookingWizardProps {
   movie: Movie;
@@ -281,7 +282,13 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
           disabled={isProcessing}
           className="flex-1 bg-primary text-background py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
         >
-          {isProcessing ? 'מעבד...' : 'אשר ושלם'}
+          {isProcessing ? (
+            'מעבד...'
+          ) : (
+            <MarkerHighlight color="#000000" delay={0.1} strokeWidth={8}>
+              {`הזמן ${selectedSeats.length} כרטיסים`}
+            </MarkerHighlight>
+          )}
           <Ticket size={14} />
         </button>
       </div>

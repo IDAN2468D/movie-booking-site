@@ -9,6 +9,7 @@ import CinemaShowcase from './CinemaShowcase';
 import { Movie, GENRE_MAP, getMoviesByGenre } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
+import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 import HolographicBackground from '@/components/ui/HolographicBackground';
 
 interface HomeContentProps {
@@ -215,7 +216,9 @@ export default function HomeContent({
             onClick={() => window.dispatchEvent(new CustomEvent('open-mobile-booking'))}
             className="px-4 py-2.5 md:px-6 md:py-3 bg-primary text-background font-black rounded-xl md:rounded-2xl text-[10px] md:text-[11px] uppercase tracking-widest relative z-10 shadow-[0_10px_20px_rgba(255,159,10,0.2)] active:scale-95 transition-all duration-300 shrink-0 ml-2"
           >
-            הזמן עכשיו
+            <MarkerHighlight color="#000000" delay={0.1} strokeWidth={4}>
+              הזמן 3 כרטיסים
+            </MarkerHighlight>
           </button>
         </motion.div>
       )}

@@ -3,6 +3,7 @@ import { ChevronRight } from 'lucide-react';
 import { MovieCard } from '../movie/MovieCard';
 import { Movie } from '@/lib/tmdb';
 import { motion } from 'framer-motion';
+import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 
 interface MovieSectionProps {
   title: string;
@@ -34,7 +35,7 @@ export default function MovieSection({ title, movies, onSeeAll }: MovieSectionPr
         className="flex items-center justify-between mb-6 px-4"
       >
         <h2 className="text-xl md:text-2xl font-black text-white tracking-tight flex items-center gap-2 font-display uppercase">
-          {title}
+          <MarkerHighlight delay={0.5}>{title}</MarkerHighlight>
           <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(255,20,100,0.5)]" />
         </h2>
         <button 

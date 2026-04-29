@@ -8,6 +8,8 @@ import { Play, Star, Info, Heart, Headphones, Ticket } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
 import TrailerButton from '@/components/movie/TrailerButton';
 import { motion } from 'framer-motion';
+import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
+import { KineticText } from '@/components/effects/KineticText';
 
 interface FeaturedHeroProps {
   movie: Movie;
@@ -55,7 +57,9 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center gap-3 mb-6"
           >
-            <div className="bg-primary text-black text-[10px] font-black px-3 py-1.5 rounded-xl tracking-[0.2em] uppercase shadow-lg shadow-primary/20 font-display">PREMIUM AI CHOICE</div>
+            <div className="bg-primary text-black text-[10px] font-black px-3 py-1.5 rounded-xl tracking-[0.2em] uppercase shadow-lg shadow-primary/20 font-display">
+              <MarkerHighlight delay={1.2} color="#000000" strokeWidth={2}>PREMIUM AI CHOICE</MarkerHighlight>
+            </div>
             <div className="flex items-center gap-1.5 bg-white/5 backdrop-blur-xl px-3 py-1.5 rounded-xl text-white text-[10px] md:text-xs border border-white/10 shadow-2xl">
               <Star className="w-3.5 h-3.5 text-primary fill-primary" />
               <span className="font-black text-white/90">דירוג {movie.vote_average.toFixed(1)}</span>
@@ -93,14 +97,40 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
           >
             {/* Primary Action */}
             <motion.button 
-              whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 50px rgba(255,159,10,0.4)' }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ 
+                scale: 1.05, 
+                translateY: -4, 
+                boxShadow: '0 30px 60px rgba(255,159,10,0.5), 0 0 20px rgba(255,159,10,0.3)' 
+              }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedMovie(movie)}
-              className="flex-1 md:flex-none bg-primary text-black px-10 h-16 rounded-2xl font-black flex items-center justify-center gap-3 transition-all shadow-[0_15px_40px_rgba(255,159,10,0.3)] group/btn relative overflow-hidden"
+              className="flex-1 md:flex-none bg-primary text-black px-12 h-20 rounded-[2rem] font-black flex items-center justify-center gap-4 transition-all shadow-[0_20px_50px_rgba(255,159,10,0.4)] group/btn relative overflow-hidden border border-white/20"
             >
-              <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.4),transparent)] -translate-x-full group-hover/btn:animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
-              <Ticket className="w-5 h-5 relative z-10 group-hover:rotate-12 transition-transform" />
-              <span className="relative z-10 text-sm md:text-base uppercase tracking-widest font-display">הזמן עכשיו</span>
+              {/* Premium Liquid Glass Effects */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-30 z-10 pointer-events-none" />
+              <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.4),transparent)] -translate-x-full group-hover/btn:animate-shimmer z-20" style={{ backgroundSize: '200% 100%' }} />
+              
+              <motion.div
+                initial={{ rotate: 0 }}
+                whileHover={{ rotate: 12, scale: 1.2 }}
+                className="relative z-30"
+              >
+                <Ticket className="w-6 h-6 text-black" />
+              </motion.div>
+
+              <div className="relative z-30 flex flex-col items-start">
+                <span className="text-sm font-black uppercase tracking-widest text-black font-rubik leading-none mb-1">חווית צפייה פרמיום</span>
+                <div className="relative">
+                  <MarkerHighlight color="rgba(0,0,0,0.08)" delay={0.2} strokeWidth={8}>
+                    <span className="text-xl md:text-2xl font-black font-rubik text-black block tracking-tight">
+                      הזמן 3 כרטיסים
+                    </span>
+                  </MarkerHighlight>
+                </div>
+              </div>
+
+              {/* Holographic Glow */}
+              <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-white/20 rounded-full blur-2xl group-hover/btn:scale-150 transition-transform duration-700" />
             </motion.button>
 
             <div className="flex items-center gap-3">

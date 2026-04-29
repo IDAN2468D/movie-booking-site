@@ -9,6 +9,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { MagneticButton } from '../ui/MagneticButton';
 import { KineticText } from '../effects/KineticText';
+import { MarkerHighlight } from '../fx/MarkerHighlight';
 
 interface MovieCardProps {
   movie: Movie;
@@ -193,7 +194,9 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
             }}
             className="text-[10px] md:text-[11px] font-black bg-gradient-to-r from-primary to-yellow text-white px-4 py-2 md:px-5 md:py-2.5 rounded-xl md:rounded-2xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 shadow-[0_15px_30px_rgba(255,20,100,0.3)] md:translate-y-2 md:group-hover:translate-y-0 uppercase tracking-widest flex-1 md:flex-none text-center"
           >
-            הזמן עכשיו
+            <MarkerHighlight color="#000000" delay={0.1} strokeWidth={4}>
+              הזמן 3 כרטיסים
+            </MarkerHighlight>
           </MagneticButton>
           <div className="flex items-center gap-1.5 text-off-white/50 font-bold">
             <Calendar className="w-3.5 h-3.5" />
