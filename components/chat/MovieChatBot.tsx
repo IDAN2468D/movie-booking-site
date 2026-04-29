@@ -93,7 +93,7 @@ export default function MovieChatBot() {
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[1000] flex flex-col items-end justify-end p-6 md:p-10" dir="rtl">
+    <div className="fixed inset-0 pointer-events-none z-[1000] flex flex-col items-start justify-end p-4 md:p-10" dir="rtl">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -254,7 +254,7 @@ export default function MovieChatBot() {
         layout
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="pointer-events-auto w-24 h-24 rounded-full flex items-center justify-center overflow-hidden border border-white/30 group relative z-20"
+        className="pointer-events-auto w-20 h-20 md:w-24 md:h-24 rounded-full flex items-center justify-center overflow-hidden border border-white/30 group relative z-20"
         style={{
           background: currentMovieId ? 'rgba(6, 182, 212, 0.15)' : 'rgba(255, 159, 10, 0.15)',
           backdropFilter: 'blur(32px) saturate(200%)',
@@ -281,7 +281,7 @@ export default function MovieChatBot() {
         />
 
         <div className={`relative z-10 transition-all duration-700 transform group-hover:scale-110 group-hover:rotate-12 ${currentMovieId ? 'text-cyan-400' : 'text-primary'}`}>
-          {isOpen ? <X size={40} /> : <Sparkles size={40} className={`drop-shadow-[0_0_15px_currentColor]`} />}
+          {isOpen ? <X className="w-8 h-8 md:w-10 md:h-10" /> : <Sparkles className="w-8 h-8 md:w-10 md:h-10 drop-shadow-[0_0_15px_currentColor]" />}
         </div>
         
         <AnimatePresence>
