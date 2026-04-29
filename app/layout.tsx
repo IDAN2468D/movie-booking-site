@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Inter, Anton, Rubik, Assistant, Outfit } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/providers/AuthProvider";
