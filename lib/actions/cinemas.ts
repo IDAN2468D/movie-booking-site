@@ -4,6 +4,7 @@ import clientPromise from '@/lib/mongodb';
 
 export interface Cinema {
   _id: string;
+  id: string;
   name: string;
   location: string;
   address: string;
@@ -32,7 +33,10 @@ export async function getCinemas() {
     
     return { 
       success: true, 
-      data: JSON.parse(JSON.stringify(cinemas)) as Cinema[] 
+      data: JSON.parse(JSON.stringify(cinemas)).map((c: any) => ({
+        ...c,
+        id: c._id.toString()
+      })) as Cinema[] 
     };
   } catch (error) {
     console.error('Failed to fetch cinemas:', error);
