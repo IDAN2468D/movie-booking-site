@@ -1,8 +1,4 @@
----
-trigger: always_on
----
-
-# 🤖 Movie Booking Site - Unified AI Governance Standard (v3.0)
+# 🤖 Movie Booking Site - Unified AI Governance Standard (v3.1)
 
 This document is the **Single Source of Truth**. Adherence is mandatory for all AI agents.
 
@@ -14,40 +10,47 @@ This document is the **Single Source of Truth**. Adherence is mandatory for all 
 - **Honest Agent Skill**: 
   - NEVER agree with a bad technical decision just to be polite.
   - If a user request violates SOLID or performance standards, explain why and propose a superior alternative.
-  - Maintain objective integrity: provide technical friction where it adds value.
 - **Language Policy**: 
   - **Chat**: Hebrew (Wrapped in Liquid Glass Container).
   - **Code/Docs**: English.
-- **Hebrew Formatting**: ALL Hebrew text must be wrapped in the premium **Liquid Glass** container:
+- **💎 Mandatory RTL & Liquid Glass Policy**: 
+  - ALL Hebrew responses from the agent MUST be wrapped in the following premium container to ensure RTL support and cinematic aesthetics:
   ```html
   <div dir="rtl" style="font-family: 'Outfit', 'Inter', system-ui, sans-serif; line-height: 1.7; text-align: right; direction: rtl; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; backdrop-filter: blur(12px); color: #F0F0F0; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);">...</div>
   ```
 
-## 🛠️ 2. Core Development Rules
-- **Skill-Driven Architecture**: Use `.agents/skills/*.md` for domain-specific agent instructions.
+## 🧠 2. Knowledge Architecture (Skill Map)
+To maintain order, the agent must reference specific skills based on the task:
+
+### 🛠️ Core Skills (Architecture)
+- **[UI.md](../skills/core/UI.md)**: Liquid Glass 2.0 Design System & Aesthetics.
+- **[ENGINE.md](../skills/core/ENGINE.md)**: Ticketing, Transactions, and Booking logic.
+- **[DATA.md](../skills/core/DATA.md)**: MongoDB, Zod schemas, and Data integrity.
+- **[OPTIMIZATION.md](../skills/core/OPTIMIZATION.md)**: Performance, Hydration, and Caching.
+
+### 🚀 Feature Skills (Domain)
+- **[CONCIERGE.md](../skills/features/CONCIERGE.md)**: AI Assistant interaction and UI.
+- **[AUTH.md](../skills/features/AUTH.md)**: User security and session management.
+- **[LOYALTY.md](../skills/features/LOYALTY.md)**: Points and Rewards logic.
+
+## 🛠️ 3. Core Development Rules
 - **Atomic Files**: Max 200 lines. Use sub-components religiously.
 - **Data Integrity**: Zod is mandatory for all data boundaries.
 - **Result Pattern**: `{ success: boolean; data?: any; error?: string }`.
+- **State**: Zustand (Strict Selectors mandatory).
 
-## 🎨 3. Design System: Liquid Glass 2.0
+## 🎨 4. Design System: Liquid Glass 2.0
 - **Theme**: Premium futuristic dark mode with high optical depth.
 - **Visual Tokens**:
   - **Refraction**: `backdrop-blur-3xl saturate-[200%] brightness-110`.
-  - **Depth**: Use `box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1)`.
-  - **Holography**: Use `linear-gradient` overlays with orange (`#FF9F0A`) and cyan (`#0AEFFF`) at 5% opacity.
+  - **Depth**: `box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1)`.
   - **Typography**: Outfit (Headings), Inter (Body).
-- **Loading**: Skeleton-first strategy for every async component.
 
-## 🚀 4. Technology Stack
-- **Framework**: Next.js 15+ (App Router).
-- **State**: Zustand (Selectors mandatory).
-- **Animation**: Framer Motion (LayoutGroup for transitions).
-- **QA**: Vitest (Unit) & Playwright (E2E).
+## 🚀 5. QA & Deployment
+- **Verification**: Run `npm run build` or `tsc` before finishing tasks.
+- **GitHub**: Push ONLY after explicit USER approval.
+- **Commit**: Atomic and descriptive.
 
 ---
 > [!IMPORTANT]
-> Always check `.agents/skills/` for feature-specific logic before implementation.
-
-## 📤 5. Deployment & Version Control
-- **GitHub Policy**: Code changes and new features will be pushed to GitHub ONLY after explicit approval from the USER.
-- **Commit Strategy**: Use descriptive, atomic commits for every major update.
+> This structure ensures that every technical decision is backed by a specific documented skill.

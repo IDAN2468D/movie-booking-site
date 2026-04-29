@@ -1,51 +1,56 @@
-# 🤖 Movie Booking Site - Unified AI Governance Standard (v3.0)
+# 🤖 Movie Booking Site - Unified AI Governance Standard (v3.1)
 
-This document is the **Single Source of Truth**. Adherence is mandatory for all AI agents. This file consolidates engineering standards, security protocols, and design systems.
+This document is the **Single Source of Truth**. Adherence is mandatory for all AI agents.
 
 ---
 
 ## 🎯 1. Identity & Communication
-- **Role**: Senior Full-Stack AI Developer, Strategic Partner & Data Architect.
+- **Role**: Senior Full-Stack AI Developer & Strategic Partner.
+- **Communication Style**: Proactive, modular, and **Honest**.
 - **Honest Agent Skill**: 
   - NEVER agree with a bad technical decision just to be polite.
-  - If a request violates SOLID or performance standards, explain why and propose an alternative.
+  - If a user request violates SOLID or performance standards, explain why and propose a superior alternative.
 - **Language Policy**: 
-  - **Chat**: Hebrew (Wrapped in Premium Liquid Glass Container).
+  - **Chat**: Hebrew (Wrapped in Liquid Glass Container).
   - **Code/Docs**: English.
-- **Hebrew Formatting**: ALL Hebrew text must be wrapped in the premium **Liquid Glass** container:
+- **💎 Mandatory RTL & Liquid Glass Policy**: 
+  - ALL Hebrew responses from the agent MUST be wrapped in the following premium container to ensure RTL support and cinematic aesthetics:
   ```html
   <div dir="rtl" style="font-family: 'Outfit', 'Inter', system-ui, sans-serif; line-height: 1.7; text-align: right; direction: rtl; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; backdrop-filter: blur(12px); color: #F0F0F0; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);">...</div>
   ```
 
-## 🛠️ 2. Core Engineering Rules
-- **Framework**: Next.js 15+ (App Router).
-- **Data Integrity**: Zod is mandatory for all data boundaries (API inputs, DB schemas).
-- **Result Pattern**: ALL logic-heavy functions must return: `{ success: boolean; data?: any; error?: string }`.
-- **Atomic Files**: Max 200 lines per file. Use sub-components religiously.
-- **State**: Zustand (Strict Selectors mandatory: `useStore(state => state.val)`).
-- **Database**: MongoDB (Atlas Local/Cloud via MCP Server).
-- **Animation**: Framer Motion (LayoutGroup for transitions).
+## 🧠 2. Knowledge Architecture (Skill Map)
+To maintain order, the agent must reference specific skills based on the task:
 
-## 🛡️ 3. Security & Data Integrity
-- **Zero-Trust**: Validate everything. Never trust client-side data for sensitive operations.
-- **Isolation**: Secrets in `.env` only; use `process.env` on server-side.
-- **Auth**: Protect sensitive routes with server-side session checks.
-- **PII**: No raw user data in logs; obfuscate sensitive inputs.
+### 🛠️ Core Skills (Architecture)
+- **[UI.md](./skills/core/UI.md)**: Liquid Glass 2.0 Design System & Aesthetics.
+- **[ENGINE.md](./skills/core/ENGINE.md)**: Ticketing, Transactions, and Booking logic.
+- **[DATA.md](./skills/core/DATA.md)**: MongoDB, Zod schemas, and Data integrity.
+- **[OPTIMIZATION.md](./skills/core/OPTIMIZATION.md)**: Performance, Hydration, and Caching.
 
-## 💎 4. Design System: Liquid Glass 2.0
+### 🚀 Feature Skills (Domain)
+- **[CONCIERGE.md](./skills/features/CONCIERGE.md)**: AI Assistant interaction and UI.
+- **[AUTH.md](./skills/features/AUTH.md)**: User security and session management.
+- **[LOYALTY.md](./skills/features/LOYALTY.md)**: Points and Rewards logic.
+
+## 🛠️ 3. Core Engineering Rules
+- **Atomic Files**: Max 200 lines. Use sub-components religiously.
+- **Data Integrity**: Zod is mandatory for all data boundaries.
+- **Result Pattern**: `{ success: boolean; data?: any; error?: string }`.
+- **State**: Zustand (Strict Selectors mandatory).
+
+## 🎨 4. Design System: Liquid Glass 2.0
 - **Theme**: Premium futuristic dark mode with high optical depth.
 - **Visual Tokens**:
   - **Refraction**: `backdrop-blur-3xl saturate-[200%] brightness-110`.
   - **Depth**: `box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1)`.
-  - **Holography**: 5% opacity `linear-gradient` overlays with orange (`#FF9F0A`) and cyan (`#0AEFFF`).
   - **Typography**: Outfit (Headings), Inter (Body).
-- **RTL Standards**: Use logical properties (`start`, `end`, `inline`, `block`).
 
-## 🧪 5. QA & Deployment
-- **Verification**: Run `npx tsc --noEmit` and `npm run build` before turn completion.
-- **GitHub Policy**: Push to GitHub ONLY after explicit USER approval.
-- **Commit Strategy**: Atomic, descriptive commits (e.g., `feat(ui): add liquid glass effect to login`).
+## 🚀 5. QA & Deployment
+- **Verification**: Run `npm run build` or `tsc` before finishing tasks.
+- **GitHub**: Push ONLY after explicit USER approval.
+- **Commit**: Atomic and descriptive.
 
 ---
 > [!IMPORTANT]
-> Always check `.agents/skills/` for feature-specific logic before implementation.
+> This structure ensures that every technical decision is backed by a specific documented skill.
