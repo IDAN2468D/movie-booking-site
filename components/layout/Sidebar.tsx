@@ -3,14 +3,22 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Gift, Utensils, Bell, Settings, LogOut, Clapperboard, MapPin, RefreshCw, Sparkles, Heart } from 'lucide-react';
-import { signOut } from 'next-auth/react';
+import { Home, Gift, Utensils, Bell, Settings, LogOut, Clapperboard, MapPin, RefreshCw, Sparkles, Heart, ShieldCheck } from 'lucide-react';
+import { signOut, useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
-const navItems = [
+interface NavItem {
+  icon: any;
+  label: string;
+  href: string;
+  isChat?: boolean;
+  isAdmin?: boolean;
+}
+
+const navItems: NavItem[] = [
   { icon: Home, label: 'בית', href: '/' },
   { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets' },
   { icon: Heart, label: 'מועדפים', href: '/favorites' },
@@ -21,14 +29,22 @@ const navItems = [
   { icon: Settings, label: 'הגדרות', href: '/profile' },
 ];
 
+const ADMIN_ITEMS: NavItem[] = [
+  { icon: ShieldCheck, label: 'מערכת ERP', href: '/erp', isAdmin: true },
+];
+
 
 import Image from 'next/image';
 
 export default function Sidebar() {
+  const { data: session } = useSession();
   const pathname = usePathname();
   const router = useRouter();
   const { location, setLocation } = useBookingStore();
   const [isUpdating, setIsUpdating] = React.useState(false);
+
+  const isAdmin = session?.user?.email === 'idankzm@gmail.com' || session?.user?.email === 'test@example.com';
+  const allNavItems = isAdmin ? [...navItems, ...ADMIN_ITEMS] : navItems;
 
   const handleGPS = () => {
     if ("geolocation" in navigator) {
@@ -80,7 +96,7 @@ export default function Sidebar() {
       </div>
 
       <nav className="flex-1 space-y-3 relative">
-        {navItems.map((item) => {
+        {allNavItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
           

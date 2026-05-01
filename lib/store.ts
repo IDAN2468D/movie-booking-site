@@ -12,8 +12,10 @@ interface BookingState {
   location: string;
   draggingMovieName: string | null;
   selectedBranchId: string | null;
+  allMovies: Movie[];
   
   setSelectedMovie: (movie: Movie | null) => void;
+  setAllMovies: (movies: Movie[]) => void;
   setSelectedBranchId: (id: string | null) => void;
   setSelectedShowtime: (time: string) => void;
   setSelectedDate: (date: string) => void;
@@ -47,6 +49,7 @@ export const useBookingStore = create<BookingState>((set) => ({
   favorites: [],
   location: 'תל אביב',
   selectedBranchId: null,
+  allMovies: [],
   activeCategory: 'all',
   searchQuery: '',
   filters: {
@@ -56,6 +59,7 @@ export const useBookingStore = create<BookingState>((set) => ({
   },
   draggingMovieName: null,
 
+  setAllMovies: (movies) => set({ allMovies: movies }),
   setSearchQuery: (query) => set({ searchQuery: query }),
   setFilters: (newFilters) => set((state) => ({ 
     filters: { ...state.filters, ...newFilters } 

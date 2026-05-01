@@ -163,7 +163,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
     <div className="pb-20 text-right" dir="rtl">
       {/* Hero Backdrop - Premium Vertical Focus on Mobile */}
       {/* Hero Backdrop - Premium Vertical Focus on Mobile */}
-      <section className="relative w-full min-h-[650px] md:h-[600px] overflow-hidden [transform:translateZ(0)]">
+      <section className="relative w-full h-[650px] md:h-[600px] overflow-hidden [transform:translateZ(0)]">
         <Image
           src={getImageUrl(movie.backdrop_path, 'original')}
           alt={movie.title}

@@ -51,7 +51,7 @@ export default function MovieSection({ title, movies, onSeeAll }: MovieSectionPr
         variants={container}
         initial="hidden"
         animate="show"
-        className="flex overflow-x-auto pb-8 gap-4 px-4 no-scrollbar md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 md:gap-8 md:px-0"
+        className="flex overflow-x-auto pb-8 gap-4 px-4 no-scrollbar md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 md:gap-8 md:px-0"
       >
         {movies.map((movie) => (
           <motion.div 

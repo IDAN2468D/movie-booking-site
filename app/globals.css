@@ -26,6 +26,8 @@
   
   --font-display: var(--font-display);
   --font-body: var(--font-body);
+
+  --breakpoint-3xl: 1920px;
 }
 
 body {
@@ -199,5 +201,89 @@ h1, h2, h3, h4, h5, h6 {
   inset: 0;
   background: linear-gradient(135deg, rgba(255, 159, 10, 0.05) 0%, transparent 100%);
   pointer-events: none;
+}
+
+/* Resolution & Layout Control */
+.res-fullhd #main-content-wrapper {
+  max-width: 1920px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.res-laptop #main-content-wrapper {
+  max-width: 1440px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.res-mobile-view {
+  background: #000;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 0;
+}
+
+.res-mobile-view #main-content-wrapper {
+  width: 430px !important;
+  height: 932px !important;
+  margin: 0 auto !important;
+  border: 12px solid #1A1A1A;
+  border-radius: 50px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--background);
+  position: relative;
+  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
+}
+
+/* Hide scrollbar for mobile frame view */
+.res-mobile-view #main-content-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.res-mobile-view #main-content-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.res-laptop #main-content-wrapper {
+  max-width: 1440px !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.res-mobile-view {
+  background: #000;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 0;
+}
+
+.res-mobile-view #main-content-wrapper {
+  width: 430px !important;
+  height: 932px !important;
+  margin: 0 auto !important;
+  border: 12px solid #1A1A1A;
+  border-radius: 50px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--background);
+  position: relative;
+  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
+}
+
+/* Hide scrollbar for mobile frame view */
+.res-mobile-view #main-content-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.res-mobile-view #main-content-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 

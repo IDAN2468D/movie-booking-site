@@ -3,7 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Clapperboard, Utensils, Bell, Settings } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { Home, Clapperboard, Utensils, Bell, Settings, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const navItems = [
@@ -14,8 +15,14 @@ const navItems = [
   { icon: Settings, label: 'פרופיל', href: '/profile' },
 ];
 
+const ADMIN_ITEM = { icon: ShieldCheck, label: 'ERP', href: '/erp' };
+
 export default function MobileNav() {
   const pathname = usePathname();
+  const { data: session } = useSession();
+
+  const isAdmin = session?.user?.email === 'idankzm@gmail.com' || session?.user?.email === 'test@example.com';
+  const displayItems = isAdmin ? [...navItems.slice(0, 4), ADMIN_ITEM, navItems[4]] : navItems;
 
   return (
     <div className="md:hidden fixed bottom-10 inset-x-0 z-50 flex justify-center px-6 pointer-events-none">
@@ -24,7 +31,7 @@ export default function MobileNav() {
         <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-cyan-500/10 opacity-30 pointer-events-none" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         
-        {navItems.map((item) => {
+        {displayItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
 

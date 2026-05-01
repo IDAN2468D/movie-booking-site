@@ -27,9 +27,22 @@ export default function HomeContent({
   nowPlayingMovies,
   recommendationsNode
 }: HomeContentProps) {
-  const { activeCategory, setActiveCategory, selectedMovie, searchQuery, filters } = useBookingStore();
+  const { 
+    activeCategory, 
+    setActiveCategory, 
+    selectedMovie, 
+    searchQuery, 
+    filters,
+    setAllMovies 
+  } = useBookingStore();
   const [genreMovies, setGenreMovies] = React.useState<Record<string, Movie[]>>({});
   const [isLoadingGenre, setIsLoadingGenre] = React.useState(false);
+
+  React.useEffect(() => {
+    const all = [...popularMovies, ...topRatedMovies, ...trendingMovies, ...nowPlayingMovies];
+    const unique = Array.from(new Map(all.map(m => [m.id, m])).values());
+    setAllMovies(unique);
+  }, [popularMovies, topRatedMovies, trendingMovies, nowPlayingMovies, setAllMovies]);
 
   React.useEffect(() => {
     const genreId = GENRE_MAP[activeCategory];

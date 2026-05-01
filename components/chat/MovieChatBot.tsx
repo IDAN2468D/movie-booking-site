@@ -1,266 +1,244 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Sparkles, Bot, Zap, Ticket, Popcorn, Film, MessageSquare, Star, Mic, Music, Ghost, Smile, Heart as HeartIcon } from 'lucide-react';
-import { useUIStore } from '@/lib/store/ui-store';
-import { BookingWizard } from '../ai/BookingWizard';
-import { formatMovieData } from '@/lib/tmdb';
+import { 
+  MessageSquare, 
+  X, 
+  Send, 
+  Sparkles, 
+  Ticket, 
+  Film, 
+  ChevronLeft,
+  Bot
+} from 'lucide-react';
+import { cn } from '@/lib/utils/index';
+import { useBookingStore } from '@/lib/store';
+import { ChatMessage, processMessage } from '@/lib/chat-engine';
 
 export default function MovieChatBot() {
-  const { 
-    isConciergeOpen: isOpen, toggleConcierge: toggleOpen, conciergeMessages: messages, 
-    addMessage, isThinking, setThinking, currentMovieId, currentMovieTitle 
-  } = useUIStore();
-  
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: 'welcome',
+      role: 'assistant',
+      content: 'שלום! אני העוזר האישי שלכם לסרטים. במה אוכל לעזור היום?',
+      timestamp: Date.now(),
+      type: 'text'
+    }
+  ]);
   const [input, setInput] = useState('');
-  const [isListening, setIsListening] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  
+  const { allMovies, setSelectedMovie } = useBookingStore();
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, isThinking]);
+  }, [messages, isTyping]);
 
-  // Handle cross-component chat triggers
-  useEffect(() => {
-    const handleOpenChat = () => {
-      if (!isOpen) toggleOpen();
+  const handleSend = async () => {
+    if (!input.trim()) return;
+
+    const userMsg: ChatMessage = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: input,
+      timestamp: Date.now(),
+      type: 'text'
     };
-    window.addEventListener('open-movie-chat', handleOpenChat);
-    return () => window.removeEventListener('open-movie-chat', handleOpenChat);
-  }, [isOpen, toggleOpen]);
 
-  const getAIResponse = async (query: string) => {
-    try {
-      const response = await fetch('/api/ai/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          movieId: currentMovieId, 
-          message: query,
-          history: messages.map(m => ({ role: m.role, content: m.content }))
-        }),
-      });
-      
-      const data = await response.json();
-      if (data.success) return data.response;
-      return "סליחה, אני חווה קושי קטן בחיבור. אולי כדאי לנסות שוב בעוד רגע?";
-    } catch (error) {
-      console.error('Chat AI Error:', error);
-      return "משהו השתבש... אני מנסה להתחבר מחדש. תרצה לנסות לשאול שוב?";
-    }
-  };
-
-  const handleSend = async (customQuery?: string) => {
-    const queryToUse = customQuery || input;
-    if (!queryToUse.trim() || isThinking) return;
+    setMessages(prev => [...prev, userMsg]);
     setInput('');
-    addMessage(queryToUse, 'user');
-    setThinking(true);
-    
-    const response = await getAIResponse(queryToUse);
-    
-    // Action Recognition Logic
-    let actionTriggered = false;
-    const actionRegex = /\[ACTION:(?:BOOK|PURCHASE):\s*(\d+)\]/i;
-    const match = response.match(actionRegex);
+    setIsTyping(true);
 
-    if (match) {
-      const movieId = parseInt(match[1], 10);
-      try {
-        const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}&language=he-IL`);
-        if (res.ok) {
-          const rawMovieData = await res.json();
-          const movieData = formatMovieData(rawMovieData);
-          addMessage(response, 'assistant', 'booking-wizard', movieData);
-          actionTriggered = true;
-        }
-      } catch (e) {
-        console.error("Action fetch error:", e);
-      }
-    }
+    // Simulate AI thinking
+    setTimeout(() => {
+      const result = processMessage(input, allMovies);
+      
+      const aiMsg: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: result.response,
+        timestamp: Date.now(),
+        type: result.movies ? 'movie_suggestion' : 'text',
+        metadata: result.movies
+      };
 
-    if (!actionTriggered) {
-      addMessage(response, 'assistant');
-    }
-    setThinking(false);
+      setMessages(prev => [...prev, aiMsg]);
+      setIsTyping(false);
+    }, 1000);
   };
 
-  const toggleVoice = () => {
-    setIsListening(!isListening);
-    if (!isListening) {
-      // Simulate voice recognition start
-      setTimeout(() => {
-        setIsListening(false);
-      }, 3000);
-    }
-  };
-
-  const renderMessageContent = (content: string) => {
-    const cleaned = content.replace(/\[ACTION:.*?\]/g, '').trim();
-    return <span className="whitespace-pre-wrap">{cleaned}</span>;
+  const handleMovieSelect = (movie: any) => {
+    setSelectedMovie(movie);
+    // Add a message about the selection
+    const msg: ChatMessage = {
+      id: Date.now().toString(),
+      role: 'assistant',
+      content: `מעולה! בחרתי עבורך את "${movie.title || movie.displayTitle}". תוכל לראות את פרטי הסרט בפאנל הצדדי.`,
+      timestamp: Date.now(),
+      type: 'text'
+    };
+    setMessages(prev => [...prev, msg]);
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[1000] flex flex-col items-center md:items-start justify-start pt-20 md:pt-28 md:pr-10 p-4" dir="rtl">
+    <div className="fixed bottom-24 left-6 z-50 flex flex-col items-start gap-4 pointer-events-none">
+      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
-            <motion.div
-            initial={{ opacity: 0, y: -20, scale: 0.95, filter: 'blur(20px)' }}
-            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: -20, scale: 0.95, filter: 'blur(20px)' }}
-            className="pointer-events-auto w-full md:w-[460px] h-[85dvh] md:h-[750px] overflow-hidden rounded-[40px] border border-white/10 flex flex-col shadow-[0_40px_120px_rgba(0,0,0,0.9)] relative transition-all"
-            style={{
-              background: 'rgba(0, 0, 0, 0.65)',
-              backdropFilter: 'blur(24px) saturate(200%) brightness(1.1)',
-              willChange: 'transform, opacity, filter',
-            }}
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom left' }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className="w-[380px] max-w-[calc(100vw-48px)] h-[550px] max-h-[calc(100vh-140px)] bg-black/40 backdrop-blur-3xl border border-white/10 rounded-[40px] shadow-2xl flex flex-col overflow-hidden pointer-events-auto"
           >
-            {/* Liquid Glass Effects */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-transparent to-orange-500/5 pointer-events-none" />
-            <div className="absolute inset-0 opacity-[0.03] bg-[url('/mesh-grain.png')] pointer-events-none mix-blend-overlay" />
-            
             {/* Header */}
-            <div className="p-8 border-b border-white/10 flex items-center justify-between bg-white/5 backdrop-blur-md relative z-10">
-              <div className="flex items-center gap-4">
-                <div className="relative group">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border-2 transition-all duration-700 ${
-                    currentMovieId ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-400' : 'bg-primary/20 border-primary/40 text-primary'
-                  }`}>
-                    {currentMovieId ? <Film size={28} className="animate-pulse" /> : <Bot size={28} className="animate-bounce" />}
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-4 border-[#000] rounded-full shadow-[0_0_15px_rgba(34,197,94,0.5)]" />
+            <div className="p-6 bg-white/5 border-b border-white/10 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-primary/20 flex items-center justify-center border border-primary/30">
+                  <Bot className="text-primary" size={20} />
                 </div>
-                <div className="min-w-0">
-                  <h3 className="text-xl font-black text-white tracking-tighter truncate font-['Outfit']">
-                    {currentMovieId ? 'AI Movie Expert' : 'AI Concierge'}
-                  </h3>
-                  <p className="text-[10px] text-primary font-bold tracking-[0.2em] uppercase truncate font-['Inter']">
-                    {isListening ? 'Listening...' : 'Liquid Glass 3.0'}
-                  </p>
+                <div>
+                  <h3 className="text-white font-black tracking-tight">AI Concierge</h3>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Online Now</span>
+                  </div>
                 </div>
               </div>
-              <motion.button 
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={toggleOpen} 
-                className="w-12 h-12 flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-slate-400 transition-all"
+              <button 
+                onClick={() => setIsOpen(false)}
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 transition-colors"
               >
-                <X size={24} />
-              </motion.button>
+                <X size={20} />
+              </button>
             </div>
 
             {/* Messages */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar relative z-10">
-              {messages.map((msg, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                  className={`flex ${msg.role === 'user' ? 'justify-start' : 'justify-end'}`}
+            <div 
+              ref={scrollRef}
+              className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide"
+            >
+              {messages.map((msg) => (
+                <div 
+                  key={msg.id}
+                  className={cn(
+                    "flex flex-col gap-2",
+                    msg.role === 'user' ? "items-end" : "items-start"
+                  )}
                 >
-                  <div className={`max-w-[85%] space-y-3 ${msg.role === 'user' ? 'w-full flex justify-start' : 'w-full flex flex-col items-end'}`}>
-                    {msg.content && (
-                      <div 
-                        className={`p-6 rounded-[28px] text-[15px] leading-relaxed-hebrew shadow-2xl border ${
-                          msg.role === 'user' 
-                            ? 'bg-primary text-background font-bold rounded-bl-none border-primary/20 font-["Inter"]' 
-                            : 'bg-white/5 text-slate-100 border-white/10 rounded-br-none backdrop-blur-[40px] saturate-[180%] font-["Assistant"]'
-                        }`}
-                      >
-                        {renderMessageContent(msg.content)}
-                      </div>
-                    )}
-                    {msg.type === 'booking-wizard' && msg.movieData && (
-                      <motion.div 
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="w-full max-w-[380px]"
-                      >
-                        <BookingWizard movie={msg.movieData} />
-                      </motion.div>
-                    )}
+                  <div className={cn(
+                    "max-w-[85%] px-5 py-3.5 rounded-3xl text-sm leading-relaxed",
+                    msg.role === 'user' 
+                      ? "bg-primary text-black font-bold rounded-tr-none" 
+                      : "bg-white/5 border border-white/10 text-white rounded-tl-none"
+                  )}>
+                    {msg.content}
                   </div>
-                </motion.div>
+                  
+                  {msg.type === 'movie_suggestion' && msg.metadata && (
+                    <div className="grid grid-cols-2 gap-3 w-full mt-2">
+                      {msg.metadata.map((movie: any) => (
+                        <button
+                          key={movie._id}
+                          onClick={() => handleMovieSelect(movie)}
+                          className="bg-white/5 border border-white/10 rounded-2xl p-3 text-right hover:bg-white/10 transition-all group"
+                        >
+                          <div className="aspect-[2/3] bg-primary/20 rounded-lg mb-2 overflow-hidden relative">
+                            {movie.posterUrl && (
+                              <img src={movie.posterUrl} alt="" className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
+                            )}
+                          </div>
+                          <p className="text-[10px] font-bold text-white truncate">{movie.title || movie.displayTitle}</p>
+                          <p className="text-[8px] text-slate-500">לחץ להזמנה</p>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
-              {isThinking && (
-                <div className="flex justify-end">
-                   <div className="bg-white/5 p-6 rounded-3xl border border-white/10 rounded-br-none backdrop-blur-xl flex gap-2">
-                      {[0, 0.2, 0.4].map((delay) => (
-                        <motion.div 
-                          key={delay}
-                          animate={{ y: [0, -8, 0], opacity: [0.3, 1, 0.3], scale: [1, 1.2, 1] }} 
-                          transition={{ repeat: Infinity, duration: 0.8, delay }} 
-                          className={`w-2.5 h-2.5 rounded-full ${currentMovieId ? 'bg-cyan-400' : 'bg-primary'} shadow-[0_0_10px_currentColor]`} 
+              
+              {isTyping && (
+                <div className="flex items-start gap-2">
+                  <div className="bg-white/5 border border-white/10 px-4 py-3 rounded-2xl rounded-tl-none">
+                    <div className="flex gap-1">
+                      {[0, 1, 2].map((i) => (
+                        <motion.div
+                          key={i}
+                          animate={{ opacity: [0.4, 1, 0.4] }}
+                          transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+                          className="w-1.5 h-1.5 rounded-full bg-primary"
                         />
                       ))}
-                   </div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Mood Discovery Chips */}
-            <div className="px-8 py-2 flex flex-col gap-3 relative z-10">
-              <p className="text-[10px] text-white/40 font-black uppercase tracking-widest mr-2">איך המצב רוח היום?</p>
-              <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
-                {[
-                  { label: 'בא לי אקשן!', mood: 'adrenaline', icon: Zap },
-                  { label: 'משהו מצחיק', mood: 'laugh', icon: Smile },
-                  { label: 'בא לי לבכות', mood: 'melancholic', icon: Music },
-                  { label: 'משהו מפחיד', mood: 'scary', icon: Ghost },
-                  { label: 'רומנטי', mood: 'romantic', icon: HeartIcon }
-                ].map((chip) => (
-                  <motion.button 
-                    key={chip.mood}
-                    whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => handleSend(chip.label)}
-                    className="flex-shrink-0 flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold text-slate-300 hover:text-white transition-all backdrop-blur-md"
+            {/* Quick Actions */}
+            {!isTyping && messages.length < 5 && (
+              <div className="px-6 pb-2 flex gap-2 overflow-x-auto no-scrollbar">
+                {['מה מוקרן היום?', 'המלץ לי על סרט', 'איך מזמינים?'].map((action) => (
+                  <button
+                    key={action}
+                    onClick={() => {
+                      setInput(action);
+                      handleSend();
+                    }}
+                    className="flex-shrink-0 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[11px] text-slate-400 hover:text-white hover:bg-white/10 transition-all"
                   >
-                    <chip.icon size={12} className="text-primary" />
-                    {chip.label}
-                  </motion.button>
+                    {action}
+                  </button>
                 ))}
               </div>
-            </div>
+            )}
 
             {/* Input */}
-            <div className="p-8 bg-black/40 border-t border-white/10 relative z-10 backdrop-blur-3xl">
-              <div className="relative group flex gap-3">
-                <div className="relative flex-1">
-                  <input 
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                    placeholder="איך אוכל לעזור לך?"
-                    className="w-full bg-white/5 border border-white/10 rounded-[24px] py-6 pr-8 pl-12 text-base text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all text-right font-['Inter']"
-                  />
-                  <button 
-                    onClick={() => handleSend()}
-                    disabled={!input.trim() || isThinking}
-                    className="absolute left-3 top-3 w-12 h-12 flex items-center justify-center bg-primary rounded-2xl text-background hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/30 disabled:opacity-50 disabled:grayscale"
-                  >
-                    <Send size={22} />
-                  </button>
-                </div>
-                <motion.button 
-                  animate={isListening ? { scale: [1, 1.2, 1], backgroundColor: ['rgba(255,255,255,0.1)', 'rgba(255,0,0,0.2)', 'rgba(255,255,255,0.1)'] } : {}}
-                  transition={{ repeat: Infinity, duration: 1 }}
-                  onClick={toggleVoice}
-                  className="w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-[24px] text-white hover:bg-white/10 transition-all"
+            <div className="p-6 pt-2">
+              <div className="relative group">
+                <input 
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                  placeholder="הקלידו הודעה..."
+                  className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl px-6 pr-14 text-white text-sm outline-none focus:border-primary/50 focus:bg-white/[0.08] transition-all"
+                />
+                <button 
+                  onClick={handleSend}
+                  disabled={!input.trim()}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-black hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 transition-all"
                 >
-                  <Mic size={24} className={isListening ? 'text-red-500' : 'text-slate-400'} />
-                </motion.button>
+                  <Send size={18} className="rotate-180" />
+                </button>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* FAB */}
+      <motion.button
+        onClick={() => setIsOpen(!isOpen)}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={cn(
+          "pointer-events-auto w-16 h-16 rounded-[24px] bg-primary shadow-[0_20px_50px_-10px_rgba(var(--primary-rgb),0.5)] flex items-center justify-center text-black relative group overflow-hidden transition-all duration-500",
+          isOpen && "rotate-90 rounded-full bg-white/10 border border-white/20 text-white shadow-none"
+        )}
+      >
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        {isOpen ? <X size={28} /> : <Bot size={28} />}
+        
+        {!isOpen && (
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-black rounded-full" />
+        )}
+      </motion.button>
     </div>
   );
 }

@@ -9,20 +9,22 @@ interface Message {
   timestamp: number;
 }
 
-
 interface UIState {
   // AI Concierge
   isConciergeOpen: boolean;
   conciergeMessages: Message[];
   isThinking: boolean;
+  currentMovieId?: number;
+  currentMovieTitle?: string;
   
   toggleConcierge: () => void;
   addMessage: (content: string, role: 'user' | 'assistant', type?: 'text' | 'booking-wizard', movieData?: Movie) => void;
   setThinking: (val: boolean) => void;
   setMovieContext: (movieId?: number, movieTitle?: string) => void;
-  currentMovieId?: number;
-  currentMovieTitle?: string;
 
+  // Resolution & Layout
+  resolution: 'auto' | 'fullhd' | 'laptop' | 'mobile';
+  setResolution: (res: 'auto' | 'fullhd' | 'laptop' | 'mobile') => void;
 }
 
 export const useUIStore = create<UIState>((set) => ({
@@ -35,6 +37,10 @@ export const useUIStore = create<UIState>((set) => ({
     }
   ],
   isThinking: false,
+  
+  // Resolution
+  resolution: 'auto',
+  setResolution: (res) => set({ resolution: res }),
   
   toggleConcierge: () => set((state) => ({ isConciergeOpen: !state.isConciergeOpen })),
   

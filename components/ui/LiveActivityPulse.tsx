@@ -47,23 +47,18 @@ export default function LiveActivityPulse() {
       <div className="flex flex-col">
         <div className="flex items-center gap-2 overflow-hidden h-4">
           <AnimatePresence mode="wait">
-            {(() => {
-              const CurrentIcon = icons[activeIcon].Icon;
-              return (
-                <motion.div
-                  key={activeIcon}
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -20, opacity: 0 }}
-                  className="flex items-center gap-1.5"
-                >
-                  <CurrentIcon size={10} className="text-primary" />
-                  <span className="text-[9px] font-black text-white/40 uppercase tracking-widest whitespace-nowrap">
-                    {icons[activeIcon].label}
-                  </span>
-                </motion.div>
-              );
-            })()}
+            <motion.div
+              key={activeIcon}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              className="flex items-center gap-1.5"
+            >
+              {React.createElement(icons[activeIcon].Icon, { size: 10, className: "text-primary" })}
+              <span className="text-[9px] font-black text-white/40 uppercase tracking-widest whitespace-nowrap">
+                {icons[activeIcon].label}
+              </span>
+            </motion.div>
           </AnimatePresence>
         </div>
         <span className="text-sm font-black text-white tracking-tighter tabular-nums">

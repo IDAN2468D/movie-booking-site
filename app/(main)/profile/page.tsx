@@ -34,7 +34,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-12 px-6 text-right" dir="rtl">
+    <div className="max-w-4xl mx-auto pt-12 pb-40 md:py-12 px-6 text-right" dir="rtl">
       <div className="mb-10">
         <h1 className="text-4xl font-black text-white tracking-tighter mb-2">הגדרות <span className="text-primary">חשבון</span></h1>
         <p className="text-slate-400 font-medium">נהל את הפרופיל, האבטחה וההעדפות שלך</p>

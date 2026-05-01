@@ -44,7 +44,7 @@ export default function CinemaShowcase() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 px-4">
         {cinemas.slice(0, 4).map((cinema, idx) => (
           <motion.div
             key={cinema._id}

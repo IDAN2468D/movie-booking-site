@@ -1,40 +1,60 @@
+'use client';
+
+import React from 'react';
+import { usePathname } from 'next/navigation';
 import Sidebar from "@/components/layout/Sidebar";
 import TopBar from "@/components/layout/TopBar";
 import RightPanel from "@/components/layout/RightPanel";
 import MobileNav from "@/components/layout/MobileNav";
 import MovieChatBot from "@/components/chat/MovieChatBot";
 import { HeartbeatInit } from "@/components/utils/HeartbeatInit";
-
+import ResolutionWrapper from "@/components/layout/ResolutionWrapper";
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="flex h-screen overflow-hidden" dir="rtl">
-      {/* Right Sidebar - Responsive */}
-      <Sidebar />
+  const pathname = usePathname();
+  const isERP = pathname?.startsWith('/erp');
 
-      {/* Main Center Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <TopBar />
-        <main className="flex-1 overflow-y-auto scrollbar-hide pb-32 md:pb-0">
+  if (isERP) {
+    return (
+      <ResolutionWrapper>
+        <div className="min-h-screen bg-[#0A0A0A] overflow-x-hidden" dir="rtl">
           {children}
-        </main>
+          <HeartbeatInit />
+        </div>
+      </ResolutionWrapper>
+    );
+  }
+
+  return (
+    <ResolutionWrapper>
+      <div className="flex h-screen overflow-hidden" dir="rtl">
+        {/* Right Sidebar - Responsive */}
+        <Sidebar />
+
+        {/* Main Center Area */}
+        <div className="flex-1 flex flex-col min-w-0">
+          <TopBar />
+          <main className="flex-1 overflow-y-auto scrollbar-hide pb-44 md:pb-0">
+            {children}
+          </main>
+        </div>
+
+        {/* Left Panel - Live Cinema / Booking */}
+        <RightPanel />
+
+        {/* Mobile Navigation */}
+        <MobileNav />
+
+        {/* Premium AI Chatbot (Liquid Glass 2.0) */}
+        <MovieChatBot />
+        
+        {/* Performance Optimization for Render */}
+        <HeartbeatInit />
       </div>
-
-      {/* Left Panel - Live Cinema / Booking */}
-      <RightPanel />
-
-      {/* Mobile Navigation */}
-      <MobileNav />
-
-      {/* Premium AI Chatbot (Liquid Glass 2.0) */}
-      <MovieChatBot />
-      
-      {/* Performance Optimization for Render */}
-      <HeartbeatInit />
-    </div>
+    </ResolutionWrapper>
   );
 }

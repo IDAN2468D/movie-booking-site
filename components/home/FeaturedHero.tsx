@@ -46,7 +46,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
     <section 
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative w-full min-h-[600px] md:h-[650px] rounded-[2.5rem] overflow-hidden group mx-auto max-w-[95%] mt-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)] [transform:translateZ(0)] perspective-1000"
+      className="relative w-full h-[600px] md:h-[650px] rounded-[2.5rem] overflow-hidden group mx-auto max-w-[1600px] mt-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)] [transform:translateZ(0)] perspective-1000"
     >
       {/* Background Image */}
       <Image
