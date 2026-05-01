@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Sparkles, Bot, Zap, Ticket, Popcorn, Film, MessageSquare, Star } from 'lucide-react';
+import { X, Send, Sparkles, Bot, Zap, Ticket, Popcorn, Film, MessageSquare, Star, Mic, Music, Ghost, Smile, Heart as HeartIcon } from 'lucide-react';
 import { useUIStore } from '@/lib/store/ui-store';
 import { BookingWizard } from '../ai/BookingWizard';
 import { formatMovieData } from '@/lib/tmdb';
@@ -14,6 +14,7 @@ export default function MovieChatBot() {
   } = useUIStore();
   
   const [input, setInput] = useState('');
+  const [isListening, setIsListening] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -87,6 +88,16 @@ export default function MovieChatBot() {
     setThinking(false);
   };
 
+  const toggleVoice = () => {
+    setIsListening(!isListening);
+    if (!isListening) {
+      // Simulate voice recognition start
+      setTimeout(() => {
+        setIsListening(false);
+      }, 3000);
+    }
+  };
+
   const renderMessageContent = (content: string) => {
     const cleaned = content.replace(/\[ACTION:.*?\]/g, '').trim();
     return <span className="whitespace-pre-wrap">{cleaned}</span>;
@@ -103,7 +114,7 @@ export default function MovieChatBot() {
             className="pointer-events-auto w-full md:w-[460px] h-[85dvh] md:h-[750px] overflow-hidden rounded-[40px] border border-white/10 flex flex-col shadow-[0_40px_120px_rgba(0,0,0,0.9)] relative transition-all"
             style={{
               background: 'rgba(0, 0, 0, 0.65)',
-              backdropFilter: 'blur(24px) saturate(200%) brightness(1.1)', // Reduced from 40px for performance
+              backdropFilter: 'blur(24px) saturate(200%) brightness(1.1)',
               willChange: 'transform, opacity, filter',
             }}
           >
@@ -111,10 +122,6 @@ export default function MovieChatBot() {
             <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-transparent to-orange-500/5 pointer-events-none" />
             <div className="absolute inset-0 opacity-[0.03] bg-[url('/mesh-grain.png')] pointer-events-none mix-blend-overlay" />
             
-            {/* Holographic Glows */}
-            <div className="absolute -top-[20%] -right-[20%] w-[60%] h-[60%] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
-            <div className="absolute -bottom-[10%] -left-[10%] w-[40%] h-[40%] bg-orange-500/10 blur-[100px] rounded-full pointer-events-none" />
-
             {/* Header */}
             <div className="p-8 border-b border-white/10 flex items-center justify-between bg-white/5 backdrop-blur-md relative z-10">
               <div className="flex items-center gap-4">
@@ -130,12 +137,9 @@ export default function MovieChatBot() {
                   <h3 className="text-xl font-black text-white tracking-tighter truncate font-['Outfit']">
                     {currentMovieId ? 'AI Movie Expert' : 'AI Concierge'}
                   </h3>
-                  <div className="flex items-center gap-2">
-                    <span className={`w-2 h-2 rounded-full animate-ping flex-shrink-0 ${currentMovieId ? 'bg-cyan-400' : 'bg-primary'}`} />
-                    <p className="text-[10px] text-slate-400 font-bold tracking-[0.2em] uppercase truncate font-['Inter']">
-                      {currentMovieId ? `Analyzing: ${currentMovieTitle}` : 'Liquid Glass Premium 2.0'}
-                    </p>
-                  </div>
+                  <p className="text-[10px] text-primary font-bold tracking-[0.2em] uppercase truncate font-['Inter']">
+                    {isListening ? 'Listening...' : 'Liquid Glass 3.0'}
+                  </p>
                 </div>
               </div>
               <motion.button 
@@ -166,9 +170,6 @@ export default function MovieChatBot() {
                             ? 'bg-primary text-background font-bold rounded-bl-none border-primary/20 font-["Inter"]' 
                             : 'bg-white/5 text-slate-100 border-white/10 rounded-br-none backdrop-blur-[40px] saturate-[180%] font-["Assistant"]'
                         }`}
-                        style={{
-                          boxShadow: msg.role === 'user' ? '0 10px 30px rgba(255, 20, 100, 0.3)' : '0 10px 30px rgba(0,0,0,0.5)'
-                        }}
                       >
                         {renderMessageContent(msg.content)}
                       </div>
@@ -201,48 +202,59 @@ export default function MovieChatBot() {
               )}
             </div>
 
-            {/* Quick Actions */}
-            <div className="px-8 py-4 flex gap-3 overflow-x-auto no-scrollbar relative z-10">
-              {(currentMovieId ? [
-                { label: 'פרטים על העלילה', icon: MessageSquare },
-                { label: 'דירוג המבקרים', icon: Star },
-                { label: 'הזמן 3 כרטיסים', icon: Ticket }
-              ] : [
-                { label: 'מה מוקרן היום?', icon: Zap },
-                { label: 'המלץ לי על סרט', icon: Bot },
-                { label: 'נשנושים', icon: Popcorn }
-              ]).map((chip) => (
-                <motion.button 
-                  key={chip.label}
-                  whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleSend(chip.label)}
-                  className="flex-shrink-0 flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-[11px] font-black text-slate-300 hover:text-white transition-all backdrop-blur-md"
-                >
-                  <chip.icon size={14} className={currentMovieId ? 'text-cyan-400' : 'text-primary'} />
-                  {chip.label}
-                </motion.button>
-              ))}
+            {/* Mood Discovery Chips */}
+            <div className="px-8 py-2 flex flex-col gap-3 relative z-10">
+              <p className="text-[10px] text-white/40 font-black uppercase tracking-widest mr-2">איך המצב רוח היום?</p>
+              <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                {[
+                  { label: 'בא לי אקשן!', mood: 'adrenaline', icon: Zap },
+                  { label: 'משהו מצחיק', mood: 'laugh', icon: Smile },
+                  { label: 'בא לי לבכות', mood: 'melancholic', icon: Music },
+                  { label: 'משהו מפחיד', mood: 'scary', icon: Ghost },
+                  { label: 'רומנטי', mood: 'romantic', icon: HeartIcon }
+                ].map((chip) => (
+                  <motion.button 
+                    key={chip.mood}
+                    whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleSend(chip.label)}
+                    className="flex-shrink-0 flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold text-slate-300 hover:text-white transition-all backdrop-blur-md"
+                  >
+                    <chip.icon size={12} className="text-primary" />
+                    {chip.label}
+                  </motion.button>
+                ))}
+              </div>
             </div>
 
             {/* Input */}
             <div className="p-8 bg-black/40 border-t border-white/10 relative z-10 backdrop-blur-3xl">
-              <div className="relative group">
-                <input 
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder={currentMovieId ? `שאל משהו על ${currentMovieTitle}...` : "איך אוכל לעזור לך?"}
-                  className="w-full bg-white/5 border border-white/10 rounded-[24px] py-6 pr-8 pl-16 text-base text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all text-right font-['Inter']"
-                />
-                <button 
-                  onClick={() => handleSend()}
-                  disabled={!input.trim() || isThinking}
-                  className="absolute left-3 top-3 w-12 h-12 flex items-center justify-center bg-primary rounded-2xl text-background hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/30 disabled:opacity-50 disabled:grayscale"
+              <div className="relative group flex gap-3">
+                <div className="relative flex-1">
+                  <input 
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                    placeholder="איך אוכל לעזור לך?"
+                    className="w-full bg-white/5 border border-white/10 rounded-[24px] py-6 pr-8 pl-12 text-base text-white placeholder:text-slate-600 focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all text-right font-['Inter']"
+                  />
+                  <button 
+                    onClick={() => handleSend()}
+                    disabled={!input.trim() || isThinking}
+                    className="absolute left-3 top-3 w-12 h-12 flex items-center justify-center bg-primary rounded-2xl text-background hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/30 disabled:opacity-50 disabled:grayscale"
+                  >
+                    <Send size={22} />
+                  </button>
+                </div>
+                <motion.button 
+                  animate={isListening ? { scale: [1, 1.2, 1], backgroundColor: ['rgba(255,255,255,0.1)', 'rgba(255,0,0,0.2)', 'rgba(255,255,255,0.1)'] } : {}}
+                  transition={{ repeat: Infinity, duration: 1 }}
+                  onClick={toggleVoice}
+                  className="w-16 h-16 flex items-center justify-center bg-white/5 border border-white/10 rounded-[24px] text-white hover:bg-white/10 transition-all"
                 >
-                  <Send size={22} />
-                </button>
+                  <Mic size={24} className={isListening ? 'text-red-500' : 'text-slate-400'} />
+                </motion.button>
               </div>
             </div>
           </motion.div>

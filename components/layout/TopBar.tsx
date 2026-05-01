@@ -12,6 +12,7 @@ import { Search, Sparkles, Bot } from 'lucide-react';
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 import { useUIStore } from '@/lib/store/ui-store';
 import { motion, AnimatePresence } from 'framer-motion';
+import LiveActivityPulse from '@/components/ui/LiveActivityPulse';
 
 export default function TopBar() {
   const { filters, setFilters } = useBookingStore();
@@ -123,6 +124,9 @@ export default function TopBar() {
             </motion.button>
 
             <UserProfile />
+            <div className="hidden sm:block">
+              <LiveActivityPulse />
+            </div>
           </div>
         )}
       </header>

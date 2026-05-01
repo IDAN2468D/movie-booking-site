@@ -1,4 +1,4 @@
-# 🤖 Movie Booking Site - Unified AI Governance Standard (v3.1)
+# 🤖 Movie Booking Site - Unified AI Governance Standard (v3.2)
 
 This document is the **Single Source of Truth**. Adherence is mandatory for all AI agents.
 
