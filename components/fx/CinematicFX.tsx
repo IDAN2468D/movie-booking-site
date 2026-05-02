@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { motion, useSpring } from 'framer-motion';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { MeshBackground } from '../effects/MeshBackground';
 
 export const CinematicFX = () => {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
   const [mounted, setMounted] = useState(false);
 
@@ -13,17 +14,15 @@ export const CinematicFX = () => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
+      mouseX.set((e.clientX / window.innerWidth - 0.5) * 20);
+      mouseY.set((e.clientY / window.innerHeight - 0.5) * 20);
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [mouseX, mouseY]);
 
-  const springX = useSpring(mousePos.x, { stiffness: 50, damping: 20 });
-  const springY = useSpring(mousePos.y, { stiffness: 50, damping: 20 });
+  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
 
   const [particles] = useState(() => 
     [...Array(6)].map((_, i) => ({
