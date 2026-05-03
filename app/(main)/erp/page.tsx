@@ -21,6 +21,12 @@ export default function ERPDashboard() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const { updateStats } = useERPStore();
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (message: string) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 3000);
+  };
 
   useEffect(() => {
     async function fetchStats() {
@@ -133,11 +139,15 @@ export default function ERPDashboard() {
             <h3 className="text-lg font-black text-white mb-6">פעולות מהירות</h3>
             <div className="space-y-3">
               {[
-                { label: 'הוסף סרט חדש', icon: Film },
-                { label: 'ייצא דוח חודשי', icon: ArrowUpRight },
-                { label: 'ניהול אולמות', icon: ExternalLink },
+                { label: 'הוסף סרט חדש', icon: Film, action: () => showToast('מערכת הוספת סרטים תיפתח בקרוב') },
+                { label: 'ייצא דוח חודשי', icon: ArrowUpRight, action: () => showToast('הדוח נוצר ונשלח למייל המנהל') },
+                { label: 'ניהול אולמות', icon: ExternalLink, action: () => showToast('ניהול אולמות זמין בהגדרות מערכת') },
               ].map((action, i) => (
-                <button key={i} className="w-full flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all group">
+                <button 
+                  key={i} 
+                  onClick={action.action}
+                  className="w-full flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 active:scale-[0.98] transition-all group"
+                >
                   <span className="font-bold text-sm text-slate-200">{action.label}</span>
                   <action.icon size={16} className="text-primary group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -154,6 +164,23 @@ export default function ERPDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Premium Toast */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 100, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 100, x: '-50%' }}
+            className="fixed bottom-10 left-1/2 z-[100] px-8 py-4 bg-black/80 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl flex items-center gap-4 min-w-[320px] justify-center text-center"
+          >
+            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+              <ArrowUpRight size={16} className="text-primary" />
+            </div>
+            <p className="text-white font-bold text-sm">{toast}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
