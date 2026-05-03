@@ -11,6 +11,7 @@ import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 import HolographicBackground from '@/components/ui/HolographicBackground';
+import StoryBar from '@/components/stories/StoryBar';
 
 interface HomeContentProps {
   popularMovies: Movie[];
@@ -123,6 +124,7 @@ export default function HomeContent({
       <HolographicBackground />
       
       <div className="relative z-10 [transform:translateZ(0)]">
+        <StoryBar />
         <FeaturedHero movie={trendingMovies[0]} />
 
         <div className="px-4 mt-8">

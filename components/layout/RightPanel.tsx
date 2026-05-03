@@ -268,33 +268,7 @@ export default function RightPanel() {
         </>
       )}
 
-        {/* Current Running Shows */}
-        <div className="mt-12">
-          <div className="flex items-center justify-between mb-6 px-2">
-            <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] opacity-40">מוקרן כעת</h3>
-            <button className="text-[10px] text-primary font-black hover:underline underline-offset-4 transition-all uppercase tracking-widest">צפה בהכל</button>
-          </div>
-          
-          <div className="space-y-4 pb-8">
-            {runningShows.map((show) => (
-              <div key={show.id} className="group flex items-center justify-between p-5 rounded-[32px] bg-white/[0.02] border border-white/5 hover:border-primary/40 hover:bg-white/[0.05] transition-all duration-500 cursor-pointer shadow-lg hover:shadow-primary/5">
-                <div className="flex items-center gap-5">
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-primary border border-white/5 group-hover:border-primary/20 transition-all shadow-inner">
-                    <Clock className="w-6 h-6" />
-                  </div>
-                  <div className="text-right">
-                    <p className="text-base text-white font-black group-hover:text-primary transition-colors tracking-tight mb-1">{show.title}</p>
-                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{show.language} • {show.type} • {show.seats} מקומות</p>
-                  </div>
-                </div>
-                <div className="flex flex-col items-start gap-1">
-                   <p className="text-sm text-white font-black tracking-tighter">{show.time}</p>
-                   <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-primary group-hover:-translate-x-2 transition-all rotate-180" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </aside>
   );
 }
+

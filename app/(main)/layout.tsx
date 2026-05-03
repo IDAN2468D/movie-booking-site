@@ -6,9 +6,9 @@ import Sidebar from "@/components/layout/Sidebar";
 import TopBar from "@/components/layout/TopBar";
 import RightPanel from "@/components/layout/RightPanel";
 import MobileNav from "@/components/layout/MobileNav";
-import MovieChatBot from "@/components/chat/MovieChatBot";
 import { HeartbeatInit } from "@/components/utils/HeartbeatInit";
 import ResolutionWrapper from "@/components/layout/ResolutionWrapper";
+import MovieChatBot from "@/components/chat/MovieChatBot";
 
 export default function MainLayout({
   children,
@@ -49,9 +49,9 @@ export default function MainLayout({
         {/* Mobile Navigation */}
         <MobileNav />
 
-        {/* Premium AI Chatbot (Liquid Glass 2.0) */}
+        {/* AI Chatbot */}
         <MovieChatBot />
-        
+
         {/* Performance Optimization for Render */}
         <HeartbeatInit />
       </div>

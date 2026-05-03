@@ -39,6 +39,12 @@ export default function MovieChatBot() {
     }
   }, [messages, isTyping]);
 
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('open-movie-chat', handleOpen);
+    return () => window.removeEventListener('open-movie-chat', handleOpen);
+  }, []);
+
   const handleSend = async () => {
     if (!input.trim()) return;
 
@@ -222,23 +228,6 @@ export default function MovieChatBot() {
         )}
       </AnimatePresence>
 
-      {/* FAB */}
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className={cn(
-          "pointer-events-auto w-16 h-16 rounded-[24px] bg-primary shadow-[0_20px_50px_-10px_rgba(var(--primary-rgb),0.5)] flex items-center justify-center text-black relative group overflow-hidden transition-all duration-500",
-          isOpen && "rotate-90 rounded-full bg-white/10 border border-white/20 text-white shadow-none"
-        )}
-      >
-        <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-        {isOpen ? <X size={28} /> : <Bot size={28} />}
-        
-        {!isOpen && (
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-black rounded-full" />
-        )}
-      </motion.button>
     </div>
   );
 }
