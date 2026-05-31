@@ -16,6 +16,7 @@ import MovieTrivia from './MovieTrivia';
 import { useUIStore } from '@/lib/store/ui-store';
 import ReviewsSection from './ReviewsSection';
 import { TMDBReview } from '@/lib/tmdb';
+import { CharacterInsights } from './CharacterInsights';
 
 interface Props {
   movie: MovieDetails;
@@ -104,6 +105,9 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
     if (isGeneratingAudio) return;
     
     setIsGeneratingAudio(true);
+    let audioCtx: AudioContext | null = null;
+    let oscillator: OscillatorNode | null = null;
+
     try {
       const response = await fetch('/api/ai/audio-guide', {
         method: 'POST',
@@ -116,10 +120,65 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
       });
       
       const data = await response.json();
-      if (data.success) {
-        // Since the real generation takes time, we simulate the 'Ready' state or 
-        // handle the background process. For now, we show a success toast/state.
-        alert(data.message);
+      if (data.success && data.script) {
+        // 1. Synthesize Cinematic Drone (Web Audio API)
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+          oscillator = audioCtx.createOscillator();
+          const gainNode = audioCtx.createGain();
+          const filter = audioCtx.createBiquadFilter();
+
+          oscillator.type = 'sawtooth';
+          oscillator.frequency.setValueAtTime(55, audioCtx.currentTime); // Low A hum (55Hz)
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(120, audioCtx.currentTime);
+          
+          gainNode.gain.setValueAtTime(0.06, audioCtx.currentTime); // Soft cinematic background hum
+
+          oscillator.connect(filter);
+          filter.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          
+          oscillator.start();
+        }
+
+        // 2. Synthesize Cinematic Voice (Web Speech API)
+        const utterance = new SpeechSynthesisUtterance(data.script);
+        
+        // Find Hebrew voice
+        const voices = window.speechSynthesis.getVoices();
+        const heVoice = voices.find(voice => voice.lang.includes('he') || voice.lang.includes('HE'));
+        if (heVoice) {
+          utterance.voice = heVoice;
+        }
+
+        utterance.rate = 0.82; // Slower, dramatic pacing
+        utterance.pitch = 0.88; // Deeper, cinematic tone
+
+        // Stop drone when speech ends
+        utterance.onend = () => {
+          if (oscillator) {
+            try {
+              oscillator.stop();
+            } catch (e) {}
+          }
+          if (audioCtx) {
+            try {
+              audioCtx.close();
+            } catch (e) {}
+          }
+        };
+
+        utterance.onerror = () => {
+          if (oscillator) {
+            try {
+              oscillator.stop();
+            } catch (e) {}
+          }
+        };
+
+        window.speechSynthesis.speak(utterance);
       }
     } catch (error) {
       console.error('Audio generation failed:', error);
@@ -446,6 +505,15 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
               voteCount={movie.vote_count} 
               popularity={movie.popularity} 
             />
+
+            {/* AI Character Insights (Gemma powered) */}
+            <div className="my-10">
+              <CharacterInsights 
+                movieTitle={movie.title} 
+                overview={movie.overview} 
+                genres={movie.genres.map(g => g.name)} 
+              />
+            </div>
 
             {/* Movie Trivia Challenge */}
             <MovieTrivia movieTitle={movie.title} />

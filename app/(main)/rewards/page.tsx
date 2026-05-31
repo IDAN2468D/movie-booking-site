@@ -7,6 +7,7 @@ import { RewardCard } from '@/components/rewards/RewardCard';
 import { RewardStats } from '@/components/rewards/RewardStats';
 import { ActivityHistory } from '@/components/rewards/ActivityHistory';
 import { RewardsModals } from '@/components/rewards/RewardsModals';
+import { MovieCraftGame } from '@/components/rewards/MovieCraftGame';
 
 const REWARDS_DATA = [
   { id: 1, title: 'פופקורן גדול חינם', desc: 'קבל פופקורן גדול חינם בהזמנה הבאה שלך', points: 500, icon: Gift, color: 'text-orange-400' },
@@ -88,6 +89,9 @@ export default function RewardsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 space-y-10">
           <RewardStats totalPoints={currentPoints} isLoading={isLoading} />
+
+          {/* AI Interactive Gaming Suite (Gemma powered) */}
+          <MovieCraftGame />
 
           <div className="space-y-6">
             <div className="flex items-center justify-between px-4 flex-row">

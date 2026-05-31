@@ -118,3 +118,13 @@ export async function getSmartRecommendationsAction(userId?: string): Promise<AI
     };
   }
 }
+
+export async function getPopularMoviesAction() {
+  try {
+    const movies = await getPopularMovies();
+    return { success: true, data: JSON.parse(JSON.stringify(movies)) };
+  } catch (error: any) {
+    console.error('Failed to get popular movies:', error);
+    return { success: false, error: error.message || 'Failed to fetch popular movies' };
+  }
+}

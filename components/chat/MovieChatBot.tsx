@@ -31,7 +31,7 @@ export default function MovieChatBot() {
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   
-  const { allMovies, setSelectedMovie } = useBookingStore();
+  const { allMovies, setSelectedMovie, setFilters, toggleFavorite } = useBookingStore();
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -46,12 +46,13 @@ export default function MovieChatBot() {
   }, []);
 
   const handleSend = async () => {
-    if (!input.trim()) return;
+    const userPrompt = input.trim();
+    if (!userPrompt) return;
 
     const userMsg: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
-      content: input,
+      content: userPrompt,
       timestamp: Date.now(),
       type: 'text'
     };
@@ -60,22 +61,112 @@ export default function MovieChatBot() {
     setInput('');
     setIsTyping(true);
 
-    // Simulate AI thinking
-    setTimeout(() => {
-      const result = processMessage(input, allMovies);
-      
-      const aiMsg: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: result.response,
-        timestamp: Date.now(),
-        type: result.movies ? 'movie_suggestion' : 'text',
-        metadata: result.movies
-      };
+    try {
+      // 1. Try conversational State Control (Local Gemma 2)
+      const stateResponse = await fetch('/api/ai/state-control', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userPrompt })
+      });
 
-      setMessages(prev => [...prev, aiMsg]);
-      setIsTyping(false);
-    }, 1000);
+      const stateResult = await stateResponse.json();
+
+      if (stateResult.success && stateResult.data && stateResult.data.action !== 'NONE') {
+        const { action, filters, favoriteMovie, reply } = stateResult.data;
+
+        // Apply filters if detected
+        if (action === 'FILTER' && filters) {
+          setFilters({
+            genre: filters.genre || 'הכל',
+            year: filters.year || 'הכל',
+            rating: filters.rating || 0
+          });
+        }
+
+        // Apply favorite toggling if detected
+        if (action === 'FAVORITE' && favoriteMovie) {
+          const matchedMovie = allMovies.find(m => 
+            (m.displayTitle && m.displayTitle.toLowerCase().includes(favoriteMovie.toLowerCase())) ||
+            (m.title && m.title.toLowerCase().includes(favoriteMovie.toLowerCase()))
+          );
+          if (matchedMovie) {
+            toggleFavorite(matchedMovie);
+          }
+        }
+
+        // Show AI reply in chat
+        const aiMsg: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: reply,
+          timestamp: Date.now(),
+          type: 'text'
+        };
+
+        setMessages(prev => [...prev, aiMsg]);
+        setIsTyping(false);
+        return;
+      }
+
+      // 2. Fallback: Full conversational AI Chatbot (Gemini / Gemma hybrid route)
+      const chatResponse = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: userPrompt,
+          history: messages.map(m => ({ role: m.role, content: m.content }))
+        })
+      });
+
+      const chatResult = await chatResponse.json();
+
+      if (chatResult.success && chatResult.response) {
+        // Detect action links within response text (e.g. [ACTION:BOOK:ID])
+        const actionMatch = chatResult.response.match(/\[ACTION:BOOK:(\w+)\]/);
+        let movieData: any = null;
+
+        if (actionMatch && actionMatch[1]) {
+          const movieId = actionMatch[1];
+          const matched = allMovies.find(m => m.id.toString() === movieId);
+          if (matched) {
+            movieData = [matched];
+          }
+        }
+
+        const aiMsg: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: chatResult.response.replace(/\[ACTION:BOOK:\w+\]/g, '').trim(),
+          timestamp: Date.now(),
+          type: movieData ? 'movie_suggestion' : 'text',
+          metadata: movieData
+        };
+
+        setMessages(prev => [...prev, aiMsg]);
+        setIsTyping(false);
+        return;
+      }
+
+      throw new Error('API routing failed');
+
+    } catch (error) {
+      console.warn('API call failed, falling back to local heuristic engine:', error);
+      
+      // 3. Absolute Fallback: Static Heuristic Engine
+      setTimeout(() => {
+        const result = processMessage(userPrompt, allMovies);
+        const aiMsg: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: result.response,
+          timestamp: Date.now(),
+          type: result.movies ? 'movie_suggestion' : 'text',
+          metadata: result.movies
+        };
+        setMessages(prev => [...prev, aiMsg]);
+        setIsTyping(false);
+      }, 800);
+    }
   };
 
   const handleMovieSelect = (movie: any) => {
