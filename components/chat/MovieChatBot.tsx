@@ -148,9 +148,9 @@ export default function MovieChatBot() {
                   
                   {msg.type === 'movie_suggestion' && msg.metadata && (
                     <div className="grid grid-cols-2 gap-3 w-full mt-2">
-                      {msg.metadata.map((movie: any) => (
+                      {msg.metadata.map((movie: any, idx: number) => (
                         <button
-                          key={movie._id}
+                          key={movie.id || movie._id || idx}
                           onClick={() => handleMovieSelect(movie)}
                           className="bg-white/5 border border-white/10 rounded-2xl p-3 text-right hover:bg-white/10 transition-all group"
                         >
