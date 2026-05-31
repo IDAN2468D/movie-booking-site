@@ -40,8 +40,6 @@ body {
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  /* Hardware acceleration for global scrolling */
-  will-change: transform;
 }
 
 h1, h2, h3, h4, h5, h6 {

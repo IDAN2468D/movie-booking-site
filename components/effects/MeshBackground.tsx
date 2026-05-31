@@ -30,22 +30,26 @@ export const MeshBackground = () => {
           top: springY,
           x: '-50%',
           y: '-50%',
+          willChange: 'left, top'
         }}
-        className="absolute w-[800px] h-[800px] rounded-full bg-gradient-to-r from-primary/20 via-cyan-500/10 to-transparent blur-[120px] mix-blend-screen opacity-50"
+        className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-primary/20 via-cyan-500/10 to-transparent blur-[64px] mix-blend-screen opacity-50"
       />
 
       {/* Secondary Distant Node */}
       <motion.div
         animate={{
-          x: [0, 100, -50, 0],
-          y: [0, -100, 50, 0],
+          x: [0, 60, -30, 0],
+          y: [0, -60, 30, 0],
         }}
         transition={{
-          duration: 20,
+          duration: 25,
           repeat: Infinity,
           ease: "linear"
         }}
-        className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-pink-500/10 via-purple-500/5 to-transparent blur-[150px] mix-blend-overlay opacity-30"
+        style={{
+          willChange: 'transform'
+        }}
+        className="absolute top-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-gradient-to-r from-pink-500/10 via-purple-500/5 to-transparent blur-[80px] mix-blend-overlay opacity-30"
       />
 
       {/* Static Grain Overlay */}

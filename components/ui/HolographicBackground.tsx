@@ -23,19 +23,18 @@ export default function HolographicBackground() {
           key={`${palette.primary}-1`}
           initial={{ opacity: 0 }}
           animate={{ 
-            opacity: [0.2, 0.4, 0.2],
-            scale: [1, 1.1, 1],
-            rotate: [0, 45, 0]
+            opacity: [0.2, 0.4, 0.2]
           }}
           exit={{ opacity: 0 }}
           transition={{ 
-            duration: 25, 
+            duration: 15, 
             repeat: Infinity, 
-            ease: "linear" 
+            ease: "easeInOut" 
           }}
-          className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] blur-[120px] will-change-transform"
+          className="absolute -top-[10%] -left-[10%] w-[120%] h-[120%] blur-[64px]"
           style={{
-            background: `radial-gradient(circle at center, ${palette.primary}0D 0%, transparent 50%)`
+            background: `radial-gradient(circle at center, ${palette.primary}0D 0%, transparent 50%)`,
+            willChange: 'opacity'
           }}
         />
         
@@ -43,19 +42,18 @@ export default function HolographicBackground() {
           key={`${palette.secondary}-2`}
           initial={{ opacity: 0 }}
           animate={{ 
-            opacity: [0.15, 0.3, 0.15],
-            scale: [1.1, 1, 1.1],
-            rotate: [0, -45, 0]
+            opacity: [0.15, 0.3, 0.15]
           }}
           exit={{ opacity: 0 }}
           transition={{ 
-            duration: 30, 
+            duration: 18, 
             repeat: Infinity, 
-            ease: "linear" 
+            ease: "easeInOut" 
           }}
-          className="absolute -bottom-[50%] -right-[50%] w-[200%] h-[200%] blur-[120px] will-change-transform"
+          className="absolute -bottom-[10%] -right-[10%] w-[120%] h-[120%] blur-[64px]"
           style={{
-            background: `radial-gradient(circle at center, ${palette.secondary}0D 0%, transparent 50%)`
+            background: `radial-gradient(circle at center, ${palette.secondary}0D 0%, transparent 50%)`,
+            willChange: 'opacity'
           }}
         />
       </AnimatePresence>
