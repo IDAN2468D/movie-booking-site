@@ -1,24 +1,11 @@
-import { google } from 'googleapis';
+import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 import PDFDocument from 'pdfkit';
 import QRCode from 'qrcode';
 import path from 'path';
 import fs from 'fs';
 
-if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET || !process.env.GOOGLE_REFRESH_TOKEN) {
-  console.error('Missing Google OAuth2 environment variables!');
-}
-
-const oauth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET
-);
-
-oauth2Client.setCredentials({
-  refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
-});
-
-const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Helper to handle Hebrew text in PDFKit for RTL with better mixed content support
 const fixHebrew = (text: string) => {
@@ -43,10 +30,10 @@ export async function POST(req: Request) {
     const { email, movieTitle, seats, price, orderId, posterUrl, date, time, hall, userName } = await req.json();
     
     // Check for missing environment variables
-    if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET || !process.env.GOOGLE_REFRESH_TOKEN) {
+    if (!process.env.RESEND_API_KEY) {
       return NextResponse.json({ 
         success: false, 
-        error: 'Missing Google OAuth2 credentials. Please set GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_REFRESH_TOKEN in your .env file.' 
+        error: 'Missing RESEND_API_KEY in your .env file.' 
       }, { status: 500 });
     }
 
@@ -166,11 +153,6 @@ export async function POST(req: Request) {
     });
 
     const subject = `🎬 הכרטיס שלך לסרט ${movieTitle} מוכן!`;
-    const encodedSubject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
-    
-    // 2. Build Multipart Email Message
-    const boundary = `----=_Part_${Math.random().toString(36).substring(2)}`;
-    const nl = '\r\n';
     
     const htmlBody = `
         <div dir="rtl" style="font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif; background-color: #0F0F0F; color: #FFFFFF; padding: 20px; margin: 0;">
@@ -200,49 +182,28 @@ export async function POST(req: Request) {
         </div>
     `;
 
-    // Encode HTML part to base64 to safely handle Hebrew
-    const htmlBase64 = Buffer.from(htmlBody).toString('base64');
-
-    const messageParts = [
-      `From: MovieBook <${process.env.GMAIL_USER || 'no-reply@moviebook.com'}>`,
-      `To: ${email}`,
-      `Subject: ${encodedSubject}`,
-      `MIME-Version: 1.0`,
-      `Content-Type: multipart/mixed; boundary="${boundary}"`,
-      '',
-      `--${boundary}`,
-      `Content-Type: text/html; charset=utf-8`,
-      `Content-Transfer-Encoding: base64`,
-      '',
-      htmlBase64,
-      '',
-      `--${boundary}`,
-      `Content-Type: application/pdf`,
-      `Content-Disposition: attachment; filename="ticket-${orderId}.pdf"`,
-      `Content-Transfer-Encoding: base64`,
-      '',
-      pdfBuffer.toString('base64'),
-      '',
-      `--${boundary}--`,
-    ];
-
-    const message = messageParts.join(nl);
-
-    const encodedMessage = Buffer.from(message)
-      .toString('base64')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
-
-    const gmailRes = await gmail.users.messages.send({
-      userId: 'me',
-      requestBody: { raw: encodedMessage },
+    const { data, error } = await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: email,
+      subject: subject,
+      html: htmlBody,
+      attachments: [
+        {
+          filename: `ticket-${orderId}.pdf`,
+          content: pdfBuffer,
+        },
+      ],
     });
-    console.log('Gmail send response status:', gmailRes.status, 'Data:', gmailRes.data);
 
-    return NextResponse.json({ success: true, data: { messageId: gmailRes.data.id } });
+    if (error) {
+      throw error;
+    }
+
+    console.log('Resend send response:', data);
+
+    return NextResponse.json({ success: true, data: { messageId: data } });
   } catch (err) {
-    console.error('Gmail API error details:', err);
+    console.error('Resend API error details:', err);
     return NextResponse.json({ 
       success: false, 
       error: (err as Error).message,

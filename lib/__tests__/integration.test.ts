@@ -44,7 +44,6 @@ describe('Rewards API Integration', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // @ts-expect-error - mocking session with partial data
     vi.mocked(getServerSession).mockResolvedValue(mockSession);
     process.env.MONGODB_URI = 'mongodb://localhost:27017';
   });
