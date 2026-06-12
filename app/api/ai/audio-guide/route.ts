@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
+  let prompt = '';
   try {
     const { movieId, movieTitle, overview } = await req.json();
 
@@ -8,7 +9,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Movie title and overview are required' }, { status: 400 });
     }
 
-    const prompt = `
+    prompt = `
       אתה קריין רדיו וקולנוע מקצועי בעל קול עמוק, דרמטי וסוחף של אתר MovieBook.
       תפקידך לכתוב תסריט קריינות קצר, מרגש ומלא מתח (עד 35 מילים בעברית) עבור מדריך השמע הקולנועי (Audio Guide) של הסרט: "${movieTitle}".
       התסריט חייב לגרום למאזין לרצות לצפות בסרט מיד, עם משפטי מפתח דרמטיים.
@@ -17,7 +18,7 @@ export async function POST(req: NextRequest) {
       תקציר הסרט לעזרתך: ${overview}
     `;
 
-    const modelNames = ['gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
+    const modelNames = ['gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
     const { callGeminiWithRetry } = await import('@/lib/gemini');
 
     const { text, modelUsed } = await callGeminiWithRetry(modelNames, async (model) => {
@@ -33,6 +34,25 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error('Audio Guide Gemini API Error:', error);
+
+    // Ollama Fallback
+    try {
+      console.log('Falling back to local Ollama for audio-guide...');
+      const { callOllama } = await import('@/lib/ollama');
+      const response = await callOllama([
+        { role: 'user', content: prompt }
+      ]);
+      if (response.success) {
+        return NextResponse.json({
+          success: true,
+          script: response.content.trim(),
+          model: `${response.model} (Ollama Fallback)`
+        });
+      }
+    } catch (ollamaErr) {
+      console.error('Ollama fallback failed:', ollamaErr);
+    }
+
     return NextResponse.json({
       success: false,
       error: error.message || 'Failed to generate audio script'

@@ -26,13 +26,11 @@ export const MeshBackground = () => {
       {/* Primary Liquid Gradient */}
       <motion.div
         style={{
-          left: springX,
-          top: springY,
-          x: '-50%',
-          y: '-50%',
-          willChange: 'left, top'
+          x: springX,
+          y: springY,
+          willChange: 'transform'
         }}
-        className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-primary/20 via-cyan-500/10 to-transparent blur-[64px] mix-blend-screen opacity-50"
+        className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-gradient-to-r from-primary/20 via-cyan-500/10 to-transparent blur-[64px] mix-blend-screen opacity-50"
       />
 
       {/* Secondary Distant Node */}

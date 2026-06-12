@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import CategoryFilters from './CategoryFilters';
 import MovieSection from './MovieSection';
 import FeaturedHero from './FeaturedHero';
 import CinemaShowcase from './CinemaShowcase';
+import CinemaExperienceScrolly from './CinemaExperienceScrolly';
 import { Movie, GENRE_MAP, getMoviesByGenre } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
@@ -36,6 +37,24 @@ export default function HomeContent({
     filters,
     setAllMovies 
   } = useBookingStore();
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const mainEl = document.querySelector('main');
+    if (mainEl) {
+      setScrollContainer(mainEl);
+    }
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    container: scrollContainer ? { current: scrollContainer } : undefined
+  });
+
+  const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.93]);
+  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, 60]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.35]);
+  const heroBlur = useTransform(scrollYProgress, [0, 0.3], ['blur(0px)', 'blur(10px)']);
+
   const [genreMovies, setGenreMovies] = React.useState<Record<string, Movie[]>>({});
   const [isLoadingGenre, setIsLoadingGenre] = React.useState(false);
 
@@ -125,7 +144,17 @@ export default function HomeContent({
       
       <div className="relative z-10 [transform:translateZ(0)]">
         <StoryBar />
-        <FeaturedHero movie={trendingMovies[0]} />
+        <motion.div 
+          style={{ 
+            scale: heroScale, 
+            y: heroY, 
+            opacity: heroOpacity, 
+            filter: heroBlur,
+            transformOrigin: 'top center' 
+          }}
+        >
+          <FeaturedHero movie={trendingMovies[0]} />
+        </motion.div>
 
         <div className="px-4 mt-8">
           <CategoryFilters />
@@ -142,6 +171,7 @@ export default function HomeContent({
         {activeCategory === 'all' && (
           <React.Fragment key="all-content">
             <CinemaShowcase />
+            <CinemaExperienceScrolly />
           </React.Fragment>
         )}
 

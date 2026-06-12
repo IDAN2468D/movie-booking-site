@@ -26,14 +26,19 @@ interface GeminiHistoryItem {
 }
 
 export async function POST(req: NextRequest) {
+  let movieTitle = '';
+  let history: RPGTurn[] = [];
+  let systemPrompt = '';
   try {
-    const { movieTitle, history = [] }: { movieTitle: string; history: RPGTurn[] } = await req.json();
+    const body = await req.json();
+    movieTitle = body.movieTitle;
+    history = body.history || [];
 
     if (!movieTitle) {
       return NextResponse.json({ error: 'Movie title is required' }, { status: 400 });
     }
 
-    const systemPrompt = `
+    systemPrompt = `
       אתה ה-Game Master (שליט המבוך) של משחק תפקידים אינטראקטיבי מבוסס טקסט של אתר MovieBook.
       המשחק מתרחש ביקום הקולנועי של הסרט: "${movieTitle}".
       תפקידך לייצר סצנה קצרה, מותחת ומרהיבה בעברית (עד 3 משפטים) ולהציע למשתמש 3 בחירות מגוונות לפעולה הבאה שלו.
@@ -57,7 +62,7 @@ export async function POST(req: NextRequest) {
       }
     `;
 
-    const modelNames = ['gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
+    const modelNames = ['gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
     const { callGeminiWithRetry } = await import('@/lib/gemini');
 
     // Prepare chat history format for Gemini
@@ -112,6 +117,41 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error('RPG Gemini API Error:', error);
+
+    // Ollama Fallback
+    try {
+      console.log('Falling back to local Ollama for RPG...');
+      const { callOllama, sanitizeAndParseJSON } = await import('@/lib/ollama');
+      
+      const ollamaHistory = history.map((msg) => ({
+        role: msg.role === 'user' ? 'user' as const : 'assistant' as const,
+        content: msg.content
+      }));
+      
+      const messages = [
+        { role: 'system' as const, content: systemPrompt },
+        ...ollamaHistory
+      ];
+      
+      if (ollamaHistory.length === 0) {
+        messages.push({ role: 'user' as const, content: `התחל את משחק התפקידים עבור הסרט ${movieTitle}` });
+      }
+      
+      const response = await callOllama(messages, { jsonMode: true });
+      if (response.success) {
+        const parsedData = sanitizeAndParseJSON<RPGResponse>(response.content);
+        if (parsedData && parsedData.scenario) {
+          return NextResponse.json({
+            success: true,
+            data: parsedData,
+            model: `${response.model} (Ollama Fallback)`
+          });
+        }
+      }
+    } catch (ollamaErr) {
+      console.error('Ollama fallback failed:', ollamaErr);
+    }
+
     return NextResponse.json({
       success: false,
       error: error.message || 'Failed to process RPG turn'

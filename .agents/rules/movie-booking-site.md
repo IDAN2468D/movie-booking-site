@@ -2,7 +2,7 @@
 trigger: always_on
 ---
 
-# 🤖 Movie Booking Site - Unified AI Governance Standard (v3.2)
+# 🤖 Movie Booking Site - Unified AI Governance Standard (v4.0)
 
 This document is the **Single Source of Truth**. Adherence is mandatory for all AI agents.
 
@@ -27,7 +27,7 @@ This document is the **Single Source of Truth**. Adherence is mandatory for all 
 To maintain order, the agent must reference specific skills based on the task:
 
 ### 🛠️ Core Skills (Architecture)
-- **[UI.md](../skills/core/UI.md)**: Liquid Glass 2.0 Design System & Aesthetics.
+- **[UI.md](../skills/core/UI.md)**: Liquid Glass 3.0 Design System & Aesthetics.
 - **[ENGINE.md](../skills/core/ENGINE.md)**: Ticketing, Transactions, and Booking logic.
 - **[DATA.md](../skills/core/DATA.md)**: MongoDB, Zod schemas, and Data integrity.
 - **[OPTIMIZATION.md](../skills/core/OPTIMIZATION.md)**: Performance, Hydration, and Caching.
@@ -42,13 +42,16 @@ To maintain order, the agent must reference specific skills based on the task:
 - **Data Integrity**: Zod is mandatory for all data boundaries.
 - **Result Pattern**: `{ success: boolean; data?: any; error?: string }`.
 - **State**: Zustand (Strict Selectors mandatory).
+- **🛡️ Self-Healing AI & local Fallbacks**: 
+  - All external AI service routes (Gemini API) MUST implement a local **Ollama** (`gemma2:2b`) fallback in their `catch` blocks to automatically take over in case of expired API keys or rate-limiting, ensuring 100% uptime.
 
-## 🎨 4. Design System: Liquid Glass 2.0
+## 🎨 4. Design System: Liquid Glass 3.0
 - **Theme**: Premium futuristic dark mode with high optical depth.
 - **Visual Tokens**:
   - **Refraction**: `backdrop-blur-3xl saturate-[200%] brightness-110`.
   - **Depth**: `box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1)`.
   - **Typography**: Outfit (Headings), Inter (Body).
+  - **120Hz Animation Motion**: Always use `x`/`y` transforms (processed by GPU) instead of layout position parameters (`left`/`top`/`margin`) for dynamic cursor following or scrolling animations to prevent browser layout reflow.
 
 ## 🚀 5. QA & Deployment
 - **Verification**: Run `npm run build` or `tsc` before finishing tasks.

@@ -14,6 +14,7 @@ interface CharacterAnalysisResponse {
 }
 
 export async function POST(req: NextRequest) {
+  let prompt = '';
   try {
     const { movieTitle, overview, genres } = await req.json();
 
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Movie title and overview are required' }, { status: 400 });
     }
 
-    const prompt = `
+    prompt = `
       אתה מומחה ניתוח נרטיבי ותסריטאות קולנועית של אתר MovieBook.
       נתח את הסרט הבא והפק פרופיל פסיכולוגי עמוק ומרהיב עבור 3 דמויות מפתח (ראשיות, משניות או ניגודים עלילתיים).
       כותרת הסרט: ${movieTitle}
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
       }
     `;
 
-    const modelNames = ['gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
+    const modelNames = ['gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
     const { callGeminiWithRetry } = await import('@/lib/gemini');
 
     const { text, modelUsed } = await callGeminiWithRetry(modelNames, async (model) => {
@@ -69,6 +70,29 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error('Character analysis Gemini API Error:', error);
+
+    // Ollama Fallback
+    try {
+      console.log('Falling back to local Ollama for character analysis...');
+      const { callOllama, sanitizeAndParseJSON } = await import('@/lib/ollama');
+      const response = await callOllama([
+        { role: 'user', content: prompt }
+      ], { jsonMode: true });
+      
+      if (response.success) {
+        const parsedData = sanitizeAndParseJSON<CharacterAnalysisResponse>(response.content);
+        if (parsedData && parsedData.characters) {
+          return NextResponse.json({
+            success: true,
+            characters: parsedData.characters,
+            model: `${response.model} (Ollama Fallback)`
+          });
+        }
+      }
+    } catch (ollamaErr) {
+      console.error('Ollama fallback failed:', ollamaErr);
+    }
+
     return NextResponse.json({
       success: false,
       error: error.message || 'Failed to generate character profiles'

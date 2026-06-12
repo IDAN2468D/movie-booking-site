@@ -23,32 +23,47 @@ interface GeminiHistoryItem {
 }
 
 export async function POST(req: NextRequest) {
+  let movieId: string | undefined = undefined;
+  let message = '';
+  let history: ChatHistoryItem[] = [];
+  let hotMovies: any[] = [];
+  let specificMovie: any = null;
   try {
-    const { movieId, message, history = [] }: { 
-      movieId?: string; 
-      message: string; 
-      history: ChatHistoryItem[] 
-    } = await req.json();
+    const body = await req.json();
+    movieId = body.movieId;
+    message = body.message;
+    history = body.history || [];
 
     // 1. Fetch Context (More movies for better coverage)
-    const moviesRes = await fetch(`${TMDB_BASE_URL}/movie/now_playing?api_key=${TMDB_API_KEY}&language=he-IL&page=1`);
-    const moviesData = await moviesRes.json();
-    const hotMovies = moviesData.results?.slice(0, 20).map((m: TMDBResult) => ({
-      id: m.id,
-      title: m.title,
-      overview: m.overview,
-      rating: m.vote_average
-    }));
+    try {
+      const moviesRes = await fetch(`${TMDB_BASE_URL}/movie/now_playing?api_key=${TMDB_API_KEY}&language=he-IL&page=1`);
+      if (moviesRes.ok) {
+        const moviesData = await moviesRes.json();
+        hotMovies = moviesData.results?.slice(0, 20).map((m: TMDBResult) => ({
+          id: m.id,
+          title: m.title,
+          overview: m.overview,
+          rating: m.vote_average
+        })) || [];
+      }
+    } catch (tmdbErr) {
+      console.warn('Failed to fetch hot movies from TMDB:', tmdbErr);
+    }
 
     // 2. Fetch Specific Movie if requested
-    let specificMovie = null;
-    if (movieId) {
-      const movieRes = await fetch(`${TMDB_BASE_URL}/movie/${movieId}?api_key=${TMDB_API_KEY}&language=he-IL`);
-      specificMovie = await movieRes.json();
+    try {
+      if (movieId) {
+        const movieRes = await fetch(`${TMDB_BASE_URL}/movie/${movieId}?api_key=${TMDB_API_KEY}&language=he-IL`);
+        if (movieRes.ok) {
+          specificMovie = await movieRes.json();
+        }
+      }
+    } catch (tmdbErr) {
+      console.warn(`Failed to fetch specific movie ${movieId} from TMDB:`, tmdbErr);
     }
 
     // 3. Simple Gemini Call (User requested ONLY 3.1 Flash Lite)
-    const modelName = 'gemini-3.1-flash-lite-preview';
+    const modelName = 'gemini-3.1-flash-lite';
     let responseText = '';
 
     const formattedHistory: GeminiHistoryItem[] = history.map((msg) => ({
@@ -66,9 +81,14 @@ export async function POST(req: NextRequest) {
       return msg.role !== validHistory[i - 1].role;
     });
 
+    // Ensure history does not end with a 'user' role before chat.sendMessage()
+    if (validHistory.length > 0 && validHistory[validHistory.length - 1].role === 'user') {
+      validHistory.pop();
+    }
+
     let modelUsed = '';
     try {
-      const modelNames = ['gemini-3.1-flash-lite-preview', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
+      const modelNames = ['gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
       const { callGeminiWithRetry } = await import('@/lib/gemini');
 
       const resultData = await callGeminiWithRetry(modelNames, async (model) => {
@@ -122,6 +142,56 @@ export async function POST(req: NextRequest) {
   } catch (error: unknown) {
     const err = error as Error;
     console.error('AI Chat Error:', err);
+
+    // Ollama Fallback
+    try {
+      console.log('Falling back to local Ollama for Chat...');
+      const { callOllama } = await import('@/lib/ollama');
+      
+      const systemPrompt = `
+        אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
+        הזהות שלך: עוזר אישי (Concierge), מקצועי, ויוקרתי.
+        
+        חוקי ברזל (MANDATORY):
+        1. **לעולם אל תפנה לאתרים חיצוניים** (סינמה סיטי, יס פלאנט וכו'). אל תיתן קישורים חיצוניים.
+        2. **יכולת הזמנה**: בניגוד לבינה מלאכותית רגילה, לך **יש** יכולת להזמין כרטיסים! אתה עושה זאת על ידי שימוש בתגית: [ACTION:BOOK:MOVIE_ID].
+        3. **אל תסרב להזמין**: אם המשתמש רוצה להזמין, אל תגיד "אני לא יכול". פשוט תפעיל את האשף עם התגית.
+        4. **סרטים ספציפיים**: 
+           - אם המשתמש מבקש את הסרט "פרא" (The Wild Robot), ה-ID הוא 1184918.
+           - אם המשתמש מבקש "דדפול", ה-ID הוא 533535.
+        
+        פרוטוקול פעולה:
+        - הזמנת כרטיס/רכישה: [ACTION:BOOK:ID]
+        - הסבר למשתמש: "בשמחה! אני פותח לך כעת את מערכת ההזמנות היוקרתית שלנו כאן בצ'אט."
+        
+        הקשר סרטים חמים:
+        ${JSON.stringify(hotMovies)}
+        ${specificMovie ? `סרט נוכחי: ${specificMovie.title} (ID: ${specificMovie.id})` : ''}
+      `;
+      
+      const ollamaHistory = history.map((msg) => ({
+        role: msg.role === 'user' ? 'user' as const : 'assistant' as const,
+        content: msg.content
+      }));
+      
+      const messages = [
+        { role: 'system' as const, content: systemPrompt },
+        ...ollamaHistory,
+        { role: 'user' as const, content: message }
+      ];
+      
+      const response = await callOllama(messages);
+      if (response.success) {
+        return NextResponse.json({
+          success: true,
+          response: response.content,
+          model: `${response.model} (Ollama Fallback)`
+        });
+      }
+    } catch (ollamaErr) {
+      console.error('Ollama fallback failed:', ollamaErr);
+    }
+
     return NextResponse.json({
       success: false,
       error: err.message || 'Failed to process chat message'

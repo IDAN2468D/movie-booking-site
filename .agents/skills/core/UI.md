@@ -5,7 +5,9 @@ Governs the visual language, components, and animations of the Movie Booking Sit
 ## 🗝️ Core Principles
 1. **Dynamic Atmosphere**: Backgrounds and UI accents must morph based on the current context (e.g., Movie Genre) using the `ColorSync` utility.
 2. **Tactile Depth**: High optical depth using 3XL blurs, multi-layered shadows, and **3D Parallax** interactions.
-3. **Cinematic Motion**: Vertical holographic scanners, liquid pulses, and spring-based transitions.
+3. **Cinematic Motion & GPU**: 
+   - All interactive or scroll-linked visual elements (like cursor trails, floating particles, hover glows) MUST use hardware-accelerated CSS properties (`transform` / `scale` / `opacity`) instead of trigger-heavy layout properties (`left` / `top` / `margin`) to prevent layout reflows and guarantee smooth 120Hz/120fps operation.
+   - Use vertical holographic scanners, liquid pulses, and spring-based transitions.
 
 ## 🛠️ Visual Tokens
 
@@ -25,7 +27,9 @@ Governs the visual language, components, and animations of the Movie Booking Sit
   <div dir="rtl" style="font-family: 'Outfit', 'Inter', system-ui, sans-serif; line-height: 1.7; text-align: right; direction: rtl; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; backdrop-filter: blur(12px); color: #F0F0F0; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);">...</div>
   ```
 - **LiveActivityPulse**: Pulsing green indicators for real-time engagement.
-- **Parallax Card**: Use `preserve-3d` and Framer Motion for mouse-tracked rotation.
+- **Parallax Card / Orb**: 
+  - Use `preserve-3d`, `drag` options, and Framer Motion for mouse-tracked or viewport-tracked rotation.
+  - The AI Concierge Orb uses a breathing, translucent glass sphere design (`backdrop-blur-3xl saturate-200%`) with reactive states.
 
 ## 🎞️ Animation Standard 3.0
 - **Scanner**: Vertical scanning lines with blur and glow.
@@ -34,6 +38,6 @@ Governs the visual language, components, and animations of the Movie Booking Sit
 
 ## 🔍 Audit Checklist
 - [ ] Does the UI adapt to the selected movie's genre?
-- [ ] Is 3D Parallax implemented on key visuals (Hero/Posters)?
+- [ ] Is 3D Parallax or hardware-accelerated mouse-glow implemented?
 - [ ] Are Hebrew responses wrapped in the mandatory Liquid Glass container?
 - [ ] Does the design feel "Liquid" (blurred, saturated, vibrant)?

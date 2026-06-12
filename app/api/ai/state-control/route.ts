@@ -12,6 +12,7 @@ interface StateControlPayload {
 }
 
 export async function POST(req: NextRequest) {
+  let prompt = '';
   try {
     const { message } = await req.json();
 
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    const prompt = `
+    prompt = `
       אתה מנוע בקרה ופילטור נתונים בזמן אמת של אתר הסרטים היוקרתי MovieBook.
       התפקיד שלך הוא לקבל הודעה בשפה חופשית בעברית מהמשתמש, לנתח אותה, ולהחזיר אך ורק אובייקט JSON תקין שמייצג את פילטור הסרטים או הוספה למועדפים.
       משתמש: "${message}"
@@ -44,7 +45,7 @@ export async function POST(req: NextRequest) {
       }
     `;
 
-    const modelNames = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-3.1-flash-lite-preview', 'gemini-1.5-flash-latest'];
+    const modelNames = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-3.1-flash-lite', 'gemini-1.5-flash-latest'];
     const { callGeminiWithRetry } = await import('@/lib/gemini');
 
     const { text, modelUsed } = await callGeminiWithRetry(modelNames, async (model) => {
@@ -68,6 +69,29 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error('State control Gemini API Error:', error);
+
+    // Ollama Fallback
+    try {
+      console.log('Falling back to local Ollama for state control...');
+      const { callOllama, sanitizeAndParseJSON } = await import('@/lib/ollama');
+      const response = await callOllama([
+        { role: 'user', content: prompt }
+      ], { jsonMode: true });
+      
+      if (response.success) {
+        const parsedData = sanitizeAndParseJSON<StateControlPayload>(response.content);
+        if (parsedData) {
+          return NextResponse.json({
+            success: true,
+            data: parsedData,
+            model: `${response.model} (Ollama Fallback)`
+          });
+        }
+      }
+    } catch (ollamaErr) {
+      console.error('Ollama fallback failed:', ollamaErr);
+    }
+
     return NextResponse.json({
       success: false,
       error: error.message || 'Failed to analyze conversational instruction'

@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { motion, useScroll } from 'framer-motion';
 import Sidebar from "@/components/layout/Sidebar";
 import TopBar from "@/components/layout/TopBar";
 import RightPanel from "@/components/layout/RightPanel";
@@ -16,6 +17,9 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const mainRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ container: mainRef });
+  
   const isERP = pathname?.startsWith('/erp');
 
   if (isERP) {
@@ -36,9 +40,14 @@ export default function MainLayout({
         <Sidebar />
 
         {/* Main Center Area */}
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 flex flex-col min-w-0 relative">
           <TopBar />
-          <main className="flex-1 overflow-y-auto scrollbar-hide pb-44 md:pb-0">
+          {/* Global Scroll Progress Bar */}
+          <motion.div 
+            style={{ scaleX: scrollYProgress, transformOrigin: 'right' }}
+            className="absolute top-16 md:top-24 left-0 right-0 h-[3px] bg-gradient-to-l from-primary via-[#FF1464] to-cyan-400 z-50 shadow-[0_0_12px_rgba(255,20,100,0.8)] pointer-events-none"
+          />
+          <main ref={mainRef} className="flex-1 overflow-y-auto scrollbar-hide pb-44 md:pb-0">
             {children}
           </main>
         </div>
