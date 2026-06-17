@@ -1,7 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 import CategoryFilters from './CategoryFilters';
 import MovieSection from './MovieSection';
 import FeaturedHero from './FeaturedHero';
@@ -32,21 +36,33 @@ export default function HomeContent({
   recommendationsNode
 }: HomeContentProps) {
   const { activeCategory, setActiveCategory, selectedMovie } = useBookingStore();
-  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+  const heroWrapperRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const mainEl = document.querySelector('main');
-    if (mainEl) setScrollContainer(mainEl);
+  React.useEffect(() => {
+    if (!heroWrapperRef.current) return;
+
+    const scrollerEl = document.querySelector('main');
+    if (!scrollerEl) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(heroWrapperRef.current, {
+        scale: 0.93,
+        y: 60,
+        opacity: 0.35,
+        filter: 'blur(10px)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroWrapperRef.current,
+          scroller: scrollerEl,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      });
+    }, heroWrapperRef);
+
+    return () => ctx.revert();
   }, []);
-
-  const { scrollYProgress } = useScroll({
-    container: scrollContainer ? { current: scrollContainer } : undefined
-  });
-
-  const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.93]);
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, 60]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.35]);
-  const heroBlur = useTransform(scrollYProgress, [0, 0.3], ['blur(0px)', 'blur(10px)']);
 
   const { moviesToShow, isGlobalFiltering, isLoadingGenre } = useFilteredMovies({
     popularMovies,
@@ -61,18 +77,12 @@ export default function HomeContent({
       
       <div className="relative z-10 [transform:translateZ(0)]">
         <StoryBar />
-        <motion.div 
-          style={{ 
-            scale: heroScale, 
-            y: heroY, 
-            opacity: heroOpacity, 
-            filter: heroBlur,
-            transformOrigin: 'top center',
-            willChange: 'transform, opacity, filter'
-          }}
+        <div 
+          ref={heroWrapperRef}
+          style={{ transformOrigin: 'top center' }}
         >
           <FeaturedHero movie={trendingMovies[0]} />
-        </motion.div>
+        </div>
 
         <div className="px-4 mt-8">
           <CategoryFilters />
