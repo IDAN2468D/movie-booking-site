@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import NextImage from 'next/image';
-import { Calendar, Clock, MapPin, QrCode, Sparkles, Heart, Film, Star, MessageSquare } from 'lucide-react';
+import { Calendar, Clock, MapPin, QrCode, Sparkles, Heart, Film, Star, MessageSquare, Mail, Download, Loader2 } from 'lucide-react';
 
 interface TicketType {
   id: string;
@@ -255,7 +255,7 @@ export default function QuantumTicket({
 
         {/* Bottom Section: Stub Info Details */}
         <div className="p-6 bg-white/[0.02] relative text-right">
-          <div className="grid grid-cols-2 gap-y-4 gap-x-4 mb-6 text-xs">
+          <div className="grid grid-cols-2 gap-y-4 gap-x-4 text-xs">
             <div className="space-y-1">
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1 justify-end">
                 תאריך <Calendar size={10} className="text-primary" />
@@ -281,30 +281,46 @@ export default function QuantumTicket({
               <p className="text-sm text-white font-black truncate">{ticket.seats.join(', ')}</p>
             </div>
           </div>
-
-          {/* Action Trigger Buttons */}
-          <div className="flex gap-2 justify-end border-t border-white/5 pt-4">
-            {onEmail && (
-              <button
-                onClick={onEmail}
-                disabled={isProcessingEmail}
-                className="flex-1 py-2 px-3 rounded-xl bg-white/5 text-[11px] font-black uppercase text-slate-300 hover:bg-white/10 hover:text-white transition-colors border border-white/5 active:scale-95 disabled:opacity-50"
-              >
-                {isProcessingEmail ? 'שולח...' : 'שלח למייל'}
-              </button>
-            )}
-            {onDownload && (
-              <button
-                onClick={onDownload}
-                disabled={isProcessingPDF}
-                className="flex-1 py-2 px-3 rounded-xl bg-primary text-[11px] font-black uppercase text-background hover:bg-primary-hover transition-all active:scale-95 disabled:opacity-50"
-              >
-                {isProcessingPDF ? 'יוצר...' : 'הורד כ-PDF'}
-              </button>
-            )}
-          </div>
         </div>
       </motion.div>
+
+      {/* Action Buttons - Rendered OUTSIDE the ticket card */}
+      <div className="flex gap-3 justify-center w-full px-2 mt-4 z-10">
+        {onEmail && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onEmail();
+            }}
+            disabled={isProcessingEmail}
+            className="flex-1 py-3 px-4 rounded-2xl bg-[#0F0F0F]/60 backdrop-blur-xl hover:bg-white/10 text-xs font-black uppercase text-slate-300 transition-all border border-white/10 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 shadow-[0_8px_30px_rgb(0,0,0,0.5)] cursor-pointer"
+          >
+            {isProcessingEmail ? (
+              <Loader2 className="w-4 h-4 animate-spin text-primary" />
+            ) : (
+              <Mail className="w-4 h-4 text-primary" />
+            )}
+            <span>{isProcessingEmail ? 'שולח...' : 'שלח למייל'}</span>
+          </button>
+        )}
+        {onDownload && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDownload();
+            }}
+            disabled={isProcessingPDF}
+            className="flex-1 py-3 px-4 rounded-2xl bg-primary hover:bg-primary/90 text-xs font-black uppercase text-background transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 shadow-[0_8px_25px_rgba(255,159,10,0.25)] cursor-pointer"
+          >
+            {isProcessingPDF ? (
+              <Loader2 className="w-4 h-4 animate-spin text-background" />
+            ) : (
+              <Download className="w-4 h-4 text-background" />
+            )}
+            <span>{isProcessingPDF ? 'יוצר...' : 'הורד כ-PDF'}</span>
+          </button>
+        )}
+      </div>
     </motion.div>
   );
 }
