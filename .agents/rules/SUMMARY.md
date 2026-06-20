@@ -12,6 +12,7 @@ Deep technical guidelines organized by domain:
 2. **[DATA.md](../skills/core/DATA.md)**: Database management, Zod schemas, and TMDB integration.
 3. **[ENGINE.md](../skills/core/ENGINE.md)**: Ticketing logic, seat management, and transactions.
 4. **[OPTIMIZATION.md](../skills/core/OPTIMIZATION.md)**: Performance, caching, and smart loading.
+5. **[QA_CICD.md](../skills/core/QA_CICD.md)**: Quality Assurance, Local Testing, and GitHub Actions Pipelines.
 
 ## 🚀 Feature Skills
 Guidelines for implementing specific features:

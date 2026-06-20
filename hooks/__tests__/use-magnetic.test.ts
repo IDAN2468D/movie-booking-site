@@ -2,6 +2,14 @@ import { renderHook, act } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { useMagnetic } from '../use-magnetic';
 
+vi.mock('framer-motion', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('framer-motion')>();
+  return {
+    ...actual,
+    useSpring: (value: any) => value,
+  };
+});
+
 describe('useMagnetic', () => {
   it('should initialize with 0 motion values', () => {
     const { result } = renderHook(() => useMagnetic());

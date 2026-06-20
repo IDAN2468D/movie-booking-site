@@ -3,22 +3,20 @@ import { POST as redeemReward } from '@/app/api/rewards/redeem/route';
 import { getServerSession } from 'next-auth';
 
 // Use vi.hoisted to define variables used in vi.mock
-const { mockDbMethods, mockClientInstance } = vi.hoisted(() => ({
-  mockDbMethods: {
+const { mockDbMethods, mockClientInstance } = vi.hoisted(() => {
+  const dbMethods = {
     collection: vi.fn().mockReturnThis(),
     findOne: vi.fn(),
     updateOne: vi.fn(),
     insertOne: vi.fn(),
-  },
-  mockClientInstance: {
-    connect: vi.fn().mockResolvedValue(undefined),
-    db: vi.fn().mockReturnThis(), // Will be updated to return methods
+  };
+  const clientInstance = {
+    connect: vi.fn().mockImplementation(async function (this: any) { return this; }),
+    db: vi.fn().mockReturnValue(dbMethods),
     close: vi.fn(),
-  }
-}));
-
-// Setup mockClientInstance to return mockDbMethods
-mockClientInstance.db.mockReturnValue(mockDbMethods);
+  };
+  return { mockDbMethods: dbMethods, mockClientInstance: clientInstance };
+});
 
 // Mock next-auth
 vi.mock('next-auth', () => ({

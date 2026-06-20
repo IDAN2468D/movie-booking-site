@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBookingStore } from '@/lib/store';
 import { getPaletteForMovie } from '@/lib/utils/color-sync';
+import ParallaxOrb from './ParallaxOrb';
 
 export default function HolographicBackground() {
   const selectedMovie = useBookingStore(state => state.selectedMovie);
@@ -57,6 +58,10 @@ export default function HolographicBackground() {
           }}
         />
       </AnimatePresence>
+
+      {/* 3D Parallax Glass Orbs */}
+      <ParallaxOrb size={450} offsetX="5%" offsetY="10%" parallaxFactor={0.03} />
+      <ParallaxOrb size={300} offsetX="65%" offsetY="50%" parallaxFactor={0.06} />
 
       {/* Static Refraction Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] pointer-events-none" />

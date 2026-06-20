@@ -11,6 +11,7 @@ This directory contains domain-specific instructions (Skills) for the AI Agent. 
 - **[OPTIMIZATION.md](./core/OPTIMIZATION.md)**: Performance, Caching, and Hydration strategies.
 - **[RESEARCH.md](./core/RESEARCH.md)**: Intelligent Research and Knowledge management.
 - **[SEARCH.md](./core/SEARCH.md)**: Movie discovery and TMDB search integration.
+- **[QA_CICD.md](./core/QA_CICD.md)**: Quality Assurance, Local Testing, and GitHub Actions Pipelines.
 
 ### 🚀 [Features](./features/) (Product Modules)
 - **[CONCIERGE.md](./features/CONCIERGE.md)**: AI Assistant interaction and UI.

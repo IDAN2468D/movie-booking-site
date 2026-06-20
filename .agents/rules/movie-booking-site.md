@@ -31,6 +31,7 @@ To maintain order, the agent must reference specific skills based on the task:
 - **[ENGINE.md](../skills/core/ENGINE.md)**: Ticketing, Transactions, and Booking logic.
 - **[DATA.md](../skills/core/DATA.md)**: MongoDB, Zod schemas, and Data integrity.
 - **[OPTIMIZATION.md](../skills/core/OPTIMIZATION.md)**: Performance, Hydration, and Caching.
+- **[QA_CICD.md](../skills/core/QA_CICD.md)**: Quality Assurance, Local Testing, and GitHub Actions Pipelines.
 
 ### 🚀 Feature Skills (Domain)
 - **[CONCIERGE.md](../skills/features/CONCIERGE.md)**: AI Assistant interaction and UI.
@@ -54,7 +55,9 @@ To maintain order, the agent must reference specific skills based on the task:
   - **120Hz Animation Motion**: Always use `x`/`y` transforms (processed by GPU) instead of layout position parameters (`left`/`top`/`margin`) for dynamic cursor following or scrolling animations to prevent browser layout reflow.
 
 ## 🚀 5. QA & Deployment
-- **Verification**: Run `npm run build` or `tsc` before finishing tasks.
+- **Testing Enforcement**: Always run local unit tests using `npx vitest run` before completing code modifications.
+- **Pre-Push Build Verification**: Run `npm run build` locally to verify TypeScript checks and compile integrity.
+- **CI/CD Alignments**: Enforce GitHub Actions workflows (`ci.yml`, `qa.yml`) on pull requests to main/master.
 - **GitHub**: Push ONLY after explicit USER approval.
 - **Commit**: Atomic and descriptive.
 
