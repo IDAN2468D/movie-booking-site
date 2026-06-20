@@ -86,7 +86,7 @@ export default function QuantumTicket({
           <button
             key={state}
             onClick={() => setTicketState(state)}
-            className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest border transition-all duration-500 ${
+            className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all duration-500 ${
               ticketState === state
                 ? 'bg-primary border-primary text-background shadow-[0_0_15px_var(--primary)]'
                 : 'bg-black/60 border-white/10 text-slate-400 hover:bg-black/80'
@@ -148,7 +148,7 @@ export default function QuantumTicket({
                 exit={{ opacity: 0, y: -10 }}
                 className="space-y-4 flex flex-col items-center justify-center h-full text-center py-4"
               >
-                <span className="text-[9px] font-black text-primary tracking-[0.3em] uppercase">הספירה לאחור החלה</span>
+                <span className="text-[11px] font-black text-primary tracking-[0.3em] uppercase">הספירה לאחור החלה</span>
                 <div className="flex gap-4 items-center justify-center">
                   {[
                     { val: timeLeft.hours, label: 'שעות' },
@@ -161,11 +161,11 @@ export default function QuantumTicket({
                           {unit.val.toString().padStart(2, '0')}
                         </span>
                       </div>
-                      <span className="text-[8px] text-slate-500 font-bold mt-1.5">{unit.label}</span>
+                      <span className="text-[10px] text-slate-500 font-bold mt-1.5">{unit.label}</span>
                     </div>
                   ))}
                 </div>
-                <p className="text-[10px] text-slate-400 font-bold flex items-center gap-1">
+                <p className="text-xs text-slate-400 font-bold flex items-center gap-1">
                   <Film size={12} className="text-primary animate-spin" />
                   הקרנה באולם פרימיום VIP
                 </p>
@@ -185,8 +185,8 @@ export default function QuantumTicket({
                   <div className="absolute inset-0 bg-primary/5 group-hover/qr:bg-primary/10 transition-colors" />
                 </div>
                 <div className="text-center">
-                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">אנא הצג בכניסה לאולם</p>
-                  <p className="text-[10px] text-primary font-black tracking-widest">{ticket.id.substring(0, 16).toUpperCase()}</p>
+                  <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">אנא הצג בכניסה לאולם</p>
+                  <p className="text-xs text-primary font-black tracking-widest">{ticket.id.substring(0, 16).toUpperCase()}</p>
                 </div>
               </motion.div>
             )}
@@ -199,11 +199,11 @@ export default function QuantumTicket({
                 exit={{ opacity: 0, y: -10 }}
                 className="space-y-4 text-right py-2 h-full"
               >
-                <span className="text-[9px] font-black text-yellow-400 tracking-[0.2em] uppercase block">זיכרון קולנועי</span>
+                <span className="text-[11px] font-black text-yellow-400 tracking-[0.2em] uppercase block">זיכרון קולנועי</span>
                 
                 {/* Rating Input */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-black text-slate-500">איך היה הסרט?</label>
+                  <label className="text-[11px] font-black text-slate-500">איך היה הסרט?</label>
                   <div className="flex gap-1 justify-start">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
@@ -219,13 +219,13 @@ export default function QuantumTicket({
 
                 {/* Personal Notes */}
                 <div className="space-y-1">
-                  <label className="text-[9px] font-black text-slate-500">יומן חוויה אישי</label>
+                  <label className="text-[11px] font-black text-slate-500">יומן חוויה אישי</label>
                   <div className="relative">
                     <textarea
                       value={personalNote}
                       onChange={(e) => setPersonalNote(e.target.value)}
                       placeholder="איך הייתה החוויה שלך?"
-                      className="w-full h-16 p-2 rounded-xl bg-white/5 border border-white/10 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-primary/50 transition-colors custom-scrollbar"
+                      className="w-full h-16 p-2 rounded-xl bg-white/5 border border-white/10 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-primary/50 transition-colors custom-scrollbar"
                     />
                     <MessageSquare size={12} className="text-slate-600 absolute bottom-2 left-2" />
                   </div>
@@ -246,28 +246,28 @@ export default function QuantumTicket({
         <div className="p-6 bg-white/[0.02] relative text-right">
           <div className="grid grid-cols-2 gap-y-4 gap-x-4 mb-6 text-xs">
             <div className="space-y-1">
-              <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1 justify-end">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1 justify-end">
                 תאריך <Calendar size={10} className="text-primary" />
               </p>
-              <p className="text-xs text-white font-black">{ticket.date}</p>
+              <p className="text-sm text-white font-black">{ticket.date}</p>
             </div>
             <div className="space-y-1">
-              <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1 justify-end">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1 justify-end">
                 שעה <Clock size={10} className="text-primary" />
               </p>
-              <p className="text-xs text-white font-black">{ticket.time}</p>
+              <p className="text-sm text-white font-black">{ticket.time}</p>
             </div>
             <div className="space-y-1">
-              <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1 justify-end">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1 justify-end">
                 אולם <MapPin size={10} className="text-primary" />
               </p>
-              <p className="text-xs text-white font-black">{ticket.hall}</p>
+              <p className="text-sm text-white font-black">{ticket.hall}</p>
             </div>
             <div className="space-y-1">
-              <p className="text-[8px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1 justify-end">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1 justify-end">
                 מושבים <Sparkles size={10} className="text-primary" />
               </p>
-              <p className="text-xs text-white font-black truncate">{ticket.seats.join(', ')}</p>
+              <p className="text-sm text-white font-black truncate">{ticket.seats.join(', ')}</p>
             </div>
           </div>
 
@@ -277,7 +277,7 @@ export default function QuantumTicket({
               <button
                 onClick={onEmail}
                 disabled={isProcessingEmail}
-                className="flex-1 py-2 px-3 rounded-xl bg-white/5 text-[9px] font-black uppercase text-slate-300 hover:bg-white/10 hover:text-white transition-colors border border-white/5 active:scale-95 disabled:opacity-50"
+                className="flex-1 py-2 px-3 rounded-xl bg-white/5 text-[11px] font-black uppercase text-slate-300 hover:bg-white/10 hover:text-white transition-colors border border-white/5 active:scale-95 disabled:opacity-50"
               >
                 {isProcessingEmail ? 'שולח...' : 'שלח למייל'}
               </button>
@@ -286,7 +286,7 @@ export default function QuantumTicket({
               <button
                 onClick={onDownload}
                 disabled={isProcessingPDF}
-                className="flex-1 py-2 px-3 rounded-xl bg-primary text-[9px] font-black uppercase text-background hover:bg-primary-hover transition-all active:scale-95 disabled:opacity-50"
+                className="flex-1 py-2 px-3 rounded-xl bg-primary text-[11px] font-black uppercase text-background hover:bg-primary-hover transition-all active:scale-95 disabled:opacity-50"
               >
                 {isProcessingPDF ? 'יוצר...' : 'הורד כ-PDF'}
               </button>
