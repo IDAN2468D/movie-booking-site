@@ -107,23 +107,34 @@ export default function QuantumTicket({
         perspective: 1000,
       }}
     >
-      {/* Morphing Header Banner */}
-      <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-        {(['countdown', 'qr', 'memory'] as TicketState[]).map((state) => (
-          <button
-            key={state}
-            onClick={() => setTicketState(state)}
-            className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all duration-500 ${
-              ticketState === state
-                ? 'bg-primary border-primary text-background shadow-[0_0_15px_var(--primary)]'
-                : 'bg-black/60 border-white/10 text-slate-400 hover:bg-black/80'
-            }`}
-          >
-            {state === 'countdown' && 'קדימון וזמן'}
-            {state === 'qr' && 'כרטיס כניסה'}
-            {state === 'memory' && 'קפסולת זיכרון'}
-          </button>
-        ))}
+      {/* Morphing Header Banner - Premium Sliding Glass Pill */}
+      <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-30 w-[92%] bg-black/85 backdrop-blur-2xl border border-white/10 p-1 rounded-2xl flex gap-1 shadow-[0_12px_36px_rgba(0,0,0,0.6)]">
+        {(['countdown', 'qr', 'memory'] as TicketState[]).map((state) => {
+          const isActive = ticketState === state;
+          return (
+            <button
+              key={state}
+              onClick={() => setTicketState(state)}
+              className={`relative flex-1 py-2 px-1.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider text-center transition-colors duration-300 whitespace-nowrap focus:outline-none ${
+                isActive ? 'text-background' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              {isActive && (
+                <motion.div
+                  layoutId="activeTicketTab"
+                  className="absolute inset-0 bg-primary rounded-xl shadow-[0_0_15px_rgba(255,159,10,0.5)]"
+                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  style={{ zIndex: 0 }}
+                />
+              )}
+              <span className="relative z-10">
+                {state === 'countdown' && 'קדימון וזמן'}
+                {state === 'qr' && 'כרטיס כניסה'}
+                {state === 'memory' && 'קפסולת זיכרון'}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Main Ticket Card Wrapper */}
