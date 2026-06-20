@@ -37,6 +37,12 @@ interface BookingState {
   setLocation: (location: string) => void;
   setDraggingMovieName: (name: string | null) => void;
   resetBooking: () => void;
+  auraColor: string;
+  setAuraColor: (color: string) => void;
+  lobbyUsers: { id: string; name: string; x: number; y: number; seat?: string }[];
+  setLobbyUsers: (users: { id: string; name: string; x: number; y: number; seat?: string }[]) => void;
+  activeMoods: string[];
+  setActiveMoods: (moods: string[]) => void;
 }
 
 export const useBookingStore = create<BookingState>((set) => ({
@@ -58,6 +64,9 @@ export const useBookingStore = create<BookingState>((set) => ({
     year: 'הכל',
   },
   draggingMovieName: null,
+  auraColor: '#FF1464',
+  lobbyUsers: [],
+  activeMoods: [],
 
   setAllMovies: (movies) => set({ allMovies: movies }),
   setSearchQuery: (query) => set({ searchQuery: query }),
@@ -66,6 +75,9 @@ export const useBookingStore = create<BookingState>((set) => ({
   })),
 
   setDraggingMovieName: (name) => set({ draggingMovieName: name }),
+  setAuraColor: (color) => set({ auraColor: color }),
+  setLobbyUsers: (users) => set({ lobbyUsers: users }),
+  setActiveMoods: (moods) => set({ activeMoods: moods }),
 
   toggleFavorite: (movie) => set((state) => ({
     favorites: state.favorites.find(m => m.id === movie.id)

@@ -10,6 +10,7 @@ import MobileNav from "@/components/layout/MobileNav";
 import { HeartbeatInit } from "@/components/utils/HeartbeatInit";
 import ResolutionWrapper from "@/components/layout/ResolutionWrapper";
 import MovieChatBot from "@/components/chat/MovieChatBot";
+import { useBookingStore } from '@/lib/store';
 
 export default function MainLayout({
   children,
@@ -20,6 +21,7 @@ export default function MainLayout({
   const mainRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ container: mainRef });
   
+  const auraColor = useBookingStore((state) => state.auraColor);
   const isERP = pathname?.startsWith('/erp');
 
   if (isERP) {
@@ -35,7 +37,13 @@ export default function MainLayout({
 
   return (
     <ResolutionWrapper>
-      <div className="flex h-screen overflow-hidden" dir="rtl">
+      <div 
+        className="flex h-screen overflow-hidden transition-colors duration-1000" 
+        dir="rtl"
+        style={{
+          ['--primary' as any]: auraColor,
+        }}
+      >
         {/* Right Sidebar - Responsive */}
         <Sidebar />
 
