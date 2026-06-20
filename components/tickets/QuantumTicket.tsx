@@ -72,7 +72,14 @@ export default function QuantumTicket({
   return (
     <motion.div
       layout
-      className="relative flex flex-col group transition-all duration-700 w-full max-w-sm mx-auto"
+      whileHover={{ y: -12, scale: 1.03 }}
+      transition={{ 
+        type: 'spring', 
+        stiffness: 260, 
+        damping: 14,
+        mass: 0.8
+      }}
+      className="relative flex flex-col group w-full max-w-sm mx-auto"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -104,10 +111,10 @@ export default function QuantumTicket({
         layout
         className="bg-black/50 backdrop-blur-[50px] border border-white/20 rounded-[40px] overflow-hidden shadow-2xl relative flex flex-col"
         style={{
-          transform: `rotateY(${mousePos.x * 12}deg) rotateX(${-mousePos.y * 12}deg)`,
+          transform: `rotateY(${mousePos.x * 18}deg) rotateX(${-mousePos.y * 18}deg)`,
           transformStyle: 'preserve-3d',
         }}
-        transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 14 }}
       >
         {/* Holographic metallic reflection simulation overlay */}
         <div 

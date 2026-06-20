@@ -199,9 +199,15 @@ export default function TicketsPage() {
           {tickets.map((ticket, index) => (
             <motion.div 
               key={ticket.id} 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 60, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ 
+                type: 'spring',
+                stiffness: 150,
+                damping: 12,
+                mass: 0.9,
+                delay: index * 0.1 
+              }}
               className="w-full flex justify-center"
             >
               <QuantumTicket 
