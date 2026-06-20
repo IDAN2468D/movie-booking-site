@@ -20,6 +20,7 @@ interface TicketType {
 
 interface QuantumTicketProps {
   ticket: TicketType;
+  state: TicketState;
   onEmail?: () => void;
   onDownload?: () => void;
   onShare?: () => void;
@@ -31,13 +32,13 @@ type TicketState = 'countdown' | 'qr' | 'memory';
 
 export default function QuantumTicket({
   ticket,
+  state,
   onEmail,
   onDownload,
   onShare,
   isProcessingEmail,
   isProcessingPDF
 }: QuantumTicketProps) {
-  const [ticketState, setTicketState] = useState<TicketState>('countdown');
   const [timeLeft, setTimeLeft] = useState({ hours: 14, minutes: 25, seconds: 40 });
   const [personalNote, setPersonalNote] = useState('');
   const [userRating, setUserRating] = useState(0);
@@ -135,39 +136,9 @@ export default function QuantumTicket({
             fill
             className="object-cover transition-transform duration-[1.5s] group-hover:scale-105 saturate-[1.1]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
           
-          {/* Morphing Header Banner - Premium Sliding Glass Pill */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 w-[92%] bg-black/85 backdrop-blur-2xl border border-white/10 p-1 rounded-2xl flex gap-1 shadow-[0_12px_36px_rgba(0,0,0,0.6)]">
-            {(['countdown', 'qr', 'memory'] as TicketState[]).map((state) => {
-              const isActive = ticketState === state;
-              return (
-                <button
-                  key={state}
-                  onClick={() => setTicketState(state)}
-                  className={`relative flex-1 py-2 px-1.5 rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wider text-center transition-colors duration-300 whitespace-nowrap focus:outline-none ${
-                    isActive ? 'text-black font-black' : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeTicketTab"
-                      className="absolute inset-0 bg-primary rounded-xl shadow-[0_0_15px_rgba(255,159,10,0.5)]"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                      style={{ zIndex: 0 }}
-                    />
-                  )}
-                  <span className="relative z-10">
-                    {state === 'countdown' && 'קדימון וזמן'}
-                    {state === 'qr' && 'כרטיס כניסה'}
-                    {state === 'memory' && 'קפסולת זיכרון'}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="absolute bottom-6 right-6 left-6 text-right z-25">
+          <div className="absolute top-8 right-6 left-6 text-right">
             <h3 className="text-2xl font-black text-white tracking-tight drop-shadow-md font-outfit truncate">
               {ticket.movie}
             </h3>
@@ -180,58 +151,58 @@ export default function QuantumTicket({
         {/* Middle Section: Morphing Interactive Area */}
         <div className="p-6 relative text-right flex-1 min-h-[220px]">
           <AnimatePresence mode="wait">
-            {ticketState === 'countdown' && (
-              <motion.div
-                key="countdown"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="space-y-4 flex flex-col items-center justify-center h-full text-center py-4"
-              >
-                <span className="text-[11px] font-black text-primary tracking-[0.3em] uppercase">הספירה לאחור החלה</span>
-                <div className="flex gap-4 items-center justify-center">
-                  {[
-                    { val: timeLeft.hours, label: 'שעות' },
-                    { val: timeLeft.minutes, label: 'דקות' },
-                    { val: timeLeft.seconds, label: 'שניות' },
-                  ].map((unit, i) => (
-                    <div key={i} className="flex flex-col items-center">
-                      <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shadow-lg">
-                        <span className="text-xl font-black font-mono text-white">
-                          {unit.val.toString().padStart(2, '0')}
-                        </span>
-                      </div>
-                      <span className="text-[10px] text-slate-500 font-bold mt-1.5">{unit.label}</span>
-                    </div>
-                  ))}
-                </div>
-                <p className="text-xs text-slate-400 font-bold flex items-center gap-1">
-                  <Film size={12} className="text-primary animate-spin" />
-                  הקרנה באולם פרימיום VIP
-                </p>
-              </motion.div>
-            )}
-
-            {ticketState === 'qr' && (
-              <motion.div
-                key="qr"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="flex flex-col items-center justify-center h-full py-4 space-y-4"
-              >
-                <div className="p-4 bg-white rounded-3xl shadow-[0_0_30px_rgba(255,255,255,0.3)] relative overflow-hidden group/qr">
-                  <QrCode size={100} className="text-black relative z-10" />
-                  <div className="absolute inset-0 bg-primary/5 group-hover/qr:bg-primary/10 transition-colors" />
-                </div>
-                <div className="text-center">
-                  <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">אנא הצג בכניסה לאולם</p>
-                  <p className="text-xs text-primary font-black tracking-widest">{ticket.id.substring(0, 16).toUpperCase()}</p>
-                </div>
-              </motion.div>
-            )}
-
-            {ticketState === 'memory' && (
+            {state === 'countdown' && (
+               <motion.div
+                 key="countdown"
+                 initial={{ opacity: 0, y: 10 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 exit={{ opacity: 0, y: -10 }}
+                 className="space-y-4 flex flex-col items-center justify-center h-full text-center py-4"
+               >
+                 <span className="text-[11px] font-black text-primary tracking-[0.3em] uppercase">הספירה לאחור החלה</span>
+                 <div className="flex gap-4 items-center justify-center">
+                   {[
+                     { val: timeLeft.hours, label: 'שעות' },
+                     { val: timeLeft.minutes, label: 'דקות' },
+                     { val: timeLeft.seconds, label: 'שניות' },
+                   ].map((unit, i) => (
+                     <div key={i} className="flex flex-col items-center">
+                       <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shadow-lg">
+                         <span className="text-xl font-black font-mono text-white">
+                           {unit.val.toString().padStart(2, '0')}
+                         </span>
+                       </div>
+                       <span className="text-[10px] text-slate-500 font-bold mt-1.5">{unit.label}</span>
+                     </div>
+                   ))}
+                 </div>
+                 <p className="text-xs text-slate-400 font-bold flex items-center gap-1">
+                   <Film size={12} className="text-primary animate-spin" />
+                   הקרנה באולם פרימיום VIP
+                 </p>
+               </motion.div>
+             )}
+ 
+             {state === 'qr' && (
+               <motion.div
+                 key="qr"
+                 initial={{ opacity: 0, y: 10 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 exit={{ opacity: 0, y: -10 }}
+                 className="flex flex-col items-center justify-center h-full py-4 space-y-4"
+               >
+                 <div className="p-4 bg-white rounded-3xl shadow-[0_0_30px_rgba(255,255,255,0.3)] relative overflow-hidden group/qr">
+                   <QrCode size={100} className="text-black relative z-10" />
+                   <div className="absolute inset-0 bg-primary/5 group-hover/qr:bg-primary/10 transition-colors" />
+                 </div>
+                 <div className="text-center">
+                   <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-1">אנא הצג בכניסה לאולם</p>
+                   <p className="text-xs text-primary font-black tracking-widest">{ticket.id.substring(0, 16).toUpperCase()}</p>
+                 </div>
+               </motion.div>
+             )}
+ 
+             {state === 'memory' && (
               <motion.div
                 key="memory"
                 initial={{ opacity: 0, y: 10 }}

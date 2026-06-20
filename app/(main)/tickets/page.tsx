@@ -25,6 +25,7 @@ export default function TicketsPage() {
   const [tickets, setTickets] = useState<TicketType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'countdown' | 'qr' | 'memory'>('countdown');
 
   const handleEmailTicket = async (ticket: TicketType) => {
     setProcessingId(`${ticket.id}-email`);
@@ -195,41 +196,74 @@ export default function TicketsPage() {
           </div>
         </motion.div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-16">
-          {tickets.map((ticket, index) => (
-            <motion.div 
-              key={ticket.id} 
-              initial={{ opacity: 0, y: 60, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ 
-                type: 'spring',
-                stiffness: 150,
-                damping: 12,
-                mass: 0.9,
-                delay: index * 0.1 
-              }}
-              className="w-full flex justify-center"
-            >
-              <QuantumTicket 
-                ticket={ticket}
-                onEmail={() => handleEmailTicket(ticket)}
-                onDownload={() => handleDownloadPDF(ticket)}
-                onShare={() => {
-                  if (navigator.share) {
-                    navigator.share({
-                      title: `הכרטיס שלי לסרט ${ticket.movie}`,
-                      text: `קניתי כרטיס לסרט ${ticket.movie} ב-MovieBook! מושבים: ${ticket.seats.join(', ')}`,
-                      url: window.location.href,
-                    });
-                  } else {
-                    alert('שיתוף לא נתמך בדפדפן זה');
-                  }
+        <div className="flex flex-col items-center w-full">
+          {/* Global Category Switcher - Premium Glass Pill */}
+          <div className="w-full max-w-md mb-12 bg-black/60 backdrop-blur-2xl border border-white/10 p-1.5 rounded-2xl flex gap-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
+            {([
+              { id: 'countdown', label: 'קדימון וזמן' },
+              { id: 'qr', label: 'כרטיס כניסה' },
+              { id: 'memory', label: 'קפסולת זיכרון' }
+            ] as const).map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative flex-1 py-3 px-3 rounded-xl text-xs font-black uppercase tracking-wider text-center transition-colors duration-300 whitespace-nowrap focus:outline-none ${
+                    isActive ? 'text-black' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="globalTicketTab"
+                      className="absolute inset-0 bg-primary rounded-xl shadow-[0_0_20px_rgba(255,159,10,0.5)]"
+                      transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                      style={{ zIndex: 0 }}
+                    />
+                  )}
+                  <span className="relative z-10">{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-16 w-full">
+            {tickets.map((ticket, index) => (
+              <motion.div 
+                key={ticket.id} 
+                initial={{ opacity: 0, y: 60, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  type: 'spring',
+                  stiffness: 150,
+                  damping: 12,
+                  mass: 0.9,
+                  delay: index * 0.1 
                 }}
-                isProcessingEmail={processingId === `${ticket.id}-email`}
-                isProcessingPDF={processingId === `${ticket.id}-pdf`}
-              />
-            </motion.div>
-          ))}
+                className="w-full flex justify-center"
+              >
+                <QuantumTicket 
+                  ticket={ticket}
+                  state={activeTab}
+                  onEmail={() => handleEmailTicket(ticket)}
+                  onDownload={() => handleDownloadPDF(ticket)}
+                  onShare={() => {
+                    if (navigator.share) {
+                      navigator.share({
+                        title: `הכרטיס שלי לסרט ${ticket.movie}`,
+                        text: `קניתי כרטיס לסרט ${ticket.movie} ב-MovieBook! מושבים: ${ticket.seats.join(', ')}`,
+                        url: window.location.href,
+                      });
+                    } else {
+                      alert('שיתוף לא נתמך בדפדפן זה');
+                    }
+                  }}
+                  isProcessingEmail={processingId === `${ticket.id}-email`}
+                  isProcessingPDF={processingId === `${ticket.id}-pdf`}
+                />
+              </motion.div>
+            ))}
+          </div>
         </div>
       )}
     </div>
