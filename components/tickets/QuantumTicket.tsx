@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import NextImage from 'next/image';
 import { Calendar, Clock, MapPin, QrCode, Sparkles, Heart, Film, Star, MessageSquare } from 'lucide-react';
 
@@ -42,18 +42,37 @@ export default function QuantumTicket({
   const [personalNote, setPersonalNote] = useState('');
   const [userRating, setUserRating] = useState(0);
 
-  // Simulated Gyroscope Hover
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // 3D Tilt & Holographic Motion Values
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [15, -15]), { stiffness: 300, damping: 25 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-15, 15]), { stiffness: 300, damping: 25 });
+
+  const glintX = useSpring(useTransform(mouseX, [0, 100], [-100, 300]), { stiffness: 300, damping: 30 });
+  const glintY = useSpring(useTransform(mouseY, [0, 100], [-100, 300]), { stiffness: 300, damping: 30 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMousePos({ x, y });
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseXPos = e.clientX - rect.left;
+    const mouseYPos = e.clientY - rect.top;
+
+    x.set(mouseXPos / width - 0.5);
+    y.set(mouseYPos / height - 0.5);
+    mouseX.set((mouseXPos / width) * 100);
+    mouseY.set((mouseYPos / height) * 100);
   };
 
   const handleMouseLeave = () => {
-    setMousePos({ x: 0, y: 0 });
+    x.set(0);
+    y.set(0);
   };
 
   // Simulating live countdown
@@ -72,6 +91,7 @@ export default function QuantumTicket({
   return (
     <motion.div
       layout
+      ref={cardRef}
       whileHover={{ y: -12, scale: 1.03 }}
       transition={{ 
         type: 'spring', 
@@ -111,16 +131,18 @@ export default function QuantumTicket({
         layout
         className="bg-black/50 backdrop-blur-[50px] border border-white/20 rounded-[40px] overflow-hidden shadow-2xl relative flex flex-col"
         style={{
-          transform: `rotateY(${mousePos.x * 18}deg) rotateX(${-mousePos.y * 18}deg)`,
+          rotateX,
+          rotateY,
           transformStyle: 'preserve-3d',
         }}
-        transition={{ type: 'spring', stiffness: 300, damping: 14 }}
       >
         {/* Holographic metallic reflection simulation overlay */}
-        <div 
-          className="absolute inset-0 pointer-events-none opacity-20 transition-opacity group-hover:opacity-40 z-30 mix-blend-overlay duration-500"
+        <motion.div 
+          className="absolute pointer-events-none opacity-20 transition-opacity group-hover:opacity-40 z-30 mix-blend-overlay duration-500 w-[300px] h-[300px] top-[-50px] left-[-50px] blur-2xl pointer-events-none"
           style={{
-            background: `linear-gradient(${135 + mousePos.x * 45}deg, rgba(255,255,255,0.8) 0%, transparent 50%, rgba(255,20,100,0.5) 100%)`,
+            background: 'radial-gradient(circle at center, rgba(255, 255, 255, 0.25) 0%, transparent 70%)',
+            x: glintX,
+            y: glintY,
           }}
         />
 
