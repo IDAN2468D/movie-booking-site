@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "WorkPlan.md",
+                "file": "AI_Index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "WorkPlan"
+              "title": "AI_Index"
             }
           }
         ]
@@ -187,11 +187,14 @@
   },
   "active": "222d388d3a191d1f",
   "lastOpenFiles": [
-    "My First Skill.md",
     "Auto-Checklist Skill.md",
-    "UI_DesignSystem.md",
     "Booking_Engine.md",
+    "My First Skill.md",
     "WorkPlan.md",
+    "AI_Index.canvas",
+    "AI_Index.md",
+    "AI_Index.md.md",
+    "UI_DesignSystem.md",
     "QA_CICD.md",
     "Auth_Loyalty.md",
     "AI_Concierge.md",

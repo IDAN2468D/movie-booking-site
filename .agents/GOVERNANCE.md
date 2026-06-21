@@ -59,3 +59,11 @@ To maintain order, the agent must reference specific skills based on the task:
 As an exception and approved extension to the Unified AI Governance Standard (v4.0), the AI Agent is hereby authorized to recognize and execute skills defined within the Obsidian Vault environment.
 - Markdown files located in the project workspace containing `#skill` or `type: skill` in their Frontmatter properties are now classified as an official extension of the Single Source of Truth (SSoT).
 - In case of any technical conflict between an Obsidian Skill and core files (.agents/skills), the core system architecture (Zod validation, Liquid Glass UI, TICKETING, AUTH) will always take precedence to ensure system stability.
+
+## 🪙 Token Optimization & Context Retrieval Rules
+
+### Centralized Skill & Rule Indexing
+- [cite_start]**Primary Context Source:** To ensure cost efficiency and minimize token usage, the agent MUST prioritize reading the centralized index file instead of executing expensive global repository scans or broad text searches[cite: 132, 133].
+- [cite_start]**Mandatory Index Lookup:** Whenever the agent requires information regarding project rules, architectural guidelines, UI design systems, development standards, or custom skills, it MUST explicitly read the `AI_Index.md` file first[cite: 97, 132].
+- [cite_start]**Prohibition of Broad Scans:** The agent is strictly prohibited from executing recursive directory scans (e.g., `Get-ChildItem` or broad pattern matching) to find rule files unless explicitly instructed by the user[cite: 132, 133].
+- [cite_start]**Targeted File Navigation:** The agent must use the dynamic table inside `AI_Index.md` to identify the exact, single markdown file relevant to the current task and read only that file to maintain a clean and token-efficient context window.
