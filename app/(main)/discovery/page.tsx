@@ -9,6 +9,8 @@ import { Sparkles, Calendar, Star, Info } from 'lucide-react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import VibeMatcher from '@/components/ai/VibeMatcher';
+import MoodRecommendations from '@/components/ai/MoodRecommendations';
+import { cn } from '@/lib/utils/index';
 
 interface Movie {
   id: number;
@@ -38,6 +40,7 @@ export default function DiscoveryPage() {
   const [allMovies, setAllMovies] = useState<Movie[]>([]);
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
+  const [visualTab, setVisualTab] = useState<'vibe' | 'mood'>('vibe');
 
   // Load movies
   useEffect(() => {
@@ -181,7 +184,7 @@ export default function DiscoveryPage() {
         </div>
       </div>
 
-      {/* Vibe Matcher Section */}
+      {/* Visual AI Discovery Section */}
       <div className="max-w-7xl mx-auto mt-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -189,8 +192,45 @@ export default function DiscoveryPage() {
           className="mb-8"
         >
           <div className="h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-12" />
+          
+          {/* Sub tabs */}
+          <div className="flex justify-center gap-4 mb-12">
+            <button
+              onClick={() => setVisualTab('vibe')}
+              className={cn(
+                "px-6 py-3.5 rounded-xl border text-sm font-black transition-all cursor-pointer",
+                visualTab === 'vibe'
+                  ? "border-primary bg-primary/10 text-primary shadow-[0_0_15px_rgba(255,159,10,0.2)]"
+                  : "border-white/10 bg-white/5 text-gray-400 hover:bg-white/10"
+              )}
+            >
+              סורק אווירה סביבתית
+            </button>
+            <button
+              onClick={() => setVisualTab('mood')}
+              className={cn(
+                "px-6 py-3.5 rounded-xl border text-sm font-black transition-all cursor-pointer",
+                visualTab === 'mood'
+                  ? "border-primary bg-primary/10 text-primary shadow-[0_0_15px_rgba(255,159,10,0.2)]"
+                  : "border-white/10 bg-white/5 text-gray-400 hover:bg-white/10"
+              )}
+            >
+              מנתח מצב רוח אישי
+            </button>
+          </div>
         </motion.div>
-        <VibeMatcher />
+        
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={visualTab}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.25 }}
+          >
+            {visualTab === 'vibe' ? <VibeMatcher /> : <MoodRecommendations />}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

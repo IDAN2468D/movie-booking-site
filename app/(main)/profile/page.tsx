@@ -11,12 +11,14 @@ import NotificationSettings from '@/components/settings/NotificationSettings';
 import PaymentSettings from '@/components/settings/PaymentSettings';
 import AvatarGeneratorModal from '@/components/settings/AvatarGeneratorModal';
 import CosplayStudio from '@/components/ai/CosplayStudio';
+import PosterStudio from '@/components/ai/PosterStudio';
 
 type TabType = 'personal' | 'security' | 'notifications' | 'payments' | 'studio';
 
 export default function ProfilePage() {
   const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState<TabType>('personal');
+  const [studioSubTab, setStudioSubTab] = useState<'cosplay' | 'poster'>('cosplay');
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [customAvatar, setCustomAvatar] = useState<string | null>(null);
 
@@ -33,7 +35,33 @@ export default function ProfilePage() {
       case 'personal':
         return <PersonalInfoSettings />;
       case 'studio':
-        return <CosplayStudio />;
+        return (
+          <div className="space-y-6">
+            <div className="flex gap-4 border-b border-white/5 pb-4 justify-start">
+              <button
+                onClick={() => setStudioSubTab('cosplay')}
+                className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                  studioSubTab === 'cosplay'
+                    ? 'bg-primary text-background font-black shadow-md shadow-primary/20'
+                    : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/5'
+                }`}
+              >
+                סטודיו Cosplay (אביזרים)
+              </button>
+              <button
+                onClick={() => setStudioSubTab('poster')}
+                className={`px-5 py-2.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                  studioSubTab === 'poster'
+                    ? 'bg-primary text-background font-black shadow-md shadow-primary/20'
+                    : 'bg-white/5 text-gray-400 hover:bg-white/10 border border-white/5'
+                }`}
+              >
+                סטודיו פוסטרים AI
+              </button>
+            </div>
+            {studioSubTab === 'cosplay' ? <CosplayStudio /> : <PosterStudio />}
+          </div>
+        );
       case 'security':
         return <SecuritySettings />;
       case 'notifications': return <NotificationSettings />;

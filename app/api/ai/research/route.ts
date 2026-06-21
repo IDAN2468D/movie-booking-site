@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
     const resultData = await callGeminiWithRetry(['gemini-3.1-flash-lite', 'gemini-2.5-flash'], async (model) => {
       const generativeModel = genAI.getGenerativeModel({
         model: model.model,
+        tools: [{ googleSearch: {} }] as any,
         systemInstruction: `You are a legendary film historian and AI researcher. Provide a "Cinematic Deep Dive" for the requested movie. Include 3 sections: 
 1. 🎬 מאחורי הקלעים (Behind the scenes facts)
 2. 🥚 איסטראגז ורפרנסים (Easter eggs and references)

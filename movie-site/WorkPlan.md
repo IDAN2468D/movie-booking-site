@@ -78,3 +78,16 @@ Further pushing the boundaries of AI integration in the browser.
 - [x] **VIP Screening Mini-Sites**: Generate custom HTML/CSS landing pages on the fly for users to invite friends to group bookings.
 - [x] **Cosplay Studio (Prop Insertion)**: Allow users to upload a photo and edit it (via AI in-painting) to add cinematic props like lightsabers.
 - [x] **"What If?" Scenarios**: An interactive chat area where the AI rewrites the movie's ending based on user prompts.
+
+---
+
+## 🔮 Phase 8: Gemma 31B Advanced Feature Expansion
+Supercharging the experience with real-time web grounding and creative visual studios.
+
+- [x] **Real-Time Grounding AI Chat**: Google Search-grounded chat inside the AI Concierge Orb (`tools: [{ googleSearch: {} }]`).
+- [x] **Visual Vibe Discovery**: Cinematic Vibe Matcher UI mounted on the Discovery page for mood analysis.
+- [x] **Generative Poster Studio**: Allow users to generate and conversationally edit movie posters (`generate_image`/`edit_image`) inside `/profile` or movie pages.
+- [x] **Mood-Based Recommendations**: Let users upload a selfie, analyze their mood (`describe_image`/`analyze_image`), and recommend movies/snacks.
+- [x] **Cinematic Deep Research**: A "Deep Dive" trivia report generator (`gemini_deep_research`) on the movie page.
+- [x] **Generative Custom SVG Hall Maps**: Dynamically generated SVG seating charts (`generate_svg`) for special screenings.
+
