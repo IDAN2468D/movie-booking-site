@@ -68,3 +68,13 @@ Implementation of the highly requested AI-powered futuristic features.
 - [x] **Cinematic Deep Dive**: A "Deep Dive" button on the movie page that triggers a deep research process (`gemini_deep_research` concept) to fetch trivia and behind-the-scenes lore.
 - [x] **AI Movie Trailers**: Generate short ambient teaser videos for classic movies or special events (`generate_video` concept).
 - [x] **Personal AI Avatars**: A feature in the Loyalty dashboard to generate a custom cinematic profile picture (`generate_image` concept).
+
+---
+
+## 🚀 Phase 7: The "Wow Factor" Expansion (Gemma MCP Magic)
+Further pushing the boundaries of AI integration in the browser.
+
+- [x] **Cinematic Universe Maps**: Dynamic SVG infographic mapping out actor connections and movie universe lore.
+- [x] **VIP Screening Mini-Sites**: Generate custom HTML/CSS landing pages on the fly for users to invite friends to group bookings.
+- [x] **Cosplay Studio (Prop Insertion)**: Allow users to upload a photo and edit it (via AI in-painting) to add cinematic props like lightsabers.
+- [x] **"What If?" Scenarios**: An interactive chat area where the AI rewrites the movie's ending based on user prompts.

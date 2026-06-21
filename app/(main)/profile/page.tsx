@@ -10,8 +10,9 @@ import SecuritySettings from '@/components/settings/SecuritySettings';
 import NotificationSettings from '@/components/settings/NotificationSettings';
 import PaymentSettings from '@/components/settings/PaymentSettings';
 import AvatarGeneratorModal from '@/components/settings/AvatarGeneratorModal';
+import CosplayStudio from '@/components/ai/CosplayStudio';
 
-type TabType = 'personal' | 'security' | 'notifications' | 'payments';
+type TabType = 'personal' | 'security' | 'notifications' | 'payments' | 'studio';
 
 export default function ProfilePage() {
   const { data: session, update } = useSession();
@@ -21,15 +22,20 @@ export default function ProfilePage() {
 
   const tabs = [
     { id: 'personal', label: 'מידע אישי', icon: User },
+    { id: 'studio', label: 'סטודיו AI', icon: Camera },
     { id: 'security', label: 'אבטחה', icon: Shield },
     { id: 'notifications', label: 'התראות', icon: Bell },
-    { id: 'payments', label: 'תשלומים', icon: CreditCard },
+    { id: 'payments', label: 'אמצעי תשלום', icon: CreditCard },
   ] as const;
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'personal': return <PersonalInfoSettings />;
-      case 'security': return <SecuritySettings />;
+      case 'personal':
+        return <PersonalInfoSettings />;
+      case 'studio':
+        return <CosplayStudio />;
+      case 'security':
+        return <SecuritySettings />;
       case 'notifications': return <NotificationSettings />;
       case 'payments': return <PaymentSettings />;
       default: return <PersonalInfoSettings />;

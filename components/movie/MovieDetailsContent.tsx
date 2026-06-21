@@ -5,13 +5,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Headphones, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Headphones, Sparkles, Loader2, Crown } from 'lucide-react';
 import { MovieDetails, CastMember, CrewMember, Movie, VideoResult, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import MovieCastSection from './MovieCastSection';
 import MovieSimilarSection from './MovieSimilarSection';
 import TrailerModal from './TrailerModal';
 import TrailerGeneratorModal from './TrailerGeneratorModal';
+import VIPScreeningModal from './VIPScreeningModal';
 import MovieInfographic from './MovieInfographic';
 import MovieTrivia from './MovieTrivia';
 import { useUIStore } from '@/lib/store/ui-store';
@@ -19,6 +20,8 @@ import ReviewsSection from './ReviewsSection';
 import { TMDBReview } from '@/lib/tmdb';
 import { CharacterInsights } from './CharacterInsights';
 import { CinematicDeepDive } from './CinematicDeepDive';
+import { UniverseMap } from './UniverseMap';
+import { WhatIfScenario } from './WhatIfScenario';
 
 interface Props {
   movie: MovieDetails;
@@ -52,6 +55,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   const { setMovieContext } = useUIStore();
   const [showTrailer, setShowTrailer] = useState(false);
   const [showTrailerGenerator, setShowTrailerGenerator] = useState(false);
+  const [showVIPModal, setShowVIPModal] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const [insights, setInsights] = useState<{
     whyWatch: string;
@@ -366,6 +370,15 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                 <motion.button
                   whileHover={{ scale: 1.1, translateY: -2 }}
                   whileTap={{ scale: 0.9 }}
+                  onClick={() => setShowVIPModal(true)}
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group bg-yellow-500/10 border-yellow-500/30 text-yellow-500 hover:bg-yellow-500/20"
+                >
+                  <Crown size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.1, translateY: -2 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={handleGenerateAudioGuide}
                   disabled={isGeneratingAudio}
                   className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group ${
@@ -529,6 +542,12 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             {/* AI Cinematic Deep Dive */}
             <CinematicDeepDive movieId={movie.id} movieTitle={movie.title} />
 
+            {/* Cinematic Universe Map (SVG) */}
+            <UniverseMap movieId={movie.id} movieTitle={movie.title} />
+
+            {/* AI "What If" Alternate Scenarios */}
+            <WhatIfScenario movieTitle={movie.title} />
+
             {/* Movie Trivia Challenge */}
             <MovieTrivia movieTitle={movie.title} />
           </motion.div>
@@ -576,6 +595,13 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
       <TrailerGeneratorModal
         isOpen={showTrailerGenerator}
         onClose={() => setShowTrailerGenerator(false)}
+        movieTitle={movie.title}
+      />
+
+      {/* VIP Screening Mini-Site Modal */}
+      <VIPScreeningModal
+        isOpen={showVIPModal}
+        onClose={() => setShowVIPModal(false)}
         movieTitle={movie.title}
       />
     </div>
