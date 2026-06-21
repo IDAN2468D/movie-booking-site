@@ -8,6 +8,7 @@ import NeuralMoodOrbit from '@/components/discovery/NeuralMoodOrbit';
 import { Sparkles, Calendar, Star, Info } from 'lucide-react';
 import NextImage from 'next/image';
 import Link from 'next/link';
+import VibeMatcher from '@/components/ai/VibeMatcher';
 
 interface Movie {
   id: number;
@@ -178,6 +179,18 @@ export default function DiscoveryPage() {
             </AnimatePresence>
           </div>
         </div>
+      </div>
+
+      {/* Vibe Matcher Section */}
+      <div className="max-w-7xl mx-auto mt-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <div className="h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent mb-12" />
+        </motion.div>
+        <VibeMatcher />
       </div>
     </div>
   );

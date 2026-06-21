@@ -102,6 +102,7 @@ export async function POST(req: NextRequest) {
     }
 
     let modelUsed = '';
+    let groundingMetadata: any = null;
     try {
       const modelNames = ['gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
       const { callGeminiWithRetry } = await import('@/lib/gemini');
@@ -110,6 +111,7 @@ export async function POST(req: NextRequest) {
         // Use the system instruction from the previous context
         const chatModel = genAI.getGenerativeModel({
           model: model.model,
+          tools: [{ googleSearch: {} }] as any,
           systemInstruction: `
             אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
             הזהות שלך: עוזר אישי (Concierge), מקצועי, ויוקרתי.
@@ -137,11 +139,16 @@ export async function POST(req: NextRequest) {
         });
 
         const result = await chat.sendMessage(message);
-        return { text: result.response.text(), modelName: model.model };
+        return { 
+          text: result.response.text(), 
+          modelName: model.model,
+          groundingMetadata: (result.response.candidates?.[0] as any)?.groundingMetadata || null
+        };
       });
 
       responseText = resultData.text;
       modelUsed = resultData.modelName;
+      groundingMetadata = resultData.groundingMetadata;
     } catch (err: unknown) {
       const error = err as Error;
       console.error(`AI Chat Error after retries:`, error.message);
@@ -151,7 +158,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       response: responseText,
-      model: modelUsed
+      model: modelUsed,
+      groundingMetadata
     });
 
   } catch (error: unknown) {
