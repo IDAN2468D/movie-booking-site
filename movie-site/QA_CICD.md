@@ -1,4 +1,4 @@
-# 🧪 Quality Assurance & CI/CD Manual
+ # 🧪 Quality Assurance & CI/CD Manual
 
 Guides you on how to test, compile, and configure continuous integration and automated deployment pipelines.
 

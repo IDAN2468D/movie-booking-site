@@ -1,29 +1,38 @@
-name: Playwright Tests
+name: QA E2E Tests
+
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ "main" ]
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
       with:
-        node-version: lts/*
+        node-version: 18.x
+        cache: 'npm'
+        
     - name: Install dependencies
-      run: npm install
+      run: npm ci
+      
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+      
     - name: Run Playwright tests
       run: npx playwright test
       env:
-        MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-        TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
-    - uses: actions/upload-artifact@v4
+        NEXTAUTH_SECRET: 'ci-dummy-secret'
+        GOOGLE_CLIENT_ID: 'ci-dummy'
+        GOOGLE_CLIENT_SECRET: 'ci-dummy'
+        
+    - uses: actions/upload-artifact@v3
       if: always()
       with:
         name: playwright-report

@@ -9,12 +9,15 @@ import PersonalInfoSettings from '@/components/settings/PersonalInfoSettings';
 import SecuritySettings from '@/components/settings/SecuritySettings';
 import NotificationSettings from '@/components/settings/NotificationSettings';
 import PaymentSettings from '@/components/settings/PaymentSettings';
+import AvatarGeneratorModal from '@/components/settings/AvatarGeneratorModal';
 
 type TabType = 'personal' | 'security' | 'notifications' | 'payments';
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const [activeTab, setActiveTab] = useState<TabType>('personal');
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const [customAvatar, setCustomAvatar] = useState<string | null>(null);
 
   const tabs = [
     { id: 'personal', label: 'מידע אישי', icon: User },
@@ -48,14 +51,19 @@ export default function ProfilePage() {
             
             <div className="relative inline-block mb-6">
               <div className="w-24 h-24 rounded-full bg-white/5 border-2 border-primary/20 flex items-center justify-center text-primary text-3xl font-black overflow-hidden">
-                {session?.user?.image ? (
+                {customAvatar ? (
+                  <NextImage src={customAvatar} alt="Profile" width={96} height={96} className="w-full h-full object-cover" />
+                ) : session?.user?.image ? (
                   <NextImage src={session.user.image} alt="Profile" width={96} height={96} className="w-full h-full object-cover" />
                 ) : (
                   session?.user?.name?.[0] || 'U'
                 )}
               </div>
-              <button className="absolute bottom-0 left-0 p-2 bg-primary rounded-full border-4 border-[#1A1A1A] text-background hover:scale-110 transition-transform">
-                <Camera size={14} />
+              <button 
+                onClick={() => setIsAvatarModalOpen(true)}
+                className="absolute bottom-0 left-0 p-2 bg-primary rounded-full border-4 border-[#1A1A1A] text-background hover:scale-110 transition-transform group"
+              >
+                <Camera size={14} className="group-hover:animate-pulse" />
               </button>
             </div>
             
@@ -116,6 +124,15 @@ export default function ProfilePage() {
           </AnimatePresence>
         </div>
       </div>
+
+      <AvatarGeneratorModal 
+        isOpen={isAvatarModalOpen} 
+        onClose={() => setIsAvatarModalOpen(false)} 
+        onAvatarGenerated={(url) => {
+          setCustomAvatar(url);
+          // In a real app we'd save this to DB via update() or an API call.
+        }} 
+      />
     </div>
   );
 }

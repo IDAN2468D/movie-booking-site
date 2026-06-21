@@ -11,12 +11,14 @@ import { useBookingStore } from '@/lib/store';
 import MovieCastSection from './MovieCastSection';
 import MovieSimilarSection from './MovieSimilarSection';
 import TrailerModal from './TrailerModal';
+import TrailerGeneratorModal from './TrailerGeneratorModal';
 import MovieInfographic from './MovieInfographic';
 import MovieTrivia from './MovieTrivia';
 import { useUIStore } from '@/lib/store/ui-store';
 import ReviewsSection from './ReviewsSection';
 import { TMDBReview } from '@/lib/tmdb';
 import { CharacterInsights } from './CharacterInsights';
+import { CinematicDeepDive } from './CinematicDeepDive';
 
 interface Props {
   movie: MovieDetails;
@@ -49,6 +51,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   const { setSelectedMovie, favorites, toggleFavorite } = useBookingStore();
   const { setMovieContext } = useUIStore();
   const [showTrailer, setShowTrailer] = useState(false);
+  const [showTrailerGenerator, setShowTrailerGenerator] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const [insights, setInsights] = useState<{
     whyWatch: string;
@@ -327,16 +330,24 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                 <motion.button
                   whileHover={{ scale: 1.05, translateY: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => videos.length > 0 && setShowTrailer(true)}
-                  disabled={videos.length === 0}
+                  onClick={() => {
+                    if (videos.length > 0) setShowTrailer(true);
+                    else setShowTrailerGenerator(true);
+                  }}
                   className={`flex-1 md:flex-none h-16 px-8 rounded-2xl font-black flex items-center justify-center gap-3 transition-all border shadow-2xl relative overflow-hidden group ${
                     videos.length > 0
                       ? 'bg-white/10 backdrop-blur-3xl saturate-[250%] brightness-125 border-white/20 text-white'
-                      : 'bg-white/5 opacity-40 cursor-not-allowed border-white/5 text-slate-500'
+                      : 'bg-primary/20 backdrop-blur-3xl border-primary/30 text-primary hover:bg-primary/30 hover:shadow-[0_0_20px_rgba(20,255,200,0.3)]'
                   }`}
                 >
-                  <span className="relative z-10 text-sm md:text-base tracking-tight drop-shadow-md text-white uppercase font-black">טריילר</span>
-                  <Play className="fill-white w-4 h-4 relative z-10 group-hover:scale-110 transition-transform" />
+                  <span className="relative z-10 text-sm md:text-base tracking-tight drop-shadow-md uppercase font-black">
+                    {videos.length > 0 ? 'טריילר' : 'טריילר AI'}
+                  </span>
+                  {videos.length > 0 ? (
+                    <Play className="fill-current w-4 h-4 relative z-10 group-hover:scale-110 transition-transform" />
+                  ) : (
+                    <Sparkles className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform" />
+                  )}
                 </motion.button>
                 
                 <motion.button
@@ -515,6 +526,9 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
               />
             </div>
 
+            {/* AI Cinematic Deep Dive */}
+            <CinematicDeepDive movieId={movie.id} movieTitle={movie.title} />
+
             {/* Movie Trivia Challenge */}
             <MovieTrivia movieTitle={movie.title} />
           </motion.div>
@@ -550,11 +564,18 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
         {similarMovies.length > 0 && <MovieSimilarSection movies={similarMovies} />}
       </div>
 
-      {/* Trailer Modal - Moved inside main div */}
+      {/* Trailer Modal */}
       <TrailerModal
         videos={videos}
         isOpen={showTrailer}
         onClose={() => setShowTrailer(false)}
+        movieTitle={movie.title}
+      />
+
+      {/* AI Trailer Generator Modal */}
+      <TrailerGeneratorModal
+        isOpen={showTrailerGenerator}
+        onClose={() => setShowTrailerGenerator(false)}
         movieTitle={movie.title}
       />
     </div>
