@@ -10,12 +10,13 @@ The seat layouts are dynamically rendered using inline vector elements (`svg`), 
 #### Seat Status Indicators:
 - `Available` (`#0AEFFF` - Neon Cyan)
 - `Selected` (`#FF9F0A` - Gold)
-- `Booked` (`#2D2D2D` - Muted Charcoal)
+- `Booked` (Muted glass panel: `rgba(255, 255, 255, 0.03)` fill, `rgba(255, 255, 255, 0.12)` stroke, group `opacity-40`) to remain beautifully visible as a locked/disabled seat.
 
 ### Optimistic UI & Server Locks
 1. **Client selection**: Instant feedback using Zustand stores.
 2. **Optimistic booking**: Temporarily flags chosen seats in local memory.
-3. **Database Guard**: Server actions verify seat availability one last time inside a transaction lock before executing MongoDB insertion.
+3. **Database Guard**: Server actions verify seat availability one last time before executing MongoDB insertion.
+4. **Legacy Date Fallback**: Database queries and availability checks handle legacy documents where `date` is undefined/missing by matching the day portion of `createdAt` formatted as `toLocaleDateString('he-IL')` against the selected query date.
 
 ---
 

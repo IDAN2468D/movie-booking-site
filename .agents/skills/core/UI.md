@@ -21,7 +21,7 @@ Governs the visual language, components, and animations of the Movie Booking Sit
 - **Body**: `Inter` / `Assistant` (He)
 - **Hebrew Standard**: Always use `line-height: 1.7` for Hebrew text.
 
-### 🍱 Components 3.0
+### 🍱 Bento Components 3.0
 - **Liquid Container (RTL Response)**:
   ```html
   <div dir="rtl" style="font-family: 'Outfit', 'Inter', system-ui, sans-serif; line-height: 1.7; text-align: right; direction: rtl; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; backdrop-filter: blur(12px); color: #F0F0F0; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);">...</div>
@@ -30,14 +30,18 @@ Governs the visual language, components, and animations of the Movie Booking Sit
 - **Parallax Card / Orb**: 
   - Use `preserve-3d`, `drag` options, and Framer Motion for mouse-tracked or viewport-tracked rotation.
   - The AI Concierge Orb uses a breathing, translucent glass sphere design (`backdrop-blur-3xl saturate-200%`) with reactive states.
+- **Occupied/Locked Seating Component**: Must be rendered as a muted glass component rather than blending into the dark background. Use `rgba(255, 255, 255, 0.03)` fill, `rgba(255, 255, 255, 0.12)` stroke, and `opacity-40` on the group wrapper.
 
 ## 🎞️ Animation Standard 3.0
 - **Scanner**: Vertical scanning lines with blur and glow.
 - **Pulse**: Radial expansion animations for live activity.
 - **Default Transition**: `{ type: "spring", stiffness: 260, damping: 20 }`.
+- **Framer Motion in SVG**: When animating `scale` or `tap` on `motion.g` elements inside SVGs, always pass coordinates `x` and `y` inside the `style` prop (e.g., `style={{ x, y }}`) rather than the native SVG `transform` attribute. This guarantees that Framer Motion correctly merges translation with scaling instead of letting the CSS transform override the SVG attribute.
 
 ## 🔍 Audit Checklist
 - [ ] Does the UI adapt to the selected movie's genre?
 - [ ] Is 3D Parallax or hardware-accelerated mouse-glow implemented?
 - [ ] Are Hebrew responses wrapped in the mandatory Liquid Glass container?
 - [ ] Does the design feel "Liquid" (blurred, saturated, vibrant)?
+- [ ] Are occupied seats visible and styled with muted glass parameters?
+- [ ] Are SVG hover scales safe from translation overrides (using `style={{ x, y }}`)?

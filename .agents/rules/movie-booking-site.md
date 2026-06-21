@@ -45,6 +45,8 @@ To maintain order, the agent must reference specific skills based on the task:
 - **State**: Zustand (Strict Selectors mandatory).
 - **🛡️ Self-Healing AI & local Fallbacks**: 
   - All external AI service routes (Gemini API) MUST implement a local **Ollama** (`gemma2:2b`) fallback in their `catch` blocks to automatically take over in case of expired API keys or rate-limiting, ensuring 100% uptime.
+- **Framer Motion in SVG**: SVG translations must be managed via Framer Motion's `style={{ x, y }}` props instead of native `transform="translate(x, y)"` attributes when paired with dynamic framer-motion animations like `whileHover={{ scale }}`. This prevents CSS scale transforms from overriding and resetting the translation coordinates.
+- **Date Fallbacks**: For database queries filtering bookings by date, always implement a fallback comparison against the formatted day portion of `createdAt` (using `toLocaleDateString('he-IL')`) to maintain backward compatibility with legacy bookings lacking a `date` field.
 
 ## 🎨 4. Design System: Liquid Glass 3.0
 - **Theme**: Premium futuristic dark mode with high optical depth.
@@ -53,6 +55,7 @@ To maintain order, the agent must reference specific skills based on the task:
   - **Depth**: `box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1)`.
   - **Typography**: Outfit (Headings), Inter (Body).
   - **120Hz Animation Motion**: Always use `x`/`y` transforms (processed by GPU) instead of layout position parameters (`left`/`top`/`margin`) for dynamic cursor following or scrolling animations to prevent browser layout reflow.
+  - **Occupied Seating Aesthetics**: Occupied or locked seats must never blend invisibly into the background. Use a muted but visible style (e.g. `opacity-40`, stroke `rgba(255, 255, 255, 0.12)`, fill `rgba(255, 255, 255, 0.03)`) so they remain readable parts of the theater grid.
 
 ## 🚀 5. QA & Deployment
 - **Testing Enforcement**: Always run local unit tests using `npx vitest run` before completing code modifications.

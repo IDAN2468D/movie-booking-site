@@ -41,12 +41,15 @@ When using the `mongodb-mcp-server`, the agent must:
 4. **Data Privacy**: Never export or log sensitive user credentials (passwords, PII) in the chat.
 
 ## 🚀 Capabilities
+## 🚀 Capabilities
 - **Direct Management**: Creating collections for users, bookings, and reviews.
 - **Query Analysis**: Running aggregations to generate business insights (e.g., top-selling movies).
 - **Migration Support**: Programmatically updating data structures as the app evolves.
+- **Fallback Date Matching**: When querying or verifying conflicts for date-filtered fields (like bookings), always handle legacy documents without the `date` field by falling back to comparison of the `createdAt` date formatted with `toLocaleDateString('he-IL')`.
 
 ## 🔍 Audit Checklist
 - [ ] Is there a loading state for the data fetch?
 - [ ] Are error messages translated into user-friendly Hebrew?
 - [ ] Is `fetch` wrapped in a centralized utility for consistent headers?
 - [ ] For DB operations: Was the schema verified before writing?
+- [ ] If querying date fields: Is there a fallback in place for legacy records lacking a `date` field?
