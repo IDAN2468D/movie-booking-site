@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+
 import { Camera, Image as ImageIcon, Loader2, Sparkles, UploadCloud, Wand2, Download } from 'lucide-react';
 import { cn } from '@/lib/utils/index';
 
@@ -92,6 +92,7 @@ export default function CosplayStudio() {
 
             {imagePreview ? (
               <div className="absolute inset-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={imagePreview} alt="Preview" className="w-full h-full object-cover opacity-60" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-0 right-0 text-center flex flex-col items-center">
@@ -150,6 +151,7 @@ export default function CosplayStudio() {
             </div>
           ) : resultImage ? (
             <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={resultImage} alt="Cosplay Result" className="w-full h-full object-cover" />
               <div className="absolute bottom-4 left-4 right-4 flex justify-between items-center z-10">
                 <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 text-white font-bold text-sm">

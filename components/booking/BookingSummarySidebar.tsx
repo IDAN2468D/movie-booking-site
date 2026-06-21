@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Ticket, Calendar, Clock, Monitor } from 'lucide-react';
+import { ArrowRight, Ticket, Calendar, Clock } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
 import { getImageUrl } from '@/lib/tmdb';
 import gsap from 'gsap';

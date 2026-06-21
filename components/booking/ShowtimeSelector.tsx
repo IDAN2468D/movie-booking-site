@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Calendar, Clock, ChevronLeft, Monitor } from 'lucide-react';
+import { Calendar, Clock, Monitor } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBookingStore } from '@/lib/store';
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';

@@ -50,8 +50,8 @@ export default function MainLayout({
         className="flex h-screen overflow-hidden transition-colors duration-1000" 
         dir="rtl"
         style={{
-          ['--primary' as any]: auraColor,
-        }}
+          '--primary': auraColor,
+        } as React.CSSProperties}
       >
         {/* Right Sidebar - Responsive */}
         <Sidebar />

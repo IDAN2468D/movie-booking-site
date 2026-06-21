@@ -2,9 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Loader2, MessageSquare, Send, BookOpen } from 'lucide-react';
+import { Sparkles, Loader2, Send, BookOpen } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
-import { cn } from '@/lib/utils/index';
 
 export function WhatIfScenario({ movieTitle }: { movieTitle: string }) {
   const [scenario, setScenario] = useState('');
@@ -31,6 +30,7 @@ export function WhatIfScenario({ movieTitle }: { movieTitle: string }) {
         setResult("מצטערים, התרחשה שגיאה בעת כתיבת התסריט האלטרנטיבי.");
       }
     } catch (error) {
+      console.error('Failed to generate what-if scenario:', error);
       setResult("שגיאת תקשורת עם מודל ה-AI.");
     } finally {
       setIsGenerating(false);
@@ -48,7 +48,7 @@ export function WhatIfScenario({ movieTitle }: { movieTitle: string }) {
         </div>
         <div className="text-right">
           <h3 className="text-2xl font-display font-bold text-white mb-1">What If...? (תסריטים חלופיים)</h3>
-          <p className="text-sm text-gray-400">שאל את ה-AI "מה היה קורה אם..." וקבל עלילה חדשה לגמרי</p>
+          <p className="text-sm text-gray-400">שאל את ה-AI &quot;מה היה קורה אם...&quot; וקבל עלילה חדשה לגמרי</p>
         </div>
       </div>
 

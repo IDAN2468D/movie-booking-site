@@ -65,13 +65,22 @@ export async function POST(req: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
-    // 1. Double-check seat availability (Server Lock)
-    const alreadyBooked = await db.collection("bookings").findOne({
+    // 1. Double-check seat availability (Server Lock with legacy fallback)
+    const bookingsForMovie = await db.collection("bookings").find({
       "movie.id": movie.id,
       showtime,
-      date,
       status: "confirmed",
       seats: { $in: seats }
+    }).toArray();
+
+    const alreadyBooked = bookingsForMovie.some(b => {
+      if (b.date) {
+        return b.date === date;
+      }
+      if (b.createdAt) {
+        return new Date(b.createdAt).toLocaleDateString('he-IL') === date;
+      }
+      return false;
     });
 
     if (alreadyBooked) {
@@ -98,6 +107,7 @@ export async function POST(req: NextRequest) {
       status: "confirmed",
       createdAt: new Date(),
       showtime,
+      date,
       hall: "אולם 01",
     };
 
@@ -146,15 +156,44 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { searchParams } = new URL(req.url);
+    const movieId = searchParams.get("movieId");
+    const showtime = searchParams.get("showtime");
+    const date = searchParams.get("date");
+
     const client = await clientPromise;
     const db = client.db();
+
+    if (movieId && showtime && date) {
+      const bookings = await db
+        .collection("bookings")
+        .find({
+          "movie.id": Number(movieId),
+          showtime,
+          status: "confirmed"
+        })
+        .toArray();
+      
+      const filteredBookings = bookings.filter(b => {
+        if (b.date) {
+          return b.date === date;
+        }
+        if (b.createdAt) {
+          return new Date(b.createdAt).toLocaleDateString('he-IL') === date;
+        }
+        return false;
+      });
+
+      const occupiedSeats = filteredBookings.flatMap(b => b.seats);
+      return NextResponse.json({ success: true, occupiedSeats });
+    }
 
     const user = await db.collection("users").findOne({ email: session.user.email });
     const userPoints = user?.points || 0;

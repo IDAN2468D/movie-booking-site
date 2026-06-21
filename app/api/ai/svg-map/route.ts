@@ -34,8 +34,9 @@ Rules:
     });
 
     return NextResponse.json({ success: true, svg: resultData.text });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('SVG Map Error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Failed to generate SVG map';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Image as ImageIcon, Loader2, Sparkles, X, UploadCloud } from 'lucide-react';
+import { Image as ImageIcon, Loader2, Sparkles, X, UploadCloud } from 'lucide-react';
 import { cn } from '@/lib/utils/index';
 import ReactMarkdown from 'react-markdown';
 
@@ -52,7 +52,7 @@ export default function VibeMatcher() {
       } else {
         setResult("מצטערים, לא הצלחנו לנתח את התמונה. " + (data.error || ""));
       }
-    } catch (err) {
+    } catch {
       setResult("שגיאת תקשורת עם מנוע ה-AI.");
     } finally {
       setIsLoading(false);
@@ -99,6 +99,7 @@ export default function VibeMatcher() {
                 exit={{ opacity: 0 }}
                 className="absolute inset-0 w-full h-full"
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
                 <button 
                   onClick={(e) => { e.stopPropagation(); setImagePreview(null); setResult(null); }}

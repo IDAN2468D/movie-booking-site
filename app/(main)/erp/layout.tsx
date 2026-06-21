@@ -53,9 +53,9 @@ export default function ERPLayout({
     const isAdmin = session.user?.email === 'idankzm@gmail.com' || session.user?.email === 'test@example.com';
     
     if (!isAdmin) {
-      setIsAuthorized(false);
+      requestAnimationFrame(() => setIsAuthorized(false));
     } else {
-      setIsAuthorized(true);
+      requestAnimationFrame(() => setIsAuthorized(true));
     }
   }, [session, status, router]);
 

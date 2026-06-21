@@ -15,7 +15,7 @@ import CosplayStudio from '@/components/ai/CosplayStudio';
 type TabType = 'personal' | 'security' | 'notifications' | 'payments' | 'studio';
 
 export default function ProfilePage() {
-  const { data: session, update } = useSession();
+  const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState<TabType>('personal');
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [customAvatar, setCustomAvatar] = useState<string | null>(null);

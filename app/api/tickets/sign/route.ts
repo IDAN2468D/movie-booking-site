@@ -25,8 +25,9 @@ export async function POST(request: Request) {
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '7d' });
     
     return NextResponse.json({ success: true, data: { token } });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error signing ticket:', error);
-    return NextResponse.json({ success: false, error: 'Failed to sign ticket' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Failed to sign ticket';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }

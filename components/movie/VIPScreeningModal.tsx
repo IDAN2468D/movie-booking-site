@@ -3,16 +3,18 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Crown, Loader2, Link as LinkIcon, X, Copy, Check } from 'lucide-react';
-import { cn } from '@/lib/utils/index';
+
 
 export default function VIPScreeningModal({ isOpen, onClose, movieTitle }: { isOpen: boolean, onClose: () => void, movieTitle: string }) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [htmlContent, setHtmlContent] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [inviteId, setInviteId] = useState<number | null>(null);
 
   const generateSite = async () => {
     setIsGenerating(true);
     setHtmlContent(null);
+    setInviteId(Date.now());
     try {
       const res = await fetch('/api/ai/landing-page', {
         method: 'POST',
@@ -31,9 +33,11 @@ export default function VIPScreeningModal({ isOpen, onClose, movieTitle }: { isO
   };
 
   const copyLink = () => {
-    navigator.clipboard.writeText(`https://moviebook.io/invite/vip-${Date.now()}`);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (inviteId) {
+      navigator.clipboard.writeText(`https://moviebook.io/invite/vip-${inviteId}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (
@@ -102,7 +106,7 @@ export default function VIPScreeningModal({ isOpen, onClose, movieTitle }: { isO
                   <div className="flex items-center justify-between bg-white/5 p-4 rounded-2xl border border-white/10">
                     <div className="flex items-center gap-2 text-gray-400 font-mono text-sm">
                       <LinkIcon className="w-4 h-4" />
-                      https://moviebook.io/invite/vip-{Date.now()}
+                      https://moviebook.io/invite/vip-{inviteId}
                     </div>
                     <button 
                       onClick={copyLink}

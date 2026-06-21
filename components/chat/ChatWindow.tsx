@@ -1,10 +1,13 @@
 'use client';
 
+import Image from 'next/image';
+
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, Send, Bot } from 'lucide-react';
 import { cn } from '@/lib/utils/index';
 import { ChatMessage } from '@/lib/chat-engine';
+import { Movie } from '@/lib/tmdb';
 
 interface ChatWindowProps {
   onClose: () => void;
@@ -14,7 +17,7 @@ interface ChatWindowProps {
   isTyping: boolean;
   botState: 'idle' | 'listening' | 'processing' | 'speaking';
   handleSend: (text?: string) => void;
-  handleMovieSelect: (movie: any) => void;
+  handleMovieSelect: (movie: Movie) => void;
   quickActions: string[];
 }
 
@@ -147,20 +150,23 @@ export default function ChatWindow({
               {msg.content}
             </div>
 
-            {msg.type === 'movie_suggestion' && msg.metadata && (
+            {msg.type === 'movie_suggestion' && Array.isArray(msg.metadata) && (
               <div className="grid grid-cols-2 gap-3 w-full mt-2">
-                {msg.metadata.map((movie: any, idx: number) => (
+                {(msg.metadata as Movie[]).map((movie: Movie, idx: number) => (
                   <button
-                    key={movie.id || movie._id || idx}
+                    key={movie.id || idx}
                     onClick={() => handleMovieSelect(movie)}
                     className="bg-white/5 border border-white/10 rounded-2xl p-3 text-right hover:bg-white/10 transition-all group"
                   >
                     <div className="aspect-[2/3] bg-primary/20 rounded-lg mb-2 overflow-hidden relative border border-white/10 shadow-inner">
                       {movie.poster_path && (
-                        <img
+                        <Image
                           src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
                           alt=""
-                          className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+                          fill
+                          sizes="150px"
+                          unoptimized
+                          className="object-cover opacity-60 group-hover:opacity-100 transition-opacity"
                         />
                       )}
                     </div>

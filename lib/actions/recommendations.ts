@@ -123,8 +123,9 @@ export async function getPopularMoviesAction() {
   try {
     const movies = await getPopularMovies();
     return { success: true, data: JSON.parse(JSON.stringify(movies)) };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch popular movies';
     console.error('Failed to get popular movies:', error);
-    return { success: false, error: error.message || 'Failed to fetch popular movies' };
+    return { success: false, error: errorMessage };
   }
 }

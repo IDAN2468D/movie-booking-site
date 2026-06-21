@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { 
   Zap, Search, Coffee, Car, Wifi, Accessibility, CreditCard, ShieldCheck
 } from 'lucide-react';
@@ -39,7 +39,7 @@ const regions: Record<string, string> = {
 };
 
 export default function BranchesClient({ initialBranches }: { initialBranches: Cinema[] }) {
-  const { location, setLocation, selectedMovie, setSelectedBranchId, selectedBranchId } = useBookingStore();
+  const { setLocation, selectedMovie, setSelectedBranchId, selectedBranchId } = useBookingStore();
   const [userCoords, setUserCoords] = useState<{ lat: number, lng: number } | null>(null);
   const [isLocating, setIsLocating] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -162,7 +162,7 @@ export default function BranchesClient({ initialBranches }: { initialBranches: C
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         <AnimatePresence mode="popLayout">
-          {sortedBranches.map((branch, index) => (
+          {sortedBranches.map((branch) => (
             <BranchCard 
               key={branch._id}
               branch={branch}

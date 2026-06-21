@@ -59,7 +59,7 @@ export default function DiscoveryPage() {
   // Filter movies based on selected moods
   useEffect(() => {
     if (activeMoods.length === 0) {
-      setFilteredMovies(allMovies);
+      requestAnimationFrame(() => setFilteredMovies(allMovies));
       return;
     }
 
@@ -71,7 +71,7 @@ export default function DiscoveryPage() {
       return movie.genre_ids.some((genreId) => requiredGenres.includes(genreId));
     });
 
-    setFilteredMovies(filtered);
+    requestAnimationFrame(() => setFilteredMovies(filtered));
   }, [activeMoods, allMovies]);
 
   return (
@@ -112,7 +112,7 @@ export default function DiscoveryPage() {
             </div>
             <ul className="space-y-3 text-xs text-slate-400 leading-relaxed font-bold">
               <li>1. לחץ והחזק בועת רגש צפה (כמו אדרנלין או קומדיה).</li>
-              <li>2. גרור אותה אל עבר <strong>"ליבת הרגש"</strong> הלבנה שבמרכז העיגול.</li>
+              <li>2. גרור אותה אל עבר <strong>&quot;ליבת הרגש&quot;</strong> הלבנה שבמרכז העיגול.</li>
               <li>3. שחרר את הבועה. הליבה תיכנס לפעולה ותסנן את הסרטים המתאימים.</li>
               <li>4. ניתן לגרור מספר בועות רגש במקביל כדי לשלב סגנונות וליצור שילובים מיוחדים!</li>
             </ul>

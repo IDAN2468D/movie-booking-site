@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useBookingStore } from '@/lib/store';
 import { ChatMessage, processMessage } from '@/lib/chat-engine';
 import { usePathname } from 'next/navigation';
+import { Movie } from '@/lib/tmdb';
 import ChatOrb from './ChatOrb';
 import ChatWindow from './ChatWindow';
 
@@ -15,7 +16,7 @@ export default function MovieChatBot() {
       id: 'welcome',
       role: 'assistant',
       content: 'שלום! אני העוזר האישי שלכם לסרטים. במה אוכל לעזור היום?',
-      timestamp: Date.now(),
+      timestamp: 0,
       type: 'text'
     }
   ]);
@@ -29,24 +30,32 @@ export default function MovieChatBot() {
   useEffect(() => {
     const handleOpen = () => setIsOpen(true);
     window.addEventListener('open-movie-chat', handleOpen);
+    
+    // Safe client-side timestamp hydration to prevent SSR mismatch
+    requestAnimationFrame(() => {
+      setMessages(prev => prev.map(m => m.id === 'welcome' ? { ...m, timestamp: Date.now() } : m));
+    });
+
     return () => window.removeEventListener('open-movie-chat', handleOpen);
   }, []);
 
   // Sync botState based on user activity
   useEffect(() => {
-    if (!isOpen) {
-      setBotState('idle');
-      return;
-    }
-    if (isTyping) {
-      setBotState('processing');
-    } else if (botState !== 'speaking') {
-      if (input.trim().length > 0) {
-        setBotState('listening');
-      } else {
+    requestAnimationFrame(() => {
+      if (!isOpen) {
         setBotState('idle');
+        return;
       }
-    }
+      if (isTyping) {
+        setBotState('processing');
+      } else if (botState !== 'speaking') {
+        if (input.trim().length > 0) {
+          setBotState('listening');
+        } else {
+          setBotState('idle');
+        }
+      }
+    });
   }, [input, isTyping, isOpen, botState]);
 
   const handleSend = async (messageText?: string) => {
@@ -128,7 +137,7 @@ export default function MovieChatBot() {
 
       if (chatResult.success && chatResult.response) {
         const actionMatch = chatResult.response.match(/\[ACTION:BOOK:(\w+)\]/);
-        let movieData: any = null;
+        let movieData: Movie[] | null = null;
 
         if (actionMatch && actionMatch[1]) {
           const movieId = actionMatch[1];
@@ -178,7 +187,7 @@ export default function MovieChatBot() {
     }
   };
 
-  const handleMovieSelect = (movie: any) => {
+  const handleMovieSelect = (movie: Movie) => {
     setSelectedMovie(movie);
     const msg: ChatMessage = {
       id: Date.now().toString(),

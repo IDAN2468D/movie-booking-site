@@ -33,7 +33,7 @@ export async function getCinemas() {
     
     const DEFAULT_CINEMA_IMAGE = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&q=80&w=400";
 
-    const formattedCinemas = JSON.parse(JSON.stringify(cinemas)).map((c: any) => {
+    const formattedCinemas = JSON.parse(JSON.stringify(cinemas)).map((c: Omit<Cinema, 'id'> & { _id?: string }) => {
       // Robust image check
       const hasImage = c.image && typeof c.image === 'string' && c.image.trim() !== "" && c.image !== "undefined";
       return {

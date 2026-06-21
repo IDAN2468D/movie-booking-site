@@ -11,7 +11,7 @@ const { mockDbMethods, mockClientInstance } = vi.hoisted(() => {
     insertOne: vi.fn(),
   };
   const clientInstance = {
-    connect: vi.fn().mockImplementation(async function (this: any) { return this; }),
+    connect: vi.fn().mockImplementation(async function (this: unknown) { return this; }),
     db: vi.fn().mockReturnValue(dbMethods),
     close: vi.fn(),
   };

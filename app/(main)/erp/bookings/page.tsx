@@ -5,36 +5,49 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
   Filter, 
-  MoreHorizontal, 
   CheckCircle2, 
   XCircle, 
   Clock,
-  ArrowUpDown,
   Download,
   RotateCcw
 } from 'lucide-react';
 import { cn } from '@/lib/utils/index';
 
+interface BookingData {
+  _id: string;
+  userEmail: string;
+  createdAt: string | Date;
+  showtime: string;
+  total: number;
+  status: string;
+  movie?: {
+    title?: string;
+    displayTitle?: string;
+  };
+}
+
 export default function BookingsManagement() {
-  const [bookings, setBookings] = useState<any[]>([]);
+  const [bookings, setBookings] = useState<BookingData[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-
-  useEffect(() => {
-    fetchBookings();
-  }, []);
 
   const fetchBookings = async () => {
     try {
       const res = await fetch('/api/erp/bookings');
       const data = await res.json();
       setBookings(data);
-    } catch (error) {
+    } catch {
       console.error("Failed to load bookings");
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      fetchBookings();
+    });
+  }, []);
 
   const updateStatus = async (id: string, status: string) => {
     try {
@@ -43,7 +56,7 @@ export default function BookingsManagement() {
         body: JSON.stringify({ id, status }),
       });
       if (res.ok) fetchBookings();
-    } catch (error) {
+    } catch {
       console.error("Update failed");
     }
   };
@@ -222,7 +235,7 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-function ActionButtons({ booking, updateStatus, isMobile }: { booking: any, updateStatus: any, isMobile?: boolean }) {
+function ActionButtons({ booking, updateStatus, isMobile }: { booking: BookingData, updateStatus: (id: string, status: string) => Promise<void>, isMobile?: boolean }) {
   return (
     <div className={cn(
       "flex items-center gap-2",

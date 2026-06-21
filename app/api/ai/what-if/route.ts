@@ -32,8 +32,9 @@ Rules:
     });
 
     return NextResponse.json({ success: true, text: resultData.text });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('What-If Scenario Error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Failed to generate what-if scenario';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }

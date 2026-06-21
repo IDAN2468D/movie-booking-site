@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { useBookingStore } from '@/lib/store';
-import { BrainCircuit, Sparkles, Smile, Skull, Flame, Heart, Compass, Star } from 'lucide-react';
+import { BrainCircuit, Sparkles, Smile, Skull, Flame, Heart, Compass } from 'lucide-react';
 
 interface MoodBubble {
   id: string;
@@ -30,7 +30,7 @@ export default function NeuralMoodOrbit() {
   // Center Drop Zone Coordinates
   const dropZoneRadius = 90;
 
-  const handleDragEnd = (event: any, info: any, moodId: string) => {
+  const handleDragEnd = (_event: unknown, info: PanInfo, moodId: string) => {
     // Check distance to center (0,0 of container)
     const x = info.offset.x;
     const y = info.offset.y;

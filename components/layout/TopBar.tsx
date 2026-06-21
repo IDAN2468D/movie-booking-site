@@ -8,15 +8,12 @@ import UserProfile from './TopBar/UserProfile';
 import { useBookingStore } from '@/lib/store';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, Sparkles, Bot } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
-import { useUIStore } from '@/lib/store/ui-store';
-import { motion, AnimatePresence } from 'framer-motion';
 import LiveActivityPulse from '@/components/ui/LiveActivityPulse';
 
 export default function TopBar() {
   const { filters, setFilters } = useBookingStore();
-  const { toggleConcierge, isConciergeOpen, isThinking, currentMovieId } = useUIStore();
   const [isFilterOpen, setIsFilterOpen] = React.useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = React.useState(false);
 

@@ -16,9 +16,25 @@ import { useERPStore } from '@/lib/store/useERPStore';
 
 import { useRouter } from 'next/navigation';
 
+interface RecentBooking {
+  id: string;
+  movie: string;
+  user: string;
+  total: number;
+  time: string;
+}
+
+interface ERPStatsData {
+  totalRevenue: number;
+  ticketsSold: number;
+  activeMovies: number;
+  occupancyRate: number;
+  recentBookings: RecentBooking[];
+}
+
 export default function ERPDashboard() {
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<ERPStatsData | null>(null);
   const [loading, setLoading] = useState(true);
   const { updateStats } = useERPStore();
   const [toast, setToast] = useState<string | null>(null);
@@ -108,7 +124,7 @@ export default function ERPDashboard() {
           </div>
 
           <div className="space-y-4">
-            {data?.recentBookings?.map((booking: any) => (
+            {data?.recentBookings?.map((booking: RecentBooking) => (
               <motion.div 
                 key={booking.id}
                 initial={{ opacity: 0, x: 20 }}

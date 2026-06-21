@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import NextImage from 'next/image';
-import { Ticket, Calendar, Clock, MapPin, QrCode, Share2, Download, Loader2, Mail, Bot } from 'lucide-react';
+import { Ticket, Loader2, Bot } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import QuantumTicket from '@/components/tickets/QuantumTicket';
@@ -48,7 +47,7 @@ export default function TicketsPage() {
       });
       if (res.ok) alert('הכרטיס נשלח למייל בהצלחה!');
       else alert('אירעה שגיאה בשליחת המייל');
-    } catch (err) {
+    } catch {
       alert('שגיאת תקשורת בשליחת המייל');
     } finally {
       setProcessingId(null);

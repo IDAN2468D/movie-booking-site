@@ -98,15 +98,15 @@ export default function ERPSettings() {
                   <p className="text-slate-500 text-sm mb-6">התאם את הממשק למסכי לפטופ, טאבלט או מובייל.</p>
                   
                   <div className="grid grid-cols-2 gap-4">
-                    {[
+                    {([
                       { id: 'auto', label: 'אוטומטי', icon: Monitor, desc: 'התאמה לפי המכשיר' },
                       { id: 'fullhd', label: 'FullHD 1080p', icon: Monitor, desc: '1920x1080' },
                       { id: 'laptop', label: 'לפטופ / רחב', icon: Monitor, desc: '1440px ומעלה' },
                       { id: 'mobile', label: 'מובייל', icon: Smartphone, desc: 'מצב סדרן שטח' },
-                    ].map((mode) => (
+                    ] as const).map((mode) => (
                       <button 
                         key={mode.id}
-                        onClick={() => setResolution(mode.id as any)}
+                        onClick={() => setResolution(mode.id)}
                         className={cn(
                           "p-6 bg-white/5 border rounded-3xl text-right transition-all group relative overflow-hidden",
                           resolution === mode.id 

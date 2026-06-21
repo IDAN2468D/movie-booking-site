@@ -13,7 +13,7 @@ export function initHeartbeat() {
       // Just a lightweight fetch to keep the process warm
       await fetch('/api/health', { method: 'HEAD' }).catch(() => {});
       console.log('💓 Heartbeat: Server kept warm');
-    } catch (e) {
+    } catch {
       // Ignore errors
     }
   };

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, Loader2, Play, Video } from 'lucide-react';
+import { X, Sparkles, Loader2, Video } from 'lucide-react';
 
 interface Props {
   isOpen: boolean;

@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gamepad2, Play, Sparkles, Trophy, RotateCcw, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Gamepad2, Play, Trophy, RotateCcw, ArrowRight } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
-import { cn } from '@/lib/utils/index';
 import { getPopularMoviesAction } from '@/lib/actions/recommendations';
+import { Movie } from '@/lib/tmdb';
 
 interface Choice {
   id: string;
@@ -21,8 +21,8 @@ interface GameState {
 
 export const MovieCraftGame = () => {
   const { allMovies } = useBookingStore();
-  const [localMovies, setLocalMovies] = useState<any[]>([]);
-  const [selectedMovie, setSelectedMovie] = useState<any>(null);
+  const [localMovies, setLocalMovies] = useState<Movie[]>([]);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
   const [scenario, setScenario] = useState('');
@@ -45,7 +45,7 @@ export const MovieCraftGame = () => {
 
   const activeMovies = allMovies.length > 0 ? allMovies : localMovies;
 
-  const startGame = async (movie: any) => {
+  const startGame = async (movie: Movie) => {
     setSelectedMovie(movie);
     setIsPlaying(true);
     setLoading(true);
@@ -77,6 +77,8 @@ export const MovieCraftGame = () => {
   };
 
   const makeChoice = async (choice: Choice) => {
+    if (!selectedMovie) return;
+    
     setLoading(true);
     const newHistory = [
       ...history,

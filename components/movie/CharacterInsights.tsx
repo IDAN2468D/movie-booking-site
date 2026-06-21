@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, Sparkles, User, ShieldAlert, Target, Heart } from 'lucide-react';
+import { Brain, Sparkles, User, ShieldAlert, Target } from 'lucide-react';
 import { cn } from '@/lib/utils/index';
 
 interface Character {
@@ -25,7 +25,7 @@ export const CharacterInsights = ({ movieTitle, overview, genres }: CharacterIns
   const [loading, setLoading] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
 
-  const fetchInsights = async () => {
+  const fetchInsights = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch('/api/ai/character-analysis', {
@@ -42,13 +42,15 @@ export const CharacterInsights = ({ movieTitle, overview, genres }: CharacterIns
     } finally {
       setLoading(false);
     }
-  };
+  }, [movieTitle, overview, genres]);
 
   useEffect(() => {
     if (overview) {
-      fetchInsights();
+      requestAnimationFrame(() => {
+        fetchInsights();
+      });
     }
-  }, [movieTitle, overview]);
+  }, [overview, fetchInsights]);
 
   if (loading) {
     return (
@@ -176,12 +178,16 @@ export const CharacterInsights = ({ movieTitle, overview, genres }: CharacterIns
 };
 
 // Internal mini-chevron helper to prevent Lucide resolution issues
-function ChevronLeft(props: any) {
+interface ChevronLeftProps extends React.SVGProps<SVGSVGElement> {
+  size?: number | string;
+}
+
+function ChevronLeft({ size = 24, ...props }: ChevronLeftProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
@@ -35,6 +35,23 @@ export default function StoryViewer({ stories, initialIndex, onClose, onStoryVie
   const startTimeRef = useRef<number | null>(null);
   const isPaused = useRef(false);
 
+  const handleNext = useCallback(() => {
+    if (currentIndex < stories.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+    } else {
+      onClose();
+    }
+  }, [currentIndex, stories.length, onClose]);
+
+  const handlePrev = useCallback(() => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
+    } else {
+      setProgress(0);
+      startTimeRef.current = null;
+    }
+  }, [currentIndex]);
+
   // Mark story as viewed when it appears
   useEffect(() => {
     if (currentStory && !currentStory.hasViewed) {
@@ -47,7 +64,7 @@ export default function StoryViewer({ stories, initialIndex, onClose, onStoryVie
   useEffect(() => {
     if (!currentStory) return;
     
-    setProgress(0);
+    requestAnimationFrame(() => setProgress(0));
     startTimeRef.current = null;
     const duration = currentStory.duration || 5000;
 
@@ -76,25 +93,7 @@ export default function StoryViewer({ stories, initialIndex, onClose, onStoryVie
     return () => {
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex, currentStory]);
-
-  const handleNext = () => {
-    if (currentIndex < stories.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-    } else {
-      onClose();
-    }
-  };
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
-    } else {
-      setProgress(0);
-      startTimeRef.current = null;
-    }
-  };
+  }, [currentIndex, currentStory, handleNext]);
 
   if (!currentStory) return null;
 

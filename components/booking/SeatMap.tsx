@@ -6,20 +6,55 @@ import { Flame, Users, Monitor } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 import SVGSeat from './SVGSeat';
 
+interface LobbyCursorProps {
+  name: string;
+  initialX: number;
+  initialY: number;
+}
+
+function LobbyCursor({ name, initialX, initialY }: LobbyCursorProps) {
+  return (
+    <motion.g
+      initial={{ x: initialX, y: initialY }}
+      animate={{
+        x: [initialX - 8, initialX + 12, initialX - 4, initialX + 8, initialX - 8],
+        y: [initialY + 4, initialY - 8, initialY + 10, initialY - 4, initialY + 4]
+      }}
+      transition={{
+        duration: 5,
+        repeat: Infinity,
+        ease: 'easeInOut'
+      }}
+      className="pointer-events-none"
+    >
+      <circle r="5" fill="#22D3EE" stroke="#000" strokeWidth="1.5" className="animate-pulse" filter="url(#glow-partner)" />
+      <g transform="translate(10, -7)">
+        <rect width="32" height="14" rx="4" fill="rgba(0, 0, 0, 0.85)" stroke="rgba(34, 211, 238, 0.3)" strokeWidth="0.5" />
+        <text x="16" y="10" textAnchor="middle" fill="#22D3EE" fontSize="7px" fontWeight="black">{name}</text>
+      </g>
+    </motion.g>
+  );
+}
+
 export default function SeatMap() {
-  const { selectedSeats, toggleSeat, lobbyUsers, setLobbyUsers, auraColor } = useBookingStore();
+  const selectedSeats = useBookingStore((state) => state.selectedSeats);
+  const toggleSeat = useBookingStore((state) => state.toggleSeat);
+  const auraColor = useBookingStore((state) => state.auraColor);
+  const selectedMovie = useBookingStore((state) => state.selectedMovie);
+  const selectedShowtime = useBookingStore((state) => state.selectedShowtime);
+  const selectedDate = useBookingStore((state) => state.selectedDate);
+
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [hoveredSeat, setHoveredSeat] = useState<string | null>(null);
+  const [realOccupiedSeats, setRealOccupiedSeats] = useState<string[]>([]);
   
-  // 3D Tilt Coordinates
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
   const mapRef = useRef<HTMLDivElement>(null);
 
-  // Mock occupied seats
-  const occupiedSeats = ['s-5', 's-12', 's-13', 's-24', 's-31', 's-40', 's-42'];
+  const mockOccupiedSeats = ['s-5', 's-12', 's-13', 's-24', 's-31', 's-40', 's-42'];
+  const mockLobbyUserSeats = ['s-3', 's-16'];
 
-  // Mock "Popularity" data
   const popularityMap: Record<string, number> = {
     's-18': 0.9, 's-19': 0.95, 's-20': 0.92, 's-21': 0.88
   };
@@ -27,22 +62,35 @@ export default function SeatMap() {
   const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
   const cols = [1, 2, 3, 'aisle', 4, 5, 6];
 
-  // Simulating live users inside the lobby
   useEffect(() => {
-    setLobbyUsers([
-      { id: 'user-1', name: 'עידן', x: 120, y: 170, seat: 's-3' },
-      { id: 'user-2', name: 'נועה', x: 260, y: 250, seat: 's-16' }
-    ]);
+    if (!selectedMovie) return;
+    const movie = selectedMovie;
 
-    const interval = setInterval(() => {
-      setLobbyUsers([
-        { id: 'user-1', name: 'עידן', x: 120 + Math.sin(Date.now() / 300) * 15, y: 170 + Math.cos(Date.now() / 400) * 10, seat: 's-3' },
-        { id: 'user-2', name: 'נועה', x: 260 + Math.cos(Date.now() / 250) * 12, y: 250 + Math.sin(Date.now() / 350) * 15, seat: 's-16' }
-      ]);
-    }, 100);
+    let active = true;
+    async function fetchOccupied() {
+      try {
+        const queryParams = new URLSearchParams({
+          movieId: String(movie.id),
+          showtime: selectedShowtime || '19:30',
+          date: selectedDate || new Date().toLocaleDateString('he-IL'),
+        });
+        const res = await fetch(`/api/bookings?${queryParams.toString()}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.occupiedSeats && active) {
+            setRealOccupiedSeats(data.occupiedSeats);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch occupied seats:', err);
+      }
+    }
 
-    return () => clearInterval(interval);
-  }, [setLobbyUsers]);
+    fetchOccupied();
+    return () => {
+      active = false;
+    };
+  }, [selectedMovie, selectedShowtime, selectedDate]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!mapRef.current) return;
@@ -85,11 +133,10 @@ export default function SeatMap() {
         
         <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
           <Users size={12} className="animate-pulse" />
-          <span className="text-[9px] font-black uppercase tracking-wider">חדר פעיל: {lobbyUsers.length + 1} משתמשים</span>
+          <span className="text-[9px] font-black uppercase tracking-wider">חדר פעיל: 3 משתמשים</span>
         </div>
       </div>
 
-      {/* SVG Canvas for Seat Map & Cursors */}
       <div className="w-full relative mb-8">
         <svg viewBox="0 0 370 420" className="w-full h-auto overflow-visible select-none">
           <defs>
@@ -123,35 +170,18 @@ export default function SeatMap() {
             </filter>
           </defs>
 
-          {/* Curved Screen */}
           <g className="opacity-80">
-            <path 
-              d="M 40 35 Q 185 15 330 35" 
-              fill="none" 
-              stroke="url(#screenGradient)" 
-              strokeWidth="5" 
-              strokeLinecap="round" 
-            />
-            <path 
-              d="M 40 35 Q 185 15 330 35" 
-              fill="none" 
-              stroke="#0AEFFF" 
-              strokeWidth="1.5" 
-              strokeOpacity="0.4"
-              filter="url(#glow-partner)" 
-            />
+            <path d="M 40 35 Q 185 15 330 35" fill="none" stroke="url(#screenGradient)" strokeWidth="5" strokeLinecap="round" />
+            <path d="M 40 35 Q 185 15 330 35" fill="none" stroke="#0AEFFF" strokeWidth="1.5" strokeOpacity="0.4" filter="url(#glow-partner)" />
             <text x="185" y="55" textAnchor="middle" fill="rgba(10, 239, 255, 0.4)" fontSize="8px" fontWeight="black" letterSpacing="4">מסך</text>
           </g>
 
-          {/* Seat Grid Mapping */}
           {rows.map((row, rowIndex) => {
             const y = 80 + rowIndex * 42;
             return (
               <g key={row}>
-                {/* Left Row Label */}
                 <text x="20" y={y + 20} fill="rgba(255, 255, 255, 0.2)" fontSize="10px" fontWeight="bold" textAnchor="middle">{row}</text>
                 
-                {/* Seats */}
                 {cols.map((col) => {
                   if (col === 'aisle') return null;
 
@@ -159,10 +189,10 @@ export default function SeatMap() {
                   const x = colNum <= 3 ? 15 + colNum * 38 : 35 + colNum * 38;
                   const seatIndex = rowIndex * 6 + (colNum - 1);
                   const seatId = `s-${seatIndex}`;
-                  const isOccupied = occupiedSeats.includes(seatId);
+                  const isOccupied = mockOccupiedSeats.includes(seatId) || realOccupiedSeats.includes(seatId);
                   const isSelected = selectedSeats.includes(seatId);
                   const popularity = popularityMap[seatId] || 0.1;
-                  const isLobbyUserSelecting = lobbyUsers.some(u => u.seat === seatId);
+                  const isLobbyUserSelecting = mockLobbyUserSeats.includes(seatId);
 
                   return (
                     <SVGSeat
@@ -184,29 +214,15 @@ export default function SeatMap() {
                   );
                 })}
 
-                {/* Right Row Label */}
                 <text x="350" y={y + 20} fill="rgba(255, 255, 255, 0.2)" fontSize="10px" fontWeight="bold" textAnchor="middle">{row}</text>
               </g>
             );
           })}
 
-          {/* Other Lobby Users Cursors inside the SVG */}
-          {lobbyUsers.map((user) => (
-            <g 
-              key={user.id} 
-              transform={`translate(${user.x}, ${user.y})`}
-              className="pointer-events-none transition-transform duration-75 ease-out"
-            >
-              <circle r="5" fill="#22D3EE" stroke="#000" strokeWidth="1.5" className="animate-pulse" filter="url(#glow-partner)" />
-              <g transform="translate(10, -7)">
-                <rect width="32" height="14" rx="4" fill="rgba(0, 0, 0, 0.85)" stroke="rgba(34, 211, 238, 0.3)" strokeWidth="0.5" />
-                <text x="16" y="10" textAnchor="middle" fill="#22D3EE" fontSize="7px" fontWeight="black">{user.name}</text>
-              </g>
-            </g>
-          ))}
+          <LobbyCursor name="עידן" initialX={120} initialY={170} />
+          <LobbyCursor name="נועה" initialX={260} initialY={250} />
         </svg>
 
-        {/* Spatial-POV Window Float Layer */}
         <AnimatePresence>
           {hoveredSeat && (
             <motion.div
@@ -232,7 +248,6 @@ export default function SeatMap() {
         </AnimatePresence>
       </div>
 
-      {/* Legend */}
       <div className="flex justify-between w-full max-w-sm px-4 py-5 bg-white/[0.03] rounded-3xl border-[0.5px] border-white/20 backdrop-blur-[40px] text-xs">
         {[
           { color: 'bg-white/10', label: 'פנוי' },

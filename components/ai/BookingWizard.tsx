@@ -75,7 +75,7 @@ export const BookingWizard = ({ movie, onComplete }: BookingWizardProps) => {
           cardNumber: '4580000000001234', // Mock for AI Concierge
         },
         showtime: selectedShowtime || '19:30',
-        date: new Date().toISOString(),
+        date: new Date().toLocaleDateString('he-IL'),
         pointsUsed: 0,
       };
 

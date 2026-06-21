@@ -14,9 +14,10 @@ export async function getFavorites(userId: string) {
     });
     
     return { success: true, data: user?.favorites || [] };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch favorites';
     console.error('Failed to get favorites from DB:', error);
-    return { success: false, error: error.message || 'Failed to fetch favorites' };
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -49,8 +50,9 @@ export async function toggleFavoriteInDb(userId: string, movie: Movie) {
     );
     
     return { success: true, data: updatedFavorites };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to update favorite';
     console.error('Failed to update favorite in DB:', error);
-    return { success: false, error: error.message || 'Failed to update favorite' };
+    return { success: false, error: errorMessage };
   }
 }

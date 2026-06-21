@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
 interface NavItem {
-  icon: any;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
   label: string;
   href: string;
   isChat?: boolean;

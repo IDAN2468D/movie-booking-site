@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { Crown, Sparkles, Popcorn, Ticket, BadgePercent, ChevronDown, Check, Coins, Flame } from 'lucide-react';
-import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 
 // 1. Loyalty Tour steps
 const LOYALTY_STEPS = [
@@ -68,14 +67,9 @@ const SUBSCRIPTION_TIERS = [
 export default function VipPage() {
   const [activeStep, setActiveStep] = useState(0);
   const [moviesCount, setMoviesCount] = useState(4); // Slider value
-
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end']
-  });
 
-  const scrollProgressY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+
 
   // Calculations for DTC Calculator
   const directBookingFeeSaved = moviesCount * 15; // 15 NIS saved per ticket

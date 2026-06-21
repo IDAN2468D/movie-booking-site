@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+interface CinematicInsights {
+  whyWatch: string;
+  emotionalScore: number;
+  aiStatus: string;
+  tags: string[];
+}
 
 export async function POST(req: NextRequest) {
   let prompt = '';
   try {
-    const { movieId, movieTitle, overview, genres } = await req.json();
+    const { movieTitle, overview, genres } = await req.json();
 
     if (!movieTitle || !overview) {
       return NextResponse.json({ error: 'Missing movie data' }, { status: 400 });
@@ -36,7 +42,7 @@ export async function POST(req: NextRequest) {
 
     // Clean JSON if needed
     const jsonStr = text.replace(/```json|```/g, '').trim();
-    const insights = JSON.parse(jsonStr);
+    const insights = JSON.parse(jsonStr) as CinematicInsights;
 
     return NextResponse.json({
       success: true,
@@ -56,7 +62,7 @@ export async function POST(req: NextRequest) {
       ], { jsonMode: true });
       
       if (response.success) {
-        const insights = sanitizeAndParseJSON<any>(response.content);
+        const insights = sanitizeAndParseJSON<CinematicInsights>(response.content);
         if (insights) {
           return NextResponse.json({
             success: true,

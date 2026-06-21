@@ -1,4 +1,5 @@
 import { AIRequest, AIResponse, AIRecommendation } from '@/types/ai';
+import { GENRE_MAP } from './tmdb';
 
 const MOOD_GENRE_MAP: Record<string, number[]> = {
   'melancholic': [18, 99], // Drama, Documentary
@@ -37,7 +38,7 @@ export async function generateRecommendations(data: AIRequest & { mood?: string 
     if (mood && MOOD_GENRE_MAP[mood]) {
       const moodGenres = MOOD_GENRE_MAP[mood];
       const hasMoodMatch = movieData.genre.some(g => {
-        const genreId = Object.entries(require('./tmdb').GENRE_MAP).find(([k]) => k === g)?.[1];
+        const genreId = Object.entries(GENRE_MAP).find(([k]) => k === g)?.[1];
         return genreId && moodGenres.includes(genreId as number);
       });
       if (hasMoodMatch) {
@@ -94,7 +95,14 @@ export async function generateRecommendations(data: AIRequest & { mood?: string 
   const finalRecs = recommendations
     .sort((a, b) => b.score - a.score)
     .slice(0, 3)
-    .map(({ score: _score, ...rest }) => rest);
+    .map((rec) => ({
+      movieId: rec.movieId,
+      title: rec.title,
+      reason: rec.reason,
+      bestFormat: rec.bestFormat,
+      availabilityBadge: rec.availabilityBadge,
+      savingsTip: rec.savingsTip
+    }));
 
   return {
     recommendations: finalRecs,

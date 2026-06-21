@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { genre, prompt } = await req.json();
+    const { genre } = await req.json();
 
     // Note: In production, this would call Google Cloud Vertex AI (Imagen 3 API)
     // or OpenAI DALL-E 3 API. Since this requires specific GCP setup, 
@@ -21,7 +21,8 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, imageUrl });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to generate avatar';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { MapPin, Calendar, Clock, ChevronRight, Clapperboard, X } from 'lucide-react';
+import { MapPin, Calendar, Clapperboard, X } from 'lucide-react';
 import SeatMap from '../booking/SeatMap';
 import ShowtimeSelector from '../booking/ShowtimeSelector';
 import { useSession } from 'next-auth/react';
@@ -11,11 +11,6 @@ import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
 import { motion } from 'framer-motion';
 import { MarkerHighlight } from '../fx/MarkerHighlight';
-const runningShows = [
-  { id: 1, title: 'דדפול & וולברין', time: '14:30', screen: 'אולם 4', type: 'IMAX', language: 'אנגלית', seats: '20/30' },
-  { id: 2, title: 'הקול בראש 2', time: '16:00', screen: 'אולם 1', type: '4DX', language: 'אנגלית', seats: '15/30' },
-  { id: 3, title: 'בורדרלנדס', time: '18:15', screen: 'אולם 2', type: '3D', language: 'אנגלית', seats: '28/30' },
-];
 export default function RightPanel() {
   useSession();
   const { 

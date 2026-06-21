@@ -35,7 +35,7 @@ export default function AvatarGeneratorModal({ isOpen, onClose, onAvatarGenerate
         setGeneratedUrl(data.imageUrl);
       }
     } catch (err) {
-      console.error('Failed to generate avatar');
+      console.error('Failed to generate avatar', err);
     } finally {
       setIsGenerating(false);
     }
@@ -121,6 +121,7 @@ export default function AvatarGeneratorModal({ isOpen, onClose, onAvatarGenerate
               ) : (
                 <div className="flex flex-col items-center gap-6">
                   <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-primary shadow-[0_0_30px_rgba(255,20,100,0.3)]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={generatedUrl} alt="Generated Avatar" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex gap-4 w-full">

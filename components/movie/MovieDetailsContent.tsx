@@ -129,7 +129,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
       const data = await response.json();
       if (data.success && data.script) {
         // 1. Synthesize Cinematic Drone (Web Audio API)
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
         if (AudioContextClass) {
           audioCtx = new AudioContextClass();
           oscillator = audioCtx.createOscillator();
@@ -168,12 +168,12 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
           if (oscillator) {
             try {
               oscillator.stop();
-            } catch (e) {}
+            } catch {}
           }
           if (audioCtx) {
             try {
               audioCtx.close();
-            } catch (e) {}
+            } catch {}
           }
         };
 
@@ -181,7 +181,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
           if (oscillator) {
             try {
               oscillator.stop();
-            } catch (e) {}
+            } catch {}
           }
         };
 

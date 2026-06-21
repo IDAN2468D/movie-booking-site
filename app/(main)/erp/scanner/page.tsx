@@ -1,63 +1,97 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Scan, 
   CheckCircle2, 
-  XCircle, 
-  Loader2,
   Camera,
   Keyboard,
-  Zap,
   RotateCcw,
   ShieldCheck,
-  SwitchCamera,
   AlertCircle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Html5Qrcode } from 'html5-qrcode';
 
+interface CameraDevice {
+  id: string;
+  label: string;
+}
+
+interface ScanResult {
+  movie: string;
+  seats: string[];
+  user: string;
+}
+
 export default function TicketScannerPage() {
   const [bookingId, setBookingId] = useState('');
   const [status, setStatus] = useState<'idle' | 'scanning' | 'success' | 'warning' | 'error'>('idle');
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<ScanResult | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [mode, setMode] = useState<'camera' | 'manual'>('camera');
   const [cameraActive, setCameraActive] = useState(false);
-  const [cameras, setCameras] = useState<any[]>([]);
+  const [cameras, setCameras] = useState<CameraDevice[]>([]);
   const [selectedCameraId, setSelectedCameraId] = useState<string>('');
   
   const html5QrCode = useRef<Html5Qrcode | null>(null);
   const isTransitioning = useRef(false);
 
-  useEffect(() => {
-    // Fetch available cameras
-    Html5Qrcode.getCameras().then(devices => {
-      if (devices && devices.length > 0) {
-        setCameras(devices);
-        // Try to pick the back camera by default
-        const backCamera = devices.find(d => d.label.toLowerCase().includes('back') || d.label.toLowerCase().includes('rear'));
-        setSelectedCameraId(backCamera ? backCamera.id : devices[0].id);
+  const stopCamera = useCallback(async () => {
+    if (html5QrCode.current && html5QrCode.current.isScanning) {
+      if (isTransitioning.current) return;
+      try {
+        isTransitioning.current = true;
+        await html5QrCode.current.stop();
+        setCameraActive(false);
+      } catch (err) {
+        console.error("Camera stop error:", err);
+      } finally {
+        isTransitioning.current = false;
       }
-    }).catch(err => {
-      console.error("Error getting cameras", err);
-    });
-
-    return () => {
-      stopCamera();
-    };
+    }
   }, []);
 
-  useEffect(() => {
-    if (mode === 'camera' && status === 'idle' && selectedCameraId) {
-      startCamera(selectedCameraId);
-    } else {
-      stopCamera();
-    }
-  }, [mode, status, selectedCameraId]);
+  const validateTicket = useCallback(async (id: string) => {
+    setStatus('scanning');
+    await stopCamera();
+    
+    try {
+      const res = await fetch('/api/erp/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId: id }),
+      });
 
-  const startCamera = async (cameraId: string) => {
+      const data = await res.json();
+
+      if (res.ok) {
+        setResult(data);
+        if (data.alreadyValidated) {
+          setStatus('warning');
+        } else {
+          setStatus('success');
+        }
+      } else {
+        setErrorMsg(data.error || 'אימות נכשל');
+        setStatus('error');
+      }
+    } catch {
+      setErrorMsg('שגיאת תקשורת עם השרת');
+      setStatus('error');
+    }
+  }, [stopCamera]);
+
+  const onScanSuccess = useCallback((decodedText: string) => {
+    if (status !== 'idle') return;
+    validateTicket(decodedText);
+  }, [status, validateTicket]);
+
+  const onScanFailure = useCallback(() => {
+    // Ignore noise
+  }, []);
+
+  const startCamera = useCallback(async (cameraId: string) => {
     if (isTransitioning.current) return;
     
     try {
@@ -90,61 +124,35 @@ export default function TicketScannerPage() {
     } finally {
       isTransitioning.current = false;
     }
-  };
+  }, [onScanSuccess, onScanFailure]);
 
-  const stopCamera = async () => {
-    if (html5QrCode.current && html5QrCode.current.isScanning) {
-      if (isTransitioning.current) return;
-      try {
-        isTransitioning.current = true;
-        await html5QrCode.current.stop();
-        setCameraActive(false);
-      } catch (err) {
-        console.error("Camera stop error:", err);
-      } finally {
-        isTransitioning.current = false;
+  useEffect(() => {
+    // Fetch available cameras
+    Html5Qrcode.getCameras().then(devices => {
+      if (devices && devices.length > 0) {
+        setCameras(devices);
+        // Try to pick the back camera by default
+        const backCamera = devices.find(d => d.label.toLowerCase().includes('back') || d.label.toLowerCase().includes('rear'));
+        setSelectedCameraId(backCamera ? backCamera.id : devices[0].id);
       }
-    }
-  };
+    }).catch(err => {
+      console.error("Error getting cameras", err);
+    });
 
-  const onScanSuccess = (decodedText: string) => {
-    if (status !== 'idle') return;
-    validateTicket(decodedText);
-  };
+    return () => {
+      stopCamera();
+    };
+  }, [stopCamera]);
 
-  const onScanFailure = (error: any) => {
-    // Ignore noise
-  };
-
-  const validateTicket = async (id: string) => {
-    setStatus('scanning');
-    await stopCamera();
-    
-    try {
-      const res = await fetch('/api/erp/validate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookingId: id }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        setResult(data);
-        if (data.alreadyValidated) {
-          setStatus('warning');
-        } else {
-          setStatus('success');
-        }
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      if (mode === 'camera' && status === 'idle' && selectedCameraId) {
+        startCamera(selectedCameraId);
       } else {
-        setErrorMsg(data.error || 'אימות נכשל');
-        setStatus('error');
+        stopCamera();
       }
-    } catch (err) {
-      setErrorMsg('שגיאת תקשורת עם השרת');
-      setStatus('error');
-    }
-  };
+    });
+  }, [mode, status, selectedCameraId, startCamera, stopCamera]);
 
   const resetScanner = () => {
     setStatus('idle');

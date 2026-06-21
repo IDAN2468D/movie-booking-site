@@ -65,13 +65,14 @@ export async function callOllama(
       model: modelToUse
     };
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown Ollama error';
     console.error('Ollama communication error:', error);
     return {
       success: false,
       content: '',
       model: modelToUse,
-      error: error.message || 'Unknown Ollama error'
+      error: errorMessage
     };
   }
 }

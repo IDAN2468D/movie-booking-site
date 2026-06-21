@@ -5,7 +5,16 @@ import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/mongoose";
 import Story from "@/lib/models/Story";
 import { revalidatePath } from "next/cache";
-import { getTrendingMovies } from "@/lib/tmdb";
+import { getTrendingMovies, Movie } from "@/lib/tmdb";
+
+interface IStoryDoc {
+  _id: { toString(): string };
+  movieId: string;
+  title: string;
+  posterUrl: string;
+  duration: number;
+  viewedBy: string[];
+}
 
 export async function getStories() {
   await connectToDatabase();
@@ -18,7 +27,7 @@ export async function getStories() {
       // Seed some initial stories from TMDB for the dashboard
       const trending = await getTrendingMovies();
       if (trending && trending.length > 0) {
-        const initialStories = trending.slice(0, 5).map((movie: any) => ({
+        const initialStories = trending.slice(0, 5).map((movie: Movie) => ({
           movieId: movie.id.toString(),
           title: movie.displayTitle || movie.title,
           posterUrl: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
@@ -30,7 +39,7 @@ export async function getStories() {
       }
     }
     
-    return stories.map((story: any) => {
+    return (stories as unknown as IStoryDoc[]).map((story: IStoryDoc) => {
       // Determine if the current user has viewed this story
       const hasViewed = session?.user?.email 
         ? story.viewedBy.includes(session.user.email) 

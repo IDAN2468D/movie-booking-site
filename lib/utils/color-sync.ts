@@ -1,4 +1,3 @@
-import { GENRE_MAP } from '../tmdb';
 
 export interface ColorPalette {
   primary: string;

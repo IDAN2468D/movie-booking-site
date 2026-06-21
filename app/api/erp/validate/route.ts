@@ -27,17 +27,20 @@ export async function POST(req: NextRequest) {
 
     // Find the booking
     // Support full ObjectId, custom ID field, or last 6 characters of _id
-    let query: any = { 
-      $or: [
-        { _id: ObjectId.isValid(bookingId) ? new ObjectId(bookingId) : null },
-        { id: bookingId }
-      ].filter(q => q !== null)
-    };
+    const orQuery: any[] = [
+      { id: bookingId }
+    ];
+
+    if (ObjectId.isValid(bookingId)) {
+      orQuery.push({ _id: new ObjectId(bookingId) });
+    }
 
     // If it's a 6-character hex string, try searching by suffix
     if (bookingId.length === 6 && /^[0-9a-fA-F]+$/.test(bookingId)) {
-      query.$or.push({ _id: { $regex: new RegExp(`${bookingId}$`, 'i') } });
+      orQuery.push({ _id: { $regex: new RegExp(`${bookingId}$`, 'i') } });
     }
+    
+    const query = { $or: orQuery };
     
     const booking = await db.collection("bookings").findOne(query);
 

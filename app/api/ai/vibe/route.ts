@@ -43,9 +43,10 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, recommendation: resultData.text });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Vibe Matcher Error:', error);
     // Ollama llava fallback could be added here if available locally
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Failed to analyze vibe';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }

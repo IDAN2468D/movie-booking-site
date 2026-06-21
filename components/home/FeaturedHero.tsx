@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Movie, getImageUrl } from '@/lib/tmdb';
-import { Star, Info, Heart, Ticket } from 'lucide-react';
+import { Star, Heart, Ticket } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
 import TrailerButton from '@/components/movie/TrailerButton';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';

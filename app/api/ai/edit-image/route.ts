@@ -21,7 +21,8 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, imageUrl });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to edit image';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }

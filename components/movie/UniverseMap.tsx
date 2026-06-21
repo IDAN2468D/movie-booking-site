@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Network, Loader2, Sparkles, AlertCircle, Maximize2 } from 'lucide-react';
 import { cn } from '@/lib/utils/index';
 
@@ -26,7 +26,7 @@ export function UniverseMap({ movieId, movieTitle }: { movieId: number, movieTit
       } else {
         setError("לא הצלחנו ליצור מפה ליקום הקולנועי. " + (data.error || ""));
       }
-    } catch (err) {
+    } catch {
       setError("שגיאת תקשורת עם שרת ה-AI.");
     } finally {
       setIsLoading(false);

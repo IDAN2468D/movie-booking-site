@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   let prompt = '';
   try {
-    const { movieId, movieTitle, overview } = await req.json();
+    const { movieTitle, overview } = await req.json();
 
     if (!movieTitle || !overview) {
       return NextResponse.json({ error: 'Movie title and overview are required' }, { status: 400 });
@@ -32,8 +32,9 @@ export async function POST(req: NextRequest) {
       model: modelUsed
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Audio Guide Gemini API Error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to generate audio script';
 
     // Ollama Fallback
     try {
@@ -55,7 +56,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: false,
-      error: error.message || 'Failed to generate audio script'
+      error: errorMessage
     }, { status: 500 });
   }
 }

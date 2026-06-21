@@ -22,12 +22,25 @@ interface GeminiHistoryItem {
   parts: { text: string }[];
 }
 
+interface HotMovie {
+  id: number;
+  title: string;
+  overview: string;
+  rating: number;
+}
+
+interface SpecificMovie {
+  id: number;
+  title: string;
+  [key: string]: unknown;
+}
+
 export async function POST(req: NextRequest) {
   let movieId: string | undefined = undefined;
   let message = '';
   let history: ChatHistoryItem[] = [];
-  let hotMovies: any[] = [];
-  let specificMovie: any = null;
+  let hotMovies: HotMovie[] = [];
+  let specificMovie: SpecificMovie | null = null;
   try {
     const body = await req.json();
     movieId = body.movieId;
@@ -66,8 +79,6 @@ export async function POST(req: NextRequest) {
       console.warn(`Failed to fetch specific movie ${movieId} from TMDB:`, tmdbErr);
     }
 
-    // 3. Simple Gemini Call (User requested ONLY 3.1 Flash Lite)
-    const modelName = 'gemini-3.1-flash-lite';
     let responseText = '';
 
     const formattedHistory: GeminiHistoryItem[] = history.map((msg) => ({

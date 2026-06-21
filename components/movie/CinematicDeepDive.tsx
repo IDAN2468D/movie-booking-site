@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Loader2, BookOpen, ChevronDown, Sparkles } from 'lucide-react';
+import { Search, Loader2, ChevronDown, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/lib/utils/index';
 
@@ -27,7 +27,7 @@ export function CinematicDeepDive({ movieId, movieTitle }: { movieId: number, mo
         } else {
           setResearchData("מצטערים, התרחשה שגיאה במהלך מחקר העומק.");
         }
-      } catch (err) {
+      } catch {
         setResearchData("שגיאת תקשורת.");
       } finally {
         setIsResearching(false);

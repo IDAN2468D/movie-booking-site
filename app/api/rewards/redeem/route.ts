@@ -41,7 +41,7 @@ export async function POST(req: Request) {
       { $inc: { points: -points } }
     );
 
-    const redemptionResult = await db.collection('redemptions').insertOne({
+    await db.collection('redemptions').insertOne({
       userId: user._id,
       rewardId,
       points,

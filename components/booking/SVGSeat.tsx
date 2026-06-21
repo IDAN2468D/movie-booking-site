@@ -39,14 +39,14 @@ export default function SVGSeat({
   const radius = 8;
 
   const getSeatColor = () => {
-    if (isOccupied) return 'rgba(255, 255, 255, 0.05)';
+    if (isOccupied) return 'rgba(255, 255, 255, 0.03)';
     if (isSelected) return auraColor;
     if (isLobbyUserSelecting) return '#22D3EE'; // Cyan-400
     return 'rgba(255, 255, 255, 0.1)';
   };
 
   const getStrokeColor = () => {
-    if (isOccupied) return 'rgba(255, 255, 255, 0.05)';
+    if (isOccupied) return 'rgba(255, 255, 255, 0.12)';
     if (isSelected) return auraColor;
     if (isLobbyUserSelecting) return '#22D3EE';
     return 'rgba(255, 255, 255, 0.15)';
@@ -60,14 +60,18 @@ export default function SVGSeat({
 
   return (
     <motion.g
-      transform={`translate(${x}, ${y})`}
+      style={{ 
+        x, 
+        y, 
+        originX: `${seatSize / 2}px`, 
+        originY: `${seatSize / 2}px` 
+      }}
       onMouseEnter={() => !isOccupied && onHover(seatId)}
       onMouseLeave={() => !isOccupied && onHover(null)}
       onClick={() => !isOccupied && onClick()}
       whileHover={isOccupied ? {} : { scale: 1.15, zIndex: 10 }}
       whileTap={isOccupied ? {} : { scale: 0.9 }}
-      className={isOccupied ? 'cursor-not-allowed opacity-20' : 'cursor-pointer'}
-      style={{ originX: `${seatSize / 2}px`, originY: `${seatSize / 2}px` }}
+      className={isOccupied ? 'cursor-not-allowed opacity-40' : 'cursor-pointer'}
     >
       {/* Heatmap Layer */}
       <AnimatePresence>

@@ -23,7 +23,6 @@ export default function TicketExport({
   seats,
   date,
   time,
-  posterUrl,
   className,
 }: TicketExportProps) {
   const [ticketToken, setTicketToken] = useState<string | null>(null);

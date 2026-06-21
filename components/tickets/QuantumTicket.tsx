@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import NextImage from 'next/image';
-import { Calendar, Clock, MapPin, QrCode, Sparkles, Heart, Film, Star, MessageSquare, Mail, Download, Loader2 } from 'lucide-react';
+import { Calendar, Clock, MapPin, QrCode, Sparkles, Film, Star, MessageSquare, Mail, Download, Loader2 } from 'lucide-react';
 
 interface TicketType {
   id: string;
@@ -35,7 +35,6 @@ export default function QuantumTicket({
   state,
   onEmail,
   onDownload,
-  onShare,
   isProcessingEmail,
   isProcessingPDF
 }: QuantumTicketProps) {

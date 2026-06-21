@@ -90,7 +90,9 @@ export default function CheckoutPage() {
           total: pricing.total, 
           paymentInfo: formData,
           branchId: selectedBranchId,
-          branchName: branch?.name
+          branchName: branch?.name,
+          date: selectedDate,
+          showtime: selectedShowtime
         }),
       });
       if (res.ok) {
