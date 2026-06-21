@@ -1,4 +1,7 @@
 [
   "obsidian-local-rest-api",
-  "templater-obsidian"
+  "templater-obsidian",
+  "agentfiles",
+  "obsidian-tasks-plugin",
+  "openaugi"
 ]
