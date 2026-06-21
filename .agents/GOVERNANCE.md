@@ -54,3 +54,8 @@ To maintain order, the agent must reference specific skills based on the task:
 ---
 > [!IMPORTANT]
 > This structure ensures that every technical decision is backed by a specific documented skill.
+
+### AMENDMENT: Obsidian Skills Integration (v4.1)
+As an exception and approved extension to the Unified AI Governance Standard (v4.0), the AI Agent is hereby authorized to recognize and execute skills defined within the Obsidian Vault environment.
+- Markdown files located in the project workspace containing `#skill` or `type: skill` in their Frontmatter properties are now classified as an official extension of the Single Source of Truth (SSoT).
+- In case of any technical conflict between an Obsidian Skill and core files (.agents/skills), the core system architecture (Zod validation, Liquid Glass UI, TICKETING, AUTH) will always take precedence to ensure system stability.
