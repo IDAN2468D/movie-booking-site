@@ -1,6 +1,10 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { useBookingStore } from '@/lib/store';
 import { Movie } from '@/lib/tmdb';
+
+vi.mock('next-auth/react', () => ({
+  getSession: vi.fn(() => Promise.resolve(null)),
+}));
 
 describe('Booking Store', () => {
   beforeEach(() => {

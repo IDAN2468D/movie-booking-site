@@ -36,7 +36,9 @@ export async function POST(req: NextRequest) {
 
     // 1. Fetch Context (More movies for better coverage)
     try {
-      const moviesRes = await fetch(`${TMDB_BASE_URL}/movie/now_playing?api_key=${TMDB_API_KEY}&language=he-IL&page=1`);
+      const moviesRes = await fetch(`${TMDB_BASE_URL}/movie/now_playing?api_key=${TMDB_API_KEY}&language=he-IL&page=1`, {
+        next: { revalidate: 3600 }
+      });
       if (moviesRes.ok) {
         const moviesData = await moviesRes.json();
         hotMovies = moviesData.results?.slice(0, 20).map((m: TMDBResult) => ({
@@ -53,7 +55,9 @@ export async function POST(req: NextRequest) {
     // 2. Fetch Specific Movie if requested
     try {
       if (movieId) {
-        const movieRes = await fetch(`${TMDB_BASE_URL}/movie/${movieId}?api_key=${TMDB_API_KEY}&language=he-IL`);
+        const movieRes = await fetch(`${TMDB_BASE_URL}/movie/${movieId}?api_key=${TMDB_API_KEY}&language=he-IL`, {
+          next: { revalidate: 3600 }
+        });
         if (movieRes.ok) {
           specificMovie = await movieRes.json();
         }

@@ -65,6 +65,21 @@ export async function POST(req: NextRequest) {
     const client = await clientPromise;
     const db = client.db();
 
+    // 1. Double-check seat availability (Server Lock)
+    const alreadyBooked = await db.collection("bookings").findOne({
+      "movie.id": movie.id,
+      showtime,
+      date,
+      status: "confirmed",
+      seats: { $in: seats }
+    });
+
+    if (alreadyBooked) {
+      return NextResponse.json({ 
+        error: "One or more of the selected seats are already booked." 
+      }, { status: 409 });
+    }
+
     const pointsEarned = calculatePointsEarned(expectedTotal);
 
     const booking = {
@@ -97,6 +112,27 @@ export async function POST(req: NextRequest) {
         } 
       }
     );
+
+    // Write points activity ledger entries
+    if (pointsEarned > 0) {
+      await db.collection("loyalty_ledger").insertOne({
+        userId: session.user.id,
+        pointsDelta: pointsEarned,
+        reason: "TICKET_PURCHASE",
+        bookingId: bookingResult.insertedId.toString(),
+        timestamp: new Date()
+      });
+    }
+
+    if (pointsUsed > 0) {
+      await db.collection("loyalty_ledger").insertOne({
+        userId: session.user.id,
+        pointsDelta: -pointsUsed,
+        reason: "TICKET_REDEMPTION",
+        bookingId: bookingResult.insertedId.toString(),
+        timestamp: new Date()
+      });
+    }
 
     return NextResponse.json({ 
       success: true, 

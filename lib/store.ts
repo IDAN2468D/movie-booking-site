@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { Movie } from './tmdb';
+import { getPaletteForMovie } from './utils/color-sync';
 
 interface BookingState {
   selectedMovie: Movie | null;
@@ -23,7 +24,8 @@ interface BookingState {
   setSeats: (seatIds: string[]) => void;
   toggleSeat: (seatId: string) => void;
   updateFoodQuantity: (foodId: number, delta: number) => void;
-  toggleFavorite: (movie: Movie) => void;
+  toggleFavorite: (movie: Movie) => Promise<void>;
+  syncFavorites: (userId: string) => Promise<void>;
   activeCategory: string;
   setActiveCategory: (category: string) => void;
   searchQuery: string;
@@ -79,14 +81,52 @@ export const useBookingStore = create<BookingState>((set) => ({
   setLobbyUsers: (users) => set({ lobbyUsers: users }),
   setActiveMoods: (moods) => set({ activeMoods: moods }),
 
-  toggleFavorite: (movie) => set((state) => ({
-    favorites: state.favorites.find(m => m.id === movie.id)
-      ? state.favorites.filter((m) => m.id !== movie.id)
-      : [...state.favorites, movie]
-  })),
+  toggleFavorite: async (movie) => {
+    set((state) => ({
+      favorites: state.favorites.some((m) => m.id === movie.id)
+        ? state.favorites.filter((m) => m.id !== movie.id)
+        : [...state.favorites, movie]
+    }));
+
+    if (process.env.NODE_ENV === 'test') {
+      return;
+    }
+
+    try {
+      const { getSession } = await import('next-auth/react');
+      const session = await getSession();
+      if (session?.user?.id) {
+        const { toggleFavoriteInDb } = await import('./actions/favorites');
+        await toggleFavoriteInDb(session.user.id, movie);
+      }
+    } catch (err) {
+      console.error('Failed to sync favorite to DB:', err);
+    }
+  },
+
+  syncFavorites: async (userId) => {
+    try {
+      const { getFavorites } = await import('./actions/favorites');
+      const result = await getFavorites(userId);
+      if (result.success && result.data) {
+        set({ favorites: result.data });
+      }
+    } catch (err) {
+      console.error('Failed to sync favorites from DB:', err);
+    }
+  },
 
   setActiveCategory: (category) => set({ activeCategory: category }),
-  setSelectedMovie: (movie) => set({ selectedMovie: movie, activeCategory: 'all', selectedSeats: [], selectedBranchId: null }), 
+  setSelectedMovie: (movie) => {
+    const palette = getPaletteForMovie(movie?.genre_ids || []);
+    set({ 
+      selectedMovie: movie, 
+      activeCategory: 'all', 
+      selectedSeats: [], 
+      selectedBranchId: null,
+      auraColor: palette.primary
+    });
+  },
   setSelectedBranchId: (id) => set({ selectedBranchId: id }),
   setSelectedShowtime: (time) => set({ selectedShowtime: time }),
   setSelectedDate: (date) => set({ selectedDate: date }),

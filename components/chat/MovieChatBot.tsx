@@ -21,7 +21,7 @@ export default function MovieChatBot() {
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [botState, setBotState] = useState<'idle' | 'thinking' | 'speaking'>('idle');
+  const [botState, setBotState] = useState<'idle' | 'listening' | 'processing' | 'speaking'>('idle');
   
   const { allMovies, setSelectedMovie, setFilters, toggleFavorite } = useBookingStore();
   const pathname = usePathname();
@@ -31,6 +31,23 @@ export default function MovieChatBot() {
     window.addEventListener('open-movie-chat', handleOpen);
     return () => window.removeEventListener('open-movie-chat', handleOpen);
   }, []);
+
+  // Sync botState based on user activity
+  useEffect(() => {
+    if (!isOpen) {
+      setBotState('idle');
+      return;
+    }
+    if (isTyping) {
+      setBotState('processing');
+    } else if (botState !== 'speaking') {
+      if (input.trim().length > 0) {
+        setBotState('listening');
+      } else {
+        setBotState('idle');
+      }
+    }
+  }, [input, isTyping, isOpen, botState]);
 
   const handleSend = async (messageText?: string) => {
     const userPrompt = (messageText || input).trim();
@@ -47,7 +64,7 @@ export default function MovieChatBot() {
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setIsTyping(true);
-    setBotState('thinking');
+    setBotState('processing');
 
     try {
       // 1. Try conversational State Control (Local Gemma 2 fallback or Gemini)

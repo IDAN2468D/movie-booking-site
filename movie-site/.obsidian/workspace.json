@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "My First Skill.md",
+                "file": "WorkPlan.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "My First Skill"
+              "title": "WorkPlan"
             }
           }
         ],
@@ -200,14 +200,15 @@
   },
   "active": "c9325be2ccd36f0e",
   "lastOpenFiles": [
-    "My First Skill.md.canvas",
+    "Auto-Checklist Skill.md",
+    "AI_Concierge.md",
+    "Auth_Loyalty.md",
+    "Booking_Engine.md",
     "My First Skill.md",
     "QA_CICD.md",
     "UI_DesignSystem.md",
     "WorkPlan.md",
-    "Booking_Engine.md",
-    "Auth_Loyalty.md",
-    "AI_Concierge.md",
+    "My First Skill.md.canvas",
     "Welcome.md"
   ]
 }

@@ -41,13 +41,22 @@ export async function POST(req: Request) {
       { $inc: { points: -points } }
     );
 
-    await db.collection('redemptions').insertOne({
+    const redemptionResult = await db.collection('redemptions').insertOne({
       userId: user._id,
       rewardId,
       points,
       code: voucherCode,
       createdAt: new Date(),
       status: 'active'
+    });
+
+    // Log point deduction in ledger
+    await db.collection('loyalty_ledger').insertOne({
+      userId: user._id.toString(),
+      pointsDelta: -points,
+      reason: "REWARD_REDEMPTION",
+      rewardId,
+      timestamp: new Date()
     });
 
     return NextResponse.json({ 

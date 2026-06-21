@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, useScroll } from 'framer-motion';
+import { useSession } from 'next-auth/react';
 import Sidebar from "@/components/layout/Sidebar";
 import TopBar from "@/components/layout/TopBar";
 import RightPanel from "@/components/layout/RightPanel";
@@ -22,7 +23,15 @@ export default function MainLayout({
   const { scrollYProgress } = useScroll({ container: mainRef });
   
   const auraColor = useBookingStore((state) => state.auraColor);
+  const syncFavorites = useBookingStore((state) => state.syncFavorites);
+  const { data: session, status } = useSession();
   const isERP = pathname?.startsWith('/erp');
+
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.id) {
+      syncFavorites(session.user.id);
+    }
+  }, [status, session, syncFavorites]);
 
   if (isERP) {
     return (

@@ -12,7 +12,7 @@ interface ChatWindowProps {
   input: string;
   setInput: (val: string) => void;
   isTyping: boolean;
-  botState: 'idle' | 'thinking' | 'speaking';
+  botState: 'idle' | 'listening' | 'processing' | 'speaking';
   handleSend: (text?: string) => void;
   handleMovieSelect: (movie: any) => void;
   quickActions: string[];
@@ -52,23 +52,29 @@ export default function ChatWindow({
           <div className="relative w-10 h-10 rounded-2xl flex items-center justify-center border border-white/10 overflow-hidden bg-black/40">
             <motion.div
               animate={
-                botState === 'thinking'
+                botState === 'processing'
                   ? { rotate: 360 }
+                  : botState === 'listening'
+                  ? { scale: [1, 1.1, 1] }
                   : botState === 'speaking'
                   ? { scale: [1, 1.15, 1] }
                   : { scale: [1, 1.05, 1] }
               }
               transition={
-                botState === 'thinking'
+                botState === 'processing'
                   ? { repeat: Infinity, duration: 1.5, ease: "linear" }
+                  : botState === 'listening'
+                  ? { repeat: Infinity, duration: 1.2 }
                   : { repeat: Infinity, duration: 2.5 }
               }
               style={{
                 background:
-                  botState === 'thinking'
+                  botState === 'processing'
                     ? 'linear-gradient(135deg, #0AEFFF 0%, transparent 100%)'
-                    : botState === 'speaking'
+                    : botState === 'listening'
                     ? 'linear-gradient(135deg, #FF1464 0%, transparent 100%)'
+                    : botState === 'speaking'
+                    ? 'linear-gradient(135deg, #FF9F0A 0%, transparent 100%)'
                     : 'linear-gradient(135deg, #FF1464 0%, #0AEFFF 100%)',
               }}
               className="absolute inset-0 opacity-40"
@@ -78,6 +84,14 @@ export default function ChatWindow({
                 initial={{ scale: 1, opacity: 0.6 }}
                 animate={{ scale: 1.5, opacity: 0 }}
                 transition={{ repeat: Infinity, duration: 1.5 }}
+                className="absolute inset-0 rounded-2xl border border-[#FF9F0A]/30 pointer-events-none"
+              />
+            )}
+            {botState === 'listening' && (
+              <motion.div
+                initial={{ scale: 1, opacity: 0.5 }}
+                animate={{ scale: 1.3, opacity: 0 }}
+                transition={{ repeat: Infinity, duration: 1 }}
                 className="absolute inset-0 rounded-2xl border border-primary/30 pointer-events-none"
               />
             )}
@@ -89,11 +103,17 @@ export default function ChatWindow({
               <div
                 className={cn(
                   "w-1.5 h-1.5 rounded-full",
-                  botState === 'thinking' ? "bg-cyan-400 animate-ping" : "bg-green-500 animate-pulse"
+                  botState === 'processing'
+                    ? "bg-cyan-400 animate-ping"
+                    : botState === 'listening'
+                    ? "bg-primary animate-pulse"
+                    : botState === 'speaking'
+                    ? "bg-[#FF9F0A] animate-pulse"
+                    : "bg-green-500 animate-pulse"
                 )}
               />
               <span className="text-[10px] text-slate-400 font-black uppercase tracking-wider">
-                {botState === 'thinking' ? 'חושב...' : botState === 'speaking' ? 'מדבר...' : 'מחובר'}
+                {botState === 'processing' ? 'חושב...' : botState === 'listening' ? 'מקשיב...' : botState === 'speaking' ? 'מדבר...' : 'מחובר'}
               </span>
             </div>
           </div>
