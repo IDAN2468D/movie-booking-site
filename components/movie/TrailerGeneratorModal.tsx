@@ -24,7 +24,7 @@ export default function TrailerGeneratorModal({ isOpen, onClose, movieTitle }: P
             clearInterval(interval);
             setIsGenerating(false);
             // Example high-quality cinematic video placeholder
-            setGeneratedVideo('https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4');
+            setGeneratedVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4');
             return 100;
           }
           return p + 2; // ~5 seconds simulation
@@ -109,6 +109,8 @@ export default function TrailerGeneratorModal({ isOpen, onClose, movieTitle }: P
                     src={generatedVideo} 
                     controls 
                     autoPlay 
+                    muted
+                    playsInline
                     className="w-full h-full aspect-video object-cover"
                   />
                 </div>
