@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Users, Monitor } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 import SVGSeat from './SVGSeat';
+import CineSyncSeatOverlay from '../premium/cinesync/CineSyncSeatOverlay';
+import { useCineSyncStore } from '@/lib/store/cinesyncStore';
 
 interface LobbyCursorProps {
   name: string;
@@ -43,6 +45,7 @@ export default function SeatMap() {
   const selectedMovie = useBookingStore((state) => state.selectedMovie);
   const selectedShowtime = useBookingStore((state) => state.selectedShowtime);
   const selectedDate = useBookingStore((state) => state.selectedDate);
+  const { activeRoomId, participants } = useCineSyncStore();
 
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [hoveredSeat, setHoveredSeat] = useState<string | null>(null);
@@ -131,13 +134,21 @@ export default function SeatMap() {
           <span className="text-[10px] font-black uppercase tracking-widest">מפת חום</span>
         </button>
         
-        <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
-          <Users size={12} className="animate-pulse" />
-          <span className="text-[9px] font-black uppercase tracking-wider">חדר פעיל: 3 משתמשים</span>
-        </div>
+        {activeRoomId ? (
+          <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
+            <Users size={12} className="animate-pulse" />
+            <span className="text-[9px] font-black uppercase tracking-wider">חדר פעיל: {participants.length} משתמשים</span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/5 border border-white/10 text-slate-400">
+            <Users size={12} />
+            <span className="text-[9px] font-black uppercase tracking-wider">הזמנה אישית</span>
+          </div>
+        )}
       </div>
 
       <div className="w-full relative mb-8">
+        <CineSyncSeatOverlay />
         <svg viewBox="0 0 370 420" className="w-full h-auto overflow-visible select-none">
           <defs>
             <linearGradient id="screenGradient" x1="0%" y1="0%" x2="100%" y2="0%">

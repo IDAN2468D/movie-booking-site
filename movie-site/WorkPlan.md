@@ -91,3 +91,17 @@ Supercharging the experience with real-time web grounding and creative visual st
 - [x] **Cinematic Deep Research**: A "Deep Dive" trivia report generator (`gemini_deep_research`) on the movie page.
 - [x] **Generative Custom SVG Hall Maps**: Dynamically generated SVG seating charts (`generate_svg`) for special screenings.
 
+---
+
+## 💎 Phase 9: Premium CineSync Live Lounge Expansion
+Real-time collaborative booking lounge portal.
+
+- [x] **Zod Validation & Schemas**: Created safe type schemas (`types/cinesync.ts`) representing room details and participant cursor coordinate inputs.
+- [x] **CineSync Room Model**: Implemented the `CineSyncRoom` Mongoose schema (`lib/models/CineSyncRoom.ts`) supporting live coordinates, active seat selections, and a 1-hour auto-destruct TTL.
+- [x] **Next.js 15 Server Actions**: Added secure server actions (`lib/actions/cinesync.ts`) managing room creation, joining, synchronization polling, and heartbeat cleanup of inactive users.
+- [x] **Zustand State Sync**: Created a dedicated Zustand store (`lib/store/cinesyncStore.ts`) linking the client-side heartbeat loop with the global booking store's `lobbyUsers`.
+- [x] **Liquid Glass Portal UI**: Built the Lounge portal dashboard (`CineSyncDashboard.tsx`) with invite sharing, active roster display, and readyness indicators.
+- [x] **Spring-Based Cursor Overlay**: Developed the SVG seat map overlay (`CineSyncSeatOverlay.tsx`) tracking client mouse/touch movements, converting coords to viewport percentages, and rendering peer cursors with smooth spring physics.
+
+
+

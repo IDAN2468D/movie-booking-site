@@ -11,6 +11,7 @@ import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
 import { motion } from 'framer-motion';
 import { MarkerHighlight } from '../fx/MarkerHighlight';
+import CineSyncDashboard from '../premium/cinesync/CineSyncDashboard';
 export default function RightPanel() {
   useSession();
   const { 
@@ -154,6 +155,8 @@ export default function RightPanel() {
           </motion.div>
 
           <div className="space-y-8 flex-1">
+            <CineSyncDashboard />
+
             {/* Cinema Selector Card */}
             <div className="bg-gradient-to-br from-white/[0.05] to-transparent rounded-[40px] p-8 border border-white/10 shadow-[0_40px_80px_rgba(0,0,0,0.4),inset_0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-md relative overflow-hidden">
                {/* Holographic overlay inside card */}
