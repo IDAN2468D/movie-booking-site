@@ -1,21 +1,30 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Gavel, BrainCircuit, Users, Diamond, Wind } from 'lucide-react';
+import { Gavel, BrainCircuit, Users, Diamond, Wind, Coffee, Lock, Ghost, Activity } from 'lucide-react';
 import { SeatAuctions } from './SeatAuctions';
 import { OracleBets } from './OracleBets';
 import { SquadBudgets } from './SquadBudgets';
 import { CineCollectibles } from './CineCollectibles';
 import { MovieHaptics } from './MovieHaptics';
+import { NeuralCatering } from './NeuralCatering';
+import { TemporalVaults } from './TemporalVaults';
+import { PhantomPresence } from './PhantomPresence';
+import { QuantumLoyalty } from './QuantumLoyalty';
 
 export const LiquidHubTabs = ({ 
-  auctions, predictions, squads, collectibles 
+  auctions, predictions, squads, collectibles, catering, vaults, phantom, loyalty
 }: { 
-  auctions: any[], predictions: any[], squads: any[], collectibles: any[] 
+  auctions: any[], predictions: any[], squads: any[], collectibles: any[],
+  catering: any[], vaults: any[], phantom: any[], loyalty: any[]
 }) => {
-  const [activeTab, setActiveTab] = useState('oracle'); // Set default to oracle to show it off!
+  const [activeTab, setActiveTab] = useState('loyalty');
 
   const tabs = [
+    { id: 'loyalty', label: 'VIP Status', icon: Activity },
+    { id: 'phantom', label: 'Cine-Ghosting', icon: Ghost },
+    { id: 'vaults', label: '8K Vaults', icon: Lock },
+    { id: 'catering', label: 'BiteMatrix', icon: Coffee },
     { id: 'oracle', label: 'הימורי אורקל', icon: BrainCircuit },
     { id: 'squad', label: 'קופת חברים', icon: Users },
     { id: 'collectibles', label: 'אספנות', icon: Diamond },
@@ -43,6 +52,10 @@ export const LiquidHubTabs = ({
       </div>
 
       <div className="w-full relative min-h-[400px]">
+        {activeTab === 'loyalty' && <QuantumLoyalty initialLoyalty={loyalty} />}
+        {activeTab === 'phantom' && <PhantomPresence initialInvites={phantom} />}
+        {activeTab === 'vaults' && <TemporalVaults initialVaults={vaults} />}
+        {activeTab === 'catering' && <NeuralCatering initialCatering={catering} />}
         {activeTab === 'oracle' && <OracleBets initialPredictions={predictions} />}
         {activeTab === 'squad' && <SquadBudgets initialSquads={squads} />}
         {activeTab === 'collectibles' && <CineCollectibles initialCollectibles={collectibles} />}

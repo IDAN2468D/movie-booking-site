@@ -82,6 +82,85 @@ export async function GET() {
       ]);
     }
 
+    // 4. Neural Sync Catering
+    const cateringCollection = db.collection('catering');
+    if (await cateringCollection.countDocuments() === 0) {
+      await cateringCollection.insertMany([
+        {
+          userId: 'user-vip-1',
+          mood: 'focused',
+          items: ['Espresso Double Shot', 'Dark Chocolate Truffle'],
+          totalPrice: 45,
+          status: 'preparing',
+          seatNumber: 'A-12 (VIP)'
+        },
+        {
+          userId: 'user-vip-2',
+          mood: 'hyped',
+          items: ['Energy Elixir', 'Spicy Nachos', 'Neon Popcorn'],
+          totalPrice: 85,
+          status: 'delivering',
+          seatNumber: 'B-08 (VIP)'
+        }
+      ]);
+    }
+
+    // 5. Temporal Vaults
+    const vaultsCollection = db.collection('temporal_vaults');
+    if (await vaultsCollection.countDocuments() === 0) {
+      const nextWeek = new Date();
+      nextWeek.setDate(nextWeek.getDate() + 7);
+      await vaultsCollection.insertMany([
+        {
+          userId: 'user-vip-1',
+          movieId: 'Blade Runner 2049 (8K Holographic Remaster)',
+          pointsCost: 150000,
+          scheduledFor: nextWeek,
+          status: 'locked'
+        },
+        {
+          userId: 'user-vip-3',
+          movieId: 'The Matrix (Original 1999)',
+          pointsCost: 80000,
+          scheduledFor: new Date(),
+          status: 'locked'
+        }
+      ]);
+    }
+
+    // 6. Phantom Presence
+    const phantomCollection = db.collection('phantom_invites');
+    if (await phantomCollection.countDocuments() === 0) {
+      await phantomCollection.insertMany([
+        {
+          hostId: 'user-vip-1',
+          guestEmail: 'ghost.friend@cyber.net',
+          bookingId: 'BK-998822',
+          status: 'pending'
+        },
+        {
+          hostId: 'user-vip-2',
+          guestEmail: 'remote.viewer@matrix.io',
+          bookingId: 'BK-112233',
+          status: 'accepted'
+        }
+      ]);
+    }
+
+    // 7. Quantum Loyalty
+    const loyaltyCollection = db.collection('quantum_loyalty');
+    if (await loyaltyCollection.countDocuments() === 0) {
+      await loyaltyCollection.insertMany([
+        {
+          userId: 'user-vip-1',
+          tier: 'singularity',
+          points: 842500,
+          multiplier: 4.5,
+          lastActivity: new Date()
+        }
+      ]);
+    }
+
     return NextResponse.json({ message: 'All Liquid VIP systems seeded successfully!' });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

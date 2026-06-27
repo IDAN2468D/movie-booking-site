@@ -6,21 +6,33 @@ import { getActiveAuctions } from "@/lib/actions/auctions";
 import { getActivePredictions } from "@/lib/actions/oracle";
 import { getActiveSquads } from "@/lib/actions/squad";
 import { getCollectibles } from "@/lib/actions/collectibles";
+import { getCateringPredictions } from "@/lib/actions/catering";
+import { getTemporalVaults } from "@/lib/actions/vaults";
+import { getPhantomInvites } from "@/lib/actions/phantom";
+import { getQuantumLoyalty } from "@/lib/actions/loyalty";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export default async function Dashboard() {
-  const [auctionsRes, predictionsRes, squadsRes, collectiblesRes] = await Promise.all([
+  const [auctionsRes, predictionsRes, squadsRes, collectiblesRes, cateringRes, vaultsRes, phantomRes, loyaltyRes] = await Promise.all([
     getActiveAuctions(),
     getActivePredictions(),
     getActiveSquads(),
-    getCollectibles()
+    getCollectibles(),
+    getCateringPredictions(),
+    getTemporalVaults(),
+    getPhantomInvites(),
+    getQuantumLoyalty()
   ]);
 
   const auctions = (auctionsRes.success ? auctionsRes.data : []) as any[];
   const predictions = (predictionsRes.success ? predictionsRes.data : []) as any[];
   const squads = (squadsRes.success ? squadsRes.data : []) as any[];
   const collectibles = (collectiblesRes.success ? collectiblesRes.data : []) as any[];
+  const catering = (cateringRes.success ? cateringRes.data : []) as any[];
+  const vaults = (vaultsRes.success ? vaultsRes.data : []) as any[];
+  const phantom = (phantomRes.success ? phantomRes.data : []) as any[];
+  const loyalty = (loyaltyRes.success ? loyaltyRes.data : []) as any[];
 
   return (
     <div className="liquid-glass-theme" dir="rtl">
@@ -100,6 +112,10 @@ export default async function Dashboard() {
               predictions={predictions} 
               squads={squads} 
               collectibles={collectibles} 
+              catering={catering}
+              vaults={vaults}
+              phantom={phantom}
+              loyalty={loyalty}
             />
           </section>
         </main>
