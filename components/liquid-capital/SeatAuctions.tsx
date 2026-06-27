@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useOptimistic, startTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gavel, Clock, Flame, ShieldAlert, CheckCircle2 } from 'lucide-react';
+import { Crown, Sparkles, Clock, Flame, ShieldAlert, CheckCircle2, Gavel } from 'lucide-react';
 import { placeBid } from '@/lib/actions/auctions';
 import { useSession } from 'next-auth/react';
 
@@ -121,29 +121,36 @@ export const SeatAuctions = ({ initialAuctions }: { initialAuctions: Auction[] }
 
   return (
     <div className="w-full space-y-6 relative mt-4">
-      <div className="flex items-center gap-4 mb-8 relative group">
+      <div className="flex items-center gap-5 mb-10 relative group">
         <motion.div 
           className="relative flex items-center justify-center p-2"
-          animate={{ rotate: [-5, 15, -5] }}
-          transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+          animate={{ y: [-4, 4, -4] }}
+          transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
         >
-          <Gavel className="w-8 h-8 text-[#fbbf24] relative z-10 drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]" />
+          <Crown className="w-10 h-10 text-[#fbbf24] relative z-10 drop-shadow-[0_0_16px_rgba(251,191,36,0.9)]" />
+          <Sparkles className="w-5 h-5 text-white absolute -top-2 -right-2 z-20 animate-pulse drop-shadow-md" />
           <motion.div 
-            className="absolute inset-0 bg-[#fbbf24] blur-xl rounded-full"
-            animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.7, 0.4] }}
-            transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+            className="absolute inset-0 bg-gradient-to-tr from-[#fbbf24] to-[#ffed4a] blur-2xl rounded-full"
+            animate={{ scale: [0.8, 1.4, 0.8], opacity: [0.3, 0.7, 0.3] }}
+            transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
           />
         </motion.div>
+        
         <div className="relative">
-          <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-white via-[#fbbf24] to-[#fbbf24] tracking-tight font-outfit drop-shadow-sm">
-            מכרזי VIP <span className="text-white/40 font-light text-xl">(Live Auctions)</span>
-          </h2>
-          <motion.div 
-            className="absolute -bottom-2 right-0 h-[2px] bg-gradient-to-l from-[#fbbf24] to-transparent"
-            initial={{ width: 0 }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-          />
+          <motion.h2 
+            className="text-4xl md:text-5xl font-black tracking-tighter font-outfit drop-shadow-lg flex flex-col leading-none"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <span className="text-transparent bg-clip-text bg-gradient-to-l from-[#fbbf24] via-[#fffbeb] to-[#fbbf24] bg-[length:200%_auto] pb-1">
+              מכרזי VIP
+            </span>
+            <span className="text-white/50 font-medium text-sm md:text-base tracking-[0.2em] uppercase mt-2 flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shadow-[0_0_12px_rgba(239,68,68,0.9)]"></span>
+              Live Premium Bidding
+            </span>
+          </motion.h2>
         </div>
       </div>
 
