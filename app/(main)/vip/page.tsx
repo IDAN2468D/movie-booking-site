@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Crown, Sparkles, Popcorn, Ticket, BadgePercent, ChevronDown, Check, Coins, Flame } from 'lucide-react';
+import Link from 'next/link';
 
 // 1. Loyalty Tour steps
 const LOYALTY_STEPS = [
@@ -294,15 +295,15 @@ export default function VipPage() {
                 </div>
 
                 <div className="mt-10">
-                  <button 
-                    className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl active:scale-95 transition-all duration-300 cursor-pointer ${
+                  <Link href="/vip/liquid-capital"
+                    className={`block text-center w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl active:scale-95 transition-all duration-300 cursor-pointer ${
                       tier.popular
                         ? 'bg-primary text-background hover:bg-white hover:text-black shadow-[0_15px_30px_rgba(255,20,100,0.35)]'
                         : 'bg-white/5 border border-white/10 text-white hover:bg-white hover:text-black hover:border-white'
                     }`}
                   >
                     הירשם עכשיו
-                  </button>
+                  </Link>
                 </div>
               </div>
             </ScrollReveal>

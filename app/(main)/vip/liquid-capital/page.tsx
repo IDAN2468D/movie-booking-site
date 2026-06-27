@@ -1,6 +1,10 @@
+"use client";
+
 import { BrainOrb } from "@/components/liquid-capital/BrainOrb";
 import { LiquidFlowPredictor } from "@/components/liquid-capital/LiquidFlowPredictor";
 import { AssetRefractionGrid } from "@/components/liquid-capital/AssetRefractionGrid";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default function Dashboard() {
   return (
@@ -15,18 +19,30 @@ export default function Dashboard() {
         <main className="relative z-10 max-w-7xl mx-auto flex flex-col gap-10 pt-4 md:pt-8">
           <header className="flex justify-between items-end pb-6 border-b border-white/10">
             <div>
+              <Link href="/vip" className="inline-flex items-center gap-2 text-white/50 hover:text-[#F5A623] transition-colors mb-4 text-sm font-medium">
+                <ArrowRight size={16} /> חזרה לעמוד ה-VIP
+              </Link>
               <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">
                 Liquid <span className="text-gold-gradient">Capital</span>
               </h1>
               <p className="text-white/50 text-lg">מרכז ניהול הון חכם - פרימיום</p>
             </div>
             <div className="hidden md:flex gap-4">
-              <button className="glass-panel px-6 py-2.5 text-sm font-medium hover:bg-white/10 transition-colors">
+              <button 
+                onClick={() => {
+                  alert('מייצר דוח PDF פרימיום...');
+                  setTimeout(() => alert('הדוח המלא נשלח לתיבת המייל שלך! 📄'), 1500);
+                }}
+                className="glass-panel px-6 py-2.5 text-sm font-medium hover:bg-white/10 transition-colors cursor-pointer"
+              >
                 הורד דוח
               </button>
-              <button className="bg-[#F5A623] text-black px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-[#FFD700] transition-colors shadow-[0_0_20px_rgba(245,166,35,0.4)]">
+              <Link 
+                href="/checkout"
+                className="bg-[#F5A623] text-black px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-[#FFD700] transition-colors shadow-[0_0_20px_rgba(245,166,35,0.4)] cursor-pointer flex items-center"
+              >
                 הפקדה חדשה
-              </button>
+              </Link>
             </div>
           </header>
 
