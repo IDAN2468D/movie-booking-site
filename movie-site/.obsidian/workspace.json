@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 336.5
   },
   "right": {
     "id": "5796bc50e01f7577",
@@ -188,16 +188,16 @@
   "active": "222d388d3a191d1f",
   "lastOpenFiles": [
     "UI_DesignSystem.md",
-    "WorkPlan.md",
-    "AI_Index.md",
-    "Auto-Checklist Skill.md",
-    "Booking_Engine.md",
+    "QA_CICD.md",
     "My First Skill.md",
+    "Booking_Engine.md",
+    "Auto-Checklist Skill.md",
+    "Auth_Loyalty.md",
+    "AI_Index.md",
+    "AI_Concierge.md",
+    "WorkPlan.md",
     "AI_Index.canvas",
     "AI_Index.md.md",
-    "QA_CICD.md",
-    "Auth_Loyalty.md",
-    "AI_Concierge.md",
     "My First Skill.md.canvas",
     "Welcome.md"
   ]
