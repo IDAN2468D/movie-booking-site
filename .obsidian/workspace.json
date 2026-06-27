@@ -1,0 +1,235 @@
+{
+  "main": {
+    "id": "48000f1a8ba3b60b",
+    "type": "split",
+    "children": [
+      {
+        "id": "7bd32ebe5732f138",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f0793a33ad364b64",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Agents_Docs/rules/project_spec.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "project_spec"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5064a245d4f49e4d",
+    "type": "split",
+    "children": [
+      {
+        "id": "aee2e2327cb7f9f9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d0c4c5f9cbc80945",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "סייר קבצים"
+            }
+          },
+          {
+            "id": "393b830378392a55",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "לחפש"
+            }
+          },
+          {
+            "id": "49879d427f026f56",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "סימניות"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "36f6cb793c14aefb",
+    "type": "split",
+    "children": [
+      {
+        "id": "83b2b7b725c80b09",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7b28d0c180431c03",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Agents_Docs/rules/project_spec.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "קישורים נכנסים עבור project_spec"
+            }
+          },
+          {
+            "id": "25b615c51e9ffcb7",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Agents_Docs/rules/project_spec.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "קישורים יוצאים מ-project_spec"
+            }
+          },
+          {
+            "id": "96bdc0b9c6fe2ac2",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "תגים"
+            }
+          },
+          {
+            "id": "77f311d661d07259",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "כל המאפיינים"
+            }
+          },
+          {
+            "id": "cc380a1e47b83c8d",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Agents_Docs/rules/project_spec.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "מתאר של project_spec"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:פתח את המחליף המהיר": false,
+      "graph:פתח תצוגת גרף": false,
+      "canvas:צור קנבס חדש": false,
+      "daily-notes:פתח את ההערה של היום": false,
+      "templates:הכנס תבנית": false,
+      "command-palette:פתח את לוח הפקודות": false,
+      "bases:צור בסיס חדש": false
+    }
+  },
+  "active": "d0c4c5f9cbc80945",
+  "lastOpenFiles": [
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/utf8_io.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/token_estimate.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/session_store.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/runtime_env.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/plugin_env.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/hook_io.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/hermes_session.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/credential_patterns.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/copilot_session.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/codex_state.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/scripts/__pycache__/codex_session.cpython-313.pyc",
+    "movie-site/Skills/token-optimizer/references/token-flow-architecture.md",
+    "movie-site/Skills/token-optimizer/references/presentation-workflow.md",
+    "movie-site/Skills/token-optimizer/references/phase0-setup.md",
+    "movie-site/Skills/token-optimizer/references/optimization-checklist.md",
+    "movie-site/Skills/token-optimizer/references/opencode-workflow.md",
+    "movie-site/Skills/token-optimizer/references/implementation-playbook.md",
+    "movie-site/Skills/token-optimizer/references/error-recovery.md",
+    "movie-site/Skills/token-optimizer/references/codex-workflow.md",
+    "movie-site/Skills/token-optimizer/references/cli-reference.md",
+    "movie-site/Skills/token-optimizer/references/agent-prompts.md",
+    "movie-site/Skills/token-optimizer/examples/claude-md-optimized.md",
+    "movie-site/Skills/token-optimizer/assets/user-profiles.svg",
+    "movie-site/Skills/token-optimizer/assets/status-bar.svg",
+    "movie-site/Skills/token-optimizer/assets/session-database-flow.svg",
+    "movie-site/Skills/token-optimizer/assets/real-savings.svg",
+    "movie-site/Skills/token-optimizer/assets/quality-nudges-loops.svg",
+    "movie-site/Skills/token-optimizer/assets/quality-example.svg",
+    "movie-site/Skills/token-optimizer/assets/logo.svg",
+    "movie-site/Skills/token-optimizer/assets/how-it-works.svg",
+    "movie-site/Skills/token-optimizer/assets/hero-terminal.svg",
+    "movie-site/Skills/token-optimizer/assets/delta-mode.svg",
+    "movie-site/Skills/shared/yuv-design/SKILL.md",
+    "movie-site/Skills/shared/yuv-design/patterns.md",
+    "movie-site/Skills/shared/yuv-design/lessons-learned.md",
+    "movie-site/Skills/features/SOCIAL.md",
+    "movie-site/Skills/features/LOYALTY.md",
+    "movie-site/Skills/features/CONCIERGE.md",
+    "movie-site/Skills/features/AUTH.md",
+    "movie-site/Skills/token-optimizer/SKILL.md",
+    "movie-site/Skills/core/UI.md",
+    "movie-site/Skills/shared/RENDER_DEPLOYMENT.md",
+    "movie-site/Skills/core/SEARCH.md",
+    "movie-site/Skills/core/RESEARCH.md",
+    "movie-site/Skills/core/QA_CICD.md",
+    "movie-site/Skills/core/OPTIMIZATION.md"
+  ]
+}
