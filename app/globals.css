@@ -285,3 +285,26 @@ h1, h2, h3, h4, h5, h6 {
   scrollbar-width: none;
 }
 
+
+/* Liquid Capital AI Scoped Theme */
+.liquid-glass-theme {
+  --background: #050505;
+  --foreground: #F0F0F0;
+  --gold-accent: #F5A623;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 20px;
+}
+.liquid-glass-theme .glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 16px;
+}
+.liquid-glass-theme .text-gold-gradient {
+  background: linear-gradient(90deg, #F5A623 0%, #FFD700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
