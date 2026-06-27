@@ -11,10 +11,14 @@
             "id": "222d388d3a191d1f",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Skills/token-optimizer/examples/claude-md-optimized.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "כרטיסייה חדשה"
+              "title": "claude-md-optimized"
             }
           }
         ]
@@ -181,18 +185,20 @@
       "agentfiles:Agentfiles": false
     }
   },
-  "active": "222d388d3a191d1f",
+  "active": "06ac0bfc39ffcd76",
   "lastOpenFiles": [
+    "latest.md",
+    "Skills/features/AUTH.md",
+    "Rules/movie-booking-site.md",
+    "Rules/GOVERNANCE.md",
+    "Rules/AI_Index.md",
     "AI_Concierge.md",
     "Rules/SCHEMA_DOCS.md",
-    "Rules/GOVERNANCE.md",
     "Rules/SUMMARY.md",
     "Rules/project_spec.md",
-    "Rules/movie-booking-site.md",
     "Skills/features/SOCIAL.md",
     "Skills/features/LOYALTY.md",
     "Skills/features/CONCIERGE.md",
-    "Skills/features/AUTH.md",
     "Skills/features",
     "Skills/shared/yuv-design/SKILL.md",
     "Skills/shared/yuv-design/patterns.md",
@@ -217,7 +223,6 @@
     "Skills/token-optimizer/references/codex-workflow.md",
     "Skills/token-optimizer/references/cli-reference.md",
     "Skills/token-optimizer/references/agent-prompts.md",
-    "Skills/token-optimizer/examples/claude-md-optimized.md",
     "Skills/token-optimizer/assets/user-profiles.svg",
     "Skills/token-optimizer/assets/status-bar.svg",
     "Skills/token-optimizer/assets/session-database-flow.svg",
@@ -228,7 +233,6 @@
     "Skills/token-optimizer/assets/how-it-works.svg",
     "Skills/token-optimizer/assets/hero-terminal.svg",
     "Skills/token-optimizer/assets/delta-mode.svg",
-    "Skills/token-optimizer/SKILL.md",
     "AI_Index.canvas",
     "My First Skill.md.canvas"
   ]
