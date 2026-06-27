@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useOptimistic, startTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Gavel, Clock, Flame, ShieldAlert, CheckCircle2 } from 'lucide-react';
 import { placeBid } from '@/lib/actions/auctions';
@@ -22,22 +22,32 @@ interface Auction {
 
 export const SeatAuctions = ({ initialAuctions }: { initialAuctions: Auction[] }) => {
   const { data: session } = useSession();
-  const [auctions, setAuctions] = useState<Auction[]>(initialAuctions);
+  
+  const [optimisticAuctions, addOptimisticBid] = useOptimistic(
+    initialAuctions,
+    (state: Auction[], newBid: { auctionId: string, amount: number, bidderName: string }) => {
+      return state.map(a => 
+        a._id === newBid.auctionId 
+          ? { ...a, currentBid: newBid.amount, highestBidderName: newBid.bidderName }
+          : a
+      );
+    }
+  );
+
   const [biddingId, setBiddingId] = useState<string | null>(null);
   const [bidAmounts, setBidAmounts] = useState<Record<string, number>>({});
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [highBidId, setHighBidId] = useState<string | null>(null);
 
-  // Initialize bid amounts
   useEffect(() => {
     const initialBids: Record<string, number> = {};
     initialAuctions.forEach(a => {
-      initialBids[a._id] = a.currentBid + 100; // default to 100 over current
+      initialBids[a._id] = a.currentBid + 100;
     });
     setBidAmounts(initialBids);
   }, [initialAuctions]);
 
-  // Format time remaining
   const getTimeRemaining = (endTime: string) => {
     const total = Date.parse(endTime) - Date.parse(new Date().toString());
     const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
@@ -70,6 +80,14 @@ export const SeatAuctions = ({ initialAuctions }: { initialAuctions: Auction[] }
     setError(null);
     setSuccess(null);
 
+    // 0-Latency Optimistic Update
+    startTransition(() => {
+      addOptimisticBid({ auctionId, amount: bidAmount, bidderName: session.user.name || 'You' });
+    });
+    
+    // Champagne gold aura effect
+    setHighBidId(auctionId);
+
     const res = await placeBid(
       session.user.id || 'guest', 
       session.user.name || 'Anonymous', 
@@ -78,12 +96,6 @@ export const SeatAuctions = ({ initialAuctions }: { initialAuctions: Auction[] }
 
     if (res.success) {
       setSuccess('ההצעה התקבלה בהצלחה!');
-      // Optimistic UI update
-      setAuctions(prev => prev.map(a => 
-        a._id === auctionId 
-          ? { ...a, currentBid: bidAmount, highestBidderName: session.user?.name || 'You' } 
-          : a
-      ));
       setBidAmounts(prev => ({ ...prev, [auctionId]: bidAmount + 100 }));
     } else {
       setError(res.error || 'שגיאה בהגשת ההצעה');
@@ -94,12 +106,13 @@ export const SeatAuctions = ({ initialAuctions }: { initialAuctions: Auction[] }
     setTimeout(() => {
       setError(null);
       setSuccess(null);
+      setHighBidId(null);
     }, 4000);
   };
 
-  if (!auctions || auctions.length === 0) {
+  if (!optimisticAuctions || optimisticAuctions.length === 0) {
     return (
-      <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center text-center space-y-4">
+      <div className="w-full bg-slate-900/40 border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center text-center space-y-4 backdrop-blur-md">
         <Gavel className="w-12 h-12 text-white/30" />
         <h3 className="text-xl font-bold text-white/70 tracking-tight font-outfit">אין מכרזים פעילים כרגע</h3>
       </div>
@@ -107,13 +120,31 @@ export const SeatAuctions = ({ initialAuctions }: { initialAuctions: Auction[] }
   }
 
   return (
-    <div className="w-full space-y-6 relative mt-16">
-      <div className="flex items-center gap-3 mb-8">
+    <div className="w-full space-y-6 relative mt-4">
+      <div className="flex items-center gap-4 mb-8 relative group">
+        <motion.div 
+          className="relative flex items-center justify-center p-2"
+          animate={{ rotate: [-5, 15, -5] }}
+          transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+        >
+          <Gavel className="w-8 h-8 text-[#fbbf24] relative z-10 drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]" />
+          <motion.div 
+            className="absolute inset-0 bg-[#fbbf24] blur-xl rounded-full"
+            animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.7, 0.4] }}
+            transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+          />
+        </motion.div>
         <div className="relative">
-          <Gavel className="w-6 h-6 text-[#fbbf24] relative z-10" />
-          <div className="absolute inset-0 bg-[#fbbf24] blur-xl opacity-50 rounded-full" />
+          <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-l from-white via-[#fbbf24] to-[#fbbf24] tracking-tight font-outfit drop-shadow-sm">
+            מכרזי VIP <span className="text-white/40 font-light text-xl">(Live Auctions)</span>
+          </h2>
+          <motion.div 
+            className="absolute -bottom-2 right-0 h-[2px] bg-gradient-to-l from-[#fbbf24] to-transparent"
+            initial={{ width: 0 }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          />
         </div>
-        <h2 className="text-2xl font-bold text-white tracking-tight font-outfit">VIP Seat Auctions</h2>
       </div>
 
       <AnimatePresence>
@@ -133,16 +164,24 @@ export const SeatAuctions = ({ initialAuctions }: { initialAuctions: Auction[] }
       </AnimatePresence>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {auctions.map((auction) => {
+        {optimisticAuctions.map((auction) => {
           const timeStr = getTimeRemaining(auction.endTime);
-          const isEndingSoon = !timeStr.includes('h') && timeStr !== 'הסתיים'; // less than 1 hour
+          const isEndingSoon = !timeStr.includes('h') && timeStr !== 'הסתיים';
+          const isHighBid = highBidId === auction._id;
 
           return (
             <motion.div
               key={auction._id}
               whileHover={{ y: -5 }}
-              className="bg-white/[0.03] border border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl flex flex-col group transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20 hover:shadow-[0_0_40px_rgba(251,191,36,0.1)]"
+              className={`bg-slate-900/40 border ${isHighBid ? 'border-[#fbbf24]' : 'border-white/10'} rounded-2xl overflow-hidden backdrop-blur-md flex flex-col group transition-all duration-500 hover:bg-white/[0.05] hover:border-white/20 relative`}
             >
+              {isHighBid && (
+                <motion.div 
+                  initial={{ opacity: 0 }} animate={{ opacity: 0.6 }} exit={{ opacity: 0 }}
+                  className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#fbbf24]/30 via-transparent to-transparent pointer-events-none" 
+                />
+              )}
+              
               {/* Poster Header */}
               <div className="h-32 relative overflow-hidden">
                 <img 
@@ -152,7 +191,7 @@ export const SeatAuctions = ({ initialAuctions }: { initialAuctions: Auction[] }
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#07070b] via-[#07070b]/60 to-transparent" />
                 
-                <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full border border-white/10">
+                <div className="absolute top-4 rtl:left-4 ltr:right-4 flex items-center gap-2 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full border border-white/10 rtl:left-auto">
                   {isEndingSoon ? (
                     <Flame className="w-3 h-3 text-[#fbbf24] animate-pulse" />
                   ) : (
@@ -178,21 +217,20 @@ export const SeatAuctions = ({ initialAuctions }: { initialAuctions: Auction[] }
                   </div>
                   <div className="flex justify-between items-baseline">
                     <span className="text-xs text-white/50">סכום</span>
-                    <div className="flex items-baseline gap-1" dir="ltr">
-                      <span className="text-2xl font-bold text-white font-outfit tracking-tighter">
-                        {auction.currentBid.toLocaleString()}
+                    <div className="flex items-baseline gap-1" dir="rtl">
+                      <span className="text-2xl font-bold text-white font-outfit tracking-tighter leading-relaxed">
+                        ₪{auction.currentBid.toLocaleString()}
                       </span>
-                      <span className="text-xs text-[#fbbf24] font-bold">PTS</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Bidding Area */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center space-x-2 space-x-reverse pe-4">
                   <button
                     onClick={() => handleBid(auction._id, auction.currentBid)}
                     disabled={biddingId === auction._id || timeStr === 'הסתיים'}
-                    className="flex-1 bg-[#fbbf24] text-black font-bold py-3 px-4 rounded-xl text-sm disabled:opacity-50 disabled:bg-white/10 disabled:text-white/50 transition-all hover:shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:brightness-110 active:scale-95"
+                    className="flex-1 bg-[#fbbf24] text-black font-bold py-3 px-4 rounded-xl text-sm disabled:opacity-50 disabled:bg-white/10 disabled:text-white/50 transition-all hover:shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:brightness-110 active:scale-95 whitespace-nowrap"
                   >
                     {biddingId === auction._id ? 'מגיש...' : 'הגש הצעה'}
                   </button>

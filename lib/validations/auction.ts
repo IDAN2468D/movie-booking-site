@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const bidSchema = z.object({
-  auctionId: z.string().min(1, 'Auction ID is required'),
-  bidAmount: z.number().int().positive('Bid must be a positive integer'),
+  auctionId: z.string().min(1, 'מזהה מכרז לא תקין').regex(/^[0-9a-fA-F]{24}$/, 'מזהה מכרז לא תקין'),
+  bidAmount: z.number().int('סכום ההצעה חייב להיות מספר שלם וחיובי').positive('סכום ההצעה חייב להיות מספר שלם וחיובי'),
 });
 
 export const auctionSchema = z.object({

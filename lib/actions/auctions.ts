@@ -73,11 +73,11 @@ export async function placeBid(userId: string, userName: string, rawData: { auct
       return { success: false, error: 'Insufficient loyalty points' };
     }
     
-    // Atomically update the auction only if currentBid hasn't changed
+    // Atomically update the auction only if currentBid is strictly less than bidAmount
     const updateResult = await db.collection('seatauctions').findOneAndUpdate(
       { 
         _id: new ObjectId(auctionId), 
-        currentBid: auction.currentBid // Optimistic concurrency check
+        currentBid: { $lt: bidAmount } // Atomic filter boundary check
       },
       { 
         $set: { 
