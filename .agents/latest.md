@@ -1,7 +1,7 @@
 # 🆕 Latest Updates (v4.1)
 
 ## 🌌 Liquid Hub VIP Expansion
-- **VIP Seat Auctions (Refactored)**: Rewrote `SeatAuctions.tsx` to match the exact specs from `SKILL_VIP_Auctions.md`, including `useOptimistic` for zero-latency, strict RTL layout bounds, localized Zod errors, and strict `$lt: bidAmount` MongoDB atomic checks.
+- **VIP Seat Auctions (Refactored & Polished)**: Rewrote `SeatAuctions.tsx` to match exact specs from `SKILL_VIP_Auctions.md` (Optimistic UI, localized Zod errors, `$lt: bidAmount` atomic DB checks). Upgraded the UI with premium liquid glass aesthetics, replacing generic icons with a dynamic `Crown` & `Sparkles` composition, and adding a glowing "Live Premium Bidding" indicator.
 - **Oracle Bets**: Created a prediction market for users to bet points on movie outcomes with dynamic prize pools (`OracleBets.tsx`, `actions/oracle.ts`).
 - **Squad Budgets**: Introduced a shared virtual wallet for groups to pool points towards private VIP screenings (`SquadBudgets.tsx`, `actions/squad.ts`).
 - **Cine Collectibles**: Added a digital NFT-style showcase for purchasing rare movie memorabilia using points (`CineCollectibles.tsx`, `actions/collectibles.ts`).
