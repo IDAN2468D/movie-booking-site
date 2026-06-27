@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skills/features/SOCIAL.md",
+                "file": "latest.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SOCIAL"
+              "title": "latest"
             }
           }
         ]
@@ -187,6 +187,7 @@
   },
   "active": "222d388d3a191d1f",
   "lastOpenFiles": [
+    "Skills/features/SOCIAL.md",
     "Skills/features/LOYALTY.md",
     "Skills/features/CONCIERGE.md",
     "Skills/Booking_Engine.md",
@@ -206,7 +207,6 @@
     "Rules/SCHEMA_DOCS.md",
     "Rules/SUMMARY.md",
     "Rules/project_spec.md",
-    "Skills/features/SOCIAL.md",
     "Skills/features",
     "Skills/shared/yuv-design/SKILL.md",
     "Skills/shared/yuv-design/patterns.md",

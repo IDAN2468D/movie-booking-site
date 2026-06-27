@@ -1,14 +1,26 @@
 import { BrainOrb } from "@/components/liquid-capital/BrainOrb";
 import { LiquidFlowPredictor } from "@/components/liquid-capital/LiquidFlowPredictor";
 import { AssetRefractionGrid } from "@/components/liquid-capital/AssetRefractionGrid";
-import { SeatAuctions } from "@/components/liquid-capital/SeatAuctions";
+import { LiquidHubTabs } from "@/components/liquid-capital/LiquidHubTabs";
 import { getActiveAuctions } from "@/lib/actions/auctions";
+import { getActivePredictions } from "@/lib/actions/oracle";
+import { getActiveSquads } from "@/lib/actions/squad";
+import { getCollectibles } from "@/lib/actions/collectibles";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export default async function Dashboard() {
-  const auctionsRes = await getActiveAuctions();
-  const initialAuctions = (auctionsRes.success ? auctionsRes.data : []) as any;
+  const [auctionsRes, predictionsRes, squadsRes, collectiblesRes] = await Promise.all([
+    getActiveAuctions(),
+    getActivePredictions(),
+    getActiveSquads(),
+    getCollectibles()
+  ]);
+
+  const auctions = (auctionsRes.success ? auctionsRes.data : []) as any[];
+  const predictions = (predictionsRes.success ? predictionsRes.data : []) as any[];
+  const squads = (squadsRes.success ? squadsRes.data : []) as any[];
+  const collectibles = (collectiblesRes.success ? collectiblesRes.data : []) as any[];
 
   return (
     <div className="liquid-glass-theme" dir="rtl">
@@ -82,7 +94,13 @@ export default async function Dashboard() {
           </div>
 
           <section className="mt-8 border-t border-white/10 pt-12 pb-24">
-            <SeatAuctions initialAuctions={initialAuctions} />
+            <h2 className="text-3xl font-extrabold text-white mb-6">Liquid Hub (מוקד הפרימיום)</h2>
+            <LiquidHubTabs 
+              auctions={auctions} 
+              predictions={predictions} 
+              squads={squads} 
+              collectibles={collectibles} 
+            />
           </section>
         </main>
       </div>
