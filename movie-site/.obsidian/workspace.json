@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skills/token-optimizer/examples/claude-md-optimized.md",
+                "file": "Skills/features/SOCIAL.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "claude-md-optimized"
+              "title": "SOCIAL"
             }
           }
         ]
@@ -185,8 +185,18 @@
       "agentfiles:Agentfiles": false
     }
   },
-  "active": "06ac0bfc39ffcd76",
+  "active": "222d388d3a191d1f",
   "lastOpenFiles": [
+    "Skills/features/LOYALTY.md",
+    "Skills/features/CONCIERGE.md",
+    "Skills/Booking_Engine.md",
+    "Skills/Auth_Loyalty.md",
+    "Skills/UI_DesignSystem.md",
+    "Skills/My First Skill.md",
+    "Skills/AI_Concierge.md",
+    "Skills/token-optimizer/SKILL.md",
+    "Skills/Auto-Checklist Skill.md",
+    "Skills/token-optimizer/examples/claude-md-optimized.md",
     "latest.md",
     "Skills/features/AUTH.md",
     "Rules/movie-booking-site.md",
@@ -197,8 +207,6 @@
     "Rules/SUMMARY.md",
     "Rules/project_spec.md",
     "Skills/features/SOCIAL.md",
-    "Skills/features/LOYALTY.md",
-    "Skills/features/CONCIERGE.md",
     "Skills/features",
     "Skills/shared/yuv-design/SKILL.md",
     "Skills/shared/yuv-design/patterns.md",
@@ -215,14 +223,6 @@
     "Skills/token-optimizer/scripts/__pycache__/hermes_session.cpython-313.pyc",
     "Skills/token-optimizer/references/token-flow-architecture.md",
     "Skills/token-optimizer/references/presentation-workflow.md",
-    "Skills/token-optimizer/references/phase0-setup.md",
-    "Skills/token-optimizer/references/optimization-checklist.md",
-    "Skills/token-optimizer/references/opencode-workflow.md",
-    "Skills/token-optimizer/references/implementation-playbook.md",
-    "Skills/token-optimizer/references/error-recovery.md",
-    "Skills/token-optimizer/references/codex-workflow.md",
-    "Skills/token-optimizer/references/cli-reference.md",
-    "Skills/token-optimizer/references/agent-prompts.md",
     "Skills/token-optimizer/assets/user-profiles.svg",
     "Skills/token-optimizer/assets/status-bar.svg",
     "Skills/token-optimizer/assets/session-database-flow.svg",

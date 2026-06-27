@@ -1,12 +1,15 @@
-"use client";
-
 import { BrainOrb } from "@/components/liquid-capital/BrainOrb";
 import { LiquidFlowPredictor } from "@/components/liquid-capital/LiquidFlowPredictor";
 import { AssetRefractionGrid } from "@/components/liquid-capital/AssetRefractionGrid";
+import { SeatAuctions } from "@/components/liquid-capital/SeatAuctions";
+import { getActiveAuctions } from "@/lib/actions/auctions";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const auctionsRes = await getActiveAuctions();
+  const initialAuctions = (auctionsRes.success ? auctionsRes.data : []) as any;
+
   return (
     <div className="liquid-glass-theme" dir="rtl">
       <div className="min-h-screen p-4 md:p-8 overflow-hidden bg-[#050505] text-white selection:bg-[#F5A623] selection:text-black">
@@ -29,10 +32,6 @@ export default function Dashboard() {
             </div>
             <div className="hidden md:flex gap-4">
               <button 
-                onClick={() => {
-                  alert('מייצר דוח PDF פרימיום...');
-                  setTimeout(() => alert('הדוח המלא נשלח לתיבת המייל שלך! 📄'), 1500);
-                }}
                 className="glass-panel px-6 py-2.5 text-sm font-medium hover:bg-white/10 transition-colors cursor-pointer"
               >
                 הורד דוח
@@ -81,6 +80,10 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+
+          <section className="mt-8 border-t border-white/10 pt-12 pb-24">
+            <SeatAuctions initialAuctions={initialAuctions} />
+          </section>
         </main>
       </div>
     </div>

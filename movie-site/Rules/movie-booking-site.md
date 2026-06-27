@@ -47,6 +47,7 @@ To maintain order, the agent must reference specific skills based on the task:
   - All external AI service routes (Gemini API) MUST implement a local **Ollama** (`gemma2:2b`) fallback in their `catch` blocks to automatically take over in case of expired API keys or rate-limiting, ensuring 100% uptime.
 - **Framer Motion in SVG**: SVG translations must be managed via Framer Motion's `style={{ x, y }}` props instead of native `transform="translate(x, y)"` attributes when paired with dynamic framer-motion animations like `whileHover={{ scale }}`. This prevents CSS scale transforms from overriding and resetting the translation coordinates.
 - **Date Fallbacks**: For database queries filtering bookings by date, always implement a fallback comparison against the formatted day portion of `createdAt` (using `toLocaleDateString('he-IL')`) to maintain backward compatibility with legacy bookings lacking a `date` field.
+- **Token Optimizer Auto-Trigger**: Whenever the agent notices excessive token usage, overly long context windows, or token waste in the models, the agent MUST proactively invoke the `token-optimizer` skill to clean up the environment without waiting for the user to ask.
 
 ## 🎨 4. Design System: Liquid Glass 3.0
 - **Theme**: Premium futuristic dark mode with high optical depth.
