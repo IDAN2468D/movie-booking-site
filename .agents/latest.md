@@ -14,6 +14,11 @@
 - **Temporal Vaults**: Exclusive 8K holographic time-shifted viewings with simulated DRM encryption cracking (`TemporalVaults.tsx`, `actions/vaults.ts`).
 - **Phantom Presence (Cine-Ghosting)**: WebRTC sync for remote friends to join a screening via AR/Ghosting logic (`PhantomPresence.tsx`, `actions/phantom.ts`).
 - **Quantum Loyalty Tiers**: A dynamic live-ticker stock market style tracker for VIP points and multipliers (`QuantumLoyalty.tsx`, `actions/loyalty.ts`).
+
+## 📱 Cinematic Stories Engine
+- **Instagram-Style Autoplay Trailers**: Built `@/components/stories/MovieStoryView.tsx` with a premium glassmorphic envelope. Features instant background video autoplay (`playsInline`, `muted`, `loop`), RTL-native progress trackers using Framer Motion, and distinct floating neon mute/unmute indicators.
+- **RTL Gesture Mapping**: Included deep pointer event listeners for hold-to-pause, tap-left (next), and tap-right (previous), seamlessly mapped to native Hebrew logic.
+- **Robust Cleanup**: Engineered strict state and video context cleanup upon component unmount to prevent trailing audio leaks.
 - **Oracle Bets**: Created a prediction market for users to bet points on movie outcomes with dynamic prize pools (`OracleBets.tsx`, `actions/oracle.ts`).
 - **Squad Budgets**: Introduced a shared virtual wallet for groups to pool points towards private VIP screenings (`SquadBudgets.tsx`, `actions/squad.ts`).
 - **Cine Collectibles**: Added a digital NFT-style showcase for purchasing rare movie memorabilia using points (`CineCollectibles.tsx`, `actions/collectibles.ts`).

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skills/features/SKILL_MgmSplashScreen.md",
+                "file": "Skills/features/SKILL_StoryAutoplayTrailer.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SKILL_MgmSplashScreen"
+              "title": "SKILL_StoryAutoplayTrailer"
             }
           }
         ]
@@ -187,8 +187,10 @@
   },
   "active": "222d388d3a191d1f",
   "lastOpenFiles": [
-    "latest.md",
     "Skills/features/SKILL_MgmSplashScreen.md",
+    "Skills/features/SKILL_StoryAutoplayTrailer.md",
+    "Skills/features/לא מאושר 79392.crdownload",
+    "latest.md",
     "Skills/features/לא מאושר 187507.crdownload",
     "Skills/features/SKILL_MgmSplashScreen.md.md",
     "AGENTS.md",
@@ -214,7 +216,6 @@
     "Rules/movie-booking-site.md",
     "Rules/GOVERNANCE.md",
     "Rules/AI_Index.md",
-    "AI_Concierge.md",
     "Skills/features",
     "Skills/shared/yuv-design",
     "Skills/shared",
@@ -222,7 +223,6 @@
     "Skills/token-optimizer/scripts/__pycache__/token_estimate.cpython-313.pyc",
     "Skills/token-optimizer/scripts/__pycache__/session_store.cpython-313.pyc",
     "Skills/token-optimizer/scripts/__pycache__/runtime_env.cpython-313.pyc",
-    "Skills/token-optimizer/scripts/__pycache__/plugin_env.cpython-313.pyc",
     "Skills/token-optimizer/assets/user-profiles.svg",
     "Skills/token-optimizer/assets/status-bar.svg",
     "Skills/token-optimizer/assets/session-database-flow.svg",
