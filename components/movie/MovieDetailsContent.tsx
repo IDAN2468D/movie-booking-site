@@ -10,7 +10,6 @@ import { MovieDetails, CastMember, CrewMember, Movie, VideoResult, getImageUrl }
 import { useBookingStore } from '@/lib/store';
 import MovieCastSection from './MovieCastSection';
 import MovieSimilarSection from './MovieSimilarSection';
-import TrailerModal from './TrailerModal';
 import VIPScreeningModal from './VIPScreeningModal';
 import MovieInfographic from './MovieInfographic';
 import MovieTrivia from './MovieTrivia';
@@ -53,7 +52,6 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   const router = useRouter();
   const { setSelectedMovie, favorites, toggleFavorite } = useBookingStore();
   const { setMovieContext } = useUIStore();
-  const [showTrailer, setShowTrailer] = useState(false);
   const [showVIPModal, setShowVIPModal] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const [trailerFailed, setTrailerFailed] = useState(false);
@@ -340,25 +338,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
 
               {/* Action Buttons: Trailer + More */}
               <div className="flex items-center gap-3 w-full md:w-auto">
-                <motion.button
-                  whileHover={videos.length > 0 ? { scale: 1.05, translateY: -2 } : {}}
-                  whileTap={videos.length > 0 ? { scale: 0.95 } : {}}
-                  onClick={() => {
-                    if (videos.length > 0) setShowTrailer(true);
-                  }}
-                  disabled={videos.length === 0}
-                  className={`flex-1 md:flex-none h-16 px-8 rounded-2xl font-black flex items-center justify-center gap-3 transition-all border shadow-2xl relative overflow-hidden group ${
-                    videos.length > 0
-                      ? 'bg-white/10 backdrop-blur-3xl saturate-[250%] brightness-125 border-white/20 text-white'
-                      : 'bg-white/5 border-white/10 text-white/50 cursor-not-allowed'
-                  }`}
-                >
-                  <span className="relative z-10 text-sm md:text-base tracking-tight drop-shadow-md uppercase font-black">
-                    טריילר
-                  </span>
-                  <Play className="fill-current w-4 h-4 relative z-10 group-hover:scale-110 transition-transform" />
-                </motion.button>
-                
+
                 <motion.button
                   whileHover={{ scale: 1.1, translateY: -2 }}
                   whileTap={{ scale: 0.9 }}
@@ -587,14 +567,6 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
         {/* Similar Movies */}
         {similarMovies.length > 0 && <MovieSimilarSection movies={similarMovies} />}
       </div>
-
-      {/* Trailer Modal */}
-      <TrailerModal
-        videos={videos}
-        isOpen={showTrailer}
-        onClose={() => setShowTrailer(false)}
-        movieTitle={movie.title}
-      />
 
       {/* VIP Screening Mini-Site Modal */}
       <VIPScreeningModal

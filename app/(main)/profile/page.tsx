@@ -71,17 +71,17 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto pt-12 pb-40 md:py-12 px-6 text-right" dir="rtl">
-      <div className="mb-10">
-        <h1 className="text-4xl font-black text-white tracking-tighter mb-2">הגדרות <span className="text-primary">חשבון</span></h1>
-        <p className="text-slate-400 font-medium">נהל את הפרופיל, האבטחה וההעדפות שלך</p>
+    <div className="w-full max-w-[1400px] mx-auto pt-12 pb-40 md:py-20 px-6 md:px-12 text-right" dir="rtl">
+      <div className="mb-14">
+        <h1 className="text-5xl md:text-6xl font-black text-white tracking-tighter mb-4 uppercase font-display">הגדרות <span className="text-primary text-glow">חשבון</span></h1>
+        <p className="text-slate-400 font-medium text-lg">נהל את הפרופיל, האבטחה וההעדפות שלך</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 gap-10 md:gap-14">
         {/* Profile Sidebar */}
-        <div className="space-y-6">
-          <div className="glass-orange rounded-[32px] p-8 border border-white/5 text-center relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-24 h-24 bg-primary/10 rounded-full blur-3xl -ml-12 -mt-12" />
+        <div className="lg:col-span-1 xl:col-span-1 space-y-8">
+          <div className="bg-gradient-to-b from-white/[0.05] to-white/[0.01] rounded-[40px] p-10 border border-white/10 text-center relative overflow-hidden backdrop-blur-3xl shadow-[0_40px_80px_-20px_rgba(255,159,10,0.15)] group">
+            <div className="absolute top-0 left-0 w-32 h-32 bg-primary/20 rounded-full blur-[80px] -ml-16 -mt-16 pointer-events-none group-hover:bg-primary/30 transition-colors" />
             
             <div className="relative inline-block mb-6">
               <div className="w-24 h-24 rounded-full bg-white/5 border-2 border-primary/20 flex items-center justify-center text-primary text-3xl font-black overflow-hidden">
@@ -118,33 +118,33 @@ export default function ProfilePage() {
             
             <button 
               onClick={() => signOut()}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white/5 text-red-400 hover:bg-red-400/10 transition-all font-bold text-xs uppercase tracking-widest"
+              className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl bg-white/5 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-all font-black text-sm uppercase tracking-widest border border-transparent hover:border-red-500/30"
             >
-              <LogOut size={14} className="rotate-180" />
+              <LogOut size={16} className="rotate-180" />
               התנתק
             </button>
           </div>
 
-          <div className="glass rounded-[32px] p-6 border border-white/5 space-y-2">
+          <div className="bg-black/40 rounded-[40px] p-6 border border-white/10 space-y-2 backdrop-blur-2xl">
             {tabs.map((tab) => (
               <button 
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as TabType)}
-                className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all ${
+                className={`w-full flex items-center gap-5 p-5 rounded-3xl transition-all duration-300 ${
                   activeTab === tab.id 
-                    ? 'bg-primary text-background font-black shadow-lg shadow-primary/20' 
-                    : 'text-slate-400 hover:bg-white/5'
+                    ? 'bg-primary text-black font-black shadow-[0_15px_30px_rgba(255,159,10,0.3)] scale-105 z-10 relative' 
+                    : 'text-slate-400 hover:bg-white/5 hover:text-white font-medium'
                 }`}
               >
-                <tab.icon size={18} />
-                <span className="text-sm">{tab.label}</span>
+                <tab.icon size={20} className={activeTab === tab.id ? 'text-black' : 'text-slate-500'} />
+                <span className="text-base">{tab.label}</span>
               </button>
             ))}
           </div>
         </div>
 
         {/* Main Settings Content */}
-        <div className="md:col-span-2 min-h-[500px]">
+        <div className="lg:col-span-3 xl:col-span-4 min-h-[600px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}

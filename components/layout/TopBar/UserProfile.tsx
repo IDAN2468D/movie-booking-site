@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { User, ChevronDown, LogIn } from 'lucide-react';
+import { User, LogIn } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { KineticText } from '@/components/effects/KineticText';
@@ -62,9 +62,7 @@ export default function UserProfile() {
           </Link>
         </div>
       )}
-      <div className="hidden sm:flex w-8 h-8 md:w-10 md:h-10 items-center justify-center rounded-xl md:rounded-2xl bg-white/[0.03] border border-white/10 hover:bg-white/10 transition-colors cursor-pointer group">
-        <ChevronDown className="w-4 h-4 md:w-5 md:h-5 text-slate-500 group-hover:text-white transition-all group-hover:rotate-180" />
-      </div>
+
     </div>
   );
 }

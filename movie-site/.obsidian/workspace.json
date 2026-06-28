@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "ecd5631704f3ed20",
+        "id": "9b7ffcd84083746b",
         "type": "tabs",
         "children": [
           {
-            "id": "222d388d3a191d1f",
+            "id": "cd0fe1851232c2d5",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "latest.md",
+                "file": "Skills/features/MASTER_SKILL_Liquid_Platform.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "latest"
+              "title": "MASTER_SKILL_Liquid_Platform"
             }
           }
         ]
@@ -185,16 +185,19 @@
       "agentfiles:Agentfiles": false
     }
   },
-  "active": "222d388d3a191d1f",
+  "active": "cd0fe1851232c2d5",
   "lastOpenFiles": [
+    "Skills/features/לא מאושר 275353.crdownload",
+    "Skills/features/MASTER_SKILL_Liquid_Platform.md",
+    "Skills/core/UI.md",
+    "Skills/README.md",
+    "latest.md",
     "Skills/features/SKILL_StoryAutoplayTrailer.md",
     "Skills/features/SKILL_MgmSplashScreen.md",
     "Skills/features/לא מאושר 79392.crdownload",
-    "latest.md",
     "Skills/features/לא מאושר 187507.crdownload",
     "Skills/features/SKILL_MgmSplashScreen.md.md",
     "AGENTS.md",
-    "Skills/README.md",
     "Skills/features/VIP_AUCTIONS.md",
     "Skills/features/SKILL_VIP_Auctions.md.md",
     "Skills/features/לא מאושר 459568.crdownload",
@@ -213,9 +216,6 @@
     "Skills/Auto-Checklist Skill.md",
     "Skills/token-optimizer/examples/claude-md-optimized.md",
     "Skills/features/AUTH.md",
-    "Rules/movie-booking-site.md",
-    "Rules/GOVERNANCE.md",
-    "Rules/AI_Index.md",
     "Skills/features",
     "Skills/shared/yuv-design",
     "Skills/shared",

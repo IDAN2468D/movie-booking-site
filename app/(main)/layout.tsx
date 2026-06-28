@@ -36,7 +36,7 @@ export default function MainLayout({
   if (isERP) {
     return (
       <ResolutionWrapper>
-        <div className="min-h-screen bg-[#0A0A0A] overflow-x-hidden" dir="rtl">
+        <div ref={mainRef} className="min-h-screen bg-[#0A0A0A] overflow-x-hidden" dir="rtl">
           {children}
           <HeartbeatInit />
         </div>
