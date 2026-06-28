@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MOVIEBOOK - Premium Cinema</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Montserrat:wght@500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ffb4ab",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed-dim": "#00dbe9",
+                        "on-primary-fixed": "#271900",
+                        "on-tertiary-container": "#4d515d",
+                        "inverse-on-surface": "#233143",
+                        "surface-bright": "#2c3a4c",
+                        "on-secondary": "#00363a",
+                        "inverse-primary": "#7c5800",
+                        "background": "#051424",
+                        "tertiary": "#dde0ef",
+                        "on-surface": "#d4e4fa",
+                        "surface": "#051424",
+                        "surface-container-highest": "#273647",
+                        "on-primary-fixed-variant": "#5e4200",
+                        "on-tertiary": "#2c303b",
+                        "tertiary-fixed-dim": "#c3c6d4",
+                        "surface-dim": "#051424",
+                        "primary-container": "#ffb800",
+                        "error-container": "#93000a",
+                        "primary": "#ffdca1",
+                        "on-primary": "#412d00",
+                        "surface-variant": "#273647",
+                        "on-primary-container": "#6b4c00",
+                        "outline-variant": "#514532",
+                        "on-secondary-fixed-variant": "#004f54",
+                        "on-secondary-container": "#00686f",
+                        "tertiary-container": "#c1c4d3",
+                        "surface-container-high": "#1c2b3c",
+                        "secondary-fixed": "#7df4ff",
+                        "inverse-surface": "#d4e4fa",
+                        "on-secondary-fixed": "#002022",
+                        "on-error": "#690005",
+                        "secondary": "#d3fbff",
+                        "surface-container-low": "#0d1c2d",
+                        "surface-tint": "#ffba20",
+                        "outline": "#9e8f78",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#171b26",
+                        "primary-fixed-dim": "#ffba20",
+                        "on-background": "#d4e4fa",
+                        "on-tertiary-fixed-variant": "#434652",
+                        "secondary-container": "#00eefc",
+                        "surface-container": "#122131",
+                        "tertiary-fixed": "#dfe2f1",
+                        "surface-container-lowest": "#010f1f",
+                        "on-surface-variant": "#d5c4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "unit": "4px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "80px"
+                    },
+                    "fontFamily": {
+                        "display-hero": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "premium-label": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-hero": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "premium-label": ["12px", { "lineHeight": "16px", "letterSpacing": "0.3em", "fontWeight": "500" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Ambient Glow & Depth */
+        .liquid-bg {
+            background: radial-gradient(circle at top right, rgba(0, 238, 252, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(255, 184, 0, 0.1) 0%, transparent 40%);
+        }
+
+        .glass-panel {
+            background: rgba(5, 20, 36, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(255, 184, 0, 0.3);
+            box-shadow: 0 0 40px rgba(255, 184, 0, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+
+        /* Shimmer Effect */
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shimmerEffect 3s infinite linear;
+        }
+        @keyframes shimmerEffect {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-lg overflow-x-hidden liquid-bg selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation (Shell structure for context, though hero is main focus) -->
+<!-- Main Hero Content -->
+<main class="relative min-h-screen flex flex-col items-center justify-center px-margin-mobile md:px-margin-desktop">
+<!-- Cinematic Background Image -->
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none" data-alt="A dark, cinematic abstract background featuring swirling volumetric fog and subtle neon teal and gold light beams piercing through deep obsidian darkness. The mood is mysterious, high-end, and theatrical." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCF02GZP79WWfyDimd_5Iq1IjlDt1fYV_ePOzZvPapJaMgDdKJB3RMQkoISmbVb6I3QutABnG1hoci3rzDV-mwGQ52J2Dxhzjre2rJ6-sG-2QOa4g6X3CF6g8L0E4qrhS_F5cQCNHkd3R52LNkwbhiF9UUrM4_ob0LCngVIzC34FzzOCAH9Tf_VFbR7rgzM8Io20bUY7Da_nVwhcOFD2PiDUPQPP576QNtoigp11k2U1wAo3nOGnAQFWtX_PjrAiHpYtKntPZfhPHg')">
+</div>
+<!-- Centerpiece -->
+<div class="relative z-10 flex flex-col items-center w-full max-w-4xl mx-auto">
+<!-- Contextual Intro -->
+<!-- Interactive Logo Container -->
+<div class="glass-panel p-12 md:p-16 rounded-2xl flex flex-col items-center gap-8 group transition-all duration-500 ease-out hover:scale-[1.02] opacity-0 animate-fade-in-up delay-100 shimmer w-full">
+<!-- Animated SVG Icon Placeholder -->
+<div class="w-32 h-32 md:w-48 md:h-48 drop-shadow-[0_0_30px_rgba(255,184,0,0.4)] group-hover:drop-shadow-[0_0_50px_rgba(255,184,0,0.6)] transition-all duration-500">
+<!-- STITCH_SVG_START:ANIMATION_1 class="w-full h-full text-primary-container" --><div class="w-full h-full text-primary-container" id="animated-svg-ANIMATION_1" style="display:block;"><svg height="200" viewbox="0 0 200 200" width="200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Liquid Glass Gradient -->
+<lineargradient id="glassGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:rgba(255,255,255,0.2);stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:rgba(255,255,255,0.05);stop-opacity:1"></stop>
+</lineargradient>
+<!-- Neon Gold Glow -->
+<filter height="140%" id="goldGlow" width="140%" x="-20%" y="-20%">
+<fegaussianblur result="blur" stddeviation="3"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="blur" operator="over"></fecomposite>
+</filter>
+<!-- Neon Teal Glow -->
+<filter height="140%" id="tealGlow" width="140%" x="-20%" y="-20%">
+<fegaussianblur result="blur" stddeviation="4"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="blur" operator="over"></fecomposite>
+</filter>
+<!-- Shimmer Effect -->
+<lineargradient id="shimmer" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="transparent"></stop>
+<stop offset="50%" stop-color="rgba(255,255,255,0.4)"></stop>
+<stop offset="100%" stop-color="transparent"></stop>
+<animate attributename="x1" dur="3s" from="-100%" repeatcount="indefinite" to="100%"></animate>
+<animate attributename="x2" dur="3s" from="0%" repeatcount="indefinite" to="200%"></animate>
+</lineargradient>
+</defs>
+<!-- Background Glass Card -->
+<rect fill="url(#glassGradient)" height="120" rx="24" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" width="120" x="40" y="40"></rect>
+<!-- Book Base -->
+<path d="M60 70C60 70 80 65 100 70C120 65 140 70 140 70V130C140 130 120 125 100 130C80 125 60 130 60 130V70Z" fill="none" filter="url(#goldGlow)" stroke="#FFB800" stroke-width="3">
+<animatetransform attributename="transform" dur="4s" repeatcount="indefinite" type="scale" values="1;1.02;1"></animatetransform>
+</path>
+<!-- Center Spine / Film Strip -->
+<line stroke="white" stroke-dasharray="4 2" stroke-width="1.5" x1="100" x2="100" y1="70" y2="130">
+<animate attributename="stroke-dashoffset" dur="1s" from="0" repeatcount="indefinite" to="12"></animate>
+</line>
+<!-- Play Button (Center) -->
+<path d="M92 90L112 100L92 110V90Z" fill="#00F0FF" filter="url(#tealGlow)">
+<animate attributename="opacity" dur="2s" repeatcount="indefinite" values="0.8;1;0.8"></animate>
+</path>
+<!-- Shimmer Overlay -->
+<rect fill="url(#shimmer)" height="120" pointer-events="none" rx="24" width="120" x="40" y="40"></rect>
+</svg>
+</div><!-- STITCH_SVG_END:ANIMATION_1 -->
+</div>
+<!-- Typographic Logo -->
+<div class="flex flex-col items-center text-center">
+<h1 class="font-display-hero text-[48px] md:text-display-hero flex items-center gap-1 group-hover:gap-2 transition-all duration-500">
+<span class="text-white drop-shadow-md">MOVIE</span>
+<span class="text-primary-container drop-shadow-[0_0_15px_rgba(255,184,0,0.5)] group-hover:drop-shadow-[0_0_25px_rgba(255,184,0,0.8)]">BOOK</span>
+</h1>
+<h2 class="font-premium-label text-premium-label text-on-surface-variant tracking-[0.4em] uppercase mt-4">
+                        Premium Cinema
+                    </h2>
+</div>
+</div>
+<!-- Coming Soon / Call to Action area -->
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+</body></html>

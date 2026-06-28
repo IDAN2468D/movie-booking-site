@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   title: "MOVIEBOOK | הזמנת סרטים פרימיום",
   description: "חווית קולנוע כמו שמעולם לא חוויתם עם MOVIEBOOK",
   icons: {
-    icon: '/icon.png',
+    icon: '/icon.svg',
   },
 };
 

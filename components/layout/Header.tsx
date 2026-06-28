@@ -1,6 +1,8 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useBookingStore } from '@/lib/store';
+import { PremiumLogo } from "@/components/ui/PremiumLogo";
 import { Container } from "../ui/Container";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,18 +15,8 @@ export const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/50 border-b border-zinc-800">
       <Container className="h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-8 h-8 rounded-lg bg-primary/20 border border-white/10 flex items-center justify-center overflow-hidden relative shadow-[0_0_20px_rgba(255,159,10,0.2)]">
-            <Image 
-              src="/logo.png" 
-              alt="Logo" 
-              fill 
-              sizes="32px"
-              unoptimized 
-              className="object-cover scale-125" 
-            />
-          </div>
-          <KineticText text="MOVIEBOOK" tag="h1" className="text-xl font-black tracking-tighter text-white font-outfit" />
+        <Link href="/" className="flex items-center group">
+          <PremiumLogo size="sm" />
         </Link>
 
         <nav className="flex items-center gap-6">

@@ -1,5 +1,6 @@
 import React from 'react';
 import NextImage from 'next/image';
+import { PremiumLogo } from "@/components/ui/PremiumLogo";
 import { Clapperboard } from 'lucide-react';
 
 export default function AuthLayout({
@@ -23,11 +24,8 @@ export default function AuthLayout({
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-black/20" />
         
         <div className="absolute bottom-20 right-20 max-w-lg text-right">
-          <div className="flex items-center gap-3 mb-8 justify-end">
-            <span className="text-3xl font-black text-white tracking-tighter">MOVIEBOOK</span>
-            <div className="w-12 h-12 bg-[#FF9F0A] rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(255,159,10,0.4)]">
-              <Clapperboard className="text-white w-7 h-7" />
-            </div>
+          <div className="flex items-center gap-3 mb-8 justify-end w-full" dir="ltr">
+            <PremiumLogo size="lg" />
           </div>
           <h1 className="text-5xl font-black text-white leading-tight mb-6 tracking-tighter">
             המקום בו כל <span className="text-[#FF9F0A]">פריים</span> מספר סיפור
@@ -42,12 +40,7 @@ export default function AuthLayout({
       {/* Right Side: Auth Form */}
       <div className="flex flex-col items-center justify-center p-8 lg:p-20 relative">
         <div className="absolute top-10 right-10 lg:hidden">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-black text-white tracking-tighter">MOVIEBOOK</span>
-            <div className="w-8 h-8 bg-[#FF9F0A] rounded-lg flex items-center justify-center">
-              <Clapperboard className="text-white w-5 h-5" />
-            </div>
-          </div>
+          <PremiumLogo size="sm" />
         </div>
         
         <div className="w-full max-w-md">

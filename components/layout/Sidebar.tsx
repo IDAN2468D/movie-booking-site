@@ -9,6 +9,7 @@ import { useBookingStore } from '@/lib/store';
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { PremiumLogo } from "@/components/ui/PremiumLogo";
 
 interface NavItem {
   icon: React.ComponentType<{ size?: number; className?: string }>;
@@ -81,21 +82,9 @@ export default function Sidebar() {
       {/* Decorative background glow */}
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
       
-      <div className="flex items-center gap-4 mb-14 px-2 relative group">
-        <div className="w-12 h-12 bg-primary/20 backdrop-blur-xl border border-white/10 rounded-2xl flex items-center justify-center shadow-[0_0_40px_rgba(255,159,10,0.15)] group-hover:scale-110 transition-transform duration-700 overflow-hidden relative">
-          <Image 
-            src="/logo.png" 
-            alt="Logo" 
-            fill 
-            unoptimized
-            className="object-cover scale-125"
-          />
-        </div>
-        <div className="flex flex-col">
-          <span className="text-xl font-black text-white tracking-tighter font-outfit leading-none">MOVIEBOOK</span>
-          <span className="text-[10px] font-black text-primary/80 uppercase tracking-[0.2em] mt-1">Premium Cinema</span>
-        </div>
-      </div>
+      <Link href="/" className="mb-14 block">
+        <PremiumLogo size="sm" />
+      </Link>
 
       <nav className="flex-1 space-y-3 relative">
         {allNavItems.map((item) => {
