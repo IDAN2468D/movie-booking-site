@@ -9,19 +9,19 @@ const MOCK_STORIES: Story[] = [
     id: '1',
     movieTitle: 'Dune: Part Two',
     posterUrl: 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2JGqqut1V.jpg',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
   },
   {
     id: '2',
     movieTitle: 'Oppenheimer',
     posterUrl: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    videoUrl: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
   },
   {
     id: '3',
     movieTitle: 'The Batman',
     posterUrl: 'https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    videoUrl: 'https://media.w3.org/2010/05/video/movie_300.mp4',
   }
 ];
 

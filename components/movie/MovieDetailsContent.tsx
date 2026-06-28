@@ -230,16 +230,29 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
       {/* Hero Backdrop - Premium Vertical Focus on Mobile */}
       {/* Hero Backdrop - Premium Vertical Focus on Mobile */}
       <section className="relative w-full h-[650px] md:h-[600px] overflow-hidden [transform:translateZ(0)]">
-        <Image
-          src={getImageUrl(movie.backdrop_path, 'original')}
-          alt={movie.title}
-          fill
-          sizes="100vw"
-          className="object-cover saturate-[1.1]"
-          priority
-        />
+        
+        {/* Background Layer: Video or Image */}
+        {videos.length > 0 ? (
+          <div className="absolute top-1/2 left-1/2 w-[150vw] md:w-[120vw] h-[150vh] md:h-[120vh] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+            <iframe
+              src={`https://www.youtube.com/embed/${videos.find(v => v.type === 'Trailer')?.key || videos[0].key}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videos.find(v => v.type === 'Trailer')?.key || videos[0].key}&playsinline=1&modestbranding=1`}
+              className="absolute inset-0 w-full h-full scale-[1.2] opacity-80"
+              allow="autoplay; encrypted-media"
+            />
+          </div>
+        ) : (
+          <Image
+            src={getImageUrl(movie.backdrop_path, 'original')}
+            alt={movie.title}
+            fill
+            sizes="100vw"
+            className="object-cover saturate-[1.1]"
+            priority
+          />
+        )}
+
         {/* Dynamic Gradients - Lightened for visibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-[#0A0A0A]/20 z-10" />
         <div className="absolute inset-0 bg-gradient-to-l from-[#0A0A0A]/90 via-transparent to-transparent hidden md:block z-10" />
         <div className="absolute inset-0 bg-black/40 opacity-50 md:hidden z-10" />
 

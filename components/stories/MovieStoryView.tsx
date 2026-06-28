@@ -121,6 +121,16 @@ export const MovieStoryView: React.FC<MovieStoryViewProps> = ({
     
     // If it's a quick tap
     if (duration < 250) {
+      // First tap unmutes if muted (Instagram style)
+      if (isMuted) {
+        if (videoRef.current) {
+          videoRef.current.muted = false;
+          setIsMuted(false);
+          setShowMuteTooltip(false);
+        }
+        return;
+      }
+
       const x = e.clientX;
       const width = window.innerWidth;
       
@@ -162,9 +172,6 @@ export const MovieStoryView: React.FC<MovieStoryViewProps> = ({
           exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
           transition={{ type: "spring", stiffness: 100, damping: 15 }}
           className="absolute inset-0"
-          onPointerDown={handlePointerDown}
-          onPointerUp={handlePointerUp}
-          onPointerLeave={() => setIsPaused(false)}
         >
           {/* Video Background */}
           <video
@@ -175,12 +182,19 @@ export const MovieStoryView: React.FC<MovieStoryViewProps> = ({
             muted={isMuted}
             autoPlay
             onEnded={handleVideoEnded}
-            // Fallback for some browsers that require interactions
-            onClick={(e) => e.stopPropagation()}
           />
           
           {/* Overlay Gradient for readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60 pointer-events-none" />
+
+          {/* Dedicated Gesture Overlay (Sits under buttons, above video) */}
+          <div 
+            className="absolute inset-0 z-40"
+            onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={() => setIsPaused(false)}
+            onPointerLeave={() => setIsPaused(false)}
+          />
         </motion.div>
       </AnimatePresence>
 
