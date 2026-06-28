@@ -67,6 +67,36 @@ export default function BookingsManagement() {
     }
   };
 
+  const exportToCSV = () => {
+    if (bookings.length === 0) return;
+    
+    const headers = ['מזהה', 'סרט', 'לקוח', 'תאריך', 'שעה', 'סכום', 'סטטוס'];
+    const rows = bookings.map(b => [
+      b._id,
+      b.movie?.title || b.movie?.displayTitle || '',
+      b.userEmail,
+      new Date(b.createdAt).toLocaleDateString('he-IL'),
+      b.showtime,
+      b.total.toString(),
+      b.status === 'confirmed' ? 'מאושר' : b.status === 'validated' ? 'מומש' : 'בוטל'
+    ]);
+    
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(e => e.map(item => `"${String(item).replace(/"/g, '""')}"`).join(','))
+    ].join('\n');
+    
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `bookings_report_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const filteredBookings = bookings.filter(b => 
     b.movie?.title?.toLowerCase().includes(search.toLowerCase()) ||
     b.userEmail?.toLowerCase().includes(search.toLowerCase()) ||
@@ -81,7 +111,10 @@ export default function BookingsManagement() {
           <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter mb-3 uppercase font-display">ניהול <span className="text-primary text-glow">הזמנות</span></h1>
           <p className="text-slate-400 text-sm md:text-base font-medium">ניהול כרטיסים, מעקב רכישות ושליטה על תזרים ההזמנות במערכת.</p>
         </div>
-        <button className="w-full md:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-primary/10 border border-primary/20 hover:bg-primary/20 hover:border-primary/40 rounded-2xl text-primary font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(255,159,10,0.15)] group">
+        <button 
+          onClick={exportToCSV}
+          className="w-full md:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-primary/10 border border-primary/20 hover:bg-primary/20 hover:border-primary/40 rounded-2xl text-primary font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(255,159,10,0.15)] group"
+        >
           <Download size={18} className="group-hover:-translate-y-1 transition-transform" />
           ייצוא דוח CSV
         </button>
