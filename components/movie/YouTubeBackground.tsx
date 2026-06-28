@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import YouTube, { YouTubeEvent, YouTubePlayer } from 'react-youtube';
+import React, { useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -11,52 +10,11 @@ interface Props {
 }
 
 export default function YouTubeBackground({ videoId, onError }: Props) {
-  const [player, setPlayer] = useState<YouTubePlayer | null>(null);
   const [isMuted, setIsMuted] = useState(true);
   const [isReady, setIsReady] = useState(false);
 
-  const onReady = (event: YouTubeEvent) => {
-    setPlayer(event.target);
-    event.target.mute();
-    event.target.playVideo();
-  };
-
-  const onPlay = (event: YouTubeEvent) => {
-    setIsReady(true);
-  };
-
-  const onStateChange = (event: YouTubeEvent) => {
-    // If video ended (state 0), restart it
-    if (event.data === 0) {
-      event.target.playVideo();
-    }
-  };
-
   const toggleMute = () => {
-    if (player) {
-      if (isMuted) {
-        player.unMute();
-      } else {
-        player.mute();
-      }
-      setIsMuted(!isMuted);
-    }
-  };
-
-  const opts = {
-    height: '100%',
-    width: '100%',
-    playerVars: {
-      autoplay: 1 as 1 | 0 | undefined,
-      controls: 0 as 1 | 0 | undefined,
-      disablekb: 1 as 1 | 0 | undefined,
-      fs: 0 as 1 | 0 | undefined,
-      modestbranding: 1 as 1 | 0 | undefined,
-      playsinline: 1 as 1 | 0 | undefined,
-      rel: 0 as 1 | 0 | undefined,
-      iv_load_policy: 3 as 1 | 3 | undefined,
-      mute: 1 as 1 | 0 | undefined,
-    },
+    setIsMuted(!isMuted);
   };
 
   return (
@@ -68,23 +26,23 @@ export default function YouTubeBackground({ videoId, onError }: Props) {
       {/* Video Container - Scaled up to hide YouTube branding/borders */}
       <motion.div 
         initial={{ opacity: 0 }}
-        animate={{ opacity: isReady ? 1 : 0 }}
-        transition={{ duration: 0.5 }}
+        animate={{ opacity: isReady ? 0.8 : 0 }}
+        transition={{ duration: 1 }}
         className="absolute top-1/2 left-1/2 w-[150vw] md:w-[120vw] h-[150vh] md:h-[120vh] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
       >
-        <YouTube
-          videoId={videoId}
-          opts={opts}
-          onReady={onReady}
-          onPlay={onPlay}
-          onStateChange={onStateChange}
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&loop=1&playlist=${videoId}&playsinline=1&modestbranding=1&rel=0&iv_load_policy=3`}
+          className="absolute inset-0 w-full h-full scale-[1.2]"
+          allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+          onLoad={() => {
+            // Slight delay after iframe loads to allow video stream to buffer
+            setTimeout(() => setIsReady(true), 800);
+          }}
           onError={onError}
-          className="absolute inset-0 w-full h-full scale-[1.2] opacity-80"
-          iframeClassName="w-full h-full"
         />
       </motion.div>
 
-      {/* Floating Audio Controls Layer (above video, below gradients) */}
+      {/* Floating Audio Controls Layer */}
       <AnimatePresence>
         {isReady && (
           <motion.div 
