@@ -11,7 +11,6 @@ import { useBookingStore } from '@/lib/store';
 import MovieCastSection from './MovieCastSection';
 import MovieSimilarSection from './MovieSimilarSection';
 import TrailerModal from './TrailerModal';
-import TrailerGeneratorModal from './TrailerGeneratorModal';
 import VIPScreeningModal from './VIPScreeningModal';
 import MovieInfographic from './MovieInfographic';
 import MovieTrivia from './MovieTrivia';
@@ -55,7 +54,6 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   const { setSelectedMovie, favorites, toggleFavorite } = useBookingStore();
   const { setMovieContext } = useUIStore();
   const [showTrailer, setShowTrailer] = useState(false);
-  const [showTrailerGenerator, setShowTrailerGenerator] = useState(false);
   const [showVIPModal, setShowVIPModal] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const [trailerFailed, setTrailerFailed] = useState(false);
@@ -343,26 +341,22 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
               {/* Action Buttons: Trailer + More */}
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <motion.button
-                  whileHover={{ scale: 1.05, translateY: -2 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={videos.length > 0 ? { scale: 1.05, translateY: -2 } : {}}
+                  whileTap={videos.length > 0 ? { scale: 0.95 } : {}}
                   onClick={() => {
                     if (videos.length > 0) setShowTrailer(true);
-                    else setShowTrailerGenerator(true);
                   }}
+                  disabled={videos.length === 0}
                   className={`flex-1 md:flex-none h-16 px-8 rounded-2xl font-black flex items-center justify-center gap-3 transition-all border shadow-2xl relative overflow-hidden group ${
                     videos.length > 0
                       ? 'bg-white/10 backdrop-blur-3xl saturate-[250%] brightness-125 border-white/20 text-white'
-                      : 'bg-primary/20 backdrop-blur-3xl border-primary/30 text-primary hover:bg-primary/30 hover:shadow-[0_0_20px_rgba(20,255,200,0.3)]'
+                      : 'bg-white/5 border-white/10 text-white/50 cursor-not-allowed'
                   }`}
                 >
                   <span className="relative z-10 text-sm md:text-base tracking-tight drop-shadow-md uppercase font-black">
-                    {videos.length > 0 ? 'טריילר' : 'טריילר AI'}
+                    טריילר
                   </span>
-                  {videos.length > 0 ? (
-                    <Play className="fill-current w-4 h-4 relative z-10 group-hover:scale-110 transition-transform" />
-                  ) : (
-                    <Sparkles className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform" />
-                  )}
+                  <Play className="fill-current w-4 h-4 relative z-10 group-hover:scale-110 transition-transform" />
                 </motion.button>
                 
                 <motion.button
@@ -599,13 +593,6 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
         videos={videos}
         isOpen={showTrailer}
         onClose={() => setShowTrailer(false)}
-        movieTitle={movie.title}
-      />
-
-      {/* AI Trailer Generator Modal */}
-      <TrailerGeneratorModal
-        isOpen={showTrailerGenerator}
-        onClose={() => setShowTrailerGenerator(false)}
         movieTitle={movie.title}
       />
 
