@@ -36,6 +36,11 @@ export default function BookingsManagement() {
   const [bookings, setBookings] = useState<BookingData[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  
+  // Advanced Filter States
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<'dateDesc' | 'dateAsc' | 'amountDesc' | 'amountAsc'>('dateDesc');
 
   const fetchBookings = async () => {
     try {
@@ -97,11 +102,20 @@ export default function BookingsManagement() {
     document.body.removeChild(link);
   };
 
-  const filteredBookings = bookings.filter(b => 
-    b.movie?.title?.toLowerCase().includes(search.toLowerCase()) ||
-    b.userEmail?.toLowerCase().includes(search.toLowerCase()) ||
-    b._id?.includes(search)
-  );
+  const filteredBookings = bookings
+    .filter(b => 
+      (b.movie?.title?.toLowerCase().includes(search.toLowerCase()) ||
+       b.userEmail?.toLowerCase().includes(search.toLowerCase()) ||
+       b._id?.includes(search)) &&
+      (filterStatus === 'all' || b.status === filterStatus)
+    )
+    .sort((a, b) => {
+      if (sortBy === 'dateDesc') return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      if (sortBy === 'dateAsc') return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      if (sortBy === 'amountDesc') return b.total - a.total;
+      if (sortBy === 'amountAsc') return a.total - b.total;
+      return 0;
+    });
 
   return (
     <div className="w-full max-w-[1600px] mx-auto space-y-10" dir="rtl">
@@ -121,21 +135,97 @@ export default function BookingsManagement() {
       </div>
 
       {/* Filters Bar */}
-      <div className="flex flex-col md:flex-row gap-4 bg-black/40 p-4 rounded-[32px] border border-white/10 backdrop-blur-xl">
-        <div className="flex-1 relative group">
-          <Search className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors" size={20} />
-          <input 
-            type="text"
-            placeholder="חפש לפי שם סרט, מייל לקוח או מזהה הזמנה..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-16 bg-white/[0.03] border border-transparent rounded-2xl pr-14 pl-6 text-white text-lg outline-none focus:border-primary/30 focus:bg-white/[0.06] transition-all"
-          />
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col md:flex-row gap-4 bg-black/40 p-4 rounded-[32px] border border-white/10 backdrop-blur-xl">
+          <div className="flex-1 relative group">
+            <Search className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-primary transition-colors" size={20} />
+            <input 
+              type="text"
+              placeholder="חפש לפי שם סרט, מייל לקוח או מזהה הזמנה..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full h-16 bg-white/[0.03] border border-transparent rounded-2xl pr-14 pl-6 text-white text-lg outline-none focus:border-primary/30 focus:bg-white/[0.06] transition-all"
+            />
+          </div>
+          <button 
+            onClick={() => setShowFilters(!showFilters)}
+            className={cn(
+              "px-8 h-16 border rounded-2xl font-bold flex items-center justify-center gap-3 transition-all tracking-wide",
+              showFilters 
+                ? "bg-primary/20 border-primary/50 text-primary shadow-[0_0_15px_rgba(255,159,10,0.2)]" 
+                : "bg-white/5 border-white/10 text-slate-400 hover:text-white hover:bg-white/10"
+            )}
+          >
+            <Filter size={20} />
+            סינון מתקדם
+          </button>
         </div>
-        <button className="px-8 h-16 bg-white/5 border border-white/10 rounded-2xl text-slate-400 font-bold hover:text-white hover:bg-white/10 flex items-center justify-center gap-3 transition-all tracking-wide">
-          <Filter size={20} />
-          סינון מתקדם
-        </button>
+
+        {/* Advanced Filters Dropdown */}
+        <AnimatePresence>
+          {showFilters && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0, y: -10 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -10 }}
+              className="bg-black/60 border border-white/10 rounded-[32px] p-6 backdrop-blur-2xl overflow-hidden"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Status Filter */}
+                <div className="space-y-3">
+                  <label className="text-xs font-black text-slate-500 uppercase tracking-widest block">סנן לפי סטטוס</label>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { id: 'all', label: 'הכל' },
+                      { id: 'confirmed', label: 'מאושרים' },
+                      { id: 'validated', label: 'מומשו' },
+                      { id: 'cancelled', label: 'מבוטלים' }
+                    ].map(status => (
+                      <button
+                        key={status.id}
+                        onClick={() => setFilterStatus(status.id)}
+                        className={cn(
+                          "px-4 py-2 rounded-xl text-sm font-bold transition-all border",
+                          filterStatus === status.id 
+                            ? "bg-primary text-black border-primary shadow-[0_0_10px_rgba(255,159,10,0.4)]" 
+                            : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10"
+                        )}
+                      >
+                        {status.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Sort Order */}
+                <div className="space-y-3">
+                  <label className="text-xs font-black text-slate-500 uppercase tracking-widest block">מיין לפי</label>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { id: 'dateDesc', label: 'תאריך: חדש לישן' },
+                      { id: 'dateAsc', label: 'תאריך: ישן לחדש' },
+                      { id: 'amountDesc', label: 'סכום: מהגבוה לנמוך' },
+                      { id: 'amountAsc', label: 'סכום: מהנמוך לגבוה' }
+                    ].map(sort => (
+                      <button
+                        key={sort.id}
+                        onClick={() => setSortBy(sort.id as any)}
+                        className={cn(
+                          "px-4 py-2 rounded-xl text-sm font-bold transition-all border",
+                          sortBy === sort.id 
+                            ? "bg-[#00F0FF] text-black border-[#00F0FF] shadow-[0_0_10px_rgba(0,240,255,0.4)]" 
+                            : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10"
+                        )}
+                      >
+                        {sort.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Desktop Table View */}

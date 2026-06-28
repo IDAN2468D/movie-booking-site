@@ -185,8 +185,10 @@
       "agentfiles:Agentfiles": false
     }
   },
-  "active": "cd0fe1851232c2d5",
+  "active": "06ac0bfc39ffcd76",
   "lastOpenFiles": [
+    "Skills/features/bookings_report_2026-06-28.csv",
+    "Skills/features/לא מאושר 235322.crdownload",
     "Skills/features/לא מאושר 275353.crdownload",
     "Skills/features/MASTER_SKILL_Liquid_Platform.md",
     "Skills/core/UI.md",
@@ -221,8 +223,6 @@
     "Skills/shared",
     "Skills/token-optimizer/scripts/__pycache__/utf8_io.cpython-313.pyc",
     "Skills/token-optimizer/scripts/__pycache__/token_estimate.cpython-313.pyc",
-    "Skills/token-optimizer/scripts/__pycache__/session_store.cpython-313.pyc",
-    "Skills/token-optimizer/scripts/__pycache__/runtime_env.cpython-313.pyc",
     "Skills/token-optimizer/assets/user-profiles.svg",
     "Skills/token-optimizer/assets/status-bar.svg",
     "Skills/token-optimizer/assets/session-database-flow.svg",
