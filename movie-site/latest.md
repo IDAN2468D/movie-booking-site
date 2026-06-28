@@ -5,7 +5,7 @@
 - **PremiumLogo Component (Framer Motion Refactor)**: Re-wrote `<PremiumLogo />` as a Next.js 15 Client Component using **Framer Motion** for liquid smooth spring animations, dynamic hover scaling, and an infinite shimmer streak across deep obsidian glass.
 - **Global Rollout**: Replaced standard logos across the entire platform, including `Sidebar`, `Header`, `TopBar`, and `(auth)/layout`.
 - **Favicon Optimization**: Replaced the previous `icon.png` and `public/logo.png` with an optimized, bolder `icon.svg` specifically designed for high visibility in browser tabs at 16x16 pixels.
-- **Cinematic Login Splash**: Created a brand new `/splash` route acting as an intermediary screen after login. It showcases the `hero` sized `PremiumLogo` with a 2.5-second cinematic fade-in before routing to the home page.
+- **Cinematic Login Splash (MGM-Inspired)**: Built a state-of-the-art 4-phase animated `MgmSplashScreen.tsx` component using Framer Motion (Spinning Rings, Neon Shockwaves, Lens Flares). Integrated HTML5 Audio handling with a fallback "Tap to Enter" overlay. Replaced the basic splash screen at `/splash` to execute this breathtaking sequence before routing to the home page.
 - **Logout Redirection**: Updated all `signOut()` actions across the app to explicitly redirect the user back to the `/login` screen instead of the default home page.
 
 ## 🌌 Liquid Hub VIP Expansion
