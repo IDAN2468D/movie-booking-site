@@ -25,7 +25,7 @@ const navItems: NavItem[] = [
   { icon: Crown, label: 'מועדון VIP', href: '/vip' },
   { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets' },
   { icon: Heart, label: 'מועדפים', href: '/favorites' },
-  { icon: Gift, label: 'בונוסים', href: '/rewards' },
+  { icon: Gift, label: 'בונוסים', href: '/vip/bonuses' },
   { icon: Utensils, label: 'אוכל ושתייה', href: '/food' },
   { icon: Bell, label: 'התראות', href: '/notifications' },
   { icon: Sparkles, label: 'עוזר AI', href: '#chat', isChat: true },
