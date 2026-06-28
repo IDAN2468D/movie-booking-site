@@ -45,7 +45,7 @@ export default function UserProfile() {
             
             {/* Quick Logout Tooltip/Menu */}
             <button 
-              onClick={() => signOut()}
+              onClick={() => signOut({ callbackUrl: '/login' })}
               className="absolute -bottom-2 -left-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center border-2 border-[#0A0A0A] opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-125 z-20"
               title="התנתקות"
             >

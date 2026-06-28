@@ -1,10 +1,12 @@
 # 🆕 Latest Updates (v4.1)
 
-## 🎨 Premium Logo (Stitch MCP Integration)
+## 🎨 Premium Logo & Auth Flow (Stitch MCP Integration)
 - **Stitch Design Integration**: Imported the high-fidelity premium SVG logo design directly from Stitch MCP.
-- **PremiumLogo Component**: Created `<PremiumLogo />` component (`components/ui/PremiumLogo.tsx`) with animated SVG filters, gold/teal neon glows, and multiple size variants (`sm, md, lg, hero`).
+- **PremiumLogo Component (Framer Motion Refactor)**: Re-wrote `<PremiumLogo />` as a Next.js 15 Client Component using **Framer Motion** for liquid smooth spring animations, dynamic hover scaling, and an infinite shimmer streak across deep obsidian glass.
 - **Global Rollout**: Replaced standard logos across the entire platform, including `Sidebar`, `Header`, `TopBar`, and `(auth)/layout`.
-- **Favicon Optimization**: Replaced the previous `icon.png` with an optimized, bolder `icon.svg` specifically designed for high visibility in browser tabs at 16x16 pixels.
+- **Favicon Optimization**: Replaced the previous `icon.png` and `public/logo.png` with an optimized, bolder `icon.svg` specifically designed for high visibility in browser tabs at 16x16 pixels.
+- **Cinematic Login Splash**: Created a brand new `/splash` route acting as an intermediary screen after login. It showcases the `hero` sized `PremiumLogo` with a 2.5-second cinematic fade-in before routing to the home page.
+- **Logout Redirection**: Updated all `signOut()` actions across the app to explicitly redirect the user back to the `/login` screen instead of the default home page.
 
 ## 🌌 Liquid Hub VIP Expansion
 - **VIP Seat Auctions (Refactored & Polished)**: Rewrote `SeatAuctions.tsx` to match exact specs from `SKILL_VIP_Auctions.md` (Optimistic UI, localized Zod errors, `$lt: bidAmount` atomic DB checks). Upgraded the UI with premium liquid glass aesthetics, replacing generic icons with a dynamic `Crown` & `Sparkles` composition, and adding a glowing "Live Premium Bidding" indicator.

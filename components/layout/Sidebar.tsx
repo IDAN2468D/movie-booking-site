@@ -167,7 +167,7 @@ export default function Sidebar() {
         </div>
 
         <button 
-          onClick={() => signOut()}
+          onClick={() => signOut({ callbackUrl: '/login' })}
           className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-slate-500 hover:bg-red-500/10 hover:text-red-400 transition-all duration-500 group border border-transparent hover:border-red-500/20"
         >
           <LogOut className="w-5 h-5 group-hover:-translate-x-2 transition-transform duration-500" />

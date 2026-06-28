@@ -26,7 +26,7 @@ export const Header = () => {
                 Dashboard
               </Link>
               <button
-                onClick={() => signOut()}
+                onClick={() => signOut({ callbackUrl: '/login' })}
                 className="text-sm font-bold text-white px-4 py-2 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors"
               >
                 Sign Out
