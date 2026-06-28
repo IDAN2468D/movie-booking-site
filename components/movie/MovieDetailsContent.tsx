@@ -22,6 +22,7 @@ import { CharacterInsights } from './CharacterInsights';
 import { CinematicDeepDive } from './CinematicDeepDive';
 import { UniverseMap } from './UniverseMap';
 import { WhatIfScenario } from './WhatIfScenario';
+import YouTubeBackground from './YouTubeBackground';
 
 interface Props {
   movie: MovieDetails;
@@ -57,6 +58,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   const [showTrailerGenerator, setShowTrailerGenerator] = useState(false);
   const [showVIPModal, setShowVIPModal] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
+  const [trailerFailed, setTrailerFailed] = useState(false);
   const [insights, setInsights] = useState<{
     whyWatch: string;
     emotionalScore: number;
@@ -228,18 +230,14 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
     <>
     <div className="pb-20 text-right" dir="rtl">
       {/* Hero Backdrop - Premium Vertical Focus on Mobile */}
-      {/* Hero Backdrop - Premium Vertical Focus on Mobile */}
       <section className="relative w-full h-[650px] md:h-[600px] overflow-hidden [transform:translateZ(0)]">
         
         {/* Background Layer: Video or Image */}
-        {videos.length > 0 ? (
-          <div className="absolute top-1/2 left-1/2 w-[150vw] md:w-[120vw] h-[150vh] md:h-[120vh] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-            <iframe
-              src={`https://www.youtube.com/embed/${videos.find(v => v.type === 'Trailer')?.key || videos[0].key}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videos.find(v => v.type === 'Trailer')?.key || videos[0].key}&playsinline=1&modestbranding=1`}
-              className="absolute inset-0 w-full h-full scale-[1.2] opacity-80"
-              allow="autoplay; encrypted-media"
-            />
-          </div>
+        {videos.length > 0 && !trailerFailed ? (
+          <YouTubeBackground 
+            videoId={videos.find(v => v.type === 'Trailer')?.key || videos[0].key} 
+            onError={() => setTrailerFailed(true)} 
+          />
         ) : (
           <Image
             src={getImageUrl(movie.backdrop_path, 'original')}

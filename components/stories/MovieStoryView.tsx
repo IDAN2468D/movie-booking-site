@@ -195,6 +195,26 @@ export const MovieStoryView: React.FC<MovieStoryViewProps> = ({
             onPointerCancel={() => setIsPaused(false)}
             onPointerLeave={() => setIsPaused(false)}
           />
+
+          {/* Background Preloader for Next Story */}
+          {currentIndex < stories.length - 1 && (
+            <video
+              src={stories[currentIndex + 1].videoUrl}
+              preload="auto"
+              className="hidden"
+              muted
+            />
+          )}
+
+          {/* Background Preloader for Previous Story (in case they go back) */}
+          {currentIndex > 0 && (
+            <video
+              src={stories[currentIndex - 1].videoUrl}
+              preload="auto"
+              className="hidden"
+              muted
+            />
+          )}
         </motion.div>
       </AnimatePresence>
 
