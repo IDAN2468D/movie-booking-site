@@ -64,7 +64,7 @@ export async function lockSeatAction(payload: SeatActionInput) {
           "seats.$.lockedAt": new Date()
         }
       },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!result) {
@@ -89,8 +89,12 @@ export async function releaseSeatAction(payload: SeatActionInput) {
     const result = await ShowtimeSeats.findOneAndUpdate(
       {
         showtimeId,
-        "seats.seatId": seatId,
-        "seats.lockedBy": userId
+        seats: {
+          $elemMatch: {
+            seatId,
+            lockedBy: userId
+          }
+        }
       },
       {
         $set: {
@@ -99,7 +103,7 @@ export async function releaseSeatAction(payload: SeatActionInput) {
           "seats.$.lockedAt": null
         }
       },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!result) {

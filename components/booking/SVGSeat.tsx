@@ -66,10 +66,10 @@ export default function SVGSeat({
         originX: `${seatSize / 2}px`, 
         originY: `${seatSize / 2}px` 
       }}
-      onMouseEnter={() => !isOccupied && onHover(seatId)}
-      onMouseLeave={() => !isOccupied && onHover(null)}
-      onClick={() => !isOccupied && onClick()}
-      whileHover={isOccupied ? {} : { scale: 1.15, zIndex: 10 }}
+      onHoverStart={() => !isOccupied && onHover(seatId)}
+      onHoverEnd={() => !isOccupied && onHover(null)}
+      onTap={() => !isOccupied && onClick()}
+      whileHover={isOccupied ? {} : { scale: 1.15 }}
       whileTap={isOccupied ? {} : { scale: 0.9 }}
       className={isOccupied ? 'cursor-not-allowed opacity-40' : 'cursor-pointer'}
     >
