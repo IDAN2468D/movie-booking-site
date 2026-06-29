@@ -1,5 +1,19 @@
 # 🆕 Latest Updates (v4.1)
 
+## 🎫 Dynamic Glass Seat Map Engine
+- **3D Isometric UI**: Deployed `DynamicSeatMap.tsx` with a tilted Liquid Glass 3.0 UI matrix (`rotateX(20deg)` canopy) using strict logical RTL tokens (`ps-`, `pe-`, `space-x-reverse`).
+- **Atomic Concurrency**: Created `"use server"` `lockSeatAction` & `releaseSeatAction` mapped via atomic Mongoose `$elemMatch` and `findOneAndUpdate` to prevent booking collisions with zero latency.
+- **useOptimistic Feedback**: Added `useOptimistic` hook mapping over seat elements to reflect 0ms visual lockdowns while server executes Mongoose operations.
+- **Hermetic Zod Validations**: Plumbed the outbound request schema natively to Hebrew string errors (`"מושב זה נתפס על ידי משתמש אחר, אנא בחר מושב חלופי"`) eliminating multi-layer locale translations.
+- **Automatic Initialization**: Mounted a robust auto-seeding engine that populates mock VIP & standard seats on first view at `/booking/[showtimeId]/seats`.
+
+## 🧠 Neural Discovery Pipeline
+- **Blueprint Execution**: Fully implemented the `SKILL_MovieBook_NeuralDiscovery.md` architecture under `/discover/neural`.
+- **Atomic Backend**: Engineered `NeuralDiscovery` Mongoose schema and Next.js 15 Server Actions (`getNeuralMovies`) using `$addToSet` and `$inc` for zero-REST query logging.
+- **Hermetic Zod Gates**: Configured robust Zod validations mapping slider ranges and text inputs directly to native Hebrew UI errors.
+- **Liquid Glass Dashboard**: Built `NeuralDiscoveryDashboard.tsx` featuring interactive frosted sliders (Widget A), thematic neural graph nodes (Widget B), and a dynamic Bento playlist matrix (Widget C).
+- **RTL & Typographic Shielding**: Enforced 100% strict Tailwind logical properties (`ps-`, `pe-`, `space-x-reverse`) with `leading-relaxed` typography to prevent bounding-box character clipping.
+
 ## 🎨 Premium Logo & Auth Flow (Stitch MCP Integration)
 - **Stitch Design Integration**: Imported the high-fidelity premium SVG logo design directly from Stitch MCP.
 - **PremiumLogo Component (Framer Motion Refactor)**: Re-wrote `<PremiumLogo />` as a Next.js 15 Client Component using **Framer Motion** for liquid smooth spring animations, dynamic hover scaling, and an infinite shimmer streak across deep obsidian glass.

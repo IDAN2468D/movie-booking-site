@@ -10,6 +10,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import VibeMatcher from '@/components/ai/VibeMatcher';
 import MoodRecommendations from '@/components/ai/MoodRecommendations';
+import { NeuralDiscoveryDashboard } from '@/components/discover/NeuralDiscoveryDashboard';
 import { cn } from '@/lib/utils/index';
 
 interface Movie {
@@ -40,7 +41,7 @@ export default function DiscoveryPage() {
   const [allMovies, setAllMovies] = useState<Movie[]>([]);
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
-  const [visualTab, setVisualTab] = useState<'vibe' | 'mood'>('vibe');
+  const [visualTab, setVisualTab] = useState<'vibe' | 'mood' | 'engine'>('engine');
 
   // Load movies
   useEffect(() => {
@@ -217,6 +218,17 @@ export default function DiscoveryPage() {
             >
               מנתח מצב רוח אישי
             </button>
+            <button
+              onClick={() => setVisualTab('engine')}
+              className={cn(
+                "px-6 py-3.5 rounded-xl border text-sm font-black transition-all cursor-pointer",
+                visualTab === 'engine'
+                  ? "border-[#00F0FF] bg-[#00F0FF]/10 text-[#00F0FF] shadow-[0_0_15px_rgba(0,240,255,0.2)]"
+                  : "border-white/10 bg-white/5 text-gray-400 hover:bg-white/10"
+              )}
+            >
+              מנוע תגליות (Liquid)
+            </button>
           </div>
         </motion.div>
         
@@ -228,7 +240,13 @@ export default function DiscoveryPage() {
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.25 }}
           >
-            {visualTab === 'vibe' ? <VibeMatcher /> : <MoodRecommendations />}
+            {visualTab === 'vibe' && <VibeMatcher />}
+            {visualTab === 'mood' && <MoodRecommendations />}
+            {visualTab === 'engine' && (
+              <div className="rounded-[32px] overflow-hidden border border-white/10 shadow-2xl">
+                <NeuralDiscoveryDashboard userId="test-neural-user" />
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
