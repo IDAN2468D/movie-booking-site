@@ -11,26 +11,30 @@ interface PremiumLogoProps {
 export const PremiumLogo: React.FC<PremiumLogoProps> = ({ className = '', size = 'md' }) => {
   const sizeClasses = {
     sm: {
-      container: 'gap-3',
-      icon: 'w-16 h-16',
-      text: 'text-2xl',
-      subtitle: 'text-[9px]',
+      layout: 'flex-row items-center gap-3',
+      icon: 'w-10 h-10',
+      textLayout: 'flex flex-col items-start mt-0',
+      text: 'text-xl',
+      subtitle: 'text-[8px] mt-0.5',
     },
     md: {
-      container: 'gap-4',
+      layout: 'flex-col items-center gap-4 text-center',
       icon: 'w-24 h-24',
+      textLayout: 'flex flex-col items-center text-center mt-1',
       text: 'text-3xl',
-      subtitle: 'text-[11px]',
+      subtitle: 'text-[11px] mt-2',
     },
     lg: {
-      container: 'gap-5',
+      layout: 'flex-col items-center gap-5 text-center',
       icon: 'w-32 h-32',
+      textLayout: 'flex flex-col items-center text-center mt-1',
       text: 'text-5xl',
-      subtitle: 'text-[14px]',
+      subtitle: 'text-[14px] mt-2',
     },
     hero: {
-      container: 'gap-6',
+      layout: 'flex-col items-center gap-6 text-center',
       icon: 'w-40 h-40 md:w-56 md:h-56',
+      textLayout: 'flex flex-col items-center text-center mt-2',
       text: 'text-[48px] md:text-[64px]',
       subtitle: 'text-[12px] md:text-[14px] mt-4',
     }
@@ -40,7 +44,7 @@ export const PremiumLogo: React.FC<PremiumLogoProps> = ({ className = '', size =
 
   return (
     <motion.div 
-      className={`flex flex-col items-center justify-center group cursor-pointer ${currentSize.container} ${className}`}
+      className={`flex justify-center group cursor-pointer ${currentSize.layout} ${className}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 200, damping: 20 }}
@@ -113,7 +117,7 @@ export const PremiumLogo: React.FC<PremiumLogoProps> = ({ className = '', size =
       </div>
 
       {/* Typographic Logo */}
-      <div className="flex flex-col items-center text-center mt-1">
+      <div className={`${currentSize.textLayout}`}>
         <h1 className={`font-outfit ${currentSize.text} flex items-center gap-0.5 md:gap-1 font-black leading-none`}>
           <motion.span 
             className="text-white drop-shadow-md"
@@ -133,9 +137,8 @@ export const PremiumLogo: React.FC<PremiumLogoProps> = ({ className = '', size =
           </motion.span>
         </h1>
         
-        {/* Subtitle is always rendered but scales based on size */}
         <motion.h2 
-          className={`font-outfit ${currentSize.subtitle} text-white/80 tracking-[0.4em] uppercase mt-2 group-hover:text-white transition-colors duration-300`}
+          className={`font-outfit ${currentSize.subtitle} text-white/80 tracking-[0.4em] uppercase group-hover:text-white transition-colors duration-300`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}

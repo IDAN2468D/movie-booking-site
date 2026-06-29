@@ -1,5 +1,17 @@
 # 🆕 Latest Updates (v4.1)
 
+## 🛡️ MASTER Architecture Adoption (SSOT)
+- **Single Source of Truth**: Officially ingested and enforced the `MASTER_MovieBook_Architecture.md` guidelines across the entire repository.
+- **Strict Server Actions Engine**: 100% elimination of traditional REST API routes (`route.ts`). All backend data fetching and mutations are now strictly channeled through Next.js 15 Server Actions (`"use server"`) utilizing atomic Mongoose operations to eliminate race conditions.
+- **Liquid Glass 3.0 & RTL Enforcements**: Enforced `backdrop-blur-xl`, `#05070B` Obsidian canvases, and cyber-teal/amber-gold neon tokens. Globally adopted **pure logical Tailwind properties** (`ps-`, `pe-`, `space-x-reverse`) and typographic shielding (`leading-relaxed`) to perfectly accommodate native Hebrew fonts.
+- **Zod Gateway Locks**: Hardcoded Zod schemas across all boundaries, rendering exact Hebrew error strings to ensure airtight UI validation without translation layers.
+
+## 🎭 Actor Biography Engine (Dedicated Route Update)
+- **Liquid Glass 3.0 UI**: Refactored the bio engine from a drawer to a full dedicated route (`/actor/[id]`) featuring an expansive Obsidian background, massive gradient-masked avatars, and premium glass biography containers.
+- **Navigation Flow**: Connected `CastHorizonRow.tsx` via `next/link` directly to the new actor pages, ensuring an immersive, full-screen profile exploration.
+- **Server Component**: Rebuilt the component utilizing Next.js 15 Server Components and `"use server"` Server Actions for secure MongoDB retrieval with `getActorProfile`.
+- **Gemini AI Translation**: Intercepts TMDB data streams, dynamically translating and enriching actor biographies into high-quality Hebrew via `gemini-1.5-pro` with a seamless local `Ollama` (`gemma2:2b`) fallback architecture for 100% uptime.
+
 ## 🎫 Dynamic Glass Seat Map Engine
 - **3D Isometric UI**: Deployed `DynamicSeatMap.tsx` with a tilted Liquid Glass 3.0 UI matrix (`rotateX(20deg)` canopy) using strict logical RTL tokens (`ps-`, `pe-`, `space-x-reverse`).
 - **Atomic Concurrency**: Created `"use server"` `lockSeatAction` & `releaseSeatAction` mapped via atomic Mongoose `$elemMatch` and `findOneAndUpdate` to prevent booking collisions with zero latency.

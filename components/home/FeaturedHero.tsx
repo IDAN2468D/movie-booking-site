@@ -7,8 +7,6 @@ import { Star, Heart, Ticket } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
 import TrailerButton from '@/components/movie/TrailerButton';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
-import LiveActivityPulse from '@/components/ui/LiveActivityPulse';
 
 interface FeaturedHeroProps {
   movie: Movie;
@@ -88,10 +86,6 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-wrap items-center justify-center md:justify-end gap-3 mb-6"
           >
-            <LiveActivityPulse />
-            <div className="bg-primary text-black text-[10px] font-black px-3 py-1.5 rounded-xl tracking-[0.2em] uppercase shadow-lg shadow-primary/20 font-display">
-              <MarkerHighlight delay={1.2} color="#000000" strokeWidth={2}>LIQUID GLASS 3.0 CHOICE</MarkerHighlight>
-            </div>
             <div className="flex items-center gap-1.5 bg-white/5 backdrop-blur-xl px-3 py-1.5 rounded-xl text-white text-[10px] md:text-xs border border-white/10 shadow-2xl">
               <Star className="w-3.5 h-3.5 text-primary fill-primary" />
               <span className="font-black text-white/90">דירוג {movie.vote_average.toFixed(1)}</span>

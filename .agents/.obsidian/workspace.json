@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skills/features/SKILL_MovieBook_NeuralDiscovery.md",
+                "file": "Skills/features/MASTER_MovieBook_Architecture.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SKILL_MovieBook_NeuralDiscovery"
+              "title": "MASTER_MovieBook_Architecture"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 336.5
+    "width": 314.5
   },
   "right": {
     "id": "5796bc50e01f7577",
@@ -185,17 +185,21 @@
       "agentfiles:Agentfiles": false
     }
   },
-  "active": "06ac0bfc39ffcd76",
+  "active": "cd0fe1851232c2d5",
   "lastOpenFiles": [
+    "Skills/features/MASTER_SKILL_Liquid_Platform.md",
+    "Skills/features/MASTER_MovieBook_Architecture.md",
+    "latest.md",
+    "Skills/features/לא מאושר 426238.crdownload",
+    "Skills/features/SKILL_MovieBook_ActorBiography.md",
+    "Skills/features/לא מאושר 28967.crdownload",
+    "Skills/features/SKILL_MgmSplashScreen.md",
     "Skills/features/SKILL_MovieBook_DynamicSeatMap.md",
-    "Skills/features/לא מאושר 998017.crdownload",
+    "Skills/features/SKILL_MovieBook_NeuralDiscovery.md",
     "Skills/features/SKILL_MovieBook_PremiumBonuses.md",
     "Skills/features/SKILL_StoryAutoplayTrailer.md",
-    "Skills/features/MASTER_SKILL_Liquid_Platform.md",
-    "Skills/features/SKILL_MgmSplashScreen.md",
+    "Skills/features/לא מאושר 998017.crdownload",
     "Skills/features/SKILL_MovieBook_CinematicLanding.md",
-    "Skills/features/SKILL_MovieBook_NeuralDiscovery.md",
-    "latest.md",
     "Skills/features/לא מאושר 509525.crdownload",
     "Skills/features/bookings_report_2026-06-28.csv",
     "Skills/features/לא מאושר 235322.crdownload",
@@ -219,10 +223,6 @@
     "Skills/Auth_Loyalty.md",
     "Skills/UI_DesignSystem.md",
     "Skills/My First Skill.md",
-    "Skills/AI_Concierge.md",
-    "Skills/token-optimizer/SKILL.md",
-    "Skills/features",
-    "Skills/shared/yuv-design",
     "Skills/token-optimizer/assets/user-profiles.svg",
     "Skills/token-optimizer/assets/status-bar.svg",
     "Skills/token-optimizer/assets/session-database-flow.svg",

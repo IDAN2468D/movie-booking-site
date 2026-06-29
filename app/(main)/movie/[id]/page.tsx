@@ -1,5 +1,6 @@
 import { getMovieDetails, getMovieCredits, getSimilarMovies, getMovieVideos, getMovieReviews } from '@/lib/tmdb';
 import MovieDetailsContent from '@/components/movie/MovieDetailsContent';
+import { seedDemoActors } from '@/app/actions/actorActions';
 
 interface MoviePageProps {
   params: Promise<{ id: string }>;
@@ -9,12 +10,13 @@ export default async function MoviePage({ params }: MoviePageProps) {
   const { id } = await params;
   const movieId = parseInt(id, 10);
 
-  const [movie, credits, similar, videos, reviews] = await Promise.all([
+  const [movie, credits, similar, videos, reviews, _] = await Promise.all([
     getMovieDetails(movieId),
     getMovieCredits(movieId),
     getSimilarMovies(movieId),
     getMovieVideos(movieId),
     getMovieReviews(movieId),
+    seedDemoActors()
   ]);
 
   const director = credits.crew.find(c => c.job === 'Director');

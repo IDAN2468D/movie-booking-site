@@ -181,6 +181,25 @@ export interface CrewMember {
   profile_path: string | null;
 }
 
+export interface TMDBPerson {
+  id: number;
+  name: string;
+  biography: string;
+  birthday: string | null;
+  place_of_birth: string | null;
+  profile_path: string | null;
+  popularity: number;
+}
+
+export async function getActorDetails(id: number): Promise<TMDBPerson | null> {
+  try {
+    return await fetchFromTMDB<TMDBPerson>(`/person/${id}`);
+  } catch (error) {
+    console.error(`TMDB getActorDetails error for ID ${id}:`, error);
+    return null;
+  }
+}
+
 export async function getMovieDetails(id: number): Promise<MovieDetails> {
   try {
     const data = await fetchFromTMDB<MovieDetails>(`/movie/${id}`);
