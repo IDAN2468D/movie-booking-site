@@ -1,4 +1,25 @@
-# 🆕 Latest Updates (v4.1)
+# 🆕 Latest Updates (v4.4)
+
+## 🔐 Specular Neural Auth Gate (v4.4)
+- **React 19 & Next.js 15 Server Actions**: Created `app/actions/authActions.ts` with `loginAction` and `registerAction` returning the standardized Result Pattern. Integrated forms using native `useActionState` hook for loading states.
+- **Air-Tight Validations**: Created `lib/validations/authSchema.ts` containing Zod schemas `loginSchema` and `registerSchema` for secure client/server field checking with Hebrew error outputs.
+- **Zero Reflow Transitions**: Implemented `components/auth/AuthGate.tsx` as the main client container with isolated subforms `LoginForm.tsx` and `RegisterForm.tsx`. Utilizes Framer Motion for X-axis sliding translations (`style={{ x }}`) preventing DOM reflow.
+- **Visual Aesthetics**: Applied premium glass tokens (`backdrop-blur-3xl saturate-[200%] brightness-110`, border `1px rgba(255,255,255,0.1)`) and custom typography (Outfit for headers, Inter for controls).
+- **QA Coverage**: Created `lib/__tests__/auth.test.ts` testing the auth validation schemas. All 31 unit tests pass.
+
+## 🌌 Next-Gen Immersive Experience Suite (v4.3)
+- **Cinematic Specular Sightline Engine**: Refined `SightlinePreview.tsx` and `useSightlineCalculations.ts` to compute aspect ratio distortion angle using $\theta_{distortion} = \arctan(\Delta X / Y)$ relative to screen center offset.
+- **Acoustic Wavefront Spatializer**: Created `useAcousticMatrix.ts` custom hook initializing Web Audio API `AudioContext`, `PannerNode`, and `BiquadFilterNode` connected to trailer playback. Renders animated wavefront ripples using `AcousticSpatializer.tsx` with zero render-loop React state modifications via requestAnimationFrame.
+- **Gyroscopic Holographic Glass Ledger**: Created `useDeviceGyroscope.ts` utilizing the `DeviceOrientation API` with linear interpolation (lerp) to smooth hardware noise. Implemented mobile-first `HolographicTicket.tsx` with Framer Motion 3D rotations, shifting reflections using `--glass-gradient-angle` CSS variables, and desktop mouse fallbacks.
+- **Integration**: Mounted `SightlinePreview` and `AcousticSpatializer` directly inside the `BookingSummarySidebar` for live updates during seat selection, and added a style switcher tab to `/tickets` page to toggle between Quantum and Holographic views.
+- **QA Coverage**: Created unit tests in `hooks/__tests__/useAcousticMatrix.test.ts` and `hooks/__tests__/useDeviceGyroscope.test.ts` verifying maths and state structures. All 26 unit tests pass.
+
+## 👁️ Cinematic Specular Sightline Engine
+- **State Integration**: Promoted the hovered seat state from local state in `SeatMap.tsx` to global Zustand state (`hoveredSeat`, `setHoveredSeat` in `useBookingStore`) using strict selectors to prevent master layout re-renders.
+- **Mathematical Viewport Calculations**: Created `useSightlineCalculations` hook performing 3D viewport angular distortion computations: horizontal angle offset ($\theta_{distortion} = \arctan(\Delta X / Y)$), vertical pitch angle, and Euclidean screen distance.
+- **Airtight Zod Gateway**: Added Zod validation schema (`SightlineDataSchema`) to strictly validate structural coordinate and angle values, returning standard Result Pattern payloads.
+- **Liquid Glass 3.0 UI Component**: Implemented `SightlinePreview.tsx` client component featuring GPU-accelerated 3D transforms (`perspective`, `rotateY`, `rotateX`) via Framer Motion, micro-cinema screen projection, and ambient canvas blur background glow.
+- **QA Coverage**: Wrote vitest unit tests in `hooks/__tests__/useSightlineCalculations.test.ts` verifying maths and coordinate validations.
 
 ## 🛡️ MASTER Architecture Adoption (SSOT)
 - **Single Source of Truth**: Officially ingested and enforced the `MASTER_MovieBook_Architecture.md` guidelines across the entire repository.

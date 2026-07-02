@@ -181,17 +181,18 @@
   },
   "active": "d0c4c5f9cbc80945",
   "lastOpenFiles": [
+    "movie-site/Skills/features/ADVANCED_EXPERIENCES.md",
+    "movie-site/Skills/features/לא מאושר 366179.crdownload",
+    "hooks/__tests__/useSightlineCalculations.test.ts",
+    "components/booking/SightlinePreview.tsx",
+    "hooks/useSightlineCalculations.ts",
+    "movie-site/Skills/features/SIGHTLINE.md",
+    "movie-site/Skills/features/לא מאושר 710492.crdownload",
     "movie-site/Skills/token-optimizer/scripts/__pycache__/utf8_io.cpython-313.pyc",
     "movie-site/Skills/token-optimizer/scripts/__pycache__/token_estimate.cpython-313.pyc",
     "movie-site/Skills/token-optimizer/scripts/__pycache__/session_store.cpython-313.pyc",
     "movie-site/Skills/token-optimizer/scripts/__pycache__/runtime_env.cpython-313.pyc",
     "movie-site/Skills/token-optimizer/scripts/__pycache__/plugin_env.cpython-313.pyc",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/hook_io.cpython-313.pyc",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/hermes_session.cpython-313.pyc",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/credential_patterns.cpython-313.pyc",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/copilot_session.cpython-313.pyc",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/codex_state.cpython-313.pyc",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/codex_session.cpython-313.pyc",
     "movie-site/Skills/token-optimizer/references/token-flow-architecture.md",
     "movie-site/Skills/token-optimizer/references/presentation-workflow.md",
     "movie-site/Skills/token-optimizer/references/phase0-setup.md",
@@ -225,7 +226,6 @@
     "movie-site/Skills/shared/RENDER_DEPLOYMENT.md",
     "movie-site/Skills/core/SEARCH.md",
     "movie-site/Skills/core/RESEARCH.md",
-    "movie-site/Skills/core/QA_CICD.md",
-    "movie-site/Skills/core/OPTIMIZATION.md"
+    "movie-site/Skills/core/QA_CICD.md"
   ]
 }

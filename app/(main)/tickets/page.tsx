@@ -5,6 +5,7 @@ import { Ticket, Loader2, Bot } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import QuantumTicket from '@/components/tickets/QuantumTicket';
+import HolographicTicket from '@/components/tickets/HolographicTicket';
 
 interface TicketType {
   id: string;
@@ -25,6 +26,7 @@ export default function TicketsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'countdown' | 'qr' | 'memory'>('countdown');
+  const [ticketStyle, setTicketStyle] = useState<'quantum' | 'holographic'>('quantum');
 
   const handleEmailTicket = async (ticket: TicketType) => {
     setProcessingId(`${ticket.id}-email`);
@@ -226,6 +228,35 @@ export default function TicketsPage() {
             })}
           </div>
 
+          {/* Ticket Style Switcher */}
+          <div className="w-full max-w-xs mb-12 bg-black/40 backdrop-blur-2xl border border-white/5 p-1 rounded-xl flex gap-1 shadow-md">
+            {([
+              { id: 'quantum', label: 'קוונטי' },
+              { id: 'holographic', label: 'הולוגרפי 3D' }
+            ] as const).map((style) => {
+              const isActive = ticketStyle === style.id;
+              return (
+                <button
+                  key={style.id}
+                  onClick={() => setTicketStyle(style.id)}
+                  className={`relative flex-1 py-2 px-2 rounded-lg text-[10px] font-black uppercase tracking-wider text-center transition-colors duration-300 whitespace-nowrap focus:outline-none ${
+                    isActive ? 'text-black' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="ticketStyleTab"
+                      className="absolute inset-0 bg-cyan-400 rounded-lg shadow-[0_0_15px_rgba(34,211,238,0.4)]"
+                      transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+                      style={{ zIndex: 0 }}
+                    />
+                  )}
+                  <span className="relative z-10">{style.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-16 w-full">
             {tickets.map((ticket, index) => (
               <motion.div 
@@ -241,25 +272,35 @@ export default function TicketsPage() {
                 }}
                 className="w-full flex justify-center"
               >
-                <QuantumTicket 
-                  ticket={ticket}
-                  state={activeTab}
-                  onEmail={() => handleEmailTicket(ticket)}
-                  onDownload={() => handleDownloadPDF(ticket)}
-                  onShare={() => {
-                    if (navigator.share) {
-                      navigator.share({
-                        title: `הכרטיס שלי לסרט ${ticket.movie}`,
-                        text: `קניתי כרטיס לסרט ${ticket.movie} ב-MovieBook! מושבים: ${ticket.seats.join(', ')}`,
-                        url: window.location.href,
-                      });
-                    } else {
-                      alert('שיתוף לא נתמך בדפדפן זה');
-                    }
-                  }}
-                  isProcessingEmail={processingId === `${ticket.id}-email`}
-                  isProcessingPDF={processingId === `${ticket.id}-pdf`}
-                />
+                {ticketStyle === 'holographic' ? (
+                  <HolographicTicket
+                    movieTitle={ticket.movie}
+                    date={ticket.date}
+                    time={ticket.time}
+                    hall={ticket.hall}
+                    seats={ticket.seats}
+                  />
+                ) : (
+                  <QuantumTicket 
+                    ticket={ticket}
+                    state={activeTab}
+                    onEmail={() => handleEmailTicket(ticket)}
+                    onDownload={() => handleDownloadPDF(ticket)}
+                    onShare={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: `הכרטיס שלי לסרט ${ticket.movie}`,
+                          text: `קניתי כרטיס לסרט ${ticket.movie} ב-MovieBook! מושבים: ${ticket.seats.join(', ')}`,
+                          url: window.location.href,
+                        });
+                      } else {
+                        alert('שיתוף לא נתמך בדפדפן זה');
+                      }
+                    }}
+                    isProcessingEmail={processingId === `${ticket.id}-email`}
+                    isProcessingPDF={processingId === `${ticket.id}-pdf`}
+                  />
+                )}
               </motion.div>
             ))}
           </div>

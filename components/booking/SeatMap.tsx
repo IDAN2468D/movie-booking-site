@@ -48,7 +48,8 @@ export default function SeatMap() {
   const { activeRoomId, participants } = useCineSyncStore();
 
   const [showHeatmap, setShowHeatmap] = useState(false);
-  const [hoveredSeat, setHoveredSeat] = useState<string | null>(null);
+  const hoveredSeat = useBookingStore((state) => state.hoveredSeat);
+  const setHoveredSeat = useBookingStore((state) => state.setHoveredSeat);
   const [realOccupiedSeats, setRealOccupiedSeats] = useState<string[]>([]);
   
   const [rotateX, setRotateX] = useState(0);

@@ -7,6 +7,8 @@ import { useBookingStore } from '@/lib/store';
 import { getImageUrl } from '@/lib/tmdb';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SightlinePreview from './SightlinePreview';
+import AcousticSpatializer from './AcousticSpatializer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -151,6 +153,12 @@ export default function BookingSummarySidebar({ onCheckout }: BookingSummarySide
         <p className="text-center mt-4 text-[9px] text-slate-600 font-bold uppercase tracking-widest block">
           הזמנה מאובטחת • ללא עמלות נוספות
         </p>
+      </div>
+
+      {/* Next-Gen Immersive Experience Modules */}
+      <div className="space-y-6 mt-6">
+        <SightlinePreview />
+        <AcousticSpatializer />
       </div>
     </div>
   );
