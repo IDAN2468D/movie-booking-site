@@ -19,10 +19,11 @@ export default function AuthGate({ initialView = 'login' }: AuthGateProps) {
 
   return (
     <div
-      className="relative overflow-hidden rounded-[40px] p-10 shadow-2xl border border-white/10 w-full max-w-lg mx-auto"
+      className="relative overflow-hidden rounded-[40px] p-10 w-full max-w-lg mx-auto border border-white/10 font-inter"
       style={{
-        background: 'rgba(10, 10, 15, 0.65)',
+        background: 'rgba(0, 0, 0, 0.1)',
         backdropFilter: 'blur(40px) saturate(200%) brightness(110%)',
+        boxShadow: '0 0 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1)',
       }}
     >
       {/* Visual Ambient glow decoration */}

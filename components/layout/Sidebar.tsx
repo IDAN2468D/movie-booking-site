@@ -78,7 +78,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="hidden md:flex h-screen w-64 bg-white/[0.02] backdrop-blur-3xl border-l border-white/10 flex-col py-10 px-6 z-50 flex-shrink-0 shadow-[20px_0_80px_rgba(0,0,0,0.6)] relative overflow-y-auto custom-scrollbar">
+    <aside className="hidden md:flex h-screen w-64 bg-black/10 backdrop-blur-3xl saturate-[200%] brightness-110 border-l border-white/10 flex-col py-10 px-6 z-50 flex-shrink-0 shadow-[0_0_40px_rgba(0,0,0,0.5),_inset_0_0_0_1px_rgba(255,255,255,0.1)] relative overflow-y-auto custom-scrollbar font-inter">
       {/* Decorative background glow */}
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
       

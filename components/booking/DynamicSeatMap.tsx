@@ -122,7 +122,7 @@ export function DynamicSeatMap({ showtimeId, userId }: { showtimeId: string; use
                     let seatClasses = "w-8 h-8 md:w-10 md:h-10 rounded-t-xl rounded-b-md flex items-center justify-center text-xs font-bold transition-all duration-300 backdrop-blur-md bg-slate-900/40 border border-white/10 cursor-pointer ";
                     
                     if (isOccupied || isLockedByOther) {
-                      seatClasses += " opacity-20 pointer-events-none ";
+                      seatClasses += " opacity-40 border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.03)] pointer-events-none ";
                     } else if (isLockedByMe) {
                       seatClasses += " bg-[#00F0FF]/40 border-[#00F0FF] shadow-[0_0_15px_rgba(0,240,255,0.7)] text-white scale-110 ";
                     } else if (isVip) {
@@ -173,7 +173,7 @@ export function DynamicSeatMap({ showtimeId, userId }: { showtimeId: string; use
           <span className="text-sm text-gray-300 leading-relaxed py-1">נבחר</span>
         </div>
         <div className="flex items-center space-x-2 space-x-reverse">
-          <div className="w-5 h-5 rounded bg-slate-900/40 border border-white/10 opacity-20"></div>
+          <div className="w-5 h-5 rounded border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.03)] opacity-40"></div>
           <span className="text-sm text-gray-300 leading-relaxed py-1">תפוס</span>
         </div>
       </div>

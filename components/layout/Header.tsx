@@ -13,7 +13,7 @@ export const Header = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/50 border-b border-zinc-800">
+    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-3xl saturate-[200%] brightness-110 bg-black/10 border-b border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5),_inset_0_0_0_1px_rgba(255,255,255,0.1)] font-inter">
       <Container className="h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center group">
           <PremiumLogo size="sm" />

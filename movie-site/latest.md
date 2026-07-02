@@ -1,4 +1,21 @@
-# 🆕 Latest Updates (v4.4)
+# 🆕 Latest Updates (v4.6)
+
+## 🌌 Neural Specular Search Engine (v4.6)
+- **Component Architecture**: Created the atomic `components/layout/TopBar/NeuralSearch.tsx` component adhering strictly to Liquid Glass 3.0.
+- **Fuzzy Match Engine**: Implemented a localized, instant fuzzy matching algorithm wrapped with the standardized Result Pattern: `{ success: boolean; data?: Movie[]; error?: string }`.
+- **Styling & Typography**: Enforced Outfit font on headers and Inter for input controls, alongside Tailwind refraction and custom depth shadows: `box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1)`.
+- **Zero-Reflow 120Hz Motions**: Handled opening, closing, and selection triggers using GPU-accelerated Framer Motion vectors (opacity, scale, y translation).
+- **Future Integration Hooks**: Exposed `onNeuralPipelineSync` entry hook to allow piping search queries directly to the Neural Discovery Pipeline.
+- **TopBar Refactor**: Modified `components/layout/TopBar.tsx` to completely replace the legacy search logic.
+
+## 🆕 Latest Updates (v4.5)
+
+## 💎 Liquid Glass 3.0 Site-Wide Alignment (v4.5)
+- **Global Stylings**: Introduced the unified `.liquid-glass-3` style class inside `app/globals.css` incorporating the exact refraction (`backdrop-blur-3xl saturate-[200%] brightness-110 bg-black/10`) and optical depth shadows.
+- **Header & Navigation Refinement**: Upgraded `components/layout/Header.tsx` and `components/layout/Sidebar.tsx` layout borders and backdrop filters to utilize Liquid Glass 3.0, ensuring high contrast, clean typography (Outfit & Inter), and hardware-accelerated animations.
+- **Seat Map Grid States**: Modified interactive states in `components/booking/SeatMap.tsx` and `components/booking/DynamicSeatMap.tsx` for occupied/locked seats to match the precise tokens: `opacity-40`, stroke `rgba(255, 255, 255, 0.12)`, and fill `rgba(255, 255, 255, 0.03)`.
+- **Auth Gate Upgrades**: Standardized the glass wrapper in `components/auth/AuthGate.tsx` to align with the optical depth specifications.
+- **Verification**: Ran complete Vitest unit test suite (31/31 passing) and validated full Next.js production compilations.
 
 ## 🔐 Specular Neural Auth Gate (v4.4)
 - **React 19 & Next.js 15 Server Actions**: Created `app/actions/authActions.ts` with `loginAction` and `registerAction` returning the standardized Result Pattern. Integrated forms using native `useActionState` hook for loading states.

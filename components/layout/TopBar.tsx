@@ -2,7 +2,7 @@
 
 import React from 'react';
 import FilterModal from './FilterModal';
-import SearchBar from './TopBar/SearchBar';
+import NeuralSearch from './TopBar/NeuralSearch';
 import CategoryTabs from './TopBar/CategoryTabs';
 import UserProfile from './TopBar/UserProfile';
 import { useBookingStore } from '@/lib/store';
@@ -37,7 +37,7 @@ export default function TopBar() {
         <div className={`flex items-center gap-4 md:gap-10 flex-1 ${isMobileSearchOpen ? 'w-full' : 'max-w-[1600px] justify-end md:justify-start'} relative z-10 transition-all duration-500`}>
           {/* Search Bar - Desktop: Always visible, Mobile: Conditional */}
           <div className={`${isMobileSearchOpen ? 'block w-full animate-in slide-in-from-left-4 duration-500' : 'hidden'} md:block flex-1`}>
-            <SearchBar 
+            <NeuralSearch 
               onOpenFilter={() => setIsFilterOpen(true)} 
               isMobile={isMobileSearchOpen}
               onCloseMobile={() => setIsMobileSearchOpen(false)}

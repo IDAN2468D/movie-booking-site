@@ -265,7 +265,7 @@ export default function SeatMap() {
           { color: 'bg-white/10', label: 'פנוי' },
           { color: 'bg-primary shadow-[0_0_15px_rgba(255,20,100,0.5)]', label: 'נבחר' },
           { color: 'bg-cyan-400 shadow-[0_0_15px_rgba(10,239,255,0.5)]', label: 'שותף' },
-          { color: 'bg-white/5 opacity-20', label: 'תפוס' }
+          { color: 'bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.12)] opacity-40', label: 'תפוס' }
         ].map((item) => (
           <div key={item.label} className="flex items-center gap-1.5">
             <div className={`w-3 h-3 rounded-md ${item.color}`} />
