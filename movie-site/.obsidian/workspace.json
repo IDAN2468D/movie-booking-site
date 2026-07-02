@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Skills/features/MASTER_MovieBook_Architecture.md",
+                "file": "latest.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "MASTER_MovieBook_Architecture"
+              "title": "latest"
             }
           }
         ]
@@ -187,9 +187,10 @@
   },
   "active": "cd0fe1851232c2d5",
   "lastOpenFiles": [
-    "Skills/features/MASTER_SKILL_Liquid_Platform.md",
-    "Skills/features/MASTER_MovieBook_Architecture.md",
+    "Skills/core/DATA.md",
     "latest.md",
+    "Skills/features/MASTER_MovieBook_Architecture.md",
+    "Skills/features/MASTER_SKILL_Liquid_Platform.md",
     "Skills/features/לא מאושר 426238.crdownload",
     "Skills/features/SKILL_MovieBook_ActorBiography.md",
     "Skills/features/לא מאושר 28967.crdownload",
@@ -222,7 +223,6 @@
     "Skills/Booking_Engine.md",
     "Skills/Auth_Loyalty.md",
     "Skills/UI_DesignSystem.md",
-    "Skills/My First Skill.md",
     "Skills/token-optimizer/assets/user-profiles.svg",
     "Skills/token-optimizer/assets/status-bar.svg",
     "Skills/token-optimizer/assets/session-database-flow.svg",
