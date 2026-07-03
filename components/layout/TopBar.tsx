@@ -3,7 +3,6 @@
 import React from 'react';
 import FilterModal from './FilterModal';
 import NeuralSearch from './TopBar/NeuralSearch';
-import CategoryTabs from './TopBar/CategoryTabs';
 import UserProfile from './TopBar/UserProfile';
 import { useBookingStore } from '@/lib/store';
 import Image from 'next/image';
@@ -44,9 +43,7 @@ export default function TopBar() {
             />
           </div>
           
-          <div className="hidden lg:block">
-            <CategoryTabs />
-          </div>
+
 
           {/* Mobile Search Toggle Button */}
           {!isMobileSearchOpen && (
