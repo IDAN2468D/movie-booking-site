@@ -60,6 +60,12 @@ To maintain order, the agent must reference specific skills based on the task:
 - **Self-Healing AI & Local Fallbacks**: All external AI service routes (Gemini API) MUST implement a local **Ollama** (`gemma2:2b`) fallback in their `catch` blocks to automatically take over in case of expired API keys or rate-limiting, ensuring 100% uptime.
 - **Token Optimizer Auto-Trigger**: Whenever the agent notices excessive token usage, overly long context windows, or token waste in the models, the agent MUST proactively invoke the `token-optimizer` skill to clean up the environment without waiting for the user to ask.
 - **Gemma MCP Tool Usage**: Whenever calling the `gemini_chat` tool from the `google-gemma-31b` MCP server, ALWAYS explicitly pass the argument `model: "gemma-4-31b-it"`. Do not rely on the tool's default model, as the free-tier quota is restricted for the default model.
+- **Anthropic Agent Stack (v5.0)**: The agent operates strictly using a 5-step loop to maximize quality and prevent token/cost waste:
+  1. **Loop**: The agent runs in a closed loop, writing code, executing verification tests, fixing issues, and repeating until all automated tests pass.
+  2. **Plan**: Before writing code, the agent must formulate a clear implementation plan and obtain explicit user approval.
+  3. **PRD**: Always define the product scope, target user, and key requirements.
+  4. **Spec**: Formulate technical specs mapping inputs, outputs, and edge cases for the task.
+  5. **Markdown**: Store state, workspace instructions, and task history in a single markdown file read on each run to prevent context/memory resets.
 
 ## 🚀 6. QA & Deployment
 - **Commit**: Atomic and descriptive.

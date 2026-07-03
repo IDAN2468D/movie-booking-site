@@ -1,3 +1,9 @@
+# 🆕 Latest Updates (v5.0)
+
+## 🤖 Anthropic Agent Stack Alignment (v5.0)
+- **Unified AI Governance Standard**: Fully integrated the 5-step Anthropic Agent Stack (Loop, Plan, PRD, Spec, Markdown) into the core workspace rules (`.agents/Rules/movie-booking-site.md`).
+- **Standardized Execution Loop**: Enforced structured planning, test-driven validation loops, and persistent markdown state tracking across all future agent interactions.
+
 # 🆕 Latest Updates (v4.6)
 
 ## 🌌 Neural Specular Search Engine (v4.6)
