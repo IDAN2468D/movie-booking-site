@@ -47,11 +47,14 @@ interface BookingState {
   setActiveMoods: (moods: string[]) => void;
   hoveredSeat: string | null;
   setHoveredSeat: (seatId: string | null) => void;
+  isTransactionCompleted: boolean;
+  setTransactionCompleted: (completed: boolean) => void;
 }
 
 export const useBookingStore = create<BookingState>((set) => ({
   selectedMovie: null,
   selectedShowtime: '19:30',
+  isTransactionCompleted: false,
   selectedDate: new Date().toLocaleDateString('he-IL'),
   selectedHall: 'אולם 1',
   selectedSeats: [],
@@ -84,6 +87,7 @@ export const useBookingStore = create<BookingState>((set) => ({
   setLobbyUsers: (users) => set({ lobbyUsers: users }),
   setActiveMoods: (moods) => set({ activeMoods: moods }),
   setHoveredSeat: (seatId) => set({ hoveredSeat: seatId }),
+  setTransactionCompleted: (completed) => set({ isTransactionCompleted: completed }),
 
   toggleFavorite: async (movie) => {
     set((state) => ({

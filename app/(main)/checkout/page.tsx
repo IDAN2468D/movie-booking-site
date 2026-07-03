@@ -18,12 +18,13 @@ import { PaymentForm } from '@/components/checkout/PaymentForm';
 import { SuccessView } from '@/components/checkout/SuccessView';
 import { SplitPayPanel } from '@/components/social/SplitPayPanel';
 import SmartCheckoutInsights from '@/components/checkout/SmartCheckoutInsights';
+import CurrencyCascade from '@/components/fx/CurrencyCascade';
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
   const { 
     selectedMovie, selectedSeats, selectedFood, updateFoodQuantity, resetBooking,
-    selectedDate, selectedShowtime, selectedHall, selectedBranchId
+    selectedDate, selectedShowtime, selectedHall, selectedBranchId, setTransactionCompleted
   } = useBookingStore();
   const { isSocialMode, groupMembers } = useSocialStore();
 
@@ -72,7 +73,12 @@ export default function CheckoutPage() {
   }, [selectedSeats, selectedFood, isSocialMode, groupMembers, selectedShowtime]);
 
   if (!selectedMovie) return <EmptyState />;
-  if (isSuccess) return <SuccessView resetBooking={resetBooking} />;
+  if (isSuccess) return (
+    <>
+      <CurrencyCascade />
+      <SuccessView resetBooking={resetBooking} />
+    </>
+  );
 
   const handlePayment = async () => {
     if (!validateForm(formData, setErrors)) return;
@@ -97,6 +103,7 @@ export default function CheckoutPage() {
       });
       if (res.ok) {
         const bookingData = await res.json();
+        setTransactionCompleted(true);
         setIsSuccess(true);
         // Automatically send email after purchase
         try {
