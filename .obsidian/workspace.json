@@ -11,10 +11,14 @@
             "id": "f0793a33ad364b64",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "movie-site/latest.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "כרטיסייה חדשה"
+              "title": "latest"
             }
           }
         ]
@@ -74,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 478.5
   },
   "right": {
     "id": "36f6cb793c14aefb",
@@ -179,8 +183,14 @@
       "bases:צור בסיס חדש": false
     }
   },
-  "active": "d0c4c5f9cbc80945",
+  "active": "f0793a33ad364b64",
   "lastOpenFiles": [
+    "movie-site/Skills/features/PREMIUM_FEATURES.md",
+    "components/notifications/NotificationDrawer.tsx",
+    "components/notifications/NotificationCard.tsx",
+    "components/notifications/SeverityGlow.tsx",
+    "components/notifications",
+    "lib/actions/notification-actions.ts",
     "movie-site/Skills/features/ADVANCED_EXPERIENCES.md",
     "movie-site/Skills/features/לא מאושר 366179.crdownload",
     "hooks/__tests__/useSightlineCalculations.test.ts",
@@ -188,11 +198,6 @@
     "hooks/useSightlineCalculations.ts",
     "movie-site/Skills/features/SIGHTLINE.md",
     "movie-site/Skills/features/לא מאושר 710492.crdownload",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/utf8_io.cpython-313.pyc",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/token_estimate.cpython-313.pyc",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/session_store.cpython-313.pyc",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/runtime_env.cpython-313.pyc",
-    "movie-site/Skills/token-optimizer/scripts/__pycache__/plugin_env.cpython-313.pyc",
     "movie-site/Skills/token-optimizer/references/token-flow-architecture.md",
     "movie-site/Skills/token-optimizer/references/presentation-workflow.md",
     "movie-site/Skills/token-optimizer/references/phase0-setup.md",
@@ -225,7 +230,6 @@
     "movie-site/Skills/core/UI.md",
     "movie-site/Skills/shared/RENDER_DEPLOYMENT.md",
     "movie-site/Skills/core/SEARCH.md",
-    "movie-site/Skills/core/RESEARCH.md",
-    "movie-site/Skills/core/QA_CICD.md"
+    "movie-site/Skills/core/RESEARCH.md"
   ]
 }

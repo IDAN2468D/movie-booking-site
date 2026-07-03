@@ -195,7 +195,7 @@ export default function RightPanel() {
                       <h3 className="text-xs font-black text-white uppercase tracking-[0.2em] opacity-60">תוספות לנשנוש</h3>
                       <span className="text-[10px] text-primary font-black bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20 uppercase tracking-tighter animate-pulse">הטבה בהזמנה מראש</span>
                     </div>
-                    <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+                    <div className="grid grid-cols-3 gap-4">
                       {[
                         { id: 1, name: 'פופקורן', price: '₪25', icon: '🍿' },
                         { id: 2, name: 'שתייה', price: '₪15', icon: '🥤' },
@@ -206,7 +206,7 @@ export default function RightPanel() {
                           <button 
                             key={snack.id} 
                             onClick={() => updateFoodQuantity(snack.id, 1)}
-                            className={`flex-shrink-0 relative bg-white/[0.03] border p-5 rounded-[32px] transition-all duration-500 text-center min-w-[110px] group active:scale-95 overflow-hidden ${
+                            className={`relative bg-white/[0.03] border p-4 rounded-[28px] transition-all duration-500 text-center group active:scale-95 overflow-hidden ${
                               quantity > 0 
                                 ? 'border-primary/40 bg-primary/10 shadow-[0_10px_30px_rgba(255,159,10,0.1),inset_0_0_20px_rgba(255,159,10,0.05)]' 
                                 : 'border-white/5 hover:border-white/20'
@@ -245,7 +245,7 @@ export default function RightPanel() {
                  <div className="relative z-30 flex flex-col items-center text-center">
                     {seatCount > 0 ? (
                       <>
-                        <span className="text-[9px] md:text-sm font-black uppercase tracking-widest text-black/70 font-rubik leading-none mb-0.5 md:mb-1">חווית צפייה פרמיום</span>
+                        <span className="text-[13px] md:text-[15px] font-black uppercase tracking-[0.2em] text-black font-rubik leading-none mb-1 md:mb-1.5">חווית צפייה פרמיום</span>
                         <div className="relative">
                           <MarkerHighlight color="rgba(0,0,0,0.06)" delay={0.1} strokeWidth={4}>
                             <span className="text-base md:text-2xl font-black font-rubik text-black block tracking-tight">

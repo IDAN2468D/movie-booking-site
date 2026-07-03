@@ -148,7 +148,7 @@ export const MovieStoryView: React.FC<MovieStoryViewProps> = ({ stories, initial
               onError={() => setVideoFailed(true)}
             />
           ) : (
-            <div className="w-full h-full relative bg-slate-950 flex items-center justify-center">
+            <div className="absolute inset-0 bg-slate-950 flex items-center justify-center">
               {currentStory.posterUrl && <Image src={currentStory.posterUrl} alt={currentStory.movieTitle} fill className="object-cover opacity-60 filter blur-sm scale-110" />}
               <span className="text-white/60 text-xs z-10 font-bold bg-black/40 px-4 py-2 rounded-full border border-white/10">הסרטון אינו נתמך - מעבר אוטומטי...</span>
             </div>
@@ -170,7 +170,7 @@ export const MovieStoryView: React.FC<MovieStoryViewProps> = ({ stories, initial
         <div className="flex items-center justify-between z-50">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full border border-white/20 overflow-hidden relative shadow-lg">
-              {currentStory.posterUrl && <Image src={currentStory.posterUrl} alt={currentStory.movieTitle} fill className="object-cover" />}
+              {currentStory.posterUrl && <Image src={currentStory.posterUrl} alt={currentStory.movieTitle} width={40} height={40} className="object-cover w-full h-full" />}
             </div>
             <span className="text-white font-medium text-sm">{currentStory.movieTitle}</span>
           </div>

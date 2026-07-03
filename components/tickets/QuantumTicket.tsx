@@ -118,9 +118,13 @@ export default function QuantumTicket({
           </AnimatePresence>
 
           <AnimatePresence mode="wait">
-            {state === 'countdown' && <TicketCountdownView timeLeft={timeLeft} />}
-            {state === 'qr' && <TicketQrView ticketId={ticket.id} />}
-            {state === 'memory' && <TicketMemoryView userRating={userRating} setUserRating={setUserRating} personalNote={personalNote} setPersonalNote={setPersonalNote} />}
+            {state === 'countdown' ? (
+              <TicketCountdownView key="countdown" timeLeft={timeLeft} />
+            ) : state === 'qr' ? (
+              <TicketQrView key="qr" ticketId={ticket.id} />
+            ) : state === 'memory' ? (
+              <TicketMemoryView key="memory" userRating={userRating} setUserRating={setUserRating} personalNote={personalNote} setPersonalNote={setPersonalNote} />
+            ) : null}
           </AnimatePresence>
         </div>
 

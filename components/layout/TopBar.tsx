@@ -7,15 +7,21 @@ import UserProfile from './TopBar/UserProfile';
 import { useBookingStore } from '@/lib/store';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search } from 'lucide-react';
+import { Search, Bell } from 'lucide-react';
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 import { PremiumLogo } from '@/components/ui/PremiumLogo';
 import LiveActivityPulse from '@/components/ui/LiveActivityPulse';
+import { NotificationDrawer } from '@/components/notifications/NotificationDrawer';
+import { useNotificationStore } from '@/lib/store/notification-store';
 
 export default function TopBar() {
   const { filters, setFilters } = useBookingStore();
   const [isFilterOpen, setIsFilterOpen] = React.useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = React.useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = React.useState(false);
+  const unreadCount = useNotificationStore(
+    React.useCallback((state) => state.notifications.filter((n) => n.unread).length, [])
+  );
 
   const genres = ['הכל', 'פעולה', 'מדע בדיוני', 'דרמה', 'אימה', 'קומדיה'];
   const years = ['הכל', '2024', '2025', '2026'];
@@ -61,6 +67,17 @@ export default function TopBar() {
           <div className="flex items-center gap-3 md:gap-5 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
             {/* AI Concierge Trigger */}
             <UserProfile />
+            <button
+              onClick={() => setIsNotificationsOpen(true)}
+              className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 hover:border-white/20 text-white/80 hover:text-white transition-all shadow-xl active:scale-95 shrink-0"
+            >
+              <Bell size={18} />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-black text-[9px] font-black rounded-full flex items-center justify-center border-2 border-black animate-pulse">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
             <div className="hidden sm:block">
               <LiveActivityPulse />
             </div>
@@ -79,6 +96,11 @@ export default function TopBar() {
         setYear={(year) => setFilters({ year })}
         genres={genres}
         years={years}
+      />
+
+      <NotificationDrawer 
+        isOpen={isNotificationsOpen} 
+        onClose={() => setIsNotificationsOpen(false)} 
       />
     </>
   );
