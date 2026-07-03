@@ -1,8 +1,8 @@
 'use client';
 
 import { useBookingStore } from '@/lib/store';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Flame, Users } from 'lucide-react';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { Flame } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 import SVGSeat from './SVGSeat';
 import CineSyncSeatOverlay from '../premium/cinesync/CineSyncSeatOverlay';
@@ -23,12 +23,15 @@ export default function SeatMap() {
   const hoveredSeat = useBookingStore((state) => state.hoveredSeat);
   const setHoveredSeat = useBookingStore((state) => state.setHoveredSeat);
   const [realOccupiedSeats, setRealOccupiedSeats] = useState<string[]>([]);
-  
-  const [rotateX, setRotateX] = useState(30);
-  const [rotateY, setRotateY] = useState(-5);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [rippleOrigin, setRippleOrigin] = useState<string | null>(null);
+  
   const mapRef = useRef<HTMLDivElement>(null);
+
+  // GPU composited tilt values (replaces useState to bypass React render cycle entirely)
+  const tiltX = useMotionValue(0.5);
+  const tiltY = useMotionValue(0.5);
+  const rotateX = useSpring(useTransform(tiltY, [0, 1], [40, 20]), { stiffness: 100, damping: 22 });
+  const rotateY = useSpring(useTransform(tiltX, [0, 1], [-15, 5]), { stiffness: 100, damping: 22 });
 
   const mockOccupiedSeats = ['s-5', 's-12', 's-13', 's-24', 's-31', 's-40', 's-42'];
   const mockLobbyUserSeats = ['s-3', 's-16'];
@@ -61,9 +64,21 @@ export default function SeatMap() {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!mapRef.current) return;
     const rect = mapRef.current.getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-    setRotateX(30 - (e.clientY - rect.top - rect.height / 2) / (rect.height / 15));
-    setRotateY(-5 + (e.clientX - rect.left - rect.width / 2) / (rect.width / 15));
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Zero-render CSS variable injection for the cursor light refraction highlight
+    mapRef.current.style.setProperty('--mouse-x', `${x}px`);
+    mapRef.current.style.setProperty('--mouse-y', `${y}px`);
+
+    // GPU mapped values triggering composited motion without component recalculation
+    tiltX.set(x / rect.width);
+    tiltY.set(y / rect.height);
+  };
+
+  const handleMouseLeave = () => {
+    tiltX.set(0.5);
+    tiltY.set(0.5);
   };
 
   const handleSeatClick = (seatId: string) => {
@@ -76,13 +91,15 @@ export default function SeatMap() {
     <motion.div 
       ref={mapRef}
       onMouseMove={handleMouseMove}
-      onMouseLeave={() => { setRotateX(30); setRotateY(-5); }}
-      animate={{ rotateX, rotateY }}
-      transition={{ type: 'spring', stiffness: 120, damping: 20 }}
-      style={{ transformStyle: 'preserve-3d', perspective: 1000 }}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: 'preserve-3d', perspective: 1000 }}
       className="flex flex-col items-center py-10 px-6 max-w-md mx-auto bg-black/40 backdrop-blur-[40px] rounded-[44px] border-[0.5px] border-white/20 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] relative overflow-hidden w-full transition-all duration-500"
     >
-      <div className="absolute inset-0 pointer-events-none transition-opacity duration-300 opacity-60" style={{ background: `radial-gradient(circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.08) 0%, transparent 50%)` }} />
+      {/* Light Refraction Gradient using CSS variables to prevent layout/repaint triggers */}
+      <div 
+        className="absolute inset-0 pointer-events-none transition-opacity duration-300 opacity-60" 
+        style={{ background: 'radial-gradient(circle at var(--mouse-x, 150px) var(--mouse-y, 150px), rgba(255,255,255,0.08) 0%, transparent 50%)' }} 
+      />
       <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-cyan-500/5 pointer-events-none" />
 
       <div className="w-full flex justify-between items-center mb-6 px-2 z-10">
@@ -100,8 +117,6 @@ export default function SeatMap() {
         <svg viewBox="0 0 370 420" className="w-full h-auto overflow-visible select-none" style={{ filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.7))' }}>
           <defs>
             <linearGradient id="screenGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="rgba(10, 239, 255, 0)" /><stop offset="50%" stopColor="#0AEFFF" stopOpacity="0.8" /><stop offset="100%" stopColor="rgba(10, 239, 255, 0)" /></linearGradient>
-            <filter id="glow-selected" x="-35%" y="-35%" width="170%" height="170%"><feGaussianBlur stdDeviation="6" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-            <filter id="glow-partner" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
           </defs>
           <g className="opacity-80">
             <path d="M 40 35 Q 185 15 330 35" fill="none" stroke="url(#screenGradient)" strokeWidth="5" strokeLinecap="round" />

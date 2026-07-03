@@ -20,7 +20,10 @@ export default function LobbyCursor({ name, initialX, initialY }: LobbyCursorPro
       transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       className="pointer-events-none"
     >
-      <circle r="5" fill="#22D3EE" stroke="#000" strokeWidth="1.5" className="animate-pulse" filter="url(#glow-partner)" />
+      {/* Hardware-accelerated pulse circle instead of heavy CPU/GPU SVG Gaussian blur filter */}
+      <circle r="9" fill="#22D3EE" opacity="0.3" className="animate-ping" />
+      <circle r="5" fill="#22D3EE" stroke="#000" strokeWidth="1.5" />
+      
       <g transform="translate(10, -7)">
         <rect width="32" height="14" rx="4" fill="rgba(0, 0, 0, 0.85)" stroke="rgba(34, 211, 238, 0.3)" strokeWidth="0.5" />
         <text x="16" y="10" textAnchor="middle" fill="#22D3EE" fontSize="7px" fontWeight="black">{name}</text>

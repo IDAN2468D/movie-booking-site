@@ -34,14 +34,13 @@ export default function SVGSeat({
   onHover,
   onClick,
 }: SVGSeatProps) {
-  // Determine colors and styles
   const seatSize = 32;
   const radius = 8;
 
   const getSeatColor = () => {
     if (isOccupied) return 'rgba(255, 255, 255, 0.03)';
     if (isSelected) return auraColor;
-    if (isLobbyUserSelecting) return '#22D3EE'; // Cyan-400
+    if (isLobbyUserSelecting) return '#22D3EE';
     return 'rgba(255, 255, 255, 0.1)';
   };
 
@@ -52,9 +51,10 @@ export default function SVGSeat({
     return 'rgba(255, 255, 255, 0.15)';
   };
 
-  const getFilter = () => {
-    if (isSelected) return 'url(#glow-selected)';
-    if (isLobbyUserSelecting) return 'url(#glow-partner)';
+  // Hardware-accelerated CSS drop-shadow instead of expensive custom SVG filter pipelines
+  const getFilterStyle = () => {
+    if (isSelected) return `drop-shadow(0 0 6px ${auraColor})`;
+    if (isLobbyUserSelecting) return 'drop-shadow(0 0 6px #22D3EE)';
     return undefined;
   };
 
@@ -64,7 +64,8 @@ export default function SVGSeat({
         x, 
         y, 
         originX: `${seatSize / 2}px`, 
-        originY: `${seatSize / 2}px` 
+        originY: `${seatSize / 2}px`,
+        filter: getFilterStyle()
       }}
       onHoverStart={() => !isOccupied && onHover(seatId)}
       onHoverEnd={() => !isOccupied && onHover(null)}
@@ -87,8 +88,7 @@ export default function SVGSeat({
             rx={radius + 2}
             ry={radius + 2}
             fill="#F97316"
-            filter="url(#glow-heatmap)"
-            className="pointer-events-none"
+            className="pointer-events-none blur-[4px]"
           />
         )}
       </AnimatePresence>
@@ -102,7 +102,6 @@ export default function SVGSeat({
         fill={getSeatColor()}
         stroke={getStrokeColor()}
         strokeWidth={1.5}
-        filter={getFilter()}
         className="transition-colors duration-300"
       />
 
