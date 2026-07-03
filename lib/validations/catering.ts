@@ -10,3 +10,27 @@ export const cateringOrderSchema = z.object({
 });
 
 export type CateringOrderInput = z.infer<typeof cateringOrderSchema>;
+
+export const deliveryPhaseSchema = z.object({
+  orderId: z.string().min(1, "Order ID is required"),
+  itemIdx: z.number().int().nonnegative(),
+  phase: z.enum(["Trailers", "Act 1", "Climax"]),
+});
+
+export type DeliveryPhaseInput = z.infer<typeof deliveryPhaseSchema>;
+
+export const groupComboSchema = z.object({
+  comboId: z.string().min(1, "Combo ID is required"),
+  seatCount: z.number().int().positive("Must select at least 1 seat for splitting"),
+  seats: z.array(z.string()).min(1, "Seats are required"),
+});
+
+export type GroupComboInput = z.infer<typeof groupComboSchema>;
+
+export const biometricFilterSchema = z.object({
+  userId: z.string().min(1, "User ID is required"),
+  allergyTokens: z.array(z.string()),
+});
+
+export type BiometricFilterInput = z.infer<typeof biometricFilterSchema>;
+

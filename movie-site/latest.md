@@ -1,3 +1,30 @@
+# 🆕 Latest Updates (v5.4)
+
+## 🍔 Food & Drinks Page Refactoring (v5.4)
+- **Component Atomicity**: Refactored the monolithic `food/page.tsx` into clean, modular subcomponents: `FoodHeader.tsx`, `FoodCategoryFilter.tsx`, `FoodItemCard.tsx`, and `FoodGrid.tsx` inside `components/food/`, ensuring no file exceeds 200 lines.
+- **Zustand State Isolation**: Applied strict, shallow-baked selectors to `useBookingStore` (`selectedFood`, `updateFoodQuantity`) to restrict component re-renders.
+- **Zod Input Verification**: Created a new validation layer at `lib/validations/food.ts` to secure quantity adjustments and category actions at boundary entries.
+- **Liquid Glass 3.0 Tokens**: Injected backdrop filter refractions, custom borders, and optical depth shadows on food item cards, using hardware-accelerated transforms for state changes.
+- **Verification**: Validated compilation with Next.js 16.2 builds and ran Vitest tests (31/31 passing).
+
+# 🆕 Latest Updates (v5.3)
+
+## 🌌 Specular Neural Catering Pipeline v2.0 (v5.3)
+- **Zustand State Refactoring**: Replaced legacy state logic with a robust, client-side Zustand store featuring strict, shallow-baked selectors to eliminate cascading parent-to-child renders.
+- **Biometric Allergen Filters**: Created `IngredientFilter.tsx` to handle user preference and allergy filtering, crossing active profiles with the menu matrix.
+- **Temporal Phase Scheduler**: Created `PhaseSelector.tsx` for scheduling delivery to trailers, Act 1, and the film climax, backed by React 19 `useOptimistic` for instant visual changes.
+- **Group Combo Splits**: Created `GroupComboSync.tsx` utilizing React 19 `useActionState` to split and sync group combos across seat vectors via Server Actions.
+- **Next.js 15 Server Actions**: Updated the backend actions with Zod validations and strict Result Pattern compliance.
+- **Verification**: Built and compiled successfully using `npm run build` and verified the full test suite with `npx vitest run`.
+
+# 🆕 Latest Updates (v5.2)
+
+## 🎨 Liquid Glass 3.0 Homepage Redesign (v5.2)
+- **Category Filters Refinement**: Upgraded `CategoryFilters.tsx` to high-fidelity Liquid Glass 3.0 elements featuring custom pink/magenta glows (`rgba(255,20,100,0.45)`), dynamic hover translations (`y: -3`), and bottom-edge reflection lines using Framer Motion layout IDs.
+- **Featured Hero Upgrade**: Updated `FeaturedHero.tsx` to use the premium theme color accents, corrected booking button shadow highlights, and set Outfit/Inter typography alignment to maximize text readability and premium feel.
+- **Mobile Action Overlay**: Adjusted the mobile trigger button to use the unified `#FF1464` theme branding and shadow gradients.
+- **Verification**: Built and compiled successfully using `npm run build` and verified the full test suite with `npx vitest run`.
+
 # 🆕 Latest Updates (v5.1)
 
 ## ⚡ Token Optimization & Workspace Efficiency (v5.1)

@@ -167,9 +167,9 @@ export default function HomeContent({
             </div>
             <button 
               onClick={() => window.dispatchEvent(new CustomEvent('open-mobile-booking'))}
-              className="px-5 py-3 bg-primary text-background font-black rounded-xl text-xs uppercase tracking-widest relative z-10 shadow-[0_15px_30px_rgba(255,159,10,0.3)] active:scale-95 transition-all shrink-0 ml-2"
+              className="px-5 py-3 bg-primary text-white font-black rounded-xl text-xs uppercase tracking-widest relative z-10 shadow-[0_15px_30px_rgba(255,20,100,0.4)] active:scale-95 transition-all shrink-0 ml-2 font-display"
             >
-              <MarkerHighlight color="#000000" delay={0.1} strokeWidth={4}>
+              <MarkerHighlight color="#ffffff" delay={0.1} strokeWidth={4}>
                 הזמן 3 כרטיסים
               </MarkerHighlight>
             </button>
