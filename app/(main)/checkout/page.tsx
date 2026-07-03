@@ -19,6 +19,7 @@ import { SuccessView } from '@/components/checkout/SuccessView';
 import { SplitPayPanel } from '@/components/social/SplitPayPanel';
 import SmartCheckoutInsights from '@/components/checkout/SmartCheckoutInsights';
 import CurrencyCascade from '@/components/fx/CurrencyCascade';
+import RoaringLionCelebration from '@/components/fx/RoaringLionCelebration';
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
@@ -76,6 +77,7 @@ export default function CheckoutPage() {
   if (isSuccess) return (
     <>
       <CurrencyCascade />
+      <RoaringLionCelebration />
       <SuccessView resetBooking={resetBooking} />
     </>
   );
