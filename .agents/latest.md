@@ -1,3 +1,9 @@
+# 🆕 Latest Updates (v5.1)
+
+## ⚡ Token Optimization & Workspace Efficiency (v5.1)
+- **Rules File Compression**: Optimized and compressed `.agents/Rules/movie-booking-site.md` to a dense, keyword-oriented standard, resulting in a **46% token reduction** (saving 710 tokens per prompt execution).
+- **Workspace Scan Exclusion**: Created a `.contextignore` configuration in the root directory to permanently exclude build directories (`.next`, `node_modules`), coverage report folders, and temp scratch files from agent workspace scans, preventing token waste.
+
 # 🆕 Latest Updates (v5.0)
 
 ## 🤖 Anthropic Agent Stack Alignment (v5.0)
