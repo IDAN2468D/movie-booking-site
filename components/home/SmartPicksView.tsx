@@ -46,10 +46,10 @@ export default function SmartPicksView({ data }: SmartPicksViewProps) {
               className="relative [transform:translateZ(0)]"
             >
               <div 
-                className={`block relative group overflow-hidden bg-white/5 backdrop-blur-md border rounded-2xl p-6 transition-all duration-500 shadow-2xl cursor-pointer text-right ${
+                className={`block relative group overflow-hidden bg-[#05070B]/40 backdrop-blur-3xl saturate-[220%] border rounded-3xl p-6 transition-all duration-500 shadow-2xl cursor-pointer text-right ${
                   selectedMovie?.title === rec.title 
-                    ? 'border-orange-500 shadow-orange-500/20' 
-                    : 'border-white/10 hover:border-orange-500/50'
+                    ? 'border-primary shadow-[0_0_40px_rgba(255,20,100,0.25),inset_0_0_0_1px_rgba(255,255,255,0.1)]' 
+                    : 'border-white/10 hover:border-primary/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]'
                 }`}
                 onClick={() => {
                   const movieProxy: Movie = {
@@ -66,6 +66,15 @@ export default function SmartPicksView({ data }: SmartPicksViewProps) {
                   setSelectedMovie(movieProxy);
                 }}
               >
+                {/* Moving Refraction Glow on Hover */}
+                <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,20,100,0.08)_0%,transparent_60%)] pointer-events-none" />
+
+                {/* Cyber Corner Lines */}
+                <div className="absolute top-0 right-0 w-8 h-[1px] bg-gradient-to-l from-primary/30 to-transparent pointer-events-none" />
+                <div className="absolute top-0 right-0 h-8 w-[1px] bg-gradient-to-b from-primary/30 to-transparent pointer-events-none" />
+
+                {/* Shimmer Streak */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shimmer pointer-events-none" />
                 <div className="absolute top-0 left-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
                   <Ticket className="w-12 h-12 text-white" />
                 </div>

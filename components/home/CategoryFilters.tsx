@@ -38,15 +38,15 @@ export default function CategoryFilters() {
               <motion.div
                 className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl transition-all duration-500 border relative overflow-hidden ${
                   isActive
-                    ? 'bg-primary/20 border-primary shadow-[0_0_30px_rgba(255,20,100,0.45),inset_0_0_0_1px_rgba(255,255,255,0.2)] backdrop-blur-3xl saturate-[200%] brightness-110'
-                    : 'bg-white/5 border-white/10 backdrop-blur-[30px] hover:bg-white/10 hover:border-white/20'
+                    ? 'bg-gradient-to-r from-primary/20 to-cyan-500/10 border-primary shadow-[0_0_40px_rgba(255,20,100,0.35),inset_0_0_0_1px_rgba(255,255,255,0.25)] backdrop-blur-3xl saturate-[220%] brightness-110'
+                    : 'bg-[#05070B]/50 border-white/5 hover:border-white/20 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]'
                 }`}
                 whileHover={{ y: -3 }}
                 whileTap={{ scale: 0.95 }}
               >
                 {/* Holographic Tint Overlay */}
                 <div className={`absolute inset-0 transition-opacity duration-700 pointer-events-none ${
-                  isActive ? 'opacity-30' : 'opacity-0 group-hover:opacity-10'
+                  isActive ? 'opacity-40' : 'opacity-0 group-hover:opacity-10'
                 } bg-gradient-to-tr from-primary via-transparent to-cyan-500`} />
                 
                 {/* Dynamic Shine Effect */}
@@ -55,21 +55,21 @@ export default function CategoryFilters() {
                 <Icon 
                   size={18} 
                   className={`relative z-10 transition-colors duration-500 ${
-                    isActive ? 'text-white drop-shadow-[0_0_8px_rgba(255,20,100,0.8)]' : 'text-primary'
+                    isActive ? 'text-white drop-shadow-[0_0_12px_rgba(255,20,100,0.9)]' : 'text-primary'
                   }`} 
                 />
                 
                 <span className={`relative z-10 text-sm font-black tracking-tight whitespace-nowrap transition-colors duration-500 font-display ${
-                  isActive ? 'text-white' : 'text-slate-300 group-hover:text-white'
+                  isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'
                 }`}>
                   {category.name}
                 </span>
 
-                {/* Bottom Reflection Line */}
+                {/* Bottom Refraction Line */}
                 {isActive && (
                   <motion.div 
                     layoutId="categoryReflect"
-                    className="absolute bottom-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-white/80 to-transparent blur-[0.5px]"
+                    className="absolute bottom-0 inset-x-0 h-[2.5px] bg-gradient-to-r from-transparent via-cyan-400/80 to-transparent blur-[0.5px]"
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                   />
                 )}
@@ -79,7 +79,7 @@ export default function CategoryFilters() {
               {isActive && (
                 <motion.div 
                   layoutId="activeAura"
-                  className="absolute inset-0 bg-primary/25 blur-3xl rounded-full -z-10"
+                  className="absolute inset-0 bg-gradient-to-r from-primary/25 to-cyan-500/20 blur-3xl rounded-full -z-10"
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 />
               )}

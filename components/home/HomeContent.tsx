@@ -147,30 +147,30 @@ export default function HomeContent({
           <motion.div 
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="xl:hidden fixed bottom-28 left-6 right-6 mx-auto max-w-md bg-black/40 backdrop-blur-[40px] p-5 rounded-[32px] flex items-center justify-between shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] z-40 border-[0.5px] border-white/20 overflow-hidden"
+            className="xl:hidden fixed bottom-28 left-6 right-6 mx-auto max-w-md bg-[#05070B]/60 backdrop-blur-3xl saturate-[220%] brightness-110 p-3.5 rounded-full flex items-center justify-between shadow-[0_30px_60px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.08)] z-40 border border-white/10 overflow-hidden"
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-cyan-500/5 opacity-40 pointer-events-none" />
-            <div className="flex items-center gap-3 relative z-10 flex-1 min-w-0">
-              <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 overflow-hidden relative shadow-2xl shrink-0">
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/15 via-transparent to-cyan-500/10 opacity-50 pointer-events-none" />
+            <div className="flex items-center gap-3 relative z-10 flex-1 min-w-0 pr-1">
+              <div className="w-11 h-11 rounded-full bg-white/5 border border-white/15 overflow-hidden relative shadow-2xl shrink-0">
                 <NextImage 
                   src={`https://image.tmdb.org/t/p/w200${selectedMovie.poster_path}`} 
                   alt={selectedMovie.displayTitle}
                   fill
-                  sizes="48px"
+                  sizes="44px"
                   className="object-cover saturate-[1.1]"
                 />
               </div>
               <div className="text-right flex-1 min-w-0">
-                <p className="text-[9px] text-primary font-black uppercase tracking-[0.2em] mb-0.5">הסרט שנבחר</p>
-                <p className="text-sm text-white font-black truncate leading-tight">{selectedMovie.displayTitle}</p>
+                <p className="text-[8px] text-primary font-black uppercase tracking-[0.25em] mb-0.5">הסרט שנבחר</p>
+                <p className="text-xs text-white font-black truncate leading-tight">{selectedMovie.displayTitle}</p>
               </div>
             </div>
             <button 
               onClick={() => window.dispatchEvent(new CustomEvent('open-mobile-booking'))}
-              className="px-5 py-3 bg-primary text-white font-black rounded-xl text-xs uppercase tracking-widest relative z-10 shadow-[0_15px_30px_rgba(255,20,100,0.4)] active:scale-95 transition-all shrink-0 ml-2 font-display"
+              className="px-5 py-3 bg-gradient-to-r from-primary to-yellow-500 text-white font-black rounded-full text-[10px] uppercase tracking-widest relative z-10 shadow-[0_10px_25px_rgba(255,20,100,0.35)] active:scale-95 transition-all shrink-0 ml-1 font-display"
             >
               <MarkerHighlight color="#ffffff" delay={0.1} strokeWidth={4}>
-                הזמן 3 כרטיסים
+                הזמן כרטיס
               </MarkerHighlight>
             </button>
           </motion.div>

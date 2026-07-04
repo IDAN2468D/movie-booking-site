@@ -1,3 +1,20 @@
+# 🆕 Latest Updates (v5.8)
+
+## 💎 Dynamic Specular Subtitles Engine (v5.8)
+- **Component Architecture**: Created the atomic `components/fx/SpecularSubtitles.tsx` and sub-rendering `components/fx/SubtitleText.tsx` components under 200 lines to conform to strict SSOT bounds.
+- **Store Synchronization**: Linked to Zustand global state using shallow-baked selectors for zero-reflow rendering.
+- **Audio-Reactive Pipeline**: Hooked Web Audio Analyser frequency bytes directly to Framer Motion GPU spring transitions (scale, glow, chromatic shift).
+- **Zod Bounds Validation**: Created `lib/validations/subtitles.ts` to validate subtitle arrays before render with error-boundary reporting.
+- **Verification**: Verified compilation via `npm run build` and ran full test suite with `npx vitest run`.
+
+# 🆕 Latest Updates (v5.7)
+
+## 💎 Liquid Glass 3.0 Homepage Redesign (v5.7)
+- **Category Filters Redesign**: Upgraded `CategoryFilters.tsx` to utilize premium multi-layered obsidian glass styling, cyber-cyan/magenta border shifts, dynamic hover elevations (`y: -3`), and spring animations.
+- **SmartPicks AI Grid Redesign**: Upgraded `SmartPicksView.tsx` recommendations to premium Bento cards featuring neon corner highlights, custom backdrop blur saturates (`saturate-[220%]`), and interactive cursor refraction glows.
+- **Mobile Booking Capsule**: Converted the mobile booking trigger inside `HomeContent.tsx` into a floating capsule (pill geometry) with high optical depth, outline border refractions, and layout-reflow-free scaling.
+- **Verification**: Verified Next.js Turbopack build (`npm run build`) and Vitest unit testing suite (`31/31 passed`).
+
 # 🆕 Latest Updates (v5.6)
 
 ## 💎 Liquid Glass 3.0 Next-Gen Interactive Features (v5.6)
