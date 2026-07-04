@@ -10,6 +10,7 @@ import { useRef } from 'react';
 import { MagneticButton } from '../ui/MagneticButton';
 import { KineticText } from '../effects/KineticText';
 import { MarkerHighlight } from '../fx/MarkerHighlight';
+import PosterRefractor from '../effects/PosterRefractor';
 
 interface MovieCardProps {
   movie: Movie;
@@ -140,17 +141,13 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
 
       <Link href={`/movie/${movie.id}`} className="block" data-testid="movie-link">
         <div className="aspect-[2/3] relative w-full overflow-hidden shimmer-mask" style={{ transform: 'translateZ(20px)' }}>
-          <Image
+          <PosterRefractor
             src={getImageUrl(movie.poster_path)}
             alt={movie.displayTitle}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105 saturate-[1.1]"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="w-full h-full object-cover"
           />
           
-          {/* Refraction Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-yellow/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-80 pointer-events-none" />
           
           <div className="absolute top-2 right-2 md:top-4 md:right-4 bg-[#0F0F0F]/60 backdrop-blur-xl px-2 py-1 md:px-3 md:py-1.5 rounded-xl md:rounded-2xl border border-white/10 flex items-center gap-1.5 shadow-2xl">
             <Star className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary fill-primary" />

@@ -1,3 +1,13 @@
+# 🆕 Latest Updates (v5.6)
+
+## 💎 Liquid Glass 3.0 Next-Gen Interactive Features (v5.6)
+- **Acoustic Sub-Bass Resonator**: Created `SubBassResonator.tsx` under 200 lines, implementing physical device haptic vibrations mapped to sub-80Hz audio frequencies via the Web Audio API and HTML5 Vibration API.
+- **Chroma-Refractive Poster Warp**: Created `PosterRefractor.tsx` under 200 lines, implementing dynamic 3D mouse parallax tilts and layered chromatic aberration red/cyan offset shifting on movie posters.
+- **Quantum Subtitles Sync**: Created `QuantumSubtitles.tsx` under 200 lines, matching typographic scaling, weight shifts, and glow colors to Web Audio intensity levels.
+- **Lobby Presence Ambient**: Created `LobbyPresencePulse.tsx` under 200 lines, showing glowing concentric SVG/Framer Motion ripples representing concurrent active bookings.
+- **Poster Refractor Integration**: Integrated `PosterRefractor` directly into `MovieCard.tsx` for all movie listings on the platform.
+- **Verification**: Built and compiled successfully using `npm run build` and verified the full test suite with `npx vitest run` (31/31 passing).
+
 # 🆕 Latest Updates (v5.5)
 
 ## 💎 Liquid Glass 3.0 Flagship Features (v5.5)

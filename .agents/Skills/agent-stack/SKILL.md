@@ -9,8 +9,9 @@ When tasked with a complex feature or long-running objective, execute the task s
 
 ## Execution Steps:
 
-1. **State Restoration (Markdown)**
+1. **State Restoration & Research (Markdown & MCPs)**
    - Before starting, read the central Markdown file (e.g. `latest.md` or a specific feature markdown) to restore memory and context.
+   - **Crucial:** Always query and search through your available MCP servers (e.g., `StitchMCP`, `notebooklm`, `mcp-obsidian`, `mongodb-mcp-server`, `github-mcp-server`, etc.) for any relevant documents, past solutions, or references related to the task before planning.
 
 2. **Definition (PRD & Spec)**
    - Write a short PRD detailing the Product, User, and Core requirements.
