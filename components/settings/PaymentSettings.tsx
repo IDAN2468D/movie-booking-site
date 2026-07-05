@@ -17,10 +17,15 @@ const recentPayments = [
 export default function PaymentSettings() {
   const [cards, setCards] = React.useState(INITIAL_CARDS);
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-body">
       {/* Saved Payment Methods */}
-      <div className="glass rounded-[32px] p-10 border border-white/5">
-        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+      <div 
+        className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[32px] p-10"
+        style={{
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+        }}
+      >
+        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3 font-display">
           <CreditCard size={20} className="text-[#FF9F0A]" />
           אמצעי תשלום
           <div className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -33,7 +38,7 @@ export default function PaymentSettings() {
               className={`flex items-center justify-between p-6 rounded-3xl border transition-all ${
                 card.isDefault
                   ? 'bg-primary/5 border-primary/20'
-                  : 'bg-white/5 border-white/5'
+                  : 'bg-neutral-900/40 border-white/[0.08]'
               }`}
             >
               <div className="flex items-center gap-4">
@@ -68,7 +73,7 @@ export default function PaymentSettings() {
             </div>
           ))}
 
-          <button className="w-full flex items-center justify-center gap-3 p-5 rounded-3xl border-2 border-dashed border-white/10 text-slate-400 hover:text-[#FF9F0A] hover:border-primary/30 transition-all group">
+          <button className="w-full flex items-center justify-center gap-3 p-5 rounded-3xl border-2 border-dashed border-white/10 text-slate-400 hover:text-[#FF9F0A] hover:border-primary/30 transition-all transform-gpu active:scale-95 group">
             <Plus size={18} className="group-hover:scale-110 transition-transform" />
             <span className="text-sm font-bold">הוסף כרטיס חדש</span>
           </button>
@@ -76,8 +81,13 @@ export default function PaymentSettings() {
       </div>
 
       {/* Payment History */}
-      <div className="glass rounded-[32px] p-10 border border-white/5">
-        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+      <div 
+        className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[32px] p-10"
+        style={{
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+        }}
+      >
+        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3 font-display">
           <Receipt size={20} className="text-[#FF9F0A]" />
           היסטוריית תשלומים
           <div className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -85,7 +95,7 @@ export default function PaymentSettings() {
 
         <div className="space-y-3">
           {recentPayments.map((payment) => (
-            <div key={payment.id} className="flex items-center justify-between p-5 rounded-2xl bg-white/[0.03] border border-white/5">
+            <div key={payment.id} className="flex items-center justify-between p-5 rounded-2xl bg-neutral-900/40 border border-white/[0.08] hover:border-white/[0.2] transition-colors shadow-inner">
               <div>
                 <p className="text-sm text-white font-bold">{payment.movie}</p>
                 <p className="text-[10px] text-slate-500">{payment.date} · {payment.seats} כרטיסים</p>
@@ -95,7 +105,7 @@ export default function PaymentSettings() {
           ))}
         </div>
 
-        <button className="mt-6 text-slate-400 text-xs font-black uppercase tracking-widest hover:text-white transition-colors">
+        <button className="mt-6 text-slate-400 text-xs font-black uppercase tracking-widest hover:text-white transition-colors font-display">
           הצג את כל ההיסטוריה →
         </button>
       </div>

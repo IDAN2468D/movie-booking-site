@@ -9,10 +9,15 @@ export default function SecuritySettings() {
   const [saved, setSaved] = React.useState(false);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-body">
       {/* Change Password */}
-      <div className="glass rounded-[32px] p-10 border border-white/5">
-        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+      <div 
+        className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[32px] p-10 font-body"
+        style={{
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+        }}
+      >
+        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3 font-display">
           <Shield size={20} className="text-[#FF9F0A]" />
           שינוי סיסמה
           <div className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -25,7 +30,7 @@ export default function SecuritySettings() {
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
-                className="w-full bg-white/5 border border-white/5 rounded-2xl p-4 text-white font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 text-right pr-4 pl-12"
+                className="w-full bg-neutral-900/60 border border-white/[0.08] focus:border-white/[0.25] focus:bg-neutral-950/80 text-white placeholder-neutral-500 rounded-xl transition-all duration-300 focus:ring-1 focus:ring-white/20 outline-none p-4 text-right pr-4 pl-12 font-body transform-gpu"
               />
               <button
                 onClick={() => setShowPassword(!showPassword)}
@@ -42,7 +47,7 @@ export default function SecuritySettings() {
               <input
                 type="password"
                 placeholder="••••••••"
-                className="w-full bg-white/5 border border-white/5 rounded-2xl p-4 text-white font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 text-right"
+                className="w-full bg-neutral-900/60 border border-white/[0.08] focus:border-white/[0.25] focus:bg-neutral-950/80 text-white placeholder-neutral-500 rounded-xl transition-all duration-300 focus:ring-1 focus:ring-white/20 outline-none p-4 text-right font-body transform-gpu"
               />
             </div>
             <div className="space-y-2">
@@ -50,7 +55,7 @@ export default function SecuritySettings() {
               <input
                 type="password"
                 placeholder="••••••••"
-                className="w-full bg-white/5 border border-white/5 rounded-2xl p-4 text-white font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 text-right"
+                className="w-full bg-neutral-900/60 border border-white/[0.08] focus:border-white/[0.25] focus:bg-neutral-950/80 text-white placeholder-neutral-500 rounded-xl transition-all duration-300 focus:ring-1 focus:ring-white/20 outline-none p-4 text-right font-body transform-gpu"
               />
             </div>
           </div>
@@ -66,20 +71,27 @@ export default function SecuritySettings() {
                 }, 1000);
               }}
               disabled={saving}
-              className="px-8 py-4 bg-primary text-background rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+              className="px-8 py-4 bg-primary text-background rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all transform-gpu disabled:opacity-50 font-display"
             >
               {saving ? 'מעדכן...' : 'עדכן סיסמה'}
             </button>
-            {saved && (
-              <span className="text-green-400 font-bold text-sm">הסיסמה עודכנה בהצלחה!</span>
-            )}
+            <div className="min-h-[1.5rem] flex items-center justify-center">
+              {saved && (
+                <span className="text-green-400 font-bold text-sm animate-in fade-in zoom-in duration-300 font-body">הסיסמה עודכנה בהצלחה!</span>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
       {/* 2FA & Sessions */}
-      <div className="glass rounded-[32px] p-10 border border-white/5">
-        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+      <div 
+        className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[32px] p-10 font-body"
+        style={{
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+        }}
+      >
+        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3 font-display">
           <Smartphone size={20} className="text-[#FF9F0A]" />
           אימות דו-שלבי
           <div className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -100,8 +112,13 @@ export default function SecuritySettings() {
       </div>
 
       {/* Active Sessions */}
-      <div className="glass rounded-[32px] p-10 border border-white/5">
-        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+      <div 
+        className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[32px] p-10 font-body"
+        style={{
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+        }}
+      >
+        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3 font-display">
           <History size={20} className="text-[#FF9F0A]" />
           חיבורים פעילים
           <div className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -113,7 +130,7 @@ export default function SecuritySettings() {
           <SessionRow device="Firefox — MacOS" location="חיפה, ישראל" />
         </div>
 
-        <button className="mt-6 text-red-400 text-xs font-black uppercase tracking-widest hover:text-red-300 transition-colors">
+        <button className="mt-6 text-red-400 text-xs font-black uppercase tracking-widest hover:text-red-300 transition-colors font-display">
           נתק את כל המכשירים האחרים
         </button>
       </div>
@@ -121,18 +138,16 @@ export default function SecuritySettings() {
   );
 }
 
-/* --- Sub-components --- */
-
 function ToggleRow({ title, desc, enabled }: { title: string; desc: string; enabled: boolean }) {
   const [on, setOn] = React.useState(enabled);
   return (
-    <div className="flex items-center justify-between p-6 rounded-3xl bg-white/5 border border-white/5">
+    <div className="flex items-center justify-between p-6 rounded-3xl bg-neutral-900/40 border border-white/[0.08] hover:border-white/[0.2] transition-colors shadow-inner group">
       <div>
         <p className="text-white font-bold">{title}</p>
         <p className="text-xs text-slate-500">{desc}</p>
       </div>
-      <button onClick={() => setOn(!on)} className="relative">
-        <div className={`w-12 h-6 rounded-full transition-colors ${on ? 'bg-primary' : 'bg-slate-700'}`}>
+      <button onClick={() => setOn(!on)} className="relative transition-transform duration-300 active:scale-95 transform-gpu">
+        <div className={`w-12 h-6 rounded-full transition-colors ${on ? 'bg-primary' : 'bg-white/10'}`}>
           <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${on ? 'left-1' : 'right-1'}`} />
         </div>
       </button>
@@ -142,7 +157,7 @@ function ToggleRow({ title, desc, enabled }: { title: string; desc: string; enab
 
 function SessionRow({ device, location, current }: { device: string; location: string; current?: boolean }) {
   return (
-    <div className="flex items-center justify-between p-5 rounded-2xl bg-white/[0.03] border border-white/5">
+    <div className="flex items-center justify-between p-5 rounded-2xl bg-neutral-900/40 border border-white/[0.08] hover:border-white/[0.2] transition-colors shadow-inner">
       <div className="flex items-center gap-3">
         <KeyRound size={16} className="text-slate-500" />
         <div>

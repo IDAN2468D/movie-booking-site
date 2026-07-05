@@ -72,15 +72,20 @@ export default function ProfilePage() {
 
   return (
     <div className="w-full max-w-[1400px] mx-auto pt-12 pb-40 md:py-20 px-6 md:px-12 text-right" dir="rtl">
-      <div className="mb-14">
-        <h1 className="text-5xl md:text-6xl font-black text-white tracking-tighter mb-4 uppercase font-display">הגדרות <span className="text-primary text-glow">חשבון</span></h1>
+      <div className="mb-14 font-body">
+        <h1 className="text-5xl md:text-6xl font-black text-white mb-4 uppercase font-display">הגדרות <span className="text-primary text-glow">חשבון</span></h1>
         <p className="text-slate-400 font-medium text-lg">נהל את הפרופיל, האבטחה וההעדפות שלך</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 gap-10 md:gap-14">
         {/* Profile Sidebar */}
         <div className="lg:col-span-1 xl:col-span-1 space-y-8">
-          <div className="bg-gradient-to-b from-white/[0.05] to-white/[0.01] rounded-[40px] p-10 border border-white/10 text-center relative overflow-hidden backdrop-blur-3xl shadow-[0_40px_80px_-20px_rgba(255,159,10,0.15)] group">
+          <div 
+            className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[40px] p-10 text-center relative overflow-hidden group font-body"
+            style={{
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+            }}
+          >
             <div className="absolute top-0 left-0 w-32 h-32 bg-primary/20 rounded-full blur-[80px] -ml-16 -mt-16 pointer-events-none group-hover:bg-primary/30 transition-colors" />
             
             <div className="relative inline-block mb-6">
@@ -101,8 +106,8 @@ export default function ProfilePage() {
               </button>
             </div>
             
-            <h2 className="text-xl font-bold text-white mb-1">{session?.user?.name || 'משתמש'}</h2>
-            <p className="text-sm text-slate-500 font-medium mb-2">{session?.user?.email}</p>
+            <h2 className="text-xl font-bold text-white mb-1 font-display">{session?.user?.name || 'משתמש'}</h2>
+            <p className="text-sm text-slate-500 font-medium mb-2 font-body">{session?.user?.email}</p>
             
             <div className="flex items-center justify-center gap-2 mb-6">
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/5">
@@ -125,18 +130,23 @@ export default function ProfilePage() {
             </button>
           </div>
 
-          <div className="bg-black/40 rounded-[40px] p-6 border border-white/10 space-y-2 backdrop-blur-2xl">
+          <div 
+            className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[40px] p-6 space-y-2"
+            style={{
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+            }}
+          >
             {tabs.map((tab) => (
               <button 
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as TabType)}
-                className={`w-full flex items-center gap-5 p-5 rounded-3xl transition-all duration-300 ${
+                className={`w-full flex items-center gap-5 p-5 rounded-3xl transition-all duration-300 transform-gpu active:scale-95 ${
                   activeTab === tab.id 
-                    ? 'bg-primary text-black font-black shadow-[0_15px_30px_rgba(255,159,10,0.3)] scale-105 z-10 relative' 
-                    : 'text-slate-400 hover:bg-white/5 hover:text-white font-medium'
+                    ? 'bg-neutral-900/80 border border-primary/30 text-primary font-bold shadow-[0_10px_25px_rgba(255,159,10,0.15)] font-[\'Outfit\',_sans-serif] scale-[1.02]' 
+                    : 'text-slate-400 hover:bg-white/5 hover:text-white font-medium border border-transparent font-[\'Inter\',_sans-serif]'
                 }`}
               >
-                <tab.icon size={20} className={activeTab === tab.id ? 'text-black' : 'text-slate-500'} />
+                <tab.icon size={20} className={activeTab === tab.id ? 'text-primary' : 'text-slate-500'} />
                 <span className="text-base">{tab.label}</span>
               </button>
             ))}

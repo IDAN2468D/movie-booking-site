@@ -183,8 +183,14 @@
       "bases:צור בסיס חדש": false
     }
   },
-  "active": "f0793a33ad364b64",
+  "active": "d0c4c5f9cbc80945",
   "lastOpenFiles": [
+    "scratch/replace_fonts.js",
+    "movie-site/Skills/agent-stack/account-settings-liquid-glass-4.md",
+    "movie-site/Skills/agent-stack/לא מאושר 220751.crdownload",
+    "movie-site/Skills/agent-stack/HyperRefractive-Auth-Synthesizer-v4.md",
+    "movie-site/Skills/agent-stack/לא מאושר 419890.crdownload",
+    "lib/__tests__/bonuses.test.ts",
     "movie-site/Skills/features/PREMIUM_FEATURES.md",
     "components/notifications/NotificationDrawer.tsx",
     "components/notifications/NotificationCard.tsx",
@@ -194,10 +200,7 @@
     "movie-site/Skills/features/ADVANCED_EXPERIENCES.md",
     "movie-site/Skills/features/לא מאושר 366179.crdownload",
     "hooks/__tests__/useSightlineCalculations.test.ts",
-    "components/booking/SightlinePreview.tsx",
-    "hooks/useSightlineCalculations.ts",
     "movie-site/Skills/features/SIGHTLINE.md",
-    "movie-site/Skills/features/לא מאושר 710492.crdownload",
     "movie-site/Skills/token-optimizer/references/token-flow-architecture.md",
     "movie-site/Skills/token-optimizer/references/presentation-workflow.md",
     "movie-site/Skills/token-optimizer/references/phase0-setup.md",
@@ -227,9 +230,6 @@
     "movie-site/Skills/features/CONCIERGE.md",
     "movie-site/Skills/features/AUTH.md",
     "movie-site/Skills/token-optimizer/SKILL.md",
-    "movie-site/Skills/core/UI.md",
-    "movie-site/Skills/shared/RENDER_DEPLOYMENT.md",
-    "movie-site/Skills/core/SEARCH.md",
-    "movie-site/Skills/core/RESEARCH.md"
+    "movie-site/Skills/core/UI.md"
   ]
 }

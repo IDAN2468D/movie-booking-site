@@ -13,12 +13,13 @@ export default function NotificationSettings() {
   };
 
   return (
-    <div className="space-y-8 relative">
+    <div className="space-y-8 relative font-body">
+      {/* Zero-Reflow notification popover */}
       {saved && (
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-green-500 text-white px-6 py-3 rounded-2xl font-bold shadow-2xl shadow-green-500/20 flex items-center gap-2"
+          className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-green-500 text-white px-6 py-3 rounded-2xl font-bold shadow-2xl shadow-green-500/20 flex items-center gap-2 transform-gpu"
         >
           <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
           ההגדרות עודכנו בהצלחה
@@ -26,8 +27,13 @@ export default function NotificationSettings() {
       )}
 
       {/* Email Notifications */}
-      <div className="glass rounded-[32px] p-10 border border-white/5">
-        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+      <div 
+        className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[32px] p-10 font-body"
+        style={{
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+        }}
+      >
+        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3 font-display">
           <Mail size={20} className="text-[#FF9F0A]" />
           התראות באימייל
           <div className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -42,8 +48,13 @@ export default function NotificationSettings() {
       </div>
 
       {/* Push Notifications */}
-      <div className="glass rounded-[32px] p-10 border border-white/5">
-        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+      <div 
+        className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[32px] p-10 font-body"
+        style={{
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+        }}
+      >
+        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3 font-display">
           <Smartphone size={20} className="text-[#FF9F0A]" />
           התראות Push
           <div className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -56,8 +67,13 @@ export default function NotificationSettings() {
       </div>
 
       {/* Notification Categories */}
-      <div className="glass rounded-[32px] p-10 border border-white/5">
-        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+      <div 
+        className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[32px] p-10 font-body"
+        style={{
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+        }}
+      >
+        <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3 font-display">
           <Bell size={20} className="text-[#FF9F0A]" />
           קטגוריות תוכן
           <div className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -81,12 +97,10 @@ export default function NotificationSettings() {
   );
 }
 
-/* --- Sub-components --- */
-
 function ToggleRow({ title, desc, enabled, onChange }: { title: string; desc: string; enabled: boolean; onChange?: () => void }) {
   const [on, setOn] = React.useState(enabled);
   return (
-    <div className="flex items-center justify-between p-6 rounded-3xl bg-white/5 border border-white/5">
+    <div className="flex items-center justify-between p-6 rounded-3xl bg-neutral-900/40 border border-white/[0.08] hover:border-white/[0.2] transition-colors shadow-inner group">
       <div>
         <p className="text-white font-bold">{title}</p>
         <p className="text-xs text-slate-500">{desc}</p>
@@ -96,9 +110,9 @@ function ToggleRow({ title, desc, enabled, onChange }: { title: string; desc: st
           setOn(!on);
           onChange?.();
         }} 
-        className="relative"
+        className="relative transition-transform duration-300 active:scale-95 transform-gpu"
       >
-        <div className={`w-12 h-6 rounded-full transition-colors ${on ? 'bg-primary' : 'bg-slate-700'}`}>
+        <div className={`w-12 h-6 rounded-full transition-colors ${on ? 'bg-primary' : 'bg-white/10'}`}>
           <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${on ? 'left-1' : 'right-1'}`} />
         </div>
       </button>
@@ -114,10 +128,10 @@ function CategoryChip({ label, active, onChange }: { label: string; active: bool
         setOn(!on);
         onChange?.();
       }}
-      className={`px-4 py-3 rounded-2xl text-sm font-bold transition-all border ${
+      className={`px-4 py-3 rounded-2xl text-sm font-bold transition-all transform-gpu border active:scale-95 ${
         on
           ? 'bg-primary/10 text-[#FF9F0A] border-primary/30'
-          : 'bg-white/5 text-slate-500 border-white/5 hover:border-white/10'
+          : 'bg-neutral-900/40 text-slate-500 border-white/[0.08] hover:border-white/[0.2]'
       }`}
     >
       {label}

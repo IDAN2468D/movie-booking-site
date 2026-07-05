@@ -49,7 +49,7 @@ export default function LoginForm({ onToggleForm }: LoginFormProps) {
   return (
     <form id="login-form-el" action={formAction} className="space-y-6 text-right">
       <div className="space-y-2">
-        <label className="text-xs font-black text-slate-500 uppercase tracking-widest mr-1 font-inter">
+        <label className="text-xs font-black text-slate-500 uppercase tracking-widest mr-1 font-body">
           כתובת אימייל
         </label>
         <div className="relative">
@@ -58,7 +58,7 @@ export default function LoginForm({ onToggleForm }: LoginFormProps) {
             type="email"
             name="email"
             placeholder="hello@example.com"
-            className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pr-12 pl-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-right font-inter"
+            className="w-full bg-neutral-900/60 border border-white/[0.08] focus:border-white/[0.25] focus:bg-neutral-950/80 text-white placeholder-neutral-500 rounded-xl transition-all duration-300 focus:ring-1 focus:ring-white/20 outline-none py-4 pr-12 pl-4 text-right font-body transform-gpu"
             required
             disabled={isPending}
           />
@@ -67,7 +67,7 @@ export default function LoginForm({ onToggleForm }: LoginFormProps) {
 
       <div className="space-y-2">
         <div className="flex items-center justify-between mr-1">
-          <label className="text-xs font-black text-slate-500 uppercase tracking-widest font-inter">
+          <label className="text-xs font-black text-slate-500 uppercase tracking-widest font-body">
             סיסמה
           </label>
         </div>
@@ -77,21 +77,24 @@ export default function LoginForm({ onToggleForm }: LoginFormProps) {
             type="password"
             name="password"
             placeholder="••••••••"
-            className="w-full bg-white/5 border border-white/5 rounded-2xl py-4 pr-12 pl-4 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-right font-inter"
+            className="w-full bg-neutral-900/60 border border-white/[0.08] focus:border-white/[0.25] focus:bg-neutral-950/80 text-white placeholder-neutral-500 rounded-xl transition-all duration-300 focus:ring-1 focus:ring-white/20 outline-none py-4 pr-12 pl-4 text-right font-body transform-gpu"
             required
             disabled={isPending}
           />
         </div>
       </div>
 
-      {state?.error && (
-        <p className="text-red-500 text-xs font-bold text-center font-inter">{state.error}</p>
-      )}
+      {/* Pre-allocated height to prevent container reflow on error */}
+      <div className="min-h-[1.5rem] flex items-center justify-center">
+        {state?.error && (
+          <p className="text-red-500 text-xs font-bold text-center font-body">{state.error}</p>
+        )}
+      </div>
 
       <MagneticButton
         type="submit"
         disabled={isPending}
-        className="w-full bg-primary hover:bg-[#FF7A00] text-background py-5 rounded-2xl font-black text-sm tracking-[0.2em] transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 group font-outfit"
+        className="w-full bg-primary hover:bg-[#FF7A00] text-background py-5 rounded-2xl font-black text-sm tracking-[0.2em] transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 group font-display"
       >
         {isPending ? (
           <Loader2 className="w-5 h-5 animate-spin" />
@@ -108,7 +111,7 @@ export default function LoginForm({ onToggleForm }: LoginFormProps) {
           <div className="w-full border-t border-white/5"></div>
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-[#050505] px-2 text-slate-500 font-bold font-inter">או התחברו באמצעות</span>
+          <span className="bg-[#050505] px-2 text-slate-500 font-bold font-body">או התחברו באמצעות</span>
         </div>
       </div>
 
@@ -116,7 +119,7 @@ export default function LoginForm({ onToggleForm }: LoginFormProps) {
         type="button"
         onClick={() => signIn('google', { callbackUrl: '/splash' })}
         disabled={isPending}
-        className="w-full bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl font-bold text-sm transition-all border border-white/10 flex items-center justify-center gap-3 active:scale-95 font-inter"
+        className="w-full bg-white/5 hover:bg-white/10 text-white py-4 rounded-2xl font-bold text-sm transition-all border border-white/10 flex items-center justify-center gap-3 active:scale-95 font-body"
       >
         <svg className="w-5 h-5" viewBox="0 0 24 24">
           <path
@@ -139,7 +142,7 @@ export default function LoginForm({ onToggleForm }: LoginFormProps) {
         התחברות עם Google
       </button>
 
-      <p className="mt-10 text-center text-sm text-slate-500 font-medium font-inter">
+      <p className="mt-10 text-center text-sm text-slate-500 font-medium font-body">
         אין לך חשבון?{' '}
         <button
           type="button"

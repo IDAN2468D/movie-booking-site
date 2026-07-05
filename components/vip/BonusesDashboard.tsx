@@ -89,11 +89,11 @@ export default function BonusesDashboard({
   const progressPercentage = Math.min((optimisticData.points / 1000) * 100, 100);
 
   return (
-    <div className="bg-[#05070B] text-[#F0F0F0] p-6 lg:p-12 font-['Assistant',_sans-serif] leading-relaxed" dir="rtl">
+    <div className="bg-[#05070B] text-[#F0F0F0] p-6 lg:p-12 font-body leading-relaxed" dir="rtl">
       
       {/* Header */}
       <header className="mb-12 text-center">
-        <h1 className="text-4xl lg:text-5xl font-bold mb-4 flex items-center justify-center gap-4 flex-row-reverse space-x-reverse">
+        <h1 className="text-4xl lg:text-5xl font-bold mb-4 flex items-center justify-center gap-4 flex-row-reverse space-x-reverse font-display">
           <Crown className="w-10 h-10 text-amber-500 drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]" />
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-amber-600">
             מועדון ה-VIP
@@ -107,13 +107,18 @@ export default function BonusesDashboard({
         
         {/* Widget A: Liquid Points Progress & Tier Dashboard */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          <div className="bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-3xl p-8 relative overflow-hidden shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+          <div 
+            className="bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-3xl p-8 relative overflow-hidden font-body"
+            style={{ 
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)" 
+            }}
+          >
             <div className="absolute top-0 inset-inline-start-0 w-full h-1 bg-gradient-to-r from-amber-500/0 via-amber-500 to-amber-500/0 opacity-50"></div>
             
             <div className="flex items-center justify-between mb-8">
               <div>
                 <p className="text-slate-400 text-sm mb-1">מעמד נוכחי</p>
-                <h2 className={`text-3xl font-bold ${getTierColor(optimisticData.tier)}`}>
+                <h2 className={`text-3xl font-bold font-display ${getTierColor(optimisticData.tier)}`}>
                   {optimisticData.tier}
                 </h2>
               </div>
@@ -163,9 +168,12 @@ export default function BonusesDashboard({
               return (
                 <div 
                   key={reward._id}
-                  className={`relative group bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,0,0,0.5)] hover:border-white/20 ${
-                    isClaimed ? 'opacity-70 grayscale-[0.3]' : ''
+                  className={`relative group bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-3xl overflow-hidden transition-all duration-300 transform-gpu hover:scale-[1.02] ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                    isClaimed ? 'opacity-35 grayscale-[0.3]' : ''
                   }`}
+                  style={{
+                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -1px 1px rgba(0, 0, 0, 0.4)"
+                  }}
                 >
                   {/* Decorative Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
@@ -186,7 +194,7 @@ export default function BonusesDashboard({
                   </div>
 
                   <div className="p-6 relative z-10 -mt-8">
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors font-display">
                       {reward.title}
                     </h3>
                     <p className="text-slate-400 text-sm mb-6 line-clamp-2 leading-relaxed">
