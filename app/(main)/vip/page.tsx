@@ -53,15 +53,15 @@ const SUBSCRIPTION_TIERS = [
     popular: true
   },
   {
-    id: 'gold',
-    name: 'LIQUID GOLD',
+    id: 'neural-elite',
+    name: 'NEURAL ELITE',
     price: '₪149',
     period: 'חודשי',
-    features: ['כרטיסים חופשיים ללא הגבלה', 'כניסה חופשית לטרקלין ה-VIP והבופה', 'צבירת 3x נקודות נאמנות', 'הזמנת מושבים מוקדמת מראש (שבוע לפני כולם)'],
-    color: 'from-amber-500/20 to-primary/20',
-    borderColor: 'border-amber-500/40',
-    glowColor: 'rgba(245,158,11,0.5)',
-    badge: 'יוקרתי בלתי מוגבל'
+    features: ['גישה בלתי מוגבלת למנוע תגליות נוירוני', 'כניסה חופשית לטרקלין ה-VIP והבופה', 'צבירת 3x נקודות נאמנות', 'הזמנת מושבים מוקדמת מראש (שבוע לפני כולם)'],
+    color: 'from-[#00F0FF]/20 to-blue-600/20',
+    borderColor: 'border-[#00F0FF]/40',
+    glowColor: 'rgba(0,240,255,0.5)',
+    badge: 'תודעה קולנועית מושלמת'
   }
 ];
 
@@ -254,8 +254,8 @@ export default function VipPage() {
           {SUBSCRIPTION_TIERS.map((tier, idx) => (
             <ScrollReveal key={tier.id} delay={idx * 0.15}>
               <div 
-                className={`relative h-full flex flex-col justify-between rounded-[32px] bg-white/5 border p-8 backdrop-blur-[40px] hover:scale-[1.02] transition-all duration-500 overflow-hidden group ${
-                  tier.popular ? 'border-primary shadow-[0_15px_45px_rgba(255,20,100,0.15)]' : 'border-white/10'
+                className={`relative h-full flex flex-col justify-between rounded-[32px] p-8 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 bg-neutral-950/40 border border-white/[0.12] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7),_0_0_40px_rgba(0,0,0,0.5),_inset_0_0_0_1px_rgba(255,255,255,0.15)] hover:scale-[1.02] transition-all duration-500 overflow-hidden group ${
+                  tier.popular ? 'border-primary shadow-[0_25px_50px_-12px_rgba(255,20,100,0.4),_0_0_40px_rgba(255,20,100,0.2),_inset_0_0_0_1px_rgba(255,255,255,0.2)]' : ''
                 }`}
               >
                 {/* Glow Backdrop */}
@@ -326,7 +326,7 @@ export default function VipPage() {
         </div>
 
         <ScrollReveal>
-          <div className="rounded-[40px] liquid-glass p-8 md:p-12 border border-white/10 shadow-2xl relative overflow-hidden">
+          <div className="rounded-[40px] p-8 md:p-12 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 bg-neutral-950/40 border border-white/[0.12] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7),_0_0_40px_rgba(0,0,0,0.5),_inset_0_0_0_1px_rgba(255,255,255,0.15)] relative overflow-hidden">
             {/* Shimmer element */}
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-cyan-500/5 pointer-events-none" />
             <div className="absolute inset-0 shimmer" />
