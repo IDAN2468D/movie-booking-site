@@ -27,16 +27,29 @@ export function useAcousticMatrix(
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const animationFrameRef = useRef<number | null>(null);
 
-  // Parse seat coordinates
+  // Parse seat coordinates (A1 format)
   const getCoordinates = (id: string | null) => {
     if (!id) return null;
     try {
-      const idx = parseInt(id.split('-')[1], 10);
-      if (isNaN(idx) || idx < 0 || idx >= 48) return null;
-      const row = Math.floor(idx / 6);
-      const col = idx % 6;
-      const validated = SeatCoordinatesSchema.parse({ row, col });
-      return validated;
+      // Legacy format fallback (just in case)
+      if (id.startsWith('s-')) {
+        const idx = parseInt(id.split('-')[1], 10);
+        if (isNaN(idx) || idx < 0 || idx >= 48) return null;
+        const row = Math.floor(idx / 6);
+        const col = idx % 6;
+        return SeatCoordinatesSchema.parse({ row, col });
+      }
+
+      // New A1 format
+      const rowChar = id.charAt(0).toUpperCase();
+      const colNum = parseInt(id.slice(1), 10);
+      
+      if (!rowChar || isNaN(colNum)) return null;
+      
+      const row = rowChar.charCodeAt(0) - 65; // A=0, B=1, ...
+      const col = colNum - 1; // 1=0, 2=1, ...
+      
+      return SeatCoordinatesSchema.parse({ row, col });
     } catch {
       return null;
     }

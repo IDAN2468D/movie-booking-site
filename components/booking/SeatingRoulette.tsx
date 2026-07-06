@@ -68,10 +68,13 @@ export default function SeatingRoulette({
         setDisplaySeat(randomSeat);
         lastUpdate.current = now;
 
-        const seatIndex = parseInt(randomSeat.split('-')[1]);
-        if (!isNaN(seatIndex)) {
-          const r = Math.floor(seatIndex / 6);
-          const c = seatIndex % 6;
+        const rowLetter = randomSeat[0];
+        const seatNum = parseInt(randomSeat.slice(1));
+        const ROWS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+        
+        if (!isNaN(seatNum)) {
+          const r = ROWS.indexOf(rowLetter);
+          const c = seatNum - 1;
           playTick(r, c);
         }
       }
@@ -109,9 +112,12 @@ export default function SeatingRoulette({
         setTransactionCompleted(true);
         
         // Extract row and column coordinates for concentric ripple animation
-        const seatIndex = parseInt(chosenSeat.split('-')[1]);
-        const rowVal = Math.floor(seatIndex / 6);
-        const colVal = (seatIndex % 6) + 1;
+        const rowLetter = chosenSeat[0];
+        const seatNum = parseInt(chosenSeat.slice(1));
+        const ROWS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+        
+        const rowVal = ROWS.indexOf(rowLetter);
+        const colVal = seatNum;
         triggerRipple(rowVal, colVal);
 
         showKineticTicket(true);

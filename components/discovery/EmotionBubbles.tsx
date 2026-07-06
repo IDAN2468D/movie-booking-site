@@ -1,0 +1,60 @@
+"use client";
+
+import React, { useRef, useState, useEffect } from "react";
+import { motion, useAnimation, PanInfo } from "framer-motion";
+import { BubbleToken } from "@/lib/validations/discovery";
+
+interface EmotionBubblesProps {
+  onDragEnd: (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo, bubble: BubbleToken) => void;
+}
+
+export const DISCOVERY_BUBBLES: BubbleToken[] = [
+  // Genre Bubbles
+  { id: "action", type: "genre", value: 28, label: "פעולה" },
+  { id: "scifi", type: "genre", value: 878, label: "מדע בדיוני" },
+  { id: "comedy", type: "genre", value: 35, label: "קומדיה" },
+  { id: "drama", type: "genre", value: 18, label: "דרמה" },
+  
+  // Runtime Bubbles
+  { id: "short", type: "runtime", value: 90, label: "עד שעה וחצי" },
+  { id: "epic", type: "runtime", value: 180, label: "אפי וארוך" },
+  
+  // Rating Bubbles
+  { id: "top-rated", type: "rating", value: 8.5, label: "יצירת מופת" },
+  { id: "good", type: "rating", value: 7.0, label: "מומלץ" },
+];
+
+export function EmotionBubbles({ onDragEnd }: EmotionBubblesProps) {
+  // We apply Liquid Glass 4.0 styling
+  return (
+    <div className="flex flex-wrap justify-center gap-4 p-4 z-50">
+      {DISCOVERY_BUBBLES.map((bubble) => {
+        let gradient = "from-neutral-700 to-neutral-900";
+        if (bubble.type === "genre") gradient = "from-violet-500 to-fuchsia-600";
+        if (bubble.type === "runtime") gradient = "from-blue-500 to-cyan-500";
+        if (bubble.type === "rating") gradient = "from-amber-400 to-orange-600";
+        
+        return (
+          <motion.div
+            key={bubble.id}
+            drag
+            dragSnapToOrigin
+            onDragEnd={(e, info) => onDragEnd(e, info, bubble)}
+            whileHover={{ scale: 1.05 }}
+            whileDrag={{ scale: 1.15, zIndex: 100, filter: "brightness(1.3)" }}
+            className={`cursor-grab active:cursor-grabbing px-6 py-3 rounded-full bg-gradient-to-r ${gradient} border border-white/[0.2] flex items-center justify-center relative overflow-hidden`}
+            style={{ 
+              boxShadow: `0 10px 25px -5px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.2)` 
+            }}
+          >
+            {/* Glass reflection */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
+            <span className="font-['Outfit'] font-bold text-white text-md tracking-wide drop-shadow-md pointer-events-none relative z-10">
+              {bubble.label}
+            </span>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}

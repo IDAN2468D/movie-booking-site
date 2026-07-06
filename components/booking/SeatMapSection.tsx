@@ -26,7 +26,7 @@ export default function SeatMapSection() {
   const kineticTicketVisible = useRouletteStore((state) => state.kineticTicketVisible);
   const showKineticTicket = useRouletteStore((state) => state.showKineticTicket);
   const winningSeatCoords = useRouletteStore((state) => state.winningSeatCoords);
-  const winningSeatId = winningSeatCoords ? `s-${winningSeatCoords.row * 6 + (winningSeatCoords.col - 1)}` : null;
+  const winningSeatId = winningSeatCoords ? `${["A", "B", "C", "D", "E", "F", "G", "H"][winningSeatCoords.row]}${winningSeatCoords.col}` : null;
 
   const [realOccupiedSeats, setRealOccupiedSeats] = useState<string[]>([]);
 
@@ -88,8 +88,9 @@ export default function SeatMapSection() {
     return () => ctx.revert();
   }, []);
 
-  const mockOccupiedSeats = ['s-5', 's-12', 's-13', 's-24', 's-31', 's-40', 's-42'];
-  const allSeatIds = Array.from({ length: 48 }, (_, i) => `s-${i}`);
+  const mockOccupiedSeats = ['A6', 'C1', 'C2', 'E1', 'F2', 'G5', 'H1'];
+  const ROWS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+  const allSeatIds = ROWS.flatMap(row => Array.from({ length: 6 }, (_, i) => `${row}${i + 1}`));
   const availableSeats = allSeatIds.filter(
     (id) => !mockOccupiedSeats.includes(id) && !realOccupiedSeats.includes(id) && !selectedSeats.includes(id)
   );
@@ -120,13 +121,17 @@ export default function SeatMapSection() {
         </div>
       </div>
 
-      {/* 3D Transform Container (Animated by GSAP) */}
       <div 
         ref={containerRef} 
         className="w-full max-w-lg origin-bottom transition-all duration-300 mb-10"
         style={{ transformStyle: 'preserve-3d' }}
       >
-        <SeatMap />
+        <SeatMap 
+          showtimeId={showtimeId} 
+          userId={userId} 
+          occupiedSeats={[...mockOccupiedSeats, ...realOccupiedSeats]} 
+          onSeatLocked={(seatId) => toggleSeat(seatId)}
+        />
       </div>
 
       {/* Lucky Seat Roulette Engine integration */}

@@ -13,11 +13,15 @@ import { motion } from 'framer-motion';
 import { MarkerHighlight } from '../fx/MarkerHighlight';
 import CineSyncDashboard from '../premium/cinesync/CineSyncDashboard';
 export default function RightPanel() {
-  useSession();
+  const { data: session } = useSession();
   const { 
     selectedMovie, setSelectedMovie, selectedSeats, location, 
-    draggingMovieName, selectedFood, updateFoodQuantity
+    draggingMovieName, selectedFood, updateFoodQuantity,
+    selectedShowtime, selectedDate
   } = useBookingStore();
+  
+  const showtimeId = `${selectedMovie?.id || 'movie'}-${selectedShowtime || '19:30'}-${selectedDate || 'today'}`;
+  const userId = session?.user?.id || 'guest-user';
   const [isDraggingOver, setIsDraggingOver] = React.useState(false);
   const dragCounter = React.useRef(0);
 
@@ -187,7 +191,7 @@ export default function RightPanel() {
                         </div>
                       </div>
                     </div>
-                    <SeatMap />
+                    <SeatMap showtimeId={showtimeId} userId={userId} occupiedSeats={[]} compact />
                  </div>
 
                  <div className="pt-10 border-t border-white/10">

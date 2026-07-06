@@ -43,8 +43,17 @@ export default function AcousticSpatializer() {
   // Convert row index for ripple projection (0 to 7)
   const getRippleDelay = () => {
     if (!activeSeatId) return 0;
-    const idx = parseInt(activeSeatId.split('-')[1], 10);
-    return isNaN(idx) ? 0 : Math.floor(idx / 6) * 0.15;
+    
+    // Legacy support
+    if (activeSeatId.startsWith('s-')) {
+      const idx = parseInt(activeSeatId.split('-')[1], 10);
+      return isNaN(idx) ? 0 : Math.floor(idx / 6) * 0.15;
+    }
+    
+    // New A1 format support
+    const rowChar = activeSeatId.charAt(0).toUpperCase();
+    const row = rowChar.charCodeAt(0) - 65;
+    return isNaN(row) || row < 0 ? 0 : row * 0.15;
   };
 
   return (
@@ -102,7 +111,7 @@ export default function AcousticSpatializer() {
         {/* Hidden Audio Element */}
         <audio
           ref={audioRef}
-          src="https://media.w3.org/2010/05/sintel/trailer.mp4"
+          src="/sounds/mgm-roar.mp3"
           loop
           crossOrigin="anonymous"
           className="hidden"

@@ -1,3 +1,32 @@
+# 🛑 User-Defined Agent Directives & Constraints
+*All future requests provided by the user must be logged here.*
+
+## 🛑 STRICT TOKEN OPTIMIZATION RULES (Added Manually)
+You operate in a high-efficiency environment where tokens are heavily budgeted. 
+Adhere to these output constraints strictly:
+
+1. **NO FULL FILE REWRITES:** Never rewrite an entire file if only small parts changed. 
+2. **USE CODE SNIPPETS / DIFFS:** Provide only the specific functions or lines that need modification. Use clear comments indicating where the code fits:
+   ```javascript
+   // ... existing code ...
+   function updatedTarget() {
+       // Only the changed logic here
+   }
+   // ... existing code ...
+   ```
+
+# 🆕 Latest Updates (v5.9)
+
+## 🎭 Movie Swipe Matcher Engine (v5.9)
+- **Secure Backend Route**: Created the Matcher API route (`POST /api/movies/match`) mapping the Unified Result Pattern with legacy date fallbacks.
+- **Hermetic Zod Validations**: Implemented strict validation boundaries preventing untrusted data passage.
+- **Liquid Glass 4.0 Interface**: Assembled `SwipeMatcher.tsx` using a gesture-driven deck of movie cards via `framer-motion` for zero-reflow 120Hz GPU motion.
+- **Match Found Modal**: Engineered an immersive overlay triggered conditionally upon backend validation of available seats, featuring particle explosions.
+- **QA Verification**: Created `swipe-matcher.test.ts` for automated test loops on mock request sessions, and verified via `npx vitest run` and Next.js production `npm run build`.
+- **UI Redesign (Deep Optics Liquid Glass 4.0)**: Executed a surgical UI replacement utilizing `multi_replace_file_content` to enforce Token Optimization Rules. Added real-time refractive drag shaders and a 24-element hardware-accelerated holographic particle event. Backend integration was strictly preserved.
+- **Stabilization & Kinetic Ticket Fusion (Layer 5)**: Fixed an invalid Hook call and top-card drift logic in `SwipeMatcher.tsx`. Engineered a dynamic "Continue" interaction in `DynamicSeatMap.tsx` that initiates "The Kinetic Ticket Fusion" overlay with particle explosions once seats are selected, resolving missing routing flow to Checkout.
+- **The Live Cinema Pivot**: Deleted the Seating Roulette engine and `DynamicSeatMap` in favor of a direct "Live Broadcast" flow (`/cinema/live/[movieId]`). The Match Screen was heavily upgraded to "Titanium Glass" UI with real-time responsive cinematic blurred backdrops that match the top card.
+
 # 🆕 Latest Updates (v5.8)
 
 ## 💎 Dynamic Specular Subtitles Engine (v5.8)
@@ -178,3 +207,34 @@
 - **Cleaned Structure:** Merged all agent documentation (`.agents`) seamlessly into the main `movie-site` Obsidian Vault.
 - **Categorization:** Created dedicated `Rules/` and `Skills/` directories for strict separation of governance and domain-specific knowledge.
 - **Status:** All agent context and UI specs are now fully manageable directly from Obsidian!
+
+- Created strict Zod boundary and isolated MongoDB '/api/rooms' mutation endpoint for Social Match Sync.
+
+- Engineered low-latency SSE stream endpoint ('/api/rooms/listen') with interval polling to instantly transmit 'matched' events to clients.
+
+- Rewired 'SwipeMatcher' component with zero-reflow SSE listeners and non-blocking fetch mutations for instantaneous match resolution.
+
+- Created atomic seat locking API boundary with automated MongoDB TTL index (300s expiry) and strict Zod validation.
+
+- Built 'SeatMap.tsx' Liquid Glass 4.0 UI matrix featuring zero-reflow state toggles and atomic database locking integration.
+
+- Engineered webhook gateway for checkout mutations and established cryptographic JWT ticket signer to eliminate local payload forging.
+- Created strict Zod boundary and isolated MongoDB '/api/rooms' mutation endpoint for Social Match Sync.
+
+- Engineered low-latency SSE stream endpoint ('/api/rooms/listen') with interval polling to instantly transmit 'matched' events to clients.
+
+- Rewired 'SwipeMatcher' component with zero-reflow SSE listeners and non-blocking fetch mutations for instantaneous match resolution.
+
+- Created atomic seat locking API boundary with automated MongoDB TTL index (300s expiry) and strict Zod validation.
+
+- Built 'SeatMap.tsx' Liquid Glass 4.0 UI matrix featuring zero-reflow state toggles and atomic database locking integration.
+
+- Engineered webhook gateway for checkout mutations and established cryptographic JWT ticket signer to eliminate local payload forging.
+
+- Built 'DigitalTicket.tsx' Holographic Passbook component rendering secure QR payloads inside a Liquid Glass 4.0 kinetic fusion container.
+
+- Engineered 'getUserDashboardData' Server Action applying a highly optimized MongoDB facet/lookup aggregation pipeline to isolate data boundaries.
+
+- Assembled 'ProfileClient.tsx' tab architecture and 'ActiveTicketCountdown.tsx' zero-reflow temporal vectors using framer-motion layout animations.
+
+- Executed Stage 1 & 2 Integration: Mounted the SeatMap component within a Server Hydration Wrapper (`app/booking/[showtimeId]`) featuring Zero DB Leakage, and wired optimistic Kinetic Ticket layout transitions on successful lock resolution.

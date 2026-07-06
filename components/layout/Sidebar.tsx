@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Gift, Utensils, Bell, Settings, LogOut, Clapperboard, MapPin, RefreshCw, Sparkles, Heart, ShieldCheck, Crown, Compass } from 'lucide-react';
+import { Home, Gift, Utensils, Bell, Settings, LogOut, Clapperboard, MapPin, RefreshCw, Sparkles, Heart, ShieldCheck, Crown, Compass, Zap } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
 
@@ -21,6 +21,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { icon: Home, label: 'בית', href: '/' },
+  { icon: Zap, label: 'Movie Matcher', href: '/match' },
   { icon: Compass, label: 'גילוי נוירוני', href: '/discovery' },
   { icon: Crown, label: 'מועדון VIP', href: '/vip' },
   { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets' },

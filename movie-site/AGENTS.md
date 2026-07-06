@@ -50,3 +50,21 @@ When executing design synchronization cycles via the Stitch MCP, validate all as
 - **Source Control Hygiene**: Commits must be strictly atomic, isolated, and highly descriptive.
 - **Pre-Flight Sanity Routines**: Prior to requesting push clearance, successfully run a local production build sequence via `npm run build`, followed immediately by the automated suite via `npx vitest run`. Any failures trigger an automatic rollback.
 - **CI/CD Enforcement**: Remote repositories must execute automated pipeline suites on all incoming Pull Requests targeting protected primary trunks (`main`).
+
+## 🤖 6. Framework Rule: Architectural Enforcement
+- BEFORE executing any feature request, bug fix, or code modification, you MUST activate and follow the strict 5-layer engine defined in `.agents/skills/AgentStackFramework.md`.
+- Never bypass the Markdown Persistence layer or the Plan/Checkpoint gate.
+
+## 🛑 7. STRICT TOKEN OPTIMIZATION RULES
+You operate in a high-efficiency environment where tokens are heavily budgeted. 
+Adhere to these output constraints strictly:
+
+1. **NO FULL FILE REWRITES:** Never rewrite an entire file if only small parts changed. 
+2. **USE CODE SNIPPETS / DIFFS:** Provide only the specific functions or lines that need modification. Use clear comments indicating where the code fits:
+   ```javascript
+   // ... existing code ...
+   function updatedTarget() {
+       // Only the changed logic here
+   }
+   // ... existing code ...
+   ```
