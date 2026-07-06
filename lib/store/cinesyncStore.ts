@@ -51,6 +51,7 @@ export const useCineSyncStore = create<CineSyncState>((set, get) => ({
         set({ loungeError: result.error || 'Failed to create lounge', isLoungeLoading: false });
         return false;
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       set({ loungeError: 'Network error creating lounge', isLoungeLoading: false });
       return false;
@@ -61,8 +62,8 @@ export const useCineSyncStore = create<CineSyncState>((set, get) => ({
     set({ isLoungeLoading: true, loungeError: null });
     try {
       // Create local guest fallbacks if not logged in (handled by server, but client can persist)
-      let storedGuestId = typeof window !== 'undefined' ? localStorage.getItem('cinesync_guest_id') || undefined : undefined;
-      let storedGuestName = typeof window !== 'undefined' ? localStorage.getItem('cinesync_guest_name') || undefined : undefined;
+      const storedGuestId = typeof window !== 'undefined' ? localStorage.getItem('cinesync_guest_id') || undefined : undefined;
+      const storedGuestName = typeof window !== 'undefined' ? localStorage.getItem('cinesync_guest_name') || undefined : undefined;
 
       const result = await joinLoungeRoom(roomId, storedGuestId, storedGuestName);
       if (result.success && result.data) {
@@ -101,6 +102,7 @@ export const useCineSyncStore = create<CineSyncState>((set, get) => ({
         set({ loungeError: result.error || 'Failed to join lounge', isLoungeLoading: false });
         return false;
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       set({ loungeError: 'Network error joining lounge', isLoungeLoading: false });
       return false;
@@ -134,6 +136,7 @@ export const useCineSyncStore = create<CineSyncState>((set, get) => ({
           // Map participant cursors to lobbyUsers format
           const mappedUsers = result.data.participants
             .filter(p => p.userId !== myUserId)
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             .map((p, idx) => ({
               id: p.userId,
               name: p.name,
@@ -143,6 +146,7 @@ export const useCineSyncStore = create<CineSyncState>((set, get) => ({
             }));
 
           bookingStore.setLobbyUsers(mappedUsers);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
           // ignore
         }

@@ -16,11 +16,13 @@ export async function getActivePredictions() {
       success: true, 
       data: predictions.map(p => ({ ...p, _id: p._id.toString() })) 
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return { success: false, error: error.message };
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function placeOracleBet(userId: string, rawData: any) {
   try {
     const parsedData = oracleBetSchema.safeParse(rawData);
@@ -48,6 +50,7 @@ export async function placeOracleBet(userId: string, rawData: any) {
         },
         $push: {
           bets: { userId: new ObjectId(userId), optionId, amount, date: new Date() }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any
       },
       { returnDocument: 'after' }
@@ -55,6 +58,7 @@ export async function placeOracleBet(userId: string, rawData: any) {
     
     revalidatePath('/vip/liquid-capital');
     return { success: true, data: updateResult };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return { success: false, error: error.message };
   }

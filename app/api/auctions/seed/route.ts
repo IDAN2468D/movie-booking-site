@@ -64,6 +64,7 @@ export async function GET() {
     await collection.insertMany(seedData);
 
     return NextResponse.json({ message: 'Seeded successfully', data: seedData });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

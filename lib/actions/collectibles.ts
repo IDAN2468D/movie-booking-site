@@ -16,11 +16,13 @@ export async function getCollectibles() {
       success: true, 
       data: collectibles.map(c => ({ ...c, _id: c._id.toString() })) 
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return { success: false, error: error.message };
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function purchaseCollectible(userId: string, rawData: any) {
   try {
     const parsedData = collectiblePurchaseSchema.safeParse(rawData);
@@ -48,6 +50,7 @@ export async function purchaseCollectible(userId: string, rawData: any) {
     
     revalidatePath('/vip/liquid-capital');
     return { success: true, data: updateResult };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return { success: false, error: error.message };
   }

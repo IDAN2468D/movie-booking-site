@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import AuthGate from '@/components/auth/AuthGate';
+import AuthGateForm from '@/components/auth/AuthGateForm';
 
 export default function RegisterPage() {
-  return <AuthGate initialView="register" />;
+  return <AuthGateForm initialView="register" />;
 }

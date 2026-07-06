@@ -6,6 +6,7 @@ import { Diamond } from 'lucide-react';
 import { purchaseCollectible } from '@/lib/actions/collectibles';
 import { useSession } from 'next-auth/react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const CineCollectibles = ({ initialCollectibles }: { initialCollectibles: any[] }) => {
   const { data: session } = useSession();
   const [collectibles, setCollectibles] = useState(initialCollectibles);

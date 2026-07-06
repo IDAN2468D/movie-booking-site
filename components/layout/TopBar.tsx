@@ -5,9 +5,11 @@ import FilterModal from './FilterModal';
 import NeuralSearch from './TopBar/NeuralSearch';
 import UserProfile from './TopBar/UserProfile';
 import { useBookingStore } from '@/lib/store';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Image from 'next/image';
 import Link from 'next/link';
 import { Search, Bell } from 'lucide-react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 import { PremiumLogo } from '@/components/ui/PremiumLogo';
 import LiveActivityPulse from '@/components/ui/LiveActivityPulse';

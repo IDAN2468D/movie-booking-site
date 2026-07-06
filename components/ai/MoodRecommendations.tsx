@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Camera, UploadCloud, Loader2, Sparkles, X, Star, Pizza, Film } from 'lucide-react';
 import { cn } from '@/lib/utils/index';
 import NextImage from 'next/image';

@@ -20,6 +20,7 @@ export default function CineSyncSeatOverlay() {
       const pctY = Math.max(0, Math.min(100, ((clientY - rect.top) / rect.height) * 100));
 
       // Save to global window space for the sync loop to read
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).__cinesync_cursor = { x: pctX, y: pctY };
     };
 

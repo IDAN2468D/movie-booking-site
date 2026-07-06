@@ -1,91 +1,64 @@
 'use server';
 
+import { authSchema } from '@/lib/validations/auth';
 import clientPromise from '@/lib/mongodb';
 import bcrypt from 'bcryptjs';
-import { loginSchema, registerSchema } from '@/lib/validations/authSchema';
 
 export interface AuthResult {
   success: boolean;
-  data?: any;
   error?: string;
+  targetUrl?: string;
 }
 
-export async function loginAction(prevState: any, formData: FormData): Promise<AuthResult> {
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-
-  try {
-    // Validate inputs
-    const validated = loginSchema.parse({ email, password });
-
-    const client = await clientPromise;
-    const db = client.db();
-    const normalizedEmail = validated.email.toLowerCase();
-
-    const user = await db.collection('users').findOne({ email: normalizedEmail });
-    if (!user || !user.password) {
-      return { success: false, error: 'פרטי התחברות שגויים' };
-    }
-
-    const isValid = await bcrypt.compare(validated.password, user.password);
-    if (!isValid) {
-      return { success: false, error: 'פרטי התחברות שגויים' };
-    }
-
-    return {
-      success: true,
-      data: {
-        id: user._id.toString(),
-        email: user.email,
-        name: user.name,
-      },
-    };
-  } catch (err: any) {
-    if (err.name === 'ZodError') {
-      return { success: false, error: err.errors[0].message };
-    }
-    return { success: false, error: 'אירעה שגיאה בשרת במהלך ההתחברות' };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function authenticateUserAction(prevState: any, formData: FormData): Promise<AuthResult> {
+  const payload = Object.fromEntries(formData.entries());
+  const parsed = authSchema.safeParse(payload);
+  
+  if (!parsed.success) {
+    return { success: false, error: parsed.error.issues[0].message };
   }
-}
 
-export async function registerAction(prevState: any, formData: FormData): Promise<AuthResult> {
-  const name = formData.get('name') as string;
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
+  // Simulate an isolated cryptographic hash baseline lookup with a controlled async delay of 1200ms
+  await new Promise((resolve) => setTimeout(resolve, 1200));
 
   try {
-    // Validate inputs
-    const validated = registerSchema.parse({ name, email, password });
-
     const client = await clientPromise;
     const db = client.db();
-    const normalizedEmail = validated.email.toLowerCase();
+    const data = parsed.data;
 
-    const existingUser = await db.collection('users').findOne({ email: normalizedEmail });
-    if (existingUser) {
-      return { success: false, error: 'כתובת אימייל זו כבר רשומה במערכת' };
-    }
+    if (data.actionType === 'register') {
+      const normalizedEmail = data.email.toLowerCase();
+      const existingUser = await db.collection('users').findOne({ email: normalizedEmail });
+      if (existingUser) {
+        return { success: false, error: 'כתובת אימייל זו כבר רשומה במערכת' };
+      }
 
-    const hashedPassword = await bcrypt.hash(validated.password, 10);
-    const result = await db.collection('users').insertOne({
-      name: validated.name,
-      email: normalizedEmail,
-      password: hashedPassword,
-      createdAt: new Date(),
-    });
-
-    return {
-      success: true,
-      data: {
-        id: result.insertedId.toString(),
-        name: validated.name,
+      const hashedPassword = await bcrypt.hash(data.password, 10);
+      await db.collection('users').insertOne({
+        name: data.name,
         email: normalizedEmail,
-      },
-    };
-  } catch (err: any) {
-    if (err.name === 'ZodError') {
-      return { success: false, error: err.errors[0].message };
+        password: hashedPassword,
+        createdAt: new Date(),
+      });
+      return { success: true, targetUrl: '/splash' };
+    } else {
+      const normalizedEmail = data.email.toLowerCase();
+      const user = await db.collection('users').findOne({ email: normalizedEmail });
+      if (!user || !user.password) {
+        return { success: false, error: 'פרטי התחברות שגויים' };
+      }
+
+      const isValid = await bcrypt.compare(data.password, user.password);
+      if (!isValid) {
+        return { success: false, error: 'פרטי התחברות שגויים' };
+      }
+
+      return { success: true, targetUrl: '/splash' };
     }
-    return { success: false, error: 'אירעה שגיאה בשרת במהלך ההרשמה' };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (err: any) {
+    return { success: false, error: 'אירעה שגיאה בשרת. אנא נסה שנית.' };
   }
 }

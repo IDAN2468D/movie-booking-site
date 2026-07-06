@@ -10,6 +10,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
   const { id } = await params;
   const movieId = parseInt(id, 10);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [movie, credits, similar, videos, reviews, _] = await Promise.all([
     getMovieDetails(movieId),
     getMovieCredits(movieId),

@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Wind, Volume2, Sun } from 'lucide-react';
 import { saveUserHaptics } from '@/lib/actions/haptics';
 import { useSession } from 'next-auth/react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const MovieHaptics = ({ initialHaptics }: { initialHaptics: any }) => {
   const { data: session } = useSession();
   const [haptics, setHaptics] = useState(initialHaptics || { vibration: 50, scent: false, air: 30, light: 70 });

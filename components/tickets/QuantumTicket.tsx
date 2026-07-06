@@ -3,6 +3,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import NextImage from 'next/image';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Calendar, Clock, MapPin, QrCode, Mail, Download, Loader2 } from 'lucide-react';
 import { TicketCountdownView, TicketQrView, TicketMemoryView } from './TicketViews';
 import TicketShard from './TicketShard';

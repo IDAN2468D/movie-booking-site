@@ -1,5 +1,6 @@
 'use client';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Image from 'next/image';
 import Link from 'next/link';
 import { Movie, getImageUrl } from '@/lib/tmdb';

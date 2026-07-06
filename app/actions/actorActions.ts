@@ -36,6 +36,7 @@ Return ONLY the clean Hebrew text without markdown formatting, introductions, or
                 return result.response.text().trim();
               }
             );
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (geminiError) {
             console.warn(`Gemini API failed for ${tmdbActor.name}. Falling back to local Ollama (gemma2:2b)...`);
             try {
@@ -79,6 +80,7 @@ Return ONLY the clean Hebrew text without markdown formatting, introductions, or
               { $set: newActorData },
               { upsert: true, returnDocument: 'after' }
             );
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (e: any) {
             if (e.code === 11000) {
               actor = await Actor.findOne({ actorId: validated.actorId });
@@ -93,6 +95,7 @@ Return ONLY the clean Hebrew text without markdown formatting, introductions, or
     }
 
     return { success: true, data: JSON.parse(JSON.stringify(actor)) };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ZodError') {
       return { success: false, error: error.issues?.[0]?.message || error.message };
@@ -135,6 +138,7 @@ export async function seedDemoActors() {
         { $setOnInsert: actorData },
         { upsert: true }
       );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
       // Ignore duplicate key errors just in case
       if (e.code !== 11000) throw e;

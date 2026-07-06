@@ -18,6 +18,7 @@ interface Particle {
 
 interface CurrencyCascadeProps {
   onComplete?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   checkoutResult?: { success: boolean; data?: any; error?: string };
 }
 

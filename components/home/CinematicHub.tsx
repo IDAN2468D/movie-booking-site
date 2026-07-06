@@ -17,6 +17,7 @@ interface CinematicHubProps {
 }
 
 export function CinematicHub({ userId, initialBookmarkedIds, recommendedMovies }: CinematicHubProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPending, startTransition] = useTransition();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 

@@ -19,6 +19,7 @@ export async function getNeuralMovies(userId: string, input: NeuralQueryInput) {
 
     // Log the interaction atomically
     const queryTerm = validated.data.searchQuery || validated.data.mood || "unknown";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateOps: any = {
       $inc: { totalSearches: 1 },
       $addToSet: { queries: queryTerm }
@@ -69,6 +70,7 @@ export async function getNeuralMovies(userId: string, input: NeuralQueryInput) {
     ];
 
     return { success: true, data: results };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Neural Discovery Error:", error);
     return { success: false, error: "שגיאת מערכת נוירונית, אנא נסה מאוחר יותר." };

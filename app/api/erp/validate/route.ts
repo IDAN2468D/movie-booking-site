@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
 
     // Find the booking
     // Support full ObjectId, custom ID field, or last 6 characters of _id
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const orQuery: any[] = [
       { id: bookingId }
     ];

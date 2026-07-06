@@ -72,6 +72,7 @@ export async function lockSeatAction(payload: SeatActionInput) {
     }
 
     return { success: true, data: JSON.parse(JSON.stringify(result)) };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ZodError') {
       return { success: false, error: error.issues?.[0]?.message || error.message };
@@ -111,6 +112,7 @@ export async function releaseSeatAction(payload: SeatActionInput) {
     }
 
     return { success: true, data: JSON.parse(JSON.stringify(result)) };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ZodError') {
       return { success: false, error: error.issues?.[0]?.message || error.message };

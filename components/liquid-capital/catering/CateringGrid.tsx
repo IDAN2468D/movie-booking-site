@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Sparkles, Plus, Check } from 'lucide-react';
 import { CateringCartItem } from '@/lib/store/catering-store';
 

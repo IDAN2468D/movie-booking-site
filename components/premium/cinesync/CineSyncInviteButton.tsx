@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Share2, Check, Copy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 

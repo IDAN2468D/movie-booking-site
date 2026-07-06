@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface MgmSplashScreenProps {
@@ -11,6 +11,14 @@ export const MgmSplashScreen: React.FC<MgmSplashScreenProps> = ({ onComplete }) 
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioBlocked, setAudioBlocked] = useState(false);
   const [phase, setPhase] = useState<0 | 1 | 2 | 3 | 4>(0);
+
+  const startSequence = useCallback(() => {
+    setPhase(1);
+    setTimeout(() => setPhase(2), 1500); // Metamorphosis (1.5s)
+    setTimeout(() => setPhase(3), 3500); // Ignition (3.5s)
+    setTimeout(() => setPhase(4), 4500); // Dissolve (4.5s)
+    setTimeout(() => onComplete(), 5500); // Complete
+  }, [onComplete]);
 
   useEffect(() => {
     // Attempt autoplay immediately
@@ -26,7 +34,7 @@ export const MgmSplashScreen: React.FC<MgmSplashScreenProps> = ({ onComplete }) 
       // Fallback if no audio ref
       startSequence();
     }
-  }, []);
+  }, [startSequence]);
 
   const handleManualPlay = () => {
     if (audioRef.current) {
@@ -34,14 +42,6 @@ export const MgmSplashScreen: React.FC<MgmSplashScreenProps> = ({ onComplete }) 
     }
     setAudioBlocked(false);
     startSequence();
-  };
-
-  const startSequence = () => {
-    setPhase(1);
-    setTimeout(() => setPhase(2), 1500); // Metamorphosis (1.5s)
-    setTimeout(() => setPhase(3), 3500); // Ignition (3.5s)
-    setTimeout(() => setPhase(4), 4500); // Dissolve (4.5s)
-    setTimeout(() => onComplete(), 5500); // Complete
   };
 
   return (

@@ -15,6 +15,7 @@ export default function SightlinePreview() {
 
   // Determine active seat (hovered takes priority, fallback to last selected)
   const activeSeatId = hoveredSeat || (selectedSeats.length > 0 ? selectedSeats[selectedSeats.length - 1] : null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { success, data, error } = useSightlineCalculations(activeSeatId);
 
   // Backdrop glow image or color fallback

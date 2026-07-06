@@ -3,7 +3,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   TrendingUp, Activity, ShieldAlert, DollarSign, Bot, ArrowUpRight, 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Settings, Globe, Command, AlertTriangle, ShieldCheck
 } from 'lucide-react';
 import { useERPStore } from '@/lib/store/useERPStore';

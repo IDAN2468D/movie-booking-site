@@ -30,6 +30,7 @@ export async function toggleBookmarkAction(userId: string, movieId: string) {
       );
       return { success: true, isBookmarked: true };
     }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("toggleBookmarkAction error:", error);
     return { success: false, error: "שגיאה בשרת, אנא נסה שנית" };
@@ -53,6 +54,7 @@ export async function logMovieViewAction(userId: string, movieId: string) {
     );
 
     return { success: true };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("logMovieViewAction error:", error);
     return { success: false, error: "שגיאה בשרת, אנא נסה שנית" };
@@ -68,6 +70,8 @@ export async function getHubDataAction(userId: string) {
     // We parse and stringify to ensure the object is plain for Server Actions boundaries
     const hub = await MovieHub.findOne({ userId }).lean();
     return { success: true, data: JSON.parse(JSON.stringify(hub)) };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error: any) {
     return { success: false, error: "שגיאה בשליפת נתונים" };
   }

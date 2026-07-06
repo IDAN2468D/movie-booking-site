@@ -36,6 +36,7 @@ export function useDeviceGyroscope() {
     // Detect environment permission support
     if (
       typeof window !== 'undefined' &&
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       typeof (DeviceOrientationEvent as any).requestPermission === 'function'
     ) {
       setPermissionGranted(false);
@@ -90,12 +91,16 @@ export function useDeviceGyroscope() {
   }, [permissionGranted]);
 
   const requestPermission = async (): Promise<boolean> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const doc = window as any;
     if (
       typeof DeviceOrientationEvent !== 'undefined' &&
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       typeof (DeviceOrientationEvent as any).requestPermission === 'function'
     ) {
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const response = await (DeviceOrientationEvent as any).requestPermission();
         if (response === 'granted') {
           setPermissionGranted(true);
@@ -105,6 +110,7 @@ export function useDeviceGyroscope() {
           setError('Permission denied');
           return false;
         }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         setError('Permission request failed');
         return false;

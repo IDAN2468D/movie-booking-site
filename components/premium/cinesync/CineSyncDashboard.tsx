@@ -37,6 +37,7 @@ export default function CineSyncDashboard() {
       const mySeat = currentSelectedSeats.length > 0 ? currentSelectedSeats[0] : null;
       
       // We pass the last cursor coordinates from global state
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const cursorState = (window as any).__cinesync_cursor || { x: 0, y: 0 };
       syncLounge(cursorState.x, cursorState.y, mySeat);
     }, 1500);

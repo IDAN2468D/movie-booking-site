@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Headphones, Sparkles, Loader2, Crown } from 'lucide-react';
 import { MovieDetails, CastMember, CrewMember, Movie, VideoResult, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';

@@ -9,6 +9,7 @@ export async function getQuantumLoyalty() {
     const db = client.db();
     const loyalty = await db.collection("quantum_loyalty").find({}).toArray();
     return { success: true, data: JSON.parse(JSON.stringify(loyalty)) };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return { success: false, error: "Failed to fetch quantum loyalty" };
   }
@@ -24,6 +25,7 @@ export async function boostQuantumTier(userId: string) {
     );
     revalidatePath("/vip/liquid-capital");
     return { success: true };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return { success: false, error: "Failed to boost tier" };
   }

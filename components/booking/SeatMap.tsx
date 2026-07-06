@@ -1,13 +1,13 @@
 'use client';
 
 import { useBookingStore } from '@/lib/store';
+import { useRouletteStore } from '@/lib/store/rouletteStore';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Flame } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
 import SVGSeat from './SVGSeat';
 import CineSyncSeatOverlay from '../premium/cinesync/CineSyncSeatOverlay';
 import { useCineSyncStore } from '@/lib/store/cinesyncStore';
-import LobbyCursor from './LobbyCursor';
 import SeatLegend from './SeatLegend';
 
 export default function SeatMap() {
@@ -18,6 +18,10 @@ export default function SeatMap() {
   const selectedShowtime = useBookingStore((state) => state.selectedShowtime);
   const selectedDate = useBookingStore((state) => state.selectedDate);
   const { activeRoomId, participants } = useCineSyncStore();
+
+  // Subscribe to roulette store events with atomic selectors
+  const rippleTriggerId = useRouletteStore((state) => state.rippleTriggerId);
+  const winningSeatCoords = useRouletteStore((state) => state.winningSeatCoords);
 
   const [showHeatmap, setShowHeatmap] = useState(false);
   const hoveredSeat = useBookingStore((state) => state.hoveredSeat);
@@ -144,8 +148,34 @@ export default function SeatMap() {
                     if (dist <= 3) { shouldRipple = true; rippleDelay = dist * 0.08; }
                   }
 
+                  const isRouletteRipple = !rippleOrigin && winningSeatCoords && rippleTriggerId > 0;
+                  const rouletteDelay = isRouletteRipple
+                    ? Math.sqrt(Math.pow(rowIndex - winningSeatCoords.row, 2) + Math.pow(colNum - winningSeatCoords.col, 2)) * 0.05
+                    : 0;
+
+                  const animateObj = isRouletteRipple
+                    ? {
+                        scale: [1, 1.35, 0.9, 1.05, 1],
+                        filter: [
+                          'hue-rotate(0deg) brightness(1)',
+                          'hue-rotate(180deg) brightness(2) drop-shadow(0 0 12px #FF1464)',
+                          'hue-rotate(360deg) brightness(1.2) drop-shadow(0 0 4px #0AEFFF)',
+                          'hue-rotate(360deg) brightness(1)'
+                        ],
+                      }
+                    : (shouldRipple ? { scale: [1, 1.15, 0.95, 1] } : { scale: 1 });
+
+                  const delayVal = isRouletteRipple ? rouletteDelay : rippleDelay;
+                  const durationVal = isRouletteRipple ? 1.0 : 0.6;
+
                   return (
-                    <motion.g key={seatId} animate={shouldRipple ? { scale: [1, 1.15, 0.95, 1] } : { scale: 1 }} transition={{ duration: 0.6, delay: rippleDelay }}>
+                    <motion.g 
+                      key={`${seatId}-${rippleTriggerId}`} 
+                      animate={animateObj} 
+                      transition={{ duration: durationVal, delay: delayVal, ease: 'easeInOut' }}
+                      transformTemplate={(_props, transform) => `${transform} translateZ(0)`}
+                      className="transform-gpu"
+                    >
                       <SVGSeat seatId={seatId} row={row} col={colNum} x={x} y={y} isOccupied={isOccupied} isSelected={isSelected} isLobbyUserSelecting={mockLobbyUserSeats.includes(seatId)} showHeatmap={showHeatmap} popularity={popularityMap[seatId] || 0.1} auraColor={auraColor} onHover={setHoveredSeat} onClick={() => handleSeatClick(seatId)} />
                     </motion.g>
                   );
@@ -154,8 +184,6 @@ export default function SeatMap() {
               </g>
             );
           })}
-          <LobbyCursor name="עידן" initialX={120} initialY={170} />
-          <LobbyCursor name="נועה" initialX={260} initialY={250} />
         </svg>
 
         <AnimatePresence>

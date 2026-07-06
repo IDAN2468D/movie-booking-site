@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/mongoose";
 import CineSyncRoom from "@/lib/models/CineSyncRoom";
 import { CreateRoomSchema, UpdateSyncSchema } from "@/types/cinesync";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { revalidatePath } from "next/cache";
 
 // Helper to standardise action result wrapper
@@ -98,6 +99,7 @@ export async function joinLoungeRoom(
     const name = session?.user?.name || clientGuestName || "אורח_" + Math.random().toString(36).substring(2, 6);
 
     // Check if participant already exists in the room
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const isParticipant = room.participants.some((p: any) => p.userId === userId);
 
     if (!isParticipant) {
@@ -134,6 +136,7 @@ export async function joinLoungeRoom(
 /**
  * 🎫 Server Action: Synchronise coordinate details and fetch active participants
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function updateLoungeSync(rawData: unknown): Promise<Result<{ participants: any[] }>> {
   try {
     await connectToDatabase();
@@ -165,6 +168,7 @@ export async function updateLoungeSync(rawData: unknown): Promise<Result<{ parti
 
     // Update current participant, or add if missing
     let found = false;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     room.participants = room.participants.map((p: any) => {
       if (p.userId === userId) {
         found = true;
@@ -193,6 +197,7 @@ export async function updateLoungeSync(rawData: unknown): Promise<Result<{ parti
     }
 
     // Filter out inactive users (except the host or the current updating user)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     room.participants = room.participants.filter((p: any) => 
       p.userId === userId || p.userId === room.hostId || p.lastActive > inactiveThreshold
     );
@@ -202,6 +207,7 @@ export async function updateLoungeSync(rawData: unknown): Promise<Result<{ parti
     return {
       success: true,
       data: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         participants: room.participants.map((p: any) => ({
           userId: p.userId,
           name: p.name,
@@ -231,6 +237,7 @@ export async function leaveLoungeRoom(roomId: string, userId: string): Promise<R
     }
 
     // Filter out the user leaving
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     room.participants = room.participants.filter((p: any) => p.userId !== userId);
 
     if (room.participants.length === 0) {

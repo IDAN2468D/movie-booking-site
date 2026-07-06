@@ -3,9 +3,13 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useAcousticMatrix } from '../useAcousticMatrix';
 
 describe('useAcousticMatrix', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let mockAudioContextInstance: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let mockPannerNode: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let mockBiquadFilterNode: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let mockSourceNode: any;
 
   beforeEach(() => {

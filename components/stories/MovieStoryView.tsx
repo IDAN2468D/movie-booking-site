@@ -67,7 +67,7 @@ export const MovieStoryView: React.FC<MovieStoryViewProps> = ({ stories, initial
   }, [currentIndex]);
 
   // Video progress tracker
-  const trackProgress = useCallback(() => {
+  const trackProgress = useCallback(function trackProgress() {
     if (videoRef.current && !isPaused && !videoFailed) {
       const vid = videoRef.current;
       const duration = (isNaN(vid.duration) || !isFinite(vid.duration)) ? 15 : vid.duration;

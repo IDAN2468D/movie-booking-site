@@ -102,6 +102,7 @@ export async function POST(req: NextRequest) {
     }
 
     let modelUsed = '';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let groundingMetadata: any = null;
     try {
       const modelNames = ['gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
@@ -111,6 +112,7 @@ export async function POST(req: NextRequest) {
         // Use the system instruction from the previous context
         const chatModel = genAI.getGenerativeModel({
           model: model.model,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           tools: [{ googleSearch: {} }] as any,
           systemInstruction: `
             אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
@@ -142,6 +144,7 @@ export async function POST(req: NextRequest) {
         return { 
           text: result.response.text(), 
           modelName: model.model,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           groundingMetadata: (result.response.candidates?.[0] as any)?.groundingMetadata || null
         };
       });

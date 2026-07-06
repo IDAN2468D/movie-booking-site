@@ -29,6 +29,7 @@ export const NotificationDrawer: React.FC<NotificationDrawerProps> = ({ isOpen, 
   );
 
   // Form action to mark a single notification as read
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [, markAsReadFormAction] = useActionState(async (prevState: any, formData: FormData) => {
     const rawId = formData.get('id');
     if (!rawId) return null;

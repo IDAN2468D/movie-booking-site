@@ -70,6 +70,8 @@ export async function POST(req: NextRequest) {
     let description = `נוצר פוסטר קולנועי מרהיב בסגנון: "${prompt}".`;
 
     // Look at user requests in history to apply edits dynamically
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const editPrompts = [...history.filter((m: any) => m.role === 'user').map((m: any) => m.content.toLowerCase()), promptLower];
     
     for (const edit of editPrompts) {

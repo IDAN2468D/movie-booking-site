@@ -209,6 +209,7 @@ export default function BookingsManagement() {
                     ].map(sort => (
                       <button
                         key={sort.id}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onClick={() => setSortBy(sort.id as any)}
                         className={cn(
                           "px-4 py-2 rounded-xl text-sm font-bold transition-all border",

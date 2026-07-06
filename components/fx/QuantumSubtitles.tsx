@@ -52,6 +52,7 @@ export default function QuantumSubtitles({
     const initAudioReaction = () => {
       if (audioContextRef.current) return;
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
         const ctx = new AudioCtx();
         audioContextRef.current = ctx;
@@ -80,6 +81,7 @@ export default function QuantumSubtitles({
           animationRef.current = requestAnimationFrame(updateLevel);
         };
         updateLevel();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         // Suppress audio route lock errors (common on autoplay blocks)
       }

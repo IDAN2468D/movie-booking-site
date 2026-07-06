@@ -5,12 +5,14 @@ import { motion } from 'framer-motion';
 import { Activity, TrendingUp, Sparkles, ChevronUp } from 'lucide-react';
 import { boostQuantumTier } from '@/lib/actions/loyalty';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const QuantumLoyalty = ({ initialLoyalty }: { initialLoyalty: any[] }) => {
   const defaultLoyalty = { tier: 'observer', points: 0, multiplier: 1, userId: 'demo' };
   const currentUserLoyalty = initialLoyalty && initialLoyalty.length > 0 ? initialLoyalty[0] : defaultLoyalty;
 
   const [loyalty, addOptimisticBoost] = useOptimistic(
     currentUserLoyalty,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any) => ({
       ...state,
       points: state.points + 1000,

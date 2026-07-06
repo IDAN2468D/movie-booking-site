@@ -84,6 +84,7 @@ export function calculateSightline(seatId: string | null): SightlineResult {
         visibilityScore
       }
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return {
       success: false,

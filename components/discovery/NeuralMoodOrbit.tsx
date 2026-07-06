@@ -32,6 +32,7 @@ export default function NeuralMoodOrbit() {
   
   const dropZoneRadius = 90;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDrag = (_event: any, info: PanInfo, moodId: string) => {
     setDraggingId(moodId);
     setDragOffset({ x: info.offset.x, y: info.offset.y });

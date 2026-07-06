@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
 import { Download, Loader2, Ticket } from 'lucide-react';
 import { cn } from '@/lib/utils/index';
 
@@ -57,14 +57,12 @@ export default function TicketExport({
     
     setIsGenerating(true);
     try {
-      // Use html2canvas to capture the exact UI (avoids complex RTL/font issues in jsPDF)
-      const canvas = await html2canvas(ticketRef.current, {
-        scale: 2, // High resolution
-        useCORS: true,
+      // Use html-to-image to capture the UI (supports modern CSS like oklab/oklch natively via SVG foreignObject)
+      const node = ticketRef.current;
+      const imgData = await htmlToImage.toPng(node, {
+        pixelRatio: 2, // High resolution
         backgroundColor: '#0A0A0A',
       });
-      
-      const imgData = canvas.toDataURL('image/png');
       
       // Calculate dimensions (A4 size: 210 x 297 mm)
       const pdf = new jsPDF({
@@ -75,7 +73,7 @@ export default function TicketExport({
       
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const imgWidth = pdfWidth - 40; // 20mm margins
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const imgHeight = (node.offsetHeight * imgWidth) / node.offsetWidth;
       
       pdf.addImage(imgData, 'PNG', 20, 20, imgWidth, imgHeight);
       pdf.save(`Ticket_${bookingId}.pdf`);

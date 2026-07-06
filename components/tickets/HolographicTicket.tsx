@@ -82,6 +82,7 @@ export default function HolographicTicket({
         style={{
           transformStyle: 'preserve-3d',
           '--glass-gradient-angle': `${gradientAngle}deg`,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any}
         className="relative overflow-hidden rounded-[36px] p-6 text-white border border-white/20 shadow-2xl transition-all duration-300"
       >

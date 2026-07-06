@@ -25,13 +25,21 @@ export default async function Dashboard() {
     getQuantumLoyalty()
   ]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const auctions = (auctionsRes.success ? auctionsRes.data : []) as any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const predictions = (predictionsRes.success ? predictionsRes.data : []) as any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const squads = (squadsRes.success ? squadsRes.data : []) as any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const collectibles = (collectiblesRes.success ? collectiblesRes.data : []) as any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const catering = (cateringRes.success ? cateringRes.data : []) as any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const vaults = (vaultsRes.success ? vaultsRes.data : []) as any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const phantom = (phantomRes.success ? phantomRes.data : []) as any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const loyalty = (loyaltyRes.success ? loyaltyRes.data : []) as any[];
 
   return (

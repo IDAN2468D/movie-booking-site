@@ -17,6 +17,7 @@ export default function SubBassResonator({ mediaElementSelector = "video" }: Sub
   const animationFrameId = useRef<number | null>(null);
   const lastVibrationTime = useRef<number>(0);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const controls = useAnimation();
 
   const toggleVibration = () => {
@@ -32,6 +33,7 @@ export default function SubBassResonator({ mediaElementSelector = "video" }: Sub
       const mediaEl = document.querySelector(mediaElementSelector) as HTMLMediaElement;
       if (!mediaEl) return;
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
       const audioCtx = new AudioCtx();
       audioContextRef.current = audioCtx;

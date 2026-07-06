@@ -1,3 +1,8 @@
+---
+name: Account Settings Synthesizer
+description: Upgrades the Account Settings Hub (Profile, Security, Preferences) to the Liquid Glass 4.0 Cinematic Standard.
+---
+
 # Skill: HyperRefractive-Account-Settings-Synthesizer-v4
 # Target: Account Settings Page Refactoring (Profile, Security, Preferences)
 # Framework: Next.js 15+ (Server Actions) & Tailwind CSS

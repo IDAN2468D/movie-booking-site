@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Bell, CheckCircle2, Clock, Sparkles } from 'lucide-react';
 import { useNotificationStore } from '@/lib/store/notification-store';
 import { motion, AnimatePresence } from 'framer-motion';

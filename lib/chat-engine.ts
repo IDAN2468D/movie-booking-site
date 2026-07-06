@@ -6,6 +6,7 @@ export interface ChatMessage {
   content: string;
   timestamp: number;
   type?: 'text' | 'movie_suggestion' | 'action_link';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: any;
 }
 

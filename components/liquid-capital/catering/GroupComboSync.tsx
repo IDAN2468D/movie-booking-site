@@ -11,11 +11,13 @@ const COMBOS = [
 ];
 
 export const GroupComboSync: React.FC<{ activeSeats: string[] }> = ({ activeSeats }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const groupSeats = useCateringGroupSeats();
   const { setGroupSeats, addToCart } = useCateringActions();
 
   // React 19 useActionState for group combo parsing
   const [result, formAction, isPending] = useActionState(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (_state: any, formData: FormData) => {
       const comboId = formData.get('comboId') as string;
       

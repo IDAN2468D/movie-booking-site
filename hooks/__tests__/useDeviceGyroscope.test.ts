@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { describe, it, expect, vi } from 'vitest';
 import { useDeviceGyroscope } from '../useDeviceGyroscope';
 

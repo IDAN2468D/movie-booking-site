@@ -5,9 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Ghost, Wifi, Mail, Sparkles, CheckCircle2 } from 'lucide-react';
 import { syncPhantomInvite } from '@/lib/actions/phantom';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const PhantomPresence = ({ initialInvites }: { initialInvites: any[] }) => {
   const [invites, addOptimisticSync] = useOptimistic(
     initialInvites,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any[], updatedId: string) => 
       state.map(inv => inv._id === updatedId ? { ...inv, status: 'synced', accessKey: 'WEBRTC_ESTABLISHING...' } : inv)
   );

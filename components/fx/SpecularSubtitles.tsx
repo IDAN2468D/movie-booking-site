@@ -56,6 +56,7 @@ export default function SpecularSubtitles({
     const initAudioAnalyser = () => {
       if (audioContextRef.current) return;
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
         const ctx = new AudioCtx();
         audioContextRef.current = ctx;
@@ -84,6 +85,7 @@ export default function SpecularSubtitles({
           animationFrameId.current = requestAnimationFrame(monitorFrequencies);
         };
         monitorFrequencies();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         // Handle audio routing lock errors from browser autoplay protections
       }

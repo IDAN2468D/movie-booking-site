@@ -1,3 +1,8 @@
+---
+name: Subtitles Engine
+description: Instructs the agent on how to build and maintain the Dynamic Specular Subtitles Engine.
+---
+
 # Dynamic Specular Subtitles Engine (SUBTITLES.md)
 
 ## 1. Core Architecture Rules

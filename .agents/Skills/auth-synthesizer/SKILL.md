@@ -1,3 +1,8 @@
+---
+name: Auth Synthesizer
+description: Upgrades the Auth Gate (Login/Registration) component to the Liquid Glass 4.0 Standard.
+---
+
 # Spec & Prompt: Auth Gate Upgrade to Liquid Glass 4.0
 
 This document contains the full architectural specification and the interactive AI prompt required to upgrade the **Auth Gate (Login/Registration)** component to the next-generation **Liquid Glass 4.0** standard.

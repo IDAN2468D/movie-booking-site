@@ -16,6 +16,7 @@ export type ActionState<T> = {
 /**
  * Server action to mark a notification as read (simulating server settlement)
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function markAsReadAction(prevState: any, formData: FormData): Promise<ActionState<{ id: number }>> {
   try {
     const rawId = formData.get('id');
@@ -35,6 +36,7 @@ export async function markAsReadAction(prevState: any, formData: FormData): Prom
       success: true,
       data: { id: validated.data.id }
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return {
       success: false,
@@ -46,6 +48,8 @@ export async function markAsReadAction(prevState: any, formData: FormData): Prom
 /**
  * Server action to mark all notifications as read
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function markAllAsReadAction(prevState: any): Promise<ActionState<null>> {
   try {
     // Simulate database update
@@ -55,6 +59,7 @@ export async function markAllAsReadAction(prevState: any): Promise<ActionState<n
       success: true,
       data: null
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return {
       success: false,

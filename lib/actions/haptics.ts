@@ -19,11 +19,13 @@ export async function getUserHaptics(userId: string) {
       success: true, 
       data: { ...haptics, _id: haptics._id.toString(), userId: haptics.userId.toString() } 
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return { success: false, error: error.message };
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function saveUserHaptics(userId: string, settings: any) {
   try {
     const client = await clientPromise;
@@ -37,6 +39,7 @@ export async function saveUserHaptics(userId: string, settings: any) {
     
     revalidatePath('/vip/liquid-capital');
     return { success: true };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return { success: false, error: error.message };
   }

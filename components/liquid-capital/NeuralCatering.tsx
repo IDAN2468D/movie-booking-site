@@ -23,6 +23,7 @@ const MENU_ITEMS: CateringMenuItem[] = [
   { id: '5', name: 'פופקורן ניאון', price: 22, description: 'פופקורן פרימיום בחמאה כחולה זוהרת', category: 'חטיפים', allergens: [] }
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const NeuralCatering = ({ initialCatering = [] }: { initialCatering?: any[] }) => {
   const cart = useCateringCart();
   const selectedAllergies = useCateringAllergies();

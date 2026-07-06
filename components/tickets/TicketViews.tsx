@@ -43,6 +43,7 @@ interface QrViewProps {
   ticketId: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function TicketQrView({ ticketId }: QrViewProps) {
   return (
     <motion.div

@@ -16,11 +16,13 @@ export async function getActiveSquads() {
       success: true, 
       data: squads.map(s => ({ ...s, _id: s._id.toString() })) 
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return { success: false, error: error.message };
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function contributeToSquad(userId: string, userName: string, rawData: any) {
   try {
     const parsedData = squadContributeSchema.safeParse(rawData);
@@ -44,6 +46,7 @@ export async function contributeToSquad(userId: string, userName: string, rawDat
         $inc: { currentAmount: amount },
         $push: {
           contributors: { userId: new ObjectId(userId), name: userName, amount, date: new Date() }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any
       },
       { returnDocument: 'after' }
@@ -51,6 +54,7 @@ export async function contributeToSquad(userId: string, userName: string, rawDat
     
     revalidatePath('/vip/liquid-capital');
     return { success: true, data: updateResult };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return { success: false, error: error.message };
   }

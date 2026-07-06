@@ -4,6 +4,7 @@ import { connectToDatabase } from "@/lib/mongoose";
 import { LoyaltyUser, Reward } from "@/lib/models/Loyalty";
 import { ClaimRewardSchema, ClaimRewardInput } from "@/lib/validations/bonuses";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ActionResponse<T = any> = {
   success: boolean;
   data?: T;
@@ -35,6 +36,7 @@ export async function getUserLoyaltyData(userId: string): Promise<ActionResponse
         claimedRewards: user.claimedRewards,
       },
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("getUserLoyaltyData error:", error);
     return { success: false, error: "שגיאה בטעינת נתוני הנאמנות" };
@@ -86,6 +88,7 @@ export async function claimRewardAction(input: ClaimRewardInput): Promise<Action
         claimedRewards: updatedUser.claimedRewards,
       },
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("claimRewardAction error:", error);
     return { success: false, error: "שגיאת מערכת במימוש ההטבה" };
@@ -127,11 +130,13 @@ export async function getAvailableRewards(): Promise<ActionResponse> {
     const rewards = await Reward.find({}).lean();
     return {
       success: true,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: rewards.map((r: any) => ({
         ...r,
         _id: r._id.toString(),
       })),
     };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("getAvailableRewards error:", error);
     return { success: false, error: "שגיאה בטעינת ההטבות" };

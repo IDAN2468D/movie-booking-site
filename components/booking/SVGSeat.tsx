@@ -58,6 +58,14 @@ export default function SVGSeat({
     return undefined;
   };
 
+  const isDisabled = isOccupied || isLobbyUserSelecting;
+
+  const getCursorClass = () => {
+    if (isOccupied) return 'cursor-not-allowed opacity-40';
+    if (isLobbyUserSelecting) return 'cursor-not-allowed';
+    return 'cursor-pointer';
+  };
+
   return (
     <motion.g
       style={{ 
@@ -67,12 +75,12 @@ export default function SVGSeat({
         originY: `${seatSize / 2}px`,
         filter: getFilterStyle()
       }}
-      onHoverStart={() => !isOccupied && onHover(seatId)}
-      onHoverEnd={() => !isOccupied && onHover(null)}
-      onTap={() => !isOccupied && onClick()}
-      whileHover={isOccupied ? {} : { scale: 1.15 }}
-      whileTap={isOccupied ? {} : { scale: 0.9 }}
-      className={isOccupied ? 'cursor-not-allowed opacity-40' : 'cursor-pointer'}
+      onHoverStart={() => !isDisabled && onHover(seatId)}
+      onHoverEnd={() => !isDisabled && onHover(null)}
+      onTap={() => !isDisabled && onClick()}
+      whileHover={isDisabled ? {} : { scale: 1.15 }}
+      whileTap={isDisabled ? {} : { scale: 0.9 }}
+      className={getCursorClass()}
     >
       {/* Heatmap Layer */}
       <AnimatePresence>

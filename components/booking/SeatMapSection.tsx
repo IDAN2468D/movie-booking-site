@@ -1,7 +1,12 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SeatMap from '@/components/booking/SeatMap';
+import SeatingRoulette from '@/components/booking/SeatingRoulette';
+import KineticTicketTransition from '@/components/fx/KineticTicketTransition';
+import CurrencyCascade from '@/components/fx/CurrencyCascade';
+import { useBookingStore } from '@/lib/store';
+import { useRouletteStore } from '@/lib/store/rouletteStore';
 import { Ticket } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -11,6 +16,41 @@ gsap.registerPlugin(ScrollTrigger);
 export default function SeatMapSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const selectedMovie = useBookingStore((state) => state.selectedMovie);
+  const selectedShowtime = useBookingStore((state) => state.selectedShowtime);
+  const selectedDate = useBookingStore((state) => state.selectedDate);
+  const selectedSeats = useBookingStore((state) => state.selectedSeats);
+  const toggleSeat = useBookingStore((state) => state.toggleSeat);
+
+  const kineticTicketVisible = useRouletteStore((state) => state.kineticTicketVisible);
+  const showKineticTicket = useRouletteStore((state) => state.showKineticTicket);
+  const winningSeatCoords = useRouletteStore((state) => state.winningSeatCoords);
+  const winningSeatId = winningSeatCoords ? `s-${winningSeatCoords.row * 6 + (winningSeatCoords.col - 1)}` : null;
+
+  const [realOccupiedSeats, setRealOccupiedSeats] = useState<string[]>([]);
+
+  // Fetch occupied seats to accurately calculate available seats for the roulette
+  useEffect(() => {
+    if (!selectedMovie) return;
+    async function fetchOccupied() {
+      try {
+        const queryParams = new URLSearchParams({
+          movieId: String(selectedMovie!.id),
+          showtime: selectedShowtime || '19:30',
+          date: selectedDate || new Date().toLocaleDateString('he-IL'),
+        });
+        const res = await fetch(`/api/bookings?${queryParams.toString()}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.occupiedSeats) setRealOccupiedSeats(data.occupiedSeats);
+        }
+      } catch (err) {
+        console.error('Failed to fetch occupied seats:', err);
+      }
+    }
+    fetchOccupied();
+  }, [selectedMovie, selectedShowtime, selectedDate]);
 
   useEffect(() => {
     if (!sectionRef.current || !containerRef.current) return;
@@ -48,6 +88,15 @@ export default function SeatMapSection() {
     return () => ctx.revert();
   }, []);
 
+  const mockOccupiedSeats = ['s-5', 's-12', 's-13', 's-24', 's-31', 's-40', 's-42'];
+  const allSeatIds = Array.from({ length: 48 }, (_, i) => `s-${i}`);
+  const availableSeats = allSeatIds.filter(
+    (id) => !mockOccupiedSeats.includes(id) && !realOccupiedSeats.includes(id) && !selectedSeats.includes(id)
+  );
+
+  const showtimeId = `${selectedMovie?.id || 'movie'}-${selectedShowtime || '19:30'}-${selectedDate || 'today'}`;
+  const userId = 'user-roulette-session';
+
   return (
     <div
       ref={sectionRef}
@@ -74,11 +123,32 @@ export default function SeatMapSection() {
       {/* 3D Transform Container (Animated by GSAP) */}
       <div 
         ref={containerRef} 
-        className="w-full max-w-lg origin-bottom transition-all duration-300"
+        className="w-full max-w-lg origin-bottom transition-all duration-300 mb-10"
         style={{ transformStyle: 'preserve-3d' }}
       >
         <SeatMap />
       </div>
+
+      {/* Lucky Seat Roulette Engine integration */}
+      <div className="w-full max-w-lg">
+        <SeatingRoulette
+          showtimeId={showtimeId}
+          userId={userId}
+          availableSeats={availableSeats}
+          onSeatLocked={(seatId) => toggleSeat(seatId)}
+        />
+      </div>
+
+      <KineticTicketTransition
+        isOpen={kineticTicketVisible}
+        onClose={() => showKineticTicket(false)}
+        seatId={winningSeatId}
+        showtimeId={showtimeId}
+        movieTitle={selectedMovie?.title}
+      />
+      
+      {/* Specular Currency Cascade Particle Overlay */}
+      <CurrencyCascade />
     </div>
   );
 }

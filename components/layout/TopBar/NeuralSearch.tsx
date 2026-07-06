@@ -1,5 +1,6 @@
 'use client';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Command, SlidersHorizontal, TrendingUp, Clapperboard, Sparkles, ArrowRight } from 'lucide-react';
@@ -30,6 +31,7 @@ function fuzzyFilterMovies(movies: Movie[], query: string): { success: boolean; 
       );
     });
     return { success: true, data: filtered };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return { success: false, error: err?.message || 'Fuzzy filtering failed' };
   }

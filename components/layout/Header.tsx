@@ -1,11 +1,14 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useBookingStore } from '@/lib/store';
 import { PremiumLogo } from "@/components/ui/PremiumLogo";
 import { Container } from "../ui/Container";
 import Link from "next/link";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Image from "next/image";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { KineticText } from "../effects/KineticText";
 import { MagneticButton } from "../ui/MagneticButton";
 

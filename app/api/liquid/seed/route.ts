@@ -162,6 +162,7 @@ export async function GET() {
     }
 
     return NextResponse.json({ message: 'All Liquid VIP systems seeded successfully!' });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

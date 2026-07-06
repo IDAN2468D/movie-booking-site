@@ -6,6 +6,7 @@ import { Users, Target } from 'lucide-react';
 import { contributeToSquad } from '@/lib/actions/squad';
 import { useSession } from 'next-auth/react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const SquadBudgets = ({ initialSquads }: { initialSquads: any[] }) => {
   const { data: session } = useSession();
   const [squads, setSquads] = useState(initialSquads);

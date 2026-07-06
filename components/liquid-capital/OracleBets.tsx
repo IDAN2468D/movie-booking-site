@@ -6,6 +6,7 @@ import { BrainCircuit } from 'lucide-react';
 import { placeOracleBet } from '@/lib/actions/oracle';
 import { useSession } from 'next-auth/react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const OracleBets = ({ initialPredictions }: { initialPredictions: any[] }) => {
   const { data: session } = useSession();
   const [predictions, setPredictions] = useState(initialPredictions);

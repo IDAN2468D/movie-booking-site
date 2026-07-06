@@ -5,9 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Lock, Unlock, Film, Sparkles, Clock } from 'lucide-react';
 import { unlockTemporalVault } from '@/lib/actions/vaults';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const TemporalVaults = ({ initialVaults }: { initialVaults: any[] }) => {
   const [vaults, addOptimisticUnlock] = useOptimistic(
     initialVaults,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (state: any[], updatedId: string) => 
       state.map(v => v._id === updatedId ? { ...v, status: 'decrypting', drmToken: 'GENERATING...' } : v)
   );

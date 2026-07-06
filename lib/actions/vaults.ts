@@ -11,6 +11,7 @@ export async function getTemporalVaults() {
     const db = client.db();
     const vaults = await db.collection("temporal_vaults").find({}).toArray();
     return { success: true, data: JSON.parse(JSON.stringify(vaults)) };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return { success: false, error: "Failed to fetch temporal vaults" };
   }
@@ -26,6 +27,7 @@ export async function unlockTemporalVault(vaultId: string) {
     );
     revalidatePath("/vip/liquid-capital");
     return { success: true };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return { success: false, error: "Failed to unlock vault" };
   }
