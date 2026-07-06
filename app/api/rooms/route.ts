@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     
     const client = await clientPromise;
     const db = client.db();
-    const rooms = db.collection('rooms');
+    const rooms = db.collection<any>('rooms');
     
     const { roomCode, userId } = parsed.data;
     
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       { 
         $addToSet: { participants: userId },
         $setOnInsert: { likedMovies: [], status: 'active', createdAt: new Date() }
-      },
+      } as any,
       { upsert: true, returnDocument: 'after' }
     );
     
@@ -45,14 +45,14 @@ async function handleSwipe(body: any) {
     
     const client = await clientPromise;
     const db = client.db();
-    const rooms = db.collection('rooms');
+    const rooms = db.collection<any>('rooms');
     
     const { roomCode, userId, movieId, action } = parsed.data;
     
     if (action === 'like') {
       await rooms.updateOne(
         { roomCode },
-        { $push: { likedMovies: { movieId, userId } } }
+        { $push: { likedMovies: { movieId, userId } } } as any
       );
       
       const room = await rooms.findOne({ roomCode });
