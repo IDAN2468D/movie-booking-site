@@ -282,7 +282,7 @@ export interface VideoResult {
 
 export async function getMovieVideos(id: number): Promise<VideoResult[]> {
   try {
-    const data = await fetchFromTMDB<{ results: VideoResult[] }>(`/movie/${id}/videos`);
+    const data = await fetchFromTMDB<{ results: VideoResult[] }>(`/movie/${id}/videos`, { language: 'en-US' });
     return (data.results || [])
       .filter(v => v.site === 'YouTube' && ['Trailer', 'Teaser'].includes(v.type))
       .sort((a, b) => {

@@ -80,6 +80,7 @@ export default function SwipeMatcher({ movies, userId }: SwipeMatcherProps) {
     x.set(0);
 
     if (direction === "right") {
+      setSelectedMovie(movie);
       await processLike(movie.id);
     }
   };
