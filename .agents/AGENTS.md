@@ -68,3 +68,9 @@ Adhere to these output constraints strictly:
    }
    // ... existing code ...
    ```
+
+## 🔁 8. Layer 5 Self-Healing Loop Execution (Mandatory)
+- ON EVERY FEATURE IMPLEMENTATION OR MODIFICATION, the agent MUST automatically execute the "Layer 5 Self-Healing Loop" defined in `.agents/skills/AgentStackFramework.md`.
+- This entails running verification commands (e.g., `npx tsc --noEmit`, `npm run build`, and `npx vitest run`).
+- If any compilation errors, type violations, or test failures occur, the agent MUST autonomously analyze the terminal traces and recursively fix the code until ALL validation assertions pass. 
+- Do NOT stop, pause, or wait for human intervention if errors occur during this loop—heal the codebase continuously until it is 100% verified and green.

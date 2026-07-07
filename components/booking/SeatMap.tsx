@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useBookingStore } from "@/lib/store";
+import { useLiquidGlassStore } from "@/lib/store/liquidGlassStore";
+import { BiometricIntensityMap } from "@/components/booking/BiometricIntensityMap";
+import { DynamicSnackTrayCanvas } from "@/components/food/DynamicSnackTrayCanvas";
+import { HolographicShardFusion } from "@/components/checkout/HolographicShardFusion";
 
 interface SeatMapProps {
   showtimeId: string;
@@ -17,7 +21,13 @@ const ROWS = ["A", "B", "C", "D", "E", "F", "G", "H"];
 export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeatLocked, compact = false }: SeatMapProps) {
   const [selectedSeats, setSelectedSeats] = useState<Set<string>>(new Set());
   const [loadingLocks, setLoadingLocks] = useState<Set<string>>(new Set());
+  const [showSnacks, setShowSnacks] = useState(false);
   const globalSelectedSeats = useBookingStore((state) => state.selectedSeats);
+  const { activeIntensityGenre, setActiveIntensityGenre } = useLiquidGlassStore();
+
+  const toggleHeatMap = () => {
+    setActiveIntensityGenre(activeIntensityGenre ? null : 'Sci-Fi');
+  };
 
   const handleSeatClick = async (seatId: string) => {
     if (occupiedSeats.includes(seatId) || selectedSeats.has(seatId) || globalSelectedSeats.includes(seatId) || loadingLocks.has(seatId)) {
@@ -44,6 +54,16 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
           next.add(seatId);
           return next;
         });
+
+        // Add the seat to the global booking store so checkout can proceed
+        useBookingStore.getState().toggleSeat(seatId);
+
+        // Trigger the Kinetic Holographic Fusion effect
+        const store = useLiquidGlassStore.getState();
+        store.setFusionOriginSeat(seatId);
+        store.setFusionShardsActive(true);
+        setTimeout(() => store.setFusionShardsActive(false), 2000);
+
         if (onSeatLocked) onSeatLocked(seatId);
       } else {
         console.error("Lock failed:", data.error);
@@ -64,12 +84,21 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
       {/* Background ambient lighting */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-cyan-500/10 blur-[100px] pointer-events-none" />
 
+      <BiometricIntensityMap />
+      <HolographicShardFusion />
+      
       {/* Top Bar with Toggles */}
       <div className={`flex justify-between items-center ${compact ? 'mb-8' : 'mb-16'} relative z-10`} dir="rtl">
-        <button className="px-5 py-2 rounded-full border border-white/10 text-white/60 text-[11px] font-['Outfit'] font-bold hover:bg-white/5 transition-colors tracking-wide">
+        <button 
+          onClick={() => setShowSnacks(!showSnacks)}
+          className={`px-5 py-2 rounded-full border ${showSnacks ? 'border-cyan-400 bg-cyan-400/20 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.4)]' : 'border-white/10 text-white/60'} text-[11px] font-['Outfit'] font-bold hover:bg-white/5 transition-colors tracking-wide`}
+        >
           הזמנה אישית
         </button>
-        <button className="px-5 py-2 rounded-full border border-white/10 text-white/60 text-[11px] font-['Outfit'] font-bold flex items-center gap-2 hover:bg-white/5 transition-colors tracking-wide">
+        <button 
+          onClick={toggleHeatMap}
+          className={`px-5 py-2 rounded-full border ${activeIntensityGenre ? 'border-orange-500 bg-orange-500/20 text-orange-400 shadow-[0_0_20px_rgba(249,115,22,0.4)]' : 'border-white/10 text-white/60'} text-[11px] font-['Outfit'] font-bold flex items-center gap-2 hover:bg-white/5 transition-colors tracking-wide`}
+        >
           מפת חום <span className="opacity-70">🔥</span>
         </button>
       </div>
@@ -139,6 +168,29 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
         <LegendItem colorClass="bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" label="שותף" />
         <LegendItem colorClass="border-2 border-white/10" label="תפוס" />
       </div>
+
+      <AnimatePresence>
+        {showSnacks && (
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="absolute inset-0 z-50 bg-[#090b10]/95 backdrop-blur-2xl flex items-center justify-center p-2 md:p-6"
+          >
+            <div className="absolute top-6 right-6 z-50">
+              <button 
+                onClick={() => setShowSnacks(false)} 
+                className="text-white/50 hover:text-white px-5 py-2 border border-white/10 rounded-full text-xs font-['Outfit'] tracking-widest uppercase transition-all hover:bg-white/5"
+              >
+                סגור
+              </button>
+            </div>
+            <div className="w-full max-w-full overflow-hidden transform scale-90 md:scale-100">
+              <DynamicSnackTrayCanvas />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

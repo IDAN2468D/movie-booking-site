@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "7bd32ebe5732f138",
+        "id": "3a05ddc6a3575f01",
         "type": "tabs",
         "children": [
           {
-            "id": "f0793a33ad364b64",
+            "id": "7ebe9fc6ddcfe064",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "movie-site/latest.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "latest"
+              "title": "כרטיסייה חדשה"
             }
           }
         ]
@@ -185,6 +181,7 @@
   },
   "active": "d0c4c5f9cbc80945",
   "lastOpenFiles": [
+    "components/tickets/NeuralFlashbackModal.tsx",
     "movie-site/Skills/upgrade-vip-bonuses/SKILL.md",
     "movie-site/Skills/upgrade-vip-bonuses",
     "app/actions/profileActions.ts",
@@ -229,7 +226,6 @@
     "movie-site/Skills/features/LOYALTY.md",
     "movie-site/Skills/features/CONCIERGE.md",
     "movie-site/Skills/features/AUTH.md",
-    "movie-site/Skills/token-optimizer/SKILL.md",
-    "movie-site/Skills/core/UI.md"
+    "movie-site/Skills/token-optimizer/SKILL.md"
   ]
 }

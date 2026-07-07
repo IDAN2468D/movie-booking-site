@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import QuantumTicket from '@/components/tickets/QuantumTicket';
 import HolographicTicket from '@/components/tickets/HolographicTicket';
+import { ChronoRefractiveReel } from '@/components/tickets/ChronoRefractiveReel';
 
 interface TicketType {
   id: string;
@@ -257,7 +258,12 @@ export default function TicketsPage() {
             })}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-16 w-full">
+          {activeTab === 'memory' ? (
+            <div className="w-full flex justify-center mt-4">
+              <ChronoRefractiveReel />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-16 w-full">
             {tickets.map((ticket, index) => (
               <motion.div 
                 key={ticket.id} 
@@ -304,6 +310,7 @@ export default function TicketsPage() {
               </motion.div>
             ))}
           </div>
+          )}
         </div>
       )}
     </div>
