@@ -180,15 +180,15 @@
       "daily-notes:פתח את ההערה של היום": false,
       "templates:הכנס תבנית": false,
       "command-palette:פתח את לוח הפקודות": false,
-      "bases:צור בסיס חדש": false,
-      "templater-obsidian:Templater": false,
-      "agentfiles:Agentfiles": false
+      "bases:צור בסיס חדש": false
     }
   },
   "active": "cd0fe1851232c2d5",
   "lastOpenFiles": [
-    "Skills/core/DATA.md",
+    "skills/account-settings/SKILL.md",
     "latest.md",
+    "AGENTS.md",
+    "Skills/core/DATA.md",
     "Skills/features/MASTER_MovieBook_Architecture.md",
     "Skills/features/MASTER_SKILL_Liquid_Platform.md",
     "Skills/features/לא מאושר 426238.crdownload",
@@ -210,7 +210,6 @@
     "Skills/features/לא מאושר 79392.crdownload",
     "Skills/features/לא מאושר 187507.crdownload",
     "Skills/features/SKILL_MgmSplashScreen.md.md",
-    "AGENTS.md",
     "Skills/features/VIP_AUCTIONS.md",
     "Skills/features/SKILL_VIP_Auctions.md.md",
     "Skills/features/לא מאושר 459568.crdownload",
@@ -222,7 +221,6 @@
     "Skills/features/CONCIERGE.md",
     "Skills/Booking_Engine.md",
     "Skills/Auth_Loyalty.md",
-    "Skills/UI_DesignSystem.md",
     "Skills/token-optimizer/assets/user-profiles.svg",
     "Skills/token-optimizer/assets/status-bar.svg",
     "Skills/token-optimizer/assets/session-database-flow.svg",
