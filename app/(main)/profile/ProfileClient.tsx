@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ActiveTicketCountdown from "@/components/booking/ActiveTicketCountdown";
+import SettingsMatrix from "@/components/settings/SettingsMatrix";
 
 interface ProfileClientProps {
   activeTickets: any[];
@@ -11,12 +12,13 @@ interface ProfileClientProps {
 }
 
 export default function ProfileClient({ activeTickets, history, activeMatches }: ProfileClientProps) {
-  const [activeTab, setActiveTab] = useState<"active" | "matches" | "history">("active");
+  const [activeTab, setActiveTab] = useState<"active" | "matches" | "history" | "settings">("active");
 
   const tabs = [
     { id: "active", label: "כרטיסים פעילים", count: activeTickets.length },
     { id: "matches", label: "התאמות", count: activeMatches.length },
-    { id: "history", label: "היסטוריה", count: history.length }
+    { id: "history", label: "היסטוריה", count: history.length },
+    { id: "settings", label: "הגדרות", count: "" }
   ] as const;
 
   return (
@@ -40,9 +42,11 @@ export default function ProfileClient({ activeTickets, history, activeMatches }:
             )}
             <span className="relative z-10 flex items-center gap-2">
               {tab.label}
-              <span className={`text-xs px-2 py-0.5 rounded-full ${activeTab === tab.id ? "bg-violet-500 text-white" : "bg-white/10 text-white/50"}`}>
-                {tab.count}
-              </span>
+              {tab.count !== "" && (
+                <span className={`text-xs px-2 py-0.5 rounded-full ${activeTab === tab.id ? "bg-violet-500 text-white" : "bg-white/10 text-white/50"}`}>
+                  {tab.count}
+                </span>
+              )}
             </span>
           </button>
         ))}
@@ -110,6 +114,10 @@ export default function ProfileClient({ activeTickets, history, activeMatches }:
               )}
             </motion.div>
           )}
+
+          {activeTab === "settings" && (
+            <SettingsMatrix key="settings" userEmail="user@example.com" />
+          )}
         </AnimatePresence>
       </div>
     </div>
@@ -117,7 +125,20 @@ export default function ProfileClient({ activeTickets, history, activeMatches }:
 }
 
 function TicketCard({ data, isActive = false }: { data: any, isActive?: boolean }) {
-  const showtimeStr = data.showtimeDate || data.showtimeAt || new Date().toISOString(); 
+  let showtimeStr = data.showtimeDate || data.showtimeAt;
+  
+  if (!showtimeStr && data.showtime) {
+    const [hours, minutes] = data.showtime.split(':');
+    const d = new Date();
+    d.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+    // If the time has already passed today, set it to tomorrow
+    if (d.getTime() <= Date.now()) {
+      d.setDate(d.getDate() + 1);
+    }
+    showtimeStr = d.toISOString();
+  } else if (!showtimeStr) {
+    showtimeStr = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24 hours fallback
+  }
   
   return (
     <div className="relative p-8 rounded-[2rem] bg-black/40 backdrop-blur-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.4),inset_0_0_30px_rgba(255,255,255,0.05)] overflow-hidden group">

@@ -1,12 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useTransition } from 'react';
 import { Shield, Eye, EyeOff, Smartphone, KeyRound, History } from 'lucide-react';
+import { updateCryptographicProfileAction } from '@/app/actions/settingsActions';
 
-export default function SecuritySettings() {
+export default function SecuritySettings({ userEmail, triggerPulse }: { userEmail: string; triggerPulse: () => void }) {
   const [showPassword, setShowPassword] = React.useState(false);
-  const [saving, setSaving] = React.useState(false);
+  const [isPending, startTransition] = useTransition();
   const [saved, setSaved] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+
+  const [currentPassword, setCurrentPassword] = React.useState('');
+  const [newPassword, setNewPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
 
   return (
     <div className="space-y-8 font-body">
@@ -30,10 +36,12 @@ export default function SecuritySettings() {
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
                 className="w-full bg-neutral-900/60 border border-white/[0.08] focus:border-white/[0.25] focus:bg-neutral-950/80 text-white placeholder-neutral-500 rounded-xl transition-all duration-300 focus:ring-1 focus:ring-white/20 outline-none p-4 text-right pr-4 pl-12 font-body transform-gpu"
               />
               <button
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => { setShowPassword(!showPassword); triggerPulse(); }}
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -47,6 +55,8 @@ export default function SecuritySettings() {
               <input
                 type="password"
                 placeholder="••••••••"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
                 className="w-full bg-neutral-900/60 border border-white/[0.08] focus:border-white/[0.25] focus:bg-neutral-950/80 text-white placeholder-neutral-500 rounded-xl transition-all duration-300 focus:ring-1 focus:ring-white/20 outline-none p-4 text-right font-body transform-gpu"
               />
             </div>
@@ -55,6 +65,8 @@ export default function SecuritySettings() {
               <input
                 type="password"
                 placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full bg-neutral-900/60 border border-white/[0.08] focus:border-white/[0.25] focus:bg-neutral-950/80 text-white placeholder-neutral-500 rounded-xl transition-all duration-300 focus:ring-1 focus:ring-white/20 outline-none p-4 text-right font-body transform-gpu"
               />
             </div>
@@ -63,21 +75,36 @@ export default function SecuritySettings() {
           <div className="pt-2 flex items-center gap-4">
             <button 
               onClick={() => {
-                setSaving(true);
-                setTimeout(() => {
-                  setSaving(false);
-                  setSaved(true);
-                  setTimeout(() => setSaved(false), 3000);
-                }, 1000);
+                setErrorMsg(null);
+                triggerPulse();
+                startTransition(async () => {
+                  const res = await updateCryptographicProfileAction(userEmail, {
+                    currentPassword,
+                    newPassword,
+                    confirmPassword
+                  });
+                  if (res.success) {
+                    setSaved(true);
+                    setCurrentPassword('');
+                    setNewPassword('');
+                    setConfirmPassword('');
+                    setTimeout(() => setSaved(false), 3000);
+                  } else {
+                    setErrorMsg(res.error || 'שגיאה בעדכון הסיסמה');
+                  }
+                });
               }}
-              disabled={saving}
+              disabled={isPending}
               className="px-8 py-4 bg-primary text-background rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all transform-gpu disabled:opacity-50 font-display"
             >
-              {saving ? 'מעדכן...' : 'עדכן סיסמה'}
+              {isPending ? 'מעדכן...' : 'עדכן סיסמה'}
             </button>
             <div className="min-h-[1.5rem] flex items-center justify-center">
               {saved && (
                 <span className="text-green-400 font-bold text-sm animate-in fade-in zoom-in duration-300 font-body">הסיסמה עודכנה בהצלחה!</span>
+              )}
+              {errorMsg && (
+                <span className="text-red-400 font-bold text-sm animate-in fade-in zoom-in duration-300 font-body">{errorMsg}</span>
               )}
             </div>
           </div>
@@ -102,11 +129,13 @@ export default function SecuritySettings() {
             title="אימות באמצעות SMS"
             desc="קבל קוד חד-פעמי ב-SMS לאימות הכניסה"
             enabled={false}
+            onToggle={triggerPulse}
           />
           <ToggleRow
             title="אפליקציית אימות"
             desc="השתמש באפליקציה כמו Google Authenticator"
             enabled={false}
+            onToggle={triggerPulse}
           />
         </div>
       </div>
@@ -138,7 +167,7 @@ export default function SecuritySettings() {
   );
 }
 
-function ToggleRow({ title, desc, enabled }: { title: string; desc: string; enabled: boolean }) {
+function ToggleRow({ title, desc, enabled, onToggle }: { title: string; desc: string; enabled: boolean; onToggle?: () => void }) {
   const [on, setOn] = React.useState(enabled);
   return (
     <div className="flex items-center justify-between p-6 rounded-3xl bg-neutral-900/40 border border-white/[0.08] hover:border-white/[0.2] transition-colors shadow-inner group">
@@ -146,7 +175,7 @@ function ToggleRow({ title, desc, enabled }: { title: string; desc: string; enab
         <p className="text-white font-bold">{title}</p>
         <p className="text-xs text-slate-500">{desc}</p>
       </div>
-      <button onClick={() => setOn(!on)} className="relative transition-transform duration-300 active:scale-95 transform-gpu">
+      <button onClick={() => { setOn(!on); onToggle?.(); }} className="relative transition-transform duration-300 active:scale-95 transform-gpu">
         <div className={`w-12 h-6 rounded-full transition-colors ${on ? 'bg-primary' : 'bg-white/10'}`}>
           <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${on ? 'left-1' : 'right-1'}`} />
         </div>

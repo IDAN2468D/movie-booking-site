@@ -1,15 +1,27 @@
 'use client';
 
-import React from 'react';
+import React, { useTransition } from 'react';
 import { Bell, Film, Mail, Smartphone } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { updateNotificationMatrixAction } from '@/app/actions/settingsActions';
 
-export default function NotificationSettings() {
+export default function NotificationSettings({ userEmail, triggerPulse }: { userEmail: string; triggerPulse: () => void }) {
   const [saved, setSaved] = React.useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const triggerSaved = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    triggerPulse();
+    startTransition(async () => {
+      // Optimistic UI, but actually save
+      await updateNotificationMatrixAction(userEmail, {
+        pushEnabled: true,
+        emailEnabled: true,
+        quietHoursStart: '22:00',
+        quietHoursEnd: '07:00'
+      });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    });
   };
 
   return (
