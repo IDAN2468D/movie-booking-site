@@ -52,7 +52,39 @@ export async function discoverMoviesAction(rawQuery: any) {
     const movies = await db.collection("movies").aggregate(pipeline).toArray();
     
     // Fallback if movies collection doesn't exist or is empty 
-    // (Ideally we sync TMDB to MongoDB. If empty, return TMDB proxy logic or empty array)
+    // (Ideally we sync TMDB to MongoDB. If empty, return TMDB proxy logic)
+    if (!movies || movies.length === 0) {
+      const { discoverMovies } = await import('@/lib/tmdb');
+      
+      const tmdbParams: any = { page };
+      
+      if (bubbles && bubbles.length > 0) {
+        bubbles.forEach((bubble) => {
+          if (bubble.type === "genre") {
+            tmdbParams.genre = Number(bubble.value);
+          } else if (bubble.type === "rating") {
+            tmdbParams.rating = Number(bubble.value);
+          } else if (bubble.type === "runtime") {
+            tmdbParams.maxRuntime = Number(bubble.value);
+          }
+        });
+      }
+      
+      const tmdbMovies = await discoverMovies(tmdbParams);
+      
+      return {
+        success: true,
+        data: {
+          movies: JSON.parse(JSON.stringify(tmdbMovies)),
+          pagination: {
+            page,
+            limit: 20, // TMDB page size
+            total: 10000, // TMDB generic mock total
+            totalPages: 500
+          }
+        }
+      };
+    }
     
     const totalCount = await db.collection("movies").countDocuments(matchQuery);
     

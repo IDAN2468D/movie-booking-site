@@ -93,6 +93,7 @@ export async function discoverMovies(params: {
   year?: number;
   query?: string;
   page?: number;
+  maxRuntime?: number;
 }) {
   if (params.query) {
     const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/search/movie', {
@@ -110,6 +111,7 @@ export async function discoverMovies(params: {
   if (params.genre) discoverParams.with_genres = params.genre.toString();
   if (params.rating) discoverParams['vote_average.gte'] = params.rating.toString();
   if (params.year) discoverParams['primary_release_year'] = params.year.toString();
+  if (params.maxRuntime) discoverParams['with_runtime.lte'] = params.maxRuntime.toString();
 
   const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/discover/movie', discoverParams);
   return data.results.map(formatMovieData);
