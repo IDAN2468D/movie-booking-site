@@ -24,7 +24,7 @@ To maintain project quality and consistency, all AI agents follow the standards 
   2. **DynamicAmbientCinemaMode:** Ambient responsiveness extracting color palettes from active movie assets and reflecting them globally. Enforces zero layout reflows by asynchronously morphing theme backdrops via CSS variables.
   3. **QuantumSeatMapLiveSync:** Real-time interactive Cinema Hall Seat Map Matrix. Features a pessimistic hold strategy (10 min locks), a real-time event bridge for global client syncing, and strict collision avoidance with silent client roll-backs.
   4. **LiquidGlassTicketVault:** Offline-ready digital ticket verification. Guarantees cryptographic verification with dynamic QR tokenization rotating every 15s via a time-based hashing algorithm linked to secure JWT payloads.
-  5. **InSiteMovieCriticAgent:** Embedded interactive AI Movie Critic Bot inside the movie description canvas, utilizing an encrypted back-channel gateway route (Port 5000) to shield API keys, and keeping chat history in localized temporary states.
+  5. **InSiteMovieCriticAgent:** Embedded interactive AI Movie Critic Bot inside the movie description canvas, utilizing an encrypted back-channel gateway route (Port 5000) to shield API keys. Upgraded with real-time Text-to-Speech (TTS) engine, synchronized kinetic floating caption projection capsule, and contextual interactive Speaker Icon nodes on chat bubbles for manual playback control.
 
 ### 📐 Layer 3: Technical Spec (Blueprint)
 - **State Architecture:** Manage UI transitions via hardware-accelerated CSS (`will-change: transform, background-color`) mapped to Liquid Glass 4.0 specs. Use Zustand for localized state slicing to prevent global re-renders. All components must strictly limit to 200 LOC.
@@ -44,9 +44,12 @@ To maintain project quality and consistency, all AI agents follow the standards 
     - **Offline Local Schema Cache Contract:** Local Cache Store maps explicitly to `DATA.md` specifications, storing encrypted payload structures in IndexedDB: `{ ticketId: String, encryptedPayload: String, validUntil: Date, offlineProof: String }`. Guarantees dynamic scanning parameters even in zero-network environments.
     - **Mathematical Rotation Token Rules:** Generates a shifting TOTP/QR hash locally every 15 seconds. The hash is computed using `HMAC-SHA256(ticketId + Math.floor(Date.now() / 15000))` utilizing a decoupled encrypted client JWT, ensuring cryptographically secure offline verification.
   - **5. InSiteMovieCriticAgent Contracts:**
-    - **Operational Boundaries (Drawer Scope):** The interactive chat drawer queries localized contextual data (movie metadata, user preferences) without re-fetching from the database. It handles upstream stream-failures gracefully with a local fallback mechanism.
+    - **Operational Boundaries (Drawer Scope):** The interactive chat drawer queries localized contextual data without re-fetching from the database. It handles upstream stream-failures gracefully with a local fallback mechanism.
     - **Secure Backend Proxy Endpoint:** A dedicated Express routing gateway hosted on Port 5000 (`POST /api/critic/proxy/chat`) masks all upstream LLM/OpenAI API tokens. Client payload: `{ message: String, localContext: { movieId: String, currentMood: String } }`.
-    - **Memory Context Isolation:** The internal temporary message array state is managed strictly via a localized Zustand slice (`useCriticStore`). This enforces memory context isolation, preventing token leakage and ensuring chat history is wiped when the drawer unmounts or the session ends.
+    - **Memory Context Isolation:** Managed strictly via a localized Zustand slice (`useCriticStore`), preventing token leakage and ensuring chat history is wiped when the drawer unmounts or the session ends.
+    - **Synchronized Boundary Tracking:** Intercepts `SpeechSynthesisUtterance.onboundary` events, mapping the active character index to local state without triggering global component re-renders or layout reflows.
+    - **Contextual Speaker Node Controls:** Replaces the global state approach with an explicit, contextual Speaker Icon Button (לחצן רמקול) attached to each message/text card to capture user intent and bypass browser autoplay restrictions cleanly. The message bubble container passes its unique string payload into the `useMovieCriticSpeech` sentence buffering loop via an explicit click gesture.
+    - **Strict Speech Thread Cleanup:** Executes `window.speechSynthesis.cancel()` on component unmount to instantly terminate background audio and rendering threads, preventing memory leaks.
 - **Unified Result Pattern:** All operational handlers and Server Actions encapsulate outputs within: `{ success: boolean; data?: any; error?: string }`.
 
 ---

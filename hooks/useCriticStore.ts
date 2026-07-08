@@ -10,15 +10,21 @@ export interface ChatMessage {
 interface CriticStore {
   messages: ChatMessage[];
   isTyping: boolean;
+  isMuted: boolean;
+  activeSpeechId: string | null;
   addMessage: (message: ChatMessage) => void;
   updateLastMessage: (chunk: string) => void;
   setTyping: (typing: boolean) => void;
+  toggleMute: () => void;
+  setActiveSpeechId: (id: string | null) => void;
   clearSession: () => void;
 }
 
 export const useCriticStore = create<CriticStore>((set) => ({
   messages: [],
   isTyping: false,
+  isMuted: false,
+  activeSpeechId: null,
   
   addMessage: (message) => set((state) => ({ 
     messages: [...state.messages, message] 
@@ -39,6 +45,10 @@ export const useCriticStore = create<CriticStore>((set) => ({
 
   setTyping: (typing) => set({ isTyping: typing }),
 
+  toggleMute: () => set((state) => ({ isMuted: !state.isMuted })),
+
+  setActiveSpeechId: (id) => set({ activeSpeechId: id }),
+
   // Strictly isolated memory clearance
-  clearSession: () => set({ messages: [], isTyping: false }),
+  clearSession: () => set({ messages: [], isTyping: false, activeSpeechId: null }),
 }));

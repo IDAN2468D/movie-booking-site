@@ -1,32 +1,43 @@
 # 🗺️ Layer 4: Plan Phase Roadmap
 
-## Execution Status: ALL SPRINTS COMPLETED (Project Master Scope Fulfilled)
-*The Agent Stack has successfully executed all experiential features. The Liquid Glass 4.0 Cinema Platform is fully locked.*
+## Execution Status: SPRINT 5 COMPLETED
+*The Interactive Contextual Speaker Node upgrade has been fully implemented, tested, and verified.*
 
 ---
 
-### Sprint 5: InSiteMovieCriticAgent - COMPLETED
-**Goal:** Embed the localized contextual AI movie critic, ensuring masked API keys and strict memory context isolation.
+### Sprint 5: InSiteMovieCriticAgent (Interactive Speaker Upgrade) - COMPLETED
+**Goal:** Replace global state TTS approach with an explicit, contextual Speaker Icon Button attached to each message/text card to bypass browser autoplay restrictions cleanly.
 
-- [x] **Step 1: Secure Node.js Proxy Routing Gateway**
-  - Construct a dedicated Express endpoint (`POST /api/critic/proxy/chat`) running on Port 5000.
-  - The endpoint will intercept requests with the payload: `{ message, localContext: { movieId, currentMood } }`.
-  - It will inject the upstream OpenAI/LLM API tokens securely from the server environment, mask them from the client, and pipe the streaming response back to the client.
-- [x] **Step 2: Localized Message State Array (`useCriticStore.ts`)**
-  - Implement a localized Zustand slice (`useCriticStore`) to manage the temporary message array state.
-  - Enforce strict memory context isolation: the state will hold only the current session's chat history and will be wiped entirely when the drawer unmounts, preventing token/context leakage across sessions.
-- [x] **Step 3: Glass Chat Container Panel (`MovieCriticDrawer.tsx`)**
-  - Build the contextual chat drawer component rendering as a slide-out semi-transparent Liquid Glass 4.0 panel (`backdrop-blur-xl`, `border-white/10`).
-  - Implement dynamic scaling and positioning to overlay unobtrusively on the movie description canvas.
-- [x] **Step 4: Character-by-Character Typing Stream Effect**
-  - Map the streaming response from the proxy gateway into the UI using a typewriter effect.
-  - Parse the streamed text chunks and render them character-by-character to create a highly responsive, cinematic AI interaction feel.
-  - Apply graceful fallback mechanisms in case the stream fails (e.g., displaying a localized offline fallback message).
+- [x] **Step 1: Component State Extraction & Management**
+  - Create a local state tracking mechanism inside `MovieCriticDrawer.tsx` or a sub-component (`MessageBubble.tsx`) to identify the `activeSpeechId`.
+  - The message bubble container passes its unique string payload into the `useMovieCriticSpeech` sentence buffering loop via an explicit click gesture.
+- [x] **Step 2: Interactive Speaker Trigger Node**
+  - Append the speaker vector icon inside the AI chat bubbles.
+  - Apply Liquid Glass 4.0 layout bounds: `backdrop-blur-md bg-white/5 border border-white/10 p-2 rounded-full hover:bg-white/15 active:scale-95 transition-all duration-200 cursor-pointer`.
+  - Wire the `onClick` event to invoke `window.speechSynthesis.cancel()` followed by `processStream(text)` when toggling ON, or just `cancel()` when toggling OFF.
+- [x] **Step 3: Acoustic Wave Feedback UI**
+  - Conditionally inject hardware-accelerated glowing classes when the message's `id` matches the `activeSpeechId` (`animate-pulse shadow-[0_0_12px_rgba(139,92,246,0.4)]`).
+- [x] **Step 4: Layer 5 Verification Loop**
+  - Run type-safety checks (`npx tsc --noEmit`).
+  - Compile the React build (`npm run build`).
+  - Pass all unit tests (`npx vitest run`) to ensure zero runtime side effects.
 
 ---
 
 <details>
 <summary>Archived Checkpoints (Previous Sprints)</summary>
+
+### Sprint 5: InSiteMovieCriticAgent (TTS & Cinematic Teleprompter Upgrade) - COMPLETED
+- [x] **Step 1:** Speech Tracking Engine Hook (`useMovieCriticSpeech.ts`).
+- [x] **Step 2:** Projection Capsule UI Component (`CinematicTeleprompter.tsx`).
+- [x] **Step 3:** State Integration, Token Stream Buffering, and User Gesture Guards.
+- [x] **Step 4:** Layer 5 Verification Loop passed 100% green.
+
+### Sprint 5: InSiteMovieCriticAgent (Initial) - COMPLETED
+- [x] **Step 1:** Secure Node.js Proxy Routing Gateway (`POST /api/critic/proxy/chat`).
+- [x] **Step 2:** Localized Message State Array (`useCriticStore.ts`).
+- [x] **Step 3:** Glass Chat Container Panel (`MovieCriticDrawer.tsx`).
+- [x] **Step 4:** Character-by-Character Typing Stream Effect with error fallbacks.
 
 ### Sprint 4: LiquidGlassTicketVault - COMPLETED
 - [x] **Step 1:** Offline Local Cache Contract (IndexedDB/Zustand) mapping to DATA.md.

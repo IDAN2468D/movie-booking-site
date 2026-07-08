@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     const { callGeminiWithRetry } = await import('@/lib/gemini');
 
-    const resultData = await callGeminiWithRetry(['gemini-2.5-flash', 'gemini-1.5-flash-latest'], async (model) => {
+    const resultData = await callGeminiWithRetry(['gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-1.5-flash-latest'], async (model) => {
       const generativeModel = genAI.getGenerativeModel({
         model: model.model,
         systemInstruction: `You are an expert frontend developer and designer. The user is hosting a VIP screening of the movie.

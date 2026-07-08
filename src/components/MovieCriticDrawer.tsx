@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCriticStore } from '@/hooks/useCriticStore';
-import { Send, X, Bot, User } from 'lucide-react';
+import { useCriticStore, ChatMessage } from '@/hooks/useCriticStore';
+import { Send, X, Bot, User, Volume2, VolumeX, Square } from 'lucide-react';
+import { useMovieCriticSpeech } from '@/hooks/useMovieCriticSpeech';
 
 interface MovieCriticDrawerProps {
   isOpen: boolean;
@@ -11,11 +12,112 @@ interface MovieCriticDrawerProps {
   movieId: string;
 }
 
+const MessageBubble = ({ msg }: { msg: ChatMessage }) => {
+  const { activeSpeechId, setActiveSpeechId } = useCriticStore();
+  const { isPlaying, activeWordIndex, processStream, stop, resetProcessedLength, unlockAudioContext } = useMovieCriticSpeech(msg.id);
+  const isActive = activeSpeechId === msg.id;
+
+  // Pipe streaming text to TTS if this bubble is the active one
+  useEffect(() => {
+    if (isActive) {
+      processStream(msg.content, !msg.isStreaming);
+    }
+  }, [msg.content, msg.isStreaming, isActive, processStream]);
+
+  // Handle explicit toggle gesture
+  const handleToggle = () => {
+    if (isActive) {
+      stop();
+    } else {
+      stop();
+      unlockAudioContext();
+      resetProcessedLength();
+      setActiveSpeechId(msg.id);
+      
+      // Delay slightly to prevent cancel() from swallowing the new speak() command
+      setTimeout(() => {
+        processStream(msg.content, !msg.isStreaming);
+      }, 50);
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+    >
+      <div className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1 ${
+          msg.role === 'user' 
+            ? 'bg-white/10 border border-white/5' 
+            : 'bg-primary/20 border border-primary/30 shadow-[0_0_10px_rgba(255,20,100,0.2)]'
+        }`}>
+          {msg.role === 'user' ? <User className="w-4 h-4 text-white/60" /> : <Bot className="w-4 h-4 text-primary" />}
+        </div>
+        
+        <div className={`relative p-4 rounded-2xl ${
+          msg.role === 'user'
+            ? 'bg-white/10 text-white rounded-tr-sm border border-white/5'
+            : 'bg-black/60 text-white/90 rounded-tl-sm border border-white/10 shadow-lg'
+        }`}>
+          <p className="text-sm leading-relaxed whitespace-pre-wrap font-sans text-right" dir="rtl">
+            {isActive && isPlaying && activeWordIndex ? (
+              <>
+                <span className="opacity-70 transition-opacity duration-300">
+                  {msg.content.slice(0, activeWordIndex.start)}
+                </span>
+                <span className="text-primary font-bold drop-shadow-[0_0_12px_rgba(255,20,100,0.9)] mx-[1px] transition-all duration-75 inline-block scale-105">
+                  {msg.content.slice(activeWordIndex.start, activeWordIndex.end)}
+                </span>
+                <span className="opacity-70 transition-opacity duration-300">
+                  {msg.content.slice(activeWordIndex.end)}
+                </span>
+              </>
+            ) : (
+              <span>{msg.content}</span>
+            )}
+            {msg.isStreaming && <span className="inline-block w-1.5 h-4 mr-1 bg-primary animate-pulse align-middle" />}
+          </p>
+
+          {/* Interactive Contextual Speaker Node */}
+          {msg.role === 'critic' && (
+            <button
+              onClick={handleToggle}
+              className={`absolute -bottom-3 -left-3 backdrop-blur-md bg-white/5 border border-white/10 p-2 rounded-full hover:bg-white/15 active:scale-95 transition-all duration-200 cursor-pointer ${
+                isActive && isPlaying ? 'animate-pulse shadow-[0_0_12px_rgba(139,92,246,0.4)]' : ''
+              }`}
+              title={isActive && isPlaying ? 'Stop Narration' : 'Listen'}
+            >
+              {isActive && isPlaying ? (
+                <Square className="w-3 h-3 text-purple-400" fill="currentColor" />
+              ) : (
+                <Volume2 className="w-3 h-3 text-white/70" />
+              )}
+            </button>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCriticDrawerProps) {
-  const { messages, isTyping, addMessage, updateLastMessage, setTyping, clearSession } = useCriticStore();
+  const { messages, isTyping, isMuted, activeSpeechId, addMessage, updateLastMessage, setTyping, toggleMute, clearSession } = useCriticStore();
   const [inputValue, setInputValue] = useState('');
   const [errorStatus, setErrorStatus] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const unlockAudioContext = () => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+      const dummy = new SpeechSynthesisUtterance('');
+      dummy.volume = 0;
+      window.speechSynthesis.speak(dummy);
+    }
+  };
 
   // Strictly Sandbox Memory Context
   useEffect(() => {
@@ -39,6 +141,7 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
     const userText = inputValue;
     setInputValue('');
     setErrorStatus(null);
+    unlockAudioContext();
     
     addMessage({ id: Date.now().toString(), role: 'user', content: userText });
     setTyping(true);
@@ -126,9 +229,23 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
                   <p className="text-[10px] text-white/50 uppercase tracking-widest font-mono">Encrypted Connection</p>
                 </div>
               </div>
-              <button onClick={onClose} className="p-2 rounded-full hover:bg-white/10 transition-colors text-white/50 hover:text-white">
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => {
+                    unlockAudioContext();
+                    toggleMute();
+                  }} 
+                  className={`p-2 rounded-full transition-colors ${
+                    isMuted ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' : 'bg-primary/10 text-primary hover:bg-primary/20'
+                  }`}
+                  title={isMuted ? "Unmute Voice" : "Mute Voice"}
+                >
+                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                </button>
+                <button onClick={onClose} className="p-2 rounded-full hover:bg-white/10 transition-colors text-white/50 hover:text-white">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {errorStatus && (
@@ -147,33 +264,7 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
               )}
 
               {messages.map((msg) => (
-                <motion.div
-                  key={msg.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-1 ${
-                      msg.role === 'user' 
-                        ? 'bg-white/10 border border-white/5' 
-                        : 'bg-primary/20 border border-primary/30 shadow-[0_0_10px_rgba(255,20,100,0.2)]'
-                    }`}>
-                      {msg.role === 'user' ? <User className="w-4 h-4 text-white/60" /> : <Bot className="w-4 h-4 text-primary" />}
-                    </div>
-                    
-                    <div className={`p-4 rounded-2xl ${
-                      msg.role === 'user'
-                        ? 'bg-white/10 text-white rounded-tr-sm border border-white/5'
-                        : 'bg-black/60 text-white/90 rounded-tl-sm border border-white/10 shadow-lg'
-                    }`}>
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap font-sans">
-                        {msg.content}
-                        {msg.isStreaming && <span className="inline-block w-1.5 h-4 ml-1 bg-primary animate-pulse align-middle" />}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
+                <MessageBubble key={msg.id} msg={msg} />
               ))}
             </div>
 
