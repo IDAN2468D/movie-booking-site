@@ -53,7 +53,7 @@ When executing design synchronization cycles via the Stitch MCP, validate all as
 - **CI/CD Enforcement**: Remote repositories must execute automated pipeline suites on all incoming Pull Requests targeting protected primary trunks (`main`).
 
 ## 🤖 6. Framework Rule: Architectural Enforcement
-- BEFORE executing any feature request, bug fix, or code modification, you MUST activate and follow the strict 5-layer engine defined in `.agents/skills/AgentStackFramework.md`.
+- BEFORE executing any feature request, bug fix, or code modification, you MUST activate and follow the strict 5-layer engine defined in `.agents/skills/agent-stack-framework/SKILL.md`.
 - Never bypass the Markdown Persistence layer or the Plan/Checkpoint gate.
 
 ## 🛑 7. STRICT TOKEN OPTIMIZATION RULES
@@ -71,7 +71,7 @@ Adhere to these output constraints strictly:
    ```
 
 ## 🔁 8. Layer 5 Self-Healing Loop Execution (Mandatory)
-- ON EVERY FEATURE IMPLEMENTATION OR MODIFICATION, the agent MUST automatically execute the "Layer 5 Self-Healing Loop" defined in `.agents/skills/AgentStackFramework.md`.
+- ON EVERY FEATURE IMPLEMENTATION OR MODIFICATION, the agent MUST automatically execute the "Layer 5 Self-Healing Loop" defined in `.agents/skills/agent-stack-framework/SKILL.md`.
 - This entails running verification commands (e.g., `npx tsc --noEmit`, `npm run build`, and `npx vitest run`).
 - If any compilation errors, type violations, or test failures occur, the agent MUST autonomously analyze the terminal traces and recursively fix the code until ALL validation assertions pass. 
 - Do NOT stop, pause, or wait for human intervention if errors occur during this loop—heal the codebase continuously until it is 100% verified and green.
