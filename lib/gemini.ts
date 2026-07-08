@@ -26,6 +26,12 @@ export async function callGeminiWithRetry<T>(
         
         // If it's a 503 (Service Unavailable) or 429 (Rate Limit), retry
         if ((error.status === 503 || error.status === 429) && attempt < maxRetries) {
+          // If it's a quota error, don't retry, just break to try the next model immediately
+          if (error.status === 429 && lastError?.message.toLowerCase().includes('quota')) {
+            console.warn(`Gemini model ${modelName} quota exceeded. Skipping retries to try fallback models...`);
+            break;
+          }
+
           const delay = initialDelay * Math.pow(2, attempt);
           console.warn(`Gemini model ${modelName} is busy (${error.status}). Retrying in ${delay}ms... (Attempt ${attempt + 1}/${maxRetries})`);
           await new Promise(resolve => setTimeout(resolve, delay));
