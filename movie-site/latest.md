@@ -15,6 +15,13 @@ Adhere to these output constraints strictly:
    // ... existing code ...
    ```
 
+# 🆕 Latest Updates (v6.1)
+
+## ⚙️ Settings Control Center (v6.1)
+- **Backend Architecture**: Engineered Settings Control Center Backend with strict Zod Validation Boundary & Server Actions.
+- **Liquid Glass 4.0 UI**: Engineered Liquid Glass 4.0 UI Layout Matrix including Optics Controller, Data Purge Engine, and Settings Dashboard binding.
+- **Acoustic Integration**: Activated WebAudio API Spatializer and bound UI inputs to MongoDB Server Actions for full Master Feature completion.
+
 # 🆕 Latest Updates (v5.9)
 
 ## 🎭 Movie Swipe Matcher Engine (v5.9)

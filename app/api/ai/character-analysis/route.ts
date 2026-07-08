@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { SchemaType } from '@google/generative-ai';
 
 interface CharacterProfile {
   name: string;
@@ -50,12 +51,46 @@ export async function POST(req: NextRequest) {
     const { callGeminiWithRetry } = await import('@/lib/gemini');
 
     const { text, modelUsed } = await callGeminiWithRetry(modelNames, async (model) => {
-      const result = await model.generateContent(prompt);
+      const result = await model.generateContent({
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: { 
+          responseMimeType: 'application/json',
+          responseSchema: {
+            type: SchemaType.OBJECT,
+            properties: {
+              characters: {
+                type: SchemaType.ARRAY,
+                items: {
+                  type: SchemaType.OBJECT,
+                  properties: {
+                    name: { type: SchemaType.STRING },
+                    role: { type: SchemaType.STRING },
+                    motivation: { type: SchemaType.STRING },
+                    fatalFlaw: { type: SchemaType.STRING },
+                    secretGoal: { type: SchemaType.STRING },
+                    emotionalIntensity: { type: SchemaType.INTEGER }
+                  },
+                  required: ["name", "role", "motivation", "fatalFlaw", "secretGoal", "emotionalIntensity"]
+                }
+              }
+            },
+            required: ["characters"]
+          }
+        }
+      });
       return { text: result.response.text(), modelUsed: model.model };
     });
 
+    // Extract JSON block aggressively in case the model wraps it with text
+    let jsonStr = text;
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      jsonStr = jsonMatch[0];
+    }
+    
     // Clean JSON wrapper if model included it
-    const jsonStr = text.replace(/```json|```/g, '').trim();
+    jsonStr = jsonStr.replace(/```json|```/g, '').trim();
+    
     const parsedData = JSON.parse(jsonStr) as CharacterAnalysisResponse;
 
     if (!parsedData || !parsedData.characters) {

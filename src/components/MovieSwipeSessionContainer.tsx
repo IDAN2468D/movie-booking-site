@@ -20,28 +20,29 @@ export default function MovieSwipeSessionContainer({
 }: MovieSwipeSessionContainerProps) {
   const router = useRouter();
   const { sessionState } = useSwipeSession(sessionId);
-  const [isPending, startTransition] = useTransition();
+  // Optional: We could also listen to window 'MatchFound' event here to update local state optimistically
+  const [localMatch, setLocalMatch] = React.useState<string | null>(null);
 
-  const handleSwipe = (movieId: string, direction: 'like' | 'dislike') => {
-    startTransition(async () => {
-      try {
-        await recordSwipe(sessionId, userId, movieId, direction);
-      } catch (error) {
-        console.error('Failed to record swipe:', error);
-      }
-    });
-  };
+  React.useEffect(() => {
+    const handleMatch = (e: any) => {
+      setLocalMatch(e.detail);
+    };
+    window.addEventListener('MatchFound', handleMatch);
+    return () => window.removeEventListener('MatchFound', handleMatch);
+  }, []);
 
-  const matchedMovie = initialMovies.find((m) => m._id === sessionState.matchedMovieId);
+  const matchedMovieId = localMatch || sessionState.matchedMovieId;
+  const matchedMovie = initialMovies.find((m) => m._id === matchedMovieId);
+  const isMatched = sessionState.status === 'matched' || localMatch !== null;
 
   return (
     <div className="relative w-full h-full min-h-screen bg-black overflow-hidden flex items-center justify-center">
       {/* Underlying Deck */}
-      <MovieSwipeDeck movies={initialMovies} onSwipe={handleSwipe} />
+      <MovieSwipeDeck movies={initialMovies} sessionId={sessionId} userId={userId} />
 
       {/* Victory Overlay Modal */}
       <AnimatePresence>
-        {sessionState.status === 'matched' && matchedMovie && (
+        {isMatched && matchedMovie && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

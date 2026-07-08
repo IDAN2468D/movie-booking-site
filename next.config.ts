@@ -34,6 +34,16 @@ const nextConfig: NextConfig = {
   },
 
   serverExternalPackages: ['pdfkit'],
+  
+  async redirects() {
+    return [
+      {
+        source: '/swipe',
+        destination: '/match',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 

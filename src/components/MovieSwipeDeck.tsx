@@ -1,19 +1,21 @@
 "use client";
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
+import { useSwipeStore } from '@/hooks/useSwipeStore';
 
 export interface Movie {
   _id: string;
   title: string;
   posterUrl: string;
-  genre: 'Sci-Fi' | 'Cyberpunk' | 'Horror' | 'Thriller' | 'Comedy' | 'Drama' | string;
+  genre: string;
   duration: number;
 }
 
 interface MovieSwipeDeckProps {
   movies: Movie[];
-  onSwipe: (movieId: string, direction: 'like' | 'dislike') => void;
+  sessionId: string;
+  userId: string;
 }
 
 // Theme tokens mapped to genre for Dynamic Theme Injector
@@ -26,15 +28,23 @@ const THEME_TOKENS: Record<string, string> = {
   'Drama': 'from-amber-900/30 to-slate-950/90',
 };
 
-export default function MovieSwipeDeck({ movies, onSwipe }: MovieSwipeDeckProps) {
+export default function MovieSwipeDeck({ movies, sessionId, userId }: MovieSwipeDeckProps) {
   const [deck, setDeck] = useState<Movie[]>(movies);
   const [exitX, setExitX] = useState<number>(0);
+  const addSwipe = useSwipeStore(state => state.addSwipe);
 
   // Dynamic Theme State (reads top card metadata)
   const activeMovie = deck[0];
   const activeTheme = activeMovie 
     ? (THEME_TOKENS[activeMovie.genre] || 'from-neutral-900/40 to-black/90')
     : 'from-neutral-900/40 to-black/90';
+
+  const x = useMotionValue(0);
+  
+  // Emerald glow for right swipe
+  const emeraldOpacity = useTransform(x, [0, 150], [0, 0.6]);
+  // Ruby refraction for left swipe
+  const rubyOpacity = useTransform(x, [-150, 0], [0.6, 0]);
 
   const handleDragEnd = (event: any, info: any) => {
     const offset = info.offset.x;
@@ -54,11 +64,11 @@ export default function MovieSwipeDeck({ movies, onSwipe }: MovieSwipeDeckProps)
   const swipeOut = (direction: 'like' | 'dislike') => {
     if (!activeMovie) return;
     
-    // Notify parent to record the swipe in the backend
-    onSwipe(activeMovie._id, direction);
+    // Aggregate swipe in debounced store (zero-lag UI)
+    addSwipe({ movieId: activeMovie._id, action: direction }, sessionId, userId);
     
-    // Update local state avoiding Layout Reflows (AnimatePresence handles DOM removal)
     setDeck((prev) => prev.slice(1));
+    x.set(0); // Reset motion value
   };
 
   return (
@@ -79,6 +89,13 @@ export default function MovieSwipeDeck({ movies, onSwipe }: MovieSwipeDeckProps)
               drag={isTop ? 'x' : false}
               dragConstraints={{ left: 0, right: 0 }}
               onDragEnd={isTop ? handleDragEnd : undefined}
+              style={{
+                x: isTop ? x : 0,
+                backgroundImage: `url(${movie.posterUrl})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                willChange: 'transform, opacity',
+              }}
               initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ 
                 scale: isTop ? 1 : 0.95, 
@@ -92,16 +109,33 @@ export default function MovieSwipeDeck({ movies, onSwipe }: MovieSwipeDeckProps)
                 scale: 0.9 
               }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="absolute w-[320px] h-[480px] rounded-2xl flex flex-col items-center justify-end p-6 backdrop-blur-[24px] saturate-[180%] bg-white/5 border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),_inset_0_-1px_1px_rgba(0,0,0,0.4)]"
-              style={{
-                backgroundImage: `url(${movie.posterUrl})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                willChange: 'transform, opacity',
-              }}
+              className="absolute w-[320px] h-[480px] rounded-2xl flex flex-col items-center justify-end p-6 backdrop-blur-[24px] saturate-[180%] bg-white/5 border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),_inset_0_-1px_1px_rgba(0,0,0,0.4)]"
             >
+              {isTop && (
+                <>
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl pointer-events-none transition-colors"
+                    style={{ 
+                      backgroundColor: 'rgba(16, 185, 129, 0.2)', // Emerald glow
+                      opacity: emeraldOpacity, 
+                      mixBlendMode: 'overlay',
+                      boxShadow: 'inset 0 0 40px rgba(16, 185, 129, 0.5)'
+                    }}
+                  />
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl pointer-events-none transition-colors"
+                    style={{ 
+                      backgroundColor: 'rgba(239, 68, 68, 0.2)', // Ruby refraction
+                      opacity: rubyOpacity, 
+                      mixBlendMode: 'overlay',
+                      boxShadow: 'inset 0 0 40px rgba(239, 68, 68, 0.5)'
+                    }}
+                  />
+                </>
+              )}
+
               {/* Glass Footer for Metadata */}
-              <div className="w-full rounded-xl p-4 backdrop-blur-md bg-black/40 border border-white/10 shadow-lg">
+              <div className="w-full rounded-xl p-4 backdrop-blur-md bg-black/40 border border-white/10 shadow-lg relative z-20">
                 <h2 className="text-xl font-outfit font-bold text-white mb-1 drop-shadow-md">
                   {movie.title}
                 </h2>

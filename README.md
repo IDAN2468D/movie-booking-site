@@ -17,47 +17,37 @@ To maintain project quality and consistency, all AI agents follow the standards 
 
 ## 🎭 Master Scope: Advanced Experiential Features
 
-### 🎯 Layer 1: PRD (Product Requirements Document)
-- **Concept:** Elevating the discovery and booking experience to a premium, immersive, and highly collaborative environment.
+### 🎯 Layers 1 & 2: PRD (Product Requirements Document)
+- **Concept:** Elevating the discovery and booking experience to a premium, immersive, and highly collaborative environment driven by The Agent Stack.
 - **Core Capabilities:**
-  1. **AI Movie Swipe Matcher (Group Session):** Multiple interconnected users in a shared session swipe on a discovery catalog of movies. Intersections atomically trigger a unified matchmaking redirection.
-  2. **Cinematic Theme Injector (Ambient Glass):** Real-time dynamic theme updates driven by movie genre/metadata across the view tree without layout reflows.
-  3. **Spatial Preview:** Acoustic integration using spatialized Web Audio API (PannerNode, BiquadFilterNode) for layout elements.
-  4. **Live Snack Ledger:** Real-time tracking and adding of snacks during the booking flow.
-  5. **Offline Wallet:** Persistent offline-ready caching of The Kinetic Ticket and booking data.
+  1. **MovieSwipeMatcher:** A real-time "Tinder-style" movie matchmaking system. Involves zero-lag swiping via hardware-accelerated translation matrices, local memory state aggregation (debounced), and an immediate trigger match engine without re-querying the database index.
+  2. **DynamicAmbientCinemaMode:** Ambient responsiveness extracting color palettes from active movie assets and reflecting them globally. Enforces zero layout reflows by asynchronously morphing theme backdrops via CSS variables.
+  3. **QuantumSeatMapLiveSync:** Real-time interactive Cinema Hall Seat Map Matrix. Features a pessimistic hold strategy (10 min locks), a real-time event bridge for global client syncing, and strict collision avoidance with silent client roll-backs.
+  4. **LiquidGlassTicketVault:** Offline-ready digital ticket verification. Guarantees cryptographic verification with dynamic QR tokenization rotating every 15s via a time-based hashing algorithm linked to secure JWT payloads.
+  5. **InSiteMovieCriticAgent:** Embedded interactive AI Movie Critic Bot inside the movie description canvas, utilizing an encrypted back-channel gateway route (Port 5000) to shield API keys, and keeping chat history in localized temporary states.
 
-### 📐 Layer 2: Technical Spec (Blueprint)
-- **State Architecture:** Manage UI transitions via hardware-accelerated CSS (`will-change: background-color, backdrop-filter`) mapped to Liquid Glass 3.0 specs. Use Zustand for state.
-- **Database Contracts (MongoDB Schema - `swipe_sessions`):**
-  ```json
-  {
-    "_id": "ObjectId",
-    "sessionId": "String (Unique, 6-digit alphanumeric)",
-    "hostUserId": "ObjectId",
-    "participants": ["ObjectId"],
-    "sessionStatus": "String ('active' | 'matched' | 'expired')",
-    "catalogFilters": { "genres": ["String"], "date": "Date" },
-    "swipes": [
-      {
-        "userId": "ObjectId",
-        "movieId": "ObjectId",
-        "direction": "String ('like' | 'dislike')",
-        "timestamp": "Date"
-      }
-    ],
-    "matchedMovieId": "ObjectId (Nullable)"
-  }
-  ```
-- **API Signatures & Boundary Conditions:**
-  - **REST / Server Actions:** `POST /api/swipe/match` taking boundary-validated inputs via Zod. Outputs conform to `{ success: boolean; data?: any; error?: string }`.
-  - **WebSockets Boundaries:** Real-time sync of swipe events. Websocket events must carry the `sessionId` and securely authenticate users. Events must be strictly typed.
-  - **MongoDB Aggregation Pipelines Boundaries:** Match resolution queries must leverage indexed matching on `swipes` arrays. Bounded by an `$match` on active sessions and `catalogFilters` to prevent full collection scans.
-
-### 🗺️ Layer 3: Development Plan
-- [x] Step 1: Establish the secure backend route `POST /api/movies/match` and hook it to the showtime query selector.
-- [x] Step 2: Implement the swipe interaction card state deck using Tailwind CSS styling and clean gesture handling.
-- [x] Step 3: Build the "Match Found" overlay modal container with its dynamic link routing directly to the Cin Book seating map.
-- [x] Step 4: Execute a robust Self-Healing Execution Loop running validation tests on mock swiping sessions.
+### 📐 Layer 3: Technical Spec (Blueprint)
+- **State Architecture:** Manage UI transitions via hardware-accelerated CSS (`will-change: transform, background-color`) mapped to Liquid Glass 4.0 specs. Use Zustand for localized state slicing to prevent global re-renders. All components must strictly limit to 200 LOC.
+- **Server-Client Contract States:**
+  - **1. MovieSwipeMatcher Contracts:**
+    - **MongoDB Payload (`swipe_sessions`):** `{ _id: ObjectId, sessionId: String, hostUserId: ObjectId, participants: [ObjectId], sessionStatus: 'active'|'matched', swipes: [{ userId: ObjectId, movieId: ObjectId, direction: 'like'|'dislike', timestamp: Date }], matchedMovieId: ObjectId }`
+    - **API Endpoint (`/api/movies/swipe`):** `POST` taking JSON Payload: `{ "user_id": "ObjectId", "movie_id": "ObjectId", "action": "like" | "dislike" }`. Responds with `{ success: boolean, matchFound: boolean, matchedMovieId?: string }`.
+    - **Local Swipe Aggregation Cache (Zustand):** `{ swipeQueue: Array<{ movieId, action }>, isSyncing: boolean, syncThreshold: number (default 3), syncTimeout: number (debounce window e.g., 2000ms) }` to guarantee zero-lag 120Hz swiping animations.
+    - **Socket Events:** `ParticipantJoined`, `SwipeRecorded`, `MatchFound` (broadcasts `matchedMovieId`).
+  - **2. DynamicAmbientCinemaMode Contracts:**
+    - **Color Palette Structure (Client-Side Context Extraction):** Image vectors are parsed locally via a custom `useAmbientColor` hook utilizing an off-screen `HTMLCanvasElement` to compute dominant `rgb()` values and construct complementary palettes.
+    - **Hardware-Accelerated CSS Architecture:** Enforces zero layout reflows by injecting `--ambient-theme-glow` CSS variables at the root wrapper. Morphing transitions must exclusively use hardware-optimized properties: `transition: background-color 0.6s ease-in-out, box-shadow 0.6s ease-in-out; will-change: background-color, box-shadow;`.
+  - **3. QuantumSeatMapLiveSync Contracts:**
+    - **MongoDB Payload (`seat_locks`):** `{ _id: ObjectId, seatId: String, showtimeId: ObjectId, userId: ObjectId, lockExpiresAt: Date (TTL Index), status: 'held'|'booked' }`
+    - **Socket Events:** `SeatLocked` (broadcasts `seatId`, `userId`), `SeatReleased`, `SeatBooked`.
+  - **4. LiquidGlassTicketVault Contracts:**
+    - **Offline Local Schema Cache Contract:** Local Cache Store maps explicitly to `DATA.md` specifications, storing encrypted payload structures in IndexedDB: `{ ticketId: String, encryptedPayload: String, validUntil: Date, offlineProof: String }`. Guarantees dynamic scanning parameters even in zero-network environments.
+    - **Mathematical Rotation Token Rules:** Generates a shifting TOTP/QR hash locally every 15 seconds. The hash is computed using `HMAC-SHA256(ticketId + Math.floor(Date.now() / 15000))` utilizing a decoupled encrypted client JWT, ensuring cryptographically secure offline verification.
+  - **5. InSiteMovieCriticAgent Contracts:**
+    - **Operational Boundaries (Drawer Scope):** The interactive chat drawer queries localized contextual data (movie metadata, user preferences) without re-fetching from the database. It handles upstream stream-failures gracefully with a local fallback mechanism.
+    - **Secure Backend Proxy Endpoint:** A dedicated Express routing gateway hosted on Port 5000 (`POST /api/critic/proxy/chat`) masks all upstream LLM/OpenAI API tokens. Client payload: `{ message: String, localContext: { movieId: String, currentMood: String } }`.
+    - **Memory Context Isolation:** The internal temporary message array state is managed strictly via a localized Zustand slice (`useCriticStore`). This enforces memory context isolation, preventing token leakage and ensuring chat history is wiped when the drawer unmounts or the session ends.
+- **Unified Result Pattern:** All operational handlers and Server Actions encapsulate outputs within: `{ success: boolean; data?: any; error?: string }`.
 
 ---
 *Built with ❤️ for the ultimate cinematic experience.*

@@ -40,6 +40,8 @@ export const metadata: Metadata = {
   },
 };
 
+import AmbientThemeProvider from "@/src/components/providers/AmbientThemeProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -49,8 +51,10 @@ export default function RootLayout({
     <html lang="he" dir="rtl" className="dark" suppressHydrationWarning>
       <body className={`${inter.variable} ${anton.variable} ${rubik.variable} ${assistant.variable} ${outfit.variable} antialiased bg-[#0A0A0A] text-[#FAFAF7] font-body`}>
         <AuthProvider>
-          <CinematicFX />
-          {children}
+          <AmbientThemeProvider>
+            <CinematicFX />
+            {children}
+          </AmbientThemeProvider>
         </AuthProvider>
       </body>
     </html>
