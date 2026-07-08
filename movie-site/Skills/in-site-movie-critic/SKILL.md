@@ -1,3 +1,8 @@
+---
+name: "InSite Movie Critic Agent"
+description: "Live Audio Narration & Speaker Overlay orchestration."
+---
+
 # Skill: InSiteMovieCriticAgent
 ## Context: Live Audio Narration & Speaker Overlay
 

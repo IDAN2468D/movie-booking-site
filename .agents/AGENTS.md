@@ -1,4 +1,4 @@
-# 🤖 Movie Booking Site - Neural Discovery & Unified AI Governance Standard (v6.1)
+# 🤖 Movie Booking Site - Neural Discovery & Unified AI Governance Standard (v6.2)
 *Single Source of Truth. Adherence mandatory.*
 
 ## 🎯 1. Identity, Communication & Scope Rules
@@ -36,8 +36,9 @@
 - **Typography Standards**:
   - Headings/Titles: `font-family: 'Outfit', sans-serif;` with a subtle specular text-shadow if highlighted.
   - Body/Metadata: `font-family: 'Inter', sans-serif;` for absolute pixel-perfect readability.
-- **120Hz GPU Motion Profile**: All dynamic scroll tracking, hover effects, particle explosions, or drag gestures must map mutations via hardware-accelerated GPU layers (`x`, `y`, `scale`, `rotate`) instead of layout geometry attributes (`left`, `top`, `margin`). This totally eliminates layout reflow penalties and keeps animation profiles locked at 120Hz. Ensure strict Zero-Reflow architecture.
+- **120Hz GPU Motion Profile (Strict Zero-Reflow)**: All dynamic motion vectors, scaling animations, particles, hover effects, and shaders must update exclusively via hardware-accelerated GPU layers (`transform-gpu`, `scale`, `rotate`, `opacity`) combined with `will-change: transform`. Modifying structural layout boundaries (`top`, `left`, `margin`, `background-position`) inside rendering loops is strictly prohibited.
 - **Framer Motion & SVG Integration**: Dynamic transformations applied to vector graphics must be bound via inline styles (`style={{ x, y }}`) rather than standalone XML attributes to prevent unintended layout scaling resets.
+- **Volumetric Shaders & Visuals**: Implement hardware-composited analog film grain and biometric specular intensity maps using `mix-blend-overlay` and `pointer-events-none` to prevent blocking layout interactions.
 - **Seat Mapping Tokens**: Occupied/Muted seats must render as: `opacity-35 stroke-white/10 fill-white/5 cubic-bezier(0.4, 0, 0.2, 1)`.
 
 ### 4.2 Stitch MCP Integration Standards

@@ -1,3 +1,8 @@
+---
+name: "Settings Dashboard Manager"
+description: "Structural overhaul and feature injection for the Settings Dashboard."
+---
+
 # Skill: SettingsDashboardManager
 
 ## Role & Purpose

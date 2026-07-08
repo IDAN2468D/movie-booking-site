@@ -1,3 +1,8 @@
+---
+name: "Movie App Master Manager"
+description: "Autonomous execution manager for the Movie Booking & Matcher application."
+---
+
 # 🛠️ SKILL: MovieAppMasterManager
 
 ## Description

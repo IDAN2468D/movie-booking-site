@@ -1,3 +1,8 @@
+---
+name: "Master New Features"
+description: "Liquid Glass 4.0 Premium Expansion guidelines."
+---
+
 # Master Architectural Specification: Liquid Glass 4.0 Premium Expansion
 
 ## 1. Global Performance & Architectural Mandates

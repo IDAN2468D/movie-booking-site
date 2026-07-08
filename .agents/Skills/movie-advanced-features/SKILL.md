@@ -1,3 +1,8 @@
+---
+name: "Movie Advanced Features"
+description: "Advanced movie booking operations and experiential UX."
+---
+
 # Skill: MovieAdvancedFeaturesManager
 ## Core System Domain: Advanced Movie Booking Operations & Experiential UX
 

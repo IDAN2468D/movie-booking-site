@@ -1,3 +1,8 @@
+---
+name: "Cinema Platform Skills"
+description: "Rules and architecture for dynamic cinema platform features."
+---
+
 # File: CinemaPlatformSkills
 ## Framework: Liquid Glass 4.0 & The Agent Stack Architecture
 
