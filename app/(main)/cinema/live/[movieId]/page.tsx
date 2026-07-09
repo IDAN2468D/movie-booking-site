@@ -48,10 +48,14 @@ export default async function LiveCinemaPage({ params }: { params: { movieId: st
           <h2 className="text-3xl font-['Outfit'] font-bold text-white mt-2 drop-shadow-lg">{movie.title}</h2>
           <p className="text-gray-400 font-['Inter'] mt-1 max-w-xl line-clamp-1">{movie.overview}</p>
         </div>
-        
-        <Link href="/match" className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full font-bold backdrop-blur-md transition-all text-white">
-          סגור שידור
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link href={`/movie/${movie.id}`} className="px-6 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 rounded-full font-bold backdrop-blur-md transition-all text-emerald-400">
+            הזמן כרטיסים
+          </Link>
+          <Link href="/showcase" className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full font-bold backdrop-blur-md transition-all text-white">
+            סגור שידור
+          </Link>
+        </div>
       </header>
 
       {/* Main Broadcast Frame */}
@@ -70,12 +74,19 @@ export default async function LiveCinemaPage({ params }: { params: { movieId: st
                 src={backdropUrl}
                 alt={movie.title}
                 fill
-                className="object-cover opacity-50"
+                className="object-cover opacity-30"
               />
-              <div className="z-10 text-center">
-                <span className="text-6xl mb-4 block">📡</span>
-                <h3 className="text-2xl font-bold">השידור יתחיל בקרוב...</h3>
-                <p className="text-gray-400 mt-2">מחכים לחיבור ללוויין</p>
+              <div className="z-10 text-center bg-black/60 p-8 rounded-3xl backdrop-blur-md border border-white/10">
+                <span className="text-5xl mb-4 block">📼</span>
+                <h3 className="text-2xl font-bold text-white mb-2">טריילר לא זמין</h3>
+                <p className="text-gray-400">לא נמצא טריילר רשמי במאגר עבור סרט זה.</p>
+                <Link 
+                  href={`https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' trailer')}`} 
+                  target="_blank"
+                  className="inline-block mt-6 px-6 py-2 bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white border border-red-500/50 rounded-full transition-all font-bold text-sm"
+                >
+                  חפש ב-YouTube
+                </Link>
               </div>
             </div>
           )}

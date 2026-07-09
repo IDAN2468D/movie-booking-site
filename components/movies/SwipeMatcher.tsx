@@ -27,14 +27,18 @@ export default function SwipeMatcher({ movies, userId }: SwipeMatcherProps) {
   const router = useRouter();
   const setSelectedMovie = useBookingStore(state => state.setSelectedMovie);
 
-  // Parse roomCode safely on client, fallback to '123456'
-  const [roomCode, setRoomCode] = useState<string>("123456");
+  // Parse roomCode safely on client, fallback to a random session to prevent instant auto-matching
+  const [roomCode, setRoomCode] = useState<string>("");
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const code = params.get('roomCode');
-      if (code && code.length === 6) setRoomCode(code);
+      if (code && code.length === 6) {
+        setRoomCode(code);
+      } else {
+        setRoomCode(Math.random().toString(36).substring(2, 8));
+      }
     }
   }, []);
 
@@ -171,9 +175,9 @@ export default function SwipeMatcher({ movies, userId }: SwipeMatcherProps) {
 
   return (
     <>
-      {/* Dynamic Cinematic Backdrop (Fixed to screen) */}
+      {/* Dynamic Cinematic Backdrop */}
       {topMovie && (
-        <div className="fixed inset-0 z-[-1]">
+        <div className="absolute inset-0 z-0 rounded-[3rem] overflow-hidden">
           <Image 
             src={`https://image.tmdb.org/t/p/original${topMovie.backdrop_path || topMovie.poster_path}`}
             alt="backdrop"
