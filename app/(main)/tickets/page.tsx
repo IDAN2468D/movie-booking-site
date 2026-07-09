@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import QuantumTicket from '@/components/tickets/QuantumTicket';
 import HolographicTicket from '@/components/tickets/HolographicTicket';
 import { ChronoRefractiveReel } from '@/components/tickets/ChronoRefractiveReel';
+import { LiquidGlassTicketVault } from '@/components/tickets/LiquidGlassTicketVault';
 
 interface TicketType {
   id: string;
@@ -27,7 +28,7 @@ export default function TicketsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'countdown' | 'qr' | 'memory'>('countdown');
-  const [ticketStyle, setTicketStyle] = useState<'quantum' | 'holographic'>('quantum');
+  const [ticketStyle, setTicketStyle] = useState<'quantum' | 'holographic' | 'vault'>('quantum');
 
   const handleEmailTicket = async (ticket: TicketType) => {
     setProcessingId(`${ticket.id}-email`);
@@ -233,7 +234,8 @@ export default function TicketsPage() {
           <div className="w-full max-w-xs mb-12 bg-black/40 backdrop-blur-2xl border border-white/5 p-1 rounded-xl flex gap-1 shadow-md">
             {([
               { id: 'quantum', label: 'קוונטי' },
-              { id: 'holographic', label: 'הולוגרפי 3D' }
+              { id: 'holographic', label: 'הולוגרפי 3D' },
+              { id: 'vault', label: 'כספת Offline' }
             ] as const).map((style) => {
               const isActive = ticketStyle === style.id;
               return (
@@ -285,6 +287,12 @@ export default function TicketsPage() {
                     time={ticket.time}
                     hall={ticket.hall}
                     seats={ticket.seats}
+                  />
+                ) : ticketStyle === 'vault' ? (
+                  <LiquidGlassTicketVault
+                    bookingId={ticket.id}
+                    seatId={ticket.seats[0] || "VIP-1"}
+                    concessions={[]}
                   />
                 ) : (
                   <QuantumTicket 

@@ -21,7 +21,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { icon: Home, label: 'בית', href: '/' },
-  { icon: Zap, label: 'Movie Matcher', href: '/match' },
+  { icon: Zap, label: 'Movie Matcher', href: '/showcase' },
   { icon: Compass, label: 'גילוי נוירוני', href: '/discovery' },
   { icon: Crown, label: 'מועדון VIP', href: '/vip' },
   { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets' },

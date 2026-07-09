@@ -1,48 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useBookingStore } from '@/lib/store';
-import { FOOD_ITEMS } from '@/lib/constants';
-import { FoodHeader } from '@/components/food/FoodHeader';
-import { FoodCategoryFilter } from '@/components/food/FoodCategoryFilter';
-import { FoodGrid } from '@/components/food/FoodGrid';
-
-const foodItems = FOOD_ITEMS;
+import ConcessionMatrix from "@/components/food/ConcessionMatrix";
 
 export default function FoodPage() {
-  const [activeFoodCategory, setActiveFoodCategory] = useState('כל הפריטים');
-  
-  // Strict, atomic selectors to comply with the Unified AI Governance Standard (v4.1)
-  const selectedFood = useBookingStore((state) => state.selectedFood);
-  const updateFoodQuantity = useBookingStore((state) => state.updateFoodQuantity);
-
-  const getQuantity = (id: number) => {
-    return selectedFood.find((f) => f.id === id)?.quantity || 0;
-  };
-
-  const cartTotal = selectedFood.reduce((acc, current) => {
-    const item = foodItems.find((f) => f.id === current.id);
-    return acc + (item?.price || 0) * current.quantity;
-  }, 0);
-
-  const filteredItems = activeFoodCategory === 'כל הפריטים' 
-    ? foodItems 
-    : foodItems.filter(item => item.category === activeFoodCategory);
-
   return (
-    <div className="p-10 pb-20 text-right">
-      <FoodHeader cartTotal={cartTotal} />
-      
-      <FoodCategoryFilter 
-        activeCategory={activeFoodCategory} 
-        onSelect={setActiveFoodCategory} 
-      />
-
-      <FoodGrid 
-        items={filteredItems} 
-        getQuantity={getQuantity} 
-        onUpdate={updateFoodQuantity} 
-      />
+    <div className="min-h-screen pt-20 px-4 md:px-10 pb-32 bg-background">
+      <h1 className="text-4xl md:text-5xl text-white font-black font-outfit mb-10 tracking-tight text-center" dir="rtl">
+        המזנון הקינטי <span className="text-[#FF1464] drop-shadow-[0_0_15px_rgba(255,20,100,0.5)]">החדש</span>
+      </h1>
+      <ConcessionMatrix />
     </div>
   );
 }
