@@ -17,15 +17,15 @@ export function ConcessionDeliverySync({ safeAmbientColor }: { safeAmbientColor:
       const t1 = setTimeout(() => {
         setOrderStatus("PREPARING");
         triggerSubBass();
-      }, 2000);
+      }, 600);
       const t2 = setTimeout(() => {
         setOrderStatus("ON_THE_WAY");
         triggerSubBass();
-      }, 4000);
+      }, 1200);
       const t3 = setTimeout(() => {
         setOrderStatus("DELIVERED");
         triggerSubBass();
-      }, 6000);
+      }, 1800);
 
       return () => {
         clearTimeout(t1);
@@ -39,6 +39,8 @@ export function ConcessionDeliverySync({ safeAmbientColor }: { safeAmbientColor:
     if (bucketItems.length === 0) return;
     triggerSubBass();
     
+    setOrderStatus("PENDING");
+    
     startTransition(async () => {
       const payload = {
         bookingId: "TEST_BOOKING_99",
@@ -48,10 +50,9 @@ export function ConcessionDeliverySync({ safeAmbientColor }: { safeAmbientColor:
       };
       
       const res = await submitConcessionOrder(payload);
-      if (res.success) {
-        setOrderStatus("PENDING");
-      } else {
+      if (!res.success) {
         console.error("Order failed via Server Action:", res.error);
+        setOrderStatus(null);
       }
     });
   };

@@ -4,6 +4,7 @@ import React, { useState, useOptimistic, useTransition } from "react";
 import { claimRewardAction } from "@/app/actions/bonusActions";
 import { Crown, Gift, Sparkles, Check, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { KineticRewardModal } from "./KineticRewardModal";
 
 interface RewardItem {
   _id: string;
@@ -34,6 +35,7 @@ export default function BonusesDashboard({
   const [loyaltyData, setLoyaltyData] = useState<UserLoyaltyData>(initialLoyaltyData);
   const [isPending, startTransition] = useTransition();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [rewardModal, setRewardModal] = useState<{isOpen: boolean; title: string}>({isOpen: false, title: ""});
 
   // Optimistic UI updates
   const [optimisticData, addOptimisticClaim] = useOptimistic(
@@ -71,6 +73,8 @@ export default function BonusesDashboard({
           points: result.data.points,
           claimedRewards: result.data.claimedRewards,
         });
+        // Trigger Kinetic Fusion Particle Modal
+        setRewardModal({ isOpen: true, title: reward.title });
       } else {
         // Handle error, optimistic update rolls back automatically
         setErrorMsg(result.error || "שגיאת מערכת במימוש ההטבה");
@@ -266,6 +270,12 @@ export default function BonusesDashboard({
         </div>
 
       </div>
+      
+      <KineticRewardModal 
+        isOpen={rewardModal.isOpen} 
+        rewardTitle={rewardModal.title} 
+        onClose={() => setRewardModal({ ...rewardModal, isOpen: false })} 
+      />
     </div>
   );
 }
