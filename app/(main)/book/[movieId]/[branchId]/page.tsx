@@ -32,10 +32,10 @@ export default function BookingPage() {
   // Sync branchId to store and fetch branch details
   useEffect(() => {
     async function loadBranch() {
-      if (!params.branchId) return;
-      setSelectedBranchId(params.branchId as string);
+      if (!params?.branchId) return;
+      setSelectedBranchId(params?.branchId as string);
 
-      const staticBranch = CINEMA_BRANCHES.find((b) => b.id === params.branchId);
+      const staticBranch = CINEMA_BRANCHES.find((b) => b.id === params?.branchId);
       if (staticBranch) {
         setBranch(staticBranch);
         setLoading(false);
@@ -47,7 +47,7 @@ export default function BookingPage() {
         const result = await getCinemas();
         if (result.success) {
           const found = (result.data as CinemaBranch[])?.find(
-            (b) => b._id === params.branchId || b.id === params.branchId
+            (b) => b._id === params?.branchId || b.id === params?.branchId
           );
           if (found) setBranch(found);
         }
@@ -59,16 +59,16 @@ export default function BookingPage() {
     }
 
     loadBranch();
-  }, [params.branchId, setSelectedBranchId]);
+  }, [params?.branchId, setSelectedBranchId]);
 
   // Recover movie details if state is lost (e.g. page refresh)
   useEffect(() => {
     async function loadMovie() {
-      if (!params.movieId || selectedMovie) return;
+      if (!params?.movieId || selectedMovie) return;
 
       try {
         const { getMovieById } = await import('@/lib/tmdb');
-        const movie = await getMovieById(Number(params.movieId));
+        const movie = await getMovieById(Number(params?.movieId));
         if (movie) {
           useBookingStore.getState().setSelectedMovie(movie);
         }
@@ -78,7 +78,7 @@ export default function BookingPage() {
     }
 
     loadMovie();
-  }, [params.movieId, selectedMovie]);
+  }, [params?.movieId, selectedMovie]);
 
   if (loading || !selectedMovie || !branch) {
     return (

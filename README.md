@@ -20,11 +20,16 @@ To maintain project quality and consistency, all AI agents follow the standards 
 ### 🎯 Layers 1 & 2: PRD (Product Requirements Document)
 - **Concept:** Elevating the discovery and booking experience to a premium, immersive, and highly collaborative environment driven by The Agent Stack.
 - **Core Capabilities:**
-  1. **MovieSwipeMatcher:** A real-time "Tinder-style" movie matchmaking system. Involves zero-lag swiping via hardware-accelerated translation matrices, local memory state aggregation (debounced), and an immediate trigger match engine without re-querying the database index.
-  2. **DynamicAmbientCinemaMode:** Ambient responsiveness extracting color palettes from active movie assets and reflecting them globally. Enforces zero layout reflows by asynchronously morphing theme backdrops via CSS variables.
-  3. **QuantumSeatMapLiveSync:** Real-time interactive Cinema Hall Seat Map Matrix. Features a pessimistic hold strategy (10 min locks), a real-time event bridge for global client syncing, and strict collision avoidance with silent client roll-backs.
-  4. **LiquidGlassTicketVault:** Offline-ready digital ticket verification. Guarantees cryptographic verification with dynamic QR tokenization rotating every 15s via a time-based hashing algorithm linked to secure JWT payloads.
-  5. **InSiteMovieCriticAgent:** Embedded interactive AI Movie Critic Bot inside the movie description canvas, utilizing an encrypted back-channel gateway route (Port 5000) to shield API keys. Upgraded with real-time Text-to-Speech (TTS) engine, synchronized kinetic floating caption projection capsule, and contextual interactive Speaker Icon nodes on chat bubbles for manual playback control.
+  1. **MovieSwipeMatcher:** [✅ Implemented/Verified] A real-time "Tinder-style" movie matchmaking system. Involves zero-lag swiping via hardware-accelerated translation matrices, local memory state aggregation (debounced), and an immediate trigger match engine without re-querying the database index.
+  2. **DynamicAmbientCinemaMode:** [✅ Implemented/Verified] Ambient responsiveness extracting color palettes from active movie assets and reflecting them globally. Enforces zero layout reflows by asynchronously morphing theme backdrops via CSS variables.
+  3. **QuantumSeatMapLiveSync:** [✅ Implemented/Verified] Real-time interactive Cinema Hall Seat Map Matrix. Features a pessimistic hold strategy (10 min locks), a real-time event bridge for global client syncing, and strict collision avoidance with silent client roll-backs.
+  4. **LiquidGlassTicketVault:** [✅ Implemented/Verified] Offline-ready digital ticket verification. Guarantees cryptographic verification with dynamic QR tokenization rotating every 15s via a time-based hashing algorithm linked to secure JWT payloads.
+  5. **InSiteMovieCriticAgent:** [✅ Implemented/Verified] Embedded interactive AI Movie Critic Bot inside the movie description canvas, utilizing an encrypted back-channel gateway route (Port 5000) to shield API keys. Upgraded with real-time Text-to-Speech (TTS) engine, synchronized kinetic floating caption projection capsule, and contextual interactive Speaker Icon nodes on chat bubbles for manual playback control.
+  6. **Predictive Soul-Seat Matrix & Dynamic Pricing Engine:** [✅ Implemented/Verified] Emotion-driven seat prediction engine utilizing active MongoDB live locks state. Incorporates real-time soul-seat coordinate mapping and dynamic flash offers with an ultraviolet pulse overlay.
+  7. **Dynamic Cinema Trailer Stream:** [✅ Implemented/Verified] Official video streams projected inside a floating Liquid Glass media node, using real-time DOM frame extraction for dynamic ambient glow mapping.
+  8. **Kinetic Group Booking & Split-Bill Engine:** [✅ Implemented/Verified] Shared live booking sessions across the coordinate grid with individual seat checkout states, synced via server actions with a strict TTL countdown window.
+  9. **Predictive Ticket Demand Analytics:** [✅ Implemented/Verified] Real-time evaluation of coordinate booking frequencies against TMDB global popularity vectors, powering a physical spring-based dynamic price shift scale.
+  10. **Cinema Social Pulse (Social Expansion):** [✅ Implemented/Verified] Real-time user presence indicators on the seating chart. Visualizes other users browsing the same showtime as Liquid Glass Presence Blobs using WebSockets and ephemeral session states.
 
 ### 📐 Layer 3: Technical Spec (Blueprint)
 - **State Architecture:** Manage UI transitions via hardware-accelerated CSS (`will-change: transform, background-color`) mapped to Liquid Glass 4.0 specs. Use Zustand for localized state slicing to prevent global re-renders. All components must strictly limit to 200 LOC.
@@ -50,6 +55,19 @@ To maintain project quality and consistency, all AI agents follow the standards 
     - **Synchronized Boundary Tracking:** Intercepts `SpeechSynthesisUtterance.onboundary` events, mapping the active character index to local state without triggering global component re-renders or layout reflows.
     - **Contextual Speaker Node Controls:** Replaces the global state approach with an explicit, contextual Speaker Icon Button (לחצן רמקול) attached to each message/text card to capture user intent and bypass browser autoplay restrictions cleanly. The message bubble container passes its unique string payload into the `useMovieCriticSpeech` sentence buffering loop via an explicit click gesture.
     - **Strict Speech Thread Cleanup:** Executes `window.speechSynthesis.cancel()` on component unmount to instantly terminate background audio and rendering threads, preventing memory leaks.
+  - **6. Predictive Soul-Seat Matrix & Dynamic Pricing Engine Contracts:**
+    - **User Preference Vector Schema:** Database addendum representing `{ userId: string, preferredRows: number[], preferredSections: 'center'|'left'|'right', genreAffinity: Record<string, number> }`.
+    - **Live Concurrency Stream Contract:** Prediction calculation engine mapping directly over the existing `SeatMap.tsx` coordinate structure and active MongoDB live locks state.
+    - **Ultraviolet Design Tokens (Liquid Glass 4.0):** Soul Pulse Overlay for predicted seats (`animate-pulse shadow-[0_0_15px_rgba(139,92,246,0.5)] border-violet-500/80`), and Flash Offer Panel (`backdrop-blur-xl bg-white/5 border border-white/10 p-4 rounded-2xl`). Animations managed strictly via physics spring models (`stiffness: 300, damping: 20`).
+    - **State Coupling Constraints:** Predictions must layer on top of current bounds with absolute zero Layout Reflows. Countdown interval timer guards must cleanly execute explicit `clear/destroy` routines inside `useEffect` unmounts to maintain 120Hz system frame rates.
+  - **7. Immersive API Bundle Contracts (Sprint 8 Matrix):**
+    - **YouTube & TMDB Stream Bindings:** Leverage YouTube Data API v3 and TMDB Video REST endpoints. Player instances must execute absolute tracking with clean DOM destruction on component `unmount` to prevent iframe memory leaks.
+    - **Stripe Webhook Validation State:** Stripe Checkout Sessions & Live Webhooks API. Demands a Redis/MongoDB transactional state backed by a strict 10-minute TTL session expiration. Atomic release of cluster locks is required upon webhook timeout/failure.
+    - **Dynamic Pricing Calculation Matrix:** Evaluates coordinate booking frequencies against TMDB Trending Matrix endpoints. Reflected visually via a physical spring-based demand index scale (`backdrop-blur-md border-amber-500/40`).
+  - **8. Immersive API Bundle (Social Expansion) Contracts (Sprint 9 Matrix):**
+    - **YouTube & TMDB Stream Bindings (Enhancement):** `components/movie/CinemaTrailerStream.tsx` fetches official video streams dynamically. Implements absolute tracking with clean DOM destruction on component `unmount` to bypass memory leaks.
+    - **WebSocket Presence Synchronization Logic (Cinema Social Pulse):** New dependencies `socket.io` & `socket.io-client`. New route `pages/api/socket/io.ts` handles the Socket.io server upgrade. `hooks/usePresence.ts` maintains ephemeral in-memory map state. `SeatMap.tsx` implements `layoutId` transitions for Liquid Glass Presence Blobs to avoid DOM thrashing.
+    - **Dynamic Pricing Calculation Matrix Parameters:** `app/api/pricing/tmdb-demand/route.ts` evaluates coordinate booking frequencies against regional TMDB popularity. `PredictiveDemandScale.tsx` uses framer-motion physical springs (`backdrop-blur-md border-amber-500/40`) with GPU-accelerated zero-reflow constraints.
 - **Unified Result Pattern:** All operational handlers and Server Actions encapsulate outputs within: `{ success: boolean; data?: any; error?: string }`.
 
 ---
@@ -146,3 +164,11 @@ To maintain project quality and consistency, all AI agents follow the standards 
 - [x] **Step 2:** Create `src/components/OfflineTicketWallet.tsx` displaying the digital secure ticket voucher.
 - [x] **Step 2:** Incorporate Liquid Glass 3.0 styling and Off-Grid Network Guard banner.
 - [x] **Complete:** 100% Type Safety and Compilation Validation across the final layout structure.
+
+## Phase 6: Immersive API Bundle (Social Expansion) - Sprint 9
+- [x] **Step 1:** Installed new dependencies (`socket.io`, `socket.io-client`).
+- [x] **Step 2:** Created `pages/api/socket/io.ts` for WebSocket presence handling and atomic disconnect cleanup.
+- [x] **Step 3:** Created `hooks/usePresence.ts` to manage the live socket connection and presence map state on the client.
+- [x] **Step 4:** Updated `SeatMap.tsx` to support Liquid Glass Presence Blobs utilizing `framer-motion`'s `layoutId` avatar transitions for zero DOM thrashing.
+- [x] **Step 5:** Implemented and verified `app/api/pricing/tmdb-demand/route.ts` and `PredictiveDemandScale.tsx` utilizing strict GPU-accelerated spring scales without layout reflows.
+- [x] **Complete:** 100% Type Safety and Compilation Validation across all components and server actions.

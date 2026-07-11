@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBookingStore } from "@/lib/store";
 import { useLiquidGlassStore } from "@/lib/store/liquidGlassStore";
+import { usePredictiveSeatStore } from "@/lib/store/predictiveSeatStore";
+import { usePresence } from "@/hooks/usePresence";
 import { BiometricIntensityMap } from "@/components/booking/BiometricIntensityMap";
 import { DynamicSnackTrayCanvas } from "@/components/food/DynamicSnackTrayCanvas";
 import { HolographicShardFusion } from "@/components/checkout/HolographicShardFusion";
@@ -24,6 +26,58 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   const [showSnacks, setShowSnacks] = useState(false);
   const globalSelectedSeats = useBookingStore((state) => state.selectedSeats);
   const { activeIntensityGenre, setActiveIntensityGenre } = useLiquidGlassStore();
+  const { predictedSeats, activeOffer, setPredictedSeats, setActiveOffer } = usePredictiveSeatStore();
+  const [timeLeft, setTimeLeft] = useState<number>(0);
+  const { presence, updatePresence } = usePresence();
+
+  // Compute a map of seatId -> string[] (array of socketIds hovering this seat)
+  const seatPresenceMap: Record<string, string[]> = {};
+  Object.entries(presence).forEach(([socketId, sid]) => {
+    if (sid) {
+      if (!seatPresenceMap[sid]) seatPresenceMap[sid] = [];
+      seatPresenceMap[sid].push(socketId);
+    }
+  });
+
+  useEffect(() => {
+    if (!activeOffer) {
+      fetch("/api/pricing/evaluate-demand", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: userId || "guest",
+          preferredRows: [3, 4],
+          preferredSections: 'center',
+          genreAffinity: { "Action": 0.8, "Sci-Fi": 0.9 }
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.data) {
+          setPredictedSeats(data.data.predictedSeats);
+          setActiveOffer(data.data.flashOffer);
+        }
+      })
+      .catch(console.error);
+    }
+  }, [userId, activeOffer, setPredictedSeats, setActiveOffer]);
+
+  useEffect(() => {
+    if (!activeOffer) return;
+    
+    const tick = () => {
+      const remaining = Math.max(0, activeOffer.expiresAt - Date.now());
+      setTimeLeft(remaining);
+      if (remaining === 0) {
+        setActiveOffer(null);
+        setPredictedSeats([]);
+      }
+    };
+
+    tick();
+    const intervalId = setInterval(tick, 1000);
+    return () => clearInterval(intervalId);
+  }, [activeOffer, setActiveOffer, setPredictedSeats]);
 
   const toggleHeatMap = () => {
     setActiveIntensityGenre(activeIntensityGenre ? null : 'Sci-Fi');
@@ -79,6 +133,25 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
     }
   };
 
+  const acceptFlashOffer = async () => {
+    if (!activeOffer) return;
+    
+    for (const seatId of activeOffer.seats) {
+      if (!selectedSeats.has(seatId) && !occupiedSeats.includes(seatId) && !globalSelectedSeats.includes(seatId)) {
+        await handleSeatClick(seatId);
+      }
+    }
+    
+    useBookingStore.getState().setAppliedFlashOffer({
+      seats: activeOffer.seats,
+      originalPrice: activeOffer.originalPrice,
+      price: activeOffer.price
+    });
+    
+    setActiveOffer(null);
+    setPredictedSeats([]);
+  };
+
   return (
     <div className={`w-full max-w-[600px] mx-auto ${compact ? 'px-2 py-4' : 'px-6 py-8 md:px-16 md:py-10'} rounded-[3rem] bg-[#090b10] border border-white/5 shadow-2xl relative overflow-hidden`} dir="ltr">
       {/* Background ambient lighting */}
@@ -87,6 +160,8 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
       <BiometricIntensityMap />
       <HolographicShardFusion />
       
+
+
       {/* Top Bar with Toggles */}
       <div className={`flex justify-between items-center ${compact ? 'mb-8' : 'mb-16'} relative z-10`} dir="rtl">
         <button 
@@ -127,8 +202,12 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
                       isOccupied={occupiedSeats.includes(seatId)}
                       isSelected={selectedSeats.has(seatId) || globalSelectedSeats.includes(seatId)}
                       isLoading={loadingLocks.has(seatId)}
+                      isPredicted={predictedSeats.includes(seatId)}
                       onClick={() => handleSeatClick(seatId)}
+                      onHover={() => updatePresence(seatId)}
+                      onLeave={() => updatePresence("")}
                       compact={compact}
+                      presenceUsers={seatPresenceMap[seatId] || []}
                     />
                   );
                 })}
@@ -149,7 +228,10 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
                       isSelected={selectedSeats.has(seatId) || globalSelectedSeats.includes(seatId)}
                       isLoading={loadingLocks.has(seatId)}
                       onClick={() => handleSeatClick(seatId)}
+                      onHover={() => updatePresence(seatId)}
+                      onLeave={() => updatePresence("")}
                       compact={compact}
+                      presenceUsers={seatPresenceMap[seatId] || []}
                     />
                   );
                 })}
@@ -168,6 +250,44 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
         <LegendItem colorClass="bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" label="שותף" />
         <LegendItem colorClass="border-2 border-white/10" label="תפוס" />
       </div>
+
+      <AnimatePresence>
+        {activeOffer && timeLeft > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.95, height: 0 }}
+            animate={{ opacity: 1, y: 0, scale: 1, height: 'auto' }}
+            exit={{ opacity: 0, y: 50, scale: 0.95, height: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="w-full max-w-[400px] mx-auto mt-8 backdrop-blur-2xl bg-[#090b10]/90 border border-violet-500/50 p-5 rounded-[2rem] flex flex-col shadow-[0_25px_50px_-12px_rgba(139,92,246,0.3)] relative z-50 overflow-hidden"
+            dir="rtl"
+          >
+            <div className="flex justify-between items-center mb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-violet-400 font-bold text-sm tracking-widest uppercase">⚡ מבצע בזק</span>
+                <span className="text-white/50 text-[10px] font-mono bg-white/10 px-2 py-0.5 rounded-full border border-white/5">
+                  {Math.ceil(timeLeft / 1000)}s
+                </span>
+              </div>
+              <div className="flex items-center gap-2 bg-white/5 px-3 py-1 rounded-full border border-white/5">
+                <span className="text-gray-400 line-through text-xs">₪{activeOffer.originalPrice}</span>
+                <span className="text-cyan-400 font-bold text-sm">₪{activeOffer.price}</span>
+              </div>
+            </div>
+            
+            <span className="text-white text-xs opacity-80 mb-4 px-1">
+              מושבים פרימיום במיקום אופטימלי: <strong className="text-violet-300 ml-1">{activeOffer.seats.join(', ')}</strong>
+            </span>
+            
+            <button
+              onClick={acceptFlashOffer}
+              className="w-full py-3 rounded-2xl bg-gradient-to-r from-violet-600/80 to-cyan-500/80 hover:from-violet-500 hover:to-cyan-400 text-white font-bold text-sm transition-all shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] border border-white/10 flex justify-center items-center gap-2"
+            >
+              <span>הוסף להזמנה</span>
+              <span className="text-lg leading-none mb-0.5">🚀</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {showSnacks && (
@@ -195,7 +315,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   );
 }
 
-function Seat({ seatId, isOccupied, isSelected, isLoading, onClick, compact }: any) {
+function Seat({ seatId, isOccupied, isSelected, isLoading, isPredicted, onClick, onHover, onLeave, compact, presenceUsers = [] }: any) {
   let bgClass = "bg-white/5 border-white/10 hover:bg-white/10 cursor-pointer";
   let contentClass = "opacity-100";
   
@@ -206,6 +326,8 @@ function Seat({ seatId, isOccupied, isSelected, isLoading, onClick, compact }: a
     contentClass = "opacity-0"; // Hide text when selected to match glowing look
   } else if (isLoading) {
     bgClass = "bg-cyan-400/20 border-cyan-400/50 animate-pulse pointer-events-none";
+  } else if (isPredicted) {
+    bgClass = "bg-violet-500/20 border-violet-500/80 animate-pulse shadow-[0_0_15px_rgba(139,92,246,0.5)] cursor-pointer";
   }
 
   const sizeClass = compact ? "w-8 h-9 text-[8px]" : "w-11 h-12 text-[10px]";
@@ -215,6 +337,8 @@ function Seat({ seatId, isOccupied, isSelected, isLoading, onClick, compact }: a
       whileHover={!isOccupied && !isSelected ? { scale: 1.05 } : {}}
       whileTap={!isOccupied && !isSelected ? { scale: 0.95 } : {}}
       onClick={onClick}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
       className={`${sizeClass} rounded-[10px] border flex flex-col items-center justify-center relative overflow-hidden transition-all duration-300 ${bgClass}`}
     >
       <div className={`flex flex-col items-center justify-center ${contentClass}`}>
@@ -223,6 +347,24 @@ function Seat({ seatId, isOccupied, isSelected, isLoading, onClick, compact }: a
         </span>
         <div className="w-4 h-[2px] rounded-full bg-white/20" />
       </div>
+
+      <AnimatePresence>
+        {presenceUsers.length > 0 && (
+          <div className="absolute inset-0 z-20 flex flex-wrap items-center justify-center gap-[2px] pointer-events-none p-1 bg-cyan-400/10">
+            {presenceUsers.map((id: string) => (
+              <motion.div 
+                layoutId={`avatar-${id}`}
+                key={id}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="w-2.5 h-2.5 rounded-full bg-cyan-300 shadow-[0_0_10px_rgba(103,232,249,0.8),inset_0_0_4px_rgba(255,255,255,0.8)] border border-white/50 backdrop-blur-md"
+              />
+            ))}
+          </div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

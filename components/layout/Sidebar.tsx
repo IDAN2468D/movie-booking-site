@@ -29,7 +29,7 @@ const navItems: NavItem[] = [
   { icon: Gift, label: 'בונוסים', href: '/vip/bonuses' },
   { icon: Utensils, label: 'אוכל ושתייה', href: '/food' },
   { icon: Bell, label: 'התראות', href: '/notifications' },
-  { icon: Sparkles, label: 'עוזר AI', href: '#chat', isChat: true },
+  { icon: Sparkles, label: 'עוזר AI', href: '/concierge' },
   { icon: Settings, label: 'הגדרות', href: '/profile' },
 ];
 

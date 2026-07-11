@@ -25,7 +25,17 @@ export default function BookingSummarySidebar({ onCheckout }: BookingSummarySide
   const selectedHall = useBookingStore((state) => state.selectedHall);
 
   const ticketPrice = 45;
-  const totalPrice = selectedSeats.length * ticketPrice;
+  const appliedFlashOffer = useBookingStore((state) => state.appliedFlashOffer);
+  
+  let totalPrice = selectedSeats.length * ticketPrice;
+  if (appliedFlashOffer) {
+    const hasAllOfferSeats = appliedFlashOffer.seats.every(seat => selectedSeats.includes(seat));
+    if (hasAllOfferSeats) {
+      const normalPriceForOfferSeats = appliedFlashOffer.seats.length * ticketPrice;
+      const discount = normalPriceForOfferSeats - appliedFlashOffer.price;
+      totalPrice -= discount;
+    }
+  }
 
   useEffect(() => {
     const scrollerEl = document.querySelector('main');

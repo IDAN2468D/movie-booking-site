@@ -57,33 +57,33 @@ export default function ChatOrb({ onClick, botState }: ChatOrbProps) {
       }}
       whileHover={{ scale: 1.1, rotate: 5 }}
       whileTap={{ scale: 0.95 }}
-      onClick={onClick}
+      onPointerUp={(e) => { e.preventDefault(); onClick(); }}
       initial={{ opacity: 0, scale: 0 }}
       animate={
         botState === 'idle'
           ? {
-              opacity: [0.8, 1, 0.8],
-              scale: [1, 1.05, 1],
-            }
+            opacity: [0.8, 1, 0.8],
+            scale: [1, 1.05, 1],
+          }
           : botState === 'listening'
-          ? {
+            ? {
               scale: [1, 1.1, 1],
               opacity: 1,
             }
-          : { opacity: 1, scale: 1 }
+            : { opacity: 1, scale: 1 }
       }
       exit={{ opacity: 0, scale: 0 }}
       transition={
         botState === 'idle'
           ? {
-              opacity: { repeat: Infinity, duration: 3, ease: 'easeInOut' },
-              scale: { repeat: Infinity, duration: 3, ease: 'easeInOut' },
-            }
+            opacity: { repeat: Infinity, duration: 3, ease: 'easeInOut' },
+            scale: { repeat: Infinity, duration: 3, ease: 'easeInOut' },
+          }
           : botState === 'listening'
-          ? {
+            ? {
               scale: { repeat: Infinity, duration: 1.2, ease: 'easeInOut' },
             }
-          : { duration: 0.3 }
+            : { duration: 0.3 }
       }
       className={cn(
         "w-16 h-16 rounded-full bg-white/5 border border-white/20 backdrop-blur-3xl flex items-center justify-center pointer-events-auto cursor-grab active:cursor-grabbing relative group overflow-hidden transition-shadow duration-500",
@@ -120,7 +120,7 @@ export default function ChatOrb({ onClick, botState }: ChatOrbProps) {
 
       {/* Ambient inner glow */}
       <div className={cn("absolute inset-0 bg-gradient-to-tr opacity-70 group-hover:opacity-100 transition-opacity duration-500", styles.gradient)} />
-      
+
       {/* Processing state: spinning outer highlight ring */}
       <motion.div
         animate={botState === 'processing' ? { rotate: 360 } : { rotate: 0 }}

@@ -14,6 +14,7 @@ interface OrderSummaryProps {
   ticketPrice: number;
   foodTotal: number;
   tax: number;
+  discount?: number;
   total: number;
   isProcessing: boolean;
   onPayment: () => void;
@@ -21,7 +22,7 @@ interface OrderSummaryProps {
 }
 
 export const OrderSummary = ({
-  movie, seats, seatCount, ticketPrice, foodTotal, tax, total, isProcessing, onPayment, priceInsights = []
+  movie, seats, seatCount, ticketPrice, foodTotal, tax, discount = 0, total, isProcessing, onPayment, priceInsights = []
 }: OrderSummaryProps) => {
   return (
     <motion.div 
@@ -76,6 +77,7 @@ export const OrderSummary = ({
          <div className="space-y-4">
            <PriceRow label={`כרטיסים (${seatCount}x)`} value={`₪${(seatCount * ticketPrice).toFixed(2)}`} />
            {foodTotal > 0 && <PriceRow label="אוכל ונשנושים" value={`₪${foodTotal.toFixed(2)}`} highlight />}
+           {discount > 0 && <PriceRow label="הנחת מבצע בזק" value={`-₪${discount.toFixed(2)}`} highlight />}
            <PriceRow label="מע״מ (17%)" value={`₪${tax.toFixed(2)}`} muted />
            
            {/* Total Section */}

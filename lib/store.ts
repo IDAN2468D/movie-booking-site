@@ -51,6 +51,8 @@ interface BookingState {
   setTransactionCompleted: (completed: boolean) => void;
   activeSubtitles: { time: number; text: string }[];
   setActiveSubtitles: (subs: { time: number; text: string }[]) => void;
+  appliedFlashOffer: { seats: string[]; originalPrice: number; price: number } | null;
+  setAppliedFlashOffer: (offer: { seats: string[]; originalPrice: number; price: number } | null) => void;
 }
 
 export const useBookingStore = create<BookingState>((set) => ({
@@ -78,6 +80,7 @@ export const useBookingStore = create<BookingState>((set) => ({
   lobbyUsers: [],
   activeMoods: [],
   hoveredSeat: null,
+  appliedFlashOffer: null,
 
   setAllMovies: (movies) => set({ allMovies: movies }),
   setSearchQuery: (query) => set({ searchQuery: query }),
@@ -92,6 +95,7 @@ export const useBookingStore = create<BookingState>((set) => ({
   setHoveredSeat: (seatId) => set({ hoveredSeat: seatId }),
   setTransactionCompleted: (completed) => set({ isTransactionCompleted: completed }),
   setActiveSubtitles: (subs) => set({ activeSubtitles: subs }),
+  setAppliedFlashOffer: (offer) => set({ appliedFlashOffer: offer }),
 
   toggleFavorite: async (movie) => {
     set((state) => ({
@@ -186,5 +190,6 @@ export const useBookingStore = create<BookingState>((set) => ({
       rating: 0,
       year: 'הכל',
     },
+    appliedFlashOffer: null,
   }),
 }));

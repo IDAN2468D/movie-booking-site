@@ -3,8 +3,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCriticStore, ChatMessage } from '@/hooks/useCriticStore';
-import { Send, X, Bot, User, Volume2, VolumeX, Square } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Send, X, Bot, User, Volume2, VolumeX, Square, Maximize2 } from 'lucide-react';
 import { useMovieCriticSpeech } from '@/hooks/useMovieCriticSpeech';
+import { useCognitiveContext } from '@/hooks/useCognitiveContext';
+import { useTransactionStore } from '@/hooks/useTransactionStore';
+import BookingConfirmationWidget from '@/components/checkout/BookingConfirmationWidget';
+import LoyaltyBadge from '@/components/loyalty/LoyaltyBadge';
+import TicketVaultWidget from '@/components/booking/TicketVaultWidget';
+import { processSecureBooking } from '@/lib/actions/transactionActions';
 
 interface MovieCriticDrawerProps {
   isOpen: boolean;
@@ -104,9 +111,37 @@ const MessageBubble = ({ msg }: { msg: ChatMessage }) => {
 
 export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCriticDrawerProps) {
   const { messages, isTyping, isMuted, activeSpeechId, addMessage, updateLastMessage, setTyping, toggleMute, clearSession } = useCriticStore();
+  const cognitiveContext = useCognitiveContext();
+  const transactionState = useTransactionStore();
+  
   const [inputValue, setInputValue] = useState('');
   const [errorStatus, setErrorStatus] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [loyalty, setLoyalty] = useState({ tier: 'Bronze', points: 150 });
+  const router = useRouter();
+
+  const isGoldOrElite = loyalty.tier === 'Gold' || loyalty.tier === 'Liquid Elite';
+
+  // Mock a one-tap transaction
+  const handleQuickBook = async () => {
+    transactionState.setStatus('PAYMENT_PENDING');
+    const result = await processSecureBooking({
+      userId: 'user_123', // mock
+      showtimeId: 'showtime_abc',
+      seatIds: ['seat_1', 'seat_2'],
+      paymentToken: 'mock-success',
+      idempotencyKey: crypto.randomUUID(),
+    });
+    
+    if (result.success) {
+      transactionState.setStatus('SUCCESS');
+      if (result.currentTier && result.pointsEarned) {
+        setLoyalty({ tier: result.currentTier, points: loyalty.points + result.pointsEarned });
+      }
+    } else {
+      transactionState.setError(result.error || 'Transaction failed');
+    }
+  };
 
   const unlockAudioContext = () => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
@@ -152,7 +187,11 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: userText,
-          localContext: { movieId, currentMood: 'Curious' }, // Mocking mood, can be extended
+          localContext: { 
+            movieId, 
+            currentMood: 'Curious',
+            appState: cognitiveContext 
+          }, 
         }),
       });
 
@@ -172,6 +211,14 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
         if (value) {
           const chunk = decoder.decode(value, { stream: true });
           updateLastMessage(chunk);
+
+          // Semantic Catalog Trigger (Sprint 11)
+          const lowerChunk = chunk.toLowerCase();
+          if (lowerChunk.includes('sci-fi') || lowerChunk.includes('science fiction')) {
+            window.dispatchEvent(new CustomEvent('DiscoveryJump', { detail: 'sci-fi' }));
+          } else if (lowerChunk.includes('romance')) {
+            window.dispatchEvent(new CustomEvent('DiscoveryJump', { detail: 'romance' }));
+          }
         }
       }
 
@@ -211,25 +258,51 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
           />
           
           {/* Drawer */}
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full sm:w-[400px] z-50 flex flex-col backdrop-blur-2xl bg-black/40 border-l border-white/10 shadow-2xl"
-          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[85vh] w-[95vw] sm:w-[500px] z-50 flex flex-col rounded-3xl backdrop-blur-2xl bg-black/60 border border-white/10 shadow-2xl overflow-hidden"
+            >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/5">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 shadow-[0_0_15px_rgba(255,20,100,0.3)]">
-                  <Bot className="w-5 h-5 text-primary" />
+            <div className="p-4 border-b border-white/10 flex justify-between items-center bg-black/40 backdrop-blur-md relative overflow-hidden">
+              {/* Dynamic Bot Glow */}
+              <div className={`absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 ${isGoldOrElite ? 'bg-gradient-to-r from-amber-500 to-transparent' : 'bg-gradient-to-r from-cyan-500 to-transparent'}`} />
+              
+              <div className="flex items-center gap-3 relative z-10">
+                <div className={`relative w-10 h-10 rounded-full flex items-center justify-center border ${isGoldOrElite ? 'bg-amber-950/50 border-amber-500/50 shadow-[0_0_20px_rgba(251,191,36,0.3)]' : 'bg-white/5 border-white/20'}`}>
+                  <Bot className={`w-5 h-5 ${isGoldOrElite ? 'text-amber-400' : 'text-white/80'}`} />
                 </div>
-                <div>
-                  <h2 className="text-white font-display font-bold tracking-wide">Aura Critic</h2>
-                  <p className="text-[10px] text-white/50 uppercase tracking-widest font-mono">Encrypted Connection</p>
+                <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                    <h2 className={`font-display font-bold tracking-wide ${isGoldOrElite ? 'text-amber-100' : 'text-white'}`}>Aura Concierge</h2>
+                    <LoyaltyBadge points={loyalty.points} tier={loyalty.tier} />
+                  </div>
+                  <p className="text-[10px] text-white/50 uppercase tracking-widest font-mono">Cognitive Matrix Active</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                {transactionState.status === 'IDLE' && (
+                  <button 
+                    onClick={handleQuickBook}
+                    className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 text-xs font-bold hover:bg-emerald-500/30 transition-colors mr-2"
+                  >
+                    1-Tap Book
+                  </button>
+                )}
+                <button 
+                  onClick={() => {
+                    onClose();
+                    router.push('/concierge');
+                  }}
+                  className="p-2 rounded-full hover:bg-white/10 text-white/50 hover:text-white transition-colors group relative"
+                >
+                  <Maximize2 className="w-5 h-5" />
+                  <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/80 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none">
+                    Fullscreen Workspace
+                  </span>
+                </button>
                 <button 
                   onClick={() => {
                     unlockAudioContext();
@@ -257,15 +330,48 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
             {/* Chat Area */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide">
               {messages.length === 0 && (
-                <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-50">
-                  <Bot className="w-12 h-12 text-white/20" />
-                  <p className="text-white/40 text-sm font-medium max-w-[200px]">Ask me anything about the cinematography, plot, or actors.</p>
+                <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-50 relative z-10">
+                  <Bot className={`w-12 h-12 ${isGoldOrElite ? 'text-amber-400/50' : 'text-white/20'}`} />
+                  <p className={`font-display font-bold text-lg ${isGoldOrElite ? 'text-amber-200' : 'text-white'}`}>AI Aura Sync Initialized</p>
+                  <p className="text-sm">I've analyzed your acoustic matrix and seat preferences. How can I help?</p>
                 </div>
               )}
-
+              
               {messages.map((msg) => (
                 <MessageBubble key={msg.id} msg={msg} />
               ))}
+
+              {transactionState.status === 'PAYMENT_PENDING' && (
+                <div className="flex justify-center p-4">
+                  <div className="flex items-center gap-2 text-emerald-400">
+                    <div className="w-4 h-4 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
+                    <span className="text-sm font-mono tracking-wider animate-pulse">Processing Secure Payment...</span>
+                  </div>
+                </div>
+              )}
+
+              {transactionState.status === 'SUCCESS' && (
+                <div className="w-full flex flex-col items-center">
+                  <BookingConfirmationWidget onDismiss={() => transactionState.reset()} />
+                  <TicketVaultWidget />
+                </div>
+              )}
+              
+              {transactionState.status === 'FAILED' && (
+                <div className="p-4 rounded-xl bg-red-950/40 border border-red-500/30 text-center">
+                  <p className="text-red-400 font-bold mb-1">Transaction Failed</p>
+                  <p className="text-red-300/70 text-xs">{transactionState.errorMsg}</p>
+                  <button onClick={() => transactionState.reset()} className="mt-2 text-xs text-white/50 hover:text-white underline">Dismiss</button>
+                </div>
+              )}
+
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="bg-white/5 rounded-2xl p-4 animate-pulse">
+                    <span className="text-white/30 text-sm">Concierge is thinking...</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Input Area */}

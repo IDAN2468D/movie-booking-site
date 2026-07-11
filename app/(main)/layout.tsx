@@ -10,7 +10,6 @@ import RightPanel from "@/components/layout/RightPanel";
 import MobileNav from "@/components/layout/MobileNav";
 import { HeartbeatInit } from "@/components/utils/HeartbeatInit";
 import ResolutionWrapper from "@/components/layout/ResolutionWrapper";
-import MovieChatBot from "@/components/chat/MovieChatBot";
 import { useBookingStore } from '@/lib/store';
 
 export default function MainLayout({
@@ -75,11 +74,7 @@ export default function MainLayout({
         {/* Mobile Navigation */}
         <MobileNav />
 
-        {/* AI Chatbot */}
-        <MovieChatBot />
-
         {/* Performance Optimization for Render */}
-        <HeartbeatInit />
       </div>
     </ResolutionWrapper>
   );

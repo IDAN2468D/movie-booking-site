@@ -25,7 +25,7 @@ export default function CheckoutPage() {
   const { data: session } = useSession();
   const { 
     selectedMovie, selectedSeats, selectedFood, updateFoodQuantity, resetBooking,
-    selectedDate, selectedShowtime, selectedHall, selectedBranchId, setTransactionCompleted
+    selectedDate, selectedShowtime, selectedHall, selectedBranchId, setTransactionCompleted, appliedFlashOffer
   } = useBookingStore();
   const { isSocialMode, groupMembers } = useSocialStore();
 
@@ -58,8 +58,23 @@ export default function CheckoutPage() {
     }, 0);
 
     const subtotal = (seatCount * baseTicketPrice) + foodTotal;
-    const tax = subtotal * 0.17;
-    const total = subtotal + tax;
+    let tax = subtotal * 0.17;
+    let total = subtotal + tax;
+    
+    let discount = 0;
+    // Apply flash offer pricing logic
+    if (appliedFlashOffer) {
+      const hasAllOfferSeats = appliedFlashOffer.seats.every(seat => selectedSeats.includes(seat));
+      if (hasAllOfferSeats) {
+        // The normal total price for these seats would be their base price + tax
+        const normalTotalForOfferSeats = (appliedFlashOffer.seats.length * baseTicketPrice) * 1.17;
+        discount = normalTotalForOfferSeats - appliedFlashOffer.price;
+        total -= discount;
+        // Re-calculate the tax proportion based on the new final total
+        tax = total - (total / 1.17);
+      }
+    }
+
     const splitTotal = isSocialMode ? total / (groupMembers.length + 1) : total;
     
     const priceInsights = getPriceInsights({
@@ -70,8 +85,12 @@ export default function CheckoutPage() {
       isPrimeTime: showtimeHour >= 18 && showtimeHour <= 22
     });
 
-    return { seatCount, ticketPrice: baseTicketPrice, foodTotal, subtotal, tax, total, splitTotal, priceInsights };
-  }, [selectedSeats, selectedFood, isSocialMode, groupMembers, selectedShowtime]);
+    if (discount > 0) {
+      priceInsights.push('מבצע בזק הופעל: נחסכו ₪' + Math.round(discount));
+    }
+
+    return { seatCount, ticketPrice: baseTicketPrice, foodTotal, subtotal, tax, discount, total, splitTotal, priceInsights };
+  }, [selectedSeats, selectedFood, isSocialMode, groupMembers, selectedShowtime, appliedFlashOffer]);
 
   if (!selectedMovie) return <EmptyState />;
   if (isSuccess) return (
@@ -193,7 +212,7 @@ export default function CheckoutPage() {
               <OrderSummary 
                 movie={selectedMovie} seats={selectedSeats} seatCount={pricing.seatCount} 
                 ticketPrice={pricing.ticketPrice} foodTotal={pricing.foodTotal} 
-                tax={pricing.tax} total={isSocialMode ? pricing.splitTotal : pricing.total} 
+                tax={pricing.tax} discount={pricing.discount} total={isSocialMode ? pricing.splitTotal : pricing.total} 
                 isProcessing={isProcessing} onPayment={handlePayment} 
                 priceInsights={pricing.priceInsights}
               />
