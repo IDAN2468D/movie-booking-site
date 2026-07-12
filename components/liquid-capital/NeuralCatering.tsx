@@ -2,7 +2,7 @@
 
 import React, { useState, useOptimistic, startTransition } from 'react';
 import { Brain, Sparkles, ShoppingBag, Send } from 'lucide-react';
-import { updateDeliveryPhaseAction } from '@/lib/actions/catering';
+import { updateDeliveryPhaseAction, placeCateringOrder } from '@/lib/actions/catering';
 import { useBookingStore } from '@/lib/store';
 import {
   useCateringCart,
@@ -138,7 +138,22 @@ export const NeuralCatering = ({ initialCatering = [] }: { initialCatering?: any
             ))}
             <div className="flex justify-between items-center border-t border-white/10 pt-4 flex-row-reverse">
               <span className="text-xl font-bold text-white">סה״כ לתשלום: ₪{cartTotal.toFixed(2)}</span>
-              <button className="bg-[#00f2fe] text-black px-6 py-3 rounded-xl font-bold text-sm hover:bg-[#4facfe] transition-all flex items-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(0,242,254,0.4)]">
+              <button 
+                onClick={async () => {
+                  const orderId = initialCatering[0]?._id;
+                  if (orderId) {
+                    const res = await placeCateringOrder(orderId);
+                    if (res.success) {
+                      alert("ההזמנה שוגרה למקרן והיא בדרך למושב!");
+                    } else {
+                      alert(res.error || "שגיאה בשיגור ההזמנה");
+                    }
+                  } else {
+                    alert("לא נמצא מזהה הזמנה פעילה לסנכרון");
+                  }
+                }}
+                className="bg-[#00f2fe] text-black px-6 py-3 rounded-xl font-bold text-sm hover:bg-[#4facfe] transition-all flex items-center gap-2 cursor-pointer shadow-[0_0_20px_rgba(0,242,254,0.4)]"
+              >
                 <span>שגר הזמנה למקרן</span>
                 <Send className="w-4 h-4" />
               </button>

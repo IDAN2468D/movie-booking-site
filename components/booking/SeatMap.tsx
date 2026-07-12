@@ -9,6 +9,7 @@ import { usePresence } from "@/hooks/usePresence";
 import { BiometricIntensityMap } from "@/components/booking/BiometricIntensityMap";
 import { DynamicSnackTrayCanvas } from "@/components/food/DynamicSnackTrayCanvas";
 import { HolographicShardFusion } from "@/components/checkout/HolographicShardFusion";
+import { useCinematicAudio } from "@/lib/hooks/useCinematicAudio";
 
 interface SeatMapProps {
   showtimeId: string;
@@ -24,6 +25,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   const [selectedSeats, setSelectedSeats] = useState<Set<string>>(new Set());
   const [loadingLocks, setLoadingLocks] = useState<Set<string>>(new Set());
   const [showSnacks, setShowSnacks] = useState(false);
+  const { playClick } = useCinematicAudio();
   const globalSelectedSeats = useBookingStore((state) => state.selectedSeats);
   const { activeIntensityGenre, setActiveIntensityGenre } = useLiquidGlassStore();
   const { predictedSeats, activeOffer, setPredictedSeats, setActiveOffer } = usePredictiveSeatStore();
@@ -88,6 +90,8 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
       return;
     }
 
+    playClick();
+
     setLoadingLocks(prev => {
       const next = new Set(prev);
       next.add(seatId);
@@ -120,7 +124,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
 
         if (onSeatLocked) onSeatLocked(seatId);
       } else {
-        console.error("Lock failed:", data.error);
+        console.warn("Lock failed:", data.error);
       }
     } catch (err) {
       console.error("Network error:", err);

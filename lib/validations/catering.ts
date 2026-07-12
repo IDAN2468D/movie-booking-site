@@ -1,5 +1,25 @@
 import { z } from "zod";
 
+export const CateringItemSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  category: z.enum(['snack', 'beverage', 'combo', 'premium']),
+  price: z.number().positive(),
+  stockRemaining: z.number().nonnegative(),
+});
+
+export const CartPayloadSchema = z.object({
+  showtimeId: z.string().min(1),
+  items: z.array(z.object({
+    itemId: z.string(),
+    quantity: z.number().positive(),
+  })),
+});
+
+export type CateringItem = z.infer<typeof CateringItemSchema>;
+export type CartPayload = z.infer<typeof CartPayloadSchema>;
+
+// Legacy definitions to prevent breaking existing code
 export const cateringOrderSchema = z.object({
   userId: z.string().min(1, "User ID is required"),
   mood: z.enum(["relaxed", "hyped", "focused", "romantic"]),
@@ -33,4 +53,3 @@ export const biometricFilterSchema = z.object({
 });
 
 export type BiometricFilterInput = z.infer<typeof biometricFilterSchema>;
-
