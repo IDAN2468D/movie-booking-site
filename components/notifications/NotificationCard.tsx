@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Ticket, Gift, Utensils, Info, CheckCircle2, Clock } from 'lucide-react';
-import { SeverityGlow } from './SeverityGlow';
+import React from "react";
+import { motion } from "framer-motion";
+import { Ticket, Gift, Utensils, Info, CheckCircle2, Clock } from "lucide-react";
 
 export interface Notification {
   id: number;
@@ -19,70 +18,103 @@ interface NotificationCardProps {
   onMarkAsRead: (id: number) => void;
 }
 
-export const NotificationCard: React.FC<NotificationCardProps> = ({ notification, onMarkAsRead }) => {
-  const getIcon = () => {
-    switch (notification.type) {
-      case 'booking': return Ticket;
-      case 'offer': return Gift;
-      case 'food': return Utensils;
-      default: return Info;
+export const NotificationCard: React.FC<NotificationCardProps> = ({
+  notification: n,
+  onMarkAsRead,
+}) => {
+  const getStyle = () => {
+    switch (n.type) {
+      case 'offer':
+        return {
+          bg: "bg-[#FF1464]/10 border-[#FF1464]/30 text-[#FF1464]",
+          glow: "from-[#FF1464]/40 to-transparent",
+          icon: Gift
+        };
+      case 'booking':
+        return {
+          bg: "bg-emerald-500/10 border-emerald-500/30 text-emerald-400",
+          glow: "from-emerald-500/30 to-transparent",
+          icon: Ticket
+        };
+      case 'food':
+        return {
+          bg: "bg-cyan-500/10 border-cyan-500/30 text-cyan-400",
+          glow: "from-cyan-500/30 to-transparent",
+          icon: Utensils
+        };
+      default:
+        return {
+          bg: "bg-sky-400/10 border-sky-400/30 text-sky-400",
+          glow: "from-sky-400/20 to-transparent",
+          icon: Info
+        };
     }
   };
 
-  const getThemeColors = () => {
-    switch (notification.type) {
-      case 'booking': return { text: 'text-green-400', border: 'border-green-400/20', bg: 'bg-green-400/10' };
-      case 'offer': return { text: 'text-[#FF1464]', border: 'border-[#FF1464]/20', bg: 'bg-[#FF1464]/10' };
-      case 'food': return { text: 'text-cyan-400', border: 'border-cyan-400/20', bg: 'bg-cyan-400/10' };
-      default: return { text: 'text-slate-400', border: 'border-slate-400/20', bg: 'bg-slate-400/10' };
-    }
-  };
-
-  const Icon = getIcon();
-  const colors = getThemeColors();
+  const style = getStyle();
+  const Icon = style.icon;
 
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, x: 50, scale: 0.95 }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-      onClick={() => onMarkAsRead(notification.id)}
-      style={{
-        boxShadow: '0 4px 30px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.05)'
+      initial={{ opacity: 0, scale: 0.95, z: 0 }}
+      animate={{ opacity: n.unread ? 1 : 0.4, scale: 1, z: 0 }}
+      exit={{ opacity: 0, scale: 0.9, z: -20 }}
+      whileHover={{ scale: 1.02, z: 20 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      style={{ transformStyle: "preserve-3d", willChange: "transform, opacity" }}
+      className="group relative p-5 rounded-[24px] border border-white/10 bg-black/40 flex items-start gap-5 overflow-hidden backdrop-blur-md cursor-pointer"
+      onClick={() => {
+        if (n.unread) onMarkAsRead(n.id);
       }}
-      className={`group relative flex items-start gap-4 p-5 rounded-[24px] border cursor-pointer flex-row-reverse overflow-hidden transition-all duration-300 ${
-        notification.unread 
-          ? 'bg-white/5 border-white/10 saturate-[1.2]' 
-          : 'bg-transparent border-white/5 hover:bg-white/[0.02] opacity-60 hover:opacity-100'
-      }`}
     >
-      {/* Background Severity light well */}
-      {notification.unread && <SeverityGlow type={notification.type} />}
+      {/* Liquid Glass Hover Glow using mix-blend-plus-lighter */}
+      <div
+        className={`absolute inset-0 bg-gradient-to-l ${style.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-plus-lighter pointer-events-none transform-gpu`}
+      />
 
-      <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border relative z-10 transition-transform duration-500 group-hover:scale-105 ${colors.bg} ${colors.border} ${colors.text}`}>
+      {/* Kinetic Conic Border (Chroma Border Trail for Unread items) */}
+      {n.unread && (
+        <div className="absolute inset-0 z-0 overflow-hidden rounded-[24px]">
+          <div 
+            className="absolute inset-[-50%] w-[200%] h-[200%] animate-spin origin-center opacity-40 mix-blend-screen" 
+            style={{ 
+              animationDuration: '3s', 
+              background: `conic-gradient(from 0deg, transparent 0%, transparent 75%, currentColor 100%)`,
+              color: n.type === 'offer' ? '#FF1464' : n.type === 'booking' ? '#10b981' : '#0ea5e9'
+            }} 
+          />
+        </div>
+      )}
+
+      {/* Icon container */}
+      <div className={`p-3 rounded-xl border shrink-0 relative z-10 transition-transform duration-300 group-hover:scale-110 ${style.bg}`}>
         <Icon className="w-5 h-5" />
-        {notification.unread ? (
-          <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-[#FF1464] rounded-full shadow-[0_0_10px_#FF1464] border border-black" />
-        ) : (
-          <div className="absolute -bottom-0.5 -left-0.5 w-4 h-4 bg-green-500 rounded-full border border-black flex items-center justify-center">
-            <CheckCircle2 className="w-2.5 h-2.5 text-white" />
-          </div>
-        )}
       </div>
 
-      <div className="flex-1 text-right relative z-10 min-w-0">
-        <h3 className={`font-black tracking-tight font-outfit truncate ${notification.unread ? 'text-white text-sm' : 'text-slate-400 text-xs'}`}>
-          {notification.title}
-        </h3>
-        <p className={`font-medium text-xs leading-relaxed mt-1 mb-2 ${notification.unread ? 'text-slate-300' : 'text-slate-500'}`}>
-          {notification.message}
-        </p>
-        <div className="flex items-center gap-1 text-[8px] font-black text-slate-500 uppercase tracking-widest justify-end opacity-60">
-          {notification.time}
-          <Clock className="w-2.5 h-2.5" />
+      {/* Content */}
+      <div className="flex-1 min-w-0 relative z-10">
+        <div className="text-sm font-black text-white truncate font-outfit leading-tight drop-shadow-md">
+          {n.title}
         </div>
+        <div className="text-xs font-medium text-white/70 mt-1.5 leading-relaxed">
+          {n.message}
+        </div>
+        <div className="flex items-center gap-1.5 text-[10px] font-bold text-white/40 mt-2.5 tracking-wider uppercase opacity-80">
+          <Clock className="w-3 h-3" />
+          {n.time}
+        </div>
+      </div>
+
+      {/* Unread dot / Checked icon */}
+      <div className="shrink-0 relative z-10 self-center">
+        {n.unread ? (
+          <div className={`w-3 h-3 rounded-full border border-black shadow-[0_0_10px_currentColor] ${style.bg.split(' ')[0].replace('/10', '')}`} />
+        ) : (
+          <div className="w-5 h-5 rounded-full bg-green-500/20 border border-green-500/50 flex items-center justify-center">
+            <CheckCircle2 className="w-3 h-3 text-green-400" />
+          </div>
+        )}
       </div>
     </motion.div>
   );

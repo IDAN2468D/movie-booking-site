@@ -51,11 +51,16 @@ export default function NotificationsPage() {
         </motion.div>
         
         {/* Decorative background glow */}
-        <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#FF1464]/[0.03] blur-[120px] rounded-full pointer-events-none" />
+        {/* Decorative background glow - ULTRA VISUAL SPEC */}
+        <motion.div 
+          animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-gradient-to-tr from-[#FF1464]/10 via-transparent to-purple-600/10 blur-[100px] rounded-full pointer-events-none -z-10 mix-blend-screen"
+        />
       </div>
 
       {/* Notifications List Container */}
-      <div className="space-y-4 max-w-4xl mx-auto">
+      <div className="space-y-4 max-w-4xl mx-auto" style={{ perspective: "1200px" }}>
         <AnimatePresence mode="popLayout">
           {notifications.map((notif) => (
             <NotificationCard
