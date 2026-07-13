@@ -18,20 +18,20 @@ export const VisualCateringGrid = ({ selectedFood, updateFoodQuantity }: VisualC
   const isFoodPage = pathname === '/food';
   const router = useRouter();
 
-  // Map the FOOD_ITEMS to mark specific items as large format for the Bento layout
-  const enrichedCatalog: KineticItem[] = FOOD_ITEMS.map((item, index) => ({
+  // Map the FOOD_ITEMS
+  const enrichedCatalog: KineticItem[] = FOOD_ITEMS.map((item) => ({
     ...item,
-    // Make specific items large format for a cool asymmetric bento look
-    isLargeFormat: index === 0 || index === 3,
+    // Disabled large format to guarantee all items and images fit cleanly on one screen
+    isLargeFormat: false,
   }));
 
   return (
-    <div className="relative pb-24">
+    <div className="relative flex-1 flex flex-col min-h-0 w-full">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="rounded-[40px] p-6 md:p-8 border border-white/[0.06] relative"
+        className="rounded-[30px] p-4 md:p-6 border border-white/[0.06] relative flex-1 flex flex-col min-h-0 w-full"
         style={{
           background: 'rgba(255, 255, 255, 0.02)',
           backdropFilter: 'blur(40px) saturate(180%)',
@@ -43,7 +43,7 @@ export const VisualCateringGrid = ({ selectedFood, updateFoodQuantity }: VisualC
         <div className="absolute top-0 left-0 w-64 h-64 bg-[#E5FF00]/[0.04] rounded-full blur-[120px] ml-[-128px] mt-[-128px] pointer-events-none" />
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 relative z-10">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mb-4 relative z-10 shrink-0">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-[#FF1464]/10 rounded-[18px] flex items-center justify-center border border-[#FF1464]/20 shadow-[0_0_30px_rgba(255,20,100,0.15)]">
               <ShoppingBasket className="text-[#FF1464]" size={22} />
@@ -59,8 +59,10 @@ export const VisualCateringGrid = ({ selectedFood, updateFoodQuantity }: VisualC
           </div>
         </div>
         
-        {/* Asymmetric Bento Grid - z-10 is needed so dragging isn't clipped by sibling boundaries improperly */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 relative z-10">
+        {/* Scrollable Container for Grid AND Tray so cards don't clip when dragged */}
+        <div className="flex-1 min-h-0 overflow-y-auto relative w-full scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 relative z-10 w-full pt-2 px-2 pb-8">
           {enrichedCatalog.map((item) => {
             const quantity = selectedFood.find((f) => f.id === item.id)?.quantity || 0;
             return (
@@ -72,10 +74,10 @@ export const VisualCateringGrid = ({ selectedFood, updateFoodQuantity }: VisualC
               />
             );
           })}
-        </div>
-        
-        {/* Footer link to full menu if necessary */}
-        <div className="mt-8 text-center sm:text-left border-t border-white/5 pt-6 relative z-10">
+          </div>
+          
+          {/* Footer link to full menu if necessary */}
+          <div className="mt-4 text-center sm:text-left border-t border-white/5 pt-4 relative z-10 shrink-0 pb-32">
           <button 
             onClick={() => {
               if (isFoodPage) {
@@ -90,11 +92,16 @@ export const VisualCateringGrid = ({ selectedFood, updateFoodQuantity }: VisualC
             <ArrowRight size={14} className={isFoodPage ? "group-hover:translate-x-[-4px] transition-transform" : "rotate-180 group-hover:translate-x-[-4px] transition-transform"} /> 
             <span>{isFoodPage ? 'חזרה לתשלום' : 'לצפייה בתפריט המלא'}</span>
           </button>
+          </div>
+          
+          {/* Sticky Tray INSIDE the scroll container as a direct child */}
+          <div className="sticky bottom-0 left-0 right-0 z-50 flex justify-center w-full pointer-events-none pb-2">
+            <div className="pointer-events-auto w-full">
+              <CinemaTrayZone selectedFood={selectedFood} />
+            </div>
+          </div>
         </div>
       </motion.div>
-
-      {/* The drop zone tray */}
-      <CinemaTrayZone selectedFood={selectedFood} />
     </div>
   );
 };

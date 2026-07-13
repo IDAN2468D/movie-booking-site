@@ -127,8 +127,8 @@ export const KineticSnackCard = ({ item, quantity, onUpdateQuantity }: KineticSn
         }}
         dir="rtl"
       >
-        {/* 0 CLS Strict Aspect Ratio Image Mask */}
-        <div className={`relative w-full overflow-hidden shrink-0 ${item.isLargeFormat ? 'aspect-video' : 'aspect-[4/3]'}`}>
+        {/* Fixed large height since we now allow internal scrolling */}
+        <div className={`relative w-full overflow-hidden shrink-0 h-32 sm:h-36 md:h-40`}>
           <NextImage
             src={item.image}
             alt={item.name}
@@ -150,18 +150,18 @@ export const KineticSnackCard = ({ item, quantity, onUpdateQuantity }: KineticSn
         </div>
 
         {/* Content & Metadata */}
-        <div className="p-4 flex flex-col flex-1 justify-between gap-4 pointer-events-none z-10 relative bg-neutral-950/20">
+        <div className="p-2.5 md:p-3 flex flex-col justify-between gap-1 pointer-events-none z-10 relative bg-neutral-950/20 shrink-0">
           <div>
-            <h3 className="text-white font-black text-base md:text-lg mb-1 tracking-wide" style={{ fontFamily: 'Outfit, sans-serif' }}>
+            <h3 className="text-white font-black text-sm md:text-base mb-0.5 tracking-wide leading-tight" style={{ fontFamily: 'Outfit, sans-serif' }}>
               {item.name}
             </h3>
-            <p className="text-white/50 text-[11px] font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>
+            <p className="text-white/50 text-[10px] md:text-[11px] font-medium hidden sm:block truncate" style={{ fontFamily: 'Inter, sans-serif' }}>
               {item.category} • מאושר קולנועית
             </p>
           </div>
 
-          <div className="flex items-center justify-between mt-auto pt-2">
-            <span className="text-[#0AEFFF] font-black text-lg tracking-tighter" style={{ fontFamily: 'Outfit, sans-serif' }}>
+          <div className="flex items-center justify-between mt-auto pt-1">
+            <span className="text-[#0AEFFF] font-black text-sm md:text-base tracking-tighter" style={{ fontFamily: 'Outfit, sans-serif' }}>
               ₪{item.price.toFixed(2)}
             </span>
 

@@ -5,6 +5,12 @@ export const FOOD_ITEMS = [
   { id: 4, name: 'דונאטס מזוגגים', category: 'קינוחים', price: 25.00, rating: 4.6, image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=300' },
   { id: 5, name: 'נקניקייה ענקית', category: 'חטיפים', price: 35.00, rating: 4.5, image: 'https://images.unsplash.com/photo-1541214113241-21578d2d9b62?auto=format&fit=crop&q=80&w=300' },
   { id: 6, name: 'אייס לאטה', category: 'משקאות', price: 22.00, rating: 4.9, image: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&q=80&w=300' },
+  { id: 7, name: 'פופקורן קרמל', category: 'חטיפים', price: 34.00, rating: 4.8, image: 'https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&q=80&w=300', tag: 'מתוק' },
+  { id: 8, name: 'סוכריות גומי', category: 'ממתקים', price: 15.00, rating: 4.5, image: 'https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&q=80&w=300' },
+  { id: 9, name: 'ברד תות פרא', category: 'משקאות', price: 20.00, rating: 4.7, image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?auto=format&fit=crop&q=80&w=300', tag: 'קפוא' },
+  { id: 10, name: 'גלידת שוקולד', category: 'קינוחים', price: 28.00, rating: 4.9, image: 'https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&q=80&w=300' },
+  { id: 11, name: 'בייגלה חם', category: 'חטיפים', price: 24.00, rating: 4.6, image: 'https://images.unsplash.com/photo-1615996001375-c7ef13294436?auto=format&fit=crop&q=80&w=300' },
+  { id: 12, name: 'מים מינרליים', category: 'משקאות', price: 12.00, rating: 4.2, image: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&q=80&w=300' },
 ];
 
 export const CINEMA_BRANCHES = [
