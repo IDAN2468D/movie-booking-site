@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import clientPromise from "@/lib/mongodb";
 import { z } from "zod";
 import { validateBookingTotal, calculatePointsEarned } from "@/lib/pricing";
+import { ObjectId } from "mongodb";
 
 // Validation Schema (GOVERNANCE Rule 1)
 const BookingRequestSchema = z.object({
@@ -23,6 +24,8 @@ const BookingRequestSchema = z.object({
   showtime: z.string().default("19:30"),
   date: z.string().default(new Date().toISOString()),
   pointsUsed: z.number().default(0),
+  originalPrice: z.number().optional(),
+  rewardId: z.string().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -45,7 +48,7 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
 
-    const { movie, seats, food, total, paymentInfo, showtime, date, pointsUsed } = result.data;
+    const { movie, seats, food, total, paymentInfo, showtime, date, pointsUsed, originalPrice, rewardId } = result.data;
 
     // Server-side Total Validation (DYNAMIC_PRICING_LOYALTY)
     const expectedTotal = validateBookingTotal({
@@ -64,6 +67,43 @@ export async function POST(req: NextRequest) {
 
     const client = await clientPromise;
     const db = client.db();
+
+    // 0. Atomic Scratch Card Consumption
+    let appliedDiscountType: string | undefined;
+    let appliedDiscountValue: number | undefined;
+    let finalPrice = originalPrice !== undefined ? originalPrice : total;
+
+    if (rewardId && originalPrice !== undefined) {
+      const updateResult = await db.collection("users").findOneAndUpdate(
+        { 
+          _id: new ObjectId(session.user.id), 
+          "pendingScratchReward.rewardId": rewardId, 
+          "pendingScratchReward.applied": false,
+          "pendingScratchReward.expiresAt": { $gt: new Date() }
+        },
+        { $set: { "pendingScratchReward.applied": true } },
+        { returnDocument: 'after' }
+      );
+
+      const doc = (updateResult as any).value || updateResult;
+      const reward = doc?.pendingScratchReward;
+      
+      if (!reward) {
+        return NextResponse.json({ error: "הטבה זו כבר מומשה או שפג תוקפה" }, { status: 400 });
+      }
+
+      appliedDiscountType = reward.type;
+      appliedDiscountValue = reward.value;
+      
+      if (reward.type === 'discount_percentage') {
+        finalPrice = originalPrice * (1 - (reward.value / 100));
+      } else if (reward.type === 'fixed_discount') {
+        finalPrice = Math.max(0, originalPrice - reward.value);
+      } else if (reward.type === 'free_ticket') {
+        const ticketPrice = originalPrice / seats.length;
+        finalPrice = Math.max(0, originalPrice - ticketPrice);
+      }
+    }
 
     // 1. Double-check seat availability (Server Lock with legacy fallback)
     const bookingsForMovie = await db.collection("bookings").find({
@@ -121,6 +161,11 @@ export async function POST(req: NextRequest) {
       showtime,
       date,
       hall: "אולם 01",
+      ...(appliedDiscountType && {
+        discountType: appliedDiscountType,
+        discountValue: appliedDiscountValue,
+        finalPricePaid: finalPrice
+      })
     };
 
     const bookingResult = await db.collection("bookings").insertOne(booking);

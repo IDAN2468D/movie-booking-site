@@ -6,6 +6,8 @@ import SeatLock from '@/lib/models/SeatLock';
 import { Ticket } from '@/lib/models/Ticket';
 import { LoyaltyUser } from '@/lib/models/Loyalty';
 import crypto from 'crypto';
+import clientPromise from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
 
 const TransactionPayloadSchema = z.object({
   userId: z.string(),
@@ -14,6 +16,8 @@ const TransactionPayloadSchema = z.object({
   paymentToken: z.string(),
   idempotencyKey: z.string().uuid(),
   isFlashOffer: z.boolean().optional().default(false),
+  originalPrice: z.number().optional(),
+  rewardId: z.string().optional(),
 });
 
 export async function processSecureBooking(payload: unknown) {
@@ -26,7 +30,7 @@ export async function processSecureBooking(payload: unknown) {
       return { success: false, error: 'Invalid transaction payload', details: parsed.error.flatten() };
     }
 
-    const { userId, showtimeId, seatIds, paymentToken, isFlashOffer } = parsed.data;
+    const { userId, showtimeId, seatIds, paymentToken, isFlashOffer, originalPrice, rewardId } = parsed.data;
 
     // Verify SeatLocks are owned by user and not expired
     const validLocks = await SeatLock.find({
@@ -39,6 +43,56 @@ export async function processSecureBooking(payload: unknown) {
 
     if (validLocks.length !== seatIds.length) {
        return { success: false, error: 'Seat locks expired or invalid. Please select your seats again.' };
+    }
+
+    // --- STEP A & C: Scratch Card Validation & Atomic Update ---
+    let finalPrice = originalPrice || 0;
+    let appliedDiscountType: string | undefined;
+    let appliedDiscountValue: number | undefined;
+
+    if (rewardId && originalPrice !== undefined) {
+      const client = await clientPromise;
+      const db = client.db();
+      
+      const updateResult = await db.collection("users").findOneAndUpdate(
+        { 
+          _id: new ObjectId(userId), 
+          "pendingScratchReward.rewardId": rewardId, 
+          "pendingScratchReward.applied": false,
+          "pendingScratchReward.expiresAt": { $gt: new Date() }
+        },
+        { $set: { "pendingScratchReward.applied": true } },
+        { returnDocument: 'after' }
+      );
+
+      if (!updateResult) {
+        // Double-spend detected or expired. Rollback locks.
+        await SeatLock.deleteMany({ _id: { $in: validLocks.map(l => l._id) } });
+        return { success: false, error: "הטבה זו כבר מומשה או שפג תוקפה" };
+      }
+
+      // Handle mongodb driver version differences (v5 returns .value, v6 returns the doc directly)
+      const doc = (updateResult as any).value || updateResult;
+      const reward = doc?.pendingScratchReward;
+      
+      if (!reward) {
+        // Fallback if reward data is missing
+        await SeatLock.deleteMany({ _id: { $in: validLocks.map(l => l._id) } });
+        return { success: false, error: "שגיאה בשליפת נתוני ההטבה" };
+      }
+
+      appliedDiscountType = reward.type;
+      appliedDiscountValue = reward.value;
+
+      // Step B: Dynamic Price Recalculation
+      if (reward.type === 'discount_percentage') {
+        finalPrice = originalPrice * (1 - (reward.value / 100));
+      } else if (reward.type === 'fixed_discount') {
+        finalPrice = Math.max(0, originalPrice - reward.value);
+      } else if (reward.type === 'free_ticket') {
+        const ticketPrice = originalPrice / seatIds.length;
+        finalPrice = Math.max(0, originalPrice - ticketPrice);
+      }
     }
 
     // Mock Payment Gateway processing (delay 1.5s)
@@ -79,6 +133,11 @@ export async function processSecureBooking(payload: unknown) {
       status: 'active',
       acquiredVia: isFlashOffer ? 'flash_offer' : 'standard',
       pulsePointsEarned: pointsEarned,
+      ...(appliedDiscountType && {
+        discountType: appliedDiscountType,
+        discountValue: appliedDiscountValue,
+        finalPricePaid: finalPrice
+      })
     });
 
     const userLoyalty = await LoyaltyUser.findOneAndUpdate(

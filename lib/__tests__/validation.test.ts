@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { z } from 'zod';
+import { userSchema } from '../validations/user';
 
 // Shared schemas (mimicking the ones in API routes)
 const BookingRequestSchema = z.object({
@@ -59,6 +60,48 @@ describe('API Validation Schemas', () => {
     it('should fail if points are negative', () => {
       const invalidData = { rewardId: 1, points: -100 };
       expect(RedemptionRequestSchema.safeParse(invalidData).success).toBe(false);
+    });
+  });
+
+  describe('userSchema & pendingScratchRewardSchema', () => {
+    it('should validate valid user data with scratch card reward', () => {
+      const validUser = {
+        name: 'Idan Kazam',
+        email: 'idankzm@gmail.com',
+        createdAt: new Date(),
+        pendingScratchReward: {
+          rewardId: 'reward-123',
+          type: 'discount_percentage',
+          value: 15,
+          applied: false,
+          expiresAt: new Date(Date.now() + 86400000)
+        }
+      };
+      
+      const parseResult = userSchema.safeParse(validUser);
+      expect(parseResult.success).toBe(true);
+    });
+
+    it('should validate user data without pendingScratchReward', () => {
+      const validUser = {
+        name: 'Test User',
+        email: 'test@example.com',
+        createdAt: new Date()
+      };
+      
+      const parseResult = userSchema.safeParse(validUser);
+      expect(parseResult.success).toBe(true);
+    });
+
+    it('should fail if email is invalid', () => {
+      const invalidUser = {
+        name: 'Test User',
+        email: 'not-an-email',
+        createdAt: new Date()
+      };
+      
+      const parseResult = userSchema.safeParse(invalidUser);
+      expect(parseResult.success).toBe(false);
     });
   });
 });

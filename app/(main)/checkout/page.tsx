@@ -13,13 +13,14 @@ import { getImageUrl } from '@/lib/tmdb';
 
 // Modular Components
 import { OrderSummary } from '@/components/checkout/OrderSummary';
-import { FoodUpsell } from '@/components/checkout/FoodUpsell';
+import { VisualCateringGrid } from '@/components/catering/VisualCateringGrid';
 import { PaymentForm } from '@/components/checkout/PaymentForm';
 import { SuccessView } from '@/components/checkout/SuccessView';
 import { SplitPayPanel } from '@/components/social/SplitPayPanel';
 import SmartCheckoutInsights from '@/components/checkout/SmartCheckoutInsights';
 import CurrencyCascade from '@/components/fx/CurrencyCascade';
 import RoaringLionCelebration from '@/components/fx/RoaringLionCelebration';
+import { ScratchRewardBanner } from '@/components/booking/ScratchRewardBanner';
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
@@ -36,13 +37,19 @@ export default function CheckoutPage() {
   const [formData, setFormData] = React.useState({ cardName: '', cardNumber: '', expiryDate: '', cvv: '' });
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [loyaltyData, setLoyaltyData] = React.useState<{ tier: string; points: number } | null>(null);
+  const [scratchReward, setScratchReward] = React.useState<any>(null);
 
   React.useEffect(() => {
     if (session?.user?.id) {
-      import('@/app/actions/bonusActions').then(({ getUserLoyaltyData }) => {
+      import('@/app/actions/bonusActions').then(({ getUserLoyaltyData, getPendingScratchReward }) => {
         getUserLoyaltyData(session.user.id).then(res => {
           if (res.success && res.data) {
             setLoyaltyData(res.data);
+          }
+        });
+        getPendingScratchReward(session.user.id).then(res => {
+          if (res.success && res.data) {
+            setScratchReward(res.data);
           }
         });
       });
@@ -114,6 +121,22 @@ export default function CheckoutPage() {
       tax = total - (total / 1.17);
     }
 
+    const priceBeforeScratch = total;
+    let scratchDiscount = 0;
+    if (scratchReward) {
+      if (scratchReward.type === 'discount_percentage') {
+        scratchDiscount = priceBeforeScratch * (scratchReward.value / 100);
+      } else if (scratchReward.type === 'fixed_discount') {
+        scratchDiscount = Math.min(priceBeforeScratch, scratchReward.value);
+      } else if (scratchReward.type === 'free_ticket') {
+        const ticketPriceWithTax = baseTicketPrice * 1.17;
+        scratchDiscount = Math.min(priceBeforeScratch, ticketPriceWithTax);
+      }
+      discount += scratchDiscount;
+      total -= scratchDiscount;
+      tax = total - (total / 1.17);
+    }
+
     const splitTotal = isSocialMode ? total / (groupMembers.length + 1) : total;
     const earnedPoints = Math.round((isSocialMode ? splitTotal : total) * pointsMultiplier);
     
@@ -133,8 +156,12 @@ export default function CheckoutPage() {
       priceInsights.push(vipInsight);
     }
 
-    return { seatCount, ticketPrice: baseTicketPrice, foodTotal, subtotal, tax, discount, total, splitTotal, priceInsights, earnedPoints };
-  }, [selectedSeats, selectedFood, isSocialMode, groupMembers, selectedShowtime, appliedFlashOffer, loyaltyData]);
+    if (scratchDiscount > 0) {
+      priceInsights.push('הטבת כרטיס גירוד הופעלה בהצלחה');
+    }
+
+    return { seatCount, ticketPrice: baseTicketPrice, foodTotal, subtotal, tax, discount, total, splitTotal, priceInsights, earnedPoints, originalPriceForReward: priceBeforeScratch, scratchDiscount };
+  }, [selectedSeats, selectedFood, isSocialMode, groupMembers, selectedShowtime, appliedFlashOffer, loyaltyData, scratchReward]);
 
   if (!selectedMovie) return <EmptyState />;
   if (isSuccess) return (
@@ -163,7 +190,9 @@ export default function CheckoutPage() {
           branchId: selectedBranchId,
           branchName: branch?.name,
           date: selectedDate,
-          showtime: selectedShowtime
+          showtime: selectedShowtime,
+          originalPrice: pricing.originalPriceForReward,
+          rewardId: scratchReward?.rewardId
         }),
       });
       if (res.ok) {
@@ -244,7 +273,7 @@ export default function CheckoutPage() {
             className="lg:w-[60%] space-y-8 order-2 lg:order-1"
           >
             <SplitPayPanel splitTotal={pricing.splitTotal} />
-            <FoodUpsell selectedFood={selectedFood} updateFoodQuantity={updateFoodQuantity} />
+            <VisualCateringGrid selectedFood={selectedFood} updateFoodQuantity={updateFoodQuantity} />
             <PaymentForm formData={formData} setFormData={setFormData} errors={errors} />
             <SecurityBadge />
           </motion.div>
@@ -257,6 +286,13 @@ export default function CheckoutPage() {
             className="lg:w-[40%] order-1 lg:order-2"
           >
             <div className="sticky top-24 space-y-6">
+              {scratchReward && (
+                <ScratchRewardBanner 
+                  type={scratchReward.type} 
+                  value={scratchReward.value} 
+                  discountAmount={pricing.scratchDiscount} 
+                />
+              )}
               <OrderSummary 
                 movie={selectedMovie} seats={selectedSeats} seatCount={pricing.seatCount} 
                 ticketPrice={pricing.ticketPrice} foodTotal={pricing.foodTotal} 

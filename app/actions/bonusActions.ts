@@ -3,6 +3,8 @@
 import { connectToDatabase } from "@/lib/mongoose";
 import { LoyaltyUser, Reward } from "@/lib/models/Loyalty";
 import { ClaimRewardSchema, ClaimRewardInput } from "@/lib/validations/bonuses";
+import clientPromise from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ActionResponse<T = any> = {
@@ -140,5 +142,33 @@ export async function getAvailableRewards(): Promise<ActionResponse> {
   } catch (error: any) {
     console.error("getAvailableRewards error:", error);
     return { success: false, error: "שגיאה בטעינת ההטבות" };
+  }
+}
+
+export async function getPendingScratchReward(userId: string): Promise<ActionResponse> {
+  try {
+    const client = await clientPromise;
+    const db = client.db();
+    
+    const user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
+    if (!user || !user.pendingScratchReward) {
+      return { success: true, data: null };
+    }
+
+    const reward = user.pendingScratchReward;
+    
+    // Check if it's already applied or expired
+    if (reward.applied || new Date(reward.expiresAt) < new Date()) {
+      return { success: true, data: null };
+    }
+
+    return {
+      success: true,
+      data: reward
+    };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.error("getPendingScratchReward error:", error);
+    return { success: false, error: "שגיאה בטעינת כרטיס הגירוד" };
   }
 }
