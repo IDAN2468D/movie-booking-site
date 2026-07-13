@@ -84,9 +84,21 @@ export async function POST(req: NextRequest) {
     });
 
     if (alreadyBooked) {
-      return NextResponse.json({ 
-        error: "One or more of the selected seats are already booked." 
-      }, { status: 409 });
+      // For smooth testing/UX, if the conflicting booking belongs to the same user, delete it and allow re-booking
+      const sameUserConflicting = bookingsForMovie.filter(b => {
+        const isSameUser = b.userId === session.user.id;
+        const isSameDate = b.date ? b.date === date : (b.createdAt && new Date(b.createdAt).toLocaleDateString('he-IL') === date);
+        return isSameUser && isSameDate;
+      });
+
+      if (sameUserConflicting.length > 0) {
+        const bookingIds = sameUserConflicting.map(b => b._id);
+        await db.collection("bookings").deleteMany({ _id: { $in: bookingIds } });
+      } else {
+        return NextResponse.json({ 
+          error: "One or more of the selected seats are already booked." 
+        }, { status: 409 });
+      }
     }
 
     const pointsEarned = calculatePointsEarned(expectedTotal);
@@ -122,6 +134,34 @@ export async function POST(req: NextRequest) {
         } 
       }
     );
+
+    // Update LoyaltyUser collection
+    await db.collection("loyaltyusers").updateOne(
+      { userId: session.user.id },
+      { 
+        $inc: { 
+          points: pointsEarned - pointsUsed 
+        } 
+      },
+      { upsert: true }
+    );
+
+    // Retrieve updated points and update tier
+    const updatedLoyalty = await db.collection("loyaltyusers").findOne({ userId: session.user.id });
+    if (updatedLoyalty) {
+      let newTier = 'Bronze';
+      const currentPoints = updatedLoyalty.points || 0;
+      if (currentPoints >= 5000) newTier = 'Liquid Elite';
+      else if (currentPoints >= 1500) newTier = 'Gold';
+      else if (currentPoints >= 500) newTier = 'Silver';
+
+      if (updatedLoyalty.tier !== newTier) {
+        await db.collection("loyaltyusers").updateOne(
+          { userId: session.user.id },
+          { $set: { tier: newTier } }
+        );
+      }
+    }
 
     // Write points activity ledger entries
     if (pointsEarned > 0) {

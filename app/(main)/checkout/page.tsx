@@ -35,6 +35,19 @@ export default function CheckoutPage() {
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [formData, setFormData] = React.useState({ cardName: '', cardNumber: '', expiryDate: '', cvv: '' });
   const [errors, setErrors] = React.useState<Record<string, string>>({});
+  const [loyaltyData, setLoyaltyData] = React.useState<{ tier: string; points: number } | null>(null);
+
+  React.useEffect(() => {
+    if (session?.user?.id) {
+      import('@/app/actions/bonusActions').then(({ getUserLoyaltyData }) => {
+        getUserLoyaltyData(session.user.id).then(res => {
+          if (res.success && res.data) {
+            setLoyaltyData(res.data);
+          }
+        });
+      });
+    }
+  }, [session?.user?.id]);
 
   const pricing = useMemo(() => {
     const seatCount = selectedSeats.length;
@@ -75,7 +88,34 @@ export default function CheckoutPage() {
       }
     }
 
+    let vipDiscount = 0;
+    let vipInsight = '';
+    let pointsMultiplier = 1;
+
+    if (loyaltyData) {
+      if (loyaltyData.tier === 'Silver') {
+        vipDiscount = foodTotal * 0.10; // 10% off food
+        vipInsight = `הטבת VIP (Silver): חסכת 10% על נשנושים`;
+        pointsMultiplier = 1.5;
+      } else if (loyaltyData.tier === 'Gold') {
+        vipDiscount = (foodTotal * 0.15) + (seatCount * baseTicketPrice * 0.10); // 15% off food, 10% off tickets
+        vipInsight = `הטבת VIP (Gold): חסכת על כרטיסים ונשנושים`;
+        pointsMultiplier = 2;
+      } else if (loyaltyData.tier === 'Liquid Elite') {
+        vipDiscount = (foodTotal * 0.20) + (seatCount * baseTicketPrice * 0.20); // 20% off all
+        vipInsight = `הטבת VIP (Liquid Elite): חסכת 20% מההזמנה`;
+        pointsMultiplier = 3;
+      }
+    }
+
+    if (vipDiscount > 0) {
+      discount += vipDiscount;
+      total -= vipDiscount;
+      tax = total - (total / 1.17);
+    }
+
     const splitTotal = isSocialMode ? total / (groupMembers.length + 1) : total;
+    const earnedPoints = Math.round((isSocialMode ? splitTotal : total) * pointsMultiplier);
     
     const priceInsights = getPriceInsights({
       basePrice: 45.00,
@@ -85,12 +125,16 @@ export default function CheckoutPage() {
       isPrimeTime: showtimeHour >= 18 && showtimeHour <= 22
     });
 
-    if (discount > 0) {
-      priceInsights.push('מבצע בזק הופעל: נחסכו ₪' + Math.round(discount));
+    if (appliedFlashOffer && discount > vipDiscount) {
+      priceInsights.push('מבצע בזק הופעל: נחסכו ₪' + Math.round(discount - vipDiscount));
+    }
+    
+    if (vipInsight) {
+      priceInsights.push(vipInsight);
     }
 
-    return { seatCount, ticketPrice: baseTicketPrice, foodTotal, subtotal, tax, discount, total, splitTotal, priceInsights };
-  }, [selectedSeats, selectedFood, isSocialMode, groupMembers, selectedShowtime, appliedFlashOffer]);
+    return { seatCount, ticketPrice: baseTicketPrice, foodTotal, subtotal, tax, discount, total, splitTotal, priceInsights, earnedPoints };
+  }, [selectedSeats, selectedFood, isSocialMode, groupMembers, selectedShowtime, appliedFlashOffer, loyaltyData]);
 
   if (!selectedMovie) return <EmptyState />;
   if (isSuccess) return (
@@ -149,7 +193,11 @@ export default function CheckoutPage() {
           console.error('Auto-email failed:', emailErr);
         }
       }
-      else alert('נכשלנו ביצירת ההזמנה. נסה שוב.');
+      else {
+        const errorData = await res.json().catch(() => null);
+        console.error('Booking failed:', errorData);
+        alert(`נכשלנו ביצירת ההזמנה: ${errorData?.error || 'נסה שוב'}`);
+      }
     } catch { alert('שגיאת תקשורת. נסה שוב מאוחר יותר.'); }
     finally { setIsProcessing(false); }
   };
@@ -215,6 +263,7 @@ export default function CheckoutPage() {
                 tax={pricing.tax} discount={pricing.discount} total={isSocialMode ? pricing.splitTotal : pricing.total} 
                 isProcessing={isProcessing} onPayment={handlePayment} 
                 priceInsights={pricing.priceInsights}
+                earnedPoints={pricing.earnedPoints}
               />
               <SmartCheckoutInsights movieTitle={selectedMovie.displayTitle} totalAmount={isSocialMode ? pricing.splitTotal : pricing.total} />
             </div>

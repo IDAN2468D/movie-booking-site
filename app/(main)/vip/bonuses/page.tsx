@@ -3,18 +3,20 @@ import BonusesDashboard from "@/components/vip/BonusesDashboard";
 import { CombinedRewardsSection } from "@/components/vip/CombinedRewardsSection";
 import { getUserLoyaltyData, getAvailableRewards } from "@/app/actions/bonusActions";
 
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
+
 export const metadata = {
   title: "הטבות VIP - MovieBook",
   description: "ממש נקודות נאמנות ושדרג את החוויה שלך",
 };
 
 export default async function VIPBonusesPage() {
-  // In a real app, you would get this from a session/auth context
-  // Using a hardcoded demo user for this implementation
-  const demoUserId = "user_123_demo";
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id || "user_123_demo";
 
   const [loyaltyRes, rewardsRes] = await Promise.all([
-    getUserLoyaltyData(demoUserId),
+    getUserLoyaltyData(userId),
     getAvailableRewards(),
   ]);
 
@@ -32,7 +34,7 @@ export default async function VIPBonusesPage() {
       <BonusesDashboard
         initialLoyaltyData={initialLoyaltyData}
         availableRewards={availableRewards}
-        userId={demoUserId}
+        userId={userId}
       />
       <CombinedRewardsSection />
     </div>

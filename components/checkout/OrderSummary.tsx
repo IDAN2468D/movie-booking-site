@@ -19,10 +19,11 @@ interface OrderSummaryProps {
   isProcessing: boolean;
   onPayment: () => void;
   priceInsights?: string[];
+  earnedPoints?: number;
 }
 
 export const OrderSummary = ({
-  movie, seats, seatCount, ticketPrice, foodTotal, tax, discount = 0, total, isProcessing, onPayment, priceInsights = []
+  movie, seats, seatCount, ticketPrice, foodTotal, tax, discount = 0, total, isProcessing, onPayment, priceInsights = [], earnedPoints = 0
 }: OrderSummaryProps) => {
   return (
     <motion.div 
@@ -89,6 +90,11 @@ export const OrderSummary = ({
                     <span className="text-[10px] text-white/30 font-bold">₪</span>
                     <span className="text-4xl font-black text-white tracking-tighter font-anton">{total.toFixed(2)}</span>
                   </div>
+                  {earnedPoints > 0 && (
+                    <p className="text-[10px] text-[#00F0FF] font-bold mt-2 tracking-wide text-left">
+                       + תצבור {earnedPoints} נקודות VIP
+                    </p>
+                  )}
                 </div>
                 {priceInsights.length > 0 && (
                   <div className="px-4 py-1.5 bg-[#0AEFFF]/10 text-[#0AEFFF] text-[9px] font-black rounded-full border border-[#0AEFFF]/30 uppercase tracking-widest font-anton flex items-center gap-2">
