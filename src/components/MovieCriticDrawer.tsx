@@ -1,22 +1,20 @@
 "use client";
-
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCriticStore } from '@/hooks/useCriticStore';
 import { useRouter } from 'next/navigation';
-import { Send, X, Bot, Volume2, VolumeX, Maximize2 } from 'lucide-react';
+import { X, Bot, Volume2, VolumeX, Maximize2 } from 'lucide-react';
 import { useCognitiveContext } from '@/hooks/useCognitiveContext';
 import { useTransactionStore } from '@/hooks/useTransactionStore';
-import BookingConfirmationWidget from '@/components/checkout/BookingConfirmationWidget';
+import { TransactionStatusOverlay } from './TransactionStatusOverlay';
 import LoyaltyBadge from '@/components/loyalty/LoyaltyBadge';
-import TicketVaultWidget from '@/components/booking/TicketVaultWidget';
 import { processSecureBooking } from '@/lib/actions/transactionActions';
 import { MessageBubble } from './MessageBubble';
 import { ConciergeActivity } from './ConciergeActivity';
 import { useUserMood, usePruneContext } from '@/lib/store/conciergeStore';
 import { useNeuralSpeech } from '@/lib/hooks/useNeuralSpeech';
 import { useIsSpeaking } from '@/lib/store/audioStore';
-
+import { ConciergeInput } from './ConciergeInput';
 interface MovieCriticDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -24,7 +22,14 @@ interface MovieCriticDrawerProps {
 }
 
 export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCriticDrawerProps) {
-  const { messages, isTyping, isMuted, addMessage, updateLastMessage, setTyping, toggleMute, clearSession } = useCriticStore();
+  const messages = useCriticStore((state) => state.messages);
+  const isTyping = useCriticStore((state) => state.isTyping);
+  const isMuted = useCriticStore((state) => state.isMuted);
+  const addMessage = useCriticStore((state) => state.addMessage);
+  const updateLastMessage = useCriticStore((state) => state.updateLastMessage);
+  const setTyping = useCriticStore((state) => state.setTyping);
+  const toggleMute = useCriticStore((state) => state.toggleMute);
+  const clearSession = useCriticStore((state) => state.clearSession);
   const cognitiveContext = useCognitiveContext();
   const transactionState = useTransactionStore();
   const userMood = useUserMood();
@@ -37,7 +42,6 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
   const scrollRef = useRef<HTMLDivElement>(null);
   const [loyalty, setLoyalty] = useState({ tier: 'Bronze', points: 150 });
   const router = useRouter();
-
   const isGoldOrElite = loyalty.tier === 'Gold' || loyalty.tier === 'Liquid Elite';
 
   const handleQuickBook = async () => {
@@ -63,27 +67,21 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
       setErrorStatus(null);
       stop();
     }
-  }, [isOpen, clearSession, stop]);
-
-  useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
     }
-  }, [messages]);
+  }, [isOpen, clearSession, stop, messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim() || isTyping) return;
-
     const userText = inputValue;
     setInputValue('');
     setErrorStatus(null);
     stop();
-    
     addMessage({ id: Date.now().toString(), role: 'user', content: userText });
     pruneContext(10);
     setTyping(true);
-
     try {
       const response = await fetch('/api/critic/proxy/chat', {
         method: 'POST',
@@ -133,7 +131,6 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
       });
     }
   };
-
   return (
     <AnimatePresence>
       {isOpen && (
@@ -171,9 +168,7 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
               </div>
             </div>
             {errorStatus && <div className="bg-red-500/10 border-b border-red-500/20 px-6 py-2 transform-gpu"><p className="text-xs text-red-400 font-mono text-center">{errorStatus}</p></div>}
-            
             <ConciergeActivity />
-
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide transform-gpu">
               {messages.length === 0 && (
                 <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-50 relative z-10 transform-gpu">
@@ -183,19 +178,19 @@ export default function MovieCriticDrawer({ isOpen, onClose, movieId }: MovieCri
                 </div>
               )}
               {messages.map((msg) => <MessageBubble key={msg.id} msg={msg} />)}
-              {transactionState.status === 'PAYMENT_PENDING' && (
-                <div className="flex justify-center p-4"><div className="flex items-center gap-2 text-emerald-400"><div className="w-4 h-4 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" /><span className="text-sm font-mono tracking-wider animate-pulse">Processing Secure Payment...</span></div></div>
-              )}
-              {transactionState.status === 'SUCCESS' && <div className="w-full flex flex-col items-center"><BookingConfirmationWidget onDismiss={() => transactionState.reset()} /><TicketVaultWidget /></div>}
-              {transactionState.status === 'FAILED' && <div className="p-4 rounded-xl bg-red-950/40 border border-red-500/30 text-center"><p className="text-red-400 font-bold mb-1">Transaction Failed</p><p className="text-red-300/70 text-xs">{transactionState.errorMsg}</p><button onClick={() => transactionState.reset()} className="mt-2 text-xs text-white/50 hover:text-white underline">Dismiss</button></div>}
+              <TransactionStatusOverlay
+                status={transactionState.status}
+                errorMsg={transactionState.errorMsg}
+                reset={() => transactionState.reset()}
+              />
               {isTyping && <div className="flex justify-start"><div className="bg-white/5 rounded-2xl p-4 animate-pulse"><span className="text-white/30 text-sm">Concierge is thinking...</span></div></div>}
             </div>
-            <div className="p-4 border-t border-white/5 bg-black/20 transform-gpu">
-              <form onSubmit={handleSubmit} className="relative flex items-center transform-gpu">
-                <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Analyze this film..." disabled={isTyping} className="w-full bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all disabled:opacity-50 transform-gpu" />
-                <button type="submit" disabled={!inputValue.trim() || isTyping} className="absolute right-2 p-2 rounded-full bg-primary text-white hover:scale-105 transition-transform disabled:opacity-50 disabled:hover:scale-100 shadow-[0_0_15px_rgba(255,20,100,0.4)] transform-gpu"><Send className="w-4 h-4" /></button>
-              </form>
-            </div>
+            <ConciergeInput
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              onSubmit={handleSubmit}
+              isTyping={isTyping}
+            />
           </motion.div>
         </>
       )}

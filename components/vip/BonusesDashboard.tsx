@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useOptimistic, useTransition } from "react";
+import Link from "next/link";
 import { claimRewardAction } from "@/app/actions/bonusActions";
 import { Crown, Gift, Sparkles, Check, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
@@ -165,6 +166,34 @@ export default function BonusesDashboard({
                 עוד {Math.max(0, 1000 - optimisticData.points)} נקודות למעמד הבא
               </p>
             </div>
+          </motion.div>
+
+          {/* Widget A.2: Neural Scratch Card Teaser */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+            className="backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 bg-neutral-950/40 border border-white/[0.12] rounded-3xl p-6 relative overflow-hidden"
+            style={{ 
+              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15)" 
+            }}
+          >
+            <div className="flex items-start justify-between mb-4">
+              <div className="text-right">
+                <span className="text-[#00F0FF] text-xs font-bold tracking-[0.1em] font-['Outfit']">משחק VIP אקסקלוסיבי</span>
+                <h3 className="text-xl font-bold text-white mt-1 font-['Outfit']">כרטיס הגירוד הנוירוני</h3>
+              </div>
+              <Sparkles className="w-6 h-6 text-[#00F0FF] animate-pulse" />
+            </div>
+            <p className="text-slate-400 text-sm mb-6 leading-relaxed text-right">
+              גרד את כרטיס הזכוכית האינטראקטיבי וקבל הזדמנות לזכות בכרטיסים חינם, שדרוגים והנחות מיוחדות!
+            </p>
+            <Link 
+              href="/vip/scratch"
+              className="block w-full py-3 rounded-xl bg-gradient-to-l from-[#00F0FF] to-blue-600 text-black text-center font-bold text-sm shadow-[0_0_20px_rgba(0,240,255,0.4)] hover:shadow-[0_0_30px_rgba(0,240,255,0.7)] transition-all duration-300"
+            >
+              התחל לגרד עכשיו
+            </Link>
           </motion.div>
 
           {/* Error Alert */}

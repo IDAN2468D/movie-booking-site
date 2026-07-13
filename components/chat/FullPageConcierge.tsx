@@ -7,7 +7,11 @@ import LoyaltyBadge from '@/components/loyalty/LoyaltyBadge';
 import TicketVaultWidget from '@/components/booking/TicketVaultWidget';
 
 export default function FullPageConcierge() {
-  const { messages, isTyping, addMessage, setTyping, updateLastMessage } = useCriticStore();
+  const messages = useCriticStore((state) => state.messages);
+  const isTyping = useCriticStore((state) => state.isTyping);
+  const addMessage = useCriticStore((state) => state.addMessage);
+  const setTyping = useCriticStore((state) => state.setTyping);
+  const updateLastMessage = useCriticStore((state) => state.updateLastMessage);
   const [inputValue, setInputValue] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
   

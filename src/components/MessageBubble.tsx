@@ -11,7 +11,8 @@ interface MessageBubbleProps {
 }
 
 export const MessageBubble = ({ msg }: MessageBubbleProps) => {
-  const { activeSpeechId, setActiveSpeechId } = useCriticStore();
+  const activeSpeechId = useCriticStore((state) => state.activeSpeechId);
+  const setActiveSpeechId = useCriticStore((state) => state.setActiveSpeechId);
   const { isPlaying, activeWordIndex, processStream, stop, resetProcessedLength, unlockAudioContext } = useMovieCriticSpeech(msg.id);
   const isActive = activeSpeechId === msg.id;
 
