@@ -3,6 +3,8 @@ import { Inter, Anton, Rubik, Assistant, Outfit } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { CinematicFX } from "@/components/fx/CinematicFX";
+import { ScreenSaverListener } from "@/components/effects/ScreenSaverListener";
+import { CinematicScreenSaver } from "@/components/effects/CinematicScreenSaver";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -52,6 +54,8 @@ export default function RootLayout({
       <body className={`${inter.variable} ${anton.variable} ${rubik.variable} ${assistant.variable} ${outfit.variable} antialiased bg-[#0A0A0A] text-[#FAFAF7] font-body`}>
         <AuthProvider>
           <AmbientThemeProvider>
+            <ScreenSaverListener />
+            <CinematicScreenSaver />
             <CinematicFX />
             {children}
           </AmbientThemeProvider>
