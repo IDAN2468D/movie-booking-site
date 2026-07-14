@@ -138,91 +138,100 @@ export async function joinLoungeRoom(
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function updateLoungeSync(rawData: unknown): Promise<Result<{ participants: any[] }>> {
-  try {
-    await connectToDatabase();
-    const session = await getServerSession(authOptions);
+  let retries = 5;
+  while (retries > 0) {
+    try {
+      await connectToDatabase();
+      const session = await getServerSession(authOptions);
 
-    const parsed = UpdateSyncSchema.safeParse(rawData);
-    if (!parsed.success) {
-      return { success: false, error: parsed.error.issues[0].message };
-    }
+      const parsed = UpdateSyncSchema.safeParse(rawData);
+      if (!parsed.success) {
+        return { success: false, error: parsed.error.issues[0].message };
+      }
 
-    const { roomId, cursorX, cursorY, selectedSeat, isReady, guestId, guestName } = parsed.data;
+      const { roomId, cursorX, cursorY, selectedSeat, isReady, guestId, guestName } = parsed.data;
 
-    // Resolve user details
-    const userId = session?.user?.id || session?.user?.email || guestId;
-    if (!userId) {
-      return { success: false, error: "Unauthorized" };
-    }
+      // Resolve user details
+      const userId = session?.user?.id || session?.user?.email || guestId;
+      if (!userId) {
+        return { success: false, error: "Unauthorized" };
+      }
 
-    const name = session?.user?.name || guestName || "אורח";
+      const name = session?.user?.name || guestName || "אורח";
 
-    const room = await CineSyncRoom.findOne({ roomId: roomId.toUpperCase() });
-    if (!room) {
-      return { success: false, error: "Room not found" };
-    }
+      const room = await CineSyncRoom.findOne({ roomId: roomId.toUpperCase() });
+      if (!room) {
+        return { success: false, error: "Room not found" };
+      }
 
-    // 10-second heartbeat check: filter out inactive users
-    const now = Date.now();
-    const inactiveThreshold = new Date(now - 12000); // 12 seconds backoff
+      // 10-second heartbeat check: filter out inactive users
+      const now = Date.now();
+      const inactiveThreshold = new Date(now - 12000); // 12 seconds backoff
 
-    // Update current participant, or add if missing
-    let found = false;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    room.participants = room.participants.map((p: any) => {
-      if (p.userId === userId) {
-        found = true;
-        return {
-          ...p.toObject(),
+      // Update current participant, or add if missing
+      let found = false;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      room.participants = room.participants.map((p: any) => {
+        if (p.userId === userId) {
+          found = true;
+          return {
+            ...p.toObject(),
+            cursorX,
+            cursorY,
+            selectedSeat,
+            isReady,
+            lastActive: new Date()
+          };
+        }
+        return p;
+      });
+
+      if (!found) {
+        room.participants.push({
+          userId,
+          name,
           cursorX,
           cursorY,
           selectedSeat,
           isReady,
           lastActive: new Date()
-        };
+        });
       }
-      return p;
-    });
 
-    if (!found) {
-      room.participants.push({
-        userId,
-        name,
-        cursorX,
-        cursorY,
-        selectedSeat,
-        isReady,
-        lastActive: new Date()
-      });
+      // Filter out inactive users (except the host or the current updating user)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      room.participants = room.participants.filter((p: any) => 
+        p.userId === userId || p.userId === room.hostId || p.lastActive > inactiveThreshold
+      );
+
+      await room.save();
+
+      return {
+        success: true,
+        data: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          participants: room.participants.map((p: any) => ({
+            userId: p.userId,
+            name: p.name,
+            cursorX: p.cursorX,
+            cursorY: p.cursorY,
+            selectedSeat: p.selectedSeat,
+            isReady: p.isReady,
+            lastActive: p.lastActive.toISOString()
+          }))
+        }
+      };
+    } catch (error: any) {
+      if (error.name === "VersionError" && retries > 1) {
+        retries--;
+        await new Promise((resolve) => setTimeout(resolve, Math.random() * 50 + 10));
+        continue;
+      }
+      console.error("Failed to sync lounge room state:", error);
+      return { success: false, error: error instanceof Error ? error.message : "Server error" };
     }
-
-    // Filter out inactive users (except the host or the current updating user)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    room.participants = room.participants.filter((p: any) => 
-      p.userId === userId || p.userId === room.hostId || p.lastActive > inactiveThreshold
-    );
-
-    await room.save();
-
-    return {
-      success: true,
-      data: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        participants: room.participants.map((p: any) => ({
-          userId: p.userId,
-          name: p.name,
-          cursorX: p.cursorX,
-          cursorY: p.cursorY,
-          selectedSeat: p.selectedSeat,
-          isReady: p.isReady,
-          lastActive: p.lastActive.toISOString()
-        }))
-      }
-    };
-  } catch (error: unknown) {
-    console.error("Failed to sync lounge room state:", error);
-    return { success: false, error: error instanceof Error ? error.message : "Server error" };
   }
+  return { success: false, error: "Concurrency limit exceeded" };
 }
 
 /**

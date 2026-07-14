@@ -202,6 +202,51 @@ export async function getActorDetails(id: number): Promise<TMDBPerson | null> {
   }
 }
 
+export interface ActorMovieCredit {
+  id: number;
+  title: string;
+  character: string;
+  poster_path: string | null;
+  release_date?: string;
+  vote_average: number;
+}
+
+interface TMDBMovieCreditCast {
+  id: number;
+  title?: string;
+  name?: string;
+  character?: string;
+  poster_path: string | null;
+  release_date?: string;
+  first_air_date?: string;
+  vote_average?: number;
+}
+
+export async function getActorMovieCredits(id: number): Promise<ActorMovieCredit[]> {
+  try {
+    const data = await fetchFromTMDB<{ cast: TMDBMovieCreditCast[] }>(`/person/${id}/movie_credits`);
+    return (data.cast || [])
+      .map(m => ({
+        id: m.id,
+        title: m.title || m.name || '',
+        character: m.character || '',
+        poster_path: m.poster_path,
+        release_date: m.release_date || m.first_air_date || '',
+        vote_average: m.vote_average || 0
+      }))
+      .sort((a, b) => {
+        const dateA = a.release_date ? new Date(a.release_date).getTime() : 0;
+        const dateB = b.release_date ? new Date(b.release_date).getTime() : 0;
+        return dateB - dateA;
+      })
+      .slice(0, 10);
+  } catch (error) {
+    console.error(`TMDB getActorMovieCredits error for ID ${id}:`, error);
+    return [];
+  }
+}
+
+
 export async function getMovieDetails(id: number): Promise<MovieDetails> {
   try {
     const data = await fetchFromTMDB<MovieDetails>(`/movie/${id}`);

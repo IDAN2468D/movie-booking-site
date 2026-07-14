@@ -5,9 +5,11 @@ export interface ThemeState {
   activeColor: string;
   activeShadow: string;
   luminance: number;
+  environmentalGradient: string | null;
   setColors: (url: string, ambientColor: string, ambientShadow: string, luminance: number) => void;
   getColors: (url: string) => { ambientColor: string; ambientShadow: string; luminance: number } | undefined;
   setActiveColor: (ambientColor: string, ambientShadow: string, luminance: number) => void;
+  setEnvironmentalGradient: (gradient: string) => void;
 }
 
 export const useThemeStore = create<ThemeState>((set, get) => ({
@@ -15,6 +17,7 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
   activeColor: 'rgba(20, 20, 20, 1)',
   activeShadow: 'rgba(0, 0, 0, 0.8)',
   luminance: 0.1,
+  environmentalGradient: null,
   setColors: (url, ambientColor, ambientShadow, luminance) => {
     set((state) => ({
       colorCache: {
@@ -25,4 +28,5 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
   },
   getColors: (url) => get().colorCache[url],
   setActiveColor: (ambientColor, ambientShadow, luminance) => set({ activeColor: ambientColor, activeShadow: ambientShadow, luminance }),
+  setEnvironmentalGradient: (gradient) => set({ environmentalGradient: gradient }),
 }));

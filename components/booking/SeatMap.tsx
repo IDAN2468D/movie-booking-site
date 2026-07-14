@@ -9,7 +9,7 @@ import { usePresence } from "@/hooks/usePresence";
 import { BiometricIntensityMap } from "@/components/booking/BiometricIntensityMap";
 import { DynamicSnackTrayCanvas } from "@/components/food/DynamicSnackTrayCanvas";
 import { HolographicShardFusion } from "@/components/checkout/HolographicShardFusion";
-import { useCinematicAudio } from "@/lib/hooks/useCinematicAudio";
+import { useAcousticFeedback } from "@/hooks/useAcousticFeedback";
 
 interface SeatMapProps {
   showtimeId: string;
@@ -25,7 +25,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   const [selectedSeats, setSelectedSeats] = useState<Set<string>>(new Set());
   const [loadingLocks, setLoadingLocks] = useState<Set<string>>(new Set());
   const [showSnacks, setShowSnacks] = useState(false);
-  const { playClick } = useCinematicAudio();
+  const { playSpatialClick } = useAcousticFeedback();
   const globalSelectedSeats = useBookingStore((state) => state.selectedSeats);
   const { activeIntensityGenre, setActiveIntensityGenre } = useLiquidGlassStore();
   const { predictedSeats, activeOffer, setPredictedSeats, setActiveOffer } = usePredictiveSeatStore();
@@ -90,7 +90,16 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
       return;
     }
 
-    playClick();
+    // Calculate normalized 3D coordinates (-1 to 1) for the Dolby Atmos Panner
+    const rowChar = seatId.charAt(0);
+    const colNum = parseInt(seatId.slice(1), 10);
+    const rowIndex = rowChar.toUpperCase().charCodeAt(0) - 65; // A=0 to H=7
+    
+    const x = ((colNum - 1) / 5) * 2 - 1; // Col 1 -> -1 (Left), Col 6 -> 1 (Right)
+    const z = (rowIndex / 7) * 2 - 1;     // Row A -> -1 (Front), Row H -> 1 (Back)
+    const y = 0;                          // Ear level
+    
+    playSpatialClick(seatId, { x, y, z });
 
     setLoadingLocks(prev => {
       const next = new Set(prev);

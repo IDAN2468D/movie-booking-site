@@ -28,6 +28,16 @@ const ioHandler = (req: NextApiRequest, res: any) => {
         socket.broadcast.emit('presence_update', { socketId: socket.id, seatId });
       });
 
+      socket.on('cursor_move', (payload: any) => {
+        // Broadcast the cursor move to all other clients
+        socket.broadcast.emit('cursor_sync', { socketId: socket.id, ...payload });
+      });
+
+      socket.on('peer_click', (payload: any) => {
+        // Broadcast the peer click to all other clients
+        socket.broadcast.emit('peer_click_sync', { socketId: socket.id, ...payload });
+      });
+
       socket.on('disconnect', () => {
         presenceMap.delete(socket.id);
         socket.broadcast.emit('presence_remove', socket.id);

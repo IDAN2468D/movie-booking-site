@@ -3,7 +3,7 @@
 import { connectToDatabase } from "@/lib/mongoose";
 import { Actor } from "@/lib/models/Actor";
 import { getActorSchema, ACTOR_NOT_FOUND_MSG } from "@/lib/validations/actor";
-import { getActorDetails, getImageUrl } from "@/lib/tmdb";
+import { getActorDetails, getImageUrl, getActorMovieCredits } from "@/lib/tmdb";
 import { callGeminiWithRetry } from "@/lib/gemini";
 
 export async function getActorProfile(actorId: string) {
@@ -94,7 +94,42 @@ Return ONLY the clean Hebrew text without markdown formatting, introductions, or
       return { success: false, error: ACTOR_NOT_FOUND_MSG };
     }
 
-    return { success: true, data: JSON.parse(JSON.stringify(actor)) };
+    let tmdbId: number | null = null;
+    if (validated.actorId.startsWith('tmdb-')) {
+      tmdbId = parseInt(validated.actorId.replace('tmdb-', ''), 10);
+    } else if (validated.actorId === 'actor-keanu') {
+      tmdbId = 6384;
+    } else if (validated.actorId === 'actor-bale') {
+      tmdbId = 3896;
+    }
+
+    let filmography: {
+      movieId: string;
+      title: string;
+      characterName: string;
+      posterUrl: string;
+      releaseYear: string;
+      rating: number;
+    }[] = [];
+    if (tmdbId && !isNaN(tmdbId)) {
+      const credits = await getActorMovieCredits(tmdbId);
+      filmography = credits.map(c => ({
+        movieId: `${c.id}`,
+        title: c.title,
+        characterName: c.character,
+        posterUrl: getImageUrl(c.poster_path, 'w500') || "",
+        releaseYear: c.release_date ? c.release_date.split('-')[0] : 'לא ידוע',
+        rating: c.vote_average
+      }));
+    }
+
+    return { 
+      success: true, 
+      data: {
+        ...JSON.parse(JSON.stringify(actor)),
+        filmography
+      } 
+    };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     if (error.name === 'ZodError') {

@@ -11,6 +11,7 @@ import MobileNav from "@/components/layout/MobileNav";
 import { HeartbeatInit } from "@/components/utils/HeartbeatInit";
 import ResolutionWrapper from "@/components/layout/ResolutionWrapper";
 import { useBookingStore } from '@/lib/store';
+import { ParticleUniverse } from "@/components/fx/ParticleUniverse";
 
 export default function MainLayout({
   children,
@@ -45,8 +46,9 @@ export default function MainLayout({
 
   return (
     <ResolutionWrapper>
+      <ParticleUniverse />
       <div 
-        className="flex h-screen overflow-hidden transition-colors duration-1000" 
+        className="flex h-screen overflow-hidden transition-colors duration-1000 relative z-0" 
         dir="rtl"
         style={{
           '--primary': auraColor,

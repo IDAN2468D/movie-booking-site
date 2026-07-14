@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useWatchParty, useWatchPartyStore } from '../../hooks/useWatchParty';
+import { HolographicCursor } from '../../components/booking/HolographicCursor';
 
 export interface Seat {
   id: string;
@@ -83,9 +85,52 @@ const playSubBassDrop = () => {
   osc.stop(audioCtx.currentTime + 0.5);
 };
 
+const playPeerClick = (col: number) => {
+  if (typeof window === 'undefined') return;
+  if (!audioCtx) audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+  
+  const panner = audioCtx.createPanner();
+  panner.panningModel = 'equalpower';
+  const panValue = ((col - 1) / 14) * 2 - 1;
+  panner.positionX.value = panValue;
+  panner.positionY.value = 0;
+  panner.positionZ.value = 1 - Math.abs(panValue);
+
+  const osc = audioCtx.createOscillator();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.05);
+
+  const gainNode = audioCtx.createGain();
+  gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+
+  osc.connect(panner);
+  panner.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+  
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.05);
+};
+
 export default function SeatMap({ showtimeId = 'mock-showtime-1', currentUserId = 'user-' + Math.random().toString(36).substring(7) }) {
   const [seats, setSeats] = useState<Seat[]>(generateSeatMap());
   const [hoveredSeat, setHoveredSeat] = useState<string | null>(null);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { emitCursorMove, emitPeerClick } = useWatchParty();
+  const cursors = useWatchPartyStore((state) => state.cursors);
+  const userColor = React.useMemo(() => `hsl(${Math.floor(Math.random() * 360)}, 80%, 60%)`, []);
+  const lastMoveTime = useRef<number>(0);
+
+  useEffect(() => {
+    const handlePeerClick = (e: any) => {
+      const { col } = e.detail;
+      playPeerClick(col);
+    };
+    window.addEventListener('watchparty_peer_click', handlePeerClick);
+    return () => window.removeEventListener('watchparty_peer_click', handlePeerClick);
+  }, []);
 
   useEffect(() => {
     const eventSource = new EventSource(`/api/tickets/sync?showtimeId=${showtimeId}`);
@@ -130,6 +175,7 @@ export default function SeatMap({ showtimeId = 'mock-showtime-1', currentUserId 
     if (seat.status === 'occupied') return;
     
     playSpatialClick(seat.col);
+    emitPeerClick(seat.col, seat.row);
 
     const isSelecting = seat.status === 'available';
     const action = isSelecting ? 'hold' : 'release';
@@ -157,8 +203,37 @@ export default function SeatMap({ showtimeId = 'mock-showtime-1', currentUserId 
     }
   };
 
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!containerRef.current) return;
+    const now = Date.now();
+    // Throttle to roughly 15fps (~66ms)
+    if (now - lastMoveTime.current < 66) return;
+    lastMoveTime.current = now;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    emitCursorMove({ x, y, userId: currentUserId, color: userColor });
+  };
+
   return (
-    <div className="w-full flex flex-col items-center p-8 overflow-x-auto select-none">
+    <div 
+      ref={containerRef}
+      onPointerMove={handlePointerMove}
+      className="relative w-full flex flex-col items-center p-8 overflow-hidden select-none touch-none"
+    >
+      <AnimatePresence>
+        {Object.values(cursors).map((cursor) => (
+          <HolographicCursor 
+            key={cursor.socketId}
+            x={cursor.x}
+            y={cursor.y}
+            color={cursor.color}
+            userId={cursor.userId}
+          />
+        ))}
+      </AnimatePresence>
       <div className="w-3/4 max-w-4xl h-12 mb-16 rounded-[100%] border-t-4 border-purple-500/50 shadow-[0_-20px_40px_rgba(168,85,247,0.2)] opacity-80" />
       
       <div className="flex flex-col gap-4">
