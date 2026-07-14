@@ -49,7 +49,7 @@ export const MessageBubble = ({ msg }: MessageBubbleProps) => {
             ? 'bg-white/10 border border-white/5' 
             : 'bg-primary/20 border border-primary/30 shadow-[0_0_10px_rgba(255,20,100,0.2)]'
         }`}>
-          {msg.role === 'user' ? <User className="w-4 h-4 text-white/60" /> : <Bot className="w-4 h-4 text-primary" />}
+          {msg.role === 'user' ? <User className="w-4 h-4 text-white/60" /> : <Bot className="w-4 h-4 text-amber-400" />}
         </div>
         
         <div className={`relative p-4 rounded-2xl ${

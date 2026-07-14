@@ -172,7 +172,7 @@ export default function ConciergePage() {
         >
           <div className="flex items-center gap-4 mb-4 justify-center">
             <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center border border-primary/30 shadow-[0_0_20px_rgba(255,159,10,0.2)]">
-              <Bot className="text-primary w-6 h-6" />
+              <Bot className="text-amber-400 w-6 h-6" />
             </div>
             <p className="text-[10px] md:text-xs text-primary font-black uppercase tracking-[0.4em]">AI Personal Assistant</p>
           </div>
