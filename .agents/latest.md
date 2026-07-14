@@ -17,6 +17,19 @@ Adhere to these output constraints strictly:
 
 # 🆕 Latest Updates (v6.2)
 
+## 🎬 Movies Coming Soon Screen Upgrade (Sprint 18) - COMPLETED
+- **Navigation & Routing**: Engineered a dedicated `/coming-soon` route and integrated it into the Liquid Glass 4.0 Sidebar and MobileNav layouts.
+- **Backend & Data Integrity**: Developed `getMovieTrailerAction` and expanded `movieValidation.ts` using Zod schemas for TMDB YouTube trailer results.
+- **Liquid Glass 4.0 UI**: Engineered `ComingSoonClient.tsx`, `UpcomingMovieCard.tsx`, and `TrailerModal.tsx`. Included dynamic background layout-reflow-free liquid transitions synced with movie poster hovers.
+- **Interactive Features**: Integrated a real-time countdown badge, Save to Calendar local tracking, and immersive TMDB video modals.
+- **Self-Healing Loop**: Conducted rigorous verification with `npm run build` and `npx vitest run` (39/39 passing) resulting in a fully isolated, strictly-typed implementation module.
+
+## 🎬 Movies Coming Soon Carousel (Sprint 18) - COMPLETED
+- **TMDB Server Proxy**: Executed Step 1 - Created Server Action `getUpcomingMoviesAction` with Next.js revalidation cache (24 hours) protecting API Keys on the server.
+- **Zod Data Boundary**: Executed Step 2 - Defined strict type-safe operational mapping via `UpcomingMovieSchema` to secure inputs.
+- **Liquid Glass 4.0 UI Carousel**: Executed Step 3 - Implemented `ComingSoonCarousel.tsx` featuring sub-pixel chromatic borders, layered depth shadows, and 120Hz zero-reflow loading skeletons.
+- **Rigorous Verification**: Finalized test suite (`upcomingMovies.test.ts`) with 100% Vitest coverage and compiled successful production Next.js Turbopack build.
+
 ## 🎫 Offline Ticket Vault (LiquidGlassTicketVault)
 - **Backend Sealing**: Initialized. Executed Step 1 - Engineered the HMAC-SHA256 signature Server Action for zero client exposure encryption alongside strict Zod schemas for the barcode payload.
 - **Liquid Glass Vault UI**: Executed Step 2 - Implemented LiquidGlassTicketVault.tsx rendering a qrcode.react secure token with a Liquid Glass 4.0 layout and useSubBass acoustic unlock animation.

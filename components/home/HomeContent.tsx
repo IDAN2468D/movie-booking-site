@@ -19,6 +19,7 @@ import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 import HolographicBackground from '@/components/ui/HolographicBackground';
 import StoryBar from '@/components/stories/StoryBar';
 import { useFilteredMovies } from '@/hooks/useFilteredMovies';
+import ComingSoonCarousel from './ComingSoonCarousel';
 
 interface HomeContentProps {
   popularMovies: Movie[];
@@ -129,6 +130,7 @@ export default function HomeContent({
                 movies={topRatedMovies.slice(0, 12)} 
                 onSeeAll={() => setActiveCategory('top')}
               />
+              <ComingSoonCarousel />
             </>
           ) : (
             <MovieSection title="סרטי הקטגוריה" movies={moviesToShow} />
