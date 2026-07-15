@@ -10,6 +10,7 @@ import { BiometricIntensityMap } from "@/components/booking/BiometricIntensityMa
 import { DynamicSnackTrayCanvas } from "@/components/food/DynamicSnackTrayCanvas";
 import { HolographicShardFusion } from "@/components/checkout/HolographicShardFusion";
 import { useAcousticFeedback } from "@/hooks/useAcousticFeedback";
+import { AcousticRadar } from "@/components/booking/AcousticRadar";
 
 interface SeatMapProps {
   showtimeId: string;
@@ -31,6 +32,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   const { predictedSeats, activeOffer, setPredictedSeats, setActiveOffer } = usePredictiveSeatStore();
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const { presence, updatePresence } = usePresence();
+  const setHoveredSeat = useBookingStore((state) => state.setHoveredSeat);
 
   // Compute a map of seatId -> string[] (array of socketIds hovering this seat)
   const seatPresenceMap: Record<string, string[]> = {};
@@ -172,7 +174,8 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
 
       <BiometricIntensityMap />
       <HolographicShardFusion />
-      
+      <AcousticRadar />
+
 
 
       {/* Top Bar with Toggles */}
@@ -217,8 +220,14 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
                       isLoading={loadingLocks.has(seatId)}
                       isPredicted={predictedSeats.includes(seatId)}
                       onClick={() => handleSeatClick(seatId)}
-                      onHover={() => updatePresence(seatId)}
-                      onLeave={() => updatePresence("")}
+                      onHover={() => {
+                        updatePresence(seatId);
+                        setHoveredSeat(seatId);
+                      }}
+                      onLeave={() => {
+                        updatePresence("");
+                        setHoveredSeat(null);
+                      }}
                       compact={compact}
                       presenceUsers={seatPresenceMap[seatId] || []}
                     />
@@ -241,8 +250,14 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
                       isSelected={selectedSeats.has(seatId) || globalSelectedSeats.includes(seatId)}
                       isLoading={loadingLocks.has(seatId)}
                       onClick={() => handleSeatClick(seatId)}
-                      onHover={() => updatePresence(seatId)}
-                      onLeave={() => updatePresence("")}
+                      onHover={() => {
+                        updatePresence(seatId);
+                        setHoveredSeat(seatId);
+                      }}
+                      onLeave={() => {
+                        updatePresence("");
+                        setHoveredSeat(null);
+                      }}
                       compact={compact}
                       presenceUsers={seatPresenceMap[seatId] || []}
                     />

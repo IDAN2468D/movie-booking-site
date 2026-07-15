@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSession } from "next-auth/react";
+import { MemoryShard, BookingMemory } from "@/components/profile/MemoryShard";
+import { getUserMemoriesAction } from "@/app/actions/memoryActions";
 import ActiveTicketCountdown from "@/components/booking/ActiveTicketCountdown";
 import SettingsMatrix from "@/components/settings/SettingsMatrix";
 
@@ -13,6 +16,20 @@ interface ProfileClientProps {
 
 export default function ProfileClient({ activeTickets, history, activeMatches }: ProfileClientProps) {
   const [activeTab, setActiveTab] = useState<"active" | "matches" | "history" | "settings">("active");
+  const [memories, setMemories] = useState<BookingMemory[] | null>(null);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (activeTab === "history" && !memories && session?.user?.id) {
+      getUserMemoriesAction(session.user.id).then((res) => {
+        if (res.success && res.data) {
+          setMemories(res.data);
+        } else {
+          setMemories([]);
+        }
+      });
+    }
+  }, [activeTab, session?.user?.id, memories]);
 
   const tabs = [
     { id: "active", label: "כרטיסים פעילים", count: activeTickets.length },
@@ -103,13 +120,15 @@ export default function ProfileClient({ activeTickets, history, activeMatches }:
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid gap-6 grid-cols-1 md:grid-cols-2"
+              className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
             >
-              {history.length === 0 ? (
-                <EmptyState message="אין היסטוריית הזמנות." />
+              {memories === null ? (
+                <div className="col-span-full py-10 flex justify-center text-cyan-400">טוען זיכרונות קולנועיים...</div>
+              ) : memories.length === 0 ? (
+                <EmptyState message="אין זיכרונות קולנועיים עדיין." />
               ) : (
-                history.map(ticket => (
-                  <TicketCard key={ticket._id} data={ticket} />
+                memories.map(memory => (
+                  <MemoryShard key={memory.id} booking={memory} />
                 ))
               )}
             </motion.div>

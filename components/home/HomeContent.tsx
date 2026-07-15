@@ -9,9 +9,6 @@ gsap.registerPlugin(ScrollTrigger);
 import CategoryFilters from './CategoryFilters';
 import MovieSection from './MovieSection';
 import FeaturedHero from './FeaturedHero';
-import CinemaShowcase from './CinemaShowcase';
-import CinemaExperienceScrolly from './CinemaExperienceScrolly';
-import TextScrollReveal from './TextScrollReveal';
 import { Movie } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
@@ -97,13 +94,7 @@ export default function HomeContent({
           </div>
         )}
 
-        {activeCategory === 'all' && (
-          <>
-            <CinemaShowcase />
-            <TextScrollReveal />
-            <CinemaExperienceScrolly />
-          </>
-        )}
+
 
         <div className="space-y-4 mt-8">
           {isLoadingGenre ? (

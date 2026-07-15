@@ -4,7 +4,7 @@ import React from 'react';
 import NextImage from 'next/image';
 import { Calendar, Clock, ArrowRight, Zap, MapPin, Armchair } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Movie } from '@/lib/tmdb';
+import { Movie, getImageUrl } from '@/lib/tmdb';
 
 
 interface OrderSummaryProps {
@@ -44,7 +44,7 @@ export const OrderSummary = ({
        {/* Movie Poster Hero Section */}
        <div className="relative h-44 overflow-hidden">
          <NextImage 
-           src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path || movie.poster_path}`} 
+           src={getImageUrl(movie.backdrop_path || movie.poster_path, 'original')} 
            alt={movie.displayTitle} 
            fill
            sizes="(max-width: 768px) 100vw, 500px"

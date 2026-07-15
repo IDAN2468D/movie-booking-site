@@ -14,7 +14,7 @@ import { getImageUrl } from '@/lib/tmdb';
 // Modular Components
 import { OrderSummary } from '@/components/checkout/OrderSummary';
 import { VisualCateringGrid } from '@/components/catering/VisualCateringGrid';
-import { PaymentForm } from '@/components/checkout/PaymentForm';
+import { SingularityOrb } from '@/components/checkout/SingularityOrb';
 import { SuccessView } from '@/components/checkout/SuccessView';
 import { SplitPayPanel } from '@/components/social/SplitPayPanel';
 import SmartCheckoutInsights from '@/components/checkout/SmartCheckoutInsights';
@@ -225,10 +225,66 @@ export default function CheckoutPage() {
       else {
         const errorData = await res.json().catch(() => null);
         console.error('Booking failed:', errorData);
-        alert(`נכשלנו ביצירת ההזמנה: ${errorData?.error || 'נסה שוב'}`);
       }
     } catch { alert('שגיאת תקשורת. נסה שוב מאוחר יותר.'); }
     finally { setIsProcessing(false); }
+  };
+
+  const handleQuantumPayment = async (): Promise<boolean> => {
+    if (!session) {
+      alert('יש להתחבר כדי לבצע הזמנה');
+      return false;
+    }
+    
+    setIsProcessing(true);
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          movie: selectedMovie, 
+          seats: selectedSeats, 
+          food: selectedFood, 
+          total: pricing.total, 
+          paymentInfo: { cardName: 'Quantum Wallet', cardNumber: '1111222233334444', expiryDate: '12/99', cvv: '123' },
+          branchId: selectedBranchId,
+          branchName: branch?.name,
+          date: selectedDate,
+          showtime: selectedShowtime,
+          originalPrice: pricing.originalPriceForReward,
+          rewardId: scratchReward?.rewardId
+        }),
+      });
+      if (res.ok) {
+        const bookingData = await res.json();
+        setTransactionCompleted(true);
+        try {
+          await fetch('/api/send-ticket', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: session.user?.email,
+              movieTitle: selectedMovie.displayTitle,
+              seats: selectedSeats,
+              price: pricing.total,
+              orderId: bookingData.bookingId,
+              posterUrl: getImageUrl(selectedMovie.poster_path, 'w500'),
+              date: selectedDate,
+              time: selectedShowtime,
+              hall: selectedHall,
+              branchName: branch?.name,
+              userName: session.user?.name || 'אורח'
+            }),
+          });
+        } catch (emailErr) {}
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -274,7 +330,14 @@ export default function CheckoutPage() {
           >
             <SplitPayPanel splitTotal={pricing.splitTotal} />
             <VisualCateringGrid selectedFood={selectedFood} updateFoodQuantity={updateFoodQuantity} />
-            <PaymentForm formData={formData} setFormData={setFormData} errors={errors} />
+            <div className="mt-12 mb-8">
+              <h3 className="text-xl font-black text-white font-rubik tracking-tight text-right mb-6">תשלום קוונטי מקוצר</h3>
+              <SingularityOrb 
+                amount={Math.round(isSocialMode ? pricing.splitTotal : pricing.total)} 
+                onProcess={handleQuantumPayment}
+                onSuccess={() => setIsSuccess(true)}
+              />
+            </div>
             <SecurityBadge />
           </motion.div>
 

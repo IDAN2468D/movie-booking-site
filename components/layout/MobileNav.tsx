@@ -4,14 +4,14 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { Home, Clapperboard, Utensils, Zap, Settings, ShieldCheck, CalendarDays } from 'lucide-react';
+import { Home, Clapperboard, Utensils, Zap, Settings, ShieldCheck, CalendarDays, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const navItems = [
   { icon: Home, label: 'בית', href: '/' },
   { icon: Zap, label: 'מאצ׳ר', href: '/showcase' },
   { icon: Clapperboard, label: 'כרטיסים', href: '/tickets' },
-  { icon: CalendarDays, label: 'בקרוב', href: '/coming-soon' },
+  { icon: Star, label: 'חזון', href: '/vision' },
   { icon: Utensils, label: 'אוכל', href: '/food' },
   { icon: Settings, label: 'פרופיל', href: '/profile' },
 ];
