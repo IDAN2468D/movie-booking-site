@@ -92,3 +92,34 @@ This file acts as the primary Layer 1 & 2 Persistence state for the Agent Stack 
 - [x] WebSocket presence handling
 - [x] Liquid Glass Presence Blobs on Seat Map
 - [x] Predictive TMDB demand scale
+
+### Phase 7: Specular Seating Roulette Fusion - Sprint 11
+- [x] Create validations and Server Action for lockRouletteSeatAction
+- [x] Build SeatingRoulette component with requestAnimationFrame animation loop
+- [x] Wire useRouletteStore Zustand and Web Audio click and sub-bass effects
+
+### Phase 8: Netflix-Style Eco Screen Saver - Sprint 12
+- [x] Add isScreenSaverActive and activity tracker hooks to Zustand
+- [x] Build EcoScreenSaver component with pure CSS Ken Burns animations
+- [x] Wrap main layout with content-visibility: hidden toggle
+
+### Phase 9: AI One-Tap Booking & Payment - Sprint 13
+- [x] Create processSecureBooking Server Action with atomic MongoDB rollbacks
+- [x] Implement BookingConfirmationWidget in Liquid Glass 4.0 layout
+- [x] Integrate inline checkout widget inside AI Concierge drawer
+
+### Phase 10: VIP Bonuses & Pulse Gamification - Sprint 14
+- [x] Create Mongoose schema and Server Actions for loyalty points and rewards
+- [x] Build BonusesDashboard with sub-pixel borders and elite styling
+- [x] Wire spatial click synthesis and Framer Motion particle explosions
+
+### Phase 11: Dynamic Specular Subtitles Engine - Sprint 15
+- [x] Build hooks/useAudioAnalyser to capture decibel updates from video elements
+- [x] Implement SpecularSubtitles and SubtitleText components
+- [x] Mount subtitles engine inside Upcoming movie trailer modals
+
+### Phase 12: Phantom Presence & Cine-Ghosting - Sprint 16
+- [x] Setup Socket.io signaling server and PeerSignalPayloadSchema Zod schema
+- [x] Build hooks/usePhantomPresence for WebRTC DataChannel connection
+- [x] Implement PhantomCursors overlay on SeatMap grid canvas
+

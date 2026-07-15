@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBookingStore } from "@/lib/store";
 import { useLiquidGlassStore } from "@/lib/store/liquidGlassStore";
@@ -11,6 +11,7 @@ import { DynamicSnackTrayCanvas } from "@/components/food/DynamicSnackTrayCanvas
 import { HolographicShardFusion } from "@/components/checkout/HolographicShardFusion";
 import { useAcousticFeedback } from "@/hooks/useAcousticFeedback";
 import { AcousticRadar } from "@/components/booking/AcousticRadar";
+import { PhantomCursors } from "./PhantomCursors";
 
 interface SeatMapProps {
   showtimeId: string;
@@ -26,6 +27,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   const [selectedSeats, setSelectedSeats] = useState<Set<string>>(new Set());
   const [loadingLocks, setLoadingLocks] = useState<Set<string>>(new Set());
   const [showSnacks, setShowSnacks] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { playSpatialClick } = useAcousticFeedback();
   const globalSelectedSeats = useBookingStore((state) => state.selectedSeats);
   const { activeIntensityGenre, setActiveIntensityGenre } = useLiquidGlassStore();
@@ -168,7 +170,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   };
 
   return (
-    <div className={`w-full max-w-[600px] mx-auto ${compact ? 'px-2 py-4' : 'px-6 py-8 md:px-16 md:py-10'} rounded-[3rem] bg-[#090b10] border border-white/5 shadow-2xl relative overflow-hidden`} dir="ltr">
+    <div ref={containerRef} className={`w-full max-w-[600px] mx-auto ${compact ? 'px-2 py-4' : 'px-6 py-8 md:px-16 md:py-10'} rounded-[3rem] bg-[#090b10] border border-white/5 shadow-2xl relative overflow-hidden`} dir="ltr">
       {/* Background ambient lighting */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-cyan-500/10 blur-[100px] pointer-events-none" />
 
@@ -339,6 +341,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
           </motion.div>
         )}
       </AnimatePresence>
+      <PhantomCursors userId={userId} containerRef={containerRef} />
     </div>
   );
 }
