@@ -1,4 +1,4 @@
-# 🤖 Movie Booking Site - Neural Discovery & Unified AI Governance Standard (v6.2)
+# 🤖 Movie Booking Site - Neural Discovery & Unified AI Governance Standard (v7.0)
 *Single Source of Truth. Adherence mandatory.*
 
 ## 🎯 1. Identity, Communication & Scope Rules
@@ -52,26 +52,19 @@ When executing design synchronization cycles via the Stitch MCP, validate all as
 - **Pre-Flight Sanity Routines**: Prior to requesting push clearance, successfully run a local production build sequence via `npm run build`, followed immediately by the automated suite via `npx vitest run`. Any failures trigger an automatic rollback.
 - **CI/CD Enforcement**: Remote repositories must execute automated pipeline suites on all incoming Pull Requests targeting protected primary trunks (`main`).
 
-## 🤖 6. Framework Rule: Architectural Enforcement
+## 🤖 6. Framework Rule: Architectural Enforcement (v7.0 Enterprise-Cognitive)
 - BEFORE executing any feature request, bug fix, or code modification, you MUST activate and follow the strict 5-layer engine defined in `.agents/skills/agent-stack-framework/SKILL.md`.
 - Never bypass the Markdown Persistence layer or the Plan/Checkpoint gate.
+- **Just-In-Time (JIT) Skill Loading**: Load only the specific Skill file relevant to the current task from `.agents/Skills/` to optimize context window tokens.
 
-## 🛑 7. STRICT TOKEN OPTIMIZATION RULES
-You operate in a high-efficiency environment where tokens are heavily budgeted. 
-Adhere to these output constraints strictly:
+## 🛑 7. STRICT TOKEN OPTIMIZATION & PERFORMANCE RULES
+You operate in a high-efficiency environment where tokens are heavily budgeted.
+Adhere to these constraints strictly:
+1. **NO FULL FILE REWRITES**: Never rewrite an entire file if only small parts changed. Use clear code snippets or diff blocks.
+2. **TOKEN EFFICIENCY**: Avoid re-reading large file structures. Rely on the state summary in `latest.md` and `STATE.md`.
+3. **SCREEN & VIEW AWARENESS**: Before executing any UI-related task, verify the active `View State` or screen context.
 
-1. **NO FULL FILE REWRITES:** Never rewrite an entire file if only small parts changed. 
-2. **USE CODE SNIPPETS / DIFFS:** Provide only the specific functions or lines that need modification. Use clear comments indicating where the code fits:
-   ```javascript
-   // ... existing code ...
-   function updatedTarget() {
-       // Only the changed logic here
-   }
-   // ... existing code ...
-   ```
-
-## 🔁 8. Layer 5 Self-Healing Loop Execution (Mandatory)
+## 🔁 8. Layer 5 Self-Healing Loop & 3-Strike Rule (Mandatory)
 - ON EVERY FEATURE IMPLEMENTATION OR MODIFICATION, the agent MUST automatically execute the "Layer 5 Self-Healing Loop" defined in `.agents/skills/agent-stack-framework/SKILL.md`.
-- This entails running verification commands (e.g., `npx tsc --noEmit`, `npm run build`, and `npx vitest run`).
-- If any compilation errors, type violations, or test failures occur, the agent MUST autonomously analyze the terminal traces and recursively fix the code until ALL validation assertions pass. 
-- Do NOT stop, pause, or wait for human intervention if errors occur during this loop—heal the codebase continuously until it is 100% verified and green.
+- Run verification commands (`npx tsc --noEmit`, `npm run build`, and `npx vitest run`).
+- **The 3-Strike Rule**: If the same compilation, type, or test failure persists for **3 consecutive attempts** during the self-healing loop, the agent MUST immediately HALT, record the diagnostic details in `latest.md`, and prompt the user for human intervention. Do not proceed further.

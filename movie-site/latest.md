@@ -15,6 +15,15 @@ Adhere to these output constraints strictly:
    // ... existing code ...
    ```
 
+# 🆕 Latest Updates (v7.0)
+
+## 🤖 Enterprise-Cognitive Agent Stack Upgrade (v7.0) - COMPLETED
+- **Framework Upgrades**: Overhauled the core 5-layer execution engine to v7.0 inside `SKILL.md` and `AGENTS.md`.
+- **Token Optimization & JIT**: Established protocols for token budget monitoring and JIT skill loading from `.agents/Skills/` to conserve token budgets.
+- **Screen Awareness**: Hardcoded UI Screen Context checks before conducting frontend view modifications.
+- **Self-Healing Loop**: Detailed strict automated testing (`npx tsc --noEmit` and `npx vitest run`) and enforced a robust 3-Strike Rule to halt and prompt the user on persistent diagnostic failures.
+- **Verification**: Verified 100% successful compilation and vitest suite execution (39/39 passing).
+
 # 🆕 Latest Updates (v6.2)
 
 ## 🎬 Movies Coming Soon Screen Upgrade (Sprint 18) - COMPLETED
