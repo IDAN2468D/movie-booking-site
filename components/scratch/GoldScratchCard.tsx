@@ -27,6 +27,14 @@ export function GoldScratchCard({ prizes, locked, onRevealPrize }: GoldScratchCa
   const particles = useRef<Particle[]>([]);
   const animating = useRef(false);
   const [activeRevealedId, setActiveRevealedId] = useState<number | null>(null);
+  const [holoPos, setHoloPos] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setHoloPos({ x, y });
+  };
 
   useEffect(() => {
     const canvas = particlesCanvasRef.current;
@@ -132,10 +140,24 @@ export function GoldScratchCard({ prizes, locked, onRevealPrize }: GoldScratchCa
 
   return (
     <div
-      style={{ width: 360, height: 500 }}
+      onMouseMove={handleMouseMove}
+      style={{ 
+        width: 360, 
+        height: 500,
+        ['--holo-x' as any]: `${holoPos.x}%`,
+        ['--holo-y' as any]: `${holoPos.y}%`
+      }}
       className="relative rounded-3xl overflow-hidden select-none bg-[#0B0C10] border border-amber-500/25 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] flex flex-col"
       dir="rtl"
     >
+      {/* Holographic Refraction Sheen Overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none z-20 mix-blend-color-dodge opacity-45 transition-opacity duration-350"
+        style={{
+          background: `radial-gradient(circle at var(--holo-x, 50%) var(--holo-y, 50%), rgba(255, 0, 128, 0.4) 0%, rgba(0, 240, 255, 0.4) 45%, transparent 75%)`
+        }}
+      />
+
       {/* Absolute Particle Overlay */}
       <canvas
         ref={particlesCanvasRef}

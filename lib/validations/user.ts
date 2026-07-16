@@ -5,7 +5,10 @@ export const pendingScratchRewardSchema = z.object({
   type: z.enum(['discount_percentage', 'fixed_discount', 'free_ticket']),
   value: z.number(),
   applied: z.boolean().default(false),
-  expiresAt: z.date()
+  expiresAt: z.date(),
+  title: z.string().optional(),
+  explanation: z.string().optional(),
+  voucherCode: z.string().optional()
 });
 
 export const userSchema = z.object({

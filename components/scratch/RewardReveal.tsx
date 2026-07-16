@@ -6,9 +6,10 @@ import { Copy, Check } from 'lucide-react';
 interface RewardRevealProps {
   voucherCode: string;
   rewardTitle: string;
+  explanation?: string;
 }
 
-export function RewardReveal({ voucherCode, rewardTitle }: RewardRevealProps) {
+export function RewardReveal({ voucherCode, rewardTitle, explanation }: RewardRevealProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -52,8 +53,14 @@ export function RewardReveal({ voucherCode, rewardTitle }: RewardRevealProps) {
           {rewardTitle}
         </h3>
 
+        {explanation && (
+          <p className="text-slate-350 text-xs font-semibold max-w-[260px] leading-relaxed mt-2.5 px-3 py-2 bg-amber-500/[0.04] border border-amber-500/10 rounded-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] font-body">
+            {explanation}
+          </p>
+        )}
+
         {/* Triple Star Decor */}
-        <span className="text-[10px] text-amber-500/50 tracking-[0.4em] mt-1.5 font-bold">★★★</span>
+        <span className="text-[10px] text-amber-500/50 tracking-[0.4em] mt-2.5 font-bold">★★★</span>
       </div>
 
       {/* Bottom Section: Code Box, Barcode & Serial */}

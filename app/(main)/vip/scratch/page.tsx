@@ -1,11 +1,19 @@
-'use client';
-
 import React from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 import { ScratchCardContainer } from '@/components/scratch/ScratchCardContainer';
 
-export default function ScratchCardPage() {
+export const metadata = {
+  title: 'כרטיס הגירוד הנוירוני - VIP',
+  description: 'חשוף את ההטבה הסודית שלך באמצעות כרטיס הגירוד הנוירוני',
+};
+
+export default async function ScratchCardPage() {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id || "user_123_demo";
+
   return (
     <div className="relative min-h-screen bg-[#05070B] text-[#F0F0F0] overflow-hidden flex flex-col items-center justify-center p-6" dir="rtl">
       {/* Background Decorative Neon Glows */}
@@ -41,10 +49,7 @@ export default function ScratchCardPage() {
 
         <div className="relative p-3 rounded-[32px] bg-white/[0.01] border border-white/[0.06] backdrop-blur-[20px] shadow-2xl">
           <ScratchCardContainer
-            voucherCode="VIP-FREE-TICKET-2468"
-            onComplete={() => {
-              console.log('[Scratch Game] Completed successfully!');
-            }}
+            userId={userId}
           />
         </div>
 

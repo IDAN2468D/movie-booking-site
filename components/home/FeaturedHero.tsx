@@ -15,12 +15,23 @@ interface FeaturedHeroProps {
 export default function FeaturedHero({ movie }: FeaturedHeroProps) {
   const { setSelectedMovie, favorites, toggleFavorite } = useBookingStore();
   
-  // Parallax Values
+  // Mouse tracking variables
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   
-  const rotateX = useSpring(useTransform(mouseY, [-300, 300], [10, -10]), { stiffness: 100, damping: 30 });
-  const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-10, 10]), { stiffness: 100, damping: 30 });
+  // Layer translations (scaled differently to establish spatial separation)
+  const bgX = useSpring(useTransform(mouseX, [-350, 350], [-10, 10]), { stiffness: 90, damping: 25 });
+  const bgY = useSpring(useTransform(mouseY, [-350, 350], [-10, 10]), { stiffness: 90, damping: 25 });
+  
+  const textX = useSpring(useTransform(mouseX, [-350, 350], [-25, 25]), { stiffness: 100, damping: 30 });
+  const textY = useSpring(useTransform(mouseY, [-350, 350], [-25, 25]), { stiffness: 100, damping: 30 });
+  
+  const posterX = useSpring(useTransform(mouseX, [-350, 350], [-45, 45]), { stiffness: 110, damping: 28 });
+  const posterY = useSpring(useTransform(mouseY, [-350, 350], [-45, 45]), { stiffness: 110, damping: 28 });
+
+  // 3D rotations for the foreground elements
+  const rotateX = useSpring(useTransform(mouseY, [-350, 350], [12, -12]), { stiffness: 100, damping: 30 });
+  const rotateY = useSpring(useTransform(mouseX, [-350, 350], [-12, 12]), { stiffness: 100, damping: 30 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -45,15 +56,20 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
       onMouseLeave={handleMouseLeave}
       className="relative w-full h-[600px] md:h-[650px] rounded-[2.5rem] overflow-hidden group mx-auto max-w-[1600px] mt-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)] [transform:translateZ(0)] perspective-1000"
     >
-      {/* Background Image */}
-      <Image
-        src={getImageUrl(movie.backdrop_path, 'original')}
-        alt={movie.displayTitle}
-        fill
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1400px"
-        className="object-cover transition-transform duration-1000 group-hover:scale-105 saturate-[1.1]"
-        priority
-      />
+      {/* BACKGROUND LAYER (Z: -100px) */}
+      <motion.div
+        style={{ x: bgX, y: bgY, scale: 1.06, willChange: 'transform' }}
+        className="absolute inset-0 z-0 select-none pointer-events-none transform-gpu"
+      >
+        <Image
+          src={getImageUrl(movie.backdrop_path, 'original')}
+          alt={movie.displayTitle}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1400px"
+          className="object-cover saturate-[1.1]"
+          priority
+        />
+      </motion.div>
       
       {/* Dynamic Gradients */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent z-10" />
@@ -66,20 +82,20 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
           opacity: [0, 0.3, 0] 
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-x-0 h-40 bg-gradient-to-b from-transparent via-primary/10 to-transparent z-20 blur-2xl"
+        className="absolute inset-x-0 h-40 bg-gradient-to-b from-transparent via-primary/10 to-transparent z-20 blur-2xl pointer-events-none"
       />
       <motion.div 
         animate={{ y: ['0%', '1000%', '0%'] }}
         transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-        className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent shadow-[0_0_20px_rgba(255,159,10,0.4)] z-20"
+        className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent shadow-[0_0_20px_rgba(255,159,10,0.4)] z-20 pointer-events-none"
       />
       
-      {/* Content Container */}
+      {/* CONTENT CONTAINER */}
       <div className="absolute inset-0 flex flex-col md:flex-row items-center md:items-end justify-center md:justify-between p-8 md:p-16 z-30 gap-12 text-center md:text-right">
-        {/* Left/Main Side */}
+        {/* MIDDLE-GROUND LAYER: Text details (Z: 0px) */}
         <motion.div 
-          style={{ rotateX, rotateY }}
-          className="flex-1 w-full flex flex-col items-center md:items-end preserve-3d"
+          style={{ x: textX, y: textY, rotateX, rotateY, willChange: 'transform' }}
+          className="flex-1 w-full flex flex-col items-center md:items-end preserve-3d transform-gpu"
         >
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -92,7 +108,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
             </div>
           </motion.div>
 
-            <motion.h1 
+          <motion.h1 
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
@@ -137,10 +153,10 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
           </div>
         </motion.div>
 
-        {/* Right Side (Poster) with 3D Parallax */}
+        {/* FOREGROUND LAYER: The 3D Poster with dynamic parallax translation (Z: 80px) */}
         <motion.div
-          style={{ rotateX, rotateY, translateZ: 50 }}
-          className="hidden lg:block w-72 h-[420px] rounded-[3rem] overflow-hidden border border-white/20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] relative preserve-3d"
+          style={{ x: posterX, y: posterY, rotateX, rotateY, translateZ: 80, willChange: 'transform' }}
+          className="hidden lg:block w-72 h-[420px] rounded-[3rem] overflow-hidden border border-white/20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] relative preserve-3d transform-gpu"
         >
           <Image
             src={getImageUrl(movie.poster_path, 'w500')}

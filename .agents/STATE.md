@@ -123,3 +123,11 @@ This file acts as the primary Layer 1 & 2 Persistence state for the Agent Stack 
 - [x] Build hooks/usePhantomPresence for WebRTC DataChannel connection
 - [x] Implement PhantomCursors overlay on SeatMap grid canvas
 
+### Phase 13: Generative Holographic Scratch-Card - Sprint 19
+- [x] Create validations and Server Action for Generative Scratch Card (`lib/validations/scratchCard.ts`, `app/actions/scratchActions.ts`)
+- [x] Overhaul scratch card components (`components/scratch/ScratchCardContainer.tsx`, `components/scratch/GoldScratchCard.tsx`, `components/scratch/RewardReveal.tsx`)
+
+### Phase 14: 3D Cinematic Parallax Hero - Sprint 22
+- [x] Overhaul `FeaturedHero.tsx` component to support multi-layer 3D Cinematic Parallax
+
+
