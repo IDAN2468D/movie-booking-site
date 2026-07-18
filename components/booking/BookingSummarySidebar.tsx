@@ -9,6 +9,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SightlinePreview from './SightlinePreview';
 import AcousticSpatializer from './AcousticSpatializer';
+import { CryptoTicketPricer } from '@/components/booking/CryptoTicketPricer';
+import { useWalletStore } from '@/lib/store/walletStore';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,6 +25,7 @@ export default function BookingSummarySidebar({ onCheckout }: BookingSummarySide
   const selectedDate = useBookingStore((state) => state.selectedDate);
   const selectedShowtime = useBookingStore((state) => state.selectedShowtime);
   const selectedHall = useBookingStore((state) => state.selectedHall);
+  const { balances } = useWalletStore();
 
   const ticketPrice = 45;
   const appliedFlashOffer = useBookingStore((state) => state.appliedFlashOffer);
@@ -146,22 +149,24 @@ export default function BookingSummarySidebar({ onCheckout }: BookingSummarySide
           </div>
         </div>
 
-        {/* Action Button */}
-        <button
-          disabled={selectedSeats.length === 0}
-          onClick={onCheckout}
-          className={`w-full py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-2.5 transition-all duration-300 ${
-            selectedSeats.length > 0
-              ? 'bg-primary text-black hover:scale-[1.02] hover:shadow-[0_12px_25px_rgba(255,20,100,0.3)] active:scale-95'
-              : 'bg-white/5 border border-white/5 text-slate-600 cursor-not-allowed'
-          }`}
-        >
-          <span>המשך לתשלום</span>
-          <ArrowRight size={14} className="rotate-180" />
-        </button>
+        {/* Wallet Balance Display */}
+        {balances.BTC > 0 && (
+          <div className="mb-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl p-3 flex justify-between items-center text-right">
+            <span className="text-[10px] text-amber-500/80 uppercase tracking-widest font-bold">יתרת ארנק קריפטו (Cashback)</span>
+            <span className="text-amber-400 font-mono font-bold">{balances.BTC.toFixed(6)} BTC</span>
+          </div>
+        )}
+
+        {/* Crypto Payment Checkout Widget */}
+        <div className="w-full relative z-20">
+          <CryptoTicketPricer 
+            basePriceUSD={totalPrice} 
+            onPaymentSuccess={onCheckout} 
+          />
+        </div>
 
         <p className="text-center mt-4 text-[9px] text-slate-600 font-bold uppercase tracking-widest block">
-          הזמנה מאובטחת • ללא עמלות נוספות
+          הזמנה מאובטחת באמצעות בלוקצ'יין • Cashback 5%
         </p>
       </div>
 

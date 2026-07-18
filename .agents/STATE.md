@@ -134,3 +134,21 @@ This file acts as the primary Layer 1 & 2 Persistence state for the Agent Stack 
 - [x] Integrate `HologramSeatOverlay.tsx` with Liquid Glass 4.0 aesthetics and Framer Motion
 - [x] Implement Web Audio `useKineticAcoustics.ts` for 40Hz sub-bass ticket fusion
 - [x] Wire Zustand `coviewingStore.ts` to `SeatMap.tsx` and context menus
+
+### Phase 16: Dynamic Crypto Ticket Pricing - Sprint 25
+- [x] Create Next.js API route (`app/api/pricing/crypto/route.ts`) with Zod schema validation
+- [x] Build React Hook (`hooks/useCryptoPricing.ts`) for 15-second polling
+- [x] Develop Framer Motion `CryptoTicketPricer.tsx` with zero-reflow number ticker
+- [x] Integrate Crypto Pricer into `SeatMap.tsx` top bar
+
+### Phase 16.1: Crypto Pricing Upgrades (Web3 Simulation) - Sprint 25.1
+- [x] Upgrade `hooks/useCryptoPricing.ts` to maintain state history arrays
+- [x] Add SVG background Sparkline charting and glowing Trend Indicators (↗/↘)
+- [x] Implement 60-second "Lock Rate" functionality to block API polling
+- [x] Add "Pay with Wallet" simulation (Phantom/MetaMask flow) with Success animations
+
+### Phase 17: Crypto Checkout & Cashback Rewards - Sprint 26
+- [x] Integrate `CryptoTicketPricer` into `BookingSummarySidebar` as the primary checkout module
+- [x] Create global `walletStore.ts` via Zustand to track user crypto balances
+- [x] Implement 5% automatic Bitcoin Cashback upon successful Web3 payment simulation
+- [x] Add dynamic "Wallet Balance" display above the checkout widget

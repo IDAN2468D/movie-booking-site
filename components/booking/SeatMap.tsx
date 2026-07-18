@@ -195,8 +195,6 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
       <HolographicShardFusion />
       <AcousticRadar />
 
-
-
       {/* Top Bar with Toggles */}
       <div className={`flex justify-between items-center ${compact ? 'mb-8' : 'mb-16'} relative z-10`} dir="rtl">
         <button 
