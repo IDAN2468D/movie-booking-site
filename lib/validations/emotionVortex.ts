@@ -10,9 +10,7 @@ export const ValidEmotions = [
 
 export const EmotionOrbSchema = z.object({
   movieId: z.string().min(1, "Movie ID is required"),
-  emotion: z.enum(ValidEmotions, {
-    errorMap: () => ({ message: "Invalid emotion type" }),
-  }),
+  emotion: z.enum(ValidEmotions, { message: "Invalid emotion type" }),
 });
 
 export type EmotionOrbInput = z.infer<typeof EmotionOrbSchema>;
