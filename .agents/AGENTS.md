@@ -53,9 +53,10 @@ When executing design synchronization cycles via the Stitch MCP, validate all as
 - **CI/CD Enforcement**: Remote repositories must execute automated pipeline suites on all incoming Pull Requests targeting protected primary trunks (`main`).
 
 ## 🤖 6. Framework Rule: Architectural Enforcement (v7.0 Enterprise-Cognitive)
-- BEFORE executing any feature request, bug fix, or code modification, you MUST activate and follow the strict 5-layer engine defined in `.agents/skills/agent-stack-framework/SKILL.md`.
+- BEFORE executing any feature request, bug fix, or code modification, you MUST activate and follow the strict 5-layer engine defined in `.agents/Skills/agent-stack-framework/SKILL.md`.
 - Never bypass the Markdown Persistence layer or the Plan/Checkpoint gate.
 - **Just-In-Time (JIT) Skill Loading**: Load only the specific Skill file relevant to the current task from `.agents/Skills/` to optimize context window tokens.
+- **Task Tracking**: Active task checklist must be maintained in [.agents/task.md](./task.md).
 
 ## 🛑 7. STRICT TOKEN OPTIMIZATION & PERFORMANCE RULES
 You operate in a high-efficiency environment where tokens are heavily budgeted.
@@ -65,6 +66,6 @@ Adhere to these constraints strictly:
 3. **SCREEN & VIEW AWARENESS**: Before executing any UI-related task, verify the active `View State` or screen context.
 
 ## 🔁 8. Layer 5 Self-Healing Loop & 3-Strike Rule (Mandatory)
-- ON EVERY FEATURE IMPLEMENTATION OR MODIFICATION, the agent MUST automatically execute the "Layer 5 Self-Healing Loop" defined in `.agents/skills/agent-stack-framework/SKILL.md`.
+- ON EVERY FEATURE IMPLEMENTATION OR MODIFICATION, the agent MUST automatically execute the "Layer 5 Self-Healing Loop" defined in `.agents/Skills/agent-stack-framework/SKILL.md`.
 - Run verification commands (`npx tsc --noEmit`, `npm run build`, and `npx vitest run`).
 - **The 3-Strike Rule**: If the same compilation, type, or test failure persists for **3 consecutive attempts** during the self-healing loop, the agent MUST immediately HALT, record the diagnostic details in `latest.md`, and prompt the user for human intervention. Do not proceed further.

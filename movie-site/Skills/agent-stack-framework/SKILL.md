@@ -3,7 +3,7 @@ name: "Agent Stack Framework"
 description: "Run the agent using the 5 layers of the Agent Stack (Loop, Plan, PRD, Spec, Markdown) for autonomous long-running tasks."
 ---
 
-# 🤖 Enterprise-Cognitive Agent Stack Execution Engine (v7.0)
+# 🤖 Enterprise-Cognitive Agent Stack Execution Engine (v7.1)
 
 > **Objective:** Eliminate context drift, maximize token efficiency, and enforce a high-fidelity self-healing standard by binding execution to a strict 5-layer Enterprise-Cognitive Engine. This guarantees zero-drift autonomous execution and over 90% error mitigation compared to reactive setups.
 
@@ -11,7 +11,7 @@ Whenever you are tasked with a feature or long-running objective, you **MUST** e
 
 ---
 
-## 🏗️ The 5-Layer Architecture (v7.0)
+## 🏗️ The 5-Layer Architecture (v7.1)
 
 ```mermaid
 graph TD
@@ -35,7 +35,7 @@ graph TD
 ### 1️⃣ Layer 1 — Memory Persistence & Context Pruning (`STATE.md` / `latest.md`)
 - **Protocol:** Parse `latest.md` and `README.md` at the start of every session. Save progress, completed milestones, and updated metrics to `latest.md` at the end of each step.
 - **Token Optimization:** Do not re-read large directory or file structures repeatedly. Rely on summaries from `latest.md` and `STATE.md`.
-- **JIT Skill Activation**: Load only the specific Skill markdown file relevant to the current task from `.agents/Skills/` to save context window space.
+- **JIT Skill Activation:** Load only the specific Skill markdown file relevant to the current task from `.agents/Skills/` to save context window space.
 
 > **Mandatory System Prompt Template:**
 > *"Maintain all structural context within a unified Markdown target file. Parse this state contract comprehensively before executing any operation. Keep token usage optimized by avoiding redundant reads."*
@@ -57,11 +57,11 @@ graph TD
 > *"Formulate a deep technical blueprint covering Zod schema boundaries, 200 LOC file limits, server actions, client interfaces, and explicit error-handling models."*
 
 ### 4️⃣ Layer 4 — Plan & Gated Checkpoints (Plan)
-- **Protocol:** Break down execution into isolated tasks with checklist items tracked in `task.md`.
+- **Protocol:** Break down execution into isolated tasks with checklist items tracked in the workspace task ledger `.agents/task.md`.
 - 🔴 **CRITICAL GATEKEEPER:** The agent must halt coding activities, output the `implementation_plan.md` artifact, and wait for explicit user approval before modifying or creating any code files.
 
 > **Mandatory System Prompt Template:**
-> *"Construct an isolated, granular task list in task.md. Halt execution completely, generate implementation_plan.md, and wait for explicit manual authorization prior to file creation or modification."*
+> *"Construct an isolated, granular task list in .agents/task.md. Halt execution completely, generate implementation_plan.md, and wait for explicit manual authorization prior to file creation or modification."*
 
 ### 5️⃣ Layer 5 — Loop Self-Healing & QA (Loop)
 - **Protocol:** Compile the project (`npx tsc --noEmit`), run linter and build scripts (`npm run build`), and execute unit tests (`npx vitest run`) after every batch of edits.

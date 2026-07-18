@@ -12,6 +12,9 @@ import { HolographicShardFusion } from "@/components/checkout/HolographicShardFu
 import { useAcousticFeedback } from "@/hooks/useAcousticFeedback";
 import { AcousticRadar } from "@/components/booking/AcousticRadar";
 import { PhantomCursors } from "./PhantomCursors";
+import { useCoViewingStore } from "@/lib/store/coviewingStore";
+import { useKineticAcoustics } from "@/hooks/useKineticAcoustics";
+import { HologramSeatOverlay } from "@/components/booking/HologramSeatOverlay";
 
 interface SeatMapProps {
   showtimeId: string;
@@ -35,6 +38,20 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const { presence, updatePresence } = usePresence();
   const setHoveredSeat = useBookingStore((state) => state.setHoveredSeat);
+
+  const { status: coViewingStatus, targetSeatId: coViewingSeatId, timeLeft: coViewingTimeLeft, initiateInvite, setPending, confirmInvite, tickTimer } = useCoViewingStore();
+  const { playKineticFusionDrop } = useKineticAcoustics();
+
+  useEffect(() => {
+    const interval = setInterval(() => tickTimer(), 1000);
+    return () => clearInterval(interval);
+  }, [tickTimer]);
+
+  useEffect(() => {
+    if (coViewingStatus === 'locked') {
+      playKineticFusionDrop();
+    }
+  }, [coViewingStatus, playKineticFusionDrop]);
 
   // Compute a map of seatId -> string[] (array of socketIds hovering this seat)
   const seatPresenceMap: Record<string, string[]> = {};
@@ -232,6 +249,25 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
                       }}
                       compact={compact}
                       presenceUsers={seatPresenceMap[seatId] || []}
+                      onContextMenu={(e: any) => {
+                        e.preventDefault();
+                        if (!occupiedSeats.includes(seatId)) {
+                          initiateInvite(seatId);
+                          // Mock API
+                          fetch('/api/coviewing', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ userId, friendId: 'friend-123', seatId })
+                          }).then(res => res.json()).then(data => {
+                            if (data.success) {
+                              setPending(data.data.sessionId);
+                            }
+                          });
+                        }
+                      }}
+                      coViewingStatus={coViewingSeatId === seatId ? coViewingStatus : null}
+                      coViewingTimeLeft={coViewingTimeLeft}
+                      onConfirmCoViewing={confirmInvite}
                     />
                   );
                 })}
@@ -262,6 +298,25 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
                       }}
                       compact={compact}
                       presenceUsers={seatPresenceMap[seatId] || []}
+                      onContextMenu={(e: any) => {
+                        e.preventDefault();
+                        if (!occupiedSeats.includes(seatId)) {
+                          initiateInvite(seatId);
+                          // Mock API
+                          fetch('/api/coviewing', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ userId, friendId: 'friend-123', seatId })
+                          }).then(res => res.json()).then(data => {
+                            if (data.success) {
+                              setPending(data.data.sessionId);
+                            }
+                          });
+                        }
+                      }}
+                      coViewingStatus={coViewingSeatId === seatId ? coViewingStatus : null}
+                      coViewingTimeLeft={coViewingTimeLeft}
+                      onConfirmCoViewing={confirmInvite}
                     />
                   );
                 })}
@@ -346,7 +401,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   );
 }
 
-function Seat({ seatId, isOccupied, isSelected, isLoading, isPredicted, onClick, onHover, onLeave, compact, presenceUsers = [] }: any) {
+function Seat({ seatId, isOccupied, isSelected, isLoading, isPredicted, onClick, onHover, onLeave, compact, presenceUsers = [], onContextMenu, coViewingStatus, coViewingTimeLeft, onConfirmCoViewing }: any) {
   let bgClass = "bg-white/5 border-white/10 hover:bg-white/10 cursor-pointer";
   let contentClass = "opacity-100";
   
@@ -368,6 +423,7 @@ function Seat({ seatId, isOccupied, isSelected, isLoading, isPredicted, onClick,
       whileHover={!isOccupied && !isSelected ? { scale: 1.05 } : {}}
       whileTap={!isOccupied && !isSelected ? { scale: 0.95 } : {}}
       onClick={onClick}
+      onContextMenu={onContextMenu}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
       className={`${sizeClass} rounded-[10px] border flex flex-col items-center justify-center relative overflow-hidden transition-all duration-300 ${bgClass}`}
@@ -394,6 +450,16 @@ function Seat({ seatId, isOccupied, isSelected, isLoading, isPredicted, onClick,
               />
             ))}
           </div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {coViewingStatus && coViewingStatus !== 'idle' && (
+          <HologramSeatOverlay 
+            status={coViewingStatus} 
+            timeLeft={coViewingTimeLeft} 
+            onConfirmMock={onConfirmCoViewing} 
+          />
         )}
       </AnimatePresence>
     </motion.div>
