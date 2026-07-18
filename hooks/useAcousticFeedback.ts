@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 
 // Shared global AudioContext singleton to avoid multiple contexts and browser limit issues.
 let globalAudioCtx: AudioContext | null = null;
 
 export function useAcousticFeedback() {
+  const activePreviewNodes = useRef<{ osc?: OscillatorNode, filter?: BiquadFilterNode, panner?: PannerNode, gain?: GainNode }>({});
+
   const initAudio = useCallback(() => {
     if (typeof window !== 'undefined' && !globalAudioCtx) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -203,5 +205,76 @@ export function useAcousticFeedback() {
     }
   }, [initAudio]);
 
-  return { initAudio, playTick, playBassDrop, playSpatialClick };
+  const playSeatPreviewLoop = useCallback((seatId: string, x: number, y: number, z: number, profile: any) => {
+    initAudio();
+    if (!globalAudioCtx) return;
+    const ctx = globalAudioCtx;
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+
+    try {
+      // Stop existing loop if any
+      if (activePreviewNodes.current.osc) {
+        activePreviewNodes.current.osc.stop();
+        activePreviewNodes.current.osc.disconnect();
+      }
+
+      const osc = ctx.createOscillator();
+      const filter = ctx.createBiquadFilter();
+      const panner = ctx.createPanner();
+      const gainNode = ctx.createGain();
+
+      // Setup Panner
+      panner.panningModel = 'HRTF';
+      panner.distanceModel = 'inverse';
+      panner.refDistance = 1;
+      panner.maxDistance = 10000;
+      panner.rolloffFactor = 1;
+      panner.positionX.setValueAtTime(x, ctx.currentTime);
+      panner.positionY.setValueAtTime(y, ctx.currentTime);
+      panner.positionZ.setValueAtTime(z, ctx.currentTime);
+
+      // Setup Filter (lowpass based on profile)
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(profile.lowpassFreq || 20000, ctx.currentTime);
+
+      // We use a low rumbling oscillator to simulate the "movie theatre ambient drone"
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(55, ctx.currentTime); // Low cinematic rumble
+
+      gainNode.gain.setValueAtTime(0, ctx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 1); // Fade in
+
+      osc.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(panner);
+      panner.connect(ctx.destination);
+
+      osc.start();
+
+      activePreviewNodes.current = { osc, filter, panner, gain: gainNode };
+      console.log(`[Acoustic Feedback] Started preview loop for ${seatId} at [x:${x}, y:${y}, z:${z}]`);
+    } catch (err) {
+      console.warn('[Acoustic Feedback] Error playing preview loop:', err);
+    }
+  }, [initAudio]);
+
+  const stopSeatPreviewLoop = useCallback(() => {
+    try {
+      if (activePreviewNodes.current.gain && globalAudioCtx) {
+        // Fade out
+        activePreviewNodes.current.gain.gain.linearRampToValueAtTime(0, globalAudioCtx.currentTime + 0.5);
+        setTimeout(() => {
+          if (activePreviewNodes.current.osc) {
+            activePreviewNodes.current.osc.stop();
+            activePreviewNodes.current.osc.disconnect();
+          }
+          activePreviewNodes.current = {};
+        }, 500);
+      }
+    } catch (err) {
+      console.warn('[Acoustic Feedback] Error stopping preview loop:', err);
+    }
+  }, []);
+
+  return { initAudio, playTick, playBassDrop, playSpatialClick, playSeatPreviewLoop, stopSeatPreviewLoop };
 }

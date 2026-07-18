@@ -17,6 +17,17 @@ Adhere to these output constraints strictly:
 
 ---
 
+# 🆕 Latest Updates (v7.2)
+
+## 🎧 Acoustic Seat Preview Engine (Sprint 20)
+- **Feature Implemented:** Users can now preview the exact spatial audio properties of a selected seat before booking.
+- **Backend Architecture:** Created Zod schemas (`SeatAcousticProfileSchema`) and secure Server Action `getSeatAcousticProfile` mapping the Unified Result Pattern.
+- **Audio Engineering:** Upgraded `useAcousticFeedback.ts` with continuous Web Audio API loops (`playSeatPreviewLoop`), utilizing `PannerNode` and `BiquadFilterNode` for 3D HRTF spatial mapping and lowpass filtering based on the seat position.
+- **Liquid Glass 4.0 UI:** Engineered `AcousticPreviewModal.tsx`, an immersive 120Hz zero-reflow GPU overlay using `framer-motion`, `transform-gpu`, and frosted glass (`backdrop-blur-[40px] saturate-[250%]`).
+- **Integration:** Integrated seamlessly into `SeatMap.tsx` with a dedicated "Acoustic" toggle button.
+
+---
+
 # 🆕 Latest Updates (v7.1)
 
 ## 🎟️ Sprints 19 & 22 (Completed ahead of schedule in Sprint 14)

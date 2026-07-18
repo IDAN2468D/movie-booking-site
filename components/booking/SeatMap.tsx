@@ -15,6 +15,8 @@ import { PhantomCursors } from "./PhantomCursors";
 import { useCoViewingStore } from "@/lib/store/coviewingStore";
 import { useKineticAcoustics } from "@/hooks/useKineticAcoustics";
 import { HologramSeatOverlay } from "@/components/booking/HologramSeatOverlay";
+import { AcousticPreviewModal } from "@/components/booking/AcousticPreviewModal";
+import { getSeatAcousticProfile } from "@/app/actions/acoustics";
 
 interface SeatMapProps {
   showtimeId: string;
@@ -30,8 +32,10 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   const [selectedSeats, setSelectedSeats] = useState<Set<string>>(new Set());
   const [loadingLocks, setLoadingLocks] = useState<Set<string>>(new Set());
   const [showSnacks, setShowSnacks] = useState(false);
+  const [isAcousticMode, setIsAcousticMode] = useState(false);
+  const [activePreviewProfile, setActivePreviewProfile] = useState<{seatId: string, profile: any} | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { playSpatialClick } = useAcousticFeedback();
+  const { playSpatialClick, playSeatPreviewLoop, stopSeatPreviewLoop } = useAcousticFeedback();
   const globalSelectedSeats = useBookingStore((state) => state.selectedSeats);
   const { activeIntensityGenre, setActiveIntensityGenre } = useLiquidGlassStore();
   const { predictedSeats, activeOffer, setPredictedSeats, setActiveOffer } = usePredictiveSeatStore();
@@ -120,6 +124,26 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
     const z = (rowIndex / 7) * 2 - 1;     // Row A -> -1 (Front), Row H -> 1 (Back)
     const y = 0;                          // Ear level
     
+    if (isAcousticMode) {
+      setLoadingLocks(prev => new Set(prev).add(seatId));
+      try {
+        const res = await getSeatAcousticProfile({ seatId, x, y });
+        if (res.success && res.data) {
+          setActivePreviewProfile({ seatId, profile: res.data });
+          playSeatPreviewLoop(seatId, x, y, z, res.data);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingLocks(prev => {
+          const next = new Set(prev);
+          next.delete(seatId);
+          return next;
+        });
+      }
+      return; // Skip normal booking flow when in acoustic mode
+    }
+
     playSpatialClick(seatId, { x, y, z });
 
     setLoadingLocks(prev => {
@@ -208,6 +232,18 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
           className={`px-5 py-2 rounded-full border ${activeIntensityGenre ? 'border-orange-500 bg-orange-500/20 text-orange-400 shadow-[0_0_20px_rgba(249,115,22,0.4)]' : 'border-white/10 text-white/60'} text-[11px] font-['Outfit'] font-bold flex items-center gap-2 hover:bg-white/5 transition-colors tracking-wide`}
         >
           מפת חום <span className="opacity-70">🔥</span>
+        </button>
+        <button 
+          onClick={() => {
+            setIsAcousticMode(!isAcousticMode);
+            if (isAcousticMode && activePreviewProfile) {
+              setActivePreviewProfile(null);
+              stopSeatPreviewLoop();
+            }
+          }}
+          className={`px-5 py-2 rounded-full border ${isAcousticMode ? 'border-violet-500 bg-violet-500/20 text-violet-400 shadow-[0_0_20px_rgba(139,92,246,0.4)]' : 'border-white/10 text-white/60'} text-[11px] font-['Outfit'] font-bold flex items-center gap-2 hover:bg-white/5 transition-colors tracking-wide`}
+        >
+          אקוסטיקה <span className="opacity-70">🎧</span>
         </button>
       </div>
 
@@ -392,6 +428,19 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
               <DynamicSnackTrayCanvas />
             </div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {activePreviewProfile && (
+          <AcousticPreviewModal
+            seatId={activePreviewProfile.seatId}
+            profile={activePreviewProfile.profile}
+            onClose={() => {
+              setActivePreviewProfile(null);
+              stopSeatPreviewLoop();
+            }}
+          />
         )}
       </AnimatePresence>
       <PhantomCursors userId={userId} containerRef={containerRef} />
