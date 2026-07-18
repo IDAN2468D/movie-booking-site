@@ -26,6 +26,18 @@ Adhere to these output constraints strictly:
 - **Liquid Glass 4.0 UI:** Engineered `AcousticPreviewModal.tsx`, an immersive 120Hz zero-reflow GPU overlay using `framer-motion`, `transform-gpu`, and frosted glass (`backdrop-blur-[40px] saturate-[250%]`).
 - **Integration:** Integrated seamlessly into `SeatMap.tsx` with a dedicated "Acoustic" toggle button.
 
+## 🥤 Kinetic Liquid Physics & Acoustic Pouring (Sprint 20)
+- **Feature Implemented:** Upgraded the Concession Stand tray with Liquid Glass physics and procedural audio.
+- **Acoustic Engineering:** Created `usePouringAcoustics.ts` utilizing the Web Audio API to synthesize a "carbonation fizz" sound using a `BufferSourceNode` of white noise passed through an exponentially sweeping `BiquadFilterNode` (Bandpass). Includes a slow logarithmic fade-out to simulate lingering bubbles.
+- **Liquid Physics UI:** Integrated an `<AnimatePresence>` liquid simulator inside `SnackDraggableItem.tsx`. When a drink snaps to a cupholder, a `motion.div` fills up vertically over 1.5 seconds, layered with animated fizz particles.
+- **Integration:** Hardware-accelerated (`transform-gpu`) physics ensure zero reflows during the liquid fill.
+
+## 🔍 3D Holographic "UV Ink" Scanner (Sprint 20)
+- **Feature Implemented:** Upgraded the Offline Ticket Vault with a 3D interactive Hologram Scanner.
+- **Optics & UI:** Engineered `UVScannerTicket.tsx` utilizing `framer-motion`'s `useMotionValue` and `useSpring` to create a 3D glass ticket that tilts based on cursor/touch proximity. Added a dynamic SVG UV reveal mask (`mix-blend-color-dodge`) to expose hidden watermarks.
+- **Acoustic Engineering:** Created `useUVAcoustics.ts` utilizing the Web Audio API to generate a localized oscillator (low-frequency hum). Frequency and Gain dynamically ramp up as the UV light passes over the hidden watermark.
+- **Integration:** Replaced the static QR Code view in `LiquidGlassTicketVault.tsx` with the new 3D component.
+
 ---
 
 # 🆕 Latest Updates (v7.1)

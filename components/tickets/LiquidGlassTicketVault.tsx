@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { generateSecureTicket } from "@/app/actions/vaultActions";
 import { useSubBass } from "@/lib/hooks/useSubBass";
 import type { TicketVaultPayload } from "@/lib/validations/ticketVault";
+import { UVScannerTicket } from "@/components/tickets/UVScannerTicket";
 
 interface LiquidGlassTicketVaultProps {
   bookingId: string;
@@ -84,22 +85,14 @@ export function LiquidGlassTicketVault({ bookingId, seatId, concessions = [] }: 
               initial={{ opacity: 0, scale: 0.8, rotateX: 90 }}
               animate={{ opacity: 1, scale: 1, rotateX: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              className="p-8 bg-white rounded-[24px] shadow-[0_0_50px_rgba(255,255,255,0.3)] flex flex-col items-center"
+              className="w-full flex justify-center"
               style={{ transformOrigin: "bottom", willChange: "transform, opacity" }}
             >
-              <QRCodeSVG 
-                value={secureToken} 
-                size={240} 
-                level="Q"
-                fgColor="#000000"
-                bgColor="#FFFFFF"
+              <UVScannerTicket 
+                secureToken={secureToken}
+                seatId={seatId}
+                bookingId={bookingId}
               />
-              <div className="mt-6 text-center w-full">
-                <p className="font-outfit font-bold text-black text-2xl">מושב {seatId}</p>
-                <p className="font-inter text-black/60 text-sm mt-1 truncate w-full max-w-[200px] mx-auto text-center" dir="ltr">
-                  הזמנה: {bookingId}
-                </p>
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
