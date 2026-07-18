@@ -36,8 +36,18 @@ export function ChronoRefractiveReel() {
   };
 
   return (
-    <div className="relative w-full max-w-lg mx-auto h-[600px] bg-neutral-950/60 backdrop-blur-[40px] border border-white/[0.12] rounded-[32px] overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.2)]">
+    <div className="relative w-full max-w-lg mx-auto h-[600px] bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 border border-white/[0.12] rounded-[32px] overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7),0_0_40px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.2),inset_0_-1px_1px_rgba(0,0,0,0.4)]">
       
+      {/* Volumetric Film Grain Overlay */}
+      <div className="pointer-events-none absolute inset-0 mix-blend-overlay opacity-30 z-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+        </svg>
+      </div>
+
       {/* Top Header & Stats Dashboard */}
       <div className="absolute top-0 w-full z-20 pointer-events-none p-6 bg-gradient-to-b from-black via-black/80 to-transparent">
         <div className="flex justify-between items-start">

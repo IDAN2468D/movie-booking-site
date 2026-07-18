@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, MotionValue, useTransform } from 'framer-motion';
+import { motion, MotionValue, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { ChronoHistory } from '../../lib/validations/liquidGlass';
 
 interface ChronoSlideProps {
@@ -11,6 +11,32 @@ interface ChronoSlideProps {
 }
 
 export function ChronoSlide({ item, index, scrollYProgress, onRecall }: ChronoSlideProps) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['7.5deg', '-7.5deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-7.5deg', '7.5deg']);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
   // Acoustic Audio Generator for Neural Flashback
   const playRecallSound = () => {
     try {
@@ -23,8 +49,8 @@ export function ChronoSlide({ item, index, scrollYProgress, onRecall }: ChronoSl
       const gain = ctx.createGain();
       
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(40, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.5);
+      osc.frequency.setValueAtTime(150, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.3);
       
       filter.type = 'lowpass';
       filter.frequency.value = 400;
@@ -85,11 +111,16 @@ export function ChronoSlide({ item, index, scrollYProgress, onRecall }: ChronoSl
 
   return (
     <motion.div
-      className="relative w-full h-[180px] bg-white/[0.03] border border-white/10 rounded-2xl p-6 flex flex-col justify-between transform-gpu will-change-transform shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] backdrop-blur-md"
-      style={{ opacity, scale, filter }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative w-full h-[180px] bg-white/[0.03] border border-white/[0.12] rounded-2xl p-6 flex flex-col justify-between transform-gpu will-change-transform shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2),inset_0_-1px_1px_rgba(0,0,0,0.4)] backdrop-blur-md"
+      style={{ opacity, scale, filter, rotateX, rotateY, transformStyle: "preserve-3d" }}
     >
       <div className="flex justify-between items-start">
-        <h3 className="font-outfit text-2xl font-bold text-white drop-shadow-md tracking-wide">
+        <h3 
+          className="font-outfit text-2xl font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] tracking-wide"
+          style={{ transform: "translateZ(15px)" }}
+        >
           {item.movieId}
         </h3>
         <span className="font-inter text-[10px] font-medium text-white/60 bg-white/5 px-3 py-1.5 rounded-full border border-white/10 tracking-widest uppercase shadow-inner">
@@ -109,10 +140,11 @@ export function ChronoSlide({ item, index, scrollYProgress, onRecall }: ChronoSl
         
         <button 
           onClick={handleRecallClick}
-          className="group relative w-full mt-4 py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/30 rounded-xl overflow-hidden transition-all active:scale-95 shadow-[0_0_15px_rgba(255,159,10,0.1)] hover:shadow-[0_0_25px_rgba(255,159,10,0.3)]"
+          className="group relative w-full mt-4 py-2.5 bg-primary/20 hover:bg-primary/30 border border-primary/40 rounded-xl overflow-hidden transition-all active:scale-95 shadow-[0_0_20px_rgba(255,159,10,0.2)] hover:shadow-[0_0_35px_rgba(255,159,10,0.4)] backdrop-blur-md"
+          style={{ transform: "translateZ(20px)" }}
         >
-          <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-          <span className="relative z-10 text-primary text-[10px] font-black uppercase tracking-widest drop-shadow-[0_0_8px_rgba(255,159,10,0.6)]">
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+          <span className="relative z-10 text-primary text-[10px] font-black uppercase tracking-[0.3em] drop-shadow-[0_0_10px_rgba(255,159,10,0.8)]">
             שחזר זיכרון
           </span>
         </button>

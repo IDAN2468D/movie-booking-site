@@ -171,7 +171,7 @@ function TicketCard({ data, isActive = false }: { data: any, isActive?: boolean 
             <span className="text-xs font-['Inter'] text-violet-300 uppercase tracking-widest bg-violet-500/10 px-3 py-1 rounded-full border border-violet-400/20">
               {isActive ? 'פעיל' : 'היסטוריה'}
             </span>
-            <h3 className="text-2xl font-['Outfit'] font-black text-white mt-4">{data.movieTitle || 'סרט'}</h3>
+            <h3 className="text-2xl font-['Outfit'] font-black text-white mt-4">{data.movieTitle || data.movie?.title || 'סרט'}</h3>
           </div>
           <div className="text-left font-['Outfit']">
             <div className="text-sm text-white/50">מושבים</div>

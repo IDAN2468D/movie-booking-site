@@ -19,6 +19,11 @@ Adhere to these output constraints strictly:
 
 # 🆕 Latest Updates (v7.2)
 
+## 🌪️ Biometric Emotion Vortex (Sprint 27)
+- **Feature Implemented:** Upgraded the post-movie rating system with a gamified 3D physics engine where users drop "Emotion Orbs" into a gravity well.
+- **Physics & UI:** Engineered `EmotionVortexCanvas.tsx` and `DraggableEmotionOrb.tsx` using `framer-motion` for 120Hz drag-and-drop physics, scale transformations, and Liquid Glass 4.0 dynamic color shifting based on the dragged emotion.
+- **Acoustics:** Created `useVortexAcoustics.ts` to generate spatial Web Audio "suction" frequency ramps and 40Hz sub-bass drops upon orb collision.
+- **Backend & Data Boundary:** Implemented `EmotionVortex` MongoDB schema and secure `castEmotionOrbAction` Server Action with strict Zod validation (`EmotionOrbSchema`).
 ## 🎧 Acoustic Seat Preview Engine (Sprint 20)
 - **Feature Implemented:** Users can now preview the exact spatial audio properties of a selected seat before booking.
 - **Backend Architecture:** Created Zod schemas (`SeatAcousticProfileSchema`) and secure Server Action `getSeatAcousticProfile` mapping the Unified Result Pattern.

@@ -23,8 +23,8 @@ export async function getUserMemoriesAction(userId: string) {
     // so the feature is visually demonstrable immediately.
     const memories = bookings.length > 0 ? bookings.map(b => ({
       id: b._id.toString(),
-      movieTitle: b.movieTitle || "סרט לא ידוע",
-      posterUrl: b.posterUrl || "https://image.tmdb.org/t/p/w500/8cdWjvZQUrmdDO7BaR1TomG424h.jpg",
+      movieTitle: b.movieTitle || b.movie?.title || "סרט לא ידוע",
+      posterUrl: b.posterUrl || (b.movie?.poster_path ? `https://image.tmdb.org/t/p/w500${b.movie.poster_path}` : "https://image.tmdb.org/t/p/w500/8cdWjvZQUrmdDO7BaR1TomG424h.jpg"),
       date: b.createdAt || new Date().toISOString(),
       seats: b.seats || []
     })) : [
