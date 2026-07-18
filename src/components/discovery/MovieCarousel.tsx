@@ -1,11 +1,14 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useDiscoveryStore, useDiscoveryEventBridge } from '@/hooks/useDiscoveryContext';
+import { AtmosphericCanvas } from '@/components/fx/AtmosphericCanvas';
+import { AtmosphericProfile } from '@/lib/validations/movieValidation';
 
 export default function MovieCarousel() {
   const { movies, fetchCatalog, isLoading, activeCategory } = useDiscoveryStore();
+  const [hoveredMovieId, setHoveredMovieId] = useState<string | null>(null);
   
   useDiscoveryEventBridge(); // Attach event listener
 
@@ -56,6 +59,8 @@ export default function MovieCarousel() {
             className="shrink-0 w-[200px] h-[300px] relative rounded-2xl overflow-hidden backdrop-blur-xl bg-white/5 border border-white/10 group"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            onHoverStart={() => setHoveredMovieId(movie.id)}
+            onHoverEnd={() => setHoveredMovieId(null)}
           >
             <img 
               src={movie.posterUrl} 
@@ -72,6 +77,13 @@ export default function MovieCarousel() {
             
             {/* Liquid Glass Hover Effect */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-[inset_0_0_20px_rgba(255,255,255,0.2)] pointer-events-none" />
+
+            {/* Atmospheric Engine Integration */}
+            <AtmosphericCanvas 
+              isActive={hoveredMovieId === movie.id}
+              profile={(movie as any).atmosphericProfile || 'none'}
+              audioUrl={(movie as any).audioUrl}
+            />
           </motion.div>
         ))}
       </motion.div>
