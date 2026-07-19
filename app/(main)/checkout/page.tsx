@@ -14,7 +14,7 @@ import { getImageUrl } from '@/lib/tmdb';
 // Modular Components
 import { OrderSummary } from '@/components/checkout/OrderSummary';
 import { VisualCateringGrid } from '@/components/catering/VisualCateringGrid';
-import { SingularityOrb } from '@/components/checkout/SingularityOrb';
+import { ZeroGravityCartChamber } from '@/components/checkout/ZeroGravityCartChamber';
 import { SuccessView } from '@/components/checkout/SuccessView';
 import { SplitPayPanel } from '@/components/social/SplitPayPanel';
 import SmartCheckoutInsights from '@/components/checkout/SmartCheckoutInsights';
@@ -341,8 +341,10 @@ export default function CheckoutPage() {
             <SplitPayPanel splitTotal={pricing.splitTotal} />
             <VisualCateringGrid selectedFood={selectedFood} updateFoodQuantity={updateFoodQuantity} />
             <div className="mt-12 mb-8">
-              <h3 className="text-xl font-black text-white font-rubik tracking-tight text-right mb-6">תשלום קוונטי מקוצר</h3>
-              <SingularityOrb 
+              <h3 className="text-xl font-black text-white font-rubik tracking-tight text-right mb-6">תא כבידה אפס לתשלום קוונטי</h3>
+              <ZeroGravityCartChamber 
+                seats={selectedSeats}
+                foodItems={selectedFood}
                 amount={Math.round(isSocialMode ? pricing.splitTotal : pricing.total)} 
                 onProcess={handleQuantumPayment}
                 onSuccess={() => setIsSuccess(true)}

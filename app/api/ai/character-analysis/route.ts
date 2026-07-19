@@ -17,7 +17,13 @@ interface CharacterAnalysisResponse {
 export async function POST(req: NextRequest) {
   let prompt = '';
   try {
-    const { movieTitle, overview, genres } = await req.json();
+    let body;
+    try {
+      body = await req.json();
+    } catch (e) {
+      return NextResponse.json({ error: 'Invalid JSON payload' }, { status: 400 });
+    }
+    const { movieTitle, overview, genres } = body;
 
     if (!movieTitle || !overview) {
       return NextResponse.json({ error: 'Movie title and overview are required' }, { status: 400 });
