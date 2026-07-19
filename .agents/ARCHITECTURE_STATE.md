@@ -60,3 +60,8 @@ The platform operates on a Next.js (App Router) architecture with a strict Zero-
 4. **Smart Tray AI (Sprint 32)**: Context-aware food recommendations mapped by Gemini AI (`SmartTray.tsx`).
 5. **Social Pulse Lobby (Sprint 33)**: Live Server-Sent Events (`/api/pulse/stream`) broadcasting ticket pings as Liquid Ripples globally.
 6. **"Liquid Time" Offline Sync (Sprint 34)**: Service Worker (`sw.js`) implementation for media precaching bound to `OfflineSyncCylinder.tsx` visualizer.
+
+**Phase 20: Cognitive Ecosystem & Optimization (Sprints 35-37)**
+1. **Time-Shift Concierge (Sprint 35)**: Proactive traffic and scheduling adjustments using Mock/Google Maps fallback in a Liquid Glass persistent floating agent.
+2. **Cine-Swarm Interactive Nodes (Sprint 36)**: Added peer-to-peer Vibe Checks and acoustic feedback to Social Pulse rings.
+3. **Quantum Worker Offloading (Sprint 37)**: Shifted all search and movie filtering logic to an asynchronous Web Worker to strictly enforce 120Hz Zero-Reflow.

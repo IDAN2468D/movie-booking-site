@@ -5,6 +5,7 @@ import { getUserDashboardData } from "@/lib/actions/user-dashboard";
 import ProfileClient from "./ProfileClient";
 import CinematicAura from "@/components/profile/CinematicAura";
 import { OfflineSyncCylinder } from "@/components/settings/OfflineSyncCylinder";
+import TrafficSimulator from "@/components/settings/TrafficSimulator";
 
 export const metadata = {
   title: "Profile | MovieBook",
@@ -43,6 +44,8 @@ export default async function ProfilePage() {
       <div className="mb-10">
         <OfflineSyncCylinder />
       </div>
+
+      <TrafficSimulator />
 
       <ProfileClient 
         activeTickets={activeTickets} 

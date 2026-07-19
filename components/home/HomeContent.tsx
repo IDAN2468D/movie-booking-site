@@ -62,7 +62,7 @@ export default function HomeContent({
     return () => ctx.revert();
   }, []);
 
-  const { moviesToShow, isGlobalFiltering, isLoadingGenre } = useFilteredMovies({
+  const { moviesToShow, isGlobalFiltering, isLoadingGenre, isFiltering } = useFilteredMovies({
     popularMovies,
     topRatedMovies,
     trendingMovies,
@@ -98,10 +98,12 @@ export default function HomeContent({
 
 
         <div className="space-y-4 mt-8">
-          {isLoadingGenre ? (
+          {isLoadingGenre || isFiltering ? (
             <div className="flex flex-col items-center justify-center py-20 gap-4">
               <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin shadow-[0_0_20px_rgba(255,159,10,0.3)]" />
-              <p className="text-sm font-black text-slate-500 uppercase tracking-widest animate-pulse">טוען סרטים...</p>
+              <p className="text-sm font-black text-slate-500 uppercase tracking-widest animate-pulse">
+                {isFiltering ? 'מעבד נתונים (Quantum Worker)...' : 'טוען סרטים...'}
+              </p>
             </div>
           ) : isGlobalFiltering ? (
             <MovieSection title="תוצאות מסוננות" movies={moviesToShow} />

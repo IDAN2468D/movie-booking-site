@@ -44,6 +44,7 @@ export const metadata: Metadata = {
 
 import AmbientThemeProvider from "@/src/components/providers/AmbientThemeProvider";
 import { BiometricSplash } from "@/components/splash/BiometricSplash";
+import TimeShiftProactiveAgent from "@/components/concierge/TimeShiftProactiveAgent";
 
 export default function RootLayout({
   children,
@@ -59,6 +60,7 @@ export default function RootLayout({
             <ScreenSaverListener />
             <CinematicScreenSaver />
             <CinematicFX />
+            <TimeShiftProactiveAgent />
             {children}
           </AmbientThemeProvider>
         </AuthProvider>
