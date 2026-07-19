@@ -10,6 +10,7 @@ import { useSocialStore } from '@/lib/store/social-store';
 import { FOOD_ITEMS, CINEMA_BRANCHES } from '@/lib/constants';
 import { calculateDynamicPrice, getPriceInsights } from '@/lib/utils/pricing-engine';
 import { getImageUrl } from '@/lib/tmdb';
+import { SHOWTIMES } from '@/lib/constants';
 
 // Modular Components
 import { OrderSummary } from '@/components/checkout/OrderSummary';
@@ -69,8 +70,10 @@ export default function CheckoutPage() {
     const showtimeHour = parseInt(selectedShowtime?.split(':')[0] || '19');
     const isWeekend = [5, 6].includes(now.getDay()); // Fri, Sat
     
+    const showtimeData = SHOWTIMES.find(s => s.time === selectedShowtime) || SHOWTIMES[0];
+
     const baseTicketPrice = calculateDynamicPrice({
-      basePrice: 45.00,
+      basePrice: showtimeData.price,
       occupancyRate: 0.75, // Mocked occupancy
       isWeekend,
       daysUntilShow: 1, // Mocked
@@ -83,20 +86,17 @@ export default function CheckoutPage() {
     }, 0);
 
     const subtotal = (seatCount * baseTicketPrice) + foodTotal;
-    let tax = subtotal * 0.17;
-    let total = subtotal + tax;
     
-    let discount = 0;
+    let taxExclusiveDiscount = 0;
+    
     // Apply flash offer pricing logic
     if (appliedFlashOffer) {
       const hasAllOfferSeats = appliedFlashOffer.seats.every(seat => selectedSeats.includes(seat));
       if (hasAllOfferSeats) {
-        // The normal total price for these seats would be their base price + tax
-        const normalTotalForOfferSeats = (appliedFlashOffer.seats.length * baseTicketPrice) * 1.17;
-        discount = normalTotalForOfferSeats - appliedFlashOffer.price;
-        total -= discount;
-        // Re-calculate the tax proportion based on the new final total
-        tax = total - (total / 1.17);
+        const normalTaxExclusiveForOfferSeats = appliedFlashOffer.seats.length * baseTicketPrice;
+        // appliedFlashOffer.price is tax exclusive (30 per seat)
+        const flashDiscount = normalTaxExclusiveForOfferSeats - appliedFlashOffer.price;
+        taxExclusiveDiscount += flashDiscount;
       }
     }
 
@@ -121,10 +121,12 @@ export default function CheckoutPage() {
     }
 
     if (vipDiscount > 0) {
-      discount += vipDiscount;
-      total -= vipDiscount;
-      tax = total - (total / 1.17);
+      taxExclusiveDiscount += vipDiscount;
     }
+
+    const taxableSubtotal = Math.max(0, subtotal - taxExclusiveDiscount);
+    let tax = taxableSubtotal * 0.17;
+    let total = taxableSubtotal + tax;
 
     const priceBeforeScratch = total;
     let scratchDiscount = 0;
@@ -137,9 +139,9 @@ export default function CheckoutPage() {
         const ticketPriceWithTax = baseTicketPrice * 1.17;
         scratchDiscount = Math.min(priceBeforeScratch, ticketPriceWithTax);
       }
-      discount += scratchDiscount;
       total -= scratchDiscount;
-      tax = total - (total / 1.17);
+      tax = total - (total / 1.17); // Back-calculate tax
+      taxExclusiveDiscount += scratchDiscount / 1.17; // Add to display discount
     }
 
     const splitTotal = isSocialMode ? total / (groupMembers.length + 1) : total;
@@ -153,8 +155,8 @@ export default function CheckoutPage() {
       isPrimeTime: showtimeHour >= 18 && showtimeHour <= 22
     });
 
-    if (appliedFlashOffer && discount > vipDiscount) {
-      priceInsights.push('מבצע בזק הופעל: נחסכו ₪' + Math.round(discount - vipDiscount));
+    if (appliedFlashOffer && taxExclusiveDiscount > vipDiscount) {
+      priceInsights.push('מבצע בזק הופעל בהצלחה');
     }
     
     if (vipInsight) {
@@ -165,7 +167,8 @@ export default function CheckoutPage() {
       priceInsights.push('הטבת כרטיס גירוד הופעלה בהצלחה');
     }
 
-    return { seatCount, ticketPrice: baseTicketPrice, foodTotal, subtotal, tax, discount, total, splitTotal, priceInsights, earnedPoints, originalPriceForReward: priceBeforeScratch, scratchDiscount };
+    return { seatCount, ticketPrice: baseTicketPrice, foodTotal, subtotal, tax, discount: taxExclusiveDiscount, total, splitTotal, priceInsights, earnedPoints, originalPriceForReward: priceBeforeScratch, scratchDiscount };
+
   }, [selectedSeats, selectedFood, isSocialMode, groupMembers, selectedShowtime, appliedFlashOffer, loyaltyData, scratchReward]);
 
   if (!selectedMovie) return <EmptyState />;

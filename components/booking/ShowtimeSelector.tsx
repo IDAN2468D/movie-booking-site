@@ -5,16 +5,10 @@ import { Calendar, Clock, Monitor } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBookingStore } from '@/lib/store';
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
-
-const showtimes = [
-  { time: '10:30', type: '2D', price: '₪45', hall: 'אולם 04' },
-  { time: '13:15', type: '3D', price: '₪55', hall: 'אולם 04' },
-  { time: '16:45', type: 'IMAX', price: '₪75', hall: 'אולם 04' },
-  { time: '19:30', type: '4DX', price: '₪85', hall: 'אולם 04' },
-  { time: '22:15', type: '2D', price: '₪45', hall: 'אולם 04' },
-];
+import { SHOWTIMES } from '@/lib/constants';
 
 export default function ShowtimeSelector() {
+
   const { selectedShowtime, setSelectedShowtime } = useBookingStore();
 
   return (
@@ -32,14 +26,14 @@ export default function ShowtimeSelector() {
         </div>
         <div className="text-right">
           <span className="text-[10px] bg-white/5 border border-white/10 px-3 py-1 rounded-full text-[#E5FF00] font-black uppercase tracking-widest">
-            {showtimes.length} הקרנות
+            {SHOWTIMES.length} הקרנות
           </span>
         </div>
       </div>
 
       {/* Showtimes List */}
       <div className="grid grid-cols-1 gap-4">
-        {showtimes.map((show, index) => {
+        {SHOWTIMES.map((show, index) => {
           const isSelected = selectedShowtime === show.time;
           
           return (
@@ -98,10 +92,10 @@ export default function ShowtimeSelector() {
                   `}>
                     {isSelected ? (
                       <MarkerHighlight delay={0.2} color="#FF1464" strokeWidth={3}>
-                        {show.price}
+                        ₪{show.price}
                       </MarkerHighlight>
                     ) : (
-                      show.price
+                      <>₪{show.price}</>
                     )}
                   </div>
                 </div>

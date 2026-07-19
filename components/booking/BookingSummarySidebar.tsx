@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ArrowRight, Ticket, Calendar, Clock } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
 import { getImageUrl } from '@/lib/tmdb';
+import { SHOWTIMES } from '@/lib/constants';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SightlinePreview from './SightlinePreview';
@@ -27,15 +28,19 @@ export default function BookingSummarySidebar({ onCheckout }: BookingSummarySide
   const selectedHall = useBookingStore((state) => state.selectedHall);
   const { balances } = useWalletStore();
 
-  const ticketPrice = 45;
   const appliedFlashOffer = useBookingStore((state) => state.appliedFlashOffer);
   
+  const showtimeData = SHOWTIMES.find(s => s.time === selectedShowtime) || SHOWTIMES[0];
+  const ticketPrice = showtimeData.price;
+
   let totalPrice = selectedSeats.length * ticketPrice;
   if (appliedFlashOffer) {
     const hasAllOfferSeats = appliedFlashOffer.seats.every(seat => selectedSeats.includes(seat));
     if (hasAllOfferSeats) {
       const normalPriceForOfferSeats = appliedFlashOffer.seats.length * ticketPrice;
-      const discount = normalPriceForOfferSeats - appliedFlashOffer.price;
+      // Convert applied flash offer to tax exclusive to match ticketPrice which is tax exclusive
+      const taxExclusiveOfferPrice = appliedFlashOffer.price; 
+      const discount = normalPriceForOfferSeats - taxExclusiveOfferPrice;
       totalPrice -= discount;
     }
   }

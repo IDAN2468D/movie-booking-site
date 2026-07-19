@@ -225,3 +225,11 @@ export const CINEMA_BRANCHES = [
     hours: '11:00 - 01:00'
   },
 ];
+
+export const SHOWTIMES = [
+  { time: '10:30', type: '2D', price: 45, hall: 'אולם 04' },
+  { time: '13:15', type: '3D', price: 55, hall: 'אולם 04' },
+  { time: '16:45', type: 'IMAX', price: 75, hall: 'אולם 04' },
+  { time: '19:30', type: '4DX', price: 85, hall: 'אולם 04' },
+  { time: '22:15', type: 'VIP', price: 120, hall: 'אולם 04' },
+];

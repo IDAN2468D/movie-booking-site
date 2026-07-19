@@ -78,7 +78,7 @@ export const OrderSummary = ({
          <div className="space-y-4">
            <PriceRow label={`כרטיסים (${seatCount}x)`} value={`₪${(seatCount * ticketPrice).toFixed(2)}`} />
            {foodTotal > 0 && <PriceRow label="אוכל ונשנושים" value={`₪${foodTotal.toFixed(2)}`} highlight />}
-           {discount > 0 && <PriceRow label="הנחת מבצע בזק" value={`-₪${discount.toFixed(2)}`} highlight />}
+           {discount > 0 && <PriceRow label="הנחות והטבות" value={`-₪${discount.toFixed(2)}`} highlight />}
            <PriceRow label="מע״מ (17%)" value={`₪${tax.toFixed(2)}`} muted />
            
            {/* Total Section */}
