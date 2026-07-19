@@ -115,9 +115,11 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   };
 
   const handleSeatClick = async (seatId: string) => {
-    if (occupiedSeats.includes(seatId) || globalSelectedSeats.includes(seatId) || globalLoadingLocks.includes(seatId)) {
+    if (occupiedSeats.includes(seatId) || globalLoadingLocks.includes(seatId)) {
       return;
     }
+
+    const isSelecting = !globalSelectedSeats.includes(seatId);
 
     // Calculate normalized 3D coordinates (-1 to 1) for the Dolby Atmos Panner
     const rowChar = seatId.charAt(0);
@@ -129,6 +131,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
     const y = 0;                          // Ear level
     
     if (globalIsAcousticMode) {
+      if (!isSelecting) return; // Don't do acoustic preview on already selected seat
       addLoadingLock(seatId);
       try {
         const res = await getSeatAcousticProfile({ seatId, x, y });
@@ -149,26 +152,36 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
     addLoadingLock(seatId);
 
     try {
-      const res = await fetch("/api/seats/lock", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ showtimeId, seatId, userId }),
-      });
-      const data = await res.json();
+      if (isSelecting) {
+        const res = await fetch("/api/seats/lock", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ showtimeId, seatId, userId }),
+        });
+        const data = await res.json();
 
-      if (data.success && data.data?.locked) {
-        // Add the seat to the global booking store so checkout can proceed
-        useBookingStore.getState().toggleSeat(seatId);
+        if (data.success && data.data?.locked) {
+          // Trigger the Kinetic Holographic Fusion effect
+          const store = useLiquidGlassStore.getState();
+          store.setFusionOriginSeat(seatId);
+          store.setFusionShardsActive(true);
+          setTimeout(() => store.setFusionShardsActive(false), 2000);
 
-        // Trigger the Kinetic Holographic Fusion effect
-        const store = useLiquidGlassStore.getState();
-        store.setFusionOriginSeat(seatId);
-        store.setFusionShardsActive(true);
-        setTimeout(() => store.setFusionShardsActive(false), 2000);
-
-        if (onSeatLocked) onSeatLocked(seatId);
+          if (onSeatLocked) {
+            onSeatLocked(seatId);
+          } else {
+            useBookingStore.getState().toggleSeat(seatId);
+          }
+        } else {
+          console.warn("Lock failed:", data.error);
+        }
       } else {
-        console.warn("Lock failed:", data.error);
+        // Deselecting the seat
+        if (onSeatLocked) {
+          onSeatLocked(seatId);
+        } else {
+          useBookingStore.getState().toggleSeat(seatId);
+        }
       }
     } catch (err) {
       console.error("Network error:", err);
