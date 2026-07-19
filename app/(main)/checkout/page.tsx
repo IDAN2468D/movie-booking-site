@@ -21,6 +21,9 @@ import SmartCheckoutInsights from '@/components/checkout/SmartCheckoutInsights';
 import CurrencyCascade from '@/components/fx/CurrencyCascade';
 import RoaringLionCelebration from '@/components/fx/RoaringLionCelebration';
 import { ScratchRewardBanner } from '@/components/booking/ScratchRewardBanner';
+import { HolographicShardFusion } from '@/components/checkout/HolographicShardFusion';
+import { useCheckoutResonance } from '@/hooks/useCheckoutResonance';
+import { useLiquidGlassStore } from '@/lib/store/liquidGlassStore';
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
@@ -29,6 +32,8 @@ export default function CheckoutPage() {
     selectedDate, selectedShowtime, selectedHall, selectedBranchId, setTransactionCompleted, appliedFlashOffer
   } = useBookingStore();
   const { isSocialMode, groupMembers } = useSocialStore();
+  const { triggerResonance } = useCheckoutResonance();
+  const setFusionShardsActive = useLiquidGlassStore(state => state.setFusionShardsActive);
 
   const branch = CINEMA_BRANCHES.find(b => b.id === selectedBranchId);
   
@@ -168,6 +173,7 @@ export default function CheckoutPage() {
     <>
       <CurrencyCascade />
       <RoaringLionCelebration />
+      <HolographicShardFusion />
       <SuccessView resetBooking={resetBooking} />
     </>
   );
@@ -196,6 +202,8 @@ export default function CheckoutPage() {
         }),
       });
       if (res.ok) {
+        triggerResonance();
+        setFusionShardsActive(true);
         const bookingData = await res.json();
         setTransactionCompleted(true);
         setIsSuccess(true);
@@ -256,6 +264,8 @@ export default function CheckoutPage() {
         }),
       });
       if (res.ok) {
+        triggerResonance();
+        setFusionShardsActive(true);
         const bookingData = await res.json();
         setTransactionCompleted(true);
         try {

@@ -3,7 +3,7 @@ name: "Agent Stack Framework"
 description: "Run the agent using the 5 layers of the Agent Stack (Loop, Plan, PRD, Spec, Markdown) for autonomous long-running tasks."
 ---
 
-# 🤖 Enterprise-Cognitive Agent Stack Execution Engine (v7.1)
+# 🤖 Enterprise-Cognitive Agent Stack Execution Engine (v8.0)
 
 > **Objective:** Eliminate context drift, maximize token efficiency, and enforce a high-fidelity self-healing standard by binding execution to a strict 5-layer Enterprise-Cognitive Engine. This guarantees zero-drift autonomous execution and over 90% error mitigation compared to reactive setups.
 
@@ -11,7 +11,7 @@ Whenever you are tasked with a feature or long-running objective, you **MUST** e
 
 ---
 
-## 🏗️ The 5-Layer Architecture (v7.1)
+## 🏗️ The 5-Layer Architecture (v8.0)
 
 ```mermaid
 graph TD
@@ -32,9 +32,9 @@ graph TD
 
 ## 🚀 Execution Steps
 
-### 1️⃣ Layer 1 — Memory Persistence & Context Pruning (`STATE.md` / `latest.md`)
-- **Protocol:** Parse `latest.md` and `README.md` at the start of every session. Save progress, completed milestones, and updated metrics to `latest.md` at the end of each step.
-- **Token Optimization:** Do not re-read large directory or file structures repeatedly. Rely on summaries from `latest.md` and `STATE.md`.
+### 1️⃣ Layer 1 — Memory Persistence & Context Pruning (`ARCHITECTURE_STATE.md` / `latest.md`)
+- **Protocol:** Parse `latest.md` and `ARCHITECTURE_STATE.md` at the start of every session. Save progress, completed milestones, and updated metrics to `SPRINTS.md` at the end of each step.
+- **Token Optimization:** Do not re-read large directory or file structures repeatedly. Rely on summaries from `latest.md` and `ARCHITECTURE_STATE.md`.
 - **JIT Skill Activation:** Load only the specific Skill markdown file relevant to the current task from `.agents/Skills/` to save context window space.
 
 > **Mandatory System Prompt Template:**

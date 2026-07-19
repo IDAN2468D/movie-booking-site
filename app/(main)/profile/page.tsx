@@ -3,6 +3,8 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getUserDashboardData } from "@/lib/actions/user-dashboard";
 import ProfileClient from "./ProfileClient";
+import CinematicAura from "@/components/profile/CinematicAura";
+import { OfflineSyncCylinder } from "@/components/settings/OfflineSyncCylinder";
 
 export const metadata = {
   title: "Profile | MovieBook",
@@ -32,6 +34,14 @@ export default async function ProfilePage() {
         <p className="text-neutral-400 font-['Inter'] text-lg">
           הנה כל הכרטיסים וההתאמות שלך.
         </p>
+      </div>
+
+      <div className="mb-10">
+        <CinematicAura userId={session.user.id} />
+      </div>
+
+      <div className="mb-10">
+        <OfflineSyncCylinder />
       </div>
 
       <ProfileClient 

@@ -16,6 +16,7 @@ import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 import HolographicBackground from '@/components/ui/HolographicBackground';
 import StoryBar from '@/components/stories/StoryBar';
 import { useFilteredMovies } from '@/hooks/useFilteredMovies';
+import { SocialPulseRings } from './SocialPulseRings';
 
 interface HomeContentProps {
   popularMovies: Movie[];
@@ -71,6 +72,7 @@ export default function HomeContent({
   return (
     <div className="relative min-h-screen pb-20 overflow-x-hidden [transform:translateZ(0)]">
       <HolographicBackground />
+      <SocialPulseRings />
       
       <div className="relative z-10 [transform:translateZ(0)]">
         <StoryBar />

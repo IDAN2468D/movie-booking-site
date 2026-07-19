@@ -3,14 +3,14 @@ name: "Feature Audit & Roadmap Generator"
 description: "Analyze current project status, audit implemented capabilities, and generate next-generation premium product roadmaps."
 ---
 
-# Skill: Feature Audit & Roadmap Generator (v3.0)
+# Skill: Feature Audit & Roadmap Generator (v8.0)
 
 ## Objective
-Analyze the current project state (`latest.md`, `task.md`) and architect next-generation, hyper-premium features that strictly adhere to the "Liquid Glass 4.0" design system, "Acoustic Wavefront Spatializer", and "Agent Stack" rules.
+Analyze the current project state (`ARCHITECTURE_STATE.md`, `SPRINTS.md`) and architect next-generation, hyper-premium features that strictly adhere to the "Liquid Glass 4.0" design system, "Acoustic Wavefront Spatializer", and "Agent Stack" rules.
 
 ## Execution Protocol
 1. **Context Loading:**
-   - Read `latest.md` (Current Status) and `task.md` (Completed Features).
+   - Read `ARCHITECTURE_STATE.md` (Master State) and `SPRINTS.md` (Active Sprints).
    - Query **StitchMCP** (`list_projects`, `list_screens`, `get_project`) to retrieve screens, design tokens, and components from related workspaces as benchmarks and inspiration for new features.
 2. **Deep-Dive Gap Analysis:**
    - Review implemented features.

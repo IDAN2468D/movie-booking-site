@@ -7,6 +7,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { FOOD_ITEMS } from '@/lib/constants';
 import { KineticItem, KineticSnackCard } from './KineticSnackCard';
 import { CinemaTrayZone } from './CinemaTrayZone';
+import { useBookingStore } from '@/lib/store';
+import { SmartTray } from './SmartTray';
 
 interface VisualCateringGridProps {
   selectedFood: { id: number; quantity: number }[];
@@ -17,6 +19,7 @@ export const VisualCateringGrid = ({ selectedFood, updateFoodQuantity }: VisualC
   const pathname = usePathname();
   const isFoodPage = pathname === '/food';
   const router = useRouter();
+  const selectedMovie = useBookingStore(state => state.selectedMovie);
 
   // Map the FOOD_ITEMS
   const enrichedCatalog: KineticItem[] = FOOD_ITEMS.map((item) => ({
@@ -59,9 +62,19 @@ export const VisualCateringGrid = ({ selectedFood, updateFoodQuantity }: VisualC
           </div>
         </div>
         
+        
         {/* Scrollable Container for Grid AND Tray so cards don't clip when dragged */}
         <div className="flex-1 min-h-0 overflow-y-auto relative w-full scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           
+          {selectedMovie && (
+            <div className="px-2 pt-2">
+              <SmartTray 
+                movieTitle={(selectedMovie as any).displayTitle || (selectedMovie as any).title} 
+                movieGenre={(selectedMovie as any).genres?.map((g: any) => g.name).join(', ') || 'General'} 
+              />
+            </div>
+          )}
+
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5 relative z-10 w-full pt-2 px-2 pb-8">
           {enrichedCatalog.map((item) => {
             const quantity = selectedFood.find((f) => f.id === item.id)?.quantity || 0;
