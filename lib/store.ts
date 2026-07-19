@@ -53,6 +53,11 @@ interface BookingState {
   setActiveSubtitles: (subs: { time: number; text: string }[]) => void;
   appliedFlashOffer: { seats: string[]; originalPrice: number; price: number } | null;
   setAppliedFlashOffer: (offer: { seats: string[]; originalPrice: number; price: number } | null) => void;
+  loadingLocks: string[];
+  addLoadingLock: (seatId: string) => void;
+  removeLoadingLock: (seatId: string) => void;
+  isAcousticMode: boolean;
+  setIsAcousticMode: (mode: boolean) => void;
 }
 
 export const useBookingStore = create<BookingState>((set) => ({
@@ -81,6 +86,8 @@ export const useBookingStore = create<BookingState>((set) => ({
   activeMoods: [],
   hoveredSeat: null,
   appliedFlashOffer: null,
+  loadingLocks: [],
+  isAcousticMode: false,
 
   setAllMovies: (movies) => set({ allMovies: movies }),
   setSearchQuery: (query) => set({ searchQuery: query }),
@@ -96,6 +103,9 @@ export const useBookingStore = create<BookingState>((set) => ({
   setTransactionCompleted: (completed) => set({ isTransactionCompleted: completed }),
   setActiveSubtitles: (subs) => set({ activeSubtitles: subs }),
   setAppliedFlashOffer: (offer) => set({ appliedFlashOffer: offer }),
+  addLoadingLock: (seatId) => set((state) => ({ loadingLocks: [...state.loadingLocks, seatId] })),
+  removeLoadingLock: (seatId) => set((state) => ({ loadingLocks: state.loadingLocks.filter(id => id !== seatId) })),
+  setIsAcousticMode: (mode) => set({ isAcousticMode: mode }),
 
   toggleFavorite: async (movie) => {
     set((state) => ({
@@ -191,5 +201,7 @@ export const useBookingStore = create<BookingState>((set) => ({
       year: 'הכל',
     },
     appliedFlashOffer: null,
+    loadingLocks: [],
+    isAcousticMode: false,
   }),
 }));

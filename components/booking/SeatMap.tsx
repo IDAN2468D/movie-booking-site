@@ -29,19 +29,23 @@ interface SeatMapProps {
 const ROWS = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
 export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeatLocked, compact = false }: SeatMapProps) {
-  const [selectedSeats, setSelectedSeats] = useState<Set<string>>(new Set());
-  const [loadingLocks, setLoadingLocks] = useState<Set<string>>(new Set());
   const [showSnacks, setShowSnacks] = useState(false);
-  const [isAcousticMode, setIsAcousticMode] = useState(false);
   const [activePreviewProfile, setActivePreviewProfile] = useState<{seatId: string, profile: any} | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { playSpatialClick, playSeatPreviewLoop, stopSeatPreviewLoop } = useAcousticFeedback();
   const globalSelectedSeats = useBookingStore((state) => state.selectedSeats);
+  const globalHoveredSeat = useBookingStore((state) => state.hoveredSeat);
+  const setHoveredSeat = useBookingStore((state) => state.setHoveredSeat);
+  const globalLoadingLocks = useBookingStore((state) => state.loadingLocks);
+  const addLoadingLock = useBookingStore((state) => state.addLoadingLock);
+  const removeLoadingLock = useBookingStore((state) => state.removeLoadingLock);
+  const globalIsAcousticMode = useBookingStore((state) => state.isAcousticMode);
+  const setGlobalIsAcousticMode = useBookingStore((state) => state.setIsAcousticMode);
+  
   const { activeIntensityGenre, setActiveIntensityGenre } = useLiquidGlassStore();
   const { predictedSeats, activeOffer, setPredictedSeats, setActiveOffer } = usePredictiveSeatStore();
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const { presence, updatePresence } = usePresence();
-  const setHoveredSeat = useBookingStore((state) => state.setHoveredSeat);
 
   const { status: coViewingStatus, targetSeatId: coViewingSeatId, timeLeft: coViewingTimeLeft, initiateInvite, setPending, confirmInvite, tickTimer } = useCoViewingStore();
   const { playKineticFusionDrop } = useKineticAcoustics();
@@ -111,7 +115,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   };
 
   const handleSeatClick = async (seatId: string) => {
-    if (occupiedSeats.includes(seatId) || selectedSeats.has(seatId) || globalSelectedSeats.includes(seatId) || loadingLocks.has(seatId)) {
+    if (occupiedSeats.includes(seatId) || globalSelectedSeats.includes(seatId) || globalLoadingLocks.includes(seatId)) {
       return;
     }
 
@@ -124,8 +128,8 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
     const z = (rowIndex / 7) * 2 - 1;     // Row A -> -1 (Front), Row H -> 1 (Back)
     const y = 0;                          // Ear level
     
-    if (isAcousticMode) {
-      setLoadingLocks(prev => new Set(prev).add(seatId));
+    if (globalIsAcousticMode) {
+      addLoadingLock(seatId);
       try {
         const res = await getSeatAcousticProfile({ seatId, x, y });
         if (res.success && res.data) {
@@ -135,22 +139,14 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
       } catch (err) {
         console.error(err);
       } finally {
-        setLoadingLocks(prev => {
-          const next = new Set(prev);
-          next.delete(seatId);
-          return next;
-        });
+        removeLoadingLock(seatId);
       }
       return; // Skip normal booking flow when in acoustic mode
     }
 
     playSpatialClick(seatId, { x, y, z });
 
-    setLoadingLocks(prev => {
-      const next = new Set(prev);
-      next.add(seatId);
-      return next;
-    });
+    addLoadingLock(seatId);
 
     try {
       const res = await fetch("/api/seats/lock", {
@@ -161,12 +157,6 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
       const data = await res.json();
 
       if (data.success && data.data?.locked) {
-        setSelectedSeats(prev => {
-          const next = new Set(prev);
-          next.add(seatId);
-          return next;
-        });
-
         // Add the seat to the global booking store so checkout can proceed
         useBookingStore.getState().toggleSeat(seatId);
 
@@ -183,11 +173,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
     } catch (err) {
       console.error("Network error:", err);
     } finally {
-      setLoadingLocks(prev => {
-        const next = new Set(prev);
-        next.delete(seatId);
-        return next;
-      });
+      removeLoadingLock(seatId);
     }
   };
 
@@ -195,7 +181,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
     if (!activeOffer) return;
     
     for (const seatId of activeOffer.seats) {
-      if (!selectedSeats.has(seatId) && !occupiedSeats.includes(seatId) && !globalSelectedSeats.includes(seatId)) {
+      if (!occupiedSeats.includes(seatId) && !globalSelectedSeats.includes(seatId)) {
         await handleSeatClick(seatId);
       }
     }
@@ -235,13 +221,13 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
         </button>
         <button 
           onClick={() => {
-            setIsAcousticMode(!isAcousticMode);
-            if (isAcousticMode && activePreviewProfile) {
+            setGlobalIsAcousticMode(!globalIsAcousticMode);
+            if (globalIsAcousticMode && activePreviewProfile) {
               setActivePreviewProfile(null);
               stopSeatPreviewLoop();
             }
           }}
-          className={`px-5 py-2 rounded-full border ${isAcousticMode ? 'border-violet-500 bg-violet-500/20 text-violet-400 shadow-[0_0_20px_rgba(139,92,246,0.4)]' : 'border-white/10 text-white/60'} text-[11px] font-['Outfit'] font-bold flex items-center gap-2 hover:bg-white/5 transition-colors tracking-wide`}
+          className={`px-5 py-2 rounded-full border ${globalIsAcousticMode ? 'border-violet-500 bg-violet-500/20 text-violet-400 shadow-[0_0_20px_rgba(139,92,246,0.4)]' : 'border-white/10 text-white/60'} text-[11px] font-['Outfit'] font-bold flex items-center gap-2 hover:bg-white/5 transition-colors tracking-wide`}
         >
           אקוסטיקה <span className="opacity-70">🎧</span>
         </button>
@@ -269,8 +255,9 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
                       key={seatId}
                       seatId={seatId}
                       isOccupied={occupiedSeats.includes(seatId)}
-                      isSelected={selectedSeats.has(seatId) || globalSelectedSeats.includes(seatId)}
-                      isLoading={loadingLocks.has(seatId)}
+                      isSelected={globalSelectedSeats.includes(seatId)}
+                      isLoading={globalLoadingLocks.includes(seatId)}
+                      isHovered={globalHoveredSeat === seatId}
                       isPredicted={predictedSeats.includes(seatId)}
                       onClick={() => handleSeatClick(seatId)}
                       onHover={() => {
@@ -319,8 +306,9 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
                       key={seatId}
                       seatId={seatId}
                       isOccupied={occupiedSeats.includes(seatId)}
-                      isSelected={selectedSeats.has(seatId) || globalSelectedSeats.includes(seatId)}
-                      isLoading={loadingLocks.has(seatId)}
+                      isSelected={globalSelectedSeats.includes(seatId)}
+                      isLoading={globalLoadingLocks.includes(seatId)}
+                      isHovered={globalHoveredSeat === seatId}
                       onClick={() => handleSeatClick(seatId)}
                       onHover={() => {
                         updatePresence(seatId);
@@ -448,7 +436,7 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
   );
 }
 
-function Seat({ seatId, isOccupied, isSelected, isLoading, isPredicted, onClick, onHover, onLeave, compact, presenceUsers = [], onContextMenu, coViewingStatus, coViewingTimeLeft, onConfirmCoViewing }: any) {
+function Seat({ seatId, isOccupied, isSelected, isLoading, isPredicted, isHovered, onClick, onHover, onLeave, compact, presenceUsers = [], onContextMenu, coViewingStatus, coViewingTimeLeft, onConfirmCoViewing }: any) {
   let bgClass = "bg-white/5 border-white/10 hover:bg-white/10 cursor-pointer";
   let contentClass = "opacity-100";
   
@@ -461,6 +449,8 @@ function Seat({ seatId, isOccupied, isSelected, isLoading, isPredicted, onClick,
     bgClass = "bg-cyan-400/20 border-cyan-400/50 animate-pulse pointer-events-none";
   } else if (isPredicted) {
     bgClass = "bg-violet-500/20 border-violet-500/80 animate-pulse shadow-[0_0_15px_rgba(139,92,246,0.5)] cursor-pointer";
+  } else if (isHovered) {
+    bgClass = "bg-white/10 border-white/20 scale-[1.05] shadow-[0_0_15px_rgba(255,255,255,0.1)] cursor-pointer";
   }
 
   const sizeClass = compact ? "w-8 h-9 text-[8px]" : "w-11 h-12 text-[10px]";
