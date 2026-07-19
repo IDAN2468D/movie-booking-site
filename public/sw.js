@@ -8,7 +8,12 @@ const PRECACHE_ASSETS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(PRECACHE_ASSETS);
+      // Use map and catch to prevent one failed asset from crashing the whole install process
+      return Promise.allSettled(
+        PRECACHE_ASSETS.map(url => 
+          cache.add(url).catch(err => console.warn(`Failed to precache ${url}:`, err))
+        )
+      );
     })
   );
   self.skipWaiting();
@@ -62,9 +67,16 @@ self.addEventListener('message', (event) => {
     const urls = event.data.urls;
     event.waitUntil(
       caches.open(CACHE_NAME).then((cache) => {
-        return Promise.all(urls.map(url => cache.add(url).catch(err => console.error('Failed to cache', url, err))));
+        return Promise.allSettled(urls.map(url => cache.add(url).catch(err => console.error('Failed to cache', url, err))));
+      }).then(() => {
+        if (event.source) {
+          event.source.postMessage({ type: 'SYNC_COMPLETE' });
+        } else {
+          self.clients.matchAll().then(clients => {
+            clients.forEach(client => client.postMessage({ type: 'SYNC_COMPLETE' }));
+          });
+        }
       })
     );
-    event.source.postMessage({ type: 'SYNC_COMPLETE' });
   }
 });

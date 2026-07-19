@@ -25,23 +25,33 @@ export function OfflineSyncCylinder() {
     }
   }, []);
 
-  const handleSync = () => {
-    if (!swRegistered || !navigator.serviceWorker.controller) {
-      alert("Service Worker אינו פעיל עדיין. נסה לרענן את העמוד.");
+  const handleSync = async () => {
+    if (!('serviceWorker' in navigator)) {
+      alert("הדפדפן שלך אינו תומך ב-Service Worker.");
       return;
     }
     
     setIsSyncing(true);
     setSyncComplete(false);
     
-    // Send message to SW to precache heavy media
-    navigator.serviceWorker.controller.postMessage({
-      type: 'PRECACHE_MEDIA',
-      urls: [
-        '/noise.png',
-        '/api/health' 
-      ]
-    });
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      if (registration.active) {
+        // Send message to SW to precache heavy media
+        registration.active.postMessage({
+          type: 'PRECACHE_MEDIA',
+          urls: [
+            '/api/health' 
+          ]
+        });
+      } else {
+        throw new Error("No active service worker");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("אירעה שגיאה בחיבור ל-Service Worker. נסה לרענן את העמוד.");
+      setIsSyncing(false);
+    }
   };
 
   return (
