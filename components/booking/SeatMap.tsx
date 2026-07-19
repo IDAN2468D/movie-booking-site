@@ -153,6 +153,13 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
 
     try {
       if (isSelecting) {
+        // Optimistic UI update: immediately show as selected
+        if (onSeatLocked) {
+          onSeatLocked(seatId);
+        } else {
+          useBookingStore.getState().toggleSeat(seatId);
+        }
+
         const res = await fetch("/api/seats/lock", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -166,14 +173,14 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
           store.setFusionOriginSeat(seatId);
           store.setFusionShardsActive(true);
           setTimeout(() => store.setFusionShardsActive(false), 2000);
-
+        } else {
+          console.warn("Lock failed:", data.error);
+          // Revert optimistic update
           if (onSeatLocked) {
             onSeatLocked(seatId);
           } else {
             useBookingStore.getState().toggleSeat(seatId);
           }
-        } else {
-          console.warn("Lock failed:", data.error);
         }
       } else {
         // Deselecting the seat
@@ -185,6 +192,14 @@ export default function SeatMap({ showtimeId, userId, occupiedSeats = [], onSeat
       }
     } catch (err) {
       console.error("Network error:", err);
+      // Revert optimistic update on network error
+      if (isSelecting) {
+        if (onSeatLocked) {
+          onSeatLocked(seatId);
+        } else {
+          useBookingStore.getState().toggleSeat(seatId);
+        }
+      }
     } finally {
       removeLoadingLock(seatId);
     }
