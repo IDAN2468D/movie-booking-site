@@ -22,6 +22,7 @@ import { CinematicDeepDive } from './CinematicDeepDive';
 import { UniverseMap } from './UniverseMap';
 import { WhatIfScenario } from './WhatIfScenario';
 import YouTubeBackground from './YouTubeBackground';
+import CinematicInsights from './CinematicInsights';
 
 interface Props {
   movie: MovieDetails;
@@ -508,6 +509,9 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                 </div>
               </div>
             </div>
+
+            {/* AI Deep Cinematic Researcher (Antigravity) */}
+            <CinematicInsights movieTitle={movie.title} />
 
             {/* Infographic Dashboard */}
             <MovieInfographic 

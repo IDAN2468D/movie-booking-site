@@ -53,8 +53,8 @@ export async function POST(req: NextRequest) {
       }
     `;
 
-    // Enforcing Gemini 2.5 Flash here because it heavily relies on strict JSON responseSchema
-    const modelNames = ['gemini-2.5-flash'];
+    // Upgraded to Gemini 3.1 Flash Lite to avoid 2.5-flash quota limits and improve speed
+    const modelNames = ['gemini-3.1-flash-lite', 'gemini-3.5-flash'];
     const { callGeminiWithRetry } = await import('@/lib/gemini');
 
     const { text, modelUsed } = await callGeminiWithRetry(modelNames, async (model) => {
@@ -113,28 +113,6 @@ export async function POST(req: NextRequest) {
   } catch (error: unknown) {
     console.error('Character analysis Gemini API Error:', error);
     const errorMessage = error instanceof Error ? error.message : 'Failed to generate character profiles';
-
-    // Ollama Fallback
-    try {
-      console.log('Falling back to local Ollama for character analysis...');
-      const { callOllama, sanitizeAndParseJSON } = await import('@/lib/ollama');
-      const response = await callOllama([
-        { role: 'user', content: prompt }
-      ], { jsonMode: true });
-      
-      if (response.success) {
-        const parsedData = sanitizeAndParseJSON<CharacterAnalysisResponse>(response.content);
-        if (parsedData && parsedData.characters) {
-          return NextResponse.json({
-            success: true,
-            characters: parsedData.characters,
-            model: `${response.model} (Ollama Fallback)`
-          });
-        }
-      }
-    } catch (ollamaErr) {
-      console.error('Ollama fallback failed:', ollamaErr);
-    }
 
     return NextResponse.json({
       success: false,
