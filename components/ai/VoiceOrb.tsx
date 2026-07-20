@@ -59,10 +59,11 @@ export default function VoiceOrb() {
       <AnimatePresence>
         {(isListening || feedbackText || isProcessing) && (
           <motion.div 
-            initial={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
-            className={`absolute top-full mt-4 left-0 whitespace-nowrap px-4 py-2 rounded-2xl backdrop-blur-xl border font-inter text-sm shadow-xl max-w-xs ${
+            initial={{ opacity: 0, y: -10, filter: 'blur(10px)', x: '-50%' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)', x: '-50%' }}
+            exit={{ opacity: 0, y: -10, filter: 'blur(10px)', x: '-50%' }}
+            dir="rtl"
+            className={`absolute top-full mt-4 left-1/2 w-max max-w-[85vw] sm:max-w-xs px-4 py-2 rounded-2xl backdrop-blur-xl border font-inter text-sm shadow-xl text-right leading-relaxed ${
               isProcessing || feedbackText 
                 ? 'bg-purple-950/80 border-purple-500/30 text-purple-200' 
                 : 'bg-black/60 border-white/10 text-cyan-300'
