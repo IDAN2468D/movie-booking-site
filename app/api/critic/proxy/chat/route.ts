@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 
     // Shielding API keys from the client
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.1-flash-lite' });
 
     const personaVector = await fetchUserPersonaVector();
 

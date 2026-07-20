@@ -60,7 +60,7 @@ Do NOT wrap the response in markdown \`\`\`json blocks.
 `;
 
     const resultData = await callGeminiWithRetry(
-      ['gemini-3.1-flash-lite', 'gemini-1.5-flash-latest'],
+      ['gemini-3.1-flash-lite', 'gemini-2.5-flash'],
       async (model) => {
         const generativeModel = genAI.getGenerativeModel({
           model: model.model,

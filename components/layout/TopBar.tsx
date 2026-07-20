@@ -15,6 +15,7 @@ import { PremiumLogo } from '@/components/ui/PremiumLogo';
 import LiveActivityPulse from '@/components/ui/LiveActivityPulse';
 import { NotificationDrawer } from '@/components/notifications/NotificationDrawer';
 import { useNotificationStore } from '@/lib/store/notification-store';
+import VoiceOrb from '@/components/ai/VoiceOrb';
 
 export default function TopBar() {
   const { filters, setFilters } = useBookingStore();
@@ -68,6 +69,7 @@ export default function TopBar() {
         {!isMobileSearchOpen && (
           <div className="flex items-center gap-3 md:gap-5 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
             {/* AI Concierge Trigger */}
+            <VoiceOrb />
             <UserProfile />
             <button
               onClick={() => setIsNotificationsOpen(true)}
