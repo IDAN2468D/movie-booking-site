@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
         const chatModel = genAI.getGenerativeModel({
           model: model.model,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          tools: [{ googleSearch: {} }] as any,
+          tools: [{ googleSearchRetrieval: {} }] as any,
           systemInstruction: `
             אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
             הזהות שלך: עוזר אישי (Concierge), מקצועי, ויוקרתי.

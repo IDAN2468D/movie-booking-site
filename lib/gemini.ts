@@ -9,10 +9,11 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '');
 export async function callGeminiWithRetry<T>(
   modelNames: string | string[],
   fn: (model: GenerativeModel) => Promise<T>,
-  maxRetries = 2,
+  maxRetries = 3,
   initialDelay = 1000
 ): Promise<T> {
   const models = Array.isArray(modelNames) ? modelNames : [modelNames];
+
   let lastError: Error | undefined;
   
   for (const modelName of models) {
@@ -24,13 +25,8 @@ export async function callGeminiWithRetry<T>(
         const error = err as { status?: number; message?: string };
         lastError = err instanceof Error ? err : new Error(String(err));
         
-        // If it's a 503 (Service Unavailable) or 429 (Rate Limit), retry
+        // If it's a 503 (Service Unavailable) or 429 (Rate Limit / Quota), retry
         if ((error.status === 503 || error.status === 429) && attempt < maxRetries) {
-          // If it's a quota error, don't retry, just break to try the next model immediately
-          if (error.status === 429 && lastError?.message.toLowerCase().includes('quota')) {
-            console.warn(`Gemini model ${modelName} quota exceeded. Skipping retries to try fallback models...`);
-            break;
-          }
 
           const delay = initialDelay * Math.pow(2, attempt);
           console.warn(`Gemini model ${modelName} is busy (${error.status}). Retrying in ${delay}ms... (Attempt ${attempt + 1}/${maxRetries})`);

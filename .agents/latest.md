@@ -12,3 +12,8 @@ You operate in a high-efficiency environment.
 - **Current Status**: Phase 19 (Sprints 29-34) is 100% complete.
 - **Architectural Reference**: Refer to `ARCHITECTURE_STATE.md` for historical feature contracts.
 - **Next Step**: Await user command to run the `Feature Audit & Roadmap Generator` to plan Phase 20 Sprints.
+
+## 📝 Layer 5 Ledger
+- **2026-07-21**: Action: Fixed 429 rate limit with exponential backoff & fallback in news-curator. Status: COMPLETED.
+- **2026-07-21**: Action: Added in-memory cache and stale-cache fallback to news-curator to prevent excessive Gemini calls and handle 429 errors. Status: COMPLETED.
+- **2026-07-21**: Action: Increased news-curator CACHE_TTL to 30 minutes to further mitigate 429 rate limits. Status: COMPLETED.

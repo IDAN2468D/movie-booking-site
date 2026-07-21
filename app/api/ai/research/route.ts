@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       const generativeModel = genAI.getGenerativeModel({
         model: model.model,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        tools: [{ googleSearch: {} }] as any,
+        tools: [{ googleSearchRetrieval: {} }] as any,
         systemInstruction: `You are a legendary film historian and AI researcher. Provide a "Cinematic Deep Dive" for the requested movie. Include 3 sections: 
 1. 🎬 מאחורי הקלעים (Behind the scenes facts)
 2. 🥚 איסטראגז ורפרנסים (Easter eggs and references)
