@@ -71,4 +71,4 @@
 ### 🎵 Sprint 40: Ambient Synesthesia
 - **Concept:** Extract dominant poster colors and adjust Web Audio background EQ dynamically.
 - **Tech Stack:** Web Worker Canvas extraction, `BiquadFilterNode`.
-- **Status:** ⏳ Pending
+- **Status:** ✅ Completed

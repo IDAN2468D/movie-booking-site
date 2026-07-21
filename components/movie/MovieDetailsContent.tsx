@@ -23,6 +23,7 @@ import { UniverseMap } from './UniverseMap';
 import { WhatIfScenario } from './WhatIfScenario';
 import YouTubeBackground from './YouTubeBackground';
 import CinematicInsights from './CinematicInsights';
+import AmbientSynesthesia from '../fx/AmbientSynesthesia';
 
 interface Props {
   movie: MovieDetails;
@@ -404,6 +405,12 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             <p className="text-off-white/90 leading-relaxed-hebrew text-lg font-medium mb-10">
               {movie.overview || 'אין תקציר זמין עבור סרט זה.'}
             </p>
+
+            <AmbientSynesthesia 
+              imageUrl={getImageUrl(movie.poster_path, 'w500')} 
+              movieId={movie.id}
+              movieTitle={movie.title}
+            />
 
             {/* AI Cinematic Insights Section - Liquid Glass 2.0 Premium */}
             <div className="relative group mt-12 mb-16">
