@@ -72,3 +72,31 @@
 - **Concept:** Extract dominant poster colors and adjust Web Audio background EQ dynamically.
 - **Tech Stack:** Web Worker Canvas extraction, `BiquadFilterNode`.
 - **Status:** ✅ Completed
+
+---
+
+## 🔮 Phase 22: The Native Browser Sensory Extension
+
+### 🎵 Sprint 42: Kinetic Trailer Typography
+- **Concept:** Subtitles that shatter, blur, and scale dynamically based on simulated cinematic bass drops using Framer Motion and Web Audio node simulation.
+- **Tech Stack:** `AnimatePresence`, CSS `filter: blur()`, React `useAnimationFrame`.
+- **Status:** ✅ Completed
+
+### 🧬 Sprint 43: Biometric Touch-Hold Auth
+- **Concept:** Liquid-metal fingerprint scanner checkout option using PointerEvents and a Sub-bass heartbeat oscillator that increases in frequency.
+- **Tech Stack:** `PointerEvents`, Web Audio `OscillatorNode`, SVG Dasharray drawing.
+- **Status:** ✅ Completed
+
+---
+
+## 🌌 Phase 23: The Cinematic Convergence
+
+### 🗣️ Sprint 44: Director's Whisper
+- **Concept:** Floating AI-generated trivia bubbles synced with movie trailers to enhance immersion without interrupting playback.
+- **Tech Stack:** `gemini-3.1-flash-lite`, `AnimatePresence`, Liquid Glass UI.
+- **Status:** 🔄 In Progress
+
+### 🎰 Sprint 45: AI Dynamic Combo Roulette
+- **Concept:** Ultra-fast, highly personalized combo generation and dynamic pricing at checkout based on movie data and time.
+- **Tech Stack:** `gemini-3.1-flash-lite`, `framer-motion` 3D Transforms, Zod bounds.
+- **Status:** 🔄 In Progress

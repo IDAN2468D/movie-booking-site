@@ -1,7 +1,18 @@
-# Sprint 43.1: Gemini AI-Powered Voice Navigation 🧠
+# Phase 23 Tasks
 
-- [x] 1. Create API Backend (`app/api/ai/voice-nav/route.ts`)
-- [x] 2. Update State Management (`lib/store/voiceStore.ts`)
-- [x] 3. Update Hook Logic (`lib/hooks/useVoiceEngine.ts`)
-- [x] 4. Enhance Visual Orb (`components/ai/VoiceOrb.tsx`)
-- [x] 5. Verify functionality (tsc, build)
+## Layer 1 & 2: Documentation
+- `[x]` Update `SPRINTS.md` with Sprint 44 and 45 details.
+
+## Sprint 44: Director's Whisper
+- `[x]` Create `app/actions/trailerTriviaActions.ts`.
+- `[x]` Create `components/movie/DirectorsWhisper.tsx`.
+- `[x]` Integrate `DirectorsWhisper` into `components/movie/CinemaTrailerStream.tsx`.
+
+## Sprint 45: AI Dynamic Combo Roulette
+- `[x]` Create `app/actions/comboRouletteActions.ts`.
+- `[x]` Create `components/catering/DynamicComboRoulette.tsx`.
+- `[x]` Integrate `DynamicComboRoulette` into `components/catering/VisualCateringGrid.tsx`.
+
+## QA & Loop
+- `[x]` Run `npx tsc --noEmit`.
+- `[x]` Run `npm run build`.

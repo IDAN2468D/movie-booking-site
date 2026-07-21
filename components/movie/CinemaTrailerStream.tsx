@@ -2,8 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { KineticTypography } from "./KineticTypography";
+import { DirectorsWhisper } from "./DirectorsWhisper";
 
-export function CinemaTrailerStream({ tmdbId, youtubeKey = "dQw4w9WgXcQ" }: { tmdbId?: string, youtubeKey?: string }) {
+export function CinemaTrailerStream({ tmdbId, youtubeKey = "dQw4w9WgXcQ", movieTitle = "Unknown Movie" }: { tmdbId?: string, youtubeKey?: string, movieTitle?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
@@ -48,6 +50,8 @@ export function CinemaTrailerStream({ tmdbId, youtubeKey = "dQw4w9WgXcQ" }: { tm
       <div className="absolute top-4 right-4 z-20 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs text-white/80 font-['Outfit'] tracking-wider">
         LIVE STREAM
       </div>
+      <KineticTypography />
+      <DirectorsWhisper movieTitle={movieTitle} />
     </motion.div>
   );
 }

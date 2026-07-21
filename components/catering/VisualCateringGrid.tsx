@@ -9,6 +9,7 @@ import { KineticItem, KineticSnackCard } from './KineticSnackCard';
 import { CinemaTrayZone } from './CinemaTrayZone';
 import { useBookingStore } from '@/lib/store';
 import { SmartTray } from './SmartTray';
+import { DynamicComboRoulette } from './DynamicComboRoulette';
 
 interface VisualCateringGridProps {
   selectedFood: { id: number; quantity: number }[];
@@ -68,6 +69,9 @@ export const VisualCateringGrid = ({ selectedFood, updateFoodQuantity }: VisualC
           
           {selectedMovie && (
             <div className="px-2 pt-2">
+              <DynamicComboRoulette 
+                movieTitle={(selectedMovie as any).displayTitle || (selectedMovie as any).title} 
+              />
               <SmartTray 
                 movieTitle={(selectedMovie as any).displayTitle || (selectedMovie as any).title} 
                 movieGenre={(selectedMovie as any).genres?.map((g: any) => g.name).join(', ') || 'General'} 

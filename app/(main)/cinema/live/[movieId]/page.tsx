@@ -2,6 +2,7 @@ import { getMovieDetails, getMovieVideos, getImageUrl } from '@/lib/tmdb';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { KineticTypography } from '@/components/movie/KineticTypography';
 
 export async function generateMetadata({ params }: { params: { movieId: string } }) {
   const { movieId } = await params;
@@ -94,6 +95,7 @@ export default async function LiveCinemaPage({ params }: { params: { movieId: st
           {/* Glass Overlay Borders for Cinematic Feel */}
           <div className="absolute inset-0 border-[1px] border-white/10 rounded-3xl pointer-events-none mix-blend-overlay" />
           <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(0,0,0,0.8)] pointer-events-none" />
+          <KineticTypography />
         </div>
       </main>
 

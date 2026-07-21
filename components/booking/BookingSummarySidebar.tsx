@@ -11,6 +11,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SightlinePreview from './SightlinePreview';
 import AcousticSpatializer from './AcousticSpatializer';
 import { CryptoTicketPricer } from '@/components/booking/CryptoTicketPricer';
+import { BiometricAuth } from '@/components/checkout/BiometricAuth';
 import { useWalletStore } from '@/lib/store/walletStore';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -163,15 +164,20 @@ export default function BookingSummarySidebar({ onCheckout }: BookingSummarySide
         )}
 
         {/* Crypto Payment Checkout Widget */}
-        <div className="w-full relative z-20">
+        <div className="w-full relative z-20 mb-4">
           <CryptoTicketPricer 
             basePriceUSD={totalPrice} 
             onPaymentSuccess={onCheckout} 
           />
         </div>
 
+        {/* Biometric Touch-Hold Auth */}
+        <div className="w-full relative z-20">
+          <BiometricAuth amount={totalPrice} onSuccess={onCheckout} />
+        </div>
+
         <p className="text-center mt-4 text-[9px] text-slate-600 font-bold uppercase tracking-widest block">
-          הזמנה מאובטחת באמצעות בלוקצ'יין • Cashback 5%
+          הזמנה מאובטחת באמצעות בלוקצ'יין וביומטריה • Cashback 5%
         </p>
       </div>
 
