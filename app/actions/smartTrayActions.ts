@@ -26,7 +26,7 @@ export async function getSmartTrayRecommendations(movieTitle: string, movieGenre
       MUST write explanation IN HEBREW. No markdown, just raw JSON.
     `;
     
-    const resultText = await callGeminiWithRetry(['gemini-3.1-flash-lite'], async (model) => {
+    const resultText = await callGeminiWithRetry(['gemini-3.5-flash-lite'], async (model) => {
       const result = await model.generateContent(prompt);
       const response = await result.response;
       return response.text();

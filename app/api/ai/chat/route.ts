@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let groundingMetadata: any = null;
     try {
-      const modelNames = ['gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
+      const modelNames = ['gemini-3.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
       const { callGeminiWithRetry } = await import('@/lib/gemini');
 
       const resultData = await callGeminiWithRetry(modelNames, async (model) => {

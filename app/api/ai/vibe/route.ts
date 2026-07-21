@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     const { callGeminiWithRetry } = await import('@/lib/gemini');
 
-    const resultData = await callGeminiWithRetry(['gemini-3.1-flash-lite', 'gemini-2.5-flash', 'gemini-1.5-flash-latest'], async (model) => {
+    const resultData = await callGeminiWithRetry(['gemini-3.5-flash-lite', 'gemini-2.5-flash', 'gemini-1.5-flash-latest'], async (model) => {
       const generativeModel = genAI.getGenerativeModel({
         model: model.model,
         systemInstruction: `אתה אוצר קולנועי מומחה למציאת ה-"Vibe" המדויק. המשתמש מעלה תמונה של הסביבה שלו, ואתה מנתח את האווירה, התאורה, הצבעים ותחושת המקום. לאחר הניתוח, אתה ממליץ על ז'אנר ולפחות סרט אחד שמשדר בדיוק את אותה האווירה. התשובה שלך צריכה להיות פיוטית, תיאורית, עשירה ומעוררת השראה, בעברית בלבד. עצב את התשובה עם כותרות ורשימות מרקדאון.`

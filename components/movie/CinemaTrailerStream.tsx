@@ -4,10 +4,13 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { KineticTypography } from "./KineticTypography";
 import { DirectorsWhisper } from "./DirectorsWhisper";
+import { useSubBassPulse } from "@/lib/hooks/useSubBassPulse";
+import { SubBassPulseVisualizer } from "../effects/SubBassPulseVisualizer";
 
 export function CinemaTrailerStream({ tmdbId, youtubeKey = "dQw4w9WgXcQ", movieTitle = "Unknown Movie" }: { tmdbId?: string, youtubeKey?: string, movieTitle?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const { isActive, triggerPulse } = useSubBassPulse();
 
   useEffect(() => {
     // Simulated DOM video frame extraction for ambient outer glow (120Hz sync emulation)
@@ -18,8 +21,14 @@ export function CinemaTrailerStream({ tmdbId, youtubeKey = "dQw4w9WgXcQ", movieT
       }
     }, 150);
 
+    // Trigger a simulated "trailer climax" drop 3.5 seconds into playback
+    const climaxTimeoutId = setTimeout(() => {
+      triggerPulse({ frequency: 35, duration: 800, pattern: [400, 100, 300] });
+    }, 3500);
+
     return () => {
       clearInterval(intervalId);
+      clearTimeout(climaxTimeoutId);
       // Absolute instance tracking & clean player state destruction to bypass iframe memory leaks
       if (iframeRef.current) {
         iframeRef.current.src = "";
@@ -27,7 +36,7 @@ export function CinemaTrailerStream({ tmdbId, youtubeKey = "dQw4w9WgXcQ", movieT
         iframeRef.current = null;
       }
     };
-  }, []);
+  }, [triggerPulse]);
 
   return (
     <motion.div 
@@ -39,6 +48,7 @@ export function CinemaTrailerStream({ tmdbId, youtubeKey = "dQw4w9WgXcQ", movieT
       className="relative w-full max-w-4xl mx-auto rounded-3xl overflow-hidden bg-black/50 border border-white/10 transition-shadow duration-300"
       style={{ aspectRatio: "16/9" }}
     >
+      <SubBassPulseVisualizer isActive={isActive} />
       <div className="absolute inset-0 bg-gradient-to-t from-[#090b10] to-transparent z-10 pointer-events-none" />
       <iframe
         ref={iframeRef}

@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     const { callGeminiWithRetry } = await import('@/lib/gemini');
 
-    const resultData = await callGeminiWithRetry(['gemini-3.1-flash-lite', 'gemini-2.5-flash'], async (model) => {
+    const resultData = await callGeminiWithRetry(['gemini-3.5-flash-lite', 'gemini-2.5-flash'], async (model) => {
       const generativeModel = genAI.getGenerativeModel({
         model: model.model,
         systemInstruction: `You are an expert data visualization engineer. Create a beautiful, complex SVG mind-map connecting the movie to its actors, director, and related cinematic universe. 

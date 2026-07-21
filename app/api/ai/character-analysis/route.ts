@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     `;
 
     // Upgraded to Gemini 3.1 Flash Lite to avoid 2.5-flash quota limits and improve speed
-    const modelNames = ['gemini-3.1-flash-lite', 'gemini-3.5-flash'];
+    const modelNames = ['gemini-3.5-flash-lite', 'gemini-3.5-flash'];
     const { callGeminiWithRetry } = await import('@/lib/gemini');
 
     const { text, modelUsed } = await callGeminiWithRetry(modelNames, async (model) => {

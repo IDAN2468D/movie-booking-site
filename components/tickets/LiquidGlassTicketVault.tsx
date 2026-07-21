@@ -7,17 +7,26 @@ import { generateSecureTicket } from "@/app/actions/vaultActions";
 import { useSubBass } from "@/lib/hooks/useSubBass";
 import type { TicketVaultPayload } from "@/lib/validations/ticketVault";
 import { UVScannerTicket } from "@/components/tickets/UVScannerTicket";
+import { generateHologramThemeAction } from "@/app/actions/hologramActions";
+import { HologramPass3D } from "@/components/tickets/HologramPass3D";
+import { HologramTheme } from "@/lib/validations/hologramSchema";
 
 interface LiquidGlassTicketVaultProps {
   bookingId: string;
   seatId: string;
+  movieTitle?: string;
   concessions?: { id: string; name: string; quantity: number }[];
 }
 
-export function LiquidGlassTicketVault({ bookingId, seatId, concessions = [] }: LiquidGlassTicketVaultProps) {
+export function LiquidGlassTicketVault({ bookingId, seatId, movieTitle = "Unknown Movie", concessions = [] }: LiquidGlassTicketVaultProps) {
   const [isPending, startTransition] = useTransition();
   const [secureToken, setSecureToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  
+  const [isHologramPending, startHologramTransition] = useTransition();
+  const [hologramTheme, setHologramTheme] = useState<HologramTheme | null>(null);
+  const [showHologram, setShowHologram] = useState(false);
+
   const { triggerSubBass } = useSubBass();
 
   const handleGenerateTicket = () => {
@@ -29,6 +38,22 @@ export function LiquidGlassTicketVault({ bookingId, seatId, concessions = [] }: 
         setSecureToken(res.data.signedToken);
       } else {
         setError(res.error || "שגיאה בהצפנת הנתונים");
+      }
+    });
+  };
+
+  const handleGenerateHologram = () => {
+    if (hologramTheme) {
+      setShowHologram(!showHologram);
+      return;
+    }
+    startHologramTransition(async () => {
+      const res = await generateHologramThemeAction(movieTitle);
+      if (res.success && res.data) {
+        setHologramTheme(res.data);
+        setShowHologram(true);
+      } else {
+        setError(res.error || "שגיאה ביצירת נושא הולוגרמה");
       }
     });
   };
@@ -85,14 +110,28 @@ export function LiquidGlassTicketVault({ bookingId, seatId, concessions = [] }: 
               initial={{ opacity: 0, scale: 0.8, rotateX: 90 }}
               animate={{ opacity: 1, scale: 1, rotateX: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
-              className="w-full flex justify-center"
+              className="w-full flex flex-col items-center justify-center gap-6"
               style={{ transformOrigin: "bottom", willChange: "transform, opacity" }}
             >
-              <UVScannerTicket 
-                secureToken={secureToken}
-                seatId={seatId}
-                bookingId={bookingId}
-              />
+              <div className="w-full flex justify-between gap-4">
+                <button 
+                  onClick={handleGenerateHologram}
+                  disabled={isHologramPending}
+                  className="px-4 py-2 rounded-xl border border-blue-500/50 bg-blue-500/20 text-blue-100 font-inter text-sm hover:bg-blue-500/30 transition-colors"
+                >
+                  {isHologramPending ? "מייצר..." : (showHologram ? "חזור לברקוד" : "הצג כרטיס הולוגרמה 3D")}
+                </button>
+              </div>
+
+              {showHologram && hologramTheme ? (
+                <HologramPass3D theme={hologramTheme} movieTitle={movieTitle} />
+              ) : (
+                <UVScannerTicket 
+                  secureToken={secureToken}
+                  seatId={seatId}
+                  bookingId={bookingId}
+                />
+              )}
             </motion.div>
           )}
         </AnimatePresence>

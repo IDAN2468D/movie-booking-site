@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     Do not wrap the output in markdown code blocks. Output raw JSON only.
     `;
 
-    const modelNames = ['gemini-3.1-flash-lite', 'gemini-2.5-flash'];
+    const modelNames = ['gemini-3.5-flash-lite', 'gemini-2.5-flash'];
     let text = '';
     let modelUsed = '';
 

@@ -80,3 +80,30 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }
+
+// In-memory amplitude store (simulating real-time WebSocket/SSE state)
+const activeAmplitudes = new Map<string, number>();
+
+export async function PUT(req: Request) {
+  try {
+    const body = await req.json();
+    const { userId, amplitude } = body;
+    
+    if (userId && typeof amplitude === 'number') {
+      activeAmplitudes.set(userId, amplitude);
+      return NextResponse.json({ success: true });
+    }
+    return NextResponse.json({ success: false, error: 'Invalid payload' }, { status: 400 });
+  } catch {
+    return NextResponse.json({ success: false }, { status: 500 });
+  }
+}
+
+export async function GET(req: Request) {
+  // Returns all current amplitudes (Polling simulation for the demo)
+  return NextResponse.json({
+    success: true,
+    data: Object.fromEntries(activeAmplitudes)
+  });
+}
+

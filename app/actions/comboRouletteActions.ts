@@ -29,7 +29,7 @@ export async function generateDynamicComboAction(movieTitle: string): Promise<{ 
       4. Do not include markdown blocks, just raw JSON.
     `;
     
-    const resultText = await callGeminiWithRetry(['gemini-3.1-flash-lite'], async (model) => {
+    const resultText = await callGeminiWithRetry(['gemini-3.5-flash-lite'], async (model) => {
       const result = await model.generateContent(prompt);
       const response = await result.response;
       return response.text();

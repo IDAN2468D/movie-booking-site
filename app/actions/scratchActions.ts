@@ -90,7 +90,7 @@ export async function generateScratchCardAction(
 
     try {
       const geminiResult = await callGeminiWithRetry(
-        ["gemini-3.1-flash-lite", "gemini-2.5-flash"],
+        ["gemini-3.5-flash-lite", "gemini-2.5-flash"],
         async (model) => {
           const result = await model.generateContent(prompt);
           return result.response.text().trim();

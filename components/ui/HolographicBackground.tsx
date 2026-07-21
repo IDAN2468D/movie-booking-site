@@ -19,7 +19,7 @@ export default function HolographicBackground() {
       <div className="absolute inset-0 bg-[#0A0A0A]" />
       
       {/* Animated Holographic Fog */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync">
         <motion.div 
           key={`${palette.primary}-1`}
           initial={{ opacity: 0 }}

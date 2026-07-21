@@ -30,7 +30,7 @@ Return ONLY the clean Hebrew text without markdown formatting, introductions, or
 
           try {
             translatedBio = await callGeminiWithRetry(
-              ["gemini-3.1-flash-lite"],
+              ["gemini-3.5-flash-lite"],
               async (model) => {
                 const result = await model.generateContent(prompt);
                 return result.response.text().trim();
