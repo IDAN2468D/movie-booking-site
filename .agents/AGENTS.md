@@ -21,6 +21,7 @@
 - **Data Boundary Validation**: No data may pass untrusted boundaries without explicit schema validation. **Zod schemas** are strictly mandatory to enforce type-safe operational boundaries.
 - **Unified Result Pattern**: All operational handlers, Server Actions, and API Routes must encapsulate outputs within a deterministic layout contract: `{ success: boolean; data?: any; error?: string }`.
 - **State Management**: Implemented natively via **Zustand**. To prevent layout re-renders, the use of strict, isolated state slice selectors is strictly mandatory.
+- **Zero Runtime MCP Dependency**: The website architecture and codebase must **never** rely on, embed, or invoke MCP (Model Context Protocol) tools or servers at runtime. All features, data integrations, and APIs must be built using native Next.js Server Actions, standard APIs, Web APIs, and native libraries.
 
 > [!CAUTION]
 > **CRITICAL SECURITY GUARDRAIL: Zero MongoDB Client Exposure**

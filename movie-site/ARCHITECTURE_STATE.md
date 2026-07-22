@@ -68,3 +68,11 @@ The platform operates on a Next.js (App Router) architecture with a strict Zero-
 
 **Phase 21: The Hyper-Sensory Integration**
 1. **Neural Emotion Matrix (Sprint 38)**: Replaced standard dropdown search with a Gemini AI semantic mapping engine that generates a floating, physics-driven (Framer Motion) Liquid Glass orb overlay based on user mood prompts.
+
+**Phase 25: Native Zero-MCP Hyper-Sensory Suite (Sprints 51-55)**
+1. **Spatial IMAX 3D Seat Walkthrough (Sprint 51)**: Interactive 3D Canvas view of seat FOV curvature & `PannerNode` spatial acoustics (`SpatialSeatPreview.tsx`).
+2. **AI Director's Companion & Audio Isolator (Sprint 52)**: `@google/genai` timestamped trivia overlays + Web Audio `BiquadFilterNode` frequency boosters (`DirectorsAudioCompanion.tsx`).
+3. **Biometric Dynamic Holographic Passbook (Sprint 53)**: Holographic pass with touch-hold biometric authentication, sub-bass heartbeat audio, and GPU particle canvas shaders (`BiometricHoloPass.tsx`).
+4. **Native Multi-Currency Lock & Split-Pay (Sprint 54)**: 10-minute exchange rate lock & multi-currency split checkout (`CurrencySplitWidget.tsx`).
+5. **VIP Cine-Pulse Analytics Dashboard (Sprint 55)**: VIP metrics dashboard with genre affinity heatmaps (`VipAnalyticsDashboard.tsx`).
+

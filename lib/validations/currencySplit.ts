@@ -1,0 +1,11 @@
+import { z } from 'zod';
+
+export const CurrencySplitSchema = z.object({
+  totalAmountIls: z.number().positive('Total amount must be greater than zero'),
+  fiatRatio: z.number().min(0).max(1.0),
+  cryptoRatio: z.number().min(0).max(1.0),
+  vipPointsRatio: z.number().min(0).max(1.0),
+  targetCurrency: z.enum(['ILS', 'USD', 'EUR', 'BTC', 'ETH']).default('ILS'),
+});
+
+export type CurrencySplitInput = z.infer<typeof CurrencySplitSchema>;
