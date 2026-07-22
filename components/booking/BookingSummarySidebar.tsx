@@ -13,7 +13,6 @@ import AcousticSpatializer from './AcousticSpatializer';
 import { CryptoTicketPricer } from '@/components/booking/CryptoTicketPricer';
 import { BiometricAuth } from '@/components/checkout/BiometricAuth';
 import { useWalletStore } from '@/lib/store/walletStore';
-import { PaymentSingularityMatrix } from '@/components/checkout/PaymentSingularityMatrix';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -170,11 +169,6 @@ export default function BookingSummarySidebar({ onCheckout }: BookingSummarySide
             basePriceUSD={totalPrice} 
             onPaymentSuccess={onCheckout} 
           />
-        </div>
-
-        {/* Multi-Currency Matrix */}
-        <div className="w-full relative z-20 mb-4">
-          <PaymentSingularityMatrix />
         </div>
 
         {/* Biometric Touch-Hold Auth */}

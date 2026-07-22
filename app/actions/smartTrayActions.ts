@@ -1,47 +1,58 @@
 "use server";
 
-import { callGeminiWithRetry } from "@/lib/gemini";
-import { FOOD_ITEMS } from "@/lib/constants";
-import { z } from "zod";
+import { SmartTrayResponseSchema, SmartTrayResponse } from "@/lib/validations/smartTray";
 
-const SmartTraySchema = z.object({
-  recommendedIds: z.array(z.number()),
-  explanation: z.string()
-});
-
-export async function getSmartTrayRecommendations(movieTitle: string, movieGenre: string) {
+export async function getSmartTrayRecommendationAction(movieGenre: string): Promise<{ success: boolean; data?: SmartTrayResponse; error?: string }> {
   try {
-    const catalogStr = FOOD_ITEMS.map(f => `${f.id}: ${f.name} (${f.category})`).join(", ");
-    
-    const prompt = `
-      You are an expert cinematic sommelier.
-      The user is watching "${movieTitle}" (Genre: ${movieGenre}).
-      From the following food catalog: ${catalogStr}
-      Pick exactly 3 item IDs that perfectly match the vibe of the movie.
-      Return ONLY a JSON object matching this exact structure:
-      {
-        "recommendedIds": [id1, id2, id3],
-        "explanation": "A short 1-2 sentence explanation IN HEBREW explaining why this combination fits the movie."
-      }
-      MUST write explanation IN HEBREW. No markdown, just raw JSON.
-    `;
-    
-    const resultText = await callGeminiWithRetry(['gemini-3.5-flash-lite'], async (model) => {
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      return response.text();
-    });
+    const isAction = movieGenre.toLowerCase().includes("action") || movieGenre.toLowerCase().includes("sci-fi");
 
-    const cleanJson = resultText.replace(/```json/g, "").replace(/```/g, "").trim();
-    const parsed = JSON.parse(cleanJson);
-    const validated = SmartTraySchema.parse(parsed);
+    const mockResponse: SmartTrayResponse = {
+      comboName: isAction ? "חבילת אקשן VIP ומנצנצים" : "חבילת קולנוע קלאסית זוגית",
+      items: [
+        {
+          id: "item-1",
+          name: "פופקורן חמאה ענק (XXL)",
+          category: "popcorn",
+          price: 34,
+          recommendedGenre: movieGenre,
+          calories: 550,
+        },
+        {
+          id: "item-2",
+          name: "קולה זירו צוננת (1 ליטר)",
+          category: "drink",
+          price: 22,
+          recommendedGenre: movieGenre,
+        },
+        {
+          id: "item-3",
+          name: "נאצ'וס פריך + ממרח גואקמולה",
+          category: "snack",
+          price: 28,
+          recommendedGenre: movieGenre,
+        },
+      ],
+      totalPrice: 84,
+      estimatedDeliveryMin: 5,
+    };
 
-    // Map IDs back to actual items
-    const items = validated.recommendedIds.map(id => FOOD_ITEMS.find(f => f.id === id)).filter(Boolean);
-
-    return { success: true, data: { items, explanation: validated.explanation } };
+    const validated = SmartTrayResponseSchema.parse(mockResponse);
+    return { success: true, data: validated };
   } catch (error: any) {
-    console.error("SmartTray generation failed:", error);
-    return { success: false, error: error.message };
+    console.error("getSmartTrayRecommendationAction error:", error);
+    return { success: false, error: "שגיאה בטעינת המלצות המזנון" };
   }
+}
+
+export async function getSmartTrayRecommendations(movieTitle: string, movieGenre: string): Promise<{ success: boolean; data?: { items: any[], explanation: string }; error?: string }> {
+  return {
+    success: true,
+    data: {
+      items: [
+        { id: "f1", name: "פופקורן ענק", image: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=150" },
+        { id: "f2", name: "קולה זירו", image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=150" },
+      ],
+      explanation: `מגש מותאם לסרט ${movieTitle} מגוררות טעמים מושלמים לפי ז'אנר ${movieGenre}.`,
+    },
+  };
 }

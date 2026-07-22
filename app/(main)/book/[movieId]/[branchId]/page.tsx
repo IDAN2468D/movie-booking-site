@@ -10,6 +10,7 @@ import BookingHero from '@/components/booking/BookingHero';
 import HorizontalShowtimes from '@/components/booking/HorizontalShowtimes';
 import SeatMapSection from '@/components/booking/SeatMapSection';
 import BookingSummarySidebar from '@/components/booking/BookingSummarySidebar';
+import { PaymentSingularityMatrix } from '@/components/checkout/PaymentSingularityMatrix';
 
 type CinemaBranch = (typeof CINEMA_BRANCHES)[number] & { _id?: string };
 
@@ -117,7 +118,7 @@ export default function BookingPage() {
       <HorizontalShowtimes />
 
       {/* STAGE 3 & 4: Seat Selection and Sticky Summary Sidebar */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
         {/* Seat selection takes 8 columns */}
         <div className="lg:col-span-8">
           <SeatMapSection />
@@ -127,6 +128,11 @@ export default function BookingPage() {
         <div className="lg:col-span-4">
           <BookingSummarySidebar onCheckout={() => router.push('/checkout')} />
         </div>
+      </div>
+
+      {/* External Full-Width Quantum Payment Split Matrix */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pb-16">
+        <PaymentSingularityMatrix />
       </div>
     </div>
   );

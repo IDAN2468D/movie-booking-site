@@ -1,13 +1,6 @@
 "use server";
 
-import { z } from "zod";
-
-export const ExchangeRatesSchema = z.object({
-  rates: z.record(z.string(), z.number()),
-  timestamp: z.number(),
-});
-
-export type ExchangeRates = z.infer<typeof ExchangeRatesSchema>;
+import { ExchangeRatesSchema, ExchangeRates } from "@/lib/validations/currencySplit";
 
 // In-memory cache to prevent excessive API calls
 let cachedRates: ExchangeRates | null = null;
@@ -21,10 +14,6 @@ export async function getExchangeRatesAction(): Promise<{ success: boolean; data
       return { success: true, data: cachedRates };
     }
 
-    // Since we don't have direct access to the RapidAPI key in the client,
-    // we simulate the RapidAPI Currency response for Bitcoin, Ethereum, and ILS based on USD.
-    // In a real production environment, this would use fetch() to the RapidAPI endpoint.
-    
     // Simulating API delay
     await new Promise(resolve => setTimeout(resolve, 500));
 

@@ -16,12 +16,16 @@ export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
   const [hoveredMovie, setHoveredMovie] = useState<UpcomingMovie | null>(null);
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
   const [activeTrailerKey, setActiveTrailerKey] = useState<string | null>(null);
+  const [activeMovie, setActiveMovie] = useState<UpcomingMovie | null>(null);
   const [loadingTrailerId, setLoadingTrailerId] = useState<number | null>(null);
 
   const auraColor = useBookingStore((state) => state.auraColor);
 
   const handlePlayTrailer = async (movieId: number) => {
     setLoadingTrailerId(movieId);
+    const movieObj = initialMovies.find((m) => m.movieId === movieId) || null;
+    setActiveMovie(movieObj);
+
     try {
       const res = await getMovieTrailerAction(movieId);
       if (res.success && res.data && res.data.length > 0) {
@@ -93,6 +97,14 @@ export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
           </motion.p>
         </header>
 
+        {/* Inline Hero Trailer Player (positioned directly above cards) */}
+        <TrailerModal
+          isOpen={isTrailerOpen}
+          onClose={() => setIsTrailerOpen(false)}
+          trailerKey={activeTrailerKey}
+          movie={activeMovie}
+        />
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {initialMovies.map((movie, index) => (
             <UpcomingMovieCard
@@ -104,12 +116,6 @@ export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
           ))}
         </div>
       </div>
-
-      <TrailerModal
-        isOpen={isTrailerOpen}
-        onClose={() => setIsTrailerOpen(false)}
-        trailerKey={activeTrailerKey}
-      />
     </div>
   );
 }

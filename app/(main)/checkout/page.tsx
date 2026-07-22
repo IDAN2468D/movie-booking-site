@@ -18,6 +18,7 @@ import { VisualCateringGrid } from '@/components/catering/VisualCateringGrid';
 import { ZeroGravityCartChamber } from '@/components/checkout/ZeroGravityCartChamber';
 import { SuccessView } from '@/components/checkout/SuccessView';
 import { SplitPayPanel } from '@/components/social/SplitPayPanel';
+import { PaymentSingularityMatrix } from '@/components/checkout/PaymentSingularityMatrix';
 import SmartCheckoutInsights from '@/components/checkout/SmartCheckoutInsights';
 import CurrencyCascade from '@/components/fx/CurrencyCascade';
 import RoaringLionCelebration from '@/components/fx/RoaringLionCelebration';
@@ -342,6 +343,7 @@ export default function CheckoutPage() {
             className="lg:w-[60%] space-y-8 order-2 lg:order-1"
           >
             <SplitPayPanel splitTotal={pricing.splitTotal} />
+            <PaymentSingularityMatrix />
             <VisualCateringGrid selectedFood={selectedFood} updateFoodQuantity={updateFoodQuantity} />
             <div className="mt-12 mb-8">
               <h3 className="text-xl font-black text-white font-rubik tracking-tight text-right mb-6">תא כבידה אפס לתשלום קוונטי</h3>

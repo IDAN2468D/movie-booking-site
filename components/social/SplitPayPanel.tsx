@@ -135,13 +135,13 @@ export const SplitPayPanel = ({ splitTotal }: Omit<SplitPayPanelProps, 'total'>)
             </div>
 
             <div className="space-y-3 mb-8">
-              {groupMembers.map(member => (
+              {groupMembers.map((member, index) => (
                 <motion.div 
                   layout
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   className="flex items-center justify-between p-4 bg-[#1A1A1A] rounded-2xl border border-white/5 flex-row-reverse shadow-inner"
-                  key={member.id}
+                  key={member.id ? `member-${member.id}` : `member-idx-${index}`}
                 >
                   <div className="flex items-center gap-4 flex-row-reverse">
                     <div className="w-10 h-10 bg-[#FF1464]/20 rounded-full flex items-center justify-center text-[#FF1464] font-black text-sm">
