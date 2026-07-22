@@ -9,8 +9,8 @@ export default function NewsPage() {
       <HolographicBackground />
       <SocialPulseRings />
       
-      <div className="relative z-10 flex flex-col items-center justify-center pt-24 px-4 min-h-[80vh]">
-        <div className="w-full max-w-2xl">
+      <div className="relative z-10 flex flex-col items-center justify-center pt-24 px-4 sm:px-6 lg:px-8 min-h-[80vh] w-full">
+        <div className="w-full max-w-7xl">
           <NewsWidget fullWidth />
         </div>
       </div>

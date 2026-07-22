@@ -7,6 +7,7 @@ export const NewsArticleSchema = z.object({
   source: z.string(),
   date: z.string(),
   url: z.string().optional(),
+  imageUrl: z.string().optional(),
   sentiment: z.enum(['exciting', 'dramatic', 'rumor', 'neutral']).optional(),
   tags: z.array(z.string()).optional(),
 });
