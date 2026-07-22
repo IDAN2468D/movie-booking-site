@@ -9,4 +9,6 @@ export const SpatialSeatSchema = z.object({
   panValue: z.number().min(-1.0).max(1.0).default(0.0),
 });
 
-export type SpatialSeatInput = z.infer<typeof SpatialSeatSchema>;
+export type SpatialSeatInput = z.input<typeof SpatialSeatSchema>;
+export type SpatialSeatOutput = z.output<typeof SpatialSeatSchema>;
+

@@ -8,4 +8,6 @@ export const CurrencySplitSchema = z.object({
   targetCurrency: z.enum(['ILS', 'USD', 'EUR', 'BTC', 'ETH']).default('ILS'),
 });
 
-export type CurrencySplitInput = z.infer<typeof CurrencySplitSchema>;
+export type CurrencySplitInput = z.input<typeof CurrencySplitSchema>;
+export type CurrencySplitOutput = z.output<typeof CurrencySplitSchema>;
+
