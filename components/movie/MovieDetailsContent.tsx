@@ -24,6 +24,7 @@ import { WhatIfScenario } from './WhatIfScenario';
 import YouTubeBackground from './YouTubeBackground';
 import CinematicInsights from './CinematicInsights';
 import AmbientSynesthesia from '../fx/AmbientSynesthesia';
+import { MovieSoundtracksSection } from './MovieSoundtracksSection';
 
 interface Props {
   movie: MovieDetails;
@@ -568,6 +569,9 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
 
         {/* Cast */}
         <MovieCastSection cast={cast} />
+
+        {/* Movie Soundtracks & OST */}
+        <MovieSoundtracksSection movieId={movie.id} movieTitle={movie.title} />
 
         {/* Reviews Section */}
         <ReviewsSection 

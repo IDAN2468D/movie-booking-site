@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { useBookingStore } from '@/lib/store';
+import { useGenreSynthesizer } from '@/lib/hooks/useGenreSynthesizer';
 import { BrainCircuit, Sparkles, Smile, Skull, Flame, Heart, Compass } from 'lucide-react';
 
 interface MoodBubble {
@@ -21,11 +22,16 @@ const AVAILABLE_MOODS: MoodBubble[] = [
   { id: 'laugh', name: 'קומדיה', icon: <Smile size={14} />, color: 'from-yellow-400 to-orange-500', colors: ['#facc15', '#f97316'], defaultX: -140, defaultY: 60 },
   { id: 'horror', name: 'מתח ואימה', icon: <Skull size={14} />, color: 'from-red-600 to-purple-900', colors: ['#dc2626', '#581c87'], defaultX: 120, defaultY: 80 },
   { id: 'romance', name: 'רומנטיקה', icon: <Heart size={14} />, color: 'from-pink-500 to-rose-600', colors: ['#ec4899', '#e11d48'], defaultX: 0, defaultY: -140 },
-  { id: 'scifi', name: 'מדע בדיוני', icon: <Sparkles size={14} />, color: 'from-cyan-400 to-blue-600', colors: ['#22d3ee', '#2563eb'], defaultX: 0, defaultY: 130 },
+  { id: 'scifi', name: 'מדע בדיוני', icon: <Sparkles size={14} />, color: 'from-cyan-400 to-blue-600', colors: ['#22d3ee', '#2563eb'], defaultX: 0, defaultY: -60 },
+  { id: 'fantasy', name: 'פנטזיה', icon: <Sparkles size={14} />, color: 'from-emerald-500 to-teal-700', colors: ['#10b981', '#0f766e'], defaultX: -140, defaultY: -20 },
+  { id: 'mystery', name: 'מסתורין', icon: <Skull size={14} />, color: 'from-violet-600 to-purple-900', colors: ['#7c3aed', '#581c87'], defaultX: 140, defaultY: -10 },
+  { id: 'crime', name: 'פשע', icon: <Flame size={14} />, color: 'from-red-700 to-stone-900', colors: ['#b91c1c', '#1c1917'], defaultX: -80, defaultY: 130 },
+  { id: 'animation', name: 'אנימציה', icon: <Smile size={14} />, color: 'from-amber-400 to-yellow-500', colors: ['#f59e0b', '#eab308'], defaultX: 80, defaultY: 130 },
 ];
 
 export default function NeuralMoodOrbit() {
   const { activeMoods, setActiveMoods } = useBookingStore();
+  const { playSweep } = useGenreSynthesizer();
   const constraintsRef = useRef<HTMLDivElement>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [draggingId, setDraggingId] = useState<string | null>(null);
@@ -48,6 +54,7 @@ export default function NeuralMoodOrbit() {
 
     if (distance < dropZoneRadius) {
       if (!isCurrentlyActive) {
+        playSweep(moodId);
         setActiveMoods([...activeMoods, moodId]);
       }
     } else {
