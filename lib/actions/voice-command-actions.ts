@@ -6,13 +6,13 @@ import { VoiceCommandInputSchema, VoiceCommandAction } from '../validations/voic
 const genAI = process.env.GOOGLE_AI_API_KEY ? new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY) : null;
 
 const ROUTE_FALLBACKS: Array<{ keywords: string[]; targetUrl: string; replyHebrew: string }> = [
+  { keywords: ['פסקול', 'פסקולים', 'פסקול סרטים', 'פסקול סרט', 'מוזיקה של סרט', 'שירי סרטים', 'שיר סרט', 'מוזיקה', 'שיר', 'שירים'], targetUrl: '/soundtracks', replyHebrew: 'פותח את מחולל הפסקולים הנוירוני...' },
   { keywords: ['בית', 'ראשי', 'חזור', 'להתחלה', 'דף הבית'], targetUrl: '/', replyHebrew: 'מעביר אותך לעמוד הבית הראשי...' },
   { keywords: ['כרטיסים', 'כרטיס', 'הזמנות', 'סרטים שלי', 'הכרטיסים שלי'], targetUrl: '/tickets', replyHebrew: 'מציג את מועדון הכרטיסים השמורים שלך...' },
-  { keywords: ['מועדפים', 'לייקים', 'שמרתי', 'אהבתי'], targetUrl: '/favorites', replyHebrew: 'פותח את רשימת הסרטים המועדפים שלך...' },
+  { keywords: ['מועדפים', 'לייקים', 'שמרתי', 'אהבתי'], targetUrl: '/favorites', replyHebrew: 'פותח את רשימת הסרטים المועדפים שלך...' },
   { keywords: ['פרופיל', 'אזור אישי', 'חשבון', 'הגדרות', 'הפרופיל שלי'], targetUrl: '/profile', replyHebrew: 'מעביר לאזור הפרופיל האישי...' },
-  { keywords: ['פסקול', 'פסקולים', 'מוזיקה', 'שיר', 'שירים'], targetUrl: '/soundtracks', replyHebrew: 'פותח את מחולל הפסקולים הנוירוני...' },
   { keywords: ['זוגי', 'מאץ', 'מאץ\'', 'קו אופ', 'קואופ', 'דייט', 'coop'], targetUrl: '/discover/coop', replyHebrew: 'מעביר ל-Co-op Matcher הזוגי...' },
-  { keywords: ['גילוי', 'רגש', 'רגשות', 'חיפוש', 'סרטים'], targetUrl: '/discovery', replyHebrew: 'מעביר למערכת הגילוי הנוירונית לפי רגשות...' },
+  { keywords: ['גילוי', 'רגש', 'רגשות', 'חיפוש סרטים', 'גילוי סרטים', 'חיפוש'], targetUrl: '/discovery', replyHebrew: 'מעביר למערכת הגילוי הנוירונית לפי רגשות...' },
   { keywords: ['חזון', 'אודות', 'מי אנחנו'], targetUrl: '/vision', replyHebrew: 'מעביר לעמוד החזון הקולנועי...' },
   { keywords: ['בקרוב', 'סרטים חדשים', 'עתידי'], targetUrl: '/coming-soon', replyHebrew: 'פותח את עמוד הסרטים שיעלו בקרוב...' },
   { keywords: ['vip', 'וי אי פי', 'לאונג', 'ויאיפי'], targetUrl: '/vip', replyHebrew: 'מעביר למתחם היוקרה ה-VIP...' },
@@ -37,47 +37,7 @@ export async function processVoiceCommand(input: { transcript: string; locale?: 
     const parsed = VoiceCommandInputSchema.parse(input);
     const text = parsed.transcript.trim().toLowerCase();
 
-    // 1. Try Gemini AI classification if available
-    if (genAI) {
-      try {
-        const model = genAI.getGenerativeModel({
-          model: 'gemini-2.5-flash',
-          generationConfig: {
-            responseMimeType: 'application/json',
-            responseSchema: {
-              type: SchemaType.OBJECT,
-              properties: {
-                action: { type: SchemaType.STRING, description: "Must be 'navigate', 'search', or 'unknown'" },
-                targetUrl: { type: SchemaType.STRING, description: "The route path e.g. '/', '/tickets', '/profile', etc." },
-                replyHebrew: { type: SchemaType.STRING, description: "A natural short Hebrew confirmation message" }
-              },
-              required: ['action', 'targetUrl', 'replyHebrew']
-            }
-          }
-        });
-
-        const prompt = `Match the spoken Hebrew command: "${text}" to one of these routes:
-        '/' (Home), '/tickets', '/favorites', '/profile', '/soundtracks', '/discover/coop', '/discovery', '/vision', '/coming-soon', '/vip', '/food', '/rewards', '/cinema', '/concierge', '/shazam', '/trophy-vault', '/news', '/wrapped', '/splinter-demo', '/showcase'.
-        Return JSON object with action, targetUrl, and enthusiastic short Hebrew replyHebrew.`;
-
-        const result = await model.generateContent(prompt);
-        const json = JSON.parse(result.response.text());
-        if (json && json.targetUrl && json.action === 'navigate') {
-          return {
-            success: true,
-            data: {
-              action: 'navigate',
-              targetUrl: json.targetUrl,
-              replyHebrew: json.replyHebrew || 'מעביר אותך לעמוד המבוקש...'
-            }
-          };
-        }
-      } catch (aiErr) {
-        console.warn('Gemini Voice Command classification fallback to static map:', aiErr);
-      }
-    }
-
-    // 2. Static Keyword Fallback Map
+    // 1. Static Keyword Matching first for high precision
     for (const entry of ROUTE_FALLBACKS) {
       if (entry.keywords.some((kw) => text.includes(kw))) {
         return {
@@ -88,6 +48,53 @@ export async function processVoiceCommand(input: { transcript: string; locale?: 
             replyHebrew: entry.replyHebrew
           }
         };
+      }
+    }
+
+    // 2. Try Gemini AI classification for complex phrasing if available
+    if (genAI) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: 'gemini-2.5-flash',
+          generationConfig: {
+            responseMimeType: 'application/json',
+            responseSchema: {
+              type: SchemaType.OBJECT,
+              properties: {
+                action: { type: SchemaType.STRING, description: "Must be 'navigate', 'search', or 'unknown'" },
+                targetUrl: { type: SchemaType.STRING, description: "The route path e.g. '/', '/soundtracks', '/tickets', '/profile', etc." },
+                replyHebrew: { type: SchemaType.STRING, description: "A natural short Hebrew confirmation message" }
+              },
+              required: ['action', 'targetUrl', 'replyHebrew']
+            }
+          }
+        });
+
+        const prompt = `You are a Hebrew Voice Navigation AI for a cinema site.
+        Spoken phrase: "${text}"
+        
+        Rules:
+        - If phrase contains 'פסקול', 'פסקולים', 'פסקול סרטים', 'מוזיקה', 'שיר' -> targetUrl='/soundtracks', action='navigate'.
+        - If phrase contains 'כרטיסים', 'הזמנות' -> targetUrl='/tickets', action='navigate'.
+        - If phrase contains 'פרופיל', 'חשבון' -> targetUrl='/profile', action='navigate'.
+        - Match to valid routes: '/', '/tickets', '/favorites', '/profile', '/soundtracks', '/discover/coop', '/discovery', '/vision', '/coming-soon', '/vip', '/food', '/rewards', '/cinema', '/concierge', '/shazam', '/trophy-vault', '/news', '/wrapped', '/splinter-demo', '/showcase'.
+        
+        Return JSON with action, targetUrl, replyHebrew.`;
+
+        const result = await model.generateContent(prompt);
+        const json = JSON.parse(result.response.text());
+        if (json && json.targetUrl) {
+          return {
+            success: true,
+            data: {
+              action: json.action === 'search' ? 'search' : 'navigate',
+              targetUrl: json.targetUrl,
+              replyHebrew: json.replyHebrew || 'מעביר אותך לעמוד המבוקש...'
+            }
+          };
+        }
+      } catch (aiErr) {
+        console.warn('Gemini Voice Command classification error:', aiErr);
       }
     }
 
@@ -106,4 +113,5 @@ export async function processVoiceCommand(input: { transcript: string; locale?: 
     return { success: false, error: msg };
   }
 }
+
 
