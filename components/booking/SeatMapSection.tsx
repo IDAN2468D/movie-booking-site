@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import SeatMap from '@/components/booking/SeatMap';
 import SeatingRoulette from '@/components/booking/SeatingRoulette';
+import { SpatialCinemaPortal360 } from '@/components/booking/SpatialCinemaPortal360';
 import KineticTicketTransition from '@/components/fx/KineticTicketTransition';
 import CurrencyCascade from '@/components/fx/CurrencyCascade';
 import { useBookingStore } from '@/lib/store';
@@ -131,6 +132,13 @@ export default function SeatMapSection() {
           userId={userId} 
           occupiedSeats={[...mockOccupiedSeats, ...realOccupiedSeats]} 
           onSeatLocked={(seatId) => toggleSeat(seatId)}
+        />
+      </div>
+
+      {/* 360 AR Cinema Seat Walkthrough */}
+      <div className="w-full max-w-lg mb-8">
+        <SpatialCinemaPortal360 
+          seatId={selectedSeats.length > 0 ? selectedSeats[selectedSeats.length - 1] : 'E-12'} 
         />
       </div>
 

@@ -76,3 +76,14 @@ The platform operates on a Next.js (App Router) architecture with a strict Zero-
 4. **Native Multi-Currency Lock & Split-Pay (Sprint 54)**: 10-minute exchange rate lock & multi-currency split checkout (`CurrencySplitWidget.tsx`).
 5. **VIP Cine-Pulse Analytics Dashboard (Sprint 55)**: VIP metrics dashboard with genre affinity heatmaps (`VipAnalyticsDashboard.tsx`).
 
+**Phase 26: The Hyper-Sensory Ecosystem (Sprints 56-61)**
+1. **Neural Soundtrack Synthesizer (Sprint 56)**: Real-time procedural ambient soundtrack generator tuned via `@google/genai` harmonic parameters (`NeuralSoundtrackSynth.tsx`).
+2. **360° Spatial AR Cinema Portal (Sprint 57)**: Interactive 3D Canvas perspective of screen curvature & acoustics from chosen seat with Gyro sensor fusion (`SpatialCinemaPortal360.tsx`).
+3. **Cinematic Co-op VS Deck Matcher (Sprint 58)**: Dual-player simultaneous movie swipe deck with real-time match evaluation and harmonic acoustic celebration (`CoopVsSwipeDeck.tsx`).
+4. **Hands-Free Voice AI Command Shell (Sprint 60)**: Hebrew Web Speech API speech recognition assistant with TTS feedback & hands-free navigation (`VoiceAiCommandShell.tsx`).
+5. **Generative WebGL Trophy Vault (Sprint 61)**: Interactive 3D holographic crystal WebGL trophy vault displaying user achievement awards (`GenerativeTrophyVault.tsx`).
+
+**Phase 27: The Spatial-Neural Cinema Protocol (Sprints 62-66)**
+1. **Live AI Subtitle Pitcher & Multi-Lang (Sprint 62)**: Real-time AI multi-lingual subtitle translation engine with Web Audio acoustic pitch shifter (`SubBassSubtitlePitcher.tsx`).
+
+

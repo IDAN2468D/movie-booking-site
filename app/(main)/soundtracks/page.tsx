@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Disc3, Search, Music, Sparkles, Filter } from 'lucide-react';
 import HolographicBackground from '@/components/ui/HolographicBackground';
 import { SoundtrackPlayerCard } from '@/components/soundtrack/SoundtrackPlayerCard';
+import { NeuralSoundtrackSynth } from '@/components/soundtrack/NeuralSoundtrackSynth';
 import type { SoundtrackItem } from '@/lib/schemas/soundtrack';
 
 export default function SoundtracksPage() {
@@ -87,12 +88,21 @@ export default function SoundtracksPage() {
           </p>
         </header>
 
-        {/* Featured Main Player */}
-        {activeTrack && (
-          <div className="w-full flex justify-center mb-12">
-            <SoundtrackPlayerCard track={activeTrack} />
+        {/* Featured Main Player & AI Neural Synthesizer */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 items-start">
+          {activeTrack && (
+            <div className="w-full flex justify-center">
+              <SoundtrackPlayerCard track={activeTrack} />
+            </div>
+          )}
+          <div className="w-full">
+            <NeuralSoundtrackSynth
+              movieId={activeTrack ? String(activeTrack.movieId) : 'demo-1'}
+              title={activeTrack?.movieTitle || 'Dune: Part Two'}
+              genres={[activeTrack?.genre || 'Sci-Fi', 'Ambient', 'Cinematic']}
+            />
           </div>
-        )}
+        </div>
 
         {/* Search & Genre Filters */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 bg-white/[0.02] backdrop-blur-2xl border border-white/10 p-4 rounded-3xl">

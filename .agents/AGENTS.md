@@ -57,3 +57,8 @@ Adhere to these constraints strictly:
 - ON EVERY FEATURE IMPLEMENTATION OR MODIFICATION, the agent MUST automatically execute the "Layer 5 Self-Healing Loop" defined in `.agents/Skills/agent-stack-framework/SKILL.md`.
 - Run verification commands (`npx tsc --noEmit`, `npm run build`, and `npx vitest run`).
 - **The 3-Strike Rule**: If the same compilation, type, or test failure persists for **3 consecutive attempts** during the self-healing loop, the agent MUST immediately HALT, record the diagnostic details in `latest.md`, and prompt the user for human intervention. Do not proceed further.
+
+## 💡 9. Post-Feature Verification & User Demo Protocol (Mandatory)
+- UPON COMPLETING EVERY FEATURE OR SPRINT IMPLEMENTATION, the agent MUST conclude its final chat response with a clear, step-by-step Hebrew guide explaining exactly how the user can view, interact with, and test the new feature on their local website.
+- Include explicit local URLs (e.g., `http://localhost:3000/...`), component location details, and UI interaction steps (clicks, mouse movements, triggers).
+
