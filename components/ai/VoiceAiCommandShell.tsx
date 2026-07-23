@@ -42,6 +42,7 @@ export const VoiceAiCommandShell: React.FC = () => {
 
   const speakHebrewText = (text: string) => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      if (document.visibilityState === 'hidden') return;
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'he-IL';

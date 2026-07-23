@@ -45,6 +45,7 @@ export const metadata: Metadata = {
 import AmbientThemeProvider from "@/src/components/providers/AmbientThemeProvider";
 import { BiometricSplash } from "@/components/splash/BiometricSplash";
 import TimeShiftProactiveAgent from "@/components/concierge/TimeShiftProactiveAgent";
+import { GlobalTabAudioController } from "@/components/effects/GlobalTabAudioController";
 
 export default function RootLayout({
   children,
@@ -56,6 +57,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${anton.variable} ${rubik.variable} ${assistant.variable} ${outfit.variable} antialiased bg-[#0A0A0A] text-[#FAFAF7] font-body`}>
         <AuthProvider>
           <AmbientThemeProvider>
+            <GlobalTabAudioController />
             <BiometricSplash />
             <ScreenSaverListener />
             <CinematicScreenSaver />
