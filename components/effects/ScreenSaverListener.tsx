@@ -53,6 +53,7 @@ export function ScreenSaverListener() {
     window.addEventListener('mousedown', handleActivity);
     window.addEventListener('touchstart', handleActivity);
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('blur', handleVisibilityChange);
 
     return () => {
       if (timeoutRef.current) {
@@ -63,6 +64,7 @@ export function ScreenSaverListener() {
       window.removeEventListener('mousedown', handleActivity);
       window.removeEventListener('touchstart', handleActivity);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('blur', handleVisibilityChange);
     };
   }, [setIsScreenSaverActive]);
 

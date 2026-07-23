@@ -47,48 +47,68 @@ export function CinematicScreenSaver() {
 
   // Cinematic Ambient Audio Engine
   useEffect(() => {
-    if (!isScreenSaverActive) return;
+    if (!isScreenSaverActive || typeof window === 'undefined') return;
 
-    let audio: HTMLAudioElement;
+    if (document.visibilityState === 'hidden') {
+      return;
+    }
+
+    let audio: HTMLAudioElement | null = null;
+    let fadeInterval: NodeJS.Timeout | null = null;
+
+    const stopAudioInstantly = () => {
+      if (fadeInterval) clearInterval(fadeInterval);
+      if (audio) {
+        try {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.src = '';
+        } catch {}
+        audio = null;
+      }
+    };
+
+    const handleHideOrBlur = () => {
+      if (document.visibilityState === 'hidden') {
+        stopAudioInstantly();
+      }
+    };
+
     try {
-      // Using a universally supported .mp3 relaxing track instead of .ogg to prevent NotSupportedError
       audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3');
       audio.loop = true;
       audio.volume = 0; // Start at 0 for fade in
-      
+
       const playPromise = audio.play();
-      
+
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          // Fade in manually since HTMLAudioElement doesn't have setTargetAtTime
+          if (document.visibilityState === 'hidden') {
+            stopAudioInstantly();
+            return;
+          }
           let vol = 0;
           const maxVol = 0.08; // Very soft, atmospheric volume
-          const fadeInterval = setInterval(() => {
-            if (vol < maxVol) {
+          fadeInterval = setInterval(() => {
+            if (audio && vol < maxVol) {
               vol += 0.01;
               audio.volume = Math.min(vol, maxVol);
             } else {
-              clearInterval(fadeInterval);
+              if (fadeInterval) clearInterval(fadeInterval);
             }
           }, 200);
         }).catch((e) => {
           console.warn("Audio autoplay prevented", e);
         });
       }
-      
+
+      document.addEventListener('visibilitychange', handleHideOrBlur);
+      window.addEventListener('blur', handleHideOrBlur);
+
       return () => {
-        // Fade out before pausing
-        let vol = audio.volume;
-        const fadeOutInterval = setInterval(() => {
-          if (vol > 0.01) {
-            vol -= 0.01;
-            audio.volume = Math.max(vol, 0);
-          } else {
-            clearInterval(fadeOutInterval);
-            audio.pause();
-            audio.src = '';
-          }
-        }, 100);
+        document.removeEventListener('visibilitychange', handleHideOrBlur);
+        window.removeEventListener('blur', handleHideOrBlur);
+        stopAudioInstantly();
       };
     } catch (e) {
       console.warn("Audio blocked or unsupported", e);
