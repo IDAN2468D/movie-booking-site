@@ -86,8 +86,16 @@ export const useVoiceEngine = () => {
           utterance.rate = 0.85; // Speak slightly slower for better comprehension
           
           if (action === 'navigate' && route) {
-            utterance.onend = () => router.push(route);
-            utterance.onerror = () => router.push(route);
+            let navigated = false;
+            const navigateOnce = () => {
+              if (!navigated) {
+                navigated = true;
+                router.push(route);
+              }
+            };
+            utterance.onend = navigateOnce;
+            utterance.onerror = navigateOnce;
+            setTimeout(navigateOnce, 700);
           }
           
           window.speechSynthesis.speak(utterance);

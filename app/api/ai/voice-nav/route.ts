@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
             },
             route: {
               type: SchemaType.STRING,
-              description: "The route to navigate to. Must be one of: '/', '/tickets', '/favorites', '/discovery', '/profile', '/splinter-demo', '/showcase', '/vision', '/coming-soon', '/vip', or '' if unknown/book_ticket."
+              description: "The route to navigate to. Must be one of: '/', '/tickets', '/favorites', '/discovery', '/profile', '/soundtracks', '/discover/coop', '/food', '/rewards', '/cinema', '/concierge', '/shazam', '/trophy-vault', '/news', '/wrapped', '/splinter-demo', '/showcase', '/vision', '/coming-soon', '/vip', or '' if unknown/book_ticket."
             },
             feedback: {
               type: SchemaType.STRING,
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       Write a full, polite, engaging Hebrew sentence confirming the booking explicitly (e.g. "הזמנתי עבורך 2 כרטיסים לדדפול יחד עם פופקורן. התשלום בוצע אוטומטית, מיד תועבר לכרטיסים שלך!").
       
       If their intent matches a route, set action="navigate", provide the exact route, and write a full, polite, engaging Hebrew sentence confirming the action explicitly.
-      Valid routes: "/", "/tickets", "/favorites", "/discovery", "/profile", "/splinter-demo", "/showcase", "/vision", "/coming-soon", "/vip".
+      Valid routes: "/", "/tickets", "/favorites", "/discovery", "/profile", "/soundtracks", "/discover/coop", "/food", "/rewards", "/cinema", "/concierge", "/shazam", "/trophy-vault", "/news", "/wrapped", "/splinter-demo", "/showcase", "/vision", "/coming-soon", "/vip".
       
       If their intent has absolutely nothing to do with the app or booking, set action="unknown" and write a polite Hebrew apology.
     `;

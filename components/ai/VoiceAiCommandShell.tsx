@@ -78,9 +78,11 @@ export const VoiceAiCommandShell: React.FC = () => {
 
       if (res.data?.targetUrl) {
         const url = res.data.targetUrl;
-        setTimeout(() => {
+        // Guaranteed redirect after short audio prompt start
+        const timer = setTimeout(() => {
           router.push(url);
-        }, 1500);
+        }, 600);
+        return () => clearTimeout(timer);
       }
     }
   };
