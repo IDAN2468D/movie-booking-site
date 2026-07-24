@@ -18,5 +18,23 @@ export const SyncDeliveryUpdateSchema = z.object({
   etaMinutes: z.number().min(0).optional()
 });
 
+export const HoloPairingQuerySchema = z.object({
+  movieGenre: z.string().default("Sci-Fi"),
+  preferredSweetness: z.number().min(0).max(100).default(50),
+  preferredSaltiness: z.number().min(0).max(100).default(50)
+});
+
+export const HoloCartSchema = z.object({
+  items: z.array(z.object({
+    itemId: z.string(),
+    quantity: z.number().int().positive(),
+    price: z.number().positive()
+  })).min(1, "עגלת הקניות ריקה"),
+  totalPrice: z.number().positive()
+});
+
 export type ConcessionOrderType = z.infer<typeof ConcessionOrderSchema>;
 export type SyncDeliveryUpdateType = z.infer<typeof SyncDeliveryUpdateSchema>;
+export type HoloPairingQueryType = z.infer<typeof HoloPairingQuerySchema>;
+export type HoloCartType = z.infer<typeof HoloCartSchema>;
+

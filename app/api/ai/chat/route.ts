@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '');
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || process.env.GEMINI_API_KEY || '');
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -112,8 +112,6 @@ export async function POST(req: NextRequest) {
         // Use the system instruction from the previous context
         const chatModel = genAI.getGenerativeModel({
           model: model.model,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          tools: [{ googleSearchRetrieval: {} }] as any,
           systemInstruction: `
             אתה הקונסיירז׳ הדיגיטלי של אתר MovieBook - אתר הזמנת סרטים יוקרתי.
             הזהות שלך: עוזר אישי (Concierge), מקצועי, ויוקרתי.

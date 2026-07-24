@@ -15,44 +15,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'No transcript provided' }, { status: 400 });
     }
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
-      generationConfig: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: SchemaType.OBJECT,
-          properties: {
-            action: {
-              type: SchemaType.STRING,
-              description: "The intended action. Must be exactly 'navigate', 'book_ticket', or 'unknown'."
-            },
-            route: {
-              type: SchemaType.STRING,
-              description: "The route to navigate to. Must be one of: '/', '/tickets', '/favorites', '/discovery', '/profile', '/soundtracks', '/discover/coop', '/food', '/rewards', '/cinema', '/concierge', '/shazam', '/trophy-vault', '/news', '/wrapped', '/splinter-demo', '/showcase', '/vision', '/coming-soon', '/vip', or '' if unknown/book_ticket."
-            },
-            feedback: {
-              type: SchemaType.STRING,
-              description: "A short, natural, enthusiastic Hebrew response confirming the action. If unknown, apologize in Hebrew."
-            },
-            bookingDetails: {
-              type: SchemaType.OBJECT,
-              description: "Details of the booking, if action is 'book_ticket'.",
-              properties: {
-                movieName: { type: SchemaType.STRING, description: "The name of the movie." },
-                ticketCount: { type: SchemaType.NUMBER, description: "Number of tickets." },
-                foodItems: { 
-                  type: SchemaType.ARRAY, 
-                  items: { type: SchemaType.STRING },
-                  description: "List of food and drink items." 
-                },
-                autoPayment: { type: SchemaType.BOOLEAN, description: "Whether automatic payment was requested." }
-              }
-            }
-          },
-          required: ["action", "feedback"]
-        }
-      }
-    });
+    const { callGeminiWithRetry } = await import('@/lib/gemini');
+    const modelNames = ['gemini-3.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash-latest'];
 
     const prompt = `
       You are the AI Voice Concierge for a hyper-premium movie booking platform.
@@ -70,8 +34,49 @@ export async function POST(req: NextRequest) {
       If their intent has absolutely nothing to do with the app or booking, set action="unknown" and write a polite Hebrew apology.
     `;
 
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
+    const responseText = await callGeminiWithRetry(modelNames, async (m) => {
+      const model = genAI.getGenerativeModel({
+        model: m.model,
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: SchemaType.OBJECT,
+            properties: {
+              action: {
+                type: SchemaType.STRING,
+                description: "The intended action. Must be exactly 'navigate', 'book_ticket', or 'unknown'."
+              },
+              route: {
+                type: SchemaType.STRING,
+                description: "The route to navigate to. Must be one of: '/', '/tickets', '/favorites', '/discovery', '/profile', '/soundtracks', '/discover/coop', '/food', '/rewards', '/cinema', '/concierge', '/shazam', '/trophy-vault', '/news', '/wrapped', '/splinter-demo', '/showcase', '/vision', '/coming-soon', '/vip', or '' if unknown/book_ticket."
+              },
+              feedback: {
+                type: SchemaType.STRING,
+                description: "A short, natural, enthusiastic Hebrew response confirming the action. If unknown, apologize in Hebrew."
+              },
+              bookingDetails: {
+                type: SchemaType.OBJECT,
+                description: "Details of the booking, if action is 'book_ticket'.",
+                properties: {
+                  movieName: { type: SchemaType.STRING, description: "The name of the movie." },
+                  ticketCount: { type: SchemaType.NUMBER, description: "Number of tickets." },
+                  foodItems: { 
+                    type: SchemaType.ARRAY, 
+                    items: { type: SchemaType.STRING },
+                    description: "List of food and drink items." 
+                  },
+                  autoPayment: { type: SchemaType.BOOLEAN, description: "Whether automatic payment was requested." }
+                }
+              }
+            },
+            required: ["action", "feedback"]
+          }
+        }
+      });
+      const result = await model.generateContent(prompt);
+      return result.response.text();
+    });
+
     const data = JSON.parse(responseText);
 
     if (data.action === 'book_ticket' && data.bookingDetails) {

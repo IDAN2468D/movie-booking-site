@@ -85,5 +85,7 @@ The platform operates on a Next.js (App Router) architecture with a strict Zero-
 
 **Phase 27: The Spatial-Neural Cinema Protocol (Sprints 62-66)**
 1. **Live AI Subtitle Pitcher & Multi-Lang (Sprint 62)**: Real-time AI multi-lingual subtitle translation engine with Web Audio acoustic pitch shifter (`SubBassSubtitlePitcher.tsx`).
+2. **Kinetic Concession Holographic AR Menu (Sprint 63)**: 3D Holographic food & beverage viewer canvas (`Holo3dItemViewer.tsx`), dynamic kinetic flavor radar (`KineticFlavorRadar.tsx`), AI movie-snack pairing recommendation engine (`AiSnackPairer.tsx`), Web Audio 40Hz sub-bass feedback (`useConcessionAudio.ts`), and Liquid Glass cart drawer (`ConcessionCartDrawer.tsx`).
+
 
 

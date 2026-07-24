@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     const { message, localContext } = parsed.data;
 
-    const apiKey = process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY;
+    const apiKey = process.env.GOOGLE_AI_API_KEY || process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ error: 'LLM API key not configured in environment' }, { status: 500 });
     }
