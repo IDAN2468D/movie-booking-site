@@ -78,16 +78,16 @@ export const HoloVoicePassView: React.FC = () => {
   };
 
   return (
-    <div className="p-6 rounded-2xl bg-neutral-950/40 backdrop-blur-[40px] border border-white/[0.12] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] text-neutral-100 font-sans max-w-xl mx-auto space-y-5">
-      <div className="flex items-center justify-between">
+    <div className="p-6 rounded-2xl bg-neutral-950/40 backdrop-blur-[40px] border border-white/[0.12] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] text-neutral-100 font-sans max-w-xl mx-auto space-y-5" dir="rtl">
+      <div className="flex items-center justify-between border-b border-white/10 pb-3">
         <div>
-          <h3 className="font-heading text-xl font-semibold text-pink-400">
-            Voice-to-Hologram Pass Generator
+          <h3 className="font-['Outfit'] text-xl font-bold text-pink-400">
+            מחולל כרטיסי VIP בפקודה קולית
           </h3>
-          <p className="text-xs text-neutral-400">Hebrew Vocal Command & 3D Holographic Vault</p>
+          <p className="text-xs text-neutral-400 font-['Inter']">זיהוי קולי בעברית וכספת הולוגרפית תלת-ממדית</p>
         </div>
         <span className="px-3 py-1 text-xs font-mono rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30">
-          Hebrew Speech AI
+          Speech AI בעברית
         </span>
       </div>
 
@@ -96,30 +96,30 @@ export const HoloVoicePassView: React.FC = () => {
           type="text"
           value={transcript}
           onChange={(e) => setTranscript(e.target.value)}
-          placeholder="דבר או הדפס הוראה לכרטיס..."
+          placeholder="דבר או הקלד הוראה לכרטיס (למשל: צור כרטיס VIP זהב)..."
           dir="rtl"
-          className="flex-1 bg-neutral-900/60 border border-white/10 rounded-xl px-4 py-2 text-sm text-neutral-200 focus:outline-none focus:border-pink-400"
+          className="flex-1 bg-neutral-900/60 border border-white/10 rounded-xl px-4 py-2 text-sm text-neutral-200 focus:outline-none focus:border-pink-400 font-['Inter']"
         />
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleListen}
-          className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all ${
+          className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all font-['Outfit'] ${
             isListening
               ? 'bg-red-500/30 border-red-500 text-red-200 animate-pulse'
               : 'bg-neutral-900/80 border-white/10 text-neutral-300 hover:border-pink-400'
           }`}
         >
-          {isListening ? 'מקשיב...' : '🎙️ קול'}
+          {isListening ? '🎙️ מקשיב...' : '🎙️ קול'}
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           onClick={handleGeneratePass}
           disabled={isLoading}
-          className="bg-pink-600 hover:bg-pink-500 text-white font-medium px-4 py-2 rounded-xl text-sm transition-all"
+          className="bg-pink-600 hover:bg-pink-500 text-white font-['Outfit'] font-bold px-4 py-2 rounded-xl text-sm transition-all"
         >
-          {isLoading ? 'יוצר...' : 'צור'}
+          {isLoading ? 'יוצר...' : 'צור כרטיס'}
         </motion.button>
       </div>
 
@@ -133,7 +133,7 @@ export const HoloVoicePassView: React.FC = () => {
           <div className="text-[10px] uppercase font-mono tracking-widest text-pink-300">
             {passResult.tierName}
           </div>
-          <div className="text-xl font-bold font-heading text-white">{passResult.title}</div>
+          <div className="text-xl font-bold font-['Outfit'] text-white">{passResult.title}</div>
           <div className="inline-block px-4 py-1.5 rounded-lg bg-black/60 border border-pink-400/40 font-mono text-sm text-pink-200">
             {passResult.formattedCode}
           </div>

@@ -49,28 +49,28 @@ export const QuantumStakingVaultView: React.FC<QuantumStakingVaultViewProps> = (
   };
 
   return (
-    <div className="relative w-full p-6 rounded-2xl border border-white/10 bg-neutral-950/40 backdrop-blur-[40px] shadow-2xl overflow-hidden">
+    <div className="relative w-full p-6 rounded-2xl border border-white/10 bg-neutral-950/40 backdrop-blur-[40px] shadow-2xl overflow-hidden" dir="rtl">
       <div className="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
         <h3 className="text-xl font-bold text-white font-['Outfit'] flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-[#00FFA3] animate-pulse" />
-          Quantum Staking & Holographic NFT Pass
+          סטייקינג קוונטי וכרטיס NFT הולוגרפי
         </h3>
         <span className="text-xs text-neutral-400 font-['Inter']">
-          APY {vaultData.yieldApyPercent}%
+          תשואה שנתית (APY) {vaultData.yieldApyPercent}%
         </span>
       </div>
 
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="p-4 rounded-xl border border-white/10 bg-white/5">
-          <div className="text-xs text-neutral-400 font-['Inter']">Staked Balance</div>
+          <div className="text-xs text-neutral-400 font-['Inter']">יתרה בסטייקינג</div>
           <div className="text-2xl font-extrabold text-[#00FFA3] font-['Outfit'] mt-1">
-            {vaultData.stakedBalance} PTS
+            {vaultData.stakedBalance} נקודות
           </div>
         </div>
         <div className="p-4 rounded-xl border border-white/10 bg-white/5">
-          <div className="text-xs text-neutral-400 font-['Inter']">Claimable Yield</div>
+          <div className="text-xs text-neutral-400 font-['Inter']">תשואה למימוש</div>
           <div className="text-2xl font-extrabold text-[#8A5CFF] font-['Outfit'] mt-1">
-            +{vaultData.claimablePulsePoints} PTS
+            +{vaultData.claimablePulsePoints} נקודות
           </div>
         </div>
       </div>
@@ -94,13 +94,13 @@ export const QuantumStakingVaultView: React.FC<QuantumStakingVaultViewProps> = (
         >
           <div className="text-sm font-bold text-white font-['Outfit']">
             {vaultData.isBiometricsUnlocked
-              ? '🔒 BIOMETRICS VERIFIED // NFT PASS ACTIVE'
+              ? '🔒 אימות ביומטרי אושר // כרטיס NFT פעיל'
               : isTouchHolding
-              ? 'HOLD TO AUTHENTICATE PASS...'
-              : 'TOUCH & HOLD FOR BIOMETRIC HOLOGRAPHIC PASS'}
+              ? 'מחזיק לאימות הכרטיס...'
+              : 'לחץ והחזק לאימות ביומטרי של כרטיס הולוגרפי'}
           </div>
           <div className="text-xs text-neutral-400 mt-2 font-mono">
-            HASH: {vaultData.nftPassSignature}
+            חתימה דיגיטלית: {vaultData.nftPassSignature}
           </div>
         </motion.div>
       </div>
@@ -111,14 +111,14 @@ export const QuantumStakingVaultView: React.FC<QuantumStakingVaultViewProps> = (
           disabled={isStakingLoading}
           className="flex-1 py-3 rounded-xl bg-[#00FFA3] text-neutral-950 font-bold font-['Outfit'] hover:bg-[#00FFA3]/90 transition-all duration-200"
         >
-          Stake +250 PTS
+          בצע סטייקינג +250 PTS
         </button>
         <button
           onClick={() => onStakeAmount(500)}
           disabled={isStakingLoading}
           className="flex-1 py-3 rounded-xl bg-white/10 text-white font-bold font-['Outfit'] border border-white/20 hover:bg-white/20 transition-all duration-200"
         >
-          Stake +500 PTS
+          בצע סטייקינג +500 PTS
         </button>
       </div>
     </div>
