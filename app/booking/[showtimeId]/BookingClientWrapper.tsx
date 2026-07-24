@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SeatMap from "@/components/booking/SeatMap";
 import DigitalTicket from "@/components/booking/DigitalTicket";
+import { CrowdHeatmapContainer } from "@/components/booking/CrowdHeatmapContainer";
 
 interface BookingClientWrapperProps {
   showtimeId: string;
@@ -37,6 +38,10 @@ export default function BookingClientWrapper({ showtimeId, userId, occupiedSeats
               <p className="text-white/40 font-['Inter'] mt-2">אנא בחר מושב כדי להמשיך</p>
             </div>
             
+            <div className="mb-8">
+              <CrowdHeatmapContainer showtimeId={showtimeId} auditoriumId="auditorium-imax-1" />
+            </div>
+
             <SeatMap 
               showtimeId={showtimeId} 
               userId={userId} 

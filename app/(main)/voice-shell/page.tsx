@@ -1,6 +1,7 @@
 import React from 'react';
 import HolographicBackground from '@/components/ui/HolographicBackground';
 import { VoiceAiCommandShell } from '@/components/ai/VoiceAiCommandShell';
+import { VoiceOrderEngineContainer } from '@/components/chat/VoiceOrderEngineContainer';
 
 export const metadata = {
   title: 'Voice AI Command Shell | MovieBook',
@@ -21,7 +22,10 @@ export default function VoiceShellPage() {
           </p>
         </div>
 
-        <VoiceAiCommandShell />
+        <div className="space-y-8">
+          <VoiceOrderEngineContainer />
+          <VoiceAiCommandShell />
+        </div>
       </div>
     </div>
   );

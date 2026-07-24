@@ -5,6 +5,7 @@ import { VIPHero } from '@/components/vip/VIPHero';
 import { ScrollytellingTour } from '@/components/vip/ScrollytellingTour';
 import { SubscriptionMatrix } from '@/components/vip/SubscriptionMatrix';
 import { DirectSavingsCalculator } from '@/components/vip/DirectSavingsCalculator';
+import { QuantumStakingContainer } from '@/components/vip/QuantumStakingContainer';
 
 export default function VipPage() {
   return (
@@ -21,6 +22,11 @@ export default function VipPage() {
 
       {/* --- SECTION 2: CINEMATIC SUBSCRIPTION TIERS --- */}
       <SubscriptionMatrix />
+
+      {/* --- SECTION: QUANTUM LOYALTY STAKING & NFT VAULT --- */}
+      <div className="max-w-5xl mx-auto my-16 px-4">
+        <QuantumStakingContainer />
+      </div>
 
       {/* --- SECTION 3: DTC VALUE CALCULATOR --- */}
       <DirectSavingsCalculator />

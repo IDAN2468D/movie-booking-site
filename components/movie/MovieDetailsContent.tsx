@@ -25,6 +25,7 @@ import YouTubeBackground from './YouTubeBackground';
 import CinematicInsights from './CinematicInsights';
 import AmbientSynesthesia from '../fx/AmbientSynesthesia';
 import { MovieSoundtracksSection } from './MovieSoundtracksSection';
+import { TrailerRemixerContainer } from '@/components/movies/TrailerRemixerContainer';
 
 interface Props {
   movie: MovieDetails;
@@ -545,6 +546,11 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
 
             {/* AI "What If" Alternate Scenarios */}
             <WhatIfScenario movieTitle={movie.title} />
+
+            {/* AI Time-Traveler Trailer Remixer */}
+            <div className="my-10">
+              <TrailerRemixerContainer movieId={movie.id.toString()} />
+            </div>
 
             {/* Movie Trivia Challenge */}
             <MovieTrivia movieTitle={movie.title} />

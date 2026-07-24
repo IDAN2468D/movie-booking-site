@@ -1,28 +1,49 @@
-# Active Sprint Ledger
+# Active Task & Sprint Ledger (v9.0 SDD)
 
-## Phase 26: The Hyper-Sensory Ecosystem (Sprints 56–61)
-- `[x]` **Sprint 56: Neural Soundtrack Synthesizer & Spatial Resonator**
-- `[x]` **Sprint 57: 360° Spatial AR Cinema Portal**
-- `[x]` **Sprint 58: Cinematic Co-op VS Deck Matcher**
-- `[x]` **Sprint 60: Hands-Free Voice AI Command Shell (Fixed Automatic Hands-Free Execution & Route Mapping)**
-  - `[x]` Fixed `onend` auto-execution and `transcriptRef` synchronization in `components/ai/VoiceAiCommandShell.tsx`
-  - `[x]` Expanded Hebrew keyword matching & route fallbacks in `lib/actions/voice-command-actions.ts`
-  - `[x]` Added quick command suggestion chips & Web Speech fallback handling
-  - `[x]` Verified type-checking (`npx tsc --noEmit`) and test suite (`npx vitest run`)
-- `[x]` **Sprint 61: Generative WebGL Trophy Vault**
+## 🛠️ Framework Governance Upgrade (v9.0 SDD)
+- `[x]` **Upgrade `.agents` Ecosystem to v9.0 Specification-Driven Architecture**
 
-## Phase 27: The Spatial-Neural Cinema Protocol (Sprints 62–66)
-- `[x]` **Sprint 62: Live AI Subtitle Pitcher & Multi-Lang**
-- `[x]` **Sprint 63: Kinetic Concession Holographic AR Menu**
-  - `[x]` Defined TypeScript models & Zod schemas for holographic concessions (`lib/types/concession.ts`, `lib/validations/concession.ts`)
-  - `[x]` Built Web Audio spatial acoustics hook (`lib/hooks/useConcessionAudio.ts`)
-  - `[x]` Implemented 3D Holographic Viewer Canvas (`components/concessions/Holo3dItemViewer.tsx`)
-  - `[x]` Implemented Kinetic Flavor Radar & sliders (`components/concessions/KineticFlavorRadar.tsx`)
-  - `[x]` Implemented AI Movie Snack Pairing Engine & Server Action (`components/concessions/AiSnackPairer.tsx`, `lib/actions/concession-actions.ts`)
-  - `[x]` Implemented Liquid Glass Concession Cart Drawer (`components/concessions/ConcessionCartDrawer.tsx`)
-  - `[x]` Built main wrapper component (`components/concessions/HolographicArMenu.tsx`)
-  - `[x]` Integrated AR Menu view into `/food` page (`app/(main)/food/page.tsx`)
-  - `[x]` Verified zero LOC violations (< 200 lines/file), type safety (`npx tsc --noEmit`), and test suite (`npx vitest run`)
-- `[ ]` **Sprint 64: Real-Time Cinema Crowd Heatmap & Vibe Radar**
-- `[ ]` **Sprint 65: AI Cinema Time-Traveler Trailer Remixer**
-- `[ ]` **Sprint 66: Quantum Loyalty Staking & NFT Cine-Pass Vault**
+## 🚀 Hyper-Sensory Cinema Ecosystem (Sprints 64–68)
+- `[x]` **Sprint 64: Real-Time Cinema Crowd Heatmap & Vibe Radar**
+- `[x]` **Sprint 65: AI Cinema Time-Traveler Trailer Remixer**
+- `[x]` **Sprint 66: Quantum Loyalty Staking & NFT Pass Vault**
+- `[x]` **Sprint 67: AI Neural Cine-Persona Avatar & Voice Clone**
+- `[x]` **Sprint 68: Hands-Free Voice AI Smart Search & Spatial Order**
+
+## 🌌 Phase 29: Next-Gen Neural Spatial & Prediction Cinema Suite (Sprints 69–73)
+- `[x]` **Sprint 69: Neural Biometric Seat & Acoustic Sweet-Spot Calibrator**
+  - `[x]` PRD: `.agents/prds/PRD_SPRINT_69.md`
+  - `[x]` SPEC: `.agents/specs/SPEC_SPRINT_69.md`
+  - `[x]` `src/lib/validations/biometric-seat.schema.ts`
+  - `[x]` `src/lib/actions/biometric-seat.actions.ts`
+  - `[x]` `src/hooks/useBiometricSeatState.ts`
+  - `[x]` `src/components/booking/BiometricSeatView.tsx`
+  - `[x]` `src/components/booking/BiometricSeatContainer.tsx`
+
+- `[x]` **Sprint 70: Dynamic AI Screenplay & Branching Ending Simulator**
+  - `[x]` `src/lib/validations/screenplay-branch.schema.ts`
+  - `[x]` `src/lib/actions/screenplay-branch.actions.ts`
+  - `[x]` `src/hooks/useScreenplayBranchState.ts`
+  - `[x]` `src/components/movies/ScreenplayBranchView.tsx`
+  - `[x]` `src/components/movies/ScreenplayBranchContainer.tsx`
+
+- `[x]` **Sprint 71: Quantum Cine-Token Staking & Box Office Prediction Market**
+  - `[x]` `src/lib/validations/boxoffice-prediction.schema.ts`
+  - `[x]` `src/lib/actions/boxoffice-prediction.actions.ts`
+  - `[x]` `src/hooks/useBoxOfficePredictionState.ts`
+  - `[x]` `src/components/vip/BoxOfficePredictionView.tsx`
+  - `[x]` `src/components/vip/BoxOfficePredictionContainer.tsx`
+
+- `[x]` **Sprint 72: AI Spatial Director's Cut Audio Commentary Visualizer**
+  - `[x]` `src/lib/validations/spatial-commentary.schema.ts`
+  - `[x]` `src/lib/actions/spatial-commentary.actions.ts`
+  - `[x]` `src/hooks/useSpatialCommentaryState.ts`
+  - `[x]` `src/components/ai/SpatialCommentaryView.tsx`
+  - `[x]` `src/components/ai/SpatialCommentaryContainer.tsx`
+
+- `[x]` **Sprint 73: Voice-to-Hologram Cine-Pass Generator & Haptic Audio Vault**
+  - `[x]` `src/lib/validations/holo-voice-pass.schema.ts`
+  - `[x]` `src/lib/actions/holo-voice-pass.actions.ts`
+  - `[x]` `src/hooks/useHoloVoicePassState.ts`
+  - `[x]` `src/components/chat/HoloVoicePassView.tsx`
+  - `[x]` `src/components/chat/HoloVoicePassContainer.tsx`

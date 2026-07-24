@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import { Movie } from '@/lib/tmdb';
 import { Bot } from 'lucide-react';
 import ChatWindow from '@/components/chat/ChatWindow';
+import { CinePersonaAvatarContainer } from '@/components/ai/CinePersonaAvatarContainer';
 
 export default function ConciergePage() {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -191,8 +192,12 @@ export default function ConciergePage() {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="max-w-6xl mx-auto flex justify-center relative z-20 w-full px-4"
+        className="max-w-6xl mx-auto flex flex-col items-center gap-10 relative z-20 w-full px-4"
       >
+        <div className="w-full">
+          <CinePersonaAvatarContainer />
+        </div>
+
         <ChatWindow
           onClose={() => { }}
           messages={messages}

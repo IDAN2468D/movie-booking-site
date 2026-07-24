@@ -1,12 +1,13 @@
-# 🧠 Agent Stack State & Architecture Blueprint (v8.0)
+# 🧠 Agent Stack State & Architecture Blueprint (v9.0 SDD)
 
 This file acts as the primary Layer 1 & 2 Persistence state for the Agent Stack Framework.
-**Agents must read this file to understand the current technical boundaries and project scope.**
+**Agents must read this file alongside `.agents/templates/` to understand the current technical boundaries, PRD contracts, and project scope.**
 
 ## 🎭 Master Scope: Advanced Experiential Features
 The platform operates on a Next.js (App Router) architecture with a strict Zero-Reflow (120Hz GPU) presentation layer designated as **Liquid Glass 4.0**.
 
-### 📐 Layer 3: Technical Spec & Contracts
+### 📐 Layer 2 & 3: Neural SDD Blueprint & Contracts
+- **Machine-Readable Templates:** All development strictly bound by `.agents/templates/PRD_TEMPLATE.md`, `SPEC_TEMPLATE.md`, and `PLAN_TEMPLATE.md`.
 - **State Architecture:** Manage UI transitions via hardware-accelerated CSS (`will-change: transform, opacity`). Use Zustand for localized state slicing to prevent global re-renders. Component limit is strictly 200 LOC.
 - **Server Actions & Database:** All endpoints utilize Zod validation boundaries (`lib/validations/`) and return a unified contract: `{ success: boolean; data?: any; error?: string }`.
 
@@ -83,9 +84,21 @@ The platform operates on a Next.js (App Router) architecture with a strict Zero-
 4. **Hands-Free Voice AI Command Shell (Sprint 60)**: Hebrew Web Speech API speech recognition assistant with TTS feedback & hands-free navigation (`VoiceAiCommandShell.tsx`).
 5. **Generative WebGL Trophy Vault (Sprint 61)**: Interactive 3D holographic crystal WebGL trophy vault displaying user achievement awards (`GenerativeTrophyVault.tsx`).
 
-**Phase 27: The Spatial-Neural Cinema Protocol (Sprints 62-66)**
-1. **Live AI Subtitle Pitcher & Multi-Lang (Sprint 62)**: Real-time AI multi-lingual subtitle translation engine with Web Audio acoustic pitch shifter (`SubBassSubtitlePitcher.tsx`).
-2. **Kinetic Concession Holographic AR Menu (Sprint 63)**: 3D Holographic food & beverage viewer canvas (`Holo3dItemViewer.tsx`), dynamic kinetic flavor radar (`KineticFlavorRadar.tsx`), AI movie-snack pairing recommendation engine (`AiSnackPairer.tsx`), Web Audio 40Hz sub-bass feedback (`useConcessionAudio.ts`), and Liquid Glass cart drawer (`ConcessionCartDrawer.tsx`).
+**Phase 28: The Hyper-Sensory Cinema Ecosystem (Sprints 64-68)**
+1. **Real-Time Cinema Crowd Heatmap & Vibe Radar (Sprint 64)**: Interactive seat occupancy heatmap & acoustic spatial sound triggers (`CrowdHeatmapContainer.tsx`).
+2. **AI Cinema Time-Traveler Trailer Remixer (Sprint 65)**: `@google/genai` era-remixed trailer scripts & CRT canvas shader filters (`TrailerRemixerContainer.tsx`).
+3. **Quantum Loyalty Staking & NFT Pass Vault (Sprint 66)**: 3D Holographic ticket pass with Touch-Hold biometrics & 40Hz sub-bass audio (`QuantumStakingContainer.tsx`).
+4. **AI Neural Cine-Persona Avatar & Voice Clone (Sprint 67)**: 3D glowing particle AI concierge avatar with speech synthesis (`CinePersonaAvatarContainer.tsx`).
+5. **Hands-Free Voice AI Smart Search & Spatial Order (Sprint 68)**: Hebrew Web Speech API vocal command shell with spatial audio confirmation (`VoiceOrderEngineContainer.tsx`).
+
+**Phase 29: Next-Gen Neural Spatial & Prediction Cinema Suite (Sprints 69-73)**
+1. **Neural Biometric Seat & Acoustic Sweet-Spot Calibrator (Sprint 69)**: Interactive frequency equalizer and seat acoustic sweet-spot score (`BiometricSeatContainer.tsx`).
+2. **Dynamic AI Screenplay & Branching Ending Simulator (Sprint 70)**: Interactive prompt choice node tree with plot divergence options (`ScreenplayBranchContainer.tsx`).
+3. **Quantum Cine-Token Staking & Box Office Prediction Market (Sprint 71)**: Gamified prediction market dashboard with 40Hz sub-bass audio drop (`BoxOfficePredictionContainer.tsx`).
+4. **AI Spatial Director's Cut Audio Commentary Visualizer (Sprint 72)**: Spatial panning commentary audio visualizer (`SpatialCommentaryContainer.tsx`).
+5. **Voice-to-Hologram Cine-Pass Generator & Haptic Audio Vault (Sprint 73)**: Hebrew Web Speech API vocal command holographic VIP pass generator (`HoloVoicePassContainer.tsx`).
+
+
 
 
 
