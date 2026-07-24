@@ -21,6 +21,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { icon: Home, label: 'בית', href: '/' },
+  { icon: Sparkles, label: 'חוויה טרנסצנדנטלית', href: '/transcendent' },
   { icon: Languages, label: 'AI Subtitle Pitcher', href: '/subtitles' },
   { icon: Trophy, label: 'Trophy Vault', href: '/trophy-vault' },
   { icon: Mic, label: 'Voice AI Shell', href: '/voice-shell' },
