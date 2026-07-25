@@ -14,6 +14,7 @@ export const UpcomingMovieSchema = z.object({
   releaseDate: z.string(),
   posterPath: z.string().nullable(),
   overview: z.string(),
+  voteAverage: z.number().optional(),
 });
 
 export const UpcomingMoviesResponseSchema = z.array(UpcomingMovieSchema);

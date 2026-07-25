@@ -3,24 +3,47 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Gift, Utensils, Bell, Settings, LogOut, Clapperboard, MapPin, RefreshCw, Sparkles, Heart, ShieldCheck, Crown, Compass, Zap, CalendarDays, Star, Share2, Newspaper, Disc3, Users, Mic, Trophy, Languages } from 'lucide-react';
+import {
+  Home, Gift, Utensils, Bell, Settings, LogOut, Clapperboard, MapPin, RefreshCw,
+  Heart, ShieldCheck, Crown, Compass, Zap, CalendarDays, Star, Share2, Newspaper,
+  Disc3, Users, Mic, Trophy, Languages, Volume2, Sparkles, Activity, Shield
+} from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
-
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { PremiumLogo } from "@/components/ui/PremiumLogo";
+import { FeaturesDropdown, FeatureNavItem } from '@/src/components/layout/FeaturesDropdown';
 
 interface NavItem {
   icon: React.ComponentType<{ size?: number; className?: string }>;
   label: string;
   href: string;
   isChat?: boolean;
-  isAdmin?: boolean;
 }
 
-const navItems: NavItem[] = [
+// Basic core navigation items
+const basicNavItems: NavItem[] = [
   { icon: Home, label: 'בית', href: '/' },
+  { icon: CalendarDays, label: 'בקרוב', href: '/coming-soon' },
+  { icon: Star, label: 'החזון שלנו', href: '/vision' },
+  { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets' },
+  { icon: Heart, label: 'מועדפים', href: '/favorites' },
+  { icon: Utensils, label: 'אוכל ושתייה', href: '/food' },
+  { icon: Bell, label: 'התראות', href: '/notifications' },
+  { icon: Crown, label: 'מועדון VIP', href: '/vip' },
+  { icon: Gift, label: 'בונוסים', href: '/vip/bonuses' },
+  { icon: Sparkles, label: 'עוזר AI', href: '/concierge' },
+  { icon: Settings, label: 'הגדרות', href: '/profile' },
+];
+
+// Advanced feature items grouped inside the Dropdown
+const featureNavItems: FeatureNavItem[] = [
+  { icon: Activity, label: 'מרכז התהודה ההפטי', href: '/haptic' },
+  { icon: Shield, label: 'תא האורה הביומטרי', href: '/aura-chamber' },
+  { icon: Disc3, label: 'סנתזטור פסקול קוונטי', href: '/soundtrack-synth' },
+  { icon: Users, label: 'מרכז הסנכרון הקבוצתי', href: '/nexus' },
+  { icon: Volume2, label: 'כיול תהודה אקוסטית', href: '/prelude' },
   { icon: Sparkles, label: 'חוויה טרנסצנדנטלית', href: '/transcendent' },
   { icon: Languages, label: 'AI Subtitle Pitcher', href: '/subtitles' },
   { icon: Trophy, label: 'Trophy Vault', href: '/trophy-vault' },
@@ -31,25 +54,12 @@ const navItems: NavItem[] = [
   { icon: Compass, label: 'גילוי נוירוני', href: '/discovery' },
   { icon: Newspaper, label: 'חדשות קולנוע', href: '/news' },
   { icon: Share2, label: 'פיצול כרטיסים', href: '/splinter-demo' },
-  { icon: Star, label: 'החזון שלנו', href: '/vision' },
-  { icon: CalendarDays, label: 'בקרוב', href: '/coming-soon' },
-  { icon: Crown, label: 'מועדון VIP', href: '/vip' },
-  { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets' },
-  { icon: Heart, label: 'מועדפים', href: '/favorites' },
-  { icon: Gift, label: 'בונוסים', href: '/vip/bonuses' },
-  { icon: Utensils, label: 'אוכל ושתייה', href: '/food' },
-  { icon: Bell, label: 'התראות', href: '/notifications' },
-  { icon: Sparkles, label: 'עוזר AI', href: '/concierge' },
-  { icon: Settings, label: 'הגדרות', href: '/profile' },
 ];
+
 
 const ADMIN_ITEMS: NavItem[] = [
-  { icon: ShieldCheck, label: 'מערכת ERP', href: '/erp', isAdmin: true },
+  { icon: ShieldCheck, label: 'מערכת ERP', href: '/erp' },
 ];
-
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import Image from 'next/image';
 
 export default function Sidebar() {
   const { data: session } = useSession();
@@ -59,7 +69,7 @@ export default function Sidebar() {
   const [isUpdating, setIsUpdating] = React.useState(false);
 
   const isAdmin = session?.user?.email === 'idankzm@gmail.com' || session?.user?.email === 'test@example.com';
-  const allNavItems = isAdmin ? [...navItems, ...ADMIN_ITEMS] : navItems;
+  const mainNav = isAdmin ? [...basicNavItems, ...ADMIN_ITEMS] : basicNavItems;
 
   const handleGPS = () => {
     if ("geolocation" in navigator) {
@@ -93,97 +103,84 @@ export default function Sidebar() {
     <aside className="hidden md:flex h-screen w-64 bg-black/10 backdrop-blur-3xl saturate-[200%] brightness-110 border-l border-white/10 flex-col py-10 px-6 z-50 flex-shrink-0 shadow-[0_0_40px_rgba(0,0,0,0.5),_inset_0_0_0_1px_rgba(255,255,255,0.1)] relative overflow-y-auto custom-scrollbar font-inter">
       {/* Decorative background glow */}
       <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
-      
-      <Link href="/" className="mb-14 block">
+
+      <Link href="/" className="mb-8 block">
         <PremiumLogo size="sm" />
       </Link>
 
-      <nav className="flex-1 space-y-3 relative">
-        {allNavItems.map((item) => {
+      <nav className="flex-1 space-y-2 relative">
+        {/* Core Basic Nav Items */}
+        {mainNav.slice(0, 1).map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
-          
           return (
             <Link
               key={item.label}
               href={item.href}
-              onClick={(e) => {
-                if (item.isChat) {
-                  e.preventDefault();
-                  window.dispatchEvent(new CustomEvent('open-movie-chat'));
-                }
-              }}
-              className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-500 group relative overflow-hidden border ${
-                isActive 
-                  ? 'bg-primary border-primary text-background shadow-[0_15px_30px_rgba(255,159,10,0.25)]' 
-                  : 'text-slate-400 border-transparent hover:bg-white/5 hover:text-white hover:border-white/10'
+              className={`flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 relative border ${
+                isActive
+                  ? 'bg-primary border-primary text-background shadow-[0_15px_30px_rgba(255,159,10,0.25)]'
+                  : 'text-slate-300 border-transparent hover:bg-white/5 hover:text-white hover:border-white/10'
               }`}
             >
-              {/* Hover Glow Effect */}
-              {!isActive && (
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              )}
-              
-              <Icon className={`w-5 h-5 transition-transform duration-500 group-hover:scale-110 relative z-10 ${isActive ? 'drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]' : ''}`} />
-              <span className="font-bold text-sm tracking-tight font-inter relative z-10">{item.label}</span>
-              
-              {isActive && (
-                <motion.div 
-                  layoutId="activeTab"
-                  className="absolute left-1.5 w-1 h-6 bg-background/30 rounded-full"
-                />
-              )}
+              <Icon className="w-5 h-5 relative z-10" />
+              <span className="font-bold text-sm font-inter relative z-10">{item.label}</span>
+            </Link>
+          );
+        })}
+
+        {/* Feature Dropdown Section */}
+        <FeaturesDropdown pathname={pathname || ''} items={featureNavItems} />
+
+
+        {/* Remaining Basic Nav Items */}
+        {mainNav.slice(1).map((item) => {
+          const Icon = item.icon;
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 relative border ${
+                isActive
+                  ? 'bg-primary border-primary text-background shadow-[0_15px_30px_rgba(255,159,10,0.25)]'
+                  : 'text-slate-300 border-transparent hover:bg-white/5 hover:text-white hover:border-white/10'
+              }`}
+            >
+              <Icon className="w-5 h-5 relative z-10" />
+              <span className="font-bold text-sm font-inter relative z-10">{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
-      <div className="space-y-6 mt-8 relative">
-        {/* Futuristic Location Card */}
-        <div 
+      {/* Location Card & Logout */}
+      <div className="space-y-4 mt-6 relative">
+        <div
           onClick={() => router.push('/branches')}
-          className="p-5 rounded-[32px] bg-white/[0.03] backdrop-blur-3xl border border-white/10 relative overflow-hidden group shadow-2xl cursor-pointer active:scale-95 transition-transform duration-300"
+          className="p-4 rounded-2xl bg-white/[0.03] backdrop-blur-3xl border border-white/10 relative overflow-hidden group shadow-2xl cursor-pointer active:scale-95 transition-transform"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          
-          <div className="relative z-10">
-            <div className="flex items-center justify-between mb-5">
-              <div className="w-10 h-10 rounded-2xl bg-primary/10 backdrop-blur-xl border border-primary/20 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
-                <MapPin className="w-5 h-5 text-primary" />
-              </div>
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleGPS();
-                }}
-                disabled={isUpdating}
-                className="w-8 h-8 flex items-center justify-center bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all duration-300 group/btn active:scale-90"
-              >
-                <RefreshCw className={`w-4 h-4 text-slate-400 group-hover/btn:text-primary transition-all ${isUpdating ? 'animate-spin' : ''}`} />
-              </button>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <MapPin className="w-4 h-4 text-primary" />
+              <span className="text-xs font-bold text-white truncate max-w-[120px]">{location || 'בחר סניף...'}</span>
             </div>
-            
-            <div className="space-y-1.5">
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">מוקד פעיל</p>
-              <p className="text-sm font-black text-white truncate font-outfit">{location || 'בחר סניף...'}</p>
-            </div>
-
-            <div className="mt-5 pt-5 border-t border-white/5 flex items-center gap-2.5">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_12px_rgba(34,197,94,0.6)]" />
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">מערכת מסונכרנת</span>
-            </div>
+            <button
+              onClick={(e) => { e.stopPropagation(); handleGPS(); }}
+              disabled={isUpdating}
+              className="p-1.5 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-slate-400 ${isUpdating ? 'animate-spin' : ''}`} />
+            </button>
           </div>
-          
-          {/* Animated Background Decor */}
-          <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/25 transition-all duration-1000" />
         </div>
 
-        <button 
+        <button
           onClick={() => signOut({ callbackUrl: '/login' })}
-          className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-slate-500 hover:bg-red-500/10 hover:text-red-400 transition-all duration-500 group border border-transparent hover:border-red-500/20"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all text-xs font-bold border border-transparent hover:border-red-500/20"
         >
-          <LogOut className="w-5 h-5 group-hover:-translate-x-2 transition-transform duration-500" />
-          <span className="font-bold text-sm">התנתקות מהמערכת</span>
+          <LogOut className="w-4 h-4" />
+          <span>התנתקות מהמערכת</span>
         </button>
       </div>
     </aside>

@@ -51,6 +51,7 @@ export async function getUpcomingMoviesAction(): Promise<UpcomingMovieResult> {
       releaseDate: movie.release_date || "",
       posterPath: movie.poster_path,
       overview: movie.overview,
+      voteAverage: movie.vote_average ?? 8.5,
     }));
 
     // Zod validation boundary mapping

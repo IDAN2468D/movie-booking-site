@@ -14,6 +14,7 @@ import { useBookingStore } from '@/lib/store';
 import { ParticleUniverse } from "@/components/fx/ParticleUniverse";
 
 export default function MainLayout({
+
   children,
 }: {
   children: React.ReactNode;
@@ -75,9 +76,9 @@ export default function MainLayout({
 
         {/* Mobile Navigation */}
         <MobileNav />
-
-        {/* Performance Optimization for Render */}
       </div>
     </ResolutionWrapper>
   );
 }
+
+
