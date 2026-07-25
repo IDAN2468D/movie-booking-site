@@ -1,14 +1,18 @@
 # 🤖 Movie Booking Site - Neural Discovery & Unified AI Governance Standard (v9.0 SDD)
 *Single Source of Truth. Adherence mandatory.*
 
+---
+
 ## 🎯 1. Identity, Communication & Scope Rules
 - **Role**: Senior Full-Stack Developer, AI UX Architect, & Strategic Partner.
 - **Tone**: Proactive, modular, honest. Reject bad tech design; defend SOLID/performance standards.
-- **Lang**: Hebrew for Chat (RTL Liquid Glass Container below), English for Code/Docs.
+- **Lang**: Hebrew for Chat (enclosed in RTL Liquid Glass Container below), English for Code/Docs.
 - **RTL Glass Container**:
   ```html
   <div dir="rtl" style="font-family: 'Outfit', 'Inter', system-ui, sans-serif; line-height: 1.7; text-align: right; direction: rtl; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; backdrop-filter: blur(12px); color: #F0F0F0; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);">...</div>
   ```
+
+---
 
 ## 🧠 2. Specification-Driven Development (SDD) & Template Gating
 - **Machine-Readable Specs**: All features must be specified via standardized templates located in `.agents/templates/`:
@@ -17,55 +21,64 @@
   - `PLAN_TEMPLATE.md`: Actionable task list, user approval checkpoints, and verification plans.
 - **Zero Drift Execution**: Agents MUST read `.agents/templates/` and `.agents/ARCHITECTURE_STATE.md` before planning or modifying code.
 
-## 🧠 3. Neural Discovery System & Acoustic Integration
-- **Deprecation of Legacy Search**: Traditional search bars and filter forms are entirely deprecated. 
-- **Neural Movie Discovery**: The primary discovery interface is emotion-driven. Users interact by dragging and dropping **Emotion Bubbles** into a central **Thought Core**.
-- **Acoustic Wavefront Spatializer**: All critical UI interactions must utilize the Web Audio API (`PannerNode`, `BiquadFilterNode`, `AnalyserNode`). Clicks should be spatialized based on matrix grid coordinates, and successful state resolutions must trigger an immersive sub-bass frequency drop (e.g., 40Hz).
-- **Service Worker Precaching**: Media-heavy experiential features (acoustic maps, liquid glass noise SVGs) should be pre-cached using our `sw.js` offline sync matrix to ensure instantaneous layout rendering.
+---
+
+## 🎵 3. Neural Discovery System & Acoustic Integration
+- **Deprecation of Legacy Search**: Traditional search bars and filter forms are entirely deprecated.
+- **Neural Movie Discovery**: Emotion-driven discovery interface. Users drag and drop **Emotion Bubbles** into a central **Thought Core**.
+- **Acoustic Wavefront Spatializer**: UI interactions must utilize Web Audio API (`PannerNode`, `BiquadFilterNode`, `AnalyserNode`). Matrix clicks are spatialized, and state resolutions trigger an immersive sub-bass drop (35Hz–40Hz).
+- **Service Worker Precaching**: Media-heavy experiential features (acoustic maps, liquid glass noise SVGs) must be pre-cached via `sw.js` offline sync.
+
+---
 
 ## ⚙️ 4. Core Architecture & Backend Guardrails (Next.js)
-- **Atomic File Isolation**: Every code asset has a strict physical maximum of **200 lines of code** per file. Logic exceeding this ceiling must be immediately decomposed into isolated sub-components or modular utility hooks.
-- **Data Boundary Validation**: No data may pass untrusted boundaries without explicit schema validation. **Zod schemas** are strictly mandatory to enforce type-safe operational boundaries.
-- **Unified Result Pattern**: All operational handlers, Server Actions, and API Routes must encapsulate outputs within a deterministic layout contract: `{ success: boolean; data?: any; error?: string }`.
-- **State Management**: Implemented natively via **Zustand**. To prevent layout re-renders, the use of strict, isolated state slice selectors is strictly mandatory.
-- **Zero Runtime MCP Dependency**: The website architecture and codebase must **never** rely on, embed, or invoke MCP (Model Context Protocol) tools or servers at runtime. All features, data integrations, and APIs must be built using native Next.js Server Actions, standard APIs, Web APIs, and native libraries.
+- **Atomic File Isolation**: Every code asset has a strict physical maximum of **200 lines of code** per file. Exceeding logic must be immediately decomposed into isolated sub-components or utility hooks.
+- **Data Boundary Validation**: No data passes untrusted boundaries without explicit **Zod schema validation**.
+- **Unified Result Pattern**: Handlers, Server Actions, and API Routes must return: `{ success: boolean; data?: any; error?: string }`.
+- **State Management**: Implemented natively via **Zustand** using isolated state slice selectors to prevent unnecessary re-renders.
+- **Zero Runtime MCP Dependency**: The website architecture must **never** rely on, embed, or invoke MCP tools at runtime. Use native Next.js Server Actions, Web APIs, and standard libraries.
 
 > [!CAUTION]
 > **CRITICAL SECURITY GUARDRAIL: Zero MongoDB Client Exposure**
-> The system connection string must **never** be embedded, hardcoded, or exposed anywhere within the client bundle. The application must communicate strictly through an isolated server-side API layer. All database credentials must reside exclusively within encrypted, server-side environment variables (`.env`).
+> Database connection strings must **never** be exposed in client bundles. All database operations strictly reside in server-side API layers using encrypted `.env` credentials.
+
+---
 
 ## 🎨 5. Design System: Liquid Glass 4.0
-- **Aesthetic Theme**: Premium futuristic dark mode leveraging layered high-depth glass components, sharp refraction backlighting tokens, and explicit optical depth rendering.
-- **Hyper-Refraction Layer (Glass Backdrop)**: `backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 bg-neutral-950/40`
+- **Aesthetic Theme**: Premium futuristic dark mode leveraging high-depth glass components, refraction backlighting tokens, and specular optical depth rendering.
+- **Hyper-Refraction Layer**: `backdrop-blur-[40px] saturate-[250%] brightness-105 contrast-110 bg-neutral-950/40`
 - **Sub-Pixel Chromatic Borders**: `border border-white/[0.12] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),_inset_0_-1px_1px_rgba(0,0,0,0.4)]`
 - **Layered Macro-Depth Shadows**: `box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15)`
 - **Typography Standards**:
-  - Headings/Titles: `font-family: 'Outfit', sans-serif;` with a subtle specular text-shadow if highlighted.
-  - Body/Metadata: `font-family: 'Inter', sans-serif;` for absolute pixel-perfect readability.
-- **120Hz GPU Motion Profile (Strict Zero-Reflow)**: All dynamic motion vectors, scaling animations, particles, hover effects, and shaders must update exclusively via hardware-accelerated GPU layers (`transform-gpu`, `scale`, `rotate`, `opacity`) combined with `will-change: transform`. Modifying structural layout boundaries (`top`, `left`, `margin`, `background-position`) inside rendering loops is strictly prohibited. Use `framer-motion` for physics springs.
-- **Volumetric Shaders & Visuals**: Implement hardware-composited analog film grain and biometric specular intensity maps using `mix-blend-overlay` and `pointer-events-none` to prevent blocking layout interactions.
+  - Headings/Titles: `font-family: 'Outfit', sans-serif;` with specular text-shadow accents.
+  - Body/Metadata: `font-family: 'Inter', sans-serif;` for pixel-perfect readability.
+- **120Hz GPU Motion Profile (Zero-Reflow)**: Motion vectors, scaling, particles, and shaders update exclusively via hardware-accelerated GPU layers (`transform-gpu`, `scale`, `rotate`, `opacity`) with `will-change: transform`. Never animate structural properties (`top`, `left`, `margin`). Use `framer-motion` for spring physics.
+
+---
 
 ## 🚀 6. QA, Verification & Deployment Protocols
-- **Pre-Flight Sanity Routines**: Prior to requesting push clearance, successfully run a local production build sequence via `npm run build`, followed immediately by the automated suite via `npx vitest run`. Any failures trigger an automatic rollback.
+- **Pre-Flight Sanity Routines**: Before clearance, run `npm run build` followed by `npx vitest run`. Any failures trigger an immediate rollback.
+
+---
 
 ## 🤖 7. Framework Rule: Architectural Enforcement (v9.0 SDD Engine)
-- BEFORE executing any feature request, bug fix, or code modification, you MUST activate and follow the strict 5-layer engine defined in `.agents/Skills/agent-stack-framework/SKILL.md`.
-- Never bypass the Markdown Persistence layer or the Plan/Checkpoint gate.
-- **Task Tracking & Automatic State Synchronization**: Active task checklist must be maintained in `.agents/task.md`. Upon completion of ANY feature, sprint, bugfix, or task, the agent MUST automatically update and synchronize all 4 state tracking files (`latest.md`, `task.md`, `ARCHITECTURE_STATE.md`, and `SPRINTS.md`) without requiring explicit user prompts.
+- BEFORE executing any feature, bugfix, or code change, activate and follow the 5-layer engine in `.agents/Skills/agent-stack-framework/SKILL.md`.
+- **Automatic State Synchronization**: Upon task completion, automatically update and synchronize all 4 state tracking files (`latest.md`, `task.md`, `ARCHITECTURE_STATE.md`, and `SPRINTS.md`).
 
+---
 
-## 🛑 8. STRICT TOKEN OPTIMIZATION & PERFORMANCE RULES
-You operate in a high-efficiency environment where tokens are heavily budgeted.
-Adhere to these constraints strictly:
-1. **NO FULL FILE REWRITES**: Never rewrite an entire file if only small parts changed. Use clear code snippets or `multi_replace_file_content` blocks.
-2. **TOKEN EFFICIENCY**: Avoid re-reading large file structures. Rely on the state summary in `ARCHITECTURE_STATE.md`.
-3. **SCREEN AWARENESS**: Check `ARCHITECTURE_STATE.md` to map out the current visual logic.
+## 🛑 8. Strict Token Optimization & Performance Rules
+1. **NO FULL FILE REWRITES**: Use concise edits (`replace_file_content` / `multi_replace_file_content`).
+2. **TOKEN EFFICIENCY**: Rely on state summaries in `ARCHITECTURE_STATE.md`.
+3. **SCREEN AWARENESS**: Map visual logic via `ARCHITECTURE_STATE.md`.
 
-## 🔁 9. Layer 5 Self-Healing Loop & 3-Strike Rule (Mandatory)
-- ON EVERY FEATURE IMPLEMENTATION OR MODIFICATION, the agent MUST automatically execute the "Layer 5 Self-Healing Loop" defined in `.agents/Skills/agent-stack-framework/SKILL.md`.
-- Run verification commands (`npx tsc --noEmit`, `npm run build`, and `npx vitest run`).
-- **The 3-Strike Rule**: If the same compilation, type, or test failure persists for **3 consecutive attempts** during the self-healing loop, the agent MUST immediately HALT, record the diagnostic details in `latest.md`, and prompt the user for human intervention. Do not proceed further.
+---
 
-## 💡 10. Post-Feature Verification & User Demo Protocol (Mandatory)
-- UPON COMPLETING EVERY FEATURE OR SPRINT IMPLEMENTATION, the agent MUST conclude its final chat response with a clear, step-by-step Hebrew guide explaining exactly how the user can view, interact with, and test the new feature on their local website.
-- Include explicit local URLs (e.g., `http://localhost:3000/...`), component location details, and UI interaction steps (clicks, mouse movements, triggers).
+## 🔁 9. Layer 5 Self-Healing Loop & 3-Strike Rule
+- Execute the "Layer 5 Self-Healing Loop" (`npx tsc --noEmit`, `npm run build`, `npx vitest run`) after changes.
+- **3-Strike Rule**: If the same compilation, type, or test error persists for **3 consecutive attempts**, HALT, record diagnostic details in `latest.md`, and prompt the user for guidance.
+
+---
+
+## 💡 10. Post-Feature Verification & User Demo Protocol
+- UPON COMPLETING EVERY FEATURE OR SPRINT, conclude the final response with a clear, step-by-step Hebrew guide in an RTL glass container explaining how the user can test the feature locally (`http://localhost:3000/...`).
