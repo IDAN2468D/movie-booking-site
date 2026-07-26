@@ -104,12 +104,17 @@ export const NotificationDrawer: React.FC<NotificationDrawerProps> = ({ isOpen, 
             <div className="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar">
               <AnimatePresence initial={false}>
                 {optimisticNotifications.map((notif) => (
-                  <form key={notif.id} action={markAsReadFormAction}>
-                    <input type="hidden" name="id" value={notif.id} />
-                    <button type="submit" className="w-full text-right block">
-                      <NotificationCard notification={notif} onMarkAsRead={() => {}} />
-                    </button>
-                  </form>
+                  <NotificationCard
+                    key={notif.id}
+                    notification={notif}
+                    onMarkAsRead={(id) => {
+                      const formData = new FormData();
+                      formData.append('id', String(id));
+                      startTransition(() => {
+                        markAsReadFormAction(formData);
+                      });
+                    }}
+                  />
                 ))}
               </AnimatePresence>
 
