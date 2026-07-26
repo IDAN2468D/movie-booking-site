@@ -1,1 +1,1 @@
-@.agents/rules/movie-booking-site.md
+@.agents/AGENTS.md

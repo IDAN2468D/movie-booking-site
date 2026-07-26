@@ -1,4 +1,4 @@
-# 🤖 Movie Booking Site - Neural Discovery & Unified AI Governance Standard (v9.0 SDD)
+# 🤖 Movie Booking Site - Neural Discovery & Unified AI Governance Standard (v9.5 SDD)
 *Single Source of Truth. Adherence mandatory.*
 
 ---
@@ -19,7 +19,7 @@
   - `PRD_TEMPLATE.md`: Product Scope, Personas, Liquid Glass 4.0 Layout, and Acceptance Evals.
   - `SPEC_TEMPLATE.md`: Technical Blueprint, Zod boundaries, 200 LOC chunking rules, and Server Action contracts.
   - `PLAN_TEMPLATE.md`: Actionable task list, user approval checkpoints, and verification plans.
-- **Zero Drift Execution**: Agents MUST read `.agents/templates/` and `.agents/ARCHITECTURE_STATE.md` before planning or modifying code.
+- **Zero Drift Execution**: Agents MUST read `.agents/templates/` and `.agents/state/ARCHITECTURE_STATE.md` before planning or modifying code.
 
 ---
 
@@ -61,24 +61,25 @@
 
 ---
 
-## 🤖 7. Framework Rule: Architectural Enforcement (v9.0 SDD Engine)
-- BEFORE executing any feature, bugfix, or code change, activate and follow the 5-layer engine in `.agents/Skills/agent-stack-framework/SKILL.md`.
-- **Automatic State Synchronization**: Upon task completion, automatically update and synchronize all 4 state tracking files (`latest.md`, `task.md`, `ARCHITECTURE_STATE.md`, and `SPRINTS.md`).
+## 🤖 7. Framework Rule: Architectural Enforcement (v9.5 SDD Engine)
+- BEFORE executing any feature, bugfix, or code change, activate and follow the 5-layer engine in `.agents/skills/agent-stack-framework/SKILL.md`.
+- **Automatic State Synchronization**: Upon task completion, automatically update and synchronize all 5 state tracking files in `.agents/state/` (`latest.md`, `task.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`, and `ARCHIVE_SPRINTS.md`).
 
 ---
 
 ## 🛑 8. Strict Token Optimization & Performance Rules
 1. **NO FULL FILE REWRITES**: Use concise edits (`replace_file_content` / `multi_replace_file_content`).
-2. **TOKEN EFFICIENCY**: Rely on state summaries in `ARCHITECTURE_STATE.md`.
-3. **SCREEN AWARENESS**: Map visual logic via `ARCHITECTURE_STATE.md`.
+2. **TOKEN EFFICIENCY**: Rely on state summaries in `.agents/state/ARCHITECTURE_STATE.md`.
+3. **SCREEN AWARENESS**: Map visual logic via `.agents/state/ARCHITECTURE_STATE.md`.
 
 ---
 
 ## 🔁 9. Layer 5 Self-Healing Loop & 3-Strike Rule
 - Execute the "Layer 5 Self-Healing Loop" (`npx tsc --noEmit`, `npm run build`, `npx vitest run`) after changes.
-- **3-Strike Rule**: If the same compilation, type, or test error persists for **3 consecutive attempts**, HALT, record diagnostic details in `latest.md`, and prompt the user for guidance.
+- **3-Strike Rule**: If the same compilation, type, or test error persists for **3 consecutive attempts**, HALT, record diagnostic details in `.agents/state/latest.md`, and prompt the user for guidance.
 
 ---
 
 ## 💡 10. Post-Feature Verification & User Demo Protocol
 - UPON COMPLETING EVERY FEATURE OR SPRINT, conclude the final response with a clear, step-by-step Hebrew guide in an RTL glass container explaining how the user can test the feature locally (`http://localhost:3000/...`).
+

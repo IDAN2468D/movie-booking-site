@@ -3,7 +3,7 @@ name: "Agent Stack Framework"
 description: "Run the agent using the 5 layers of the Agent Stack (Loop, Plan, PRD, Spec, Markdown) for autonomous long-running tasks."
 ---
 
-# 🤖 Enterprise-Cognitive Agent Stack Execution Engine (v9.0 SDD)
+# 🤖 Enterprise-Cognitive Agent Stack Execution Engine (v9.5 SDD)
 
 > **Objective:** Eliminate context drift, maximize token efficiency, and enforce a high-fidelity self-healing standard by binding execution to a strict 5-layer Enterprise Specification-Driven Development (SDD) Engine. This guarantees zero-drift autonomous execution and over 95% error mitigation compared to reactive setups.
 
@@ -11,11 +11,11 @@ Whenever you are tasked with a feature or long-running objective, you **MUST** e
 
 ---
 
-## 🏗️ The 5-Layer Architecture (v9.0 SDD)
+## 🏗️ The 5-Layer Architecture (v9.5 SDD)
 
 ```mermaid
 graph TD
-    L1["<b>Layer 1: Memory Persistence & Context Pruning</b><br/><i>(Read/Write Checkpoint, Token Efficiency & State Alignment)</i>"] --> L2
+    L1["<b>Layer 1: Memory Persistence & Context Pruning</b><br/><i>(Read/Write Checkpoint, Token Efficiency & State Alignment in .agents/state/)</i>"] --> L2
     L2["<b>Layer 2: PRD & Scope Protection</b><br/><i>(Use .agents/templates/PRD_TEMPLATE.md for Product Intent)</i>"] --> L3
     L3["<b>Layer 3: Spec Technical Blueprint</b><br/><i>(Use .agents/templates/SPEC_TEMPLATE.md for Zod & 200 LOC Limits)</i>"] --> L4
     L4["<b>Layer 4: Plan & Gated Checkpoints</b><br/><i>(Use .agents/templates/PLAN_TEMPLATE.md - 🔴 CRITICAL USER APPROVAL GATE)</i>"] --> L5
@@ -32,10 +32,10 @@ graph TD
 
 ## 🚀 Execution Steps
 
-### 1️⃣ Layer 1 — Memory Persistence & Context Pruning (`ARCHITECTURE_STATE.md` / `latest.md`)
-- **Protocol:** Parse `latest.md` and `ARCHITECTURE_STATE.md` at the start of every session. Save progress, completed milestones, and updated metrics automatically to `latest.md`, `task.md`, `ARCHITECTURE_STATE.md`, and `SPRINTS.md` at the end of each step without waiting for user prompts.
-- **Token Optimization:** Do not re-read large directory or file structures repeatedly. Rely on summaries from `latest.md` and `ARCHITECTURE_STATE.md`.
-- **JIT Skill Activation:** Load only the specific Skill markdown file relevant to the current task from `.agents/Skills/` to save context window space.
+### 1️⃣ Layer 1 — Memory Persistence & Context Pruning (`.agents/state/ARCHITECTURE_STATE.md` / `.agents/state/latest.md`)
+- **Protocol:** Parse `.agents/state/latest.md` and `.agents/state/ARCHITECTURE_STATE.md` at the start of every session. Save progress, completed milestones, and updated metrics automatically to `.agents/state/latest.md`, `.agents/state/task.md`, `.agents/state/ARCHITECTURE_STATE.md`, and `.agents/state/SPRINTS.md` at the end of each step without waiting for user prompts.
+- **Token Optimization:** Do not re-read large directory or file structures repeatedly. Rely on summaries from `.agents/state/latest.md` and `.agents/state/ARCHITECTURE_STATE.md`.
+- **JIT Skill Activation:** Load only the specific Skill markdown file relevant to the current task from `.agents/skills/` to save context window space.
 
 
 ### 2️⃣ Layer 2 — PRD & Scope Protection (`.agents/templates/PRD_TEMPLATE.md`)
@@ -48,9 +48,10 @@ graph TD
 - **Zero Client Exposure & Zero Runtime MCP:** Ensure database credentials exist strictly in server `.env` variables, and all features run natively without runtime MCP dependency.
 
 ### 4️⃣ Layer 4 — Plan & Gated Checkpoints (`.agents/templates/PLAN_TEMPLATE.md`)
-- **Protocol:** Break down execution into isolated tasks tracked in `.agents/task.md` using `.agents/templates/PLAN_TEMPLATE.md`.
+- **Protocol:** Break down execution into isolated tasks tracked in `.agents/state/task.md` using `.agents/templates/PLAN_TEMPLATE.md`.
 - 🔴 **CRITICAL GATEKEEPER:** The agent must halt coding activities, output the `implementation_plan.md` artifact, and wait for explicit user approval before modifying or creating any code files.
 
 ### 5️⃣ Layer 5 — Loop Self-Healing & QA (Loop)
 - **Protocol:** Compile the project (`npx tsc --noEmit`), run linter and build scripts (`npm run build`), and execute unit tests (`npx vitest run`) after every batch of edits.
-- **The 3-Strike Rule:** If a build, compile, or test failure occurs, analyze the terminal logs and fix the code autonomously. If the same error persists for **3 consecutive attempts**, HALT, write a diagnostic summary in `latest.md`, and prompt the user for manual intervention.
+- **The 3-Strike Rule:** If a build, compile, or test failure occurs, analyze the terminal logs and fix the code autonomously. If the same error persists for **3 consecutive attempts**, HALT, write a diagnostic summary in `.agents/state/latest.md`, and prompt the user for manual intervention.
+
