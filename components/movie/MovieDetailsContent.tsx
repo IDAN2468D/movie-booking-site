@@ -27,6 +27,8 @@ import AmbientSynesthesia from '../fx/AmbientSynesthesia';
 import { MovieSoundtracksSection } from './MovieSoundtracksSection';
 import { TrailerRemixerContainer } from '@/components/movies/TrailerRemixerContainer';
 import SpatialAudioCommentaryToggle from './SpatialAudioCommentaryToggle';
+import MovieSelectionAnimationContainer from './MovieSelectionAnimationContainer';
+import AiMovieAnimationStudioContainer from './AiMovieAnimationStudioContainer';
 
 interface Props {
   movie: MovieDetails;
@@ -384,6 +386,17 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                     <Headphones size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
                   )}
                 </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.1, translateY: -2 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => {
+                    document.getElementById('movie-animation-section')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  title="אנימציית 3D"
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group bg-cyan-500/10 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20"
+                >
+                  <Sparkles size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110 animate-pulse" />
+                </motion.button>
               </div>
             </div>
           </motion.div>
@@ -409,6 +422,23 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             <p className="text-off-white/90 leading-relaxed-hebrew text-lg font-medium mb-10">
               {movie.overview || 'אין תקציר זמין עבור סרט זה.'}
             </p>
+
+            <div id="movie-animation-section" className="my-6 space-y-6">
+              <MovieSelectionAnimationContainer
+                movieId={movie.id}
+                movieTitle={movie.title}
+                posterPath={movie.poster_path}
+                genres={movie.genres.map(g => g.name)}
+                rating={movie.vote_average}
+              />
+              <AiMovieAnimationStudioContainer
+                movieId={movie.id}
+                movieTitle={movie.title}
+                posterPath={movie.poster_path}
+                backdropPath={movie.backdrop_path}
+                overview={movie.overview}
+              />
+            </div>
 
             <AmbientSynesthesia 
               imageUrl={getImageUrl(movie.poster_path, 'w500')} 
