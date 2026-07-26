@@ -11,8 +11,8 @@
 - `[x]` **Sprint 81: TactileResonanceContainer (מרכז התהודה והמגע ההפטי הקולנועי)**
 - `[x]` **Sprint 82: BiometricAuraChamberContainer (תא האורה והביומטריה הקולנועית)**
 - `[x]` **Sprint 83: QuantumPersonaSoundtrackSynthContainer (סנתזטור פסקול הנוירונים הקוונטי)**
-- `[x]` **Coming Soon Persistent Email Reminders & Sound Effect Bell**
+- `[x]` **Sprint 84: Neural Liquid Glass Screensaver Studio & Resilient Image Engine (שומר מסך אינטראקטיבי ומנוע תמונות עמיד)**
 
 ## 🔮 Upcoming Phase 32 Development
-- `[ ]` **Sprint 84: Cognitive Haptic Spatial Seating Matrix**
-- `[ ]` **Sprint 85: Synaptic Multi-User Voice & Mood Resonance Chamber**
+- `[ ]` **Sprint 85: Cognitive Haptic Spatial Seating Matrix**
+- `[ ]` **Sprint 86: Synaptic Multi-User Voice & Mood Resonance Chamber**

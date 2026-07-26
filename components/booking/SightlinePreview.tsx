@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useBookingStore } from '@/lib/store';
 import { useSightlineCalculations } from '@/hooks/useSightlineCalculations';
 import { Monitor, Eye, Compass, ShieldCheck, AlertCircle } from 'lucide-react';
+import { getImageUrl } from '@/lib/tmdb';
 
 export default function SightlinePreview() {
   // Subscribe to hoveredSeat and selectedSeats via strict atomic selectors
@@ -19,8 +20,8 @@ export default function SightlinePreview() {
   const { success, data, error } = useSightlineCalculations(activeSeatId);
 
   // Backdrop glow image or color fallback
-  const backdropImage = selectedMovie?.backdrop_path 
-    ? `https://image.tmdb.org/t/p/w500${selectedMovie.backdrop_path}` 
+  const backdropImage = selectedMovie 
+    ? getImageUrl(selectedMovie.backdrop_path || selectedMovie.poster_path, 'w500')
     : null;
 
   return (

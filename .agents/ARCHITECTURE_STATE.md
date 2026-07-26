@@ -105,17 +105,19 @@ The platform operates on a Next.js (App Router) architecture with a strict Zero-
 4. **Neural-Linguistic Semantic Search / Intuition Bar (Sprint 77)**: Natural language metaphor & sentiment search with liquid mercury ink-bleed visuals (`IntuitionSearchContainer.tsx`).
 5. **The Ether-Void Collective Lobby (Sprint 78)**: Pre-show 3D WebGL HTML5 canvas lobby rendering floating glass spheres with Web Audio `PannerNode` 3D spatial pings (`EtherVoidContainer.tsx`).
 
-**Phase 31: The Sensory Priming & Resonance Layer (Sprints 79-83)**
+**Phase 31: The Sensory Priming & Resonance Layer (Sprints 79-84)**
 1. **CineResonanceContainer (Sprint 79)**: Hebrew localized pre-movie acoustic resonance equalizer, 3D wave visualizer, Liquid Glass 4.0 styling, Web Audio API `BiquadFilterNode` frequency sweeps, and 40Hz sub-bass sine drop (`CineResonanceContainer.tsx`).
 2. **NeuralSyncNexusContainer (Sprint 80)**: Hebrew localized group aura sphere merging, 3D stereo audio panning via Web Audio `PannerNode`, and harmonic chord celebration (`NeuralSyncNexusContainer.tsx`).
 3. **TactileResonanceContainer (Sprint 81)**: Hebrew localized Tactile Audio-Haptic Resonance Center, Web Audio 35Hz-60Hz sub-bass oscillators, `navigator.vibrate` physical haptics, Zod validated server action calibration, and Advanced Features dropdown button integration (`TactileResonanceContainer.tsx`).
 4. **BiometricAuraChamberContainer (Sprint 82)**: Hebrew localized Biometric Aura & Mood Chamber, touch-hold fingerprint scanner, Web Audio sub-bass heartbeat pulse, Zod server action aura analysis, and Advanced Features dropdown button integration (`BiometricAuraChamberContainer.tsx`).
 5. **QuantumPersonaSoundtrackSynthContainer (Sprint 83)**: Hebrew localized Quantum Persona Soundtrack Synthesizer, Web Audio polyphonic synthesizers (`OscillatorNode`, `GainNode`, `BiquadFilterNode`), 120Hz GPU waveform visualizer, Zod server action preset generation, and Advanced Features dropdown button integration (`QuantumPersonaSoundtrackSynthContainer.tsx`).
 
-
-
-
-
+**Phase 32: Master Liquid Glass 4.0 & Hyper-Sensory Page Upgrade (Sprint 85)**
+1. **HeroAuraResonance (Home Page)**: Liquid Glass 4.0 aura scanner button with Web Audio 35Hz sub-bass audio pulse (`HeroAuraResonance.tsx`).
+2. **SpatialAudioCommentaryToggle (Movie Details Page)**: 3D spatial director's commentary toggle with frequency panner (`SpatialAudioCommentaryToggle.tsx`).
+3. **SeatHapticFeedback (Seat Selection Page)**: Web Audio 40Hz sub-bass oscillator & `navigator.vibrate` haptic trigger (`SeatHapticFeedback.tsx`).
+4. **AiComboPairingWidget (Food Page)**: AI Concession combo recommendation assistant with sub-bass feedback (`AiComboPairingWidget.tsx`).
+5. **BiometricPassbookCard (Profile Page)**: Fingerprint biometric touch-hold authentication with 50Hz heartbeat pulse (`BiometricPassbookCard.tsx`).
 
 
 

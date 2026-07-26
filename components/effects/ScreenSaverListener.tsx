@@ -1,23 +1,29 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useScreenSaverStore, selectSetIsScreenSaverActive } from '@/lib/store/screenSaverStore';
-
-const INACTIVITY_TIMEOUT = 15000;
+import { useScreenSaverStore } from '@/lib/store/screenSaverStore';
 
 export function ScreenSaverListener() {
-  const setIsScreenSaverActive = useScreenSaverStore(selectSetIsScreenSaverActive);
-  
+  const setIsScreenSaverActive = useScreenSaverStore((state) => state.setIsScreenSaverActive);
+  const isScreenSaverActive = useScreenSaverStore((state) => state.isScreenSaverActive);
+  const inactivityTimeout = useScreenSaverStore((state) => state.inactivityTimeout);
+
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastCoords = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    if (inactivityTimeout === 0) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      return;
+    }
+
     const startTimer = () => {
       if (document.visibilityState === 'hidden') return;
-      
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
       timeoutRef.current = setTimeout(() => {
         setIsScreenSaverActive(true);
-      }, INACTIVITY_TIMEOUT);
+      }, inactivityTimeout);
     };
 
     const handleActivity = (e?: Event) => {
@@ -29,12 +35,11 @@ export function ScreenSaverListener() {
         lastCoords.current = { x: mouseEvent.clientX, y: mouseEvent.clientY };
       }
 
-      setIsScreenSaverActive(false);
-
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+      // If screensaver is active, don't dismiss immediately on micro mouse movements to allow control interaction
+      if (!isScreenSaverActive) {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        startTimer();
       }
-      startTimer();
     };
 
     const handleVisibilityChange = () => {
@@ -42,7 +47,7 @@ export function ScreenSaverListener() {
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
         setIsScreenSaverActive(false);
       } else {
-        handleActivity();
+        startTimer();
       }
     };
 
@@ -56,9 +61,7 @@ export function ScreenSaverListener() {
     window.addEventListener('blur', handleVisibilityChange);
 
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
       window.removeEventListener('mousemove', handleActivity);
       window.removeEventListener('keydown', handleActivity);
       window.removeEventListener('mousedown', handleActivity);
@@ -66,7 +69,7 @@ export function ScreenSaverListener() {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('blur', handleVisibilityChange);
     };
-  }, [setIsScreenSaverActive]);
+  }, [inactivityTimeout, isScreenSaverActive, setIsScreenSaverActive]);
 
   return null;
 }

@@ -8,11 +8,11 @@ const CatalogRequestSchema = z.object({
 });
 
 const MOCK_MOVIES = [
-  { id: '1', title: 'Interstellar', genre: 'Sci-Fi', posterUrl: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MvrId5cB.jpg' },
-  { id: '2', title: 'The Dark Knight', genre: 'Action', posterUrl: 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg' },
-  { id: '3', title: 'Dune: Part Two', genre: 'Sci-Fi', posterUrl: 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2JGjjc9CW.jpg' },
-  { id: '4', title: 'La La Land', genre: 'Romance', posterUrl: 'https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoFdKS4fzkUJt0Vy0.jpg' },
-  { id: '5', title: 'Blade Runner 2049', genre: 'Sci-Fi', posterUrl: 'https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg' },
+  { id: '1', title: 'Interstellar', genre: 'Sci-Fi', posterUrl: '/api/proxy/image?url=' + encodeURIComponent('https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg') },
+  { id: '2', title: 'The Dark Knight', genre: 'Action', posterUrl: '/api/proxy/image?url=' + encodeURIComponent('https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg') },
+  { id: '3', title: 'Dune: Part Two', genre: 'Sci-Fi', posterUrl: '/api/proxy/image?url=' + encodeURIComponent('https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2JGjjc9CW.jpg') },
+  { id: '4', title: 'La La Land', genre: 'Romance', posterUrl: '/api/proxy/image?url=' + encodeURIComponent('https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoFdKS4fzkUJt0Vy0.jpg') },
+  { id: '5', title: 'Blade Runner 2049', genre: 'Sci-Fi', posterUrl: '/api/proxy/image?url=' + encodeURIComponent('https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg') },
 ];
 
 export async function POST(req: NextRequest) {

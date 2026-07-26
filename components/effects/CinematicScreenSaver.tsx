@@ -1,170 +1,93 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScreenSaverStore, selectIsScreenSaverActive } from '@/lib/store/screenSaverStore';
+import { useScreenSaverAudio } from '@/hooks/useScreenSaverAudio';
+import { ScreenSaverControls } from './ScreenSaverControls';
+import { ScreenSaverSettingsModal } from './ScreenSaverSettingsModal';
+import { ScreenSaverPosterCard } from './ScreenSaverPosterCard';
+import { ResilientImage } from '@/components/ui/ResilientImage';
+import { SCREEN_SAVER_MOVIES } from '@/lib/constants/screensaverMovies';
 
-const MOVIES = [
-  {
-    id: 1,
-    title: 'חולית: חלק שני',
-    description: 'פול אטריאידס מתאחד עם צ\'אני והדררים בנתיב של נקמה נגד הקושרים שהשמידו את משפחתו.',
-    year: '2024',
-    genres: ['מדע בדיוני', 'הרפתקאות', 'פעולה'],
-    backdropUrl: 'https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg'
-  },
-  {
-    id: 2,
-    title: 'אופנהיימר',
-    description: 'סיפורו של המדען האמריקאי ג\'יי רוברט אופנהיימר, ותפקידו המכריע בפיתוח פצצת האטום.',
-    year: '2023',
-    genres: ['ביוגרפיה', 'דרמה', 'היסטוריה'],
-    backdropUrl: 'https://image.tmdb.org/t/p/original/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg'
-  },
-  {
-    id: 3,
-    title: 'בלייד ראנר 2049',
-    description: 'חשיפת סוד קבור על ידי בלייד ראנר צעיר מובילה אותו למסע חיפוש אחר ריק דקארד שנעדר 30 שנה.',
-    year: '2017',
-    genres: ['מדע בדיוני', 'מסתורין', 'פעולה'],
-    backdropUrl: 'https://image.tmdb.org/t/p/original/ilRyazdUWJlVybfqD0A3HlA9bC4.jpg'
-  },
-  {
-    id: 4,
-    title: 'בין כוכבים',
-    description: 'צוות חוקרים נוסע דרך חור תולעת בחלל בניסיון להבטיח את הישרדותה של האנושות ולמצוא כוכב חדש.',
-    year: '2014',
-    genres: ['מדע בדיוני', 'הרפתקאות', 'דרמה'],
-    backdropUrl: 'https://image.tmdb.org/t/p/original/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg'
-  }
-];
-
-const INTERVAL_MS = 6000;
+const AUTO_INTERVAL_MS = 6000;
 
 export function CinematicScreenSaver() {
   const isScreenSaverActive = useScreenSaverStore(selectIsScreenSaverActive);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const setIsScreenSaverActive = useScreenSaverStore((state) => state.setIsScreenSaverActive);
+  const activeIndex = useScreenSaverStore((state) => state.activeIndex);
+  const setActiveIndex = useScreenSaverStore((state) => state.setActiveIndex);
+  const isPlaying = useScreenSaverStore((state) => state.isPlaying);
+  const { playSubBassDrop } = useScreenSaverAudio();
 
-  // Cinematic Ambient Audio Engine
+  // Auto-play slideshow timer
   useEffect(() => {
-    if (!isScreenSaverActive || typeof window === 'undefined') return;
-
-    if (document.visibilityState === 'hidden') {
-      return;
-    }
-
-    let audio: HTMLAudioElement | null = null;
-    let fadeInterval: NodeJS.Timeout | null = null;
-
-    const stopAudioInstantly = () => {
-      if (fadeInterval) clearInterval(fadeInterval);
-      if (audio) {
-        try {
-          audio.pause();
-          audio.currentTime = 0;
-          audio.src = '';
-        } catch {}
-        audio = null;
-      }
-    };
-
-    const handleHideOrBlur = () => {
-      if (document.visibilityState === 'hidden') {
-        stopAudioInstantly();
-      }
-    };
-
-    try {
-      audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3');
-      audio.loop = true;
-      audio.volume = 0; // Start at 0 for fade in
-
-      const playPromise = audio.play();
-
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          if (document.visibilityState === 'hidden') {
-            stopAudioInstantly();
-            return;
-          }
-          let vol = 0;
-          const maxVol = 0.08; // Very soft, atmospheric volume
-          fadeInterval = setInterval(() => {
-            if (audio && vol < maxVol) {
-              vol += 0.01;
-              audio.volume = Math.min(vol, maxVol);
-            } else {
-              if (fadeInterval) clearInterval(fadeInterval);
-            }
-          }, 200);
-        }).catch((e) => {
-          console.warn("Audio autoplay prevented", e);
-        });
-      }
-
-      document.addEventListener('visibilitychange', handleHideOrBlur);
-      window.addEventListener('blur', handleHideOrBlur);
-
-      return () => {
-        document.removeEventListener('visibilitychange', handleHideOrBlur);
-        window.removeEventListener('blur', handleHideOrBlur);
-        stopAudioInstantly();
-      };
-    } catch (e) {
-      console.warn("Audio blocked or unsupported", e);
-    }
-  }, [isScreenSaverActive]);
-
-  useEffect(() => {
-    if (!isScreenSaverActive) {
-      return;
-    }
+    if (!isScreenSaverActive || !isPlaying) return;
 
     const intervalId = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % MOVIES.length);
-    }, INTERVAL_MS);
+      setActiveIndex((prev) => (prev + 1) % SCREEN_SAVER_MOVIES.length);
+    }, AUTO_INTERVAL_MS);
 
     return () => clearInterval(intervalId);
-  }, [isScreenSaverActive]);
+  }, [isScreenSaverActive, isPlaying, setActiveIndex]);
 
-  if (!isScreenSaverActive) {
-    return null;
-  }
+  if (!isScreenSaverActive) return null;
 
-  const currentMovie = MOVIES[activeIndex];
+  const currentMovie = SCREEN_SAVER_MOVIES[activeIndex % SCREEN_SAVER_MOVIES.length];
+
+  const handleNext = () => {
+    playSubBassDrop();
+    setActiveIndex((prev) => (prev + 1) % SCREEN_SAVER_MOVIES.length);
+  };
+
+  const handlePrev = () => {
+    playSubBassDrop();
+    setActiveIndex((prev) => (prev - 1 + SCREEN_SAVER_MOVIES.length) % SCREEN_SAVER_MOVIES.length);
+  };
+
+  const handleClose = () => {
+    playSubBassDrop();
+    setIsScreenSaverActive(false);
+  };
 
   return (
-    <div className="fixed inset-0 z-[9999] pointer-events-auto bg-[#0A0A0A] overflow-hidden isolate" dir="rtl">
+    <div className="fixed inset-0 z-[9999] pointer-events-auto bg-[#0A0A0A] overflow-hidden isolate select-none" dir="rtl">
+      {/* Backdrop Image with Resilient Failover */}
       <AnimatePresence mode="popLayout">
         <motion.div
           key={currentMovie.id}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ opacity: { duration: 1.5, ease: 'easeInOut' } }}
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${currentMovie.backdropUrl})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
+          transition={{ duration: 1.2, ease: 'easeInOut' }}
+          className="absolute inset-0 w-full h-full"
+        >
+          <ResilientImage
+            src={currentMovie.backdropUrl}
+            alt={currentMovie.title}
+            fallbackTitle={currentMovie.title}
+            fill
+            priority
+            className="object-cover pointer-events-none"
+          />
+        </motion.div>
       </AnimatePresence>
 
       <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-transparent pointer-events-none" />
 
-      <div className="absolute bottom-24 right-24 left-24 z-10 flex flex-col items-start text-right">
+      {/* Movie Details Container & Official Poster Card */}
+      <div className="absolute bottom-28 right-12 left-12 md:right-24 md:left-24 z-10 flex items-end justify-between gap-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentMovie.id}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-            className="max-w-4xl"
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="max-w-3xl text-right"
           >
             <h1 
-              className="text-6xl md:text-8xl font-black text-white tracking-widest mb-4"
+              className="text-5xl md:text-7xl font-black text-white tracking-widest mb-4"
               style={{ fontFamily: "'Outfit', 'Rubik', sans-serif", textShadow: '0 4px 30px rgba(0,0,0,0.8)' }}
             >
               {currentMovie.title}
@@ -183,21 +106,52 @@ export function CinematicScreenSaver() {
             </div>
 
             <p 
-              className="text-xl md:text-2xl text-white/90 font-medium leading-relaxed max-w-2xl drop-shadow-xl"
+              className="text-lg md:text-xl text-white/90 font-medium leading-relaxed max-w-2xl drop-shadow-xl"
               style={{ fontFamily: "'Inter', 'Assistant', sans-serif", textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
             >
               {currentMovie.description}
             </p>
           </motion.div>
         </AnimatePresence>
+
+        {/* Floating Official Poster Card */}
+        <AnimatePresence mode="wait">
+          <ScreenSaverPosterCard 
+            key={`poster-${currentMovie.id}`}
+            posterUrl={currentMovie.posterUrl}
+            title={currentMovie.title}
+          />
+        </AnimatePresence>
       </div>
 
-      <div className="absolute top-12 left-12 z-10 flex items-center gap-3" dir="ltr">
-        <div className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse shadow-[0_0_12px_rgba(220,38,38,0.9)]" />
-        <span className="text-white/70 text-xs tracking-[0.2em] font-bold uppercase drop-shadow-md" style={{ fontFamily: "'Inter', sans-serif" }}>
-          מצב המתנה
-        </span>
+      {/* Top Status Header */}
+      <div className="absolute top-10 right-10 left-10 z-10 flex items-center justify-between">
+        <div className="flex items-center gap-3" dir="ltr">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse shadow-[0_0_12px_rgba(220,38,38,0.9)]" />
+          <span className="text-white/70 text-xs tracking-[0.2em] font-bold uppercase drop-shadow-md" style={{ fontFamily: "'Inter', sans-serif" }}>
+            מצב המתנה קולנועי
+          </span>
+        </div>
+
+        <button
+          onClick={handleClose}
+          className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors border border-white/10 backdrop-blur-md"
+          title="סגור שומר מסך"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
+
+      {/* Interactive Controls & Settings Modal */}
+      <ScreenSaverControls
+        totalMovies={SCREEN_SAVER_MOVIES.length}
+        onNext={handleNext}
+        onPrev={handlePrev}
+        onClose={handleClose}
+      />
+      <ScreenSaverSettingsModal />
     </div>
   );
 }

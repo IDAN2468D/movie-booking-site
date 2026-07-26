@@ -1,8 +1,9 @@
 'use client';
 
 import { motion, useMotionValue, useTransform, PanInfo, useAnimation } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { useEffect } from 'react';
+import { ResilientImage } from '@/components/ui/ResilientImage';
+import { useAcousticDeck } from '../../hooks/useAcousticDeck';
 
 interface Movie {
   _id: string;
@@ -13,8 +14,6 @@ interface Movie {
   genreNames?: string[];
   overview?: string;
 }
-
-import { useAcousticDeck } from '../../hooks/useAcousticDeck';
 
 export interface MovieCard3DProps {
   movie: Movie;
@@ -75,7 +74,7 @@ export default function MovieCard3D({ movie, onSwipe, isFront, index }: MovieCar
   };
 
   const poster = movie.posterPath || movie.poster_path;
-  const imageUrl = poster ? (poster.startsWith('http') ? poster : `https://image.tmdb.org/t/p/w780${poster}`) : '/placeholder-poster.png';
+  const imageUrl = poster ? (poster.startsWith('http') ? poster : `https://image.tmdb.org/t/p/w780${poster}`) : '';
 
   // AI Resonance Mock calculation based on Title Length for visual stability
   const affinity = Math.min(98, 75 + (movie.title.length % 20));
@@ -91,7 +90,6 @@ export default function MovieCard3D({ movie, onSwipe, isFront, index }: MovieCar
         rotateZ,
         scale,
         zIndex: 100 - index,
-        // Hardware acceleration
         transformOrigin: 'center center',
       }}
       drag={isFront ? "x" : false}
@@ -99,7 +97,6 @@ export default function MovieCard3D({ movie, onSwipe, isFront, index }: MovieCar
       onDragEnd={handleDragEnd}
       animate={controls}
       initial={false}
-      // Zero-Reflow optimization
       whileTap={{ cursor: 'grabbing' }}
     >
       <div 
@@ -108,9 +105,10 @@ export default function MovieCard3D({ movie, onSwipe, isFront, index }: MovieCar
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15)',
         }}
       >
-        <Image 
+        <ResilientImage 
           src={imageUrl}
           alt={movie.title || 'Movie Poster'}
+          fallbackTitle={movie.title}
           fill
           className="object-cover pointer-events-none"
           priority={isFront}

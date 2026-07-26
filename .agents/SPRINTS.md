@@ -30,16 +30,21 @@
 - **Tech Stack:** Web Audio API (`OscillatorNode`, `GainNode`, `BiquadFilterNode`), Framer Motion 120Hz GPU, Zod, Next.js Server Actions, `QuantumPersonaSoundtrackSynthContainer.tsx`.
 - **Status:** ✅ Completed
 
+### 🎬 Sprint 84: Neural Liquid Glass Screensaver Studio & Resilient Image Engine (שומר מסך אינטראקטיבי ומנוע תמונות עמיד)
+- **Concept:** Hebrew localized interactive Liquid Glass 4.0 screensaver control dock, custom inactivity timer settings modal (15s, 30s, 1m, 3m, 5m, Off), Web Audio API ambient audio synth & 40Hz sub-bass drops, and `ResilientImage` error failover for broken images.
+- **Tech Stack:** Web Audio API (`OscillatorNode`, `GainNode`, `BiquadFilterNode`), Framer Motion 120Hz GPU, Zustand, Zod, `CinematicScreenSaver.tsx`, `ResilientImage.tsx`.
+- **Status:** ✅ Completed
+
 ---
 
 ## 🔮 Phase 32: The Quantum Neural Cinema Suite (Upcoming Roadmap)
 
-### 🌌 Sprint 84: Cognitive Haptic Spatial Seating Matrix
+### 🌌 Sprint 85: Cognitive Haptic Spatial Seating Matrix
 - **Concept:** Next-gen seat selection grid with dynamic tactile audio resonance profiles per row.
 - **Tech Stack:** Web Audio API, Framer Motion 3D GPU, Zod, Next.js Server Actions.
 - **Status:** ⏳ Planned
 
-### 🎙️ Sprint 85: Synaptic Multi-User Voice & Mood Resonance Chamber
+### 🎙️ Sprint 86: Synaptic Multi-User Voice & Mood Resonance Chamber
 - **Concept:** Real-time multi-user voice sentiment merging into dynamic backdrop particle shaders.
 - **Tech Stack:** Web Speech API, Web Audio `AnalyserNode`, HTML5 Canvas Shaders, Server-Sent Events.
 - **Status:** ⏳ Planned

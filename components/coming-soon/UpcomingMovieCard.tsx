@@ -6,6 +6,7 @@ import { Calendar, Play, Bell, CheckCircle2, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { UpcomingMovie } from "@/lib/validations/movieValidation";
 import { useBookingStore } from "@/lib/store";
+import { getImageUrl } from "@/lib/tmdb";
 
 interface UpcomingMovieCardProps {
   movie: UpcomingMovie;
@@ -78,7 +79,7 @@ export function UpcomingMovieCard({
       <div className="relative aspect-[2/3] w-full overflow-hidden">
         {movie.posterPath ? (
           <Image
-            src={`https://image.tmdb.org/t/p/w500${movie.posterPath}`}
+            src={getImageUrl(movie.posterPath, 'w500')}
             alt={movie.title}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"

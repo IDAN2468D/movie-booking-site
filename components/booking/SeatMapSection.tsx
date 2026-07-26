@@ -6,6 +6,7 @@ import SeatingRoulette from '@/components/booking/SeatingRoulette';
 import { SpatialCinemaPortal360 } from '@/components/booking/SpatialCinemaPortal360';
 import KineticTicketTransition from '@/components/fx/KineticTicketTransition';
 import CurrencyCascade from '@/components/fx/CurrencyCascade';
+import SeatHapticFeedback from '@/components/booking/SeatHapticFeedback';
 import { useBookingStore } from '@/lib/store';
 import { useRouletteStore } from '@/lib/store/rouletteStore';
 import { Ticket } from 'lucide-react';
@@ -135,8 +136,9 @@ export default function SeatMapSection() {
         />
       </div>
 
-      {/* 360 AR Cinema Seat Walkthrough */}
-      <div className="w-full max-w-lg mb-8">
+      {/* 360 AR Cinema Seat Walkthrough & Haptics */}
+      <div className="w-full max-w-lg mb-8 flex flex-col items-center gap-4">
+        <SeatHapticFeedback />
         <SpatialCinemaPortal360 
           seatId={selectedSeats.length > 0 ? selectedSeats[selectedSeats.length - 1] : 'E-12'} 
         />

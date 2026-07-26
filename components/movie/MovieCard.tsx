@@ -36,7 +36,6 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
   const glintX = useSpring(useTransform(mouseX, [0, 100], [-50, 150]), { stiffness: 400, damping: 40 });
   const glintY = useSpring(useTransform(mouseY, [0, 100], [-50, 150]), { stiffness: 400, damping: 40 });
 
-
   function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -112,7 +111,6 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           ? 'border-primary bg-primary/10 shadow-[0_0_60px_rgba(255,20,100,0.3)]' 
           : 'border-white/10 bg-[#0A0A0A]/40 backdrop-blur-[40px] saturate-[200%] brightness-110 shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(255,255,255,0.05)]'
       }`}
-
     >
       {/* Liquid Glass 2.0 Holographic Overlays */}
       <div className="absolute inset-0 pointer-events-none z-10">
@@ -143,7 +141,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       <Link href={`/movie/${movie.id}`} className="block" data-testid="movie-link">
         <div className="aspect-[2/3] relative w-full overflow-hidden shimmer-mask" style={{ transform: 'translateZ(20px)' }}>
           <PosterRefractor
-            src={getImageUrl(movie.poster_path)}
+            src={getImageUrl(movie.poster_path || movie.backdrop_path)}
             alt={movie.displayTitle}
             className="w-full h-full object-cover"
           />

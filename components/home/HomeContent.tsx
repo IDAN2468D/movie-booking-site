@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 import CategoryFilters from './CategoryFilters';
 import MovieSection from './MovieSection';
 import FeaturedHero from './FeaturedHero';
-import { Movie } from '@/lib/tmdb';
+import { Movie, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
@@ -17,6 +17,7 @@ import HolographicBackground from '@/components/ui/HolographicBackground';
 import StoryBar from '@/components/stories/StoryBar';
 import { useFilteredMovies } from '@/hooks/useFilteredMovies';
 import { SocialPulseRings } from './SocialPulseRings';
+import HeroAuraResonance from './HeroAuraResonance';
 
 interface HomeContentProps {
   popularMovies: Movie[];
@@ -69,6 +70,11 @@ export default function HomeContent({
     nowPlayingMovies,
   });
 
+  const heroMovie = trendingMovies.find(m => m.poster_path && m.backdrop_path) 
+    || popularMovies.find(m => m.poster_path && m.backdrop_path) 
+    || trendingMovies[0] 
+    || popularMovies[0];
+
   return (
     <div className="relative min-h-screen pb-20 overflow-x-hidden [transform:translateZ(0)]">
       <HolographicBackground />
@@ -80,7 +86,8 @@ export default function HomeContent({
           ref={heroWrapperRef}
           style={{ transformOrigin: 'top center' }}
         >
-          <FeaturedHero movie={trendingMovies[0]} />
+          {heroMovie && <FeaturedHero movie={heroMovie} />}
+          <HeroAuraResonance />
         </div>
 
         <div className="px-4 mt-8">
@@ -148,7 +155,7 @@ export default function HomeContent({
             <div className="flex items-center gap-3 relative z-10 flex-1 min-w-0 pr-1">
               <div className="w-11 h-11 rounded-full bg-white/5 border border-white/15 overflow-hidden relative shadow-2xl shrink-0">
                 <NextImage 
-                  src={`https://image.tmdb.org/t/p/w200${selectedMovie.poster_path}`} 
+                  src={getImageUrl(selectedMovie.poster_path, 'w500')} 
                   alt={selectedMovie.displayTitle}
                   fill
                   sizes="44px"

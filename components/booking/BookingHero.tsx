@@ -76,7 +76,7 @@ export default function BookingHero({
       {/* Background Backdrop Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src={getImageUrl(movie.backdrop_path, 'original')}
+          src={getImageUrl(movie.backdrop_path || movie.poster_path, 'original')}
           alt={movie.displayTitle}
           fill
           sizes="100vw"
@@ -96,7 +96,7 @@ export default function BookingHero({
             className="hero-poster-source w-[180px] h-[270px] md:w-[220px] md:h-[330px] rounded-[32px] overflow-hidden border border-white/20 shadow-[0_25px_50px_rgba(0,0,0,0.8)] relative"
           >
             <Image
-              src={getImageUrl(movie.poster_path, 'w500')}
+              src={getImageUrl(movie.poster_path || movie.backdrop_path, 'w500')}
               alt={movie.displayTitle}
               fill
               sizes="(max-width: 768px) 180px, 220px"

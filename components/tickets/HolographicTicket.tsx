@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useDeviceGyroscope } from '@/hooks/useDeviceGyroscope';
 import { Calendar, Clock, MapPin, QrCode, Sparkles, Compass } from 'lucide-react';
+import { getImageUrl } from '@/lib/tmdb';
 
 interface HolographicTicketProps {
   movieTitle: string;
@@ -107,7 +108,7 @@ export default function HolographicTicket({
         {backdropPath && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={`https://image.tmdb.org/t/p/w500${backdropPath}`}
+            src={getImageUrl(backdropPath, 'w500')}
             alt=""
             className="absolute inset-0 -z-30 w-full h-full object-cover opacity-10 blur-sm pointer-events-none scale-110"
           />

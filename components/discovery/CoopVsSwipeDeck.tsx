@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X, Sparkles, Users, Flame, Trophy, Star, Ticket } from 'lucide-react';
 import Link from 'next/link';
 import { submitCoopVote } from '@/lib/actions/coop-actions';
+import { getImageUrl } from '@/lib/tmdb';
 
 interface MovieItem {
   id: string;
@@ -15,10 +16,10 @@ interface MovieItem {
 }
 
 const DEMO_MOVIES: MovieItem[] = [
-  { id: '550', title: 'Fight Club', genre: 'Action / Drama', poster: 'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg', rating: 8.8 },
-  { id: '27205', title: 'Inception', genre: 'Sci-Fi / Action', poster: 'https://image.tmdb.org/t/p/w500/oYuLE29W9BmUhLFfQ9uhGDGIjE.jpg', rating: 8.8 },
-  { id: '693134', title: 'Dune: Part Two', genre: 'Sci-Fi / Adventure', poster: 'https://image.tmdb.org/t/p/w500/1pdfLPoL6VFi8vY3W2zW8aA27k1.jpg', rating: 8.5 },
-  { id: '157336', title: 'Interstellar', genre: 'Sci-Fi / Drama', poster: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg', rating: 8.7 },
+  { id: '550', title: 'Fight Club', genre: 'Action / Drama', poster: getImageUrl('/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg', 'w500'), rating: 8.8 },
+  { id: '27205', title: 'Inception', genre: 'Sci-Fi / Action', poster: getImageUrl('/oYuLE29W9BmUhLFfQ9uhGDGIjE.jpg', 'w500'), rating: 8.8 },
+  { id: '693134', title: 'Dune: Part Two', genre: 'Sci-Fi / Adventure', poster: getImageUrl('/1pdfLvkbY9ohJlCjQH2JGjjc9CW.jpg', 'w500'), rating: 8.5 },
+  { id: '157336', title: 'Interstellar', genre: 'Sci-Fi / Drama', poster: getImageUrl('/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg', 'w500'), rating: 8.7 },
 ];
 
 let sharedAudioCtx: AudioContext | null = null;

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { VisualCateringGrid } from "@/components/catering/VisualCateringGrid";
 import { HolographicArMenu } from "@/components/concessions/HolographicArMenu";
 import { useBookingStore } from "@/lib/store";
+import AiComboPairingWidget from "@/components/food/AiComboPairingWidget";
 
 export default function FoodPage() {
   const [viewMode, setViewMode] = useState<'holographic' | 'grid'>('holographic');
@@ -51,6 +52,8 @@ export default function FoodPage() {
             </button>
           </div>
         </div>
+
+        <AiComboPairingWidget />
 
         {/* View Selection Content */}
         {viewMode === 'holographic' ? (

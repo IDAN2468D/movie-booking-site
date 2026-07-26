@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Movie } from "@/lib/tmdb";
+import { Movie, getImageUrl } from "@/lib/tmdb";
 import { useBookingStore } from "@/lib/store";
 
 interface SwipeMatcherProps {
@@ -149,7 +149,7 @@ export default function SwipeMatcher({ movies, userId }: SwipeMatcherProps) {
               className="my-6 relative h-64 w-full rounded-2xl overflow-hidden border border-emerald-500/20"
             >
               <Image 
-                src={`https://image.tmdb.org/t/p/w500${matchedMovie.backdrop_path || matchedMovie.poster_path}`} 
+                src={getImageUrl(matchedMovie.backdrop_path || matchedMovie.poster_path, 'w500')} 
                 alt={matchedMovie.displayTitle} 
                 fill 
                 className="object-cover opacity-80 mix-blend-screen"
@@ -179,7 +179,7 @@ export default function SwipeMatcher({ movies, userId }: SwipeMatcherProps) {
       {topMovie && (
         <div className="absolute inset-0 z-0 rounded-[3rem] overflow-hidden">
           <Image 
-            src={`https://image.tmdb.org/t/p/original${topMovie.backdrop_path || topMovie.poster_path}`}
+            src={getImageUrl(topMovie.backdrop_path || topMovie.poster_path, 'original')}
             alt="backdrop"
             fill
             className="object-cover opacity-20 blur-3xl saturate-[150%] transition-opacity duration-1000"
@@ -224,7 +224,7 @@ export default function SwipeMatcher({ movies, userId }: SwipeMatcherProps) {
                 )}
 
                 <Image
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  src={getImageUrl(movie.poster_path || movie.backdrop_path, 'w500')}
                   alt={movie.displayTitle}
                   fill
                   className="object-cover pointer-events-none"

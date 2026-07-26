@@ -62,7 +62,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
         className="absolute inset-0 z-0 select-none pointer-events-none transform-gpu"
       >
         <Image
-          src={getImageUrl(movie.backdrop_path, 'original')}
+          src={getImageUrl(movie.backdrop_path || movie.poster_path, 'original')}
           alt={movie.displayTitle}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1400px"
@@ -159,7 +159,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
           className="hidden lg:block w-72 h-[420px] rounded-[3rem] overflow-hidden border border-white/20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] relative preserve-3d transform-gpu"
         >
           <Image
-            src={getImageUrl(movie.poster_path, 'w500')}
+            src={getImageUrl(movie.poster_path || movie.backdrop_path, 'w500')}
             alt={movie.displayTitle}
             fill
             sizes="288px"

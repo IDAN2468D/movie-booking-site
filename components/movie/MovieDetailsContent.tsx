@@ -26,6 +26,7 @@ import CinematicInsights from './CinematicInsights';
 import AmbientSynesthesia from '../fx/AmbientSynesthesia';
 import { MovieSoundtracksSection } from './MovieSoundtracksSection';
 import { TrailerRemixerContainer } from '@/components/movies/TrailerRemixerContainer';
+import SpatialAudioCommentaryToggle from './SpatialAudioCommentaryToggle';
 
 interface Props {
   movie: MovieDetails;
@@ -241,7 +242,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
           />
         ) : (
           <Image
-            src={getImageUrl(movie.backdrop_path, 'original')}
+            src={getImageUrl(movie.backdrop_path || movie.poster_path, 'original')}
             alt={movie.title}
             fill
             sizes="100vw"
@@ -284,7 +285,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             className="w-[110px] h-[165px] md:w-[240px] md:h-[360px] rounded-2xl md:rounded-[3rem] overflow-hidden border-2 border-white/20 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.8)] flex-shrink-0 relative group/poster"
           >
             <Image
-              src={getImageUrl(movie.poster_path, 'w500')}
+              src={getImageUrl(movie.poster_path || movie.backdrop_path, 'w500')}
               alt={movie.title}
               fill
               sizes="(max-width: 768px) 110px, 240px"
@@ -391,6 +392,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
 
       {/* Main Content Grid */}
       <div className="px-4 md:px-12 mt-8 md:mt-12 space-y-8 md:space-y-12">
+        <SpatialAudioCommentaryToggle movieTitle={movie.title} />
         {/* Overview + Sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Overview */}

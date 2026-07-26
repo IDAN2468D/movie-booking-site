@@ -12,6 +12,8 @@ import NextImage from 'next/image';
 import { motion } from 'framer-motion';
 import { MarkerHighlight } from '../fx/MarkerHighlight';
 import CineSyncDashboard from '../premium/cinesync/CineSyncDashboard';
+import { getImageUrl } from '@/lib/tmdb';
+
 export default function RightPanel() {
   const { data: session } = useSession();
   const { 
@@ -142,7 +144,7 @@ export default function RightPanel() {
             className="mb-8 relative rounded-[48px] overflow-hidden aspect-video group shadow-[0_0_50px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.1)]"
           >
             <NextImage 
-              src={selectedMovie.backdrop_path ? `https://image.tmdb.org/t/p/w500${selectedMovie.backdrop_path}` : 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80'} 
+              src={getImageUrl(selectedMovie.backdrop_path || selectedMovie.poster_path, 'w500')} 
               alt={selectedMovie.displayTitle}
               fill
               sizes="400px"

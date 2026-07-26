@@ -3,7 +3,7 @@
 import React from 'react';
 import { Heart, Share2, Ticket } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
-import { Movie } from '@/lib/tmdb';
+import { Movie, getImageUrl } from '@/lib/tmdb';
 import NextImage from 'next/image';
 import Link from 'next/link';
 
@@ -52,7 +52,7 @@ export default function FavoritesPage() {
             <div key={movie.id} className="group relative glass rounded-[32px] overflow-hidden border border-white/5 hover:border-primary/30 transition-all duration-500">
               <div className="h-[400px] relative overflow-hidden">
                 <NextImage 
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
+                  src={getImageUrl(movie.poster_path, 'w500')} 
                   alt={movie.displayTitle} 
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110" 

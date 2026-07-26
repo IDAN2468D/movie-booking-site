@@ -10,6 +10,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useBookingStore } from "@/lib/store";
 import { Sparkles, CalendarDays, Flame, Clapperboard } from "lucide-react";
 
+import { getImageUrl } from "@/lib/tmdb";
+
 interface ComingSoonClientProps {
   initialMovies: UpcomingMovie[];
 }
@@ -106,7 +108,7 @@ export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
             transition={{ duration: 1.2, ease: "easeInOut" }}
             className="absolute inset-0 z-0 pointer-events-none"
             style={{
-              backgroundImage: `url(https://image.tmdb.org/t/p/original${hoveredMovie.posterPath})`,
+              backgroundImage: `url(${getImageUrl(hoveredMovie.posterPath, 'original')})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               filter: 'blur(40px) saturate(160%)',
