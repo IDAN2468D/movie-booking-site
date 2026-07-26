@@ -39,6 +39,7 @@ const basicNavItems: NavItem[] = [
 
 // Advanced feature items grouped inside the Dropdown
 const featureNavItems: FeatureNavItem[] = [
+  { icon: Sparkles, label: 'האופק התחושתי', href: '/sensory-horizon' },
   { icon: Activity, label: 'מרכז התהודה ההפטי', href: '/haptic' },
   { icon: Shield, label: 'תא האורה הביומטרי', href: '/aura-chamber' },
   { icon: Disc3, label: 'סנתזטור פסקול קוונטי', href: '/soundtrack-synth' },
@@ -55,6 +56,7 @@ const featureNavItems: FeatureNavItem[] = [
   { icon: Newspaper, label: 'חדשות קולנוע', href: '/news' },
   { icon: Share2, label: 'פיצול כרטיסים', href: '/splinter-demo' },
 ];
+
 
 
 const ADMIN_ITEMS: NavItem[] = [
