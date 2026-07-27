@@ -69,3 +69,33 @@
 - **Tech Stack:** Web Audio API (35Hz sine), Framer Motion, Zod, Server Actions, `BioAcousticConcessionContainer.tsx`.
 - **Status:** ✅ Completed
 
+---
+
+## 🔮 Phase 37: The Visual & Interactive Multi-Sensory Cinema Suite (Active Phase)
+
+### 🔮 Sprint 94: KineticShaderDeckContainer (מנוע שיידרים תלת-ממדי)
+- **Concept:** WebGL / Canvas interactive glass distortion shader deck tracking mouse/touch velocity with chromatic aberration trails and 120Hz GPU Framer Motion.
+- **Tech Stack:** Canvas Shaders, Framer Motion, Zod, Server Actions, `KineticShaderDeckContainer.tsx`.
+- **Status:** ✅ Completed
+
+### 🧠 Sprint 95: NeuralSceneGraphContainer (מפת עלילה ניורונית AI)
+- **Concept:** Force-directed interactive node graph visualization of movie screenplay structure with expandable Liquid Glass AI narrative cards.
+- **Tech Stack:** SVG Force Graph, Gemini AI Server Actions, Zod, `NeuralSceneGraphContainer.tsx`.
+- **Status:** ✅ Completed
+
+### 📐 Sprint 96: HolographicSeatPOVContainer (סימולטור נקודת מבט מרחבית 180°)
+- **Concept:** Interactive 180° FOV seat perspective simulator displaying eye-level screen angle, distance raycasting, and dynamic ambient lighting sync.
+- **Tech Stack:** Raycasting Math, Framer Motion 120Hz, Zod, Server Actions, `HolographicSeatPOVContainer.tsx`.
+- **Status:** ✅ Completed
+
+### 🃏 Sprint 97: QuantumCineCardVaultContainer (כספת קלפי אספנות הולוגרפיים)
+- **Concept:** Collectible 3D tilt movie trading cards with holographic foil reflections, rarity rank badges, and a drag-and-drop fusion matrix.
+- **Tech Stack:** 3D CSS / Canvas Foil Shaders, Drag & Drop, Zod, Server Actions, `QuantumCineCardVaultContainer.tsx`.
+- **Status:** ✅ Completed
+
+### 🎨 Sprint 98: BioThemeMorpherContainer (מנוע עיצוב דינמי ז'אנרי)
+- **Concept:** Dynamic UI theme morphing engine injecting CSS variables (`--glass-refraction`, `--glow-accent`) based on movie genre or user selection.
+- **Tech Stack:** CSS Variable Injection, Framer Motion, Zod, Server Actions, `BioThemeMorpherContainer.tsx`.
+- **Status:** ✅ Completed
+
+

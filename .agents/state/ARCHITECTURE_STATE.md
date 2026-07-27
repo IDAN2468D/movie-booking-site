@@ -127,6 +127,14 @@ The platform operates on a Next.js (App Router) architecture with a strict Zero-
 **Phase 36: Movie Trailer Video Loop Motion Engine (Sprint 93)**
 1. **MovieTrailerVideoLoopContainer (Sprint 93)**: High-definition cinematic video trailer loop engine in Liquid Glass 4.0 with 3D motion tilt vectors, interactive audio toggles, Web Audio 40Hz sub-bass sound drops, filter preset pills, and TMDB clip selection (`MovieTrailerVideoLoopContainer.tsx`).
 
+**Phase 37: The Visual & Interactive Multi-Sensory Cinema Suite (Sprints 94-98)**
+1. **KineticShaderDeckContainer (Sprint 94)**: WebGL / Canvas interactive glass distortion shader deck tracking mouse/touch velocity with chromatic aberration trails (`KineticShaderDeckContainer.tsx`).
+2. **NeuralSceneGraphContainer (Sprint 95)**: Interactive force-directed node graph visualization of movie screenplay structure with expandable Liquid Glass AI narrative cards (`NeuralSceneGraphContainer.tsx`).
+3. **HolographicSeatPOVContainer (Sprint 96)**: Interactive 180° FOV seat perspective simulator displaying eye-level screen angle, distance raycasting, and dynamic ambient lighting sync (`HolographicSeatPOVContainer.tsx`).
+4. **QuantumCineCardVaultContainer (Sprint 97)**: Collectible 3D tilt movie trading cards with holographic foil reflections, rarity rank badges, and drag-and-drop fusion matrix (`QuantumCineCardVaultContainer.tsx`).
+5. **BioThemeMorpherContainer (Sprint 98)**: Dynamic UI theme morphing engine injecting CSS variables (`--glass-refraction`, `--glow-accent`) based on movie genre or mood (`BioThemeMorpherContainer.tsx`).
+
+
 
 
 
