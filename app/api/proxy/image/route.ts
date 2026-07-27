@@ -23,13 +23,24 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const imageRes = await fetch(imageUrl);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    const imageRes = await fetch(imageUrl, {
+      signal: controller.signal,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; MovieBookingProxy/1.0)',
+      },
+    });
+    clearTimeout(timeoutId);
+
     if (!imageRes.ok) {
+      console.error(`[proxy/image] Failed to fetch ${imageUrl}: HTTP ${imageRes.status}`);
       return new NextResponse(FALLBACK_SVG, {
         status: 200,
         headers: {
           'Content-Type': 'image/svg+xml',
-          'Cache-Control': 'public, max-age=3600',
+          'Cache-Control': 'public, max-age=60',
           'Access-Control-Allow-Origin': '*',
         },
       });
@@ -38,22 +49,22 @@ export async function GET(request: NextRequest) {
     const contentType = imageRes.headers.get('content-type') || 'image/jpeg';
     const arrayBuffer = await imageRes.arrayBuffer();
 
-    // Return the image data with proper CORS headers
     return new NextResponse(arrayBuffer, {
       status: 200,
       headers: {
         'Content-Type': contentType,
-        'Cache-Control': 'public, max-age=86400', // Cache for 1 day
+        'Cache-Control': 'public, max-age=86400',
         'Access-Control-Allow-Origin': '*',
       },
     });
   } catch (error) {
-    console.error('Image proxy error:', error);
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error(`[proxy/image] Exception fetching ${imageUrl}: ${msg}`);
     return new NextResponse(FALLBACK_SVG, {
       status: 200,
       headers: {
         'Content-Type': 'image/svg+xml',
-        'Cache-Control': 'public, max-age=3600',
+        'Cache-Control': 'public, max-age=60',
         'Access-Control-Allow-Origin': '*',
       },
     });

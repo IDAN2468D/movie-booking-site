@@ -35,9 +35,10 @@ export const GENRE_MAP: Record<string, number> = {
 
 export const getImageUrl = (path: string | null, size: 'w500' | 'original' = 'w500') => {
   if (!path) return 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&q=80&w=400';
-  const targetUrl = path.startsWith('http') ? path : `${IMAGE_BASE_URL}/${size}${path}`;
-  return `/api/proxy/image?url=${encodeURIComponent(targetUrl)}`;
+  if (path.startsWith('http')) return path;
+  return `${IMAGE_BASE_URL}/${size}${path}`;
 };
+
 
 export interface TMDBMovie {
   id: number;
