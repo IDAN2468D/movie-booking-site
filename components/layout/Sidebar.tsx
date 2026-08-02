@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import {
   Home, Gift, Utensils, Bell, Settings, LogOut, Clapperboard, MapPin, RefreshCw,
   Heart, ShieldCheck, Crown, Compass, Zap, CalendarDays, Star, Share2, Newspaper,
-  Disc3, Users, Mic, Trophy, Languages, Volume2, Sparkles, Activity, Shield
+  Disc3, Users, Mic, Trophy, Languages, Volume2, Sparkles, Activity, Shield, Gamepad2
 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
@@ -39,6 +39,7 @@ const basicNavItems: NavItem[] = [
 
 // Advanced feature items grouped inside the Dropdown
 const featureNavItems: FeatureNavItem[] = [
+  { icon: Gamepad2, label: 'Seating Matcher Game', href: '/booking/seating-game' },
   { icon: Sparkles, label: 'האופק התחושתי', href: '/sensory-horizon' },
   { icon: Activity, label: 'מרכז התהודה ההפטי', href: '/haptic' },
   { icon: Shield, label: 'תא האורה הביומטרי', href: '/aura-chamber' },
