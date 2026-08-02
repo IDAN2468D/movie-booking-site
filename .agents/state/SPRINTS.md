@@ -98,4 +98,11 @@
 - **Tech Stack:** CSS Variable Injection, Framer Motion, Zod, Server Actions, `BioThemeMorpherContainer.tsx`.
 - **Status:** ✅ Completed
 
+---
 
+## ⚡ Phase 38: Next-Gen Spatial Haptic Cinema Suite (Active Phase)
+
+### 🪑 Sprint 99: SpatialHapticSeatModal (מנוע תהודה אקוסטית ומשוב הפטי למושבים)
+- **Concept:** 3D FOV raycasting seat perspective, Web Audio 40Hz sub-bass oscillator with spatial panning, device vibration haptics, Zod validated server action (`calculateSpatialHapticPerspectiveAction`), and Liquid Glass 4.0 modal.
+- **Tech Stack:** Web Audio API (`OscillatorNode`, `StereoPanner`), Haptics API (`navigator.vibrate`), Framer Motion 120Hz GPU, Zod, Next.js Server Actions, `SpatialHapticSeatModal.tsx`.
+- **Status:** ✅ Completed

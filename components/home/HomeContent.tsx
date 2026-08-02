@@ -17,7 +17,6 @@ import HolographicBackground from '@/components/ui/HolographicBackground';
 import StoryBar from '@/components/stories/StoryBar';
 import { useFilteredMovies } from '@/hooks/useFilteredMovies';
 import { SocialPulseRings } from './SocialPulseRings';
-import HeroAuraResonance from './HeroAuraResonance';
 
 interface HomeContentProps {
   popularMovies: Movie[];
@@ -87,7 +86,6 @@ export default function HomeContent({
           style={{ transformOrigin: 'top center' }}
         >
           {heroMovie && <FeaturedHero movie={heroMovie} />}
-          <HeroAuraResonance />
         </div>
 
         <div className="px-4 mt-8">

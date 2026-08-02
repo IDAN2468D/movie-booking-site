@@ -29,6 +29,7 @@ import { TrailerRemixerContainer } from '@/components/movies/TrailerRemixerConta
 import SpatialAudioCommentaryToggle from './SpatialAudioCommentaryToggle';
 import MovieSelectionAnimationContainer from './MovieSelectionAnimationContainer';
 import AiMovieAnimationStudioContainer from './AiMovieAnimationStudioContainer';
+import HeroAuraResonance from '../home/HeroAuraResonance';
 
 interface Props {
   movie: MovieDetails;
@@ -406,6 +407,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
       {/* Main Content Grid */}
       <div className="px-4 md:px-12 mt-8 md:mt-12 space-y-8 md:space-y-12">
         <SpatialAudioCommentaryToggle movieTitle={movie.title} />
+        <HeroAuraResonance movieTitle={movie.title} movieId={movie.id} />
         {/* Overview + Sidebar */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Overview */}

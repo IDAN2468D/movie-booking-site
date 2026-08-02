@@ -2,6 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  experimental: {
+    optimizePackageImports: [
+      'lucide-react',
+      'framer-motion',
+      'clsx',
+      'tailwind-merge',
+    ],
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -34,7 +42,7 @@ const nextConfig: NextConfig = {
   },
 
   serverExternalPackages: ['pdfkit'],
-  
+
   async redirects() {
     return [
       {
@@ -45,6 +53,5 @@ const nextConfig: NextConfig = {
     ];
   },
 };
-
 
 export default nextConfig;

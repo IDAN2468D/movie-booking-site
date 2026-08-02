@@ -1,77 +1,129 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { HeroAuraModal } from "./HeroAuraModal";
 
-export default function HeroAuraResonance() {
-  const [isActive, setIsActive] = useState(false);
+interface HeroAuraResonanceProps {
+  movieTitle?: string;
+  movieId?: number | string;
+}
+
+export default function HeroAuraResonance({
+  movieTitle = "Dune: Part Two",
+  movieId = 101,
+}: HeroAuraResonanceProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const playSubBassPulse = () => {
+    // 1. Device Haptics
+    if (typeof window !== "undefined" && "navigator" in window && navigator.vibrate) {
+      try {
+        navigator.vibrate([40, 60, 40]);
+      } catch {
+        // Fallback
+      }
+    }
+
+    // 2. Multi-oscillator Web Audio API Pulse (Audible on all speakers)
     try {
-      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      const ctx = new AudioContextClass();
-      if (ctx.state === 'suspended') {
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext })
+          .webkitAudioContext;
+      const ctx = new AudioCtx();
+      if (ctx.state === "suspended") {
         ctx.resume();
       }
 
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+      const now = ctx.currentTime;
 
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(35, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(70, ctx.currentTime + 0.4);
+      // Primary Sub-bass Oscillator (55Hz -> 110Hz)
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(55, now);
+      osc1.frequency.exponentialRampToValueAtTime(140, now + 0.4);
 
-      gain.gain.setValueAtTime(0.01, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.3, ctx.currentTime + 0.1);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+      gain1.gain.setValueAtTime(0.01, now);
+      gain1.gain.exponentialRampToValueAtTime(0.4, now + 0.1);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
 
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+      // Harmonic Warmth Oscillator (110Hz -> 220Hz)
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = "triangle";
+      osc2.frequency.setValueAtTime(110, now);
+      osc2.frequency.exponentialRampToValueAtTime(220, now + 0.4);
 
-      osc.start();
-      osc.stop(ctx.currentTime + 0.5);
+      gain2.gain.setValueAtTime(0.01, now);
+      gain2.gain.exponentialRampToValueAtTime(0.2, now + 0.08);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+
+      osc1.start(now);
+      osc1.stop(now + 0.6);
+      osc2.start(now);
+      osc2.stop(now + 0.5);
     } catch {
-      // Graceful Web Audio fallback
+      // Graceful fallback
     }
   };
 
-  const handleToggle = () => {
-    setIsActive((prev) => !prev);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
     playSubBassPulse();
   };
 
   return (
-    <div className="relative z-20 my-4 flex justify-center">
-      <motion.button
-        onClick={handleToggle}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="relative group px-6 py-3 rounded-full bg-neutral-950/60 backdrop-blur-[40px] saturate-[250%] brightness-105 border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center gap-3 overflow-hidden text-right"
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-primary/20 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        
-        <div className="relative w-3.5 h-3.5 flex items-center justify-center">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/60 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary shadow-[0_0_12px_#ff1464]" />
-        </div>
+    <>
+      <div className="w-full max-w-[1600px] mx-auto px-4 mt-6">
+        <motion.div
+          whileHover={{ scale: 1.01 }}
+          className="relative rounded-3xl p-4 md:p-6 bg-neutral-950/60 backdrop-blur-[40px] saturate-[250%] brightness-105 border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15)] flex flex-col md:flex-row items-center justify-between gap-4 overflow-hidden"
+          dir="rtl"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-primary/15 to-purple-600/10 opacity-70 pointer-events-none" />
 
-        <span className="relative z-10 text-xs font-black tracking-wider text-white font-display uppercase">
-          {isActive ? 'הילת סרטים נוירונית פעילה ⚡' : 'סריקת הילת סרטים נוירונית'}
-        </span>
+          <div className="flex items-center gap-4 relative z-10 text-right">
+            <div className="w-12 h-12 rounded-2xl bg-primary/20 border border-primary/40 flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(255,20,100,0.3)]">
+              <span className="animate-ping absolute inline-flex h-6 w-6 rounded-full bg-primary/50 opacity-75" />
+              <span className="text-xl">⚡</span>
+            </div>
+            <div>
+              <h4 className="text-lg font-bold font-['Outfit'] text-white">
+                סורק הילת סרטים נוירונית (AI Aura Scanner)
+              </h4>
+              <p className="text-xs text-neutral-400 font-['Inter']">
+                גלה את התהודה האקוסטית והעוצמה הרגשית של הסרט {movieTitle}
+              </p>
+            </div>
+          </div>
 
-        <AnimatePresence>
-          {isActive && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className="relative z-10 px-2 py-0.5 text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 rounded-full"
-            >
-              120Hz Resonance
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.button>
-    </div>
+          <motion.button
+            onClick={handleOpenModal}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="relative z-10 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-primary to-purple-600 hover:brightness-110 text-white font-bold text-sm shadow-[0_10px_30px_rgba(255,20,100,0.3)] transition-all flex items-center gap-2 shrink-0 border border-white/20"
+          >
+            <span>הפעל סריקה נוירונית ⚡</span>
+          </motion.button>
+        </motion.div>
+      </div>
+
+      {isModalOpen && (
+        <HeroAuraModal
+          movieTitle={movieTitle}
+          movieId={movieId}
+          onClose={() => setIsModalOpen(false)}
+          onSubBassTrigger={playSubBassPulse}
+        />
+      )}
+    </>
   );
 }

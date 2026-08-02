@@ -4,6 +4,7 @@ import React from 'react';
 import { Sparkles, Flame, Play, Clock, Heart, Ghost, Rocket, Tv, Clapperboard, MonitorPlay } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
 import { motion } from 'framer-motion';
+import { VoiceAiCommandShell } from '@/components/ai/VoiceAiCommandShell';
 
 const categories = [
   { id: 'all', name: 'כל הסרטים', icon: Sparkles },
@@ -23,8 +24,13 @@ export default function CategoryFilters() {
 
   return (
     <div className="relative w-full">
+      {/* Hebrew Voice AI Search Dock */}
+      <div className="mb-4">
+        <VoiceAiCommandShell />
+      </div>
+
       {/* Premium Horizontal Scroll Container */}
-      <div className="flex items-center gap-3 py-6 overflow-x-auto no-scrollbar px-4 -mx-4 md:px-0 md:mx-0 snap-x">
+      <div className="flex items-center gap-3 py-4 overflow-x-auto no-scrollbar px-4 -mx-4 md:px-0 md:mx-0 snap-x">
         {categories.map((category) => {
           const isActive = activeCategory === category.id;
           const Icon = category.icon;
@@ -44,12 +50,10 @@ export default function CategoryFilters() {
                 whileHover={{ y: -3 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {/* Holographic Tint Overlay */}
                 <div className={`absolute inset-0 transition-opacity duration-700 pointer-events-none ${
                   isActive ? 'opacity-40' : 'opacity-0 group-hover:opacity-10'
                 } bg-gradient-to-tr from-primary via-transparent to-cyan-500`} />
-                
-                {/* Dynamic Shine Effect */}
+
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer pointer-events-none" />
 
                 <Icon 
@@ -58,14 +62,13 @@ export default function CategoryFilters() {
                     isActive ? 'text-white drop-shadow-[0_0_12px_rgba(255,20,100,0.9)]' : 'text-primary'
                   }`} 
                 />
-                
+
                 <span className={`relative z-10 text-sm font-black tracking-tight whitespace-nowrap transition-colors duration-500 font-display ${
                   isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'
                 }`}>
                   {category.name}
                 </span>
 
-                {/* Bottom Refraction Line */}
                 {isActive && (
                   <motion.div 
                     layoutId="categoryReflect"
@@ -75,7 +78,6 @@ export default function CategoryFilters() {
                 )}
               </motion.div>
 
-              {/* Active Aura (Liquid Glass 3.0) */}
               {isActive && (
                 <motion.div 
                   layoutId="activeAura"
@@ -90,4 +92,3 @@ export default function CategoryFilters() {
     </div>
   );
 }
-
