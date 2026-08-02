@@ -294,9 +294,18 @@ export async function GET(req: NextRequest) {
       // Calculate points: 10% of total price
       const points = Math.floor((b.total || 0) * 0.1);
       
+      const movieTitle = b.movie?.displayTitle || b.movie?.title || '';
+      let posterImg = b.movie?.poster_path ? (b.movie.poster_path.startsWith('http') ? b.movie.poster_path : `https://image.tmdb.org/t/p/w500${b.movie.poster_path}`) : '';
+      if (!posterImg || posterImg.includes('null') || posterImg.includes('undefined')) {
+        if (movieTitle.includes('גלדיאטור') || movieTitle.toLowerCase().includes('gladiator')) posterImg = 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
+        else if (movieTitle.includes('דיונה') || movieTitle.toLowerCase().includes('dune')) posterImg = 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg';
+        else if (movieTitle.includes('אווטאר') || movieTitle.toLowerCase().includes('avatar')) posterImg = 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg';
+        else posterImg = 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
+      }
+
       return {
         id: b._id.toString(),
-        movie: b.movie.displayTitle || b.movie.title,
+        movie: movieTitle,
         date: new Date(b.createdAt).toLocaleDateString('he-IL', { 
           day: 'numeric', 
           month: 'long', 
@@ -305,7 +314,7 @@ export async function GET(req: NextRequest) {
         time: b.showtime || "19:30",
         hall: b.hall || "אולם 01",
         seats: b.seats,
-        image: `https://image.tmdb.org/t/p/w500${b.movie.poster_path}`,
+        image: posterImg,
         active: true,
         points: points || 450, // Fallback for older bookings
         total: b.total || 0,

@@ -1,7 +1,7 @@
 "use client";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 interface PosterRefractorProps {
@@ -10,8 +10,44 @@ interface PosterRefractorProps {
   className?: string;
 }
 
+const FALLBACK_POSTERS = [
+  'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg',
+  'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
+  'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg',
+  '/posters/gladiator2.svg',
+];
+
+const DEFAULT_SVG = '/posters/default.svg';
+
 export default function PosterRefractor({ src, alt, className = "" }: PosterRefractorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const getTMDBPoster = (inputSrc: string, title: string) => {
+    if (inputSrc && !inputSrc.includes('null') && !inputSrc.includes('undefined')) {
+      return inputSrc;
+    }
+    if (title.includes('גלדיאטור') || title.toLowerCase().includes('gladiator')) return 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
+    if (title.includes('דיונה') || title.toLowerCase().includes('dune')) return 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg';
+    if (title.includes('אווטאר') || title.toLowerCase().includes('avatar')) return 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg';
+    return FALLBACK_POSTERS[0];
+  };
+
+  const [currentSrc, setCurrentSrc] = useState<string>(() => getTMDBPoster(src, alt));
+  const [attempt, setAttempt] = useState<number>(0);
+
+  useEffect(() => {
+    setCurrentSrc(getTMDBPoster(src, alt));
+    setAttempt(0);
+  }, [src, alt]);
+
+  const handleError = () => {
+    if (attempt < FALLBACK_POSTERS.length) {
+      setCurrentSrc(FALLBACK_POSTERS[attempt]);
+      setAttempt((prev) => prev + 1);
+    } else {
+      setCurrentSrc(DEFAULT_SVG);
+    }
+  };
   
   // Motion values for normalized cursor coordinates (-0.5 to 0.5)
   const cursorX = useMotionValue(0);
@@ -77,7 +113,7 @@ export default function PosterRefractor({ src, alt, className = "" }: PosterRefr
           style={{
             x: chromaticOffsetX,
             y: chromaticOffsetY,
-            backgroundImage: `url(${src})`,
+            backgroundImage: `url(${currentSrc})`,
           }}
           className="absolute inset-0 bg-cover bg-center mix-blend-screen opacity-20 filter saturate-150 scale-102"
         />
@@ -87,15 +123,16 @@ export default function PosterRefractor({ src, alt, className = "" }: PosterRefr
           style={{
             x: useTransform(chromaticOffsetX, (val) => -val),
             y: useTransform(chromaticOffsetY, (val) => -val),
-            backgroundImage: `url(${src})`,
+            backgroundImage: `url(${currentSrc})`,
           }}
           className="absolute inset-0 bg-cover bg-center mix-blend-screen opacity-20 filter saturate-150 scale-102"
         />
 
         {/* Core Image Layer */}
         <img
-          src={src}
+          src={currentSrc}
           alt={alt}
+          onError={handleError}
           className="w-full h-full object-cover rounded-xl transition-all duration-300 group-hover:scale-105"
           draggable={false}
         />

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgAvatar" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#083344" />
+      <stop offset="50%" stop-color="#164E63" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="100%" stop-color="#3B82F6" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="600" fill="url(#bgAvatar)" />
+  <circle cx="200" cy="200" r="100" fill="#06B6D4" opacity="0.25" />
+  <polygon points="200,120 230,190 300,190 245,230 265,300 200,260 135,300 155,230 100,190 170,190" fill="url(#glow)" opacity="0.85" />
+  <text x="200" y="440" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="26" font-weight="900" text-anchor="middle">אווטאר: אש ואפר</text>
+  <text x="200" y="480" fill="#67E8F9" font-family="system-ui, sans-serif" font-size="14" font-weight="600" text-anchor="middle">AVATAR: FIRE AND ASH</text>
+  <rect x="140" y="515" width="120" height="30" rx="15" fill="#06B6D4" opacity="0.9" />
+  <text x="200" y="535" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle">3D DOLBY</text>
+</svg>

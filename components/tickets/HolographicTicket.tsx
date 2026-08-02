@@ -13,6 +13,7 @@ interface HolographicTicketProps {
   hall: string;
   seats: string[];
   backdropPath?: string;
+  posterUrl?: string;
 }
 
 export default function HolographicTicket({
@@ -22,10 +23,34 @@ export default function HolographicTicket({
   hall,
   seats,
   backdropPath,
+  posterUrl,
 }: HolographicTicketProps) {
+  const getFallbackImage = (title: string, path?: string) => {
+    if (path && !path.includes('null') && !path.includes('undefined')) {
+      return getImageUrl(path, 'w500');
+    }
+    if (title.includes('גלדיאטור') || title.toLowerCase().includes('gladiator')) return 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
+    if (title.includes('דיונה') || title.toLowerCase().includes('dune')) return 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg';
+    if (title.includes('אווטאר') || title.toLowerCase().includes('avatar')) return 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg';
+    return 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
+  };
+
+  const [bgImage, setBgImage] = useState(() => getFallbackImage(movieTitle, posterUrl || backdropPath));
   const { success, data, requestPermission } = useDeviceGyroscope();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleImgError = () => {
+    if (movieTitle.includes('גלדיאטור') || movieTitle.toLowerCase().includes('gladiator')) {
+      setBgImage('/posters/gladiator2.svg');
+    } else if (movieTitle.includes('דיונה') || movieTitle.toLowerCase().includes('dune')) {
+      setBgImage('/posters/dune2.svg');
+    } else if (movieTitle.includes('אווטאר') || movieTitle.toLowerCase().includes('avatar')) {
+      setBgImage('/posters/avatar3.svg');
+    } else {
+      setBgImage('/posters/default.svg');
+    }
+  };
 
   // Desktop mouse movement fallback
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -105,14 +130,12 @@ export default function HolographicTicket({
         />
 
         {/* Ambient image background */}
-        {backdropPath && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={getImageUrl(backdropPath, 'w500')}
-            alt=""
-            className="absolute inset-0 -z-30 w-full h-full object-cover opacity-10 blur-sm pointer-events-none scale-110"
-          />
-        )}
+        <img
+          src={bgImage}
+          alt={movieTitle}
+          onError={handleImgError}
+          className="absolute inset-0 -z-30 w-full h-full object-cover opacity-35 blur-xs pointer-events-none scale-105"
+        />
 
         {/* Glowing holographic strips */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 via-cyan-400 to-amber-500 opacity-80" />

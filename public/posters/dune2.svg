@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgDune" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#451A03" />
+      <stop offset="50%" stop-color="#78350F" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="sun" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="600" fill="url(#bgDune)" />
+  <circle cx="200" cy="200" r="90" fill="url(#sun)" opacity="0.9" />
+  <path d="M0 320 Q 150 250, 400 350 L 400 600 L 0 600 Z" fill="#291305" />
+  <path d="M0 380 Q 250 300, 400 420 L 400 600 L 0 600 Z" fill="#1C0A00" opacity="0.9" />
+  <text x="200" y="460" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="28" font-weight="900" text-anchor="middle">דיונה: חלק 2</text>
+  <text x="200" y="495" fill="#FCD34D" font-family="system-ui, sans-serif" font-size="14" font-weight="600" text-anchor="middle">DUNE: PART TWO</text>
+  <rect x="140" y="525" width="120" height="30" rx="15" fill="#D97706" opacity="0.9" />
+  <text x="200" y="545" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle">IMAX 3D</text>
+</svg>

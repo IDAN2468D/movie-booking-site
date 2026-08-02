@@ -41,12 +41,39 @@ export default function QuantumTicket({
   isProcessingEmail,
   isProcessingPDF
 }: QuantumTicketProps) {
+  const getInitialImage = (img: string, title: string) => {
+    if (!img || img.includes('null') || img.includes('undefined')) {
+      if (title.includes('גלדיאטור') || title.toLowerCase().includes('gladiator')) return 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
+      if (title.includes('דיונה') || title.toLowerCase().includes('dune')) return 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg';
+      if (title.includes('אווטאר') || title.toLowerCase().includes('avatar')) return 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg';
+      return 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
+    }
+    return img;
+  };
+
+  const [currentImg, setCurrentImg] = useState(() => getInitialImage(ticket.image, ticket.movie));
   const [timeLeft, setTimeLeft] = useState({ hours: 14, minutes: 25, seconds: 40 });
   const [personalNote, setPersonalNote] = useState('');
   const [userRating, setUserRating] = useState(0);
   const [isAssembled, setIsAssembled] = useState(false);
   const [showQR, setShowQR] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setCurrentImg(getInitialImage(ticket.image, ticket.movie));
+  }, [ticket.image, ticket.movie]);
+
+  const handleImgError = () => {
+    if (ticket.movie.includes('גלדיאטור') || ticket.movie.toLowerCase().includes('gladiator')) {
+      setCurrentImg('/posters/gladiator2.svg');
+    } else if (ticket.movie.includes('דיונה') || ticket.movie.toLowerCase().includes('dune')) {
+      setCurrentImg('/posters/dune2.svg');
+    } else if (ticket.movie.includes('אווטאר') || ticket.movie.toLowerCase().includes('avatar')) {
+      setCurrentImg('/posters/avatar3.svg');
+    } else {
+      setCurrentImg('/posters/default.svg');
+    }
+  };
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -103,7 +130,7 @@ export default function QuantumTicket({
         <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#fff_1px,transparent_1px)] bg-[size:16px_16px]" />
 
         <div className="relative h-64 overflow-hidden border-b border-white/10">
-          <NextImage src={ticket.image} alt={ticket.movie} fill className="object-cover transition-transform duration-[1.5s] group-hover:scale-105 saturate-[1.2]" />
+          <NextImage src={currentImg} alt={ticket.movie} fill onError={handleImgError} className="object-cover transition-transform duration-[1.5s] group-hover:scale-105 saturate-[1.2]" />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
           <div className="absolute top-8 right-6 left-6 text-right">
             <h3 className="text-2xl font-black text-white tracking-tight drop-shadow-lg font-outfit truncate">{ticket.movie}</h3>

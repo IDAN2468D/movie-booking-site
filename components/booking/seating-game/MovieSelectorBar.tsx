@@ -20,6 +20,8 @@ export const MovieSelectorBar: React.FC<MovieSelectorBarProps> = ({
   onSelectMovie,
   onSelectShowtime,
 }) => {
+  const [failedPosters, setFailedPosters] = React.useState<Record<string, boolean>>({});
+
   return (
     <div className="bg-slate-900/95 backdrop-blur-2xl border border-slate-800/90 rounded-3xl p-6 shadow-2xl space-y-5">
       <div className="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -41,6 +43,18 @@ export const MovieSelectorBar: React.FC<MovieSelectorBarProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {movies.map((movie) => {
           const isSelected = movie.id === selectedMovie.id;
+          const tmdbOriginal = movie.hebrewTitle.includes('גלדיאטור') || movie.title.toLowerCase().includes('gladiator')
+            ? 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg'
+            : movie.hebrewTitle.includes('דיונה') || movie.title.toLowerCase().includes('dune')
+            ? 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg'
+            : movie.hebrewTitle.includes('אווטאר') || movie.title.toLowerCase().includes('avatar')
+            ? 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg'
+            : movie.poster;
+
+          const posterSrc = failedPosters[movie.id] 
+            ? `/api/proxy/image?url=${encodeURIComponent(tmdbOriginal)}`
+            : tmdbOriginal;
+
           return (
             <div
               key={movie.id}
@@ -54,11 +68,12 @@ export const MovieSelectorBar: React.FC<MovieSelectorBarProps> = ({
               {/* Poster thumbnail */}
               <div className="relative w-14 h-20 rounded-xl overflow-hidden flex-shrink-0 shadow-md border border-slate-700">
                 <Image
-                  src={movie.poster}
+                  src={posterSrc}
                   alt={movie.hebrewTitle}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                   sizes="56px"
+                  onError={() => setFailedPosters((prev) => ({ ...prev, [movie.id]: true }))}
                 />
               </div>
 
