@@ -27,10 +27,11 @@ To maximize execution velocity and eliminate token waste across agent turns:
 
 ---
 
-## 4. RTL & Hebrew Multilingual Localization Rules
-- **Mandatory Agent Chat Language & RTL:** ALL agent responses, communications, explanations, and outputs in Antigravity MUST strictly be written in Hebrew with full RTL (Right-To-Left) orientation, right-aligned. Every paragraph, heading, list item, and bidi block MUST start with Unicode RLM (`\u200F`) to guarantee true RTL rendering on the right side in the chat UI across every session.
-- **Document Direction:** Set `dir="rtl"` on root layouts and interactive modals for Hebrew views.
-- **Tailwind Flex/Grid:** Use logical spacing (`ms-*`, `me-*`, `ps-*`, `pe-*`) or explicit `rtl:` modifiers to ensure flawless mirroring in RTL mode.
+## 4. Global Agent RTL & Hebrew Localization Rules
+- **Mandatory Agent Chat Language & Global RTL:** ALL agent responses, communications, explanations, code walkthroughs, and chat outputs in Antigravity MUST strictly be written in Hebrew with full RTL (Right-To-Left) text direction and right alignment.
+- **HTML Block Wrapping & Unicode RLM:** Every agent chat message MUST be wrapped inside explicit HTML container tags with `<div dir="rtl" style="text-align: right; direction: rtl;">` and every paragraph/list item MUST start with Unicode RLM (`\u200F`) to guarantee strict right-to-left alignment in the chat UI renderer.
+- **Document Direction:** Ensure `dir="rtl"` is configured on all root layouts, modals, and user-facing views.
+- **Tailwind Flex/Grid:** Use logical spacing (`ms-*`, `me-*`, `ps-*`, `pe-*`) or explicit `rtl:` modifiers for layout mirroring in RTL mode.
 - **Typography & Bidi:** `Outfit` for headings, `Inter` for metadata/body. Preserve number alignment, currency symbols (₪ / $), and mixed English/Hebrew strings without layout breaking.
 
 ---
