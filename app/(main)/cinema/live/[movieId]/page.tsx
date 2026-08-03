@@ -4,13 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { KineticTypography } from '@/components/movie/KineticTypography';
 
-export async function generateMetadata({ params }: { params: { movieId: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ movieId: string }> }) {
   const { movieId } = await params;
   const movie = await getMovieDetails(Number(movieId));
   return { title: `שידור חי: ${movie?.title} | MovieBook` };
 }
 
-export default async function LiveCinemaPage({ params }: { params: { movieId: string } }) {
+export default async function LiveCinemaPage({ params }: { params: Promise<{ movieId: string }> }) {
   const { movieId } = await params;
   const id = Number(movieId);
   if (isNaN(id)) notFound();
