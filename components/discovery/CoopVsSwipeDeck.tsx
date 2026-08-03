@@ -84,6 +84,9 @@ export const CoopVsSwipeDeck: React.FC = () => {
 
   const handlePlayerVote = async (player: 'p1' | 'p2', vote: 'like' | 'dislike') => {
     if (!currentMovie) return;
+    if (typeof window !== 'undefined' && 'vibrate' in navigator) {
+      try { navigator.vibrate(vote === 'like' ? [40, 30, 40] : [70]); } catch {}
+    }
     if (vote === 'like') playLikeSound(); else playDislikeSound();
 
     if (player === 'p1') setP1Votes((prev) => ({ ...prev, [currentMovie.id]: vote }));
