@@ -78,3 +78,34 @@ export async function checkCoopSessionStatus(sessionId: string) {
     return { success: false, error: err.message };
   }
 }
+
+export async function getCoopMovies() {
+  try {
+    const { getPopularMovies, getNowPlayingMovies, getImageUrl } = await import('../tmdb');
+    const [popular, nowPlaying] = await Promise.all([
+      getPopularMovies().catch(() => []),
+      getNowPlayingMovies().catch(() => [])
+    ]);
+
+    const combined = [...popular, ...nowPlaying];
+    const uniqueMap = new Map<string, { id: string; title: string; genre: string; poster: string; rating: number }>();
+
+    combined.forEach((m) => {
+      const idStr = String(m.id);
+      if (!uniqueMap.has(idStr)) {
+        uniqueMap.set(idStr, {
+          id: idStr,
+          title: m.displayTitle || m.title || m.name || 'סרט ללא שם',
+          genre: m.genre_ids.includes(28) ? 'פעולה / מתח' : m.genre_ids.includes(878) ? 'מדע בדיוני' : m.genre_ids.includes(35) ? 'קומדיה' : 'דרמה / הרפתקאות',
+          poster: getImageUrl(m.poster_path, 'w500'),
+          rating: Number((m.vote_average || 7.5).toFixed(1)),
+        });
+      }
+    });
+
+    return { success: true, data: Array.from(uniqueMap.values()) };
+  } catch (error: unknown) {
+    const err = error as Error;
+    return { success: false, error: err.message, data: [] };
+  }
+}

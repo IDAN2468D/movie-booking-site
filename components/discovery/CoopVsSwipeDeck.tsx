@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X, Sparkles, Users, Flame, Trophy, Star, Ticket } from 'lucide-react';
 import Link from 'next/link';
-import { submitCoopVote } from '@/lib/actions/coop-actions';
+import { submitCoopVote, getCoopMovies } from '@/lib/actions/coop-actions';
 import { getImageUrl } from '@/lib/tmdb';
 
 interface MovieItem {
@@ -15,7 +15,7 @@ interface MovieItem {
   rating: number;
 }
 
-const DEMO_MOVIES: MovieItem[] = [
+const FALLBACK_MOVIES: MovieItem[] = [
   { id: '550', title: 'Fight Club', genre: 'Action / Drama', poster: getImageUrl('/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg', 'w500'), rating: 8.8 },
   { id: '27205', title: 'Inception', genre: 'Sci-Fi / Action', poster: getImageUrl('/oYuLE29W9BmUhLFfQ9uhGDGIjE.jpg', 'w500'), rating: 8.8 },
   { id: '693134', title: 'Dune: Part Two', genre: 'Sci-Fi / Adventure', poster: getImageUrl('/1pdfLvkbY9ohJlCjQH2JGjjc9CW.jpg', 'w500'), rating: 8.5 },
@@ -34,12 +34,23 @@ function getSharedAudioContext(): AudioContext | null {
 }
 
 export const CoopVsSwipeDeck: React.FC = () => {
+  const [moviesList, setMoviesList] = React.useState<MovieItem[]>(FALLBACK_MOVIES);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [p1Votes, setP1Votes] = useState<Record<string, 'like' | 'dislike'>>({});
   const [p2Votes, setP2Votes] = useState<Record<string, 'like' | 'dislike'>>({});
   const [matchedMovie, setMatchedMovie] = useState<MovieItem | null>(null);
 
-  const currentMovie = DEMO_MOVIES[currentIndex];
+  React.useEffect(() => {
+    let isMounted = true;
+    getCoopMovies().then((res) => {
+      if (isMounted && res.success && res.data && res.data.length > 0) {
+        setMoviesList(res.data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
+
+  const currentMovie = moviesList[currentIndex];
   const sessionId = 'coop-vs-session-demo';
 
   const playLikeSound = () => {
@@ -102,7 +113,7 @@ export const CoopVsSwipeDeck: React.FC = () => {
     if ((res.success && res.data?.isMatch) || (updatedP1 === 'like' && updatedP2 === 'like')) {
       setMatchedMovie(currentMovie); playMatchVictoryFanfare();
     } else if (updatedP1 && updatedP2) {
-      if (currentIndex < DEMO_MOVIES.length - 1) setCurrentIndex((idx) => idx + 1);
+      if (currentIndex < moviesList.length - 1) setCurrentIndex((idx) => idx + 1);
     }
   };
 
