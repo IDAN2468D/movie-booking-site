@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { MovieOption } from '@/types/seatingGame';
 import { Film, Clock, Ticket, Check } from 'lucide-react';
@@ -20,7 +20,37 @@ export const MovieSelectorBar: React.FC<MovieSelectorBarProps> = ({
   onSelectMovie,
   onSelectShowtime,
 }) => {
-  const [failedPosters, setFailedPosters] = React.useState<Record<string, boolean>>({});
+  const [failedPosters, setFailedPosters] = useState<Record<string, boolean>>({});
+
+  // Mouse-drag scroll state
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+  const hasMoved = useRef(false);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    isDragging.current = true;
+    hasMoved.current = false;
+    startX.current = e.pageX - scrollRef.current.offsetLeft;
+    scrollLeft.current = scrollRef.current.scrollLeft;
+    scrollRef.current.style.cursor = 'grabbing';
+  }, []);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging.current || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX.current) * 1.8;
+    if (Math.abs(walk) > 4) hasMoved.current = true;
+    scrollRef.current.scrollLeft = scrollLeft.current - walk;
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    isDragging.current = false;
+    if (scrollRef.current) scrollRef.current.style.cursor = 'grab';
+  }, []);
 
   return (
     <div className="bg-slate-900/95 backdrop-blur-2xl border border-slate-800/90 rounded-3xl p-6 shadow-2xl space-y-5">
@@ -39,8 +69,16 @@ export const MovieSelectorBar: React.FC<MovieSelectorBarProps> = ({
         </span>
       </div>
 
-      {/* Movie Cards Selector — Scrollable for dynamic catalog */}
-      <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent snap-x snap-mandatory">
+      {/* Movie Cards — Drag-to-scroll, no scrollbar */}
+      <div
+        ref={scrollRef}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        className="flex gap-3 overflow-x-auto cursor-grab select-none"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
         {movies.map((movie) => {
           const isSelected = movie.id === selectedMovie.id;
           const posterSrc = failedPosters[movie.id]
@@ -50,38 +88,45 @@ export const MovieSelectorBar: React.FC<MovieSelectorBarProps> = ({
           return (
             <div
               key={movie.id}
-              onClick={() => onSelectMovie(movie)}
-              className={`group relative flex items-center gap-3.5 p-3 rounded-2xl border transition-all cursor-pointer select-none min-w-[220px] max-w-[280px] flex-shrink-0 snap-start ${
+              onClick={() => {
+                if (!hasMoved.current) onSelectMovie(movie);
+              }}
+              className={`group relative flex items-center gap-3 p-2.5 rounded-2xl border-2 transition-all flex-shrink-0 w-[230px] ${
                 isSelected
-                  ? 'bg-cyan-950/80 border-cyan-400 ring-2 ring-cyan-400 shadow-xl shadow-cyan-500/20 scale-[1.02]'
-                  : 'bg-slate-950/80 hover:bg-slate-800/80 border-slate-800 hover:border-slate-700'
+                  ? 'bg-cyan-950/60 border-cyan-400 shadow-lg shadow-cyan-500/15'
+                  : 'bg-slate-950/70 hover:bg-slate-800/60 border-slate-700/60 hover:border-slate-600'
               }`}
             >
               {/* Poster thumbnail */}
-              <div className="relative w-14 h-20 rounded-xl overflow-hidden flex-shrink-0 shadow-md border border-slate-700">
+              <div className={`relative w-[52px] h-[76px] rounded-xl overflow-hidden flex-shrink-0 shadow-lg border-2 transition-all ${
+                isSelected ? 'border-cyan-400/60' : 'border-slate-600/50'
+              }`}>
                 <Image
                   src={posterSrc}
                   alt={movie.hebrewTitle}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  sizes="56px"
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  sizes="52px"
                   onError={() => setFailedPosters((prev) => ({ ...prev, [movie.id]: true }))}
                 />
+                {isSelected && (
+                  <div className="absolute inset-0 bg-cyan-400/10" />
+                )}
               </div>
 
               {/* Movie info */}
-              <div className="flex-1 min-w-0 space-y-1">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-black text-sm text-white truncate">{movie.hebrewTitle}</h4>
+              <div className="flex-1 min-w-0 space-y-0.5">
+                <div className="flex items-center justify-between gap-1">
+                  <h4 className="font-black text-[13px] text-white truncate leading-tight">{movie.hebrewTitle}</h4>
                   {isSelected && (
-                    <div className="w-4 h-4 rounded-full bg-cyan-400 text-slate-950 flex items-center justify-center">
+                    <div className="w-4 h-4 rounded-full bg-cyan-400 text-slate-950 flex items-center justify-center flex-shrink-0">
                       <Check className="w-3 h-3 stroke-[3]" />
                     </div>
                   )}
                 </div>
                 <p className="text-[11px] text-slate-400 truncate">{movie.genre}</p>
                 <div className="flex items-center gap-1 text-[10px] text-slate-500">
-                  <Clock className="w-3 h-3 text-cyan-400" />
+                  <Clock className="w-3 h-3 text-cyan-500/70" />
                   <span>{movie.duration}</span>
                 </div>
               </div>

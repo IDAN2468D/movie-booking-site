@@ -46,17 +46,17 @@ export const HolographicArMenu: React.FC = () => {
   return (
     <div className="w-full flex flex-col space-y-6 relative" dir="rtl">
       {/* Category Chips Bar */}
-      <div className="flex items-center gap-3 overflow-x-auto pb-1 scrollbar-none">
+      <div className="flex items-center gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         {MOCK_HOLO_CONCESSIONS.map((item) => {
           const isActive = selectedItem.id === item.id;
           return (
             <button
               key={item.id}
               onClick={() => handleSelectItem(item)}
-              className={`px-4 py-2 rounded-2xl text-xs md:text-sm font-outfit font-medium shrink-0 transition-all duration-200 border ${
+              className={`px-5 py-2.5 rounded-2xl text-xs md:text-sm font-outfit font-semibold shrink-0 transition-all duration-200 border-2 ${
                 isActive
-                  ? 'bg-white/15 text-white border-cyan-400/50 shadow-[0_0_15px_rgba(6,182,212,0.3)] scale-105'
-                  : 'bg-white/5 text-neutral-400 hover:text-white border-white/10'
+                  ? 'bg-cyan-950/50 text-white border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.25)]'
+                  : 'bg-slate-900/80 text-neutral-300 hover:text-white border-slate-600/60 hover:border-slate-500 hover:bg-slate-800/80'
               }`}
             >
               {item.icon} {item.name}
