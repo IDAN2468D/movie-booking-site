@@ -13,6 +13,7 @@ interface UpcomingMovieCardProps {
   onPlayTrailer: (movieId: number) => void;
   onHover: (movie: UpcomingMovie) => void;
   onOpenReminderModal: (movie: UpcomingMovie) => void;
+  reminderVersion?: number;
 }
 
 export function UpcomingMovieCard({
@@ -20,6 +21,7 @@ export function UpcomingMovieCard({
   onPlayTrailer,
   onHover,
   onOpenReminderModal,
+  reminderVersion,
 }: UpcomingMovieCardProps) {
   const { setAuraColor } = useBookingStore();
   const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number } | null>(null);
@@ -59,7 +61,7 @@ export function UpcomingMovieCard({
     updateCountdown();
     const intervalId = setInterval(updateCountdown, 1000);
     return () => clearInterval(intervalId);
-  }, [movie.movieId, movie.releaseDate]);
+  }, [movie.movieId, movie.releaseDate, reminderVersion]);
 
   const handleMouseEnter = () => {
     onHover(movie);

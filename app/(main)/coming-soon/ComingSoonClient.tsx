@@ -26,6 +26,7 @@ export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
   const [reminderMovie, setReminderMovie] = useState<UpcomingMovie | null>(null);
   const [isReminderOpen, setIsReminderOpen] = useState(false);
   const [savedEmail, setSavedEmail] = useState<string | null>(null);
+  const [reminderVersion, setReminderVersion] = useState(0);
 
   // Filter state
   const [activeTab, setActiveTab] = useState<'all' | 'month' | 'top'>('all');
@@ -68,6 +69,7 @@ export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
       } catch {
         // Fallback
       }
+      setReminderVersion((v) => v + 1);
     }
   };
 
@@ -78,6 +80,7 @@ export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
       } catch {
         // Fallback
       }
+      setReminderVersion((v) => v + 1);
     }
   };
 
@@ -205,6 +208,7 @@ export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
               onPlayTrailer={handlePlayTrailer}
               onHover={handleHover}
               onOpenReminderModal={handleOpenReminderModal}
+              reminderVersion={reminderVersion}
             />
           ))}
         </div>
