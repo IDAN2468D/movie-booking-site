@@ -27,7 +27,7 @@ export const CheckoutActionBar: React.FC<CheckoutActionBarProps> = ({
   const syncStore = () => {
     const seatIds = Object.keys(assignedSeats);
     setSelectedMovie({
-      id: 999101,
+      id: Number(selectedMovie.id) || 999101,
       title: selectedMovie.title,
       displayTitle: selectedMovie.hebrewTitle,
       poster_path: selectedMovie.poster,

@@ -39,27 +39,19 @@ export const MovieSelectorBar: React.FC<MovieSelectorBarProps> = ({
         </span>
       </div>
 
-      {/* Movie Cards Selector */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {/* Movie Cards Selector — Scrollable for dynamic catalog */}
+      <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent snap-x snap-mandatory">
         {movies.map((movie) => {
           const isSelected = movie.id === selectedMovie.id;
-          const tmdbOriginal = movie.hebrewTitle.includes('גלדיאטור') || movie.title.toLowerCase().includes('gladiator')
-            ? 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg'
-            : movie.hebrewTitle.includes('דיונה') || movie.title.toLowerCase().includes('dune')
-            ? 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg'
-            : movie.hebrewTitle.includes('אווטאר') || movie.title.toLowerCase().includes('avatar')
-            ? 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg'
+          const posterSrc = failedPosters[movie.id]
+            ? `/api/proxy/image?url=${encodeURIComponent(movie.poster)}`
             : movie.poster;
-
-          const posterSrc = failedPosters[movie.id] 
-            ? `/api/proxy/image?url=${encodeURIComponent(tmdbOriginal)}`
-            : tmdbOriginal;
 
           return (
             <div
               key={movie.id}
               onClick={() => onSelectMovie(movie)}
-              className={`group relative flex items-center gap-3.5 p-3 rounded-2xl border transition-all cursor-pointer select-none ${
+              className={`group relative flex items-center gap-3.5 p-3 rounded-2xl border transition-all cursor-pointer select-none min-w-[220px] max-w-[280px] flex-shrink-0 snap-start ${
                 isSelected
                   ? 'bg-cyan-950/80 border-cyan-400 ring-2 ring-cyan-400 shadow-xl shadow-cyan-500/20 scale-[1.02]'
                   : 'bg-slate-950/80 hover:bg-slate-800/80 border-slate-800 hover:border-slate-700'

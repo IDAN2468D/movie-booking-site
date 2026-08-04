@@ -11,13 +11,27 @@ import {
 } from '@/lib/seatingHarmony';
 import { seatingAudio } from '@/lib/seatingAudio';
 import { useBookingStore } from '@/lib/store';
+import { getSeatingGameMovies } from '@/lib/actions/seating-game-actions';
 
 export function useSeatingGame() {
   const [friends] = useState<Friend[]>(INITIAL_FRIENDS);
   const [seats] = useState<Seat[]>(INITIAL_SEATS);
-  const [movies] = useState<MovieOption[]>(FEATURED_MOVIES);
+  const [movies, setMovies] = useState<MovieOption[]>(FEATURED_MOVIES);
   const [selectedMovie, setSelectedMovie] = useState<MovieOption>(FEATURED_MOVIES[0]);
   const [selectedShowtime, setSelectedShowtime] = useState<string>(FEATURED_MOVIES[0].showtimes[0]);
+
+  // Fetch all real movies from TMDB on mount
+  useEffect(() => {
+    let mounted = true;
+    getSeatingGameMovies().then((res) => {
+      if (mounted && res.success && res.data.length > 0) {
+        setMovies(res.data);
+        setSelectedMovie(res.data[0]);
+        setSelectedShowtime(res.data[0].showtimes[0]);
+      }
+    });
+    return () => { mounted = false; };
+  }, []);
 
   const [assignedSeats, setAssignedSeats] = useState<Record<string, string>>({});
   const [selectedFriendId, setSelectedFriendId] = useState<string | null>(null);
@@ -31,7 +45,7 @@ export function useSeatingGame() {
     setStoreSeats(seatIds);
     setStoreShowtime(selectedShowtime);
     setStoreMovie({
-      id: 999101,
+      id: Number(selectedMovie.id) || 999101,
       title: selectedMovie.title,
       displayTitle: selectedMovie.hebrewTitle,
       poster_path: selectedMovie.poster,
