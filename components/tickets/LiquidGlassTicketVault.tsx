@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
-import { QRCodeSVG } from "qrcode.react";
+import { useState, useTransition, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { generateSecureTicket } from "@/app/actions/vaultActions";
 import { useSubBass } from "@/lib/hooks/useSubBass";
@@ -28,6 +27,14 @@ export function LiquidGlassTicketVault({ bookingId, seatId, movieTitle = "Unknow
   const [showHologram, setShowHologram] = useState(false);
 
   const { triggerSubBass } = useSubBass();
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    cardRef.current.style.setProperty('--x', `${e.clientX - rect.left}px`);
+    cardRef.current.style.setProperty('--y', `${e.clientY - rect.top}px`);
+  };
 
   const handleGenerateTicket = () => {
     startTransition(async () => {
@@ -65,7 +72,23 @@ export function LiquidGlassTicketVault({ bookingId, seatId, movieTitle = "Unknow
   }, [secureToken, triggerSubBass]);
 
   return (
-    <div dir="rtl" className="relative w-full max-w-lg mx-auto p-8 rounded-[32px] border border-white/[0.15] shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),_inset_0_-1px_1px_rgba(0,0,0,0.5)] backdrop-blur-[50px] saturate-[250%] brightness-110 contrast-110 bg-neutral-950/40 overflow-hidden">
+    <div 
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      dir="rtl" 
+      className="gradient-border-card group relative w-full max-w-lg mx-auto p-8 rounded-[32px] border border-white/[0.2] shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),_inset_0_-1px_1px_rgba(0,0,0,0.5)] backdrop-blur-[60px] saturate-[250%] brightness-110 contrast-110 bg-neutral-950/40 overflow-hidden"
+    >
+      {/* Liquid Glass 4.0 Dynamic Radial Gradient Mask */}
+      <div
+        className="pointer-events-none absolute -inset-[1px] rounded-[inherit] p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
+        style={{
+          background: 'radial-gradient(450px circle at var(--x, 50%) var(--y, 50%), rgba(255, 20, 100, 0.95), rgba(34, 211, 238, 0.8), transparent 70%)',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+        }}
+      />
+
       <div 
         className="absolute inset-0 pointer-events-none opacity-40 blur-[100px]"
         style={{
@@ -77,7 +100,7 @@ export function LiquidGlassTicketVault({ bookingId, seatId, movieTitle = "Unknow
       
       <div className="relative z-10 flex flex-col items-center">
         <h2 className="font-outfit text-3xl text-white font-bold tracking-tight mb-2" style={{ textShadow: "0 0 15px #FF1464" }}>
-          כספת כרטיסים עיוורת
+          כספת כרטיסים עיוורת Liquid Glass
         </h2>
         <p className="font-inter text-white/70 text-base text-center mb-10">
           ברקוד מאובטח ומוצפן ב-HMAC-SHA256 ללא גישת לקוח

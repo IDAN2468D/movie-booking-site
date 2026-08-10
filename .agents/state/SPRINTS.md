@@ -37,7 +37,7 @@
 
 ---
 
-## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-12)
+## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-16)
 
 ### 🔊 Sprint 6: AI Bio-Sync Haptic Seat Resonator & CineMatch AR
 - **Concept:** Real-time seat haptic vibration (`Navigator.vibrate` / Web Audio Sub-Bass) and CineMatch AR group matchmaker with Gemini 3.5 voice agent.
@@ -72,4 +72,19 @@
 ### 🌐 Sprint 12: Global Viewport Outer Application Frame Gradient Border Effect
 - **Concept:** Viewport-wide outer application frame wrapper (`GlobalGradientFrame.tsx`) applying dynamic cursor-tracked glowing radial gradient masking around the full 4-corner border shell of the website.
 - **Tech Stack:** React, Next.js, CSS Masking, PointerEvents, `GlobalGradientFrame.tsx`, `app/(main)/layout.tsx`.
+- **Status:** ✅ Completed
+
+### 🎟️ Sprint 13: My Tickets Digital Passbooks Gradient Border Effect Upgrade
+- **Concept:** Gradient Border Effect integration across digital ticket passbooks (`QuantumTicket.tsx`, `HolographicTicket.tsx`) with 3D tilt interaction and mouse-tracked glowing radial masks.
+- **Tech Stack:** React, Next.js, Framer Motion, CSS Masking, PointerEvents, `QuantumTicket.tsx`, `HolographicTicket.tsx`.
+- **Status:** ✅ Completed
+
+### 🎫 Sprint 15: MongoDB Data Bookings Query Fix for User Tickets
+- **Concept:** Updated MongoDB `/api/bookings` route handler to execute compound query `{ $or: [{ userId: session.user.id }, { userEmail: session.user.email }] }` guaranteeing all user ticket bookings created in database are retrieved and displayed in full.
+- **Tech Stack:** MongoDB, Mongoose, Next.js API Routes, NextAuth.js, `app/api/bookings/route.ts`.
+- **Status:** ✅ Completed
+
+### 🧪 Sprint 16: Liquid Glass 4.0 & Gradient Border Fusion Layer
+- **Concept:** Seamless combination of Liquid Glass 4.0 glassmorphism styling (`backdrop-blur-[60px]`, `saturate-[250%]`, glass refraction highlights) with dynamic mouse-tracked Gradient Border Effect overlays across all ticket views (`LiquidGlassTicketVault.tsx`, `QuantumTicket.tsx`, `HolographicTicket.tsx`).
+- **Tech Stack:** CSS Masking, Glassmorphism, React, Framer Motion, `LiquidGlassTicketVault.tsx`.
 - **Status:** ✅ Completed

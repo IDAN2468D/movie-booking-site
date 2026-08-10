@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useDeviceGyroscope } from '@/hooks/useDeviceGyroscope';
 import { Calendar, Clock, MapPin, QrCode, Sparkles, Compass } from 'lucide-react';
@@ -29,35 +29,24 @@ export default function HolographicTicket({
     if (path && !path.includes('null') && !path.includes('undefined')) {
       return getImageUrl(path, 'w500');
     }
-    if (title.includes('גלדיאטור') || title.toLowerCase().includes('gladiator')) return 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
-    if (title.includes('דיונה') || title.toLowerCase().includes('dune')) return 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg';
-    if (title.includes('אווטאר') || title.toLowerCase().includes('avatar')) return 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg';
     return 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
   };
 
-  const [bgImage, setBgImage] = useState(() => getFallbackImage(movieTitle, posterUrl || backdropPath));
+  const [bgImage] = useState(() => getFallbackImage(movieTitle, posterUrl || backdropPath));
   const { success, data, requestPermission } = useDeviceGyroscope();
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  const handleImgError = () => {
-    if (movieTitle.includes('גלדיאטור') || movieTitle.toLowerCase().includes('gladiator')) {
-      setBgImage('/posters/gladiator2.svg');
-    } else if (movieTitle.includes('דיונה') || movieTitle.toLowerCase().includes('dune')) {
-      setBgImage('/posters/dune2.svg');
-    } else if (movieTitle.includes('אווטאר') || movieTitle.toLowerCase().includes('avatar')) {
-      setBgImage('/posters/avatar3.svg');
-    } else {
-      setBgImage('/posters/default.svg');
-    }
-  };
-
-  // Desktop mouse movement fallback
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5; // -0.5 to 0.5
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
     setMousePos({ x, y });
+
+    cardRef.current.style.setProperty('--x', `${e.clientX - rect.left}px`);
+    cardRef.current.style.setProperty('--y', `${e.clientY - rect.top}px`);
   };
 
   const handleMouseLeave = () => {
@@ -65,15 +54,12 @@ export default function HolographicTicket({
     setMousePos({ x: 0, y: 0 });
   };
 
-  // Compute 3D rotations (Gyroscope priority, Mouse fallback)
   const getRotations = () => {
     if (success && data && (Math.abs(data.smoothedBeta) > 0.5 || Math.abs(data.smoothedGamma) > 0.5)) {
-      // Clamp rotations to prevent extreme flips
       const rotX = Math.min(Math.max(-data.smoothedBeta, -25), 25);
       const rotY = Math.min(Math.max(data.smoothedGamma, -25), 25);
       return { rotateX: rotX, rotateY: rotY };
     }
-    // Mouse fallback
     return {
       rotateX: isHovered ? -mousePos.y * 30 : 0,
       rotateY: isHovered ? mousePos.x * 30 : 0,
@@ -81,11 +67,9 @@ export default function HolographicTicket({
   };
 
   const { rotateX, rotateY } = getRotations();
-  const gradientAngle = success && data ? data.gradientAngle : (135 + (mousePos.x * 90));
 
   return (
     <div className="relative w-full max-w-sm mx-auto my-6 select-none font-sans perspective-[1200px] preserve-3d">
-      {/* iOS Gyroscope Permission activation banner */}
       {requestPermission && (
         <button
           onClick={requestPermission}
@@ -97,52 +81,33 @@ export default function HolographicTicket({
       )}
 
       <motion.div
+        ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
-        animate={{
-          rotateX,
-          rotateY,
-        }}
+        animate={{ rotateX, rotateY }}
         transition={{ type: 'spring', stiffness: 150, damping: 20 }}
-        style={{
-          transformStyle: 'preserve-3d',
-          '--glass-gradient-angle': `${gradientAngle}deg`,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } as any}
-        className="relative overflow-hidden rounded-[36px] p-6 text-white border border-white/20 shadow-2xl transition-all duration-300"
+        style={{ transformStyle: 'preserve-3d' }}
+        className="gradient-border-card group relative overflow-hidden rounded-[36px] p-6 text-white border border-white/20 shadow-2xl transition-all duration-300"
       >
-        {/* Holographic shifting specular background */}
+        {/* Dynamic Cursor-Tracked Radial Gradient Mask */}
         <div
-          className="absolute inset-0 -z-10 mix-blend-overlay opacity-30 transition-opacity group-hover:opacity-50 pointer-events-none"
+          className="pointer-events-none absolute -inset-[1px] rounded-[inherit] p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
           style={{
-            background: `linear-gradient(var(--glass-gradient-angle, 135deg), rgba(255,20,100,0.8) 0%, rgba(34,211,238,0.8) 50%, rgba(249,115,22,0.8) 100%)`,
+            background: 'radial-gradient(400px circle at var(--x, 50%) var(--y, 50%), rgba(255, 159, 10, 0.95), rgba(6, 182, 212, 0.8), transparent 70%)',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
           }}
         />
 
-        {/* Refractive blur backdrop */}
-        <div
-          className="absolute inset-0 -z-20 pointer-events-none"
-          style={{
-            background: 'rgba(15, 15, 25, 0.7)',
-            backdropFilter: 'blur(30px) saturate(220%) brightness(110%)',
-          }}
-        />
-
-        {/* Ambient image background */}
         <img
           src={bgImage}
           alt={movieTitle}
-          onError={handleImgError}
           className="absolute inset-0 -z-30 w-full h-full object-cover opacity-35 blur-xs pointer-events-none scale-105"
         />
 
-        {/* Glowing holographic strips */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-500 via-cyan-400 to-amber-500 opacity-80" />
-
-        {/* Card Content */}
-        <div className="relative z-10 flex flex-col justify-between h-[420px]" style={{ transform: 'translateZ(50px)' }}>
-          {/* Header */}
+        <div className="relative z-10 flex flex-col justify-between h-[400px]" style={{ transform: 'translateZ(50px)' }}>
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400 flex items-center gap-1.5">
@@ -158,7 +123,6 @@ export default function HolographicTicket({
             </div>
           </div>
 
-          {/* Ticket Information */}
           <div className="space-y-4 my-6 bg-white/[0.02] border border-white/5 p-4 rounded-2xl">
             <div className="flex items-center gap-3">
               <Calendar size={14} className="text-slate-400" />
@@ -178,21 +142,15 @@ export default function HolographicTicket({
               <MapPin size={14} className="text-slate-400" />
               <div className="flex flex-col text-right">
                 <span className="text-[8px] text-slate-500 uppercase tracking-widest">מושבים מוזמנים</span>
-                <span className="text-xs font-black text-cyan-400">
-                  {seats.join(', ')}
-                </span>
+                <span className="text-xs font-black text-cyan-400">{seats.join(', ')}</span>
               </div>
             </div>
           </div>
 
-          {/* Barcode & Security Signature */}
           <div className="flex flex-col items-center justify-center border-t border-white/10 pt-4 mt-auto">
             <div className="p-3 bg-white rounded-2xl shadow-inner relative group-hover:scale-105 transition-transform duration-300">
               <QrCode size={70} className="text-black" />
             </div>
-            <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest mt-2">
-              חתימה דיגיטלית: 8x9F2E-CYAN-CINE
-            </span>
           </div>
         </div>
       </motion.div>

@@ -283,9 +283,13 @@ export async function GET(req: NextRequest) {
     const user = await db.collection("users").findOne({ email: session.user.email });
     const userPoints = user?.points || 0;
 
+    const query = session.user.email
+      ? { $or: [{ userId: session.user.id }, { userEmail: session.user.email }] }
+      : { userId: session.user.id };
+
     const bookings = await db
       .collection("bookings")
-      .find({ userId: session.user.id })
+      .find(query)
       .sort({ createdAt: -1 })
       .toArray();
 
