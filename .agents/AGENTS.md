@@ -10,7 +10,7 @@ AI Agents operating in this codebase act as **Senior Full-Stack Engineers & AI S
 To maximize execution velocity and eliminate token waste across agent turns:
 - **Strict 200 LOC Ceiling:** Every file created or modified must strictly obey the **200 lines of code** limit. Split larger logic into hooks (`use*.ts`), sub-components, or server actions (`app/actions/`).
 - **Targeted Reading:** Never read whole files (>100 lines) if modifying or inspecting specific functions. Use line-bounded reads or grep.
-- **State Compression:** Maintain `.agents/state/task.md` and `.agents/state/latest.md` in dense markdown format using short bullet points and `- [x]` status indicators.
+- **State Compression & Auto-Sync:** Maintain `.agents/state/task.md` and `.agents/state/latest.md` in dense markdown format using short bullet points and `- [x]` status indicators. EVERY new feature or upgrade MUST automatically synchronize all 4 files in `.agents/state/` (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`).
 - **Output Conciseness:** Summarize results in 2–4 concise bullet points or structured markdown tables. Avoid fluff or repetitive narrative explanations.
 - **Single Context Read:** Read master configuration files (`AGENTS.md`, `ARCHITECTURE_STATE.md`) once per workflow initialization; avoid re-reading unchanged files.
 
@@ -49,7 +49,7 @@ To maximize execution velocity and eliminate token waste across agent turns:
 2. **Plan & Contract:** Use `.agents/templates/PLAN_TEMPLATE.md` to draft feature steps before code changes.
 3. **Execute & Test:** Implement data contracts (Zod), backend logic, and frontend components incrementally (Max 200 LOC/file).
 4. **Verify Quality:** Run TypeScript check (`npx tsc --noEmit`), build verification (`npm run build`), and test suite (`npx vitest run`).
-5. **Update State:** Record finished milestones in `.agents/state/task.md`, `.agents/state/latest.md`, `ARCHITECTURE_STATE.md`, and `SPRINTS.md`.
+5. **Update State (MANDATORY):** Record finished milestones and updated files across ALL 4 state files (`.agents/state/task.md`, `.agents/state/latest.md`, `ARCHITECTURE_STATE.md`, and `SPRINTS.md`) without exception after every feature addition or upgrade.
 
 ---
 
