@@ -35,7 +35,7 @@ export function useAcousticDeck() {
 
     return () => {
       if (audioCtxRef.current?.state !== 'closed') {
-        audioCtxRef.current?.close();
+        audioCtxRef.current?.close().catch(() => {});
       }
     };
   }, []);

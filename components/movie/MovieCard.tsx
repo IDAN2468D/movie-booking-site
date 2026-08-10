@@ -1,6 +1,5 @@
 'use client';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Image from 'next/image';
 import Link from 'next/link';
 import { Movie, getImageUrl } from '@/lib/tmdb';
@@ -23,31 +22,20 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
   const isFavorite = favorites.some(m => m.id === movie.id);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // 3D Tilt Logic
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [15, -15]), { stiffness: 300, damping: 30 });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-15, 15]), { stiffness: 300, damping: 30 });
-  
-  // Glint Position
-  const glintX = useSpring(useTransform(mouseX, [0, 100], [-50, 150]), { stiffness: 400, damping: 40 });
-  const glintY = useSpring(useTransform(mouseY, [0, 100], [-50, 150]), { stiffness: 400, damping: 40 });
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [12, -12]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-12, 12]), { stiffness: 300, damping: 30 });
 
   function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
     const mouseXPos = event.clientX - rect.left;
     const mouseYPos = event.clientY - rect.top;
-
-    x.set(mouseXPos / width - 0.5);
-    y.set(mouseYPos / height - 0.5);
-    mouseX.set((mouseXPos / width) * 100);
-    mouseY.set((mouseYPos / height) * 100);
+    x.set(mouseXPos / rect.width - 0.5);
+    y.set(mouseYPos / rect.height - 0.5);
+    cardRef.current.style.setProperty('--x', `${mouseXPos}px`);
+    cardRef.current.style.setProperty('--y', `${mouseYPos}px`);
   }
 
   function handleMouseLeave() {
@@ -59,11 +47,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
     e.preventDefault();
     e.stopPropagation();
     if (navigator.share) {
-      navigator.share({
-        title: movie.displayTitle,
-        text: `Check out this movie: ${movie.displayTitle}`,
-        url: window.location.origin + `/movie/${movie.id}`,
-      });
+      navigator.share({ title: movie.displayTitle, url: window.location.origin + `/movie/${movie.id}` });
     } else {
       navigator.clipboard.writeText(window.location.origin + `/movie/${movie.id}`);
     }
@@ -75,67 +59,32 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
     toggleFavorite(movie);
   };
 
-  const handleDragStart = (e: React.DragEvent) => {
-    e.dataTransfer.setData('movie', JSON.stringify(movie));
-    e.dataTransfer.effectAllowed = 'copy';
-    setDraggingMovieName(movie.displayTitle);
-    
-    const dragIcon = document.createElement('div');
-    dragIcon.className = 'w-20 h-32 bg-primary/20 backdrop-blur-xl rounded-xl border border-primary/30 fixed top-[-1000px]';
-    document.body.appendChild(dragIcon);
-    e.dataTransfer.setDragImage(dragIcon, 10, 10);
-    setTimeout(() => document.body.removeChild(dragIcon), 0);
-  };
-
-  const handleDragEnd = () => {
-    setDraggingMovieName(null);
-  };
-
   return (
     <motion.div 
       ref={cardRef}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: 'preserve-3d',
-      }}
+      style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
       layout
       draggable
-      onDragStartCapture={handleDragStart}
-      onDragEndCapture={handleDragEnd}
+      onDragStartCapture={() => setDraggingMovieName(movie.displayTitle)}
+      onDragEndCapture={() => setDraggingMovieName(null)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      whileTap={{ scale: 0.95 }}
-      className={`movie-card group relative overflow-hidden rounded-[24px] md:rounded-[40px] transition-all duration-500 cursor-pointer border-[0.5px] ${
+      whileTap={{ scale: 0.96 }}
+      className={`gradient-border-card group relative overflow-hidden rounded-[24px] md:rounded-[40px] transition-all duration-500 cursor-pointer border-[0.5px] ${
         isSelected 
           ? 'border-primary bg-primary/10 shadow-[0_0_60px_rgba(255,20,100,0.3)]' 
-          : 'border-white/10 bg-[#0A0A0A]/40 backdrop-blur-[40px] saturate-[200%] brightness-110 shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(255,255,255,0.05)]'
+          : 'border-white/10 bg-[#0A0A0A]/40 backdrop-blur-[40px] saturate-[200%] brightness-110 shadow-2xl'
       }`}
     >
-      {/* Liquid Glass 2.0 Holographic Overlays */}
-      <div className="absolute inset-0 pointer-events-none z-10">
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-yellow/5 opacity-60" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(255,255,255,0.05),transparent_70%)]" />
-      </div>
-
-      {/* Holographic Glint (Follows Mouse) */}
-      <motion.div 
+      {/* Dynamic Cursor-Tracked Gradient Border Effect */}
+      <div
+        className="pointer-events-none absolute -inset-[1px] rounded-[inherit] p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
         style={{
-          background: 'radial-gradient(circle at center, rgba(255, 20, 100, 0.15) 0%, transparent 70%)',
-          left: glintX,
-          top: glintY,
-          width: '240px',
-          height: '240px',
+          background: 'radial-gradient(450px circle at var(--x, 50%) var(--y, 50%), rgba(255, 20, 100, 0.95), rgba(59, 130, 246, 0.8), transparent 65%)',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
         }}
-        className="absolute pointer-events-none z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-3xl"
-      />
-
-      {/* Rainbow Holographic Streak */}
-      <motion.div 
-        initial={{ x: '-100%', skewX: -20 }}
-        whileHover={{ x: '200%' }}
-        transition={{ duration: 1.5, ease: "easeInOut" }}
-        className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-r from-transparent via-white/10 to-transparent mix-blend-overlay"
       />
 
       <Link href={`/movie/${movie.id}`} className="block" data-testid="movie-link">
@@ -145,40 +94,33 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
             alt={movie.displayTitle}
             className="w-full h-full object-cover"
           />
-          
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-80 pointer-events-none" />
           
-          <div className="absolute top-2 right-2 md:top-4 md:right-4 bg-[#0F0F0F]/60 backdrop-blur-xl px-2 py-1 md:px-3 md:py-1.5 rounded-xl md:rounded-2xl border border-white/10 flex items-center gap-1.5 shadow-2xl">
-            <Star className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary fill-primary" />
-            <span className="text-[10px] md:text-[11px] font-black text-white tracking-tighter">
-              {typeof movie.vote_average === 'number' && !isNaN(movie.vote_average) 
-                ? movie.vote_average.toFixed(1) 
-                : '0.0'}
-            </span>
+          <div className="absolute top-2 right-2 md:top-4 md:right-4 bg-[#0F0F0F]/60 backdrop-blur-xl px-3 py-1 rounded-2xl border border-white/10 flex items-center gap-1.5 shadow-2xl z-20">
+            <Star className="w-3.5 h-3.5 text-primary fill-primary" />
+            <span className="text-[11px] font-black text-white">{movie.vote_average ? movie.vote_average.toFixed(1) : '0.0'}</span>
           </div>
 
-          <div className="absolute top-2 left-2 md:top-4 md:left-4 flex flex-col gap-2 md:gap-2.5 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 md:translate-x-4 md:group-hover:translate-x-0">
+          <div className="absolute top-2 left-2 md:top-4 md:left-4 flex flex-col gap-2 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 z-20">
             <button 
               onClick={handleFavorite}
-              className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all duration-500 shadow-xl ${
-                isFavorite 
-                ? 'bg-primary border-primary text-white' 
-                : 'bg-[#0A0A0A]/60 backdrop-blur-xl border-white/10 text-white hover:bg-primary hover:text-white hover:border-primary'
+              className={`w-9 h-9 rounded-xl flex items-center justify-center border transition-all ${
+                isFavorite ? 'bg-primary border-primary text-white' : 'bg-[#0A0A0A]/60 border-white/10 text-white hover:bg-primary'
               }`}
             >
-              <Heart size={16} className={isFavorite ? 'fill-current' : ''} />
+              <Heart size={15} className={isFavorite ? 'fill-current' : ''} />
             </button>
             <button 
               onClick={handleShare}
-              className="w-10 h-10 bg-[#0A0A0A]/60 backdrop-blur-xl rounded-xl flex items-center justify-center border border-white/10 text-white hover:bg-white/10 transition-all duration-500 shadow-xl"
+              className="w-9 h-9 bg-[#0A0A0A]/60 rounded-xl flex items-center justify-center border border-white/10 text-white hover:bg-white/10 transition-all"
             >
-              <Share2 size={16} />
+              <Share2 size={15} />
             </button>
           </div>
         </div>
       </Link>
       
-      <div className="p-4 md:p-5 relative text-right" style={{ transform: 'translateZ(30px)' }}>
+      <div className="p-4 md:p-5 relative text-right z-20" style={{ transform: 'translateZ(30px)' }}>
         <h3 className="text-sm md:text-lg font-black text-white line-clamp-1 group-hover:text-primary transition-colors tracking-tight font-display uppercase mb-1">
           <KineticText text={movie.displayTitle} tag="span" />
         </h3>
@@ -188,17 +130,15 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
               e?.preventDefault();
               setSelectedMovie(movie);
             }}
-            className="text-[11px] md:text-xs font-black bg-gradient-to-r from-primary to-yellow text-white px-5 py-2.5 md:px-6 md:py-3 rounded-xl md:rounded-2xl opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 shadow-[0_15px_30px_rgba(255,20,100,0.3)] md:translate-y-2 md:group-hover:translate-y-0 uppercase tracking-widest flex-1 md:flex-none text-center"
+            className="text-xs font-black bg-gradient-to-r from-primary to-yellow text-white px-5 py-2.5 rounded-xl uppercase tracking-widest flex-1 text-center"
           >
             <MarkerHighlight color="#000000" delay={0.1} strokeWidth={4}>
-              הזמן 3 כרטיסים
+              הזמן כרטיסים
             </MarkerHighlight>
           </MagneticButton>
-          <div className="flex items-center gap-1.5 text-off-white/50 font-bold">
-            <Calendar className="w-3.5 h-3.5" />
-            <span className="text-[10px] md:text-[11px] tracking-widest uppercase">
-              {movie.release_date ? new Date(movie.release_date).getFullYear() || 'TBA' : 'TBA'}
-            </span>
+          <div className="flex items-center gap-1.5 text-slate-400 text-[11px] font-bold">
+            <Calendar className="w-3.5 h-3.5 text-primary" />
+            <span>{movie.release_date ? new Date(movie.release_date).getFullYear() || 'TBA' : 'TBA'}</span>
           </div>
         </div>
       </div>

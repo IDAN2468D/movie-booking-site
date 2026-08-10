@@ -53,7 +53,7 @@ export function TrailerAudioCompanion({ onModeChange }: TrailerAudioCompanionPro
     // Clean up AudioContext on unmount
     return () => {
       if (audioCtxRef.current && audioCtxRef.current.state !== "closed") {
-        audioCtxRef.current.close();
+        audioCtxRef.current.close().catch(() => {});
       }
     };
   }, []);

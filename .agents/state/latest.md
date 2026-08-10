@@ -1,9 +1,9 @@
 # Latest Task State
 
-- **Status**: Completed Sidebar Navigation Gradient Border Effect Upgrade
+- **Status**: Completed Primary Model Enforcement to gemini-3.5-flash-lite
 - **Active Files**:
-  - `components/layout/SidebarNavItem.tsx`
-  - `components/layout/Sidebar.tsx`
-  - `components/ui/GradientBorderContainer.tsx`
-  - `components/ui/GradientBorderCard.tsx`
-  - `components/ui/GradientBorderShowcase.tsx`
+  - `lib/gemini.ts`
+  - `app/api/ai/`
+  - `app/actions/`
+  - `src/components/layout/FeaturesDropdown.tsx`
+  - `components/vip/LiveSeatAuctionCard.tsx`

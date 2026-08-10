@@ -62,7 +62,9 @@ export function useAudioAnalyzer(videoRef: React.RefObject<HTMLVideoElement | nu
     return () => {
       video.removeEventListener('play', handlePlay);
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
-      if (audioContextRef.current) audioContextRef.current.close();
+      if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+        audioContextRef.current.close().catch(() => {});
+      }
     };
   }, [videoRef, setAudioTelemetry]);
 }

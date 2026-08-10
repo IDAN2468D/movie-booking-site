@@ -58,8 +58,8 @@ export function useAcousticResonance() {
     return () => {
       window.removeEventListener('click', initAudio);
       window.removeEventListener('touchstart', initAudio);
-      if (audioCtxRef.current) {
-        audioCtxRef.current.close();
+      if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
+        audioCtxRef.current.close().catch(() => {});
       }
     };
   }, []);

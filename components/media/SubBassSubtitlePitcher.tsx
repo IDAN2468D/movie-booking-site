@@ -74,7 +74,7 @@ export const SubBassSubtitlePitcher: React.FC = () => {
       });
 
       setTimeout(() => {
-        ctx.close();
+        if (ctx.state !== 'closed') ctx.close().catch(() => {});
         setIsPlayingSoundtrack(false);
       }, 1000);
     } catch {

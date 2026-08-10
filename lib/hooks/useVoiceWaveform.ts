@@ -64,7 +64,7 @@ export function useVoiceWaveform(active: boolean = true) {
       if (sourceRef.current) sourceRef.current.disconnect();
       if (analyserRef.current) analyserRef.current.disconnect();
       if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
-        audioContextRef.current.close();
+        audioContextRef.current.close().catch(() => {});
       }
       if (stream) {
         stream.getTracks().forEach(track => track.stop());

@@ -98,7 +98,7 @@ export default function SpecularSubtitles({
       mediaEl.removeEventListener("play", initAudioAnalyser);
       if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
       if (audioContextRef.current && audioContextRef.current.state !== "closed") {
-        audioContextRef.current.close();
+        audioContextRef.current.close().catch(() => {});
       }
     };
   }, [mediaElementSelector, rawSubtitles]);

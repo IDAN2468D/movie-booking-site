@@ -177,10 +177,8 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
               oscillator.stop();
             } catch {}
           }
-          if (audioCtx) {
-            try {
-              audioCtx.close();
-            } catch {}
+          if (audioCtx && audioCtx.state !== 'closed') {
+            audioCtx.close().catch(() => {});
           }
         };
 

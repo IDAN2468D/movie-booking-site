@@ -38,8 +38,8 @@ export function useAcousticEngine(): AcousticEngine {
     return () => {
       window.removeEventListener('click', initAudio);
       window.removeEventListener('touchstart', initAudio);
-      if (audioContext.current) {
-        audioContext.current.close();
+      if (audioContext.current && audioContext.current.state !== 'closed') {
+        audioContext.current.close().catch(() => {});
       }
     };
   }, []);

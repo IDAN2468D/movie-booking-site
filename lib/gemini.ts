@@ -2,12 +2,15 @@ import { GoogleGenerativeAI, GenerativeModel } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '');
 
+export const DEFAULT_GEMINI_MODEL = 'gemini-3.5-flash-lite';
+export const PREFERRED_GEMINI_MODELS = ['gemini-3.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash'];
+
 /**
  * 🛠️ Robust Gemini Caller with Exponential Backoff and Model Fallback
- * Handles 503 Service Unavailable errors gracefully and switches to fallback models if needed.
+ * Defaults strictly to gemini-3.5-flash-lite across all AI operations.
  */
 export async function callGeminiWithRetry<T>(
-  modelNames: string | string[],
+  modelNames: string | string[] = PREFERRED_GEMINI_MODELS,
   fn: (model: GenerativeModel) => Promise<T>,
   maxRetries = 3,
   initialDelay = 1000
@@ -25,17 +28,14 @@ export async function callGeminiWithRetry<T>(
         const error = err as { status?: number; message?: string };
         lastError = err instanceof Error ? err : new Error(String(err));
         
-        // If it's a 503 (Service Unavailable) or 429 (Rate Limit / Quota), retry
         if ((error.status === 503 || error.status === 429) && attempt < maxRetries) {
-
           const delay = initialDelay * Math.pow(2, attempt);
-          console.warn(`Gemini model ${modelName} is busy (${error.status}). Retrying in ${delay}ms... (Attempt ${attempt + 1}/${maxRetries})`);
+          console.warn(`Gemini model ${modelName} busy (${error.status}). Retrying in ${delay}ms...`);
           await new Promise(resolve => setTimeout(resolve, delay));
           continue;
         }
         
-        // If we've exhausted retries for this model, break to try the next model in the list
-        console.error(`Gemini model ${modelName} failed after retries:`, error.message);
+        console.error(`Gemini model ${modelName} failed:`, error.message);
         break; 
       }
     }

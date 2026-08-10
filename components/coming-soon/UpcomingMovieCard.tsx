@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Play, Bell, CheckCircle2, Sparkles } from "lucide-react";
 import Image from "next/image";
@@ -26,17 +26,13 @@ export function UpcomingMovieCard({
   const { setAuraColor } = useBookingStore();
   const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number } | null>(null);
   const [savedEmail, setSavedEmail] = useState<string | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check persistent storage for reminder email
     try {
       const stored = localStorage.getItem(`movie_reminder_${movie.movieId}`);
-      if (stored) {
-        setSavedEmail(stored);
-      }
-    } catch {
-      // localStorage disabled fallback
-    }
+      if (stored) setSavedEmail(stored);
+    } catch { /* empty */ }
 
     if (!movie.releaseDate) return;
     const releaseDate = new Date(movie.releaseDate);
@@ -44,24 +40,29 @@ export function UpcomingMovieCard({
     const updateCountdown = () => {
       const today = new Date();
       const diffTime = releaseDate.getTime() - today.getTime();
-
       if (diffTime <= 0) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         return;
       }
-
-      const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diffTime / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diffTime / 1000 / 60) % 60);
-      const seconds = Math.floor((diffTime / 1000) % 60);
-
-      setTimeLeft({ days, hours, minutes, seconds });
+      setTimeLeft({
+        days: Math.floor(diffTime / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diffTime / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diffTime / 1000 / 60) % 60),
+        seconds: Math.floor((diffTime / 1000) % 60),
+      });
     };
 
     updateCountdown();
     const intervalId = setInterval(updateCountdown, 1000);
     return () => clearInterval(intervalId);
   }, [movie.movieId, movie.releaseDate, reminderVersion]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    cardRef.current.style.setProperty('--x', `${e.clientX - rect.left}px`);
+    cardRef.current.style.setProperty('--y', `${e.clientY - rect.top}px`);
+  };
 
   const handleMouseEnter = () => {
     onHover(movie);
@@ -71,13 +72,25 @@ export function UpcomingMovieCard({
 
   return (
     <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -8, scale: 1.02 }}
       onMouseEnter={handleMouseEnter}
-      className="group relative flex flex-col rounded-3xl overflow-hidden bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] border border-white/10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7),_inset_0_1px_1px_rgba(255,255,255,0.2)] transition-all duration-500 font-inter cursor-pointer transform-gpu"
+      className="gradient-border-card group relative flex flex-col rounded-3xl overflow-hidden bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] border border-white/10 shadow-2xl transition-all duration-500 font-inter cursor-pointer"
     >
-      {/* Poster Image */}
+      {/* Gradient Border Overlay */}
+      <div
+        className="pointer-events-none absolute -inset-[1px] rounded-[inherit] p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
+        style={{
+          background: 'radial-gradient(350px circle at var(--x, 50%) var(--y, 50%), rgba(6, 182, 212, 0.95), rgba(168, 85, 247, 0.8), transparent 70%)',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+        }}
+      />
+
       <div className="relative aspect-[2/3] w-full overflow-hidden">
         {movie.posterPath ? (
           <Image
@@ -85,7 +98,7 @@ export function UpcomingMovieCard({
             alt={movie.title}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 768px) 100vw, 33vw"
           />
         ) : (
           <div className="w-full h-full bg-neutral-800 flex items-center justify-center">
@@ -93,22 +106,17 @@ export function UpcomingMovieCard({
           </div>
         )}
 
-        {/* Play Trailer Overlay */}
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onPlayTrailer(movie.movieId);
-            }}
-            className="w-16 h-16 rounded-full bg-cyan-500/90 text-white flex items-center justify-center backdrop-blur-md hover:scale-110 transition-transform shadow-[0_0_30px_rgba(56,189,248,0.6)]"
+            onClick={(e) => { e.stopPropagation(); onPlayTrailer(movie.movieId); }}
+            className="w-16 h-16 rounded-full bg-cyan-500/90 text-white flex items-center justify-center backdrop-blur-md hover:scale-110 transition-transform shadow-lg"
           >
             <Play className="w-8 h-8 ml-1" />
           </button>
         </div>
 
-        {/* Countdown Badge */}
         {timeLeft !== null && (
-          <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-white font-bold text-xs flex items-center gap-1.5" dir="ltr">
+          <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full border border-white/20 text-white font-bold text-xs flex items-center gap-1.5 z-20" dir="ltr">
             <span className="font-mono tabular-nums text-cyan-300">
               {timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0
                 ? "יוצא היום!"
@@ -118,16 +126,14 @@ export function UpcomingMovieCard({
           </div>
         )}
 
-        {/* Saved indicator pill */}
         {savedEmail && (
-          <div className="absolute top-3 left-3 bg-emerald-500/80 backdrop-blur-md px-2.5 py-1 rounded-full text-white font-bold text-[10px] flex items-center gap-1 shadow-lg">
+          <div className="absolute top-3 left-3 bg-emerald-500/80 backdrop-blur-md px-2.5 py-1 rounded-full text-white font-bold text-[10px] flex items-center gap-1 shadow-lg z-20">
             <CheckCircle2 className="w-3 h-3 text-white" />
             <span>תזכורת פעילה</span>
           </div>
         )}
       </div>
 
-      {/* Content */}
       <div className="p-5 flex flex-col gap-3 relative z-10 bg-gradient-to-t from-neutral-950 via-neutral-950/90 to-transparent">
         <div className="flex items-center justify-between">
           <h3 className="font-outfit text-lg font-bold text-white line-clamp-1 group-hover:text-cyan-300 transition-colors" dir="rtl">
@@ -149,14 +155,9 @@ export function UpcomingMovieCard({
           </span>
 
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onOpenReminderModal(movie);
-            }}
+            onClick={(e) => { e.stopPropagation(); onOpenReminderModal(movie); }}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all border ${
-              savedEmail
-                ? 'bg-emerald-500/20 border-emerald-400/40 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.25)]'
-                : 'bg-cyan-500/10 border-cyan-400/30 text-cyan-300 hover:bg-cyan-500/20'
+              savedEmail ? 'bg-emerald-500/20 border-emerald-400/40 text-emerald-300' : 'bg-cyan-500/10 border-cyan-400/30 text-cyan-300'
             }`}
           >
             <Bell className={`w-3.5 h-3.5 ${savedEmail ? 'fill-current' : ''}`} />

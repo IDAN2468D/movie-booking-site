@@ -31,9 +31,9 @@ export function ActorAcousticNarration({
       droneOscRef.current = null;
     }
     if (audioCtxRef.current) {
-      try {
-        audioCtxRef.current.close();
-      } catch {}
+      if (audioCtxRef.current.state !== "closed") {
+        audioCtxRef.current.close().catch(() => {});
+      }
       audioCtxRef.current = null;
     }
     if (typeof window !== "undefined" && window.speechSynthesis) {

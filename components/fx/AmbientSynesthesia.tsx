@@ -134,7 +134,7 @@ export default function AmbientSynesthesia({ imageUrl, movieId, movieTitle }: Am
         try { osc2.stop(); } catch (e) {}
       }
       try { oscillatorRef.current?.stop(); } catch (e) {}
-      audioContextRef.current.close();
+      audioContextRef.current.close().catch(() => {});
       audioContextRef.current = null;
       oscillatorRef.current = null;
       filterRef.current = null;

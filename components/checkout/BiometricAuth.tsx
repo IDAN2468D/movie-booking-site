@@ -47,7 +47,9 @@ export function BiometricAuth({ amount, onSuccess }: { amount: number, onSuccess
 
   const stopHeartbeat = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
-    if (audioCtxRef.current) audioCtxRef.current.close();
+    if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
+      audioCtxRef.current.close().catch(() => {});
+    }
   };
 
   const playSuccessChime = () => {

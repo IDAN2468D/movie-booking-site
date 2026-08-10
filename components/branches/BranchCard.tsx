@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Navigation, Star, Heart, Clock, ExternalLink, Ticket, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
@@ -27,36 +27,43 @@ export function BranchCard({
   onSetSelectedBranch, facilityIcons
 }: BranchCardProps) {
   const router = useRouter();
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    cardRef.current.style.setProperty('--x', `${e.clientX - rect.left}px`);
+    cardRef.current.style.setProperty('--y', `${e.clientY - rect.top}px`);
+  };
 
   return (
     <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
       id={`branch-${branch._id}`}
       layout
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      className={`group relative p-0.5 rounded-[2.5rem] cursor-pointer transition-all duration-700 ${
+      className={`gradient-border-card group relative p-0.5 rounded-[2.5rem] cursor-pointer transition-all duration-700 ${
         isSelected 
           ? 'bg-gradient-to-br from-primary via-cyan-500 to-primary shadow-[0_20px_60px_rgba(255,159,10,0.15)]' 
           : 'bg-white/10 hover:bg-white/20'
       }`}
     >
-      <div className="relative h-full bg-[#111112] rounded-[2.4rem] p-6 overflow-hidden flex flex-col border border-white/5">
+      {/* Dynamic Cursor-Tracked Radial Gradient Mask */}
+      <div
+        className="pointer-events-none absolute -inset-[1px] rounded-[inherit] p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
+        style={{
+          background: 'radial-gradient(400px circle at var(--x, 50%) var(--y, 50%), rgba(255, 159, 10, 0.95), rgba(6, 182, 212, 0.8), transparent 70%)',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+        }}
+      />
+
+      <div className="relative h-full bg-[#111112] rounded-[2.4rem] p-6 overflow-hidden flex flex-col border border-white/5 z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none" />
-        
-        <div className="absolute -left-10 -top-10 w-40 h-40 opacity-[0.05] group-hover:opacity-[0.1] transition-opacity duration-700 pointer-events-none rotate-12">
-          {branch.image && typeof branch.image === 'string' && branch.image.trim() !== "" && branch.image !== "undefined" ? (
-            <Image 
-              src={branch.image} 
-              alt={branch.name} 
-              fill 
-              sizes="160px"
-              className="object-cover rounded-full" 
-            />
-          ) : (
-            <div className="w-full h-full bg-primary/20 rounded-full" />
-          )}
-        </div>
 
         <div className="relative z-10 flex flex-col h-full">
           <div className="flex items-start justify-between mb-6">
@@ -75,12 +82,9 @@ export function BranchCard({
             </div>
             
             <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleFav(branch._id);
-              }}
+              onClick={(e) => { e.stopPropagation(); onToggleFav(branch._id); }}
               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                isFav ? 'bg-primary/20 text-primary border border-primary/30' : 'bg-white/5 text-slate-600 border border-white/5 hover:text-white'
+                isFav ? 'bg-primary/20 text-primary border border-primary/30' : 'bg-white/5 text-slate-600 hover:text-white'
               }`}
             >
               <Heart className={`w-5 h-5 ${isFav ? 'fill-primary' : ''}`} />
@@ -110,32 +114,8 @@ export function BranchCard({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-6">
-             <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col gap-1 items-end">
-              <span className="text-[8px] font-black text-slate-600 uppercase tracking-widest">שעות פעילות</span>
-              <span className="text-[10px] font-bold text-slate-300">{branch.hours}</span>
-            </div>
-            <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/5 flex flex-col gap-1 items-end">
-              <span className="text-[8px] font-black text-slate-600 uppercase tracking-widest">טלפון</span>
-              <span className="text-[10px] font-bold text-slate-300">{branch.phone}</span>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mb-8 justify-end">
-            {branch.facilities?.slice(0, 3).map((f: string) => (
-              <div key={f} className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/5 flex items-center justify-center text-slate-500 hover:text-primary transition-colors" title={facilityIcons[f]?.label}>
-                {facilityIcons[f]?.icon && React.createElement(facilityIcons[f].icon, { className: "w-4 h-4" })}
-              </div>
-            ))}
-            {branch.facilities && branch.facilities.length > 3 && (
-              <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/5 flex items-center justify-center text-[10px] font-black text-slate-600">
-                +{branch.facilities.length - 3}
-              </div>
-            )}
-          </div>
-
           <div className="flex items-center gap-3 mt-auto">
-             <a 
+            <a 
               href={`https://www.google.com/maps/search/?api=1&query=${branch.lat},${branch.lng}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -146,7 +126,6 @@ export function BranchCard({
             </a>
             {selectedMovie ? (
               <motion.button 
-                data-testid="select-branch-button"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={(e) => {
@@ -154,9 +133,9 @@ export function BranchCard({
                   onSetSelectedBranch(branch._id);
                   router.push(`/book/${selectedMovie.id}/${branch._id}`);
                 }}
-                className="flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl font-black text-xs bg-primary text-white shadow-[0_10px_30px_rgba(255,159,10,0.2)] transition-all duration-500 group"
+                className="flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl font-black text-xs bg-primary text-white shadow-lg transition-all duration-500"
               >
-                <Ticket size={16} className="group-hover:rotate-12 transition-transform" />
+                <Ticket size={16} />
                 בחר סניף להזמנה
               </motion.button>
             ) : (
@@ -167,7 +146,7 @@ export function BranchCard({
                   router.push('/');
                 }}
                 className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-2xl font-black text-xs transition-all duration-500 ${
-                  isSelected ? 'bg-white text-black' : 'bg-primary text-white shadow-[0_10px_30px_rgba(255,159,10,0.2)]'
+                  isSelected ? 'bg-white text-black' : 'bg-primary text-white shadow-lg'
                 }`}
               >
                 {isSelected ? 'הסניף הנבחר' : 'הפוך לסניף שלי'}

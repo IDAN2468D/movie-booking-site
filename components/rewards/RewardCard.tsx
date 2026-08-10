@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { LucideIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -14,21 +14,34 @@ interface RewardCardProps {
 }
 
 export const RewardCard = ({ title, desc, points, icon: Icon, color, onClick }: RewardCardProps) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    cardRef.current.style.setProperty('--x', `${e.clientX - rect.left}px`);
+    cardRef.current.style.setProperty('--y', `${e.clientY - rect.top}px`);
+  };
+
   return (
     <motion.div 
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
       whileHover={{ scale: 1.02, translateY: -5 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className="group relative overflow-hidden rounded-[32px] p-8 cursor-pointer transition-all duration-500"
-      style={{
-        background: 'rgba(255, 255, 255, 0.03)',
-        backdropFilter: 'blur(25px) saturate(180%)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05)'
-      }}
+      className="gradient-border-card group relative overflow-hidden rounded-[32px] p-8 cursor-pointer transition-all duration-500 bg-white/[0.03] backdrop-blur-2xl border border-white/10 shadow-2xl"
     >
-      {/* Holographic Light Leak */}
-      <div className="absolute -inset-full bg-gradient-to-tr from-primary/5 via-cyan-400/5 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity duration-700 pointer-events-none" />
+      {/* Gradient Border Overlay */}
+      <div
+        className="pointer-events-none absolute -inset-[1px] rounded-[inherit] p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
+        style={{
+          background: 'radial-gradient(380px circle at var(--x, 50%) var(--y, 50%), rgba(168, 85, 247, 0.95), rgba(59, 130, 246, 0.8), transparent 70%)',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+        }}
+      />
       
       <div className="relative z-10">
         <div className="flex items-start justify-between mb-8 flex-row">
@@ -48,7 +61,6 @@ export const RewardCard = ({ title, desc, points, icon: Icon, color, onClick }: 
         </p>
       </div>
 
-      {/* Glass Reflection Effect */}
       <div className="absolute top-0 right-0 w-32 h-full bg-white/5 skew-x-[-25deg] translate-x-32 group-hover:translate-x-[-300px] transition-transform duration-1000 ease-out pointer-events-none" />
     </motion.div>
   );

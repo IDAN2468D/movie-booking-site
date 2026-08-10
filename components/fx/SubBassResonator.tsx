@@ -113,7 +113,7 @@ export default function SubBassResonator({ mediaElementSelector = "video" }: Sub
         cancelAnimationFrame(animationFrameId.current);
       }
       if (audioContextRef.current && audioContextRef.current.state !== "closed") {
-        audioContextRef.current.close();
+        audioContextRef.current.close().catch(() => {});
       }
     };
   }, [mediaElementSelector]);
