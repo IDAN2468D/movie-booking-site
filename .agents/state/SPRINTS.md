@@ -37,7 +37,7 @@
 
 ---
 
-## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-10)
+## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-12)
 
 ### 🔊 Sprint 6: AI Bio-Sync Haptic Seat Resonator & CineMatch AR
 - **Concept:** Real-time seat haptic vibration (`Navigator.vibrate` / Web Audio Sub-Bass) and CineMatch AR group matchmaker with Gemini 3.5 voice agent.
@@ -62,4 +62,14 @@
 ### 🤖 Sprint 10: Strict Primary Gemini Model Router (gemini-3.5-flash-lite)
 - **Concept:** Universal enforcement of `gemini-3.5-flash-lite` as the primary default AI model across all backend handlers, server actions, voice concierge, and AI search routines.
 - **Tech Stack:** `@google/generative-ai`, `lib/gemini.ts`, Next.js Server Actions, API Routes.
+- **Status:** ✅ Completed
+
+### 🔴 Sprint 11: Live Cinema Right Panel Gradient Border Effect Upgrade
+- **Concept:** Full Gradient Border Effect integration for the Live Cinema Broadcast Right Panel (`RightPanel.tsx`), Live Cinema Card (`RightPanelLiveCinemaCard.tsx`), and Live Snack Grid (`RightPanelSnackGrid.tsx`).
+- **Tech Stack:** React, Next.js, CSS Masking, PointerEvents, `RightPanel.tsx`, `RightPanelLiveCinemaCard.tsx`, `RightPanelSnackGrid.tsx`.
+- **Status:** ✅ Completed
+
+### 🌐 Sprint 12: Global Viewport Outer Application Frame Gradient Border Effect
+- **Concept:** Viewport-wide outer application frame wrapper (`GlobalGradientFrame.tsx`) applying dynamic cursor-tracked glowing radial gradient masking around the full 4-corner border shell of the website.
+- **Tech Stack:** React, Next.js, CSS Masking, PointerEvents, `GlobalGradientFrame.tsx`, `app/(main)/layout.tsx`.
 - **Status:** ✅ Completed

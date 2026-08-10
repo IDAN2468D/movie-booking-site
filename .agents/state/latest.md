@@ -1,9 +1,8 @@
 # Latest Task State
 
-- **Status**: Completed Primary Model Enforcement to gemini-3.5-flash-lite
+- **Status**: Completed Global Application Outer Frame Gradient Border Effect Upgrade
 - **Active Files**:
-  - `lib/gemini.ts`
-  - `app/api/ai/`
-  - `app/actions/`
+  - `components/ui/GlobalGradientFrame.tsx`
+  - `app/(main)/layout.tsx`
+  - `components/layout/RightPanel.tsx`
   - `src/components/layout/FeaturesDropdown.tsx`
-  - `components/vip/LiveSeatAuctionCard.tsx`

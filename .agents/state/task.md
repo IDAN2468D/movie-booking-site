@@ -1,4 +1,4 @@
-# Current Active Task: Primary AI Model Configuration (gemini-3.5-flash-lite)
+# Current Active Task: Global Outer Application Frame Gradient Border Effect Integration
 
 - [x] AI Bio-Sync Haptic Seat Resonator (`sensorySync.ts`, `SensoryProfile.ts`, `sensoryActions.ts`, `sensoryStore.ts`, `SensoryResonatorModal.tsx`)
 - [x] CineMatch AR Group Matchmaker & Voice-Vibe Agent (`groupSync.ts`, `GroupMatch.ts`, `groupMatchActions.ts`, `GroupVibeAgentModal.tsx`)
@@ -8,6 +8,8 @@
 - [x] Gradient Border Effect UI & Sidebar (`GradientBorderContainer.tsx`, `GradientBorderCard.tsx`, `SidebarNavItem.tsx`, `Sidebar.tsx`)
 - [x] Full Site-Wide Card Upgrades (`MovieCard.tsx`, `BranchCard.tsx`, `FoodItemCard.tsx`, `RewardCard.tsx`, `UpcomingMovieCard.tsx`)
 - [x] Advanced Features & Dropdown Upgrade (`FeaturesDropdown.tsx`, `LiveSeatAuctionCard.tsx`)
+- [x] Live Cinema Broadcast Upgrade (`RightPanel.tsx`, `RightPanelLiveCinemaCard.tsx`, `RightPanelSnackGrid.tsx`)
+- [x] Global Outer Application Frame Upgrade (`GlobalGradientFrame.tsx`, `app/(main)/layout.tsx`)
 - [x] AudioContext Safe Close & InvalidStateError Prevention across all audio hooks and components
 - [x] Primary AI Model Enforced to gemini-3.5-flash-lite across all Gemini actions, routes, and lib/gemini.ts
 - [x] Execute TypeScript verification check (`npx tsc --noEmit`)
