@@ -37,79 +37,7 @@
 
 ---
 
-## 🔮 Phase 32: The Quantum Neural Cinema Suite (Upcoming Roadmap)
-
-### 🌌 Sprint 85: Cognitive Haptic Spatial Seating Matrix
-- **Concept:** Next-gen seat selection grid with dynamic tactile audio resonance profiles per row.
-- **Tech Stack:** Web Audio API, Framer Motion 3D GPU, Zod, Next.js Server Actions.
-- **Status:** ⏳ Planned
-
-### 🎙️ Sprint 86: ChronoAcousticPortalContainer (פורטל מסע בזמן קולי-חזותי)
-- **Concept:** Time portal dial controller with Web Audio API `BiquadFilterNode` High-Pass/Low-Pass, vinyl noise, and 38Hz sub-bass trigger.
-- **Tech Stack:** Web Audio API, Framer Motion 120Hz GPU, Zod, Server Actions, `ChronoAcousticPortalContainer.tsx`.
-- **Status:** ✅ Completed
-
-### 🔑 Sprint 87: HapticTelepathicVaultContainer (כספת כרטיסי VIP טלפתית-הפטית)
-- **Concept:** Touch-Hold biometric vault with 45-55Hz Web Audio pulse oscillator, `navigator.vibrate` haptic pulses, and refractive glass ring animation.
-- **Tech Stack:** Web Audio API, Haptics API, Framer Motion, Zod, Server Actions, `HapticTelepathicVaultContainer.tsx`.
-- **Status:** ✅ Completed
-
-### 🎨 Sprint 88: SynestheticFluidMatrixContainer (מטריצת סאונד-נוזל סינסתטית)
-- **Concept:** 120Hz GPU particle fluid motion matrix with Polyphonic Web Audio synth generating harmonic scales on cursor move.
-- **Tech Stack:** Web Audio API, Canvas 120Hz GPU, Zod, Server Actions, `SynestheticFluidMatrixContainer.tsx`.
-- **Status:** ✅ Completed
-
-### 🛰️ Sprint 89: SpatialEchoLobbyContainer (לובי שיתופי בתלת-ממד קולי)
-- **Concept:** 3D spatial multiplayer cinema lobby visualizer with `PannerNode` ($X, Y, Z$) audio positioning and floating refractive glass spheres.
-- **Tech Stack:** Web Audio API (`PannerNode`), Framer Motion, Zod, Server Actions, `SpatialEchoLobbyContainer.tsx`.
-- **Status:** ✅ Completed
-
-### 🍿 Sprint 90: BioAcousticConcessionContainer (עוזר מזנון ביו-אקוסטי)
-- **Concept:** Bio-Acoustic smart concession combo optimizer with 35Hz sub-bass rumble, Liquid Glass 4.0 hover effects, and Zod verification.
-- **Tech Stack:** Web Audio API (35Hz sine), Framer Motion, Zod, Server Actions, `BioAcousticConcessionContainer.tsx`.
-- **Status:** ✅ Completed
-
----
-
-## 🔮 Phase 37: The Visual & Interactive Multi-Sensory Cinema Suite (Active Phase)
-
-### 🔮 Sprint 94: KineticShaderDeckContainer (מנוע שיידרים תלת-ממדי)
-- **Concept:** WebGL / Canvas interactive glass distortion shader deck tracking mouse/touch velocity with chromatic aberration trails and 120Hz GPU Framer Motion.
-- **Tech Stack:** Canvas Shaders, Framer Motion, Zod, Server Actions, `KineticShaderDeckContainer.tsx`.
-- **Status:** ✅ Completed
-
-### 🧠 Sprint 95: NeuralSceneGraphContainer (מפת עלילה ניורונית AI)
-- **Concept:** Force-directed interactive node graph visualization of movie screenplay structure with expandable Liquid Glass AI narrative cards.
-- **Tech Stack:** SVG Force Graph, Gemini AI Server Actions, Zod, `NeuralSceneGraphContainer.tsx`.
-- **Status:** ✅ Completed
-
-### 📐 Sprint 96: HolographicSeatPOVContainer (סימולטור נקודת מבט מרחבית 180°)
-- **Concept:** Interactive 180° FOV seat perspective simulator displaying eye-level screen angle, distance raycasting, and dynamic ambient lighting sync.
-- **Tech Stack:** Raycasting Math, Framer Motion 120Hz, Zod, Server Actions, `HolographicSeatPOVContainer.tsx`.
-- **Status:** ✅ Completed
-
-### 🃏 Sprint 97: QuantumCineCardVaultContainer (כספת קלפי אספנות הולוגרפיים)
-- **Concept:** Collectible 3D tilt movie trading cards with holographic foil reflections, rarity rank badges, and a drag-and-drop fusion matrix.
-- **Tech Stack:** 3D CSS / Canvas Foil Shaders, Drag & Drop, Zod, Server Actions, `QuantumCineCardVaultContainer.tsx`.
-- **Status:** ✅ Completed
-
-### 🎨 Sprint 98: BioThemeMorpherContainer (מנוע עיצוב דינמי ז'אנרי)
-- **Concept:** Dynamic UI theme morphing engine injecting CSS variables (`--glass-refraction`, `--glow-accent`) based on movie genre or user selection.
-- **Tech Stack:** CSS Variable Injection, Framer Motion, Zod, Server Actions, `BioThemeMorpherContainer.tsx`.
-- **Status:** ✅ Completed
-
----
-
-## ⚡ Phase 38: Next-Gen Spatial Haptic Cinema Suite (Active Phase)
-
-### 🪑 Sprint 99: SpatialHapticSeatModal (מנוע תהודה אקוסטית ומשוב הפטי למושבים)
-- **Concept:** 3D FOV raycasting seat perspective, Web Audio 40Hz sub-bass oscillator with spatial panning, device vibration haptics, Zod validated server action (`calculateSpatialHapticPerspectiveAction`), and Liquid Glass 4.0 modal.
-- **Tech Stack:** Web Audio API (`OscillatorNode`, `StereoPanner`), Haptics API (`navigator.vibrate`), Framer Motion 120Hz GPU, Zod, Next.js Server Actions, `SpatialHapticSeatModal.tsx`.
-- **Status:** ✅ Completed
-
----
-
-## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-8)
+## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-9)
 
 ### 🔊 Sprint 6: AI Bio-Sync Haptic Seat Resonator & CineMatch AR
 - **Concept:** Real-time seat haptic vibration (`Navigator.vibrate` / Web Audio Sub-Bass) and CineMatch AR group matchmaker with Gemini 3.5 voice agent.
@@ -126,3 +54,7 @@
 - **Tech Stack:** Crypto HMAC SHA-256, 3D Tilt Refraction, Web Audio feedback, Zod, Mongoose, `MemoryShardVault.tsx`.
 - **Status:** ✅ Completed
 
+### ✨ Sprint 9: Gradient Border Effect Skill Integration & Sidebar Navigation Upgrade
+- **Concept:** Mouse-tracked radial gradient glowing border effects using CSS Masking (`mask-composite: exclude` / `xor`), single pointer listener container, dark-mode glassmorphic cards, and full interactive Sidebar Navigation glow tracking.
+- **Tech Stack:** React, Next.js, CSS Masking, PointerEvents, `GradientBorderContainer.tsx`, `GradientBorderCard.tsx`, `GradientBorderShowcase.tsx`, `SidebarNavItem.tsx`, `Sidebar.tsx`.
+- **Status:** ✅ Completed
