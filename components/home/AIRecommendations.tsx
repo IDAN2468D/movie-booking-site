@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Info, Ticket, CheckCircle, Clock } from 'lucide-react';
+import { Sparkles, CheckCircle } from 'lucide-react';
 import { AIResponse } from '@/types/ai';
 import { useBookingStore } from '@/lib/store';
 import { Movie } from '@/lib/tmdb';
+import ElectricSmartPickCard from './ElectricSmartPickCard';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 export default function AIRecommendations() {
   const [data, setData] = useState<AIResponse | null>(null);
@@ -16,54 +17,28 @@ export default function AIRecommendations() {
   useEffect(() => {
     async function fetchRecommendations() {
       try {
-        // Mocking the request with the data provided by the user
         const response = await fetch('/api/ai/recommendations', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             userProfile: {
               preferences: ["מדע בדיוני", "פעולה", "סייברפאנק"],
-              watchHistory: ["חולית: חלק שני", "בלייד ראנר 2049", "המטריקס: התחייה"],
+              watchHistory: ["חולית: חלק שני", "בלייד ראנר 2049"],
               subscriptionType: "מנוי פרימיום"
             },
             movieDatabase: [
-              {
-                title: "אופק ניאון 2026",
-                genre: ["מדע בדיוני", "פעולה"],
-                formats: ["איימקס", "4DX", "סטנדרטי"]
-              },
-              {
-                title: "היער השקט",
-                genre: ["דרמה", "מסתורין"],
-                formats: ["סטנדרטי"]
-              },
-              {
-                title: "מתקפת סייבר",
-                genre: ["פעולה", "סייברפאנק"],
-                formats: ["4DX", "סטנדרטי"]
-              }
+              { title: "אופק ניאון 2026", genre: ["מדע בדיוני", "פעולה"], formats: ["איימקס", "4DX"] },
+              { title: "היער השקט", genre: ["דרמה", "מסתורין"], formats: ["סטנדרטי"] },
+              { title: "מתקפת סייבר", genre: ["פעולה", "סייברפאנק"], formats: ["4DX"] }
             ],
             liveInventory: {
               requestedSeats: 3,
               availability: [
-                {
-                  movieId: "אופק_ניאון_2026",
-                  slots: [
-                    { time: "2026-04-21T19:00:00Z", seats: 10, format: "IMAX" },
-                    { time: "2026-04-21T21:30:00Z", seats: 2, format: "4DX" }
-                  ]
-                },
-                {
-                  movieId: "מתקפת_סייבר",
-                  slots: [
-                    { time: "2026-04-21T20:00:00Z", seats: 5, format: "4DX" }
-                  ]
-                }
+                { movieId: "אופק_ניאון_2026", slots: [{ time: "2026-04-21T19:00:00Z", seats: 10, format: "IMAX" }] }
               ]
             }
           })
         });
-
         const result = await response.json();
         setData(result);
       } catch (error) {
@@ -78,11 +53,7 @@ export default function AIRecommendations() {
 
   if (loading) return (
     <div className="w-full h-48 flex items-center justify-center">
-      <motion.div 
-        animate={{ rotate: 360 }}
-        transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-        className="w-8 h-8 border-t-2 border-orange-500 rounded-full"
-      />
+      <LoadingIndicator variant="orbit" size="lg" label="טוען המלצות AI..." />
     </div>
   );
 
@@ -108,63 +79,26 @@ export default function AIRecommendations() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <AnimatePresence>
           {data.recommendations.map((rec, index) => (
-            <motion.div
-              key={rec.movieId}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="relative"
-            >
-              <Link 
-                href={`/movie/${index + 1300000}`} // Use a real-looking ID for E2E tests
-                className={`block relative group overflow-hidden bg-white/5 backdrop-blur-xl border rounded-2xl p-6 transition-all duration-500 shadow-2xl cursor-pointer text-right ${
-                  selectedMovie?.title === rec.title 
-                    ? 'border-orange-500 shadow-orange-500/20' 
-                    : 'border-white/10 hover:border-orange-500/50'
-                }`}
-                onClick={() => {
-                  const movieProxy: Movie = {
-                    id: index + 1300000,
-                    title: rec.title,
-                    displayTitle: rec.title,
-                    poster_path: '',
-                    backdrop_path: '',
-                    vote_average: 9.5,
-                    release_date: '2026-04-21',
-                    overview: rec.reason,
-                    genre_ids: []
-                  };
-                  setSelectedMovie(movieProxy);
-                }}
-              >
-                <div className="absolute top-0 left-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
-                  <Ticket className="w-12 h-12 text-white" />
-                </div>
-
-                <span className="inline-block px-3 py-1 bg-orange-500 text-black text-[10px] font-bold rounded-full mb-3">
-                  {rec.bestFormat}
-                </span>
-
-                <h3 className="text-xl font-bold text-white mb-2">{rec.title}</h3>
-                <p className="text-sm text-white/60 mb-4 line-clamp-3">
-                  {rec.reason}
-                </p>
-
-                <div className="flex flex-col gap-3 mt-auto">
-                  <div className="flex items-center gap-2 px-3 py-2 bg-white/5 rounded-xl border border-white/5 justify-start">
-                    <Clock className="w-3.5 h-3.5 text-slate-400" />
-                    <span className="text-[11px] text-slate-300 font-medium">{rec.availabilityBadge}</span>
-                  </div>
-                  
-                  <div className="flex items-start gap-2 p-3 bg-orange-500/10 rounded-xl justify-start">
-                    <Info className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
-                    <p className="text-xs text-orange-200/80 leading-relaxed italic">
-                      {rec.savingsTip}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
+            <ElectricSmartPickCard
+              key={rec.movieId || `${rec.title}-${index}`}
+              rec={rec}
+              index={index}
+              isSelected={selectedMovie?.title === rec.title}
+              onClick={() => {
+                const movieProxy: Movie = {
+                  id: index + 1300000,
+                  title: rec.title,
+                  displayTitle: rec.title,
+                  poster_path: '',
+                  backdrop_path: '',
+                  vote_average: 9.5,
+                  release_date: '2026-04-21',
+                  overview: rec.reason,
+                  genre_ids: []
+                };
+                setSelectedMovie(movieProxy);
+              }}
+            />
           ))}
         </AnimatePresence>
       </div>

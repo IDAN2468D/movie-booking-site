@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Search, Heart, Filter, Navigation } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface BranchFiltersProps {
   searchQuery: string;
@@ -117,7 +118,11 @@ export function BranchFilters({
               disabled={isLocating}
               className="mr-4 text-primary hover:text-white transition-colors flex items-center gap-2 font-bold text-[10px] uppercase tracking-wider bg-primary/10 px-3 py-1 rounded-lg"
             >
-              <Navigation className={`w-3 h-3 ${isLocating ? 'animate-spin' : ''}`} />
+              {isLocating ? (
+                <LoadingIndicator variant="spinner" size={12} color="#ff4500" label="מאתר מיקום..." />
+              ) : (
+                <Navigation className="w-3 h-3" />
+              )}
               עדכון
             </button>
           </div>

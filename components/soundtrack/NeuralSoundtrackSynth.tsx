@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Square, Music, Sparkles } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { generateNeuralSoundtrack } from '@/lib/actions/soundtrack-actions';
 import { neuralAudioEngine } from '@/lib/audio/neural-audio-engine';
 import { HarmonicConfig } from '@/lib/validations/soundtrack-schema';
@@ -81,7 +82,7 @@ export const NeuralSoundtrackSynth: React.FC<NeuralSoundtrackSynthProps> = ({
           className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-medium transition-all active:scale-95 disabled:opacity-50"
         >
           {isLoading ? (
-            <span className="w-4 h-4 border-2 border-purple-400 border-t-transparent rounded-full animate-spin" />
+            <LoadingIndicator variant="spinner" size={16} color="#c084fc" label="מעבד מוזיקה..." />
           ) : isPlaying ? (
             <>
               <Square className="w-3.5 h-3.5 text-red-400 fill-current" /> Stop

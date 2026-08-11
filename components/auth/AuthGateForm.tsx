@@ -2,10 +2,11 @@
 
 import React, { useActionState, useEffect, useState, useTransition, useRef } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { Mail, Lock, User, ArrowRight, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight } from 'lucide-react';
 import { authenticateUserAction } from '@/app/actions/authActions';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { KineticText } from '@/components/effects/KineticText';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 
@@ -141,7 +142,7 @@ export default function AuthGateForm({ initialView = 'login' }: { initialView?: 
         <motion.div variants={itemVariants}>
           <MagneticButton type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-primary to-orange-500 hover:from-[#FF7A00] hover:to-primary text-background py-5 rounded-2xl font-black text-sm tracking-[0.2em] transition-all shadow-[0_4px_25px_rgba(255,20,100,0.4)] flex items-center justify-center gap-2 group font-outfit relative overflow-hidden">
             <span className="absolute inset-0 w-full h-full bg-white/20 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] skew-x-12" />
-            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <span className="relative z-10 flex items-center gap-2">{view === 'login' ? 'התחברות' : 'צור חשבון'}<ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform transform-gpu" /></span>}
+            {isLoading ? <LoadingIndicator variant="spinner" size={20} color="#000000" label="מאמת פרטים..." /> : <span className="relative z-10 flex items-center gap-2">{view === 'login' ? 'התחברות' : 'צור חשבון'}<ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform transform-gpu" /></span>}
           </MagneticButton>
         </motion.div>
 

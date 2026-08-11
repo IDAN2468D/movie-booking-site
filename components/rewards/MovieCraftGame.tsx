@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Gamepad2, Play, Trophy, RotateCcw, ArrowRight } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { useBookingStore } from '@/lib/store';
 import { getPopularMoviesAction } from '@/lib/actions/recommendations';
 import { Movie } from '@/lib/tmdb';
@@ -188,9 +189,9 @@ export const MovieCraftGame = () => {
               <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-amber-500/30 to-transparent shadow-[0_0_15px_rgba(255,159,10,0.2)] animate-pulse" />
               
               {loading ? (
-                <div className="flex-1 flex flex-col items-center justify-center text-center">
-                  <div className="w-8 h-8 rounded-full border-2 border-primary/20 border-t-primary animate-spin mb-3" />
-                  <p className="text-xs font-bold text-slate-400">Gemini כותב כעת את הפרק הבא בעלילה...</p>
+                <div className="flex-1 flex flex-col items-center justify-center text-center gap-3">
+                  <LoadingIndicator variant="orbit" size="md" color="#f59e0b" label="Gemini כותב את הפרק הבא..." />
+                  <p className="text-xs font-bold text-slate-400 animate-pulse">Gemini כותב כעת את הפרק הבא בעלילה...</p>
                 </div>
               ) : (
                 <div className="space-y-4">

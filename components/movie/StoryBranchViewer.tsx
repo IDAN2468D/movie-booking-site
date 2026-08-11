@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { GitFork, Sparkles, Film, ArrowRight, RefreshCw } from "lucide-react";
+import { GitFork, Sparkles, Film, ArrowRight } from "lucide-react";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { generateStoryBranchScenario } from "@/lib/actions/storyBranchActions";
 
 interface Props {
@@ -105,7 +106,7 @@ export const StoryBranchViewer: React.FC<Props> = ({ movieId, movieTitle }) => {
             disabled={generating}
             className="flex items-center gap-2 rounded-xl bg-purple-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-purple-500 transition-all"
           >
-            {generating ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+            {generating ? <LoadingIndicator variant="spinner" size={16} color="#ffffff" label="מפיק תסריט..." /> : <Sparkles className="h-4 w-4" />}
             {generating ? "מפיק תסריט..." : "חולל ענף AI"}
           </button>
         </div>

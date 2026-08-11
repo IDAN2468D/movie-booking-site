@@ -4,6 +4,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { X, Zap, Check, Copy, Gift } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface Reward {
   id: number;
@@ -152,7 +153,7 @@ export const RewardsModals = ({
                         }`}
                       >
                         {loading ? (
-                          <div className="w-4 h-4 border-2 border-background border-t-transparent rounded-full animate-spin" />
+                          <LoadingIndicator variant="spinner" size={16} color="#000000" label="מממש..." />
                         ) : isRedeemed ? (
                           'מומש ✓'
                         ) : canRedeem ? (

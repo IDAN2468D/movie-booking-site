@@ -1,6 +1,7 @@
 import { getUpcomingMoviesAction } from "@/app/actions/movieActions";
 import { ComingSoonClient } from "./ComingSoonClient";
 import { Suspense } from "react";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 export const metadata = {
   title: "בקרוב בקולנוע | תגלית",
@@ -14,8 +15,14 @@ export default async function ComingSoonPage() {
   const movies = result.success && result.data ? result.data : [];
 
   return (
-    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>}>
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-4">
+        <LoadingIndicator variant="orbit" size="lg" label="טוען סרטים בקרוב..." />
+        <p className="text-slate-400 font-bold text-sm animate-pulse">טוען סרטים בקרוב...</p>
+      </div>
+    }>
       <ComingSoonClient initialMovies={movies} />
     </Suspense>
   );
 }
+

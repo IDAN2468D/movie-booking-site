@@ -1,30 +1,28 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 
 /**
- * Template for cinematic page transitions.
- * Next.js Template is used instead of Layout to ensure unmount/remount on every navigation.
+ * ⚡ Ultra-Smooth 120Hz GPU Page Transition.
+ * Uses GPU-accelerated opacity & translateZ without heavy blur filters
+ * to eliminate navigation flickering and repaints when going back/forward.
  */
 export default function Template({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={pathname}
-        initial={{ opacity: 0, scale: 1.02, filter: 'blur(10px)' }}
-        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-        exit={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
-        transition={{
-          duration: 0.6,
-          ease: [0.22, 1, 0.36, 1], // Cinematic cubic-bezier
-        }}
-        className="w-full h-full"
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      key={pathname}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{
+        duration: 0.2,
+        ease: 'easeOut',
+      }}
+      className="w-full h-full [transform:translateZ(0)] will-change-[opacity]"
+    >
+      {children}
+    </motion.div>
   );
 }

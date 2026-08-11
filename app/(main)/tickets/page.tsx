@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import QuantumTicket from '@/components/tickets/QuantumTicket';
@@ -109,8 +109,8 @@ export default function TicketsPage() {
   if (isLoading) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
-        <Loader2 className="w-12 h-12 text-primary animate-spin" />
-        <p className="text-slate-400 font-bold">טוען את הכרטיסים שלך...</p>
+        <LoadingIndicator variant="orbit" size="lg" label="טוען את הכרטיסים שלך..." />
+        <p className="text-slate-400 font-bold animate-pulse">טוען את הכרטיסים שלך...</p>
       </div>
     );
   }

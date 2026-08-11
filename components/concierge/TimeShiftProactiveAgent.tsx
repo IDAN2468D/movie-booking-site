@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTimeShiftStore } from '@/lib/store/timeShiftStore';
 import { rescheduleTicketAction } from '@/app/actions/rescheduleActions';
-import { MapPin, Clock, X, AlertTriangle, ArrowRightCircle, RefreshCcw } from 'lucide-react';
+import { MapPin, Clock, X, AlertTriangle, ArrowRightCircle } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 export default function TimeShiftProactiveAgent() {
   const { trafficStatus, delayMinutes, route, activeTicketId, ticketTime, dismissAlert, isDismissed } = useTimeShiftStore();
@@ -111,7 +112,7 @@ export default function TimeShiftProactiveAgent() {
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-orange-600 opacity-80 group-hover:opacity-100 transition-opacity" />
                 <div className="relative flex items-center justify-center gap-2 h-11 bg-neutral-950/50 backdrop-blur-xl rounded-[11px] text-white font-medium hover:bg-neutral-950/30 transition-colors">
                   {isRescheduling ? (
-                    <RefreshCcw className="w-4 h-4 animate-spin text-fuchsia-300" />
+                    <LoadingIndicator variant="spinner" size={16} color="#f0abfc" label="מעדכן מועד..." />
                   ) : (
                     <>
                       <ArrowRightCircle className="w-4 h-4 text-fuchsia-300" />

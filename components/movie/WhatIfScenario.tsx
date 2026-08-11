@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Loader2, Send, BookOpen } from 'lucide-react';
+import { Sparkles, Send, BookOpen } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 export function WhatIfScenario({ movieTitle }: { movieTitle: string }) {
   const [scenario, setScenario] = useState('');
@@ -66,7 +67,7 @@ export function WhatIfScenario({ movieTitle }: { movieTitle: string }) {
             disabled={!scenario.trim() || isGenerating}
             className="absolute left-2 w-12 h-12 bg-fuchsia-500 rounded-xl flex items-center justify-center text-white hover:bg-fuchsia-400 disabled:opacity-50 disabled:bg-white/10 disabled:text-gray-500 transition-colors"
           >
-            {isGenerating ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5 -ml-1" />}
+            {isGenerating ? <LoadingIndicator variant="spinner" size={20} color="#ffffff" label="יוצר תסריט..." /> : <Send className="w-5 h-5 -ml-1" />}
           </button>
         </div>
       </form>
@@ -79,11 +80,8 @@ export function WhatIfScenario({ movieTitle }: { movieTitle: string }) {
             exit={{ opacity: 0, height: 0 }}
             className="flex items-center gap-4 text-fuchsia-400 font-medium"
           >
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full blur-md bg-fuchsia-500/40 animate-pulse" />
-              <Loader2 className="w-6 h-6 animate-spin relative z-10" />
-            </div>
-            כותב מחדש את ההיסטוריה הקולנועית...
+            <LoadingIndicator variant="orbit" size={28} color="#d946ef" label="יוצר תסריט..." />
+            <span>כותב מחדש את ההיסטוריה הקולנועית...</span>
           </motion.div>
         )}
 

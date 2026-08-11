@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { motion, animate, AnimatePresence } from 'framer-motion';
 import { useCryptoPricing } from '@/hooks/useCryptoPricing';
 import { useWalletStore } from '@/lib/store/walletStore';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface CryptoTicketPricerProps {
   basePriceUSD: number; // e.g., total cart price
@@ -225,7 +226,7 @@ export const CryptoTicketPricer: React.FC<CryptoTicketPricerProps> = ({ basePric
                 exit={{ opacity: 0 }}
                 className="w-full bg-white/10 border border-white/20 py-3 rounded-xl flex items-center justify-center gap-3 text-xs text-white"
               >
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <LoadingIndicator variant="spinner" size={16} color="#ffffff" label="ממתין לאישור ארנק..." />
                 ממתין לאישור ארנק...
               </motion.div>
             )}

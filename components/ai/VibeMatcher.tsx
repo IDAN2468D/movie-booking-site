@@ -2,7 +2,8 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Image as ImageIcon, Loader2, Sparkles, X, UploadCloud } from 'lucide-react';
+import { Image as ImageIcon, Sparkles, X, UploadCloud } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { cn } from '@/lib/utils/index';
 import ReactMarkdown from 'react-markdown';
 
@@ -149,12 +150,9 @@ export default function VibeMatcher() {
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="flex-grow flex flex-col items-center justify-center gap-4 h-full"
+              className="flex-grow flex flex-col items-center justify-center gap-6 h-full"
             >
-              <div className="relative">
-                <div className="absolute inset-0 rounded-full blur-xl bg-primary/30 animate-pulse" />
-                <Loader2 className="w-16 h-16 text-primary animate-spin relative z-10" />
-              </div>
+              <LoadingIndicator variant="orbit" size="xl" label="מפענח את התמונה..." />
               <p className="text-primary font-medium animate-pulse text-xl">מפענח את התמונה...</p>
             </motion.div>
           )}

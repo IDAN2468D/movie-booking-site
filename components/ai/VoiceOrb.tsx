@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Loader2 } from 'lucide-react';
+import { Bot } from 'lucide-react';
 import { useVoiceEngine } from '@/lib/hooks/useVoiceEngine';
 import { useVoiceStore } from '@/lib/store/voiceStore';
 

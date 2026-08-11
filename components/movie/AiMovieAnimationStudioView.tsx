@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Play, Pause, ChevronRight, ChevronLeft, Wand2, RefreshCw } from 'lucide-react';
+import { Sparkles, Play, Pause, ChevronRight, ChevronLeft, Wand2 } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { AiMovieAnimationFrame } from '@/lib/validations/ai-movie-animation.schema';
 
 interface AiMovieAnimationStudioViewProps {
@@ -134,8 +135,8 @@ export default function AiMovieAnimationStudioView({
 
               {/* Loading Shimmer Overlay */}
               {(!isImgLoaded || isGenerating) && (
-                <div className="absolute inset-0 bg-neutral-950/80 backdrop-blur-md flex flex-col items-center justify-center z-10 space-y-3">
-                  <RefreshCw className="w-10 h-10 text-primary animate-spin" />
+                <div className="absolute inset-0 bg-neutral-950/80 backdrop-blur-md flex flex-col items-center justify-center z-10 gap-3">
+                  <LoadingIndicator variant="orbit" size="lg" color="#ff4500" label="מפיח חיים בתמונת ה-AI..." />
                   <span className="text-sm font-black text-white tracking-wide animate-pulse">
                     מפיח חיים בתמונת ה-AI שלך...
                   </span>
@@ -188,7 +189,7 @@ export default function AiMovieAnimationStudioView({
           disabled={isGenerating || !promptText.trim()}
           className="px-6 py-3 bg-gradient-to-r from-primary to-cyan-500 text-black rounded-2xl font-black text-xs flex items-center gap-2 shadow-lg hover:opacity-90 disabled:opacity-50 transition-all"
         >
-          {isGenerating ? <RefreshCw size={16} className="animate-spin" /> : <Sparkles size={16} />}
+          {isGenerating ? <LoadingIndicator variant="spinner" size={16} color="#000000" label="מייצר..." /> : <Sparkles size={16} />}
           ייצר תמונת AI
         </button>
       </form>

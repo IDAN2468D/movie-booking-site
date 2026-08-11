@@ -30,66 +30,17 @@
 - **Tech Stack:** Web Audio API (`OscillatorNode`, `GainNode`, `BiquadFilterNode`), Framer Motion 120Hz GPU, Zod, Next.js Server Actions, `QuantumPersonaSoundtrackSynthContainer.tsx`.
 - **Status:** ✅ Completed
 
-### 🎬 Sprint 84: Neural Liquid Glass Screensaver Studio & Resilient Image Engine (שומר מסך אינטראקטיבי ומנוע תמונות עמיד)
-- **Concept:** Hebrew localized interactive Liquid Glass 4.0 screensaver control dock, custom inactivity timer settings modal (15s, 30s, 1m, 3m, 5m, Off), Web Audio API ambient audio synth & 40Hz sub-bass drops, and `ResilientImage` error failover for broken images.
-- **Tech Stack:** Web Audio API (`OscillatorNode`, `GainNode`, `BiquadFilterNode`), Framer Motion 120Hz GPU, Zustand, Zod, `CinematicScreenSaver.tsx`, `ResilientImage.tsx`.
+### ⚡ Sprint 85: Electric Border Effect & Smart Recommendation UI Cards (אפקט גבול חשמלי מואר לכרטיסיות המלצה)
+- **Concept:** Hebrew localized Electric Neon Border Effect with HDR vector SVG `log_white.svg`, 1000% scale at (56%, 41.7%), `background-origin: content-box` with padding, higher z-index dark content layering, and Framer Motion scale transitions.
+- **Tech Stack:** Tailwind CSS, Framer Motion 120Hz GPU, SVG Filter & Radial Core, `ElectricSmartPickCard.tsx`, `SmartPicksView.tsx`, `AIRecommendations.tsx`, `globals.css`.
+- **Status:** ✅ Completed
+
+### 💫 Sprint 86: Global Loading Indicator Standardization (סטנדרטיזציית אנימציות טעינה קולנועיות)
+- **Concept:** Repository-wide unification of loading indicators with 4 GPU-accelerated variants (`orbit`, `spinner`, `pulse`, `dots`) replacing all ad-hoc spinners and icons across 40+ components, ensuring zero layout shift and full accessibility.
+- **Tech Stack:** Tailwind CSS GPU transforms (`[transform:translateZ(0)]`, `will-change-transform`), CSS custom properties, ARIA roles, `LoadingIndicator.tsx`.
 - **Status:** ✅ Completed
 
 ---
 
 ## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-17)
-
-### 🔊 Sprint 6: AI Bio-Sync Haptic Seat Resonator & CineMatch AR
-- **Concept:** Real-time seat haptic vibration (`Navigator.vibrate` / Web Audio Sub-Bass) and CineMatch AR group matchmaker with Gemini 3.5 voice agent.
-- **Tech Stack:** Web Audio API (`BiquadFilterNode`, `SubBassNode`), Framer Motion 120Hz, Zod, Mongoose, Next.js Server Actions, `SensoryResonatorModal.tsx`, `GroupVibeAgentModal.tsx`.
-- **Status:** ✅ Completed
-
-### 🏷️ Sprint 7: Dynamic VIP Seat Auction & Screenplay Simulator
-- **Concept:** Dynamic real-time bidding for unreserved VIP seats and interactive AI "What-If" screenplay branching simulator.
-- **Tech Stack:** Socket.IO / WebSockets, Canvas / SVG, Gemini 3.5 Flash, Zod, Mongoose, `LiveSeatAuctionCard.tsx`, `StoryBranchViewer.tsx`.
-- **Status:** ✅ Completed
-
-### 💎 Sprint 8: Digital Memory Shard Vault
-- **Concept:** Cryptographic digital collectible cards (Memory Shards) issued after screening with HMAC SHA-256 signatures, iconic quotes, and 3D card tilt gallery.
-- **Tech Stack:** Crypto HMAC SHA-256, 3D Tilt Refraction, Web Audio feedback, Zod, Mongoose, `MemoryShardVault.tsx`.
-- **Status:** ✅ Completed
-
-### ✨ Sprint 9: Advanced Features & Site-Wide Gradient Border Effect Integration
-- **Concept:** Interactive mouse-tracked radial gradient glowing border effects across all Advanced Features (`FeaturesDropdown`, `LiveSeatAuctionCard`) and all site card elements with full 120Hz GPU performance.
-- **Tech Stack:** React, Next.js, CSS Masking, PointerEvents, `FeaturesDropdown.tsx`, `LiveSeatAuctionCard.tsx`, `GradientBorderContainer.tsx`, `GradientBorderCard.tsx`, `Sidebar.tsx`.
-- **Status:** ✅ Completed
-
-### 🤖 Sprint 10: Strict Primary Gemini Model Router (gemini-3.5-flash-lite)
-- **Concept:** Universal enforcement of `gemini-3.5-flash-lite` as the primary default AI model across all backend handlers, server actions, voice concierge, and AI search routines.
-- **Tech Stack:** `@google/generative-ai`, `lib/gemini.ts`, Next.js Server Actions, API Routes.
-- **Status:** ✅ Completed
-
-### 🔴 Sprint 11: Live Cinema Right Panel Gradient Border Effect Upgrade
-- **Concept:** Full Gradient Border Effect integration for the Live Cinema Broadcast Right Panel (`RightPanel.tsx`), Live Cinema Card (`RightPanelLiveCinemaCard.tsx`), and Live Snack Grid (`RightPanelSnackGrid.tsx`).
-- **Tech Stack:** React, Next.js, CSS Masking, PointerEvents, `RightPanel.tsx`, `RightPanelLiveCinemaCard.tsx`, `RightPanelSnackGrid.tsx`.
-- **Status:** ✅ Completed
-
-### 🌐 Sprint 12: Global Viewport Outer Application Frame Gradient Border Effect
-- **Concept:** Viewport-wide outer application frame wrapper (`GlobalGradientFrame.tsx`) applying dynamic cursor-tracked glowing radial gradient masking around the full 4-corner border shell of the website.
-- **Tech Stack:** React, Next.js, CSS Masking, PointerEvents, `GlobalGradientFrame.tsx`, `app/(main)/layout.tsx`.
-- **Status:** ✅ Completed
-
-### 🎟️ Sprint 13: My Tickets Digital Passbooks Gradient Border Effect Upgrade
-- **Concept:** Gradient Border Effect integration across digital ticket passbooks (`QuantumTicket.tsx`, `HolographicTicket.tsx`) with 3D tilt interaction and mouse-tracked glowing radial masks.
-- **Tech Stack:** React, Next.js, Framer Motion, CSS Masking, PointerEvents, `QuantumTicket.tsx`, `HolographicTicket.tsx`.
-- **Status:** ✅ Completed
-
-### 🎫 Sprint 15: MongoDB Data Bookings Query Fix for User Tickets
-- **Concept:** Updated MongoDB `/api/bookings` route handler to execute compound query `{ $or: [{ userId: session.user.id }, { userEmail: session.user.email }] }` guaranteeing all user ticket bookings created in database are retrieved and displayed in full.
-- **Tech Stack:** MongoDB, Mongoose, Next.js API Routes, NextAuth.js, `app/api/bookings/route.ts`.
-- **Status:** ✅ Completed
-
-### 🧪 Sprint 16: Liquid Glass 4.0 & Gradient Border Fusion Layer
-- **Concept:** Seamless combination of Liquid Glass 4.0 glassmorphism styling (`backdrop-blur-[60px]`, `saturate-[250%]`, glass refraction highlights) with dynamic mouse-tracked Gradient Border Effect overlays across all ticket views (`LiquidGlassTicketVault.tsx`, `QuantumTicket.tsx`, `HolographicTicket.tsx`).
-- **Tech Stack:** CSS Masking, Glassmorphism, React, Framer Motion, `LiquidGlassTicketVault.tsx`.
-- **Status:** ✅ Completed
-
-### 🎬 Sprint 17: Movie Entrance Animation & Shared Element Transition
-- **Concept:** Cinematic entrance animation for movie detail pages in Next.js 15 & Framer Motion with `layoutId={`movie-poster-${movie.id}`}` shared element transition, backdrop scale zoom, holographic scanner line, and staggered content reveal.
-- **Tech Stack:** React, Next.js 15, Framer Motion, Tailwind CSS, `MovieEntranceAnimation.tsx`, `MovieCard.tsx`, `MovieDetailsContent.tsx`.
-- **Status:** ✅ Completed
+- Dynamic Cinema Experiences, Quantum Ticket Passbooks, Group Lounge Sync, Biometric Gateways, Audio-Haptic Modals, and AI Screenplay Simulator.

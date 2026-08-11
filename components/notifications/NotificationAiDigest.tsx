@@ -21,11 +21,12 @@ export const NotificationAiDigest: React.FC = () => {
       exit={{ opacity: 0, height: 0 }}
       className="max-w-4xl mx-auto mb-8 overflow-hidden"
     >
-      <div className="p-6 md:p-7 rounded-[32px] border border-[#FF1464]/30 bg-gradient-to-r from-[#FF1464]/10 via-purple-900/10 to-cyan-900/10 backdrop-blur-2xl relative shadow-[0_15px_40px_rgba(255,20,100,0.15)]">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-[#FF1464] text-white rounded-xl shadow-[0_0_15px_rgba(255,20,100,0.5)]">
-            <Sparkles size={18} />
-          </div>
+      <div className="electric-movie-card relative rounded-[32px] p-[2px] shadow-[0_15px_40px_rgba(255,69,0,0.25)]">
+        <div className="electric-card-inner p-6 md:p-7 rounded-[30px] bg-[#11090d]/95 border border-white/[0.04] backdrop-blur-3xl relative z-[1]">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-[#ff4500] text-white rounded-xl shadow-[0_0_15px_rgba(255,69,0,0.6)]">
+              <Sparkles size={18} />
+            </div>
           <div>
             <h3 className="text-base font-black text-white font-outfit leading-tight">
               תקציר מנהלים חכם (AI Digest)
@@ -95,6 +96,7 @@ export const NotificationAiDigest: React.FC = () => {
             <span>לכרטיסים שלי</span>
             <ArrowLeft size={14} />
           </Link>
+        </div>
         </div>
       </div>
     </motion.div>

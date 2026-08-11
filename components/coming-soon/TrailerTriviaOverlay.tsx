@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, RefreshCw, EyeOff } from "lucide-react";
+import { Sparkles, EyeOff } from "lucide-react";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { generateTrailerTriviaAction } from "@/app/actions/trailerTriviaActions";
 import { TrailerTriviaItem } from "@/lib/validations/trivia";
 
@@ -65,7 +66,7 @@ export function TrailerTriviaOverlay({ movieTitle, isOpen }: TrailerTriviaOverla
             exit={{ opacity: 0, y: -10 }}
             className="flex items-center gap-2 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-2 rounded-2xl text-xs text-white/70"
           >
-            <RefreshCw className="w-3.5 h-3.5 animate-spin text-primary" />
+            <LoadingIndicator variant="spinner" size={14} color="#ff4500" label="מייצר תובנות במאי..." />
             <span>מייצר תובנות במאי ב-AI...</span>
           </motion.div>
         ) : triviaList.length > 0 ? (

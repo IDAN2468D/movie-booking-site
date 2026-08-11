@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Zap, Loader2 } from 'lucide-react';
+import { Zap } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface Booking {
   movie: string;
@@ -30,8 +31,8 @@ export const ActivityHistory = ({ bookings, isLoading, onShowFull }: ActivityHis
        <div className="flex-1 space-y-6">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center h-48 gap-4">
-              <Loader2 className="w-8 h-8 text-primary animate-spin" />
-              <p className="text-xs text-slate-500 font-bold">טוען פעילות...</p>
+              <LoadingIndicator variant="orbit" size="md" color="#ff4500" label="טוען פעילות..." />
+              <p className="text-xs text-slate-500 font-bold animate-pulse">טוען פעילות...</p>
             </div>
           ) : bookings.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-48 text-center px-4">

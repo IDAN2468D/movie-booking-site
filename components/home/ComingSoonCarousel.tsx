@@ -6,6 +6,7 @@ import { getUpcomingMoviesAction } from '@/app/actions/movieActions';
 import { UpcomingMovie } from '@/lib/validations/movieValidation';
 import { getImageUrl } from '@/lib/tmdb';
 import Image from 'next/image';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 export default function ComingSoonCarousel() {
   const [movies, setMovies] = useState<UpcomingMovie[]>([]);
@@ -50,11 +51,9 @@ export default function ComingSoonCarousel() {
         <h3 className="text-xl font-bold text-white mb-6 font-['Outfit'] tracking-wide">
           בקרוב לקולנוע
         </h3>
-        <div className="w-full h-[400px] rounded-2xl bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 border border-white/[0.12] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),_0_25px_50px_-12px_rgba(0,0,0,0.7)] flex items-center justify-center">
-          <div className="flex gap-4">
-            <div className="w-8 h-8 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-            <span className="text-gray-400 font-['Inter'] text-sm animate-pulse">טוען סרטים בקרוב...</span>
-          </div>
+        <div className="w-full h-[400px] rounded-2xl bg-neutral-950/40 backdrop-blur-[40px] saturate-[250%] brightness-105 border border-white/[0.12] shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),_0_25px_50px_-12px_rgba(0,0,0,0.7)] flex flex-col items-center justify-center gap-4">
+          <LoadingIndicator variant="orbit" size="lg" color="#00f0ff" label="טוען סרטים בקרוב..." />
+          <span className="text-gray-400 font-['Inter'] text-sm animate-pulse">טוען סרטים בקרוב...</span>
         </div>
       </section>
     );

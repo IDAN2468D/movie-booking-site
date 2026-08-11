@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Loader2, ChevronDown, Sparkles } from 'lucide-react';
+import { Search, ChevronDown, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/lib/utils/index';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 export function CinematicDeepDive({ movieId, movieTitle }: { movieId: number, movieTitle: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,10 +66,7 @@ export function CinematicDeepDive({ movieId, movieTitle }: { movieId: number, mo
             <div className="p-8">
               {isResearching && (
                 <div className="flex flex-col items-center justify-center py-12 gap-4">
-                  <div className="relative">
-                    <div className="absolute inset-0 rounded-full blur-xl bg-purple-500/30 animate-pulse" />
-                    <Loader2 className="w-12 h-12 text-purple-400 animate-spin relative z-10" />
-                  </div>
+                  <LoadingIndicator variant="orbit" size={56} color="#a855f7" label="תחקיר AI..." />
                   <p className="text-purple-300 font-medium animate-pulse text-lg">סוכני ה-AI מבצעים תחקיר עמוק...</p>
                 </div>
               )}

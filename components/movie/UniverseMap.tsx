@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Network, Loader2, Sparkles, AlertCircle, Maximize2 } from 'lucide-react';
+import { Network, Sparkles, AlertCircle, Maximize2 } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { cn } from '@/lib/utils/index';
 
 export function UniverseMap({ movieId, movieTitle }: { movieId: number, movieTitle: string }) {
@@ -79,10 +80,7 @@ export function UniverseMap({ movieId, movieTitle }: { movieId: number, movieTit
 
         {isLoading && (
           <div className="flex flex-col items-center gap-6 py-12">
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full blur-xl bg-cyan-500/30 animate-pulse" />
-              <Loader2 className="w-16 h-16 text-cyan-400 animate-spin relative z-10" />
-            </div>
+            <LoadingIndicator variant="orbit" size="xl" color="#00f0ff" label="ממפה את היקום הקולנועי..." />
             <p className="text-cyan-300 font-bold text-xl animate-pulse">ממפה את היקום הקולנועי ומייצר אינפוגרפיקה (SVG)...</p>
           </div>
         )}

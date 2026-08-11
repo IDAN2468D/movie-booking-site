@@ -5,6 +5,7 @@ import NextImage from 'next/image';
 import { Calendar, Clock, ArrowRight, Zap, MapPin, Armchair } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Movie, getImageUrl } from '@/lib/tmdb';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 
 interface OrderSummaryProps {
@@ -136,7 +137,7 @@ export const OrderSummary = ({
             <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.15),transparent)] -translate-x-full group-hover:animate-shimmer z-10" style={{ backgroundSize: '200% 100%' }} />
             
             {isProcessing ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <LoadingIndicator variant="spinner" size={22} color="#ffffff" label="מעבד תשלום..." />
             ) : (
               <>
                 <span className="relative z-20">השלם תשלום</span>

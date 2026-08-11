@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Newspaper, Rss, Clock, Sparkles, ExternalLink, Tag } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import type { NewsCuratorOutput, NewsArticle } from '@/lib/schemas/newsCurator';
 
 const playHoverSound = () => {
@@ -86,7 +87,7 @@ export default function NewsWidget({ fullWidth = false }: { fullWidth?: boolean 
         <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(99,102,241,0.3) transparent' }}>
           {isLoading ? (
             <div className="h-64 flex flex-col items-center justify-center space-y-4">
-              <div className="w-12 h-12 rounded-full border-2 border-indigo-500/20 border-t-indigo-400 animate-spin" />
+              <LoadingIndicator variant="orbit" size="lg" color="#818cf8" label="הסוכן אוסף ומנתח כתבות..." />
               <p className="text-sm font-bold text-indigo-300/70 animate-pulse">הסוכן אוסף ומנתח כתבות ותמונות...</p>
             </div>
           ) : error ? (

@@ -3,7 +3,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Camera, UploadCloud, Loader2, Sparkles, X, Star, Pizza, Film } from 'lucide-react';
+import { Camera, UploadCloud, Sparkles, X, Star, Pizza, Film } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { cn } from '@/lib/utils/index';
 import NextImage from 'next/image';
 import Link from 'next/link';
@@ -237,12 +238,9 @@ export default function MoodRecommendations() {
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="flex-grow flex flex-col items-center justify-center gap-4 h-full"
+              className="flex-grow flex flex-col items-center justify-center gap-6 h-full"
             >
-              <div className="relative">
-                <div className="absolute inset-0 rounded-full blur-xl bg-primary/30 animate-pulse" />
-                <Loader2 className="w-16 h-16 text-primary animate-spin relative z-10" />
-              </div>
+              <LoadingIndicator variant="orbit" size="xl" label="סורק פנים ומנתח אמוציות..." />
               <p className="text-primary font-medium animate-pulse text-xl">סורק פנים ומנתח אמוציות...</p>
             </motion.div>
           )}

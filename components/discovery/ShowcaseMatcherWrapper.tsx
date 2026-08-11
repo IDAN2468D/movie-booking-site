@@ -4,6 +4,7 @@ import MovieSwipeDeck from "./MovieSwipeDeck";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { useRouter } from "next/navigation";
 
 export default function ShowcaseMatcherWrapper({ movies }: { movies: any[] }) {
@@ -50,13 +51,8 @@ export default function ShowcaseMatcherWrapper({ movies }: { movies: any[] }) {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center p-12 bg-black/40 border border-emerald-500/30 rounded-3xl backdrop-blur-xl shadow-[0_0_40px_rgba(16,185,129,0.2)]"
         >
-          <div className="relative w-24 h-24 mx-auto mb-6">
-            <div className="absolute inset-0 border-t-2 border-emerald-400 rounded-full animate-spin" />
-            <div className="absolute inset-2 border-r-2 border-cyan-400 rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
-            <div className="absolute inset-4 bg-emerald-500/20 rounded-full animate-pulse blur-md" />
-            <svg className="absolute inset-0 m-auto w-8 h-8 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+          <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+            <LoadingIndicator variant="orbit" size={80} color="#34d399" label="הבינה המלאכותית מחשבת..." />
           </div>
           <h2 className="text-2xl text-emerald-400 font-bold mb-3 font-['Outfit'] drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">
             הבינה המלאכותית מחשבת...

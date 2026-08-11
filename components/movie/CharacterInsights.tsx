@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Brain, Sparkles, User, ShieldAlert, Target } from 'lucide-react';
 import { cn } from '@/lib/utils/index';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface Character {
   name: string;
@@ -55,7 +56,7 @@ export const CharacterInsights = ({ movieTitle, overview, genres }: CharacterIns
   if (loading) {
     return (
       <div className="w-full bg-[#0A0A0A]/40 backdrop-blur-3xl border border-white/10 rounded-[32px] p-8 flex flex-col items-center justify-center min-h-[300px] text-right" dir="rtl">
-        <div className="w-12 h-12 rounded-full border-t-2 border-primary animate-spin mb-4" />
+        <LoadingIndicator variant="orbit" size="lg" color="#FF1464" label="סורק דמויות..." className="mb-4" />
         <p className="text-sm font-bold text-slate-400">Gemini סורק כעת את נרטיב הסרט ומנתח פרופילים פסיכולוגיים...</p>
       </div>
     );

@@ -11,6 +11,7 @@ import HorizontalShowtimes from '@/components/booking/HorizontalShowtimes';
 import SeatMapSection from '@/components/booking/SeatMapSection';
 import BookingSummarySidebar from '@/components/booking/BookingSummarySidebar';
 import { PaymentSingularityMatrix } from '@/components/checkout/PaymentSingularityMatrix';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 type CinemaBranch = (typeof CINEMA_BRANCHES)[number] & { _id?: string };
 
@@ -83,8 +84,9 @@ export default function BookingPage() {
 
   if (loading || !selectedMovie || !branch) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#050505]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary"></div>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-[#050505]">
+        <LoadingIndicator variant="orbit" size="lg" label="טוען נתוני הזמנה..." />
+        <p className="text-slate-400 font-bold text-sm animate-pulse">טוען נתוני הקרנה והזמנה...</p>
       </div>
     );
   }

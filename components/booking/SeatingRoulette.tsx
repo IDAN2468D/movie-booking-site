@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Sparkles, CheckCircle2, AlertTriangle } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { useRouletteStore } from '@/lib/store/rouletteStore';
 import { lockRouletteSeatAction } from '@/app/actions/rouletteActions';
 import { useRouletteAudio } from '@/hooks/useRouletteAudio';
@@ -174,7 +175,7 @@ export default function SeatingRoulette({
 
           {status === 'spinning' && (
             <div className="absolute inset-x-0 bottom-2 flex justify-center">
-              <Loader2 className="w-4 h-4 text-primary animate-spin" />
+              <LoadingIndicator variant="spinner" size={16} color="#ff4500" label="מגריל מושב..." />
             </div>
           )}
         </div>
@@ -187,7 +188,7 @@ export default function SeatingRoulette({
         >
           {status === 'spinning' ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <LoadingIndicator variant="spinner" size={16} color="#000000" label="מגריל מושב..." />
               מגריל מושב...
             </>
           ) : (

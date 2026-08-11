@@ -5,6 +5,7 @@ import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useTicketRotator } from '@/hooks/useTicketRotator';
 import { useNetworkGuard } from '@/hooks/useNetworkGuard';
 import { TicketPayload } from '@/hooks/useOfflineTicketStore';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface LiquidGlassTicketProps {
   ticket: TicketPayload;
@@ -98,7 +99,7 @@ export default function LiquidGlassTicket({ ticket, secret }: LiquidGlassTicketP
               />
             ) : (
               <div className="w-full h-full bg-black/5 flex items-center justify-center flex-col gap-2">
-                <span className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                <LoadingIndicator variant="spinner" size={28} color="#ff1464" label="מפיק קוד דינמי..." />
               </div>
             )}
             

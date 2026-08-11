@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { EraType, RemixResponse } from '@/lib/validations/trailer-remixer.schema';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface TrailerRemixerCanvasViewProps {
   activeEra: EraType;
@@ -83,8 +84,9 @@ export const TrailerRemixerCanvasView: React.FC<TrailerRemixerCanvasViewProps> =
       </div>
 
       {isLoading ? (
-        <div className="py-12 text-center text-neutral-400 font-['Inter'] animate-pulse text-sm">
-          מסנכרן מטריצת שיידרים אקוסטית ומשחזר תקופה...
+        <div className="py-12 flex flex-col items-center justify-center gap-3">
+          <LoadingIndicator variant="orbit" size="lg" color="#8A5CFF" label="מסנכרן שיידרים..." />
+          <p className="text-neutral-400 font-['Inter'] animate-pulse text-sm">מסנכרן מטריצת שיידרים אקוסטית ומשחזר תקופה...</p>
         </div>
       ) : remixData ? (
         <motion.div

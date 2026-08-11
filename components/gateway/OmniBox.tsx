@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { processOmniQueryAction } from '@/app/actions/gatewayActions';
 import { OmniResponse } from '@/lib/validations/gatewaySchema';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 const initialState: OmniResponse = {
   success: false,
@@ -63,12 +64,7 @@ export default function OmniBox() {
             >
               {isPending ? (
                 <div className="flex items-center gap-2">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full transform-gpu"
-                    style={{ willChange: 'transform' }}
-                  />
+                  <LoadingIndicator variant="spinner" size={16} color="#ffffff" label="מעבד..." />
                   <span>מעבד...</span>
                 </div>
               ) : (

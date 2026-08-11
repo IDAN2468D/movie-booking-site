@@ -5,6 +5,7 @@ import { Search, Command, SlidersHorizontal, TrendingUp, Clapperboard, Sparkles,
 import NextImage from 'next/image';
 import { discoverMovies, Movie, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface SearchBarProps {
   onOpenFilter: () => void;
@@ -110,8 +111,8 @@ export default function SearchBar({ onOpenFilter, isMobile, onCloseMobile }: Sea
               </div>
               <div className="space-y-3">
                 {isSearching ? (
-                  <div className="flex flex-col items-center justify-center py-12 gap-4 opacity-70">
-                    <div className="w-8 h-8 border-[2.5px] border-primary border-t-transparent rounded-full animate-spin" />
+                  <div className="flex flex-col items-center justify-center py-12 gap-3 opacity-90">
+                    <LoadingIndicator variant="orbit" size={32} color="#FF1464" label="מחפש סרטים..." />
                     <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">מחפש...</p>
                   </div>
                 ) : searchResults.length > 0 ? (

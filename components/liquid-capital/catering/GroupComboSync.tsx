@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useActionState } from 'react';
-import { Users, Loader2 } from 'lucide-react';
+import { Users } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { parseGroupComboAction } from '@/lib/actions/catering';
 import { useCateringGroupSeats, useCateringActions } from '@/lib/store/catering-store';
 
@@ -76,7 +77,7 @@ export const GroupComboSync: React.FC<{ activeSeats: string[] }> = ({ activeSeat
                 disabled={isPending}
                 className="bg-[#00f2fe]/10 text-[#00f2fe] border border-[#00f2fe]/30 hover:bg-[#00f2fe] hover:text-black px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
               >
-                {isPending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'פצל למושבים'}
+                {isPending ? <LoadingIndicator variant="spinner" size={14} color="#00f2fe" label="מפצל..." /> : 'פצל למושבים'}
               </button>
             </div>
           </form>

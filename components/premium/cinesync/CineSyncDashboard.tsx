@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useCineSyncStore } from '@/lib/store/cinesyncStore';
 import { useBookingStore } from '@/lib/store';
-import { Users, LogOut, CheckCircle2, Circle, ArrowLeft, Loader2, Sparkles } from 'lucide-react';
+import { Users, LogOut, CheckCircle2, Circle, ArrowLeft, Sparkles } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { motion, AnimatePresence } from 'framer-motion';
 import CineSyncInviteButton from './CineSyncInviteButton';
 
@@ -116,7 +117,7 @@ export default function CineSyncDashboard() {
                   className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-primary to-orange-500 text-white text-xs font-black shadow-[0_10px_20px_rgba(255,159,10,0.15)] hover:shadow-[0_15px_30px_rgba(255,159,10,0.25)] hover:scale-[1.01] active:scale-95 transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   {isLoungeLoading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <LoadingIndicator variant="spinner" size={16} color="#ffffff" label="פותח חדר..." />
                   ) : (
                     <>
                       <Sparkles className="w-4 h-4 text-white animate-pulse" />
@@ -148,7 +149,7 @@ export default function CineSyncDashboard() {
                   className="px-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                 >
                   {isJoining ? (
-                    <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
+                    <LoadingIndicator variant="spinner" size={16} color="#94a3b8" label="מצטרף..." />
                   ) : (
                     <ArrowLeft className="w-4 h-4 text-slate-400 hover:text-white" />
                   )}

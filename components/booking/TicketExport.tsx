@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import jsPDF from 'jspdf';
 import * as htmlToImage from 'html-to-image';
-import { Download, Loader2, Ticket } from 'lucide-react';
+import { Download, Ticket } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { cn } from '@/lib/utils/index';
 
 interface TicketExportProps {
@@ -131,7 +132,7 @@ export default function TicketExport({
               />
             ) : (
               <div className="w-[100px] h-[100px] flex items-center justify-center">
-                <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+                <LoadingIndicator variant="spinner" size={24} color="#9ca3af" label="טוען קוד כרטיס..." />
               </div>
             )}
           </div>
@@ -156,7 +157,7 @@ export default function TicketExport({
       >
         {isGenerating ? (
           <>
-            <Loader2 className="w-5 h-5 animate-spin" />
+            <LoadingIndicator variant="spinner" size={18} color="#ffffff" label="מייצר כרטיס..." />
             <span>מייצר כרטיס...</span>
           </>
         ) : (

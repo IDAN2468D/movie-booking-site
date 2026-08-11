@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Crown, Loader2, Link as LinkIcon, X, Copy, Check } from 'lucide-react';
+import { Crown, Link as LinkIcon, X, Copy, Check } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 
 export default function VIPScreeningModal({ isOpen, onClose, movieTitle }: { isOpen: boolean, onClose: () => void, movieTitle: string }) {
@@ -116,10 +117,7 @@ export default function VIPScreeningModal({ isOpen, onClose, movieTitle }: { isO
 
               {isGenerating && (
                 <div className="flex flex-col items-center justify-center py-20 gap-4">
-                  <div className="relative">
-                    <div className="absolute inset-0 rounded-full blur-xl bg-yellow-500/30 animate-pulse" />
-                    <Loader2 className="w-12 h-12 text-yellow-500 animate-spin relative z-10" />
-                  </div>
+                  <LoadingIndicator variant="orbit" size="lg" color="#eab308" label="מייצר עמוד נחיתה..." />
                   <p className="text-yellow-400 font-medium animate-pulse text-lg">מייצר קוד HTML/CSS ומרנדר עמוד נחיתה...</p>
                 </div>
               )}
@@ -195,7 +193,7 @@ export default function VIPScreeningModal({ isOpen, onClose, movieTitle }: { isO
                         </div>
                       ) : isGeneratingHall ? (
                         <div className="flex-grow flex flex-col items-center justify-center gap-4">
-                          <Loader2 className="w-10 h-10 text-yellow-500 animate-spin" />
+                          <LoadingIndicator variant="spinner" size={40} color="#eab308" label="מייצר מפת מושבים..." />
                           <p className="text-yellow-500 text-sm font-bold animate-pulse">מייצר מפת מושבים מותאמת...</p>
                         </div>
                       ) : (

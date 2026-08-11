@@ -323,3 +323,56 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: 0 2px 10px var(--ambient-contrast-shadow);
   transition: text-shadow 0.6s ease-in-out;
 }
+
+/* ⚡ Electric Animated Conic Border Effect (electric_border_movie_cards_skill_prompt.md Spec) */
+.electric-movie-card {
+  position: relative;
+  background: #090507;
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 2px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 69, 0, 0.35);
+}
+
+.electric-movie-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 0 30px rgba(255, 69, 0, 0.55), 0 0 10px rgba(255, 0, 85, 0.4);
+}
+
+.electric-movie-card::before {
+  content: '';
+  position: absolute;
+  inset: -100%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 280deg,
+    #ff4500 320deg,
+    #ff8800 340deg,
+    #ff0055 360deg
+  );
+  animation: rotate-electric-border 4s linear infinite;
+  will-change: transform;
+  z-index: 0;
+}
+
+.electric-card-inner {
+  position: relative;
+  background: #11090d;
+  border-radius: 22px;
+  z-index: 1;
+  padding: 24px;
+}
+
+@keyframes rotate-electric-border {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+

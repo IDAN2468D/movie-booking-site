@@ -43,6 +43,15 @@ const nextConfig: NextConfig = {
 
   serverExternalPackages: ['pdfkit'],
 
+  async rewrites() {
+    return [
+      {
+        source: '/public/:path*',
+        destination: '/:path*',
+      },
+    ];
+  },
+
   async redirects() {
     return [
       {

@@ -78,11 +78,15 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
     <motion.div
       layout
       initial={{ opacity: 0, scale: 0.95, y: 10 }}
-      animate={{ opacity: n.unread ? 1 : 0.65, scale: 1, y: 0 }}
+      animate={{ opacity: n.unread ? 1 : 0.75, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9, x: -30 }}
       whileHover={{ scale: 1.01 }}
       transition={{ type: 'spring', stiffness: 400, damping: 28 }}
-      className="group relative p-5 md:p-6 rounded-[28px] border border-white/10 bg-black/40 flex items-start gap-4 md:gap-5 overflow-hidden backdrop-blur-md cursor-pointer text-right"
+      className={`electric-movie-card group relative rounded-[26px] p-[2px] cursor-pointer text-right w-full transition-all duration-300 ${
+        n.unread
+          ? 'shadow-[0_0_25px_rgba(255,69,0,0.45)]'
+          : 'shadow-[0_0_12px_rgba(255,69,0,0.15)] opacity-85 hover:opacity-100'
+      }`}
       onClick={() => {
         if (n.unread) {
           if (soundEnabled) playTick();
@@ -90,76 +94,79 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
         }
       }}
     >
-      {/* Liquid Glass Hover Glow */}
-      <div
-        className={`absolute inset-0 bg-gradient-to-l ${style.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none transform-gpu`}
-      />
+      {/* Inner Card Content Layer (z-index: 1, #11090d background) */}
+      <div className="electric-card-inner relative z-[1] w-full p-5 md:p-6 rounded-[24px] bg-[#11090d]/95 backdrop-blur-2xl flex items-start gap-4 md:gap-5 overflow-hidden border border-white/[0.04]">
+        {/* Liquid Glass Hover Glow */}
+        <div
+          className={`absolute inset-0 bg-gradient-to-l ${style.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none transform-gpu`}
+        />
 
-      {/* Unread Chroma Trail */}
-      {n.unread && (
-        <div className="absolute top-0 right-0 left-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF1464] to-transparent opacity-80 animate-pulse" />
-      )}
+        {/* Unread Chroma Trail */}
+        {n.unread && (
+          <div className="absolute top-0 right-0 left-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF1464] to-transparent opacity-80 animate-pulse" />
+        )}
 
-      {/* Icon container */}
-      <div className={`p-3.5 rounded-2xl border shrink-0 relative z-10 transition-transform duration-300 group-hover:scale-110 ${style.bg}`}>
-        <Icon className="w-5 h-5" />
-      </div>
+        {/* Icon container */}
+        <div className={`p-3.5 rounded-2xl border shrink-0 relative z-10 transition-transform duration-300 group-hover:scale-110 ${style.bg}`}>
+          <Icon className="w-5 h-5" />
+        </div>
 
-      {/* Content Area */}
-      <div className="flex-1 min-w-0 relative z-10">
-        <div className="flex items-center justify-between gap-2 mb-1">
-          <div className="flex items-center gap-2">
-            <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-black tracking-wider uppercase ${style.badge}`}>
-              {style.badgeText}
-            </span>
-            <div className="text-sm md:text-base font-black text-white font-outfit leading-tight drop-shadow-md truncate">
-              {n.title}
+        {/* Content Area */}
+        <div className="flex-1 min-w-0 relative z-10">
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <div className="flex items-center gap-2">
+              <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-black tracking-wider uppercase ${style.badge}`}>
+                {style.badgeText}
+              </span>
+              <div className="text-sm md:text-base font-black text-white font-outfit leading-tight drop-shadow-md truncate">
+                {n.title}
+              </div>
+            </div>
+            <div className="flex items-center gap-1 text-[10px] font-bold text-white/40 tracking-wider shrink-0">
+              <Clock className="w-3 h-3" />
+              {n.time}
             </div>
           </div>
-          <div className="flex items-center gap-1 text-[10px] font-bold text-white/40 tracking-wider shrink-0">
-            <Clock className="w-3 h-3" />
-            {n.time}
+
+          <div className="text-xs md:text-sm font-medium text-slate-300 leading-relaxed mt-1.5">
+            {n.message}
           </div>
+
+          {/* Action Link Button if provided */}
+          {n.actionUrl && (
+            <div className="mt-3">
+              <Link
+                href={n.actionUrl}
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-[#FF1464] text-white text-xs font-black transition-colors"
+              >
+                <span>{n.actionLabel || 'עבור לפרטים'}</span>
+                <ExternalLink size={12} />
+              </Link>
+            </div>
+          )}
         </div>
 
-        <div className="text-xs md:text-sm font-medium text-slate-300 leading-relaxed mt-1.5">
-          {n.message}
+        {/* Action Controls (Dismiss / Mark as read) */}
+        <div className="shrink-0 relative z-10 flex flex-col items-end gap-2 self-center">
+          {/* Dismiss Button */}
+          <button
+            onClick={handleDismiss}
+            className="p-1.5 rounded-full bg-white/5 hover:bg-rose-500/20 text-white/40 hover:text-rose-400 transition-colors opacity-0 group-hover:opacity-100"
+            title="מחק התראה"
+          >
+            <X size={14} />
+          </button>
+
+          {/* Read / Unread Status */}
+          {n.unread ? (
+            <div className="w-3 h-3 rounded-full bg-[#FF1464] border border-black shadow-[0_0_10px_#FF1464] animate-pulse" />
+          ) : (
+            <div className="w-5 h-5 rounded-full bg-green-500/20 border border-green-500/50 flex items-center justify-center">
+              <CheckCircle2 className="w-3 h-3 text-green-400" />
+            </div>
+          )}
         </div>
-
-        {/* Action Link Button if provided */}
-        {n.actionUrl && (
-          <div className="mt-3">
-            <Link
-              href={n.actionUrl}
-              onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-[#FF1464] text-white text-xs font-black transition-colors"
-            >
-              <span>{n.actionLabel || 'עבור לפרטים'}</span>
-              <ExternalLink size={12} />
-            </Link>
-          </div>
-        )}
-      </div>
-
-      {/* Action Controls (Dismiss / Mark as read) */}
-      <div className="shrink-0 relative z-10 flex flex-col items-end gap-2 self-center">
-        {/* Dismiss Button */}
-        <button
-          onClick={handleDismiss}
-          className="p-1.5 rounded-full bg-white/5 hover:bg-rose-500/20 text-white/40 hover:text-rose-400 transition-colors opacity-0 group-hover:opacity-100"
-          title="מחק התראה"
-        >
-          <X size={14} />
-        </button>
-
-        {/* Read / Unread Status */}
-        {n.unread ? (
-          <div className="w-3 h-3 rounded-full bg-[#FF1464] border border-black shadow-[0_0_10px_#FF1464] animate-pulse" />
-        ) : (
-          <div className="w-5 h-5 rounded-full bg-green-500/20 border border-green-500/50 flex items-center justify-center">
-            <CheckCircle2 className="w-3 h-3 text-green-400" />
-          </div>
-        )}
       </div>
     </motion.div>
   );

@@ -10,13 +10,13 @@ import { useUIStore } from '@/lib/store/ui-store';
 import { 
   ShieldAlert, 
   ShieldCheck,
-  Loader2, 
   LayoutDashboard, 
   Ticket, 
   Scan, 
   Settings,
   Home
 } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { cn } from '@/lib/utils';
 
 export default function ERPLayout({
@@ -63,14 +63,8 @@ export default function ERPLayout({
 
   if (status === 'loading') {
     return (
-      <div className="fixed inset-0 bg-[#0A0A0A] flex flex-col items-center justify-center z-[100]">
-        <motion.div 
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-          className="text-primary mb-4"
-        >
-          <Loader2 size={40} />
-        </motion.div>
+      <div className="fixed inset-0 bg-[#0A0A0A] flex flex-col items-center justify-center z-[100] gap-4">
+        <LoadingIndicator variant="orbit" size="lg" label="טוען סביבת ERP..." />
         <p className="text-slate-400 font-bold tracking-widest uppercase text-xs">Initializing ERP Environment...</p>
       </div>
     );

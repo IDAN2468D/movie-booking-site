@@ -3,7 +3,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useExecutionState, useConciergeActiveTask } from '@/lib/store/conciergeStore';
-import { Settings, Cpu, Loader, CheckCircle } from 'lucide-react';
+import { Settings, Cpu, CheckCircle } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 export const ConciergeActivity = () => {
   const executionState = useExecutionState();
@@ -29,7 +30,7 @@ export const ConciergeActivity = () => {
         };
       case 'self-healing':
         return {
-          icon: <Loader className="w-4 h-4 text-amber-400 animate-spin" />,
+          icon: <LoadingIndicator variant="spinner" size={16} color="#fbbf24" label="מרפא שגיאות..." />,
           color: 'from-amber-500/20 to-orange-500/20 border-amber-500/30',
           glow: 'rgba(245,158,11,0.15)',
           title: 'Self-Healing Active',

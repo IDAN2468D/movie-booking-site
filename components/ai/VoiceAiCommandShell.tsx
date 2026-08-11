@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Search, Sparkles } from "lucide-react";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { processVoiceSearchAction } from "@/app/actions/voiceSearch.actions";
 import { VoiceSearchOutput } from "@/lib/validations/voiceSearch.schema";
 
@@ -101,7 +102,7 @@ export function VoiceAiCommandShell({ onSearchCompleted }: VoiceAiCommandShellPr
           className="px-5 py-2.5 rounded-xl bg-primary text-black font-bold text-xs hover:brightness-110 transition-all flex items-center gap-1.5 disabled:opacity-50"
         >
           {loading ? (
-            <span className="animate-spin">🌀</span>
+            <LoadingIndicator variant="spinner" size={16} color="#000000" label="מעבד פקודה קולית..." />
           ) : (
             <>
               <Search className="w-3.5 h-3.5" />

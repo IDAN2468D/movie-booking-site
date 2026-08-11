@@ -1,8 +1,55 @@
-# Current Active Task: Fix AI Animation Studio Infinite Spinner & Timeout Fallback
+# Current Active Task: Global Loading Indicator Standardization (Loading Animation Generator Skill)
 
-- [x] Identified cause: `AiMovieAnimationStudioView.tsx` lacked an auto-timeout fallback on `isImgLoaded` and `AiMovieAnimationStudioContainer.tsx` lacked a `try...finally` block, causing the spinner "מפיח חיים בתמונת ה-AI שלך..." to run indefinitely when external AI image generation delayed or failed
-- [x] Implemented a 2.5s auto-resolve safety timer in `AiMovieAnimationStudioView.tsx` and resilient fallback in `handleImgError`
-- [x] Added `try...finally` block in `AiMovieAnimationStudioContainer.tsx` ensuring `setIsGenerating(false)` always executes
-- [x] Maintained strict 200 LOC ceiling on `AiMovieAnimationStudioView.tsx` (198 lines) and `AiMovieAnimationStudioContainer.tsx` (92 lines)
-- [x] Verified full Layer 5 QA Loop (`npx tsc --noEmit` and `npx vitest run`)
-- [x] Synchronized all 4 state files in `.agents/state/`
+- [x] Analyzed `.agents/skills/loading-animation-generator/SKILL.md` and `.agents/skills/SKILL.md`.
+- [x] Standardized core component `components/ui/LoadingIndicator.tsx` (and re-export in `src/components/ui/LoadingIndicator.tsx`):
+  - 4 GPU-accelerated variants: `orbit`, `spinner`, `pulse`, `dots`.
+  - Zero-layout-shift `[transform:translateZ(0)]`, `will-change-transform`, CSS custom properties `--anim-duration` / `--indicator-color`, accessibility `role="status"` + `aria-label`, and `motion-reduce:animate-none`.
+- [x] Replaced all ad-hoc spinners, `Loader2`, spinning emojis, and raw border divs across 40+ pages and components repository-wide:
+  - `app/(main)/book/[movieId]/[branchId]/page.tsx`
+  - `app/(main)/coming-soon/page.tsx`
+  - `app/(main)/erp/layout.tsx`
+  - `app/(main)/erp/scanner/page.tsx`
+  - `app/(main)/tickets/page.tsx`
+  - `components/actor/ActorAcousticNarration.tsx`
+  - `components/ai/CosplayStudio.tsx`
+  - `components/ai/MoodRecommendations.tsx`
+  - `components/ai/PosterStudio.tsx`
+  - `components/ai/VibeMatcher.tsx`
+  - `components/ai/VoiceAiCommandShell.tsx`
+  - `components/booking/CryptoTicketPricer.tsx`
+  - `components/booking/SeatingRoulette.tsx`
+  - `components/booking/TicketExport.tsx`
+  - `components/branches/BranchFilters.tsx`
+  - `components/checkout/OrderSummary.tsx`
+  - `components/coming-soon/TrailerTriviaOverlay.tsx`
+  - `components/concierge/TimeShiftProactiveAgent.tsx`
+  - `components/discovery/MovieSwipeDeck.tsx`
+  - `components/discovery/ShowcaseMatcherWrapper.tsx`
+  - `components/gateway/OmniBox.tsx`
+  - `components/home/ComingSoonCarousel.tsx`
+  - `components/home/HomeContent.tsx`
+  - `components/home/NewsWidget.tsx`
+  - `components/layout/Sidebar.tsx`
+  - `components/layout/TopBar/NeuralSearch.tsx`
+  - `components/liquid-capital/catering/GroupComboSync.tsx`
+  - `components/movie/AiMovieAnimationStudioView.tsx`
+  - `components/movie/MovieDetailsContent.tsx`
+  - `components/movie/ReviewsSection.tsx`
+  - `components/movie/StoryBranchViewer.tsx`
+  - `components/movie/UniverseMap.tsx`
+  - `components/movie/VIPScreeningModal.tsx`
+  - `components/premium/cinesync/CineSyncDashboard.tsx`
+  - `components/rewards/ActivityHistory.tsx`
+  - `components/rewards/MovieCraftGame.tsx`
+  - `components/rewards/RewardsModals.tsx`
+  - `components/settings/AvatarGeneratorModal.tsx`
+  - `components/settings/OfflineSyncCylinder.tsx`
+  - `components/soundtrack/NeuralSoundtrackSynth.tsx`
+  - `components/tickets/QuantumTicket.tsx`
+  - `src/components/ConciergeActivity.tsx`
+  - `src/components/LiquidGlassTicket.tsx`
+  - `src/components/TransactionStatusOverlay.tsx`
+  - `src/components/movies/TrailerRemixerCanvasView.tsx`
+- [x] Verified strict 200 LOC ceiling across all modified files.
+- [x] Completed full Layer 5 QA loop: `npx tsc --noEmit` passed, vitest 19/19 test files (79 tests) passed.
+- [x] Synchronized all 4 state files in `.agents/state/`.

@@ -2,7 +2,8 @@
 
 import React, { useState, useRef } from 'react';
 
-import { Camera, Image as ImageIcon, Loader2, Sparkles, UploadCloud, Wand2, Download } from 'lucide-react';
+import { Camera, Image as ImageIcon, Sparkles, UploadCloud, Wand2, Download } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { cn } from '@/lib/utils/index';
 
 const PROPS = [
@@ -137,7 +138,7 @@ export default function CosplayStudio() {
             disabled={!imagePreview || isLoading}
             className="w-full py-4 rounded-xl bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white font-black text-lg hover:shadow-[0_0_30px_rgba(217,70,239,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Sparkles className="w-6 h-6" />}
+            {isLoading ? <LoadingIndicator variant="spinner" size={24} color="#ffffff" label="מעבד תמונה..." /> : <Sparkles className="w-6 h-6" />}
             {isLoading ? 'מעבד תמונה ושותל אביזרים...' : 'בצע In-Painting קולנועי'}
           </button>
         </div>
@@ -145,8 +146,8 @@ export default function CosplayStudio() {
         {/* Result Zone */}
         <div className="relative h-full min-h-[400px] rounded-3xl bg-black/50 border border-white/10 flex flex-col items-center justify-center overflow-hidden">
           {isLoading ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-black/60 backdrop-blur-sm">
-              <div className="w-20 h-20 rounded-full border-4 border-fuchsia-500/30 border-t-fuchsia-500 animate-spin mb-6" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-black/60 backdrop-blur-sm gap-6">
+              <LoadingIndicator variant="orbit" size="xl" color="#d946ef" label="בונה קסם קולנועי..." />
               <p className="text-fuchsia-400 font-bold text-xl animate-pulse">מודל ה-AI בונה קסם קולנועי...</p>
             </div>
           ) : resultImage ? (

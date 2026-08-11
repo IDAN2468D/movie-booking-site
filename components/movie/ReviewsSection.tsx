@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSession } from 'next-auth/react';
-import { Star, MessageSquare, Send, User, Loader2, Sparkles } from 'lucide-react';
+import { Star, MessageSquare, Send, User, Sparkles } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -209,7 +210,7 @@ export default function ReviewsSection({ movieId, movieTitle, tmdbReviews = [] }
                   className="w-full py-4 bg-primary hover:bg-[#FF7A00] text-background rounded-2xl font-black flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-primary/20 disabled:opacity-50"
                 >
                   {submitting ? (
-                    <Loader2 size={20} className="animate-spin" />
+                    <LoadingIndicator variant="spinner" size={20} color="#000000" label="שולח ביקורת..." />
                   ) : (
                     <>
                       <Send size={20} />
@@ -238,9 +239,9 @@ export default function ReviewsSection({ movieId, movieTitle, tmdbReviews = [] }
         {/* Reviews List */}
         <div className="lg:col-span-2 space-y-4">
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-20 opacity-50">
-              <Loader2 size={40} className="animate-spin text-primary mb-4" />
-              <p className="text-slate-400 font-black tracking-widest text-xs uppercase">טוען ביקורות...</p>
+            <div className="flex flex-col items-center justify-center py-20 gap-4">
+              <LoadingIndicator variant="orbit" size="lg" label="טוען ביקורות..." />
+              <p className="text-slate-400 font-black tracking-widest text-xs uppercase animate-pulse">טוען ביקורות...</p>
             </div>
           ) : reviews.length > 0 ? (
             <AnimatePresence>

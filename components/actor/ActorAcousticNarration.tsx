@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Volume2, VolumeX, Sparkles, Loader2 } from "lucide-react";
+import { Volume2, VolumeX, Sparkles } from "lucide-react";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ActorAcousticNarrationProps {
@@ -212,7 +213,7 @@ export function ActorAcousticNarration({
         } shadow-[0_0_15px_rgba(0,240,255,0.15)] disabled:opacity-50`}
       >
         {isLoading ? (
-          <Loader2 size={18} className="animate-spin" />
+          <LoadingIndicator variant="spinner" size={18} color="#00F0FF" label="טוען קריינות..." />
         ) : isPlaying ? (
           <>
             <VolumeX size={18} />

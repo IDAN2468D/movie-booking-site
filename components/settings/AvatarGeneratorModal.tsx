@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, Loader2, Camera, Check } from 'lucide-react';
+import { X, Sparkles, Camera, Check } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface Props {
   isOpen: boolean;
@@ -107,7 +108,7 @@ export default function AvatarGeneratorModal({ isOpen, onClose, onAvatarGenerate
                   >
                     {isGenerating ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <LoadingIndicator variant="spinner" size={20} color="#ffffff" label="יוצר קסם קולנועי..." />
                         יוצר קסם קולנועי...
                       </>
                     ) : (

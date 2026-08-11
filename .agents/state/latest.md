@@ -1,7 +1,6 @@
 # Latest Task State
 
-- **Status**: Fixed AI Movie Animation Studio Infinite Loading Spinner & Added Resilient Image Fallback
-- **Active Files**:
-  - `components/movie/AiMovieAnimationStudioView.tsx`
-  - `components/movie/AiMovieAnimationStudioContainer.tsx`
-  - `lib/actions/ai-movie-animation.actions.ts`
+- **Status**: Completed Global Loading Indicator Standardization based on Loading Animation Generator Skill
+- **Component**: `components/ui/LoadingIndicator.tsx` & `src/components/ui/LoadingIndicator.tsx`
+- **Replaced Indicators**: 40+ pages and components across the entire repository migrated to high-performance GPU-accelerated variants (`orbit`, `spinner`, `pulse`, `dots`).
+- **Verification**: TypeScript check (`npx tsc --noEmit`) and Vitest test suite (79/79) fully passed.

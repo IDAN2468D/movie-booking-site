@@ -17,6 +17,7 @@ import HolographicBackground from '@/components/ui/HolographicBackground';
 import StoryBar from '@/components/stories/StoryBar';
 import { useFilteredMovies } from '@/hooks/useFilteredMovies';
 import { SocialPulseRings } from './SocialPulseRings';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface HomeContentProps {
   popularMovies: Movie[];
@@ -105,7 +106,7 @@ export default function HomeContent({
         <div className="space-y-4 mt-8">
           {isLoadingGenre || isFiltering ? (
             <div className="flex flex-col items-center justify-center py-20 gap-4">
-              <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin shadow-[0_0_20px_rgba(255,159,10,0.3)]" />
+              <LoadingIndicator variant="orbit" size="lg" label="טוען סרטים..." />
               <p className="text-sm font-black text-slate-500 uppercase tracking-widest animate-pulse">
                 {isFiltering ? 'מעבד נתונים (Quantum Worker)...' : 'טוען סרטים...'}
               </p>

@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Html5Qrcode } from 'html5-qrcode';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface CameraDevice {
   id: string;
@@ -259,8 +260,8 @@ export default function TicketScannerPage() {
               <AnimatePresence mode="wait">
                 {status === 'scanning' && (
                   <motion.div key="scan" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center space-y-4">
-                    <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-                    <p className="text-primary font-black uppercase tracking-widest text-xs">Verifying Database...</p>
+                    <LoadingIndicator variant="orbit" size="lg" label="מאמת מול מסד הנתונים..." />
+                    <p className="text-primary font-black uppercase tracking-widest text-xs animate-pulse">Verifying Database...</p>
                   </motion.div>
                 )}
 

@@ -6,7 +6,8 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Headphones, Sparkles, Loader2, Crown } from 'lucide-react';
+import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Headphones, Sparkles, Crown } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { MovieDetails, CastMember, CrewMember, Movie, VideoResult, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import MovieCastSection from './MovieCastSection';
@@ -313,7 +314,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
               }`}
             >
               {isGeneratingAudio ? (
-                <Loader2 size={24} className="animate-spin relative z-10" />
+                <LoadingIndicator variant="spinner" size={24} color="#ff4500" label="יוצר קריינות..." className="relative z-10" />
               ) : (
                 <Headphones size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
               )}
@@ -409,7 +410,9 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
                         </span>
                       </div>
                       {isLoadingInsights ? (
-                        <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
+                        <div className="w-10 h-10 flex items-center justify-center">
+                          <LoadingIndicator variant="spinner" size={32} color="#ff4500" label="מעבד נתונים..." />
+                        </div>
                       ) : (
                         <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
                           <Sparkles className="text-primary w-5 h-5 animate-pulse" />

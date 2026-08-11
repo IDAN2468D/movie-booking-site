@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, SlidersHorizontal, ArrowRight, BrainCircuit, Loader2 } from 'lucide-react';
+import { Search, SlidersHorizontal, ArrowRight, BrainCircuit } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { useBookingStore } from '@/lib/store';
 import { executeNeuralSearch } from '@/app/actions/neuralSearchActions';
 import NeuralEmotionMatrix from './NeuralEmotionMatrix';
@@ -112,7 +113,7 @@ export default function NeuralSearch({
                 : 'bg-primary text-black hover:bg-primary/90 hover:scale-105 border-primary/50'
             } border`}
           >
-            {isScanning ? <Loader2 size={16} className="animate-spin" /> : <BrainCircuit size={16} />}
+            {isScanning ? <LoadingIndicator variant="spinner" size={16} color="#000000" label="סורק..." /> : <BrainCircuit size={16} />}
             <span className="hidden sm:inline">סריקה נוירלית</span>
           </button>
 

@@ -11,6 +11,7 @@ import {
 import { signOut, useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
 import { PremiumLogo } from "@/components/ui/PremiumLogo";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { FeaturesDropdown, FeatureNavItem } from '@/src/components/layout/FeaturesDropdown';
 import { SidebarNavItem } from './SidebarNavItem';
 
@@ -35,6 +36,7 @@ const basicNavItems: NavItem[] = [
 ];
 
 const featureNavItems: FeatureNavItem[] = [
+  { icon: Zap, label: 'גבול חשמלי & אינדיקטורים', href: '/electric-border' },
   { icon: Gamepad2, label: 'Seating Matcher Game', href: '/booking/seating-game' },
   { icon: Sparkles, label: 'האופק התחושתי', href: '/sensory-horizon' },
   { icon: Activity, label: 'מרכז התהודה ההפטי', href: '/haptic' },
@@ -142,9 +144,13 @@ export default function Sidebar() {
             <button
               onClick={(e) => { e.stopPropagation(); handleGPS(); }}
               disabled={isUpdating}
-              className="p-1.5 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10"
+              className="p-1.5 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 flex items-center justify-center"
             >
-              <RefreshCw className={`w-3.5 h-3.5 text-slate-400 ${isUpdating ? 'animate-spin' : ''}`} />
+              {isUpdating ? (
+                <LoadingIndicator variant="spinner" size={14} color="#94a3b8" label="מרענן..." />
+              ) : (
+                <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
+              )}
             </button>
           </div>
         </div>

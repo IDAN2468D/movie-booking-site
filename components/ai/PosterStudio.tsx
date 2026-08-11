@@ -5,7 +5,8 @@ import React, { useState, useRef } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Wand2, Loader2, Sparkles, Send, Download, RefreshCw, Undo } from 'lucide-react';
+import { Wand2, Sparkles, Send, Download, RefreshCw, Undo } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { cn } from '@/lib/utils/index';
 
 interface Message {
@@ -132,7 +133,7 @@ export default function PosterStudio() {
                 disabled={!prompt.trim() || isLoading}
                 className="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black text-lg hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Sparkles className="w-6 h-6" />}
+                {isLoading ? <LoadingIndicator variant="spinner" size={24} color="#ffffff" label="יוצר פוסטר..." /> : <Sparkles className="w-6 h-6" />}
                 {isLoading ? 'יוצר פוסטר...' : 'חולל פוסטר AI'}
               </button>
             </form>
@@ -164,7 +165,7 @@ export default function PosterStudio() {
                 
                 {isLoading && (
                   <div className="flex items-center gap-2 text-cyan-400 animate-pulse text-sm">
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <LoadingIndicator variant="spinner" size={16} color="#06b6d4" label="מעבד שינויים בפוסטר..." />
                     מעבד שינויים בפוסטר...
                   </div>
                 )}
@@ -197,11 +198,8 @@ export default function PosterStudio() {
         {/* Poster Rendering Column */}
         <div className="relative aspect-[3/4.5] md:h-[500px] mx-auto rounded-3xl bg-black/50 border border-white/10 flex flex-col items-center justify-center overflow-hidden shadow-2xl group">
           {isLoading && !posterUrl ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-black/80 backdrop-blur-md">
-              <div className="relative mb-6">
-                <div className="absolute -inset-2 rounded-full blur-xl bg-cyan-500/30 animate-pulse" />
-                <Loader2 className="w-16 h-16 text-cyan-400 animate-spin relative z-10" />
-              </div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center z-20 bg-black/80 backdrop-blur-md gap-6">
+              <LoadingIndicator variant="orbit" size="xl" color="#00f0ff" label="מפיח חיים בפוסטר שלך..." />
               <p className="text-cyan-400 font-bold text-xl animate-pulse">מפיח חיים בפוסטר שלך...</p>
             </div>
           ) : posterUrl ? (

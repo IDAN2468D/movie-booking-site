@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { CloudOff, RefreshCw, HardDriveDownload, CheckCircle2 } from "lucide-react";
+import { CloudOff, HardDriveDownload, CheckCircle2 } from "lucide-react";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 
 export function OfflineSyncCylinder() {
   const [isSyncing, setIsSyncing] = useState(false);
@@ -89,7 +90,7 @@ export function OfflineSyncCylinder() {
             {syncComplete ? (
               <CheckCircle2 size={40} className="text-[#0AEFFF]" />
             ) : isSyncing ? (
-              <RefreshCw size={40} className="animate-spin text-white/90" />
+              <LoadingIndicator variant="spinner" size={40} color="#ffffff" label="מסנכרן..." />
             ) : (
               <CloudOff size={40} className="text-white/50" />
             )}

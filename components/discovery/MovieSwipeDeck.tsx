@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MovieCard3D from './MovieCard3D';
 import { submitSwipeAction } from '../../lib/actions/matcher';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface Movie {
   _id: string;
@@ -63,13 +64,9 @@ export default function MovieSwipeDeck({ initialMovies, onSwipeRight, onSwipeLef
   if (movies.length === 0) {
     return (
       <div className="w-full h-[500px] flex items-center justify-center">
-        <div className="text-center">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="w-16 h-16 rounded-full border-2 border-white/20 border-t-white/80 animate-spin mx-auto mb-4"
-          />
-          <p className="text-white/60 font-['Inter']">Quantum Syncing Matches...</p>
+        <div className="text-center flex flex-col items-center gap-4">
+          <LoadingIndicator variant="orbit" size="lg" label="Quantum Syncing Matches..." />
+          <p className="text-white/60 font-['Inter'] animate-pulse text-sm">Quantum Syncing Matches...</p>
         </div>
       </div>
     );

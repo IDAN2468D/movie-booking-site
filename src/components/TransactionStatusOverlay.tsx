@@ -3,6 +3,7 @@
 import React from 'react';
 import BookingConfirmationWidget from '@/components/checkout/BookingConfirmationWidget';
 import TicketVaultWidget from '@/components/booking/TicketVaultWidget';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface TransactionStatusOverlayProps {
   status: 'IDLE' | 'SEAT_SELECT' | 'PAYMENT_PENDING' | 'SUCCESS' | 'FAILED';
@@ -14,8 +15,8 @@ export function TransactionStatusOverlay({ status, errorMsg, reset }: Transactio
   if (status === 'PAYMENT_PENDING') {
     return (
       <div className="flex justify-center p-4">
-        <div className="flex items-center gap-2 text-emerald-400">
-          <div className="w-4 h-4 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
+        <div className="flex items-center gap-3 text-emerald-400">
+          <LoadingIndicator variant="spinner" size={16} color="#34d399" label="מעבד תשלום מאובטח..." />
           <span className="text-sm font-mono tracking-wider animate-pulse">Processing Secure Payment...</span>
         </div>
       </div>

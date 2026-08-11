@@ -13,6 +13,7 @@
 | **Module G** | Crypto Portfolio | `/src/app/dashboard/crypto` | Asset Holdings, Realized Profit/Loss, Trade Logs | `ACTIVE` |
 | **Module H** | Gemini AI Advisor | `/src/app/dashboard/ai-advisor` | Gemini Financial Advisor, Insights (`gemini-3.5-flash-lite`) | `ACTIVE` |
 | **Module I** | Movie Entrance Engine | `/components/movie` | Framer Motion Shared Element Transition (`layoutId`), 3D Hero | `ACTIVE` |
+| **Module J** | Loading Animation & Indicator Engine | `/components/ui/LoadingIndicator.tsx` | 120Hz GPU Indicators (`orbit`, `spinner`, `pulse`, `dots`), Zero-Layout Shift | `ACTIVE` |
 
 ---
 
@@ -26,7 +27,9 @@
 7. **User Data MongoDB Bookings Query Sync**: `app/api/bookings/route.ts` updated to query `{ $or: [{ userId }, { userEmail }] }` ensuring all user bookings from data are fetched.
 8. **Liquid Glass 4.0 & Gradient Border Fusion**: Liquid Glass glassmorphism backdrop blur (`backdrop-blur-[60px]`, `saturate-[250%]`), glass borders, and radial gradient masking preserved in harmony (`LiquidGlassTicketVault.tsx`, `QuantumTicket.tsx`, `HolographicTicket.tsx`).
 9. **Primary AI Model Strict Enforcement**: `gemini-3.5-flash-lite` enforced as default primary AI model across `lib/gemini.ts`, all server actions, and AI API endpoints.
-10. **Movie Entrance Animation & Shared Element Transition**: Next.js 15 & Framer Motion Hero entrance animation with `layoutId={`movie-poster-${movie.id}`}` shared element transition, backdrop scale zoom, and staggered content reveal (`MovieEntranceAnimation.tsx`, `MovieCard.tsx`, `MovieDetailsContent.tsx`).
+10. **Movie Entrance Animation & Shared Element Transition**: Next.js 15 & Framer Motion Hero entrance animation with smooth GPU scale and fade transitions.
+11. **Electric Border Effect & Smart Pick UI Cards**: Electric neon border glow with `public/log_white.svg`, 1000% scale at (56%, 41.7%), `background-origin: content-box` with padding, layered z-index.
+12. **Global Loading Indicator Standardization**: Standardized `LoadingIndicator.tsx` across all pages, modals, buttons, AI studios, and sound synthesizers with GPU acceleration and accessibility.
 
 ---
 
@@ -37,6 +40,3 @@
 - `POST /api/organization/invite` - Send Team Invitation Token
 - `POST /api/billing/checkout` - Create Stripe Checkout Session
 - `POST /api/webhooks/stripe` - Stripe Webhook Handler
-- `POST /api/expenses` - Create / Filter Expense Entries
-- `POST /api/crypto/trade` - Execute Crypto Buy/Sell Log
-- `POST /api/ai/advisor` - Gemini AI Advisor Chat Handler (`gemini-3.5-flash-lite`)

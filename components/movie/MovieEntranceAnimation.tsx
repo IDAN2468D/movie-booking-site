@@ -107,13 +107,12 @@ export default function MovieEntranceAnimation({
         animate="visible"
         className="relative z-10 container mx-auto px-6 pt-24 pb-12 min-h-[600px] flex flex-col md:flex-row items-center md:items-end justify-center md:justify-start gap-8 md:gap-12"
       >
-        {/* Movie Poster - Shared Element Transition */}
+        {/* Movie Poster - Smooth GPU Transition */}
         <motion.div
-          layoutId={`movie-poster-${movie.id}`}
-          initial={{ scale: 0.85, opacity: 0, rotateY: -12 }}
-          animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-44 h-64 md:w-72 md:h-[420px] rounded-2xl md:rounded-[2.5rem] overflow-hidden shadow-2xl shadow-cyan-500/10 border-2 border-white/20 shrink-0 group/poster"
+          initial={{ scale: 0.92, opacity: 0, y: 15 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-44 h-64 md:w-72 md:h-[420px] rounded-2xl md:rounded-[2.5rem] overflow-hidden shadow-2xl shadow-cyan-500/10 border-2 border-white/20 shrink-0 group/poster [transform:translateZ(0)]"
         >
           <Image
             src={posterSrc}

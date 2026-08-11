@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import NextImage from 'next/image';
-import { QrCode, Mail, Download, Loader2 } from 'lucide-react';
+import { QrCode, Mail, Download } from 'lucide-react';
+import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { TicketCountdownView, TicketQrView, TicketMemoryView } from './TicketViews';
 import TicketShard from './TicketShard';
 
@@ -158,13 +159,13 @@ export default function QuantumTicket({
       <div className="flex gap-3 justify-center w-full px-2 mt-4 z-10">
         {onEmail && (
           <button onClick={(e) => { e.stopPropagation(); onEmail(); }} disabled={isProcessingEmail} className="flex-1 py-3 px-4 rounded-2xl bg-[#0F0F0F]/60 backdrop-blur-xl hover:bg-white/10 text-xs font-black uppercase text-slate-300 border border-white/10 flex items-center justify-center gap-2">
-            {isProcessingEmail ? <Loader2 className="w-4 h-4 animate-spin text-primary" /> : <Mail className="w-4 h-4 text-primary" />}
+            {isProcessingEmail ? <LoadingIndicator variant="spinner" size={16} color="#ff4500" label="שולח..." /> : <Mail className="w-4 h-4 text-primary" />}
             <span>שלח למייל</span>
           </button>
         )}
         {onDownload && (
           <button onClick={(e) => { e.stopPropagation(); onDownload(); }} disabled={isProcessingPDF} className="flex-1 py-3 px-4 rounded-2xl bg-primary hover:bg-primary/90 text-xs font-black uppercase text-background flex items-center justify-center gap-2">
-            {isProcessingPDF ? <Loader2 className="w-4 h-4 animate-spin text-background" /> : <Download className="w-4 h-4 text-background" />}
+            {isProcessingPDF ? <LoadingIndicator variant="spinner" size={16} color="#000000" label="מוריד..." /> : <Download className="w-4 h-4 text-background" />}
             <span>PDF הורד</span>
           </button>
         )}
