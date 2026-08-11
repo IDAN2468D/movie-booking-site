@@ -87,8 +87,17 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         }}
       />
 
-      <Link href={`/movie/${movie.id}`} className="block" data-testid="movie-link">
-        <div className="aspect-[2/3] relative w-full overflow-hidden shimmer-mask" style={{ transform: 'translateZ(20px)' }}>
+      <Link 
+        href={`/movie/${movie.id}`} 
+        className="block" 
+        data-testid="movie-link"
+        onClick={() => setSelectedMovie(movie)}
+      >
+        <motion.div
+          layoutId={`movie-poster-${movie.id}`}
+          className="aspect-[2/3] relative w-full overflow-hidden shimmer-mask"
+          style={{ transform: 'translateZ(20px)' }}
+        >
           <PosterRefractor
             src={getImageUrl(movie.poster_path || movie.backdrop_path)}
             alt={movie.displayTitle}
@@ -117,7 +126,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
               <Share2 size={15} />
             </button>
           </div>
-        </div>
+        </motion.div>
       </Link>
       
       <div className="p-4 md:p-5 relative text-right z-20" style={{ transform: 'translateZ(30px)' }}>

@@ -13,8 +13,10 @@ interface PosterRefractorProps {
 const FALLBACK_POSTERS = [
   'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg',
   'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
-  'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg',
+  '/posters/dune2.svg',
   '/posters/gladiator2.svg',
+  '/posters/avatar3.svg',
+  '/posters/default.svg',
 ];
 
 const DEFAULT_SVG = '/posters/default.svg';
@@ -23,12 +25,12 @@ export default function PosterRefractor({ src, alt, className = "" }: PosterRefr
   const containerRef = useRef<HTMLDivElement>(null);
 
   const getTMDBPoster = (inputSrc: string, title: string) => {
-    if (inputSrc && !inputSrc.includes('null') && !inputSrc.includes('undefined')) {
+    if (inputSrc && !inputSrc.includes('null') && !inputSrc.includes('undefined') && !inputSrc.endsWith('/w500/') && !inputSrc.endsWith('/original/')) {
       return inputSrc;
     }
-    if (title.includes('גלדיאטור') || title.toLowerCase().includes('gladiator')) return 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
-    if (title.includes('דיונה') || title.toLowerCase().includes('dune')) return 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg';
-    if (title.includes('אווטאר') || title.toLowerCase().includes('avatar')) return 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg';
+    if (title?.includes('גלדיאטור') || title?.toLowerCase().includes('gladiator')) return '/posters/gladiator2.svg';
+    if (title?.includes('דיונה') || title?.toLowerCase().includes('dune')) return '/posters/dune2.svg';
+    if (title?.includes('אווטאר') || title?.toLowerCase().includes('avatar')) return '/posters/avatar3.svg';
     return FALLBACK_POSTERS[0];
   };
 

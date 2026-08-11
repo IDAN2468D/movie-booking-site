@@ -37,7 +37,7 @@
 
 ---
 
-## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-16)
+## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-17)
 
 ### 🔊 Sprint 6: AI Bio-Sync Haptic Seat Resonator & CineMatch AR
 - **Concept:** Real-time seat haptic vibration (`Navigator.vibrate` / Web Audio Sub-Bass) and CineMatch AR group matchmaker with Gemini 3.5 voice agent.
@@ -87,4 +87,9 @@
 ### 🧪 Sprint 16: Liquid Glass 4.0 & Gradient Border Fusion Layer
 - **Concept:** Seamless combination of Liquid Glass 4.0 glassmorphism styling (`backdrop-blur-[60px]`, `saturate-[250%]`, glass refraction highlights) with dynamic mouse-tracked Gradient Border Effect overlays across all ticket views (`LiquidGlassTicketVault.tsx`, `QuantumTicket.tsx`, `HolographicTicket.tsx`).
 - **Tech Stack:** CSS Masking, Glassmorphism, React, Framer Motion, `LiquidGlassTicketVault.tsx`.
+- **Status:** ✅ Completed
+
+### 🎬 Sprint 17: Movie Entrance Animation & Shared Element Transition
+- **Concept:** Cinematic entrance animation for movie detail pages in Next.js 15 & Framer Motion with `layoutId={`movie-poster-${movie.id}`}` shared element transition, backdrop scale zoom, holographic scanner line, and staggered content reveal.
+- **Tech Stack:** React, Next.js 15, Framer Motion, Tailwind CSS, `MovieEntranceAnimation.tsx`, `MovieCard.tsx`, `MovieDetailsContent.tsx`.
 - **Status:** ✅ Completed

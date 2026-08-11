@@ -70,7 +70,7 @@ export default function RightPanel() {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`hidden xl:flex h-screen w-96 bg-black/10 backdrop-blur-3xl saturate-[200%] brightness-110 border-r border-white/10 flex-col p-8 z-40 flex-shrink-0 shadow-2xl relative overflow-y-auto custom-scrollbar font-inter transition-colors duration-500 dir-rtl ${
+      className={`hidden xl:flex h-screen w-[440px] 2xl:w-[480px] 3xl:w-[520px] bg-black/10 backdrop-blur-3xl saturate-[200%] brightness-110 border-r border-white/10 flex-col p-6 lg:p-8 z-40 flex-shrink-0 shadow-2xl relative overflow-y-auto custom-scrollbar font-inter transition-colors duration-500 dir-rtl ${
         isDraggingOver ? 'bg-primary/5 border-primary/30' : ''
       }`}
     >

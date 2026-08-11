@@ -30,6 +30,7 @@ import SpatialAudioCommentaryToggle from './SpatialAudioCommentaryToggle';
 import MovieSelectionAnimationContainer from './MovieSelectionAnimationContainer';
 import AiMovieAnimationStudioContainer from './AiMovieAnimationStudioContainer';
 import HeroAuraResonance from '../home/HeroAuraResonance';
+import MovieEntranceAnimation from './MovieEntranceAnimation';
 
 interface Props {
   movie: MovieDetails;
@@ -110,10 +111,6 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
     fetchInsights();
     return () => setMovieContext(undefined, undefined);
   }, [movie.id, movie.title, movie.overview, movie.genres, setMovieContext, mounted]);
-
-  if (!mounted) {
-    return <div className="min-h-screen bg-[#0F0F0F] animate-pulse" />;
-  }
 
   const handleGenerateAudioGuide = async () => {
     if (isGeneratingAudio) return;
@@ -232,175 +229,109 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   return (
     <>
     <div className="pb-20 text-right" dir="rtl">
-      {/* Hero Backdrop - Premium Vertical Focus on Mobile */}
-      <section className="relative w-full h-[650px] md:h-[600px] overflow-hidden [transform:translateZ(0)]">
-        
-        {/* Background Layer: Video or Image */}
-        {videos.length > 0 && !trailerFailed ? (
-          <YouTubeBackground 
-            videoId={videos.find(v => v.type === 'Trailer')?.key || videos[0].key} 
-            onError={() => setTrailerFailed(true)} 
-          />
-        ) : (
-          <Image
-            src={getImageUrl(movie.backdrop_path || movie.poster_path, 'original')}
-            alt={movie.title}
-            fill
-            sizes="100vw"
-            className="object-cover saturate-[1.1]"
-            priority
-          />
-        )}
-
-        {/* Dynamic Gradients - Lightened for visibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-[#0A0A0A]/20 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-l from-[#0A0A0A]/90 via-transparent to-transparent hidden md:block z-10" />
-        <div className="absolute inset-0 bg-black/40 opacity-50 md:hidden z-10" />
-
-        {/* Holographic Scanner Line (Liquid Glass 2.0) */}
-        <motion.div 
-          animate={{ y: ['0%', '1000%', '0%'] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-          className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent shadow-[0_0_25px_rgba(255,159,10,0.3)] z-20"
-        />
-
-        {/* Premium Refraction Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-cyan-500/5 opacity-20 z-20 pointer-events-none" />
-
-        {/* Back Button - Premium Glass */}
-        <Link
-          href="/"
-          className="absolute top-6 right-6 md:top-8 md:right-8 z-30 flex items-center justify-center w-10 h-10 md:w-auto md:px-6 md:py-3 rounded-xl md:rounded-2xl bg-white/10 backdrop-blur-3xl border border-white/20 text-white text-sm font-black hover:bg-white/20 transition-all shadow-2xl active:scale-95"
-        >
-          <ArrowRight size={20} className="md:ml-2" />
-          <span className="hidden md:inline uppercase tracking-widest text-[11px]">חזור למסך הבית</span>
-        </Link>
-
-        {/* Hero Content */}
-        <div className="absolute bottom-0 right-0 left-0 p-6 md:p-16 flex flex-col md:flex-row items-center md:items-end justify-center md:justify-start gap-8 md:gap-12 z-30 text-center md:text-right">
-          {/* Poster - Responsive visibility: Now visible in mobile too but smaller */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: 0.2, type: 'spring' }}
-            className="w-[110px] h-[165px] md:w-[240px] md:h-[360px] rounded-2xl md:rounded-[3rem] overflow-hidden border-2 border-white/20 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.8)] flex-shrink-0 relative group/poster"
-          >
-            <Image
-              src={getImageUrl(movie.poster_path || movie.backdrop_path, 'w500')}
-              alt={movie.title}
-              fill
-              sizes="(max-width: 768px) 110px, 240px"
-              className="object-cover saturate-[1.2] transition-transform duration-1000 group-hover/poster:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover/poster:opacity-100 transition-opacity" />
-          </motion.div>
-
-          {/* Info Area */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex-1 w-full flex flex-col items-center md:items-end"
-          >
-            {movie.tagline && (
-              <p className="text-primary text-xs md:text-sm font-black mb-3 uppercase tracking-[0.3em] opacity-100 drop-shadow-xl">&quot;{movie.tagline}&quot;</p>
-            )}
-            <h1 className="text-4xl md:text-7xl font-black text-white mb-6 leading-[0.85] tracking-tighter text-glow font-display uppercase">{movie.title}</h1>
-
-            {/* Meta Pills - Scrollable on mobile */}
-            <div className="flex overflow-x-auto no-scrollbar gap-2 md:gap-3 mb-8 pb-2 md:pb-0">
-              <MetaPill icon={<Star size={16} className="text-primary fill-primary" />}>
-                <span className="text-white font-black text-sm">{movie.vote_average.toFixed(1)}</span>
-              </MetaPill>
-              {movie.runtime > 0 && (
-                <MetaPill icon={<Clock size={16} />}>
-                  <span className="text-white/90 text-sm">{formatRuntime(movie.runtime)}</span>
-                </MetaPill>
-              )}
-              <MetaPill icon={<Calendar size={16} />}>
-                <span className="text-white/90 text-sm">{new Date(movie.release_date).getFullYear()}</span>
-              </MetaPill>
-              <MetaPill icon={<Globe size={16} />}>
-                <span className="text-white/90 text-sm">{LANG_MAP[movie.original_language] || movie.original_language}</span>
-              </MetaPill>
-            </div>
-
-            {/* Action Buttons Group - Liquid Glass 2.0 Premium Redesign */}
-            <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
-              {/* Main Booking Action - High Depth & Glow */}
-              <motion.button
-                data-testid="book-now-button"
-                whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 50px rgba(255,159,10,0.4)' }}
-                whileTap={{ scale: 0.98 }}
-                onClick={handleBook}
-                className="flex-1 md:flex-none px-6 md:px-12 h-16 md:h-20 bg-primary text-black rounded-2xl md:rounded-[2rem] font-black flex items-center justify-center gap-3 md:gap-4 transition-all shadow-[0_15px_40px_rgba(255,159,10,0.3)] relative overflow-hidden group border border-white/10"
-              >
-                <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.4),transparent)] -translate-x-full group-hover:animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
-                <Ticket size={24} className="relative z-10 group-hover:rotate-12 transition-transform" />
-                <div className="relative z-10 flex flex-col items-start text-right min-w-0">
-                  <span className="text-[10px] md:text-sm font-black uppercase tracking-[0.1em] md:tracking-widest text-black/70 font-rubik leading-none mb-1 truncate w-full">חווית צפייה פרמיום</span>
-                  <span className="text-base md:text-2xl font-black font-rubik text-black block tracking-tight whitespace-nowrap">הזמן 3 כרטיסים</span>
-                </div>
-              </motion.button>
-
-              {/* Action Buttons: Trailer + More */}
-              <div className="flex items-center gap-3 w-full md:w-auto">
-
-                <motion.button
-                  whileHover={{ scale: 1.1, translateY: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={handleFavorite}
-                  className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group ${
-                    isFavorite 
-                    ? 'bg-primary border-primary text-black' 
-                    : 'bg-white/10 backdrop-blur-3xl border-white/20 text-white hover:bg-white/20'
-                  }`}
-                >
-                  <Heart size={24} className={`${isFavorite ? 'fill-current' : ''} relative z-10 transition-transform duration-300 group-hover:scale-110`} />
-                </motion.button>
-
-                <motion.button
-                  whileHover={{ scale: 1.1, translateY: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setShowVIPModal(true)}
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group bg-yellow-500/10 border-yellow-500/30 text-yellow-500 hover:bg-yellow-500/20"
-                >
-                  <Crown size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
-                </motion.button>
-
-                <motion.button
-                  whileHover={{ scale: 1.1, translateY: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={handleGenerateAudioGuide}
-                  disabled={isGeneratingAudio}
-                  className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group ${
-                    isGeneratingAudio 
-                    ? 'bg-primary/20 border-primary/40 text-primary' 
-                    : 'bg-white/10 backdrop-blur-3xl border-white/20 text-white hover:bg-white/20'
-                  }`}
-                >
-                  {isGeneratingAudio ? (
-                    <Loader2 size={24} className="animate-spin relative z-10" />
-                  ) : (
-                    <Headphones size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
-                  )}
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.1, translateY: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => {
-                    document.getElementById('movie-animation-section')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  title="אנימציית 3D"
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group bg-cyan-500/10 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20"
-                >
-                  <Sparkles size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110 animate-pulse" />
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
+      {/* Hero Entrance Animation with Shared Element Transition & Staggered Reveal */}
+      <MovieEntranceAnimation
+        movie={{
+          id: movie.id,
+          title: movie.title,
+          backdropUrl: getImageUrl(movie.backdrop_path || movie.poster_path, 'original'),
+          posterUrl: getImageUrl(movie.poster_path || movie.backdrop_path, 'w500'),
+          rating: movie.vote_average,
+          genres: movie.genres.map(g => g.name),
+          overview: movie.overview,
+          tagline: movie.tagline,
+        }}
+        onBookClick={handleBook}
+      >
+        {/* Meta Pills */}
+        <div className="flex overflow-x-auto no-scrollbar gap-2 md:gap-3 mb-6 pb-2 md:pb-0">
+          <MetaPill icon={<Star size={16} className="text-primary fill-primary" />}>
+            <span className="text-white font-black text-sm">{movie.vote_average.toFixed(1)}</span>
+          </MetaPill>
+          {movie.runtime > 0 && (
+            <MetaPill icon={<Clock size={16} />}>
+              <span className="text-white/90 text-sm">{formatRuntime(movie.runtime)}</span>
+            </MetaPill>
+          )}
+          <MetaPill icon={<Calendar size={16} />}>
+            <span className="text-white/90 text-sm">{new Date(movie.release_date).getFullYear()}</span>
+          </MetaPill>
+          <MetaPill icon={<Globe size={16} />}>
+            <span className="text-white/90 text-sm">{LANG_MAP[movie.original_language] || movie.original_language}</span>
+          </MetaPill>
         </div>
-      </section>
+
+        {/* Action Buttons Group - Liquid Glass 2.0 */}
+        <div className="flex flex-wrap md:flex-nowrap items-center gap-4">
+          <motion.button
+            data-testid="book-now-button"
+            whileHover={{ scale: 1.02, translateY: -2, boxShadow: '0 20px 50px rgba(255,159,10,0.4)' }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleBook}
+            className="flex-1 md:flex-none px-6 md:px-12 h-16 md:h-20 bg-primary text-black rounded-2xl md:rounded-[2rem] font-black flex items-center justify-center gap-3 md:gap-4 transition-all shadow-[0_15px_40px_rgba(255,159,10,0.3)] relative overflow-hidden group border border-white/10"
+          >
+            <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.4),transparent)] -translate-x-full group-hover:animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
+            <Ticket size={24} className="relative z-10 group-hover:rotate-12 transition-transform" />
+            <div className="relative z-10 flex flex-col items-start text-right min-w-0">
+              <span className="text-[10px] md:text-sm font-black uppercase tracking-[0.1em] md:tracking-widest text-black/70 font-rubik leading-none mb-1 truncate w-full">חווית צפייה פרמיום</span>
+              <span className="text-base md:text-2xl font-black font-rubik text-black block tracking-tight whitespace-nowrap">הזמן כרטיסים</span>
+            </div>
+          </motion.button>
+
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <motion.button
+              whileHover={{ scale: 1.1, translateY: -2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleFavorite}
+              className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group ${
+                isFavorite 
+                ? 'bg-primary border-primary text-black' 
+                : 'bg-white/10 backdrop-blur-3xl border-white/20 text-white hover:bg-white/20'
+              }`}
+            >
+              <Heart size={24} className={`${isFavorite ? 'fill-current' : ''} relative z-10 transition-transform duration-300 group-hover:scale-110`} />
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.1, translateY: -2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setShowVIPModal(true)}
+              className="w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group bg-yellow-500/10 border-yellow-500/30 text-yellow-500 hover:bg-yellow-500/20"
+            >
+              <Crown size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.1, translateY: -2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleGenerateAudioGuide}
+              disabled={isGeneratingAudio}
+              className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group ${
+                isGeneratingAudio 
+                ? 'bg-primary/20 border-primary/40 text-primary' 
+                : 'bg-white/10 backdrop-blur-3xl border-white/20 text-white hover:bg-white/20'
+              }`}
+            >
+              {isGeneratingAudio ? (
+                <Loader2 size={24} className="animate-spin relative z-10" />
+              ) : (
+                <Headphones size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
+              )}
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1, translateY: -2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                document.getElementById('movie-animation-section')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              title="אנימציית 3D"
+              className="w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group bg-cyan-500/10 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20"
+            >
+              <Sparkles size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110 animate-pulse" />
+            </motion.button>
+          </div>
+        </div>
+      </MovieEntranceAnimation>
 
       {/* Main Content Grid */}
       <div className="px-4 md:px-12 mt-8 md:mt-12 space-y-8 md:space-y-12">

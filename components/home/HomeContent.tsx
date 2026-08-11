@@ -121,12 +121,12 @@ export default function HomeContent({
               />
               <MovieSection 
                 title="סרטים פופולריים" 
-                movies={popularMovies.slice(0, 12)} 
+                movies={popularMovies.filter(m => !nowPlayingMovies.slice(0, 12).some(np => np.id === m.id)).slice(0, 12)} 
                 onSeeAll={() => setActiveCategory('trending')}
               />
               <MovieSection 
                 title="הכי מדורגים" 
-                movies={topRatedMovies.slice(0, 12)} 
+                movies={topRatedMovies.filter(m => !nowPlayingMovies.slice(0, 12).some(np => np.id === m.id) && !popularMovies.slice(0, 12).some(p => p.id === m.id)).slice(0, 12)} 
                 onSeeAll={() => setActiveCategory('top')}
               />
             </>

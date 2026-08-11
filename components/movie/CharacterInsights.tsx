@@ -86,7 +86,7 @@ export const CharacterInsights = ({ movieTitle, overview, genres }: CharacterIns
         <div className="flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-y-auto no-scrollbar pb-2 md:pb-0">
           {characters.map((char, idx) => (
             <button
-              key={char.name}
+              key={`${char.name}-${idx}`}
               onClick={() => setActiveIdx(idx)}
               className={cn(
                 "flex-shrink-0 w-full text-right p-4 rounded-2xl border transition-all flex items-center justify-between",
@@ -111,7 +111,7 @@ export const CharacterInsights = ({ movieTitle, overview, genres }: CharacterIns
         <div className="md:col-span-2 bg-white/5 border border-white/10 rounded-[32px] p-6 relative flex flex-col justify-between min-h-[250px]">
           <AnimatePresence mode="wait">
             <motion.div
-              key={current.name}
+              key={`${current.name}-${activeIdx}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -177,25 +177,9 @@ export const CharacterInsights = ({ movieTitle, overview, genres }: CharacterIns
   );
 };
 
-// Internal mini-chevron helper to prevent Lucide resolution issues
-interface ChevronLeftProps extends React.SVGProps<SVGSVGElement> {
-  size?: number | string;
-}
-
-function ChevronLeft({ size = 24, ...props }: ChevronLeftProps) {
+function ChevronLeft({ size = 24, ...props }: React.SVGProps<SVGSVGElement> & { size?: number | string }) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
       <path d="m15 18-6-6 6-6" />
     </svg>
   );
