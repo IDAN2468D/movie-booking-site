@@ -1,20 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="100%" height="100%">
   <defs>
-    <linearGradient id="bgAvatar" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#083344" />
-      <stop offset="50%" stop-color="#164E63" />
+    <linearGradient id="bgAvatarNew" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#042f2e" />
+      <stop offset="40%" stop-color="#083344" />
+      <stop offset="80%" stop-color="#0f172a" />
       <stop offset="100%" stop-color="#020617" />
     </linearGradient>
-    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#06B6D4" />
-      <stop offset="100%" stop-color="#3B82F6" />
+    <radialGradient id="cyanCore" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#083344" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="goldGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#fbbf24" />
     </linearGradient>
   </defs>
-  <rect width="400" height="600" fill="url(#bgAvatar)" />
-  <circle cx="200" cy="200" r="100" fill="#06B6D4" opacity="0.25" />
-  <polygon points="200,120 230,190 300,190 245,230 265,300 200,260 135,300 155,230 100,190 170,190" fill="url(#glow)" opacity="0.85" />
-  <text x="200" y="440" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="26" font-weight="900" text-anchor="middle">אווטאר: אש ואפר</text>
-  <text x="200" y="480" fill="#67E8F9" font-family="system-ui, sans-serif" font-size="14" font-weight="600" text-anchor="middle">AVATAR: FIRE AND ASH</text>
-  <rect x="140" y="515" width="120" height="30" rx="15" fill="#06B6D4" opacity="0.9" />
-  <text x="200" y="535" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle">3D DOLBY</text>
+  <rect width="400" height="600" fill="url(#bgAvatarNew)" />
+  <circle cx="200" cy="220" r="130" fill="url(#cyanCore)" />
+  <circle cx="200" cy="220" r="85" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="6,6" opacity="0.8" />
+  <polygon points="200,130 225,195 290,195 240,235 260,300 200,260 140,300 160,235 110,195 175,195" fill="url(#goldGlow)" filter="drop-shadow(0px 0px 15px rgba(245,158,11,0.8))" />
+  <text x="200" y="380" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="28" font-weight="900" text-anchor="middle" filter="drop-shadow(0px 2px 10px rgba(0,0,0,0.9))">אוואטר אנג</text>
+  <text x="200" y="415" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="16" font-weight="800" text-anchor="middle">כשף האוויר האחרון</text>
+  <rect x="130" y="450" width="140" height="34" rx="17" fill="#0284c7" opacity="0.9" />
+  <text x="200" y="473" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="13" font-weight="900" text-anchor="middle" letter-spacing="2">IMAX 3D LIVE</text>
 </svg>

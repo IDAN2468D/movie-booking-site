@@ -1,14 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="100%" height="100%">
   <defs>
-    <linearGradient id="bgDefault" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#111827" />
-      <stop offset="50%" stop-color="#1F2937" />
+    <linearGradient id="bgDefNew" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="40%" stop-color="#311042" />
+      <stop offset="80%" stop-color="#0f172a" />
       <stop offset="100%" stop-color="#030712" />
     </linearGradient>
+    <radialGradient id="neonPulse" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#ec4899" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#1e1b4b" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="primaryGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff9f0a" />
+      <stop offset="100%" stop-color="#ffd60a" />
+    </linearGradient>
   </defs>
-  <rect width="400" height="600" fill="url(#bgDefault)" />
-  <circle cx="200" cy="220" r="70" fill="#E11D48" opacity="0.2" />
-  <path d="M160 180 L250 220 L160 260 Z" fill="#F59E0B" opacity="0.9" />
-  <text x="200" y="440" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="28" font-weight="900" text-anchor="middle">CinePulse</text>
-  <text x="200" y="480" fill="#9CA3AF" font-family="system-ui, sans-serif" font-size="14" font-weight="600" text-anchor="middle">חוויה קולנועית פרימיום</text>
+  <rect width="400" height="600" fill="url(#bgDefNew)" />
+  <circle cx="200" cy="220" r="120" fill="url(#neonPulse)" />
+  <circle cx="200" cy="220" r="75" fill="none" stroke="#ff9f0a" stroke-width="3" opacity="0.9" />
+  <path d="M175 180 L245 220 L175 260 Z" fill="url(#primaryGold)" filter="drop-shadow(0px 0px 12px rgba(255,159,10,0.9))" />
+  <text x="200" y="380" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="30" font-weight="900" text-anchor="middle" filter="drop-shadow(0px 2px 10px rgba(0,0,0,0.9))">CinePulse</text>
+  <text x="200" y="415" fill="#F472B6" font-family="system-ui, sans-serif" font-size="16" font-weight="800" text-anchor="middle">חוויה קולנועית פרימיום</text>
+  <rect x="130" y="450" width="140" height="34" rx="17" fill="#ff9f0a" opacity="0.9" />
+  <text x="200" y="473" fill="#000000" font-family="system-ui, sans-serif" font-size="13" font-weight="900" text-anchor="middle" letter-spacing="2">4K DOLBY ATMOS</text>
 </svg>

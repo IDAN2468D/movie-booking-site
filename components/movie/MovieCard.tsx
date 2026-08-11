@@ -58,6 +58,19 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
     e.stopPropagation();
     toggleFavorite(movie);
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleDragStart = (e: any) => {
+    if (e?.dataTransfer) {
+      e.dataTransfer.setData('movie', JSON.stringify(movie));
+      e.dataTransfer.setData('text/plain', movie.displayTitle);
+      e.dataTransfer.effectAllowed = 'copy';
+    }
+    setDraggingMovieName(movie.displayTitle);
+  };
+
+  const handleDragEnd = () => {
+    setDraggingMovieName(null);
+  };
 
   return (
     <motion.div 
@@ -65,8 +78,8 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
       layout
       draggable
-      onDragStartCapture={() => setDraggingMovieName(movie.displayTitle)}
-      onDragEndCapture={() => setDraggingMovieName(null)}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileTap={{ scale: 0.96 }}
@@ -93,8 +106,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         data-testid="movie-link"
         onClick={() => setSelectedMovie(movie)}
       >
-        <motion.div
-          layoutId={`movie-poster-${movie.id}`}
+        <div
           className="aspect-[2/3] relative w-full overflow-hidden shimmer-mask"
           style={{ transform: 'translateZ(20px)' }}
         >
@@ -126,7 +138,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
               <Share2 size={15} />
             </button>
           </div>
-        </motion.div>
+        </div>
       </Link>
       
       <div className="p-4 md:p-5 relative text-right z-20" style={{ transform: 'translateZ(30px)' }}>

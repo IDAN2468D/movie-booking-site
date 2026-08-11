@@ -1,5 +1,6 @@
 # Latest Task State
 
-- **Status**: Fixed React Unique Key Duplicate Console Error in CharacterInsights
+- **Status**: Fixed Multi-Row Duplicate layoutId Collision in MovieCard
 - **Active Files**:
-  - `components/movie/CharacterInsights.tsx`
+  - `components/movie/MovieCard.tsx`
+  - `components/effects/PosterRefractor.tsx`

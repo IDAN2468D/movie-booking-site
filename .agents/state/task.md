@@ -1,7 +1,6 @@
-# Current Active Task: Fix Unique Key Error in CharacterInsights
+# Current Active Task: Fix Framer Motion layoutId Collision Across Duplicate Movie Rows
 
-- [x] Identified console error in `CharacterInsights.tsx` caused by non-unique `key={char.name}` when AI returns duplicate character names
-- [x] Updated `CharacterInsights.tsx` to use unique keys `${char.name}-${idx}` for buttons and `${current.name}-${activeIdx}` for `AnimatePresence`
-- [x] Maintained strict 200 LOC limit (187 lines)
-- [x] Verified full TypeScript compilation (`npx tsc --noEmit`) and Vitest test suite (`npx vitest run`)
+- [x] Identified exact root cause: Framer Motion's `layoutId={`movie-poster-${movie.id}`}` on `MovieCard.tsx` caused Framer Motion to detach/hide earlier instances of the same movie appearing in multiple rows (e.g. "מוקרן כעת" vs "הכי מדורגים")
+- [x] Removed shared `layoutId` collision from grid `MovieCard.tsx` while preserving full 3D gyroscope tilt, refractor effects, and smooth route transitions
+- [x] Verified full Layer 5 QA Loop (`npx tsc --noEmit` and `npx vitest run`)
 - [x] Synchronized all 4 state files in `.agents/state/`

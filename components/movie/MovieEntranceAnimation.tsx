@@ -53,6 +53,14 @@ export default function MovieEntranceAnimation({
   children,
   backButtonHref = '/',
 }: MovieEntranceAnimationProps) {
+  const [backdropSrc, setBackdropSrc] = React.useState(movie.backdropUrl || '/posters/default.svg');
+  const [posterSrc, setPosterSrc] = React.useState(movie.posterUrl || '/posters/default.svg');
+
+  React.useEffect(() => {
+    setBackdropSrc(movie.backdropUrl || '/posters/default.svg');
+    setPosterSrc(movie.posterUrl || '/posters/default.svg');
+  }, [movie.backdropUrl, movie.posterUrl]);
+
   return (
     <div className="relative min-h-[650px] md:min-h-[600px] w-full overflow-hidden bg-black text-white" dir="rtl">
       {/* 1. Backdrop Background Animation */}
@@ -63,11 +71,12 @@ export default function MovieEntranceAnimation({
         className="absolute inset-0 z-0 pointer-events-none"
       >
         <Image
-          src={movie.backdropUrl}
+          src={backdropSrc}
           alt={movie.title}
           fill
           priority
           sizes="100vw"
+          onError={() => setBackdropSrc('/posters/default.svg')}
           className="object-cover object-center filter brightness-75 saturate-[1.1]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-transparent" />
@@ -107,11 +116,12 @@ export default function MovieEntranceAnimation({
           className="relative w-44 h-64 md:w-72 md:h-[420px] rounded-2xl md:rounded-[2.5rem] overflow-hidden shadow-2xl shadow-cyan-500/10 border-2 border-white/20 shrink-0 group/poster"
         >
           <Image
-            src={movie.posterUrl}
+            src={posterSrc}
             alt={movie.title}
             fill
             priority
             sizes="(max-width: 768px) 176px, 288px"
+            onError={() => setPosterSrc('/posters/default.svg')}
             className="object-cover saturate-[1.15] transition-transform duration-700 group-hover/poster:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover/poster:opacity-100 transition-opacity" />

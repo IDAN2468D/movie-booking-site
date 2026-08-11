@@ -11,8 +11,6 @@ interface PosterRefractorProps {
 }
 
 const FALLBACK_POSTERS = [
-  'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg',
-  'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
   '/posters/dune2.svg',
   '/posters/gladiator2.svg',
   '/posters/avatar3.svg',
@@ -25,13 +23,18 @@ export default function PosterRefractor({ src, alt, className = "" }: PosterRefr
   const containerRef = useRef<HTMLDivElement>(null);
 
   const getTMDBPoster = (inputSrc: string, title: string) => {
-    if (inputSrc && !inputSrc.includes('null') && !inputSrc.includes('undefined') && !inputSrc.endsWith('/w500/') && !inputSrc.endsWith('/original/')) {
-      return inputSrc;
+    const isSpecial = (t: string) => {
+      if (/גלדיאטור|gladiator/i.test(t)) return '/posters/gladiator2.svg';
+      if (/דיונה|חולית|dune/i.test(t)) return '/posters/dune2.svg';
+      if (/אוואטר|אווטאר|אוואטאר|אווטר|avatar|aang|כשף האוויר/i.test(t)) return '/posters/avatar3.svg';
+      return null;
+    };
+
+    const specialPoster = isSpecial(title || '');
+    if (!inputSrc || inputSrc.includes('null') || inputSrc.includes('undefined') || inputSrc.endsWith('/w500/') || inputSrc.endsWith('/original/')) {
+      return specialPoster || DEFAULT_SVG;
     }
-    if (title?.includes('גלדיאטור') || title?.toLowerCase().includes('gladiator')) return '/posters/gladiator2.svg';
-    if (title?.includes('דיונה') || title?.toLowerCase().includes('dune')) return '/posters/dune2.svg';
-    if (title?.includes('אווטאר') || title?.toLowerCase().includes('avatar')) return '/posters/avatar3.svg';
-    return FALLBACK_POSTERS[0];
+    return inputSrc;
   };
 
   const [currentSrc, setCurrentSrc] = useState<string>(() => getTMDBPoster(src, alt));
@@ -43,6 +46,17 @@ export default function PosterRefractor({ src, alt, className = "" }: PosterRefr
   }, [src, alt]);
 
   const handleError = () => {
+    const isSpecial = (t: string) => {
+      if (/גלדיאטור|gladiator/i.test(t)) return '/posters/gladiator2.svg';
+      if (/דיונה|חולית|dune/i.test(t)) return '/posters/dune2.svg';
+      if (/אוואטר|אווטאר|אוואטאר|אווטר|avatar|aang|כשף האוויר/i.test(t)) return '/posters/avatar3.svg';
+      return null;
+    };
+    const special = isSpecial(alt || '');
+    if (special && currentSrc !== special) {
+      setCurrentSrc(special);
+      return;
+    }
     if (attempt < FALLBACK_POSTERS.length) {
       setCurrentSrc(FALLBACK_POSTERS[attempt]);
       setAttempt((prev) => prev + 1);
@@ -96,7 +110,7 @@ export default function PosterRefractor({ src, alt, className = "" }: PosterRefr
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`relative rounded-xl overflow-hidden cursor-pointer group select-none ${className}`}
+      className={`absolute inset-0 w-full h-full rounded-xl overflow-hidden cursor-pointer group select-none ${className}`}
       style={{
         perspective: 1000,
         boxShadow: "0 20px 40px rgba(0, 0, 0, 0.5)",
@@ -108,7 +122,7 @@ export default function PosterRefractor({ src, alt, className = "" }: PosterRefr
           rotateY,
           transformStyle: "preserve-3d",
         }}
-        className="relative w-full h-full w-inherit h-inherit transition-transform duration-100 ease-out"
+        className="absolute inset-0 w-full h-full transition-transform duration-100 ease-out bg-gradient-to-br from-[#120D24] via-[#1A1238] to-[#0A0A0A] flex items-center justify-center"
       >
         {/* Chromatic Shadow Layer 1 (Red Accent) */}
         <motion.div
