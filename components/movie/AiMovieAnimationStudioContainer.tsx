@@ -37,22 +37,27 @@ export default function AiMovieAnimationStudioContainer({
   const loadAnimations = useCallback(
     async (stylePreset: 'cyberpunk' | 'retro_film' | 'epic_glow' | 'noir' | 'fantasy', customPrompt?: string) => {
       setIsGenerating(true);
-      const res = await generateAiMovieAnimations({
-        movieId,
-        movieTitle,
-        posterPath,
-        backdropPath,
-        overview,
-        stylePreset,
-        customPrompt,
-      });
+      try {
+        const res = await generateAiMovieAnimations({
+          movieId,
+          movieTitle,
+          posterPath,
+          backdropPath,
+          overview,
+          stylePreset,
+          customPrompt,
+        });
 
-      if (res.success && res.data) {
-        setFrames(res.data.frames);
-        setActiveStyle(stylePreset);
-        playSpatialTone();
+        if (res.success && res.data) {
+          setFrames(res.data.frames);
+          setActiveStyle(stylePreset);
+          playSpatialTone();
+        }
+      } catch (err) {
+        console.error('Failed to load AI animations:', err);
+      } finally {
+        setIsGenerating(false);
       }
-      setIsGenerating(false);
     },
     [movieId, movieTitle, posterPath, backdropPath, overview, playSpatialTone]
   );

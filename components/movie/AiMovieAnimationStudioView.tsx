@@ -51,6 +51,11 @@ export default function AiMovieAnimationStudioView({
     if (currentFrame?.imageUrl) {
       setImgSrc(currentFrame.imageUrl);
     }
+    // Safety auto-resolve timer so spinner never hangs indefinitely
+    const timer = setTimeout(() => {
+      setIsImgLoaded(true);
+    }, 2500);
+    return () => clearTimeout(timer);
   }, [activeFrameIndex, currentFrame?.id, currentFrame?.imageUrl]);
 
   const handleSubmitCustom = (e: React.FormEvent) => {
@@ -62,10 +67,8 @@ export default function AiMovieAnimationStudioView({
   };
 
   const handleImgError = () => {
-    // If external AI image fails to load, fallback to poster/backdrop frame
-    if (frames[1]?.imageUrl) {
-      setImgSrc(frames[1].imageUrl);
-    }
+    // If external AI image fails to load, fallback to a reliable frame or default svg
+    setImgSrc(frames[1]?.imageUrl || frames[0]?.imageUrl || '/posters/default.svg');
     setIsImgLoaded(true);
   };
 
@@ -155,22 +158,13 @@ export default function AiMovieAnimationStudioView({
                   <p className="text-xs text-white/80 line-clamp-1 max-w-lg">{currentFrame.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button
-                    onClick={onPrev}
-                    className="w-9 h-9 rounded-xl bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all"
-                  >
+                  <button onClick={onPrev} className="w-9 h-9 rounded-xl bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all">
                     <ChevronRight size={18} />
                   </button>
-                  <button
-                    onClick={onTogglePlay}
-                    className="w-10 h-10 rounded-xl bg-primary text-black flex items-center justify-center font-bold shadow-lg hover:scale-105 transition-transform"
-                  >
+                  <button onClick={onTogglePlay} className="w-10 h-10 rounded-xl bg-primary text-black flex items-center justify-center font-bold shadow-lg hover:scale-105 transition-transform">
                     {isPlaying ? <Pause size={18} /> : <Play size={18} className="fill-current" />}
                   </button>
-                  <button
-                    onClick={onNext}
-                    className="w-9 h-9 rounded-xl bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all"
-                  >
+                  <button onClick={onNext} className="w-9 h-9 rounded-xl bg-black/60 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all">
                     <ChevronLeft size={18} />
                   </button>
                 </div>
@@ -194,11 +188,7 @@ export default function AiMovieAnimationStudioView({
           disabled={isGenerating || !promptText.trim()}
           className="px-6 py-3 bg-gradient-to-r from-primary to-cyan-500 text-black rounded-2xl font-black text-xs flex items-center gap-2 shadow-lg hover:opacity-90 disabled:opacity-50 transition-all"
         >
-          {isGenerating ? (
-            <RefreshCw size={16} className="animate-spin" />
-          ) : (
-            <Sparkles size={16} />
-          )}
+          {isGenerating ? <RefreshCw size={16} className="animate-spin" /> : <Sparkles size={16} />}
           ייצר תמונת AI
         </button>
       </form>
