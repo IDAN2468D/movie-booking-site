@@ -1,5 +1,6 @@
-# Latest Milestone: Straight Vertical Paper Feed Alignment
+# Latest Milestone: Next.js Server Action Cache & Build Verification
 
-- **Enhancement:** Fixed thermal paper unroll trajectory to enter and slide out 100% straight vertically (`rotate: 0`) without any side tilting or rotational slant.
-- **Files Modified:** `components/receipt/CineBookReceiptPrinter.tsx` (178 LOC).
-- **Status:** Complete (TypeScript passed 0 errors, 20/20 Vitest files passed, 80 tests).
+- **Diagnostics:** Resolved `UnrecognizedActionError: Server Action "..." was not found on the server` caused by stale client JS bundle action hashes vs server manifests.
+- **Verification:** Ran full TypeScript check (`npx tsc --noEmit`) and full Next.js production build (`npm run build`). Both compiled 100% cleanly without errors.
+- **Action Required:** Hard refresh browser page (`Ctrl + F5`) or restart `npm run dev` after clearing `.next`.
+- **Status:** Complete.
