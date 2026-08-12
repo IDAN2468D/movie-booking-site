@@ -1,129 +1,193 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, BrainCircuit, Quote } from 'lucide-react';
-import { useEffect } from 'react';
+import { X, BrainCircuit, Star, Quote, Share2, Sparkles, Check, Users, Film } from 'lucide-react';
+import { MemoryCapsuleItem, MemoryReflection } from '@/lib/validations/memoryCapsule';
+import { playSparkleSound } from '@/lib/audio/acousticMemory';
 
 interface NeuralFlashbackModalProps {
   isOpen: boolean;
   onClose: () => void;
-  movieId: string | null;
-  date: string | null;
+  capsule: MemoryCapsuleItem | null;
+  onSaveReflection: (reflection: MemoryReflection) => Promise<{ success: boolean; error?: string }>;
 }
 
-export function NeuralFlashbackModal({ isOpen, onClose, movieId, date }: NeuralFlashbackModalProps) {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-    return () => { document.body.style.overflow = 'auto'; };
-  }, [isOpen]);
+export function NeuralFlashbackModal({ isOpen, onClose, capsule, onSaveReflection }: NeuralFlashbackModalProps) {
+  const [rating, setRating] = useState(5);
+  const [personalNote, setPersonalNote] = useState('');
+  const [companions, setCompanions] = useState('');
+  const [favoriteScene, setFavoriteScene] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSavedSuccess, setIsSavedSuccess] = useState(false);
 
-  const quotes: Record<string, string> = {
-    'Inception': "You mustn't be afraid to dream a little bigger, darling.",
-    'Interstellar': "Love is the one thing that transcends time and space.",
-    'Dune': "I must not fear. Fear is the mind-killer.",
-    'The Matrix': "There is no spoon.",
-    'Blade Runner': "All those moments will be lost in time, like tears in rain."
+  useEffect(() => {
+    if (capsule) {
+      setRating(capsule.reflection?.rating ?? 5);
+      setPersonalNote(capsule.reflection?.personalNote ?? '');
+      setCompanions(capsule.reflection?.companions ?? '');
+      setFavoriteScene(capsule.reflection?.favoriteScene ?? '');
+      setIsSavedSuccess(false);
+    }
+  }, [capsule]);
+
+  if (!capsule) return null;
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    const res = await onSaveReflection({
+      capsuleId: capsule.id,
+      rating,
+      personalNote,
+      companions,
+      favoriteScene,
+      emotionalVibe: capsule.reflection?.emotionalVibe ?? 'התרגשות',
+    });
+    setIsSaving(false);
+    if (res.success) {
+      setIsSavedSuccess(true);
+      playSparkleSound();
+      setTimeout(() => setIsSavedSuccess(false), 3000);
+    }
   };
 
-  const quote = movieId && quotes[movieId] ? quotes[movieId] : "Cinematic memory successfully extracted.";
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: `קפסולת זיכרון: ${capsule.movieTitle}`,
+        text: `שחזרתי את הזיכרון הקולנועי שלי לסרט "${capsule.movieTitle}" ב-CinePulse!`,
+        url: window.location.href,
+      });
+    } else {
+      alert('קישור לקפסולת הזיכרון הועתק ללוח!');
+    }
+  };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-neutral-950/80 backdrop-blur-[40px] saturate-[150%] pointer-events-auto"
-          dir="ltr"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-3xl overflow-y-auto"
+          dir="rtl"
         >
-          {/* Hardware-accelerated Neural Background */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-             <div className="absolute w-[800px] h-[800px] bg-cyan-500/10 rounded-full blur-[120px] animate-pulse mix-blend-screen" />
-             <div className="absolute w-[400px] h-[400px] bg-primary/20 rounded-full blur-[100px] mix-blend-screen animate-pulse" style={{ animationDelay: '1s' }} />
-             
-             {/* Floating Neural Shards */}
-             {[...Array(5)].map((_, i) => (
-               <motion.div
-                 key={i}
-                 animate={{
-                   y: [0, -20, 0],
-                   rotate: [0, 5, -5, 0],
-                   scale: [1, 1.05, 1],
-                   opacity: [0.3, 0.6, 0.3]
-                 }}
-                 transition={{
-                   duration: 4 + i,
-                   repeat: Infinity,
-                   ease: "easeInOut",
-                   delay: i * 0.5
-                 }}
-                 className="absolute w-32 h-32 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-3xl"
-                 style={{
-                   left: `${20 + i * 15}%`,
-                   top: `${20 + (i % 3) * 20}%`,
-                 }}
-               />
-             ))}
-          </div>
-
-          <motion.div 
-            initial={{ scale: 0.8, y: 50, rotateX: 20 }}
-            animate={{ scale: 1, y: 0, rotateX: 0 }}
-            exit={{ scale: 0.9, y: 20, opacity: 0 }}
-            transition={{ type: 'spring', damping: 20, stiffness: 100 }}
-            className="relative w-full max-w-2xl bg-[#0a0a0a]/60 backdrop-blur-[40px] border border-white/[0.12] rounded-[40px] p-10 md:p-16 text-center shadow-[0_50px_100px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.3),0_0_80px_rgba(255,255,255,0.05)] transform-gpu will-change-transform overflow-hidden"
+          <motion.div
+            initial={{ scale: 0.92, y: 30 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.92, y: 30 }}
+            className="relative w-full max-w-3xl bg-neutral-950 border border-white/20 rounded-[36px] p-8 md:p-10 shadow-[0_30px_90px_rgba(0,0,0,0.9)] overflow-hidden my-8 text-right"
           >
-            {/* Animated Conic Border Glow */}
-            <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-              <motion.div 
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-                className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg,transparent_0_340deg,rgba(255,255,255,0.8)_360deg)]"
-              />
-            </div>
-            
-            <div className="absolute inset-[1px] rounded-[39px] bg-[#0a0a0a]/80 backdrop-blur-2xl z-0 pointer-events-none" />
-            <button 
+            <button
               onClick={onClose}
-              className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors z-20"
+              className="absolute top-6 left-6 w-11 h-11 rounded-full bg-white/5 border border-white/15 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition-colors z-20"
             >
-              <X size={18} />
+              <X size={22} />
             </button>
 
-            <div className="mx-auto w-20 h-20 bg-primary/20 rounded-3xl flex items-center justify-center mb-8 border border-primary/30 shadow-[0_0_30px_rgba(255,159,10,0.3)] relative z-10">
-              <BrainCircuit className="text-primary w-10 h-10 animate-pulse" />
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-16 h-16 rounded-3xl bg-primary/20 border border-primary/40 flex items-center justify-center text-primary shadow-[0_0_30px_rgba(255,159,10,0.35)]">
+                <BrainCircuit className="w-9 h-9 animate-pulse" />
+              </div>
+              <div>
+                <span className="text-xs font-black text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
+                  קפסולת זיכרון נוירונלית
+                </span>
+                <h3 className="text-3xl md:text-4xl font-black font-outfit text-white mt-1.5">{capsule.movieTitle}</h3>
+              </div>
             </div>
 
-            <div className="mb-2 relative z-10">
-              <span className="text-[10px] font-inter font-black text-primary uppercase tracking-[0.3em] bg-primary/10 px-3 py-1 rounded-full border border-primary/20 shadow-[0_0_15px_rgba(255,159,10,0.2)]">
-                Memory Extracted: {date}
-              </span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-outfit font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-white/90 to-white/40 mb-10 tracking-tighter drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] relative z-10">
-              {movieId}
-            </h2>
-
-            <div className="relative z-10 px-6">
-              <Quote className="absolute -top-6 -left-2 w-12 h-12 text-white/10 -rotate-12" />
-              <p className="text-xl md:text-3xl font-inter font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-100 via-white to-cyan-100/60 italic leading-relaxed drop-shadow-md">
-                "{quote}"
+            {/* Quote Card */}
+            <div className="relative bg-white/5 border border-white/12 rounded-3xl p-6 mb-6 backdrop-blur-xl shadow-inner">
+              <Quote className="w-8 h-8 text-primary/30 absolute top-4 left-4" />
+              <p className="text-base md:text-xl font-serif italic text-cyan-100/95 leading-relaxed pl-8 font-medium">
+                "{capsule.iconicQuote}"
               </p>
-              <Quote className="absolute -bottom-8 -right-2 w-12 h-12 text-white/10 rotate-12" />
+              <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/10 text-xs md:text-sm text-white/50">
+                <span>תאריך: {capsule.date} • {capsule.hall}</span>
+                <span className="font-mono text-cyan-300 font-bold">HMAC: {capsule.hmacSignature.slice(0, 16)}</span>
+              </div>
             </div>
 
-            {/* Neural scanline effect */}
-            <div className="absolute inset-0 pointer-events-none z-0">
-               <motion.div 
-                 animate={{ y: ['-100%', '200%'] }}
-                 transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-                 className="w-full h-1 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent blur-[1px]"
-               />
+            {/* Reflection Section */}
+            <div className="space-y-5 bg-black/50 border border-white/12 rounded-3xl p-6 md:p-8">
+              <div className="flex items-center justify-between">
+                <span className="text-sm md:text-base font-black text-white/90">דירוג החוויה האישית:</span>
+                <div className="flex items-center gap-1.5">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button key={star} onClick={() => setRating(star)} className="p-1 hover:scale-125 transition-transform">
+                      <Star className={`w-6 h-6 md:w-7 md:h-7 ${star <= rating ? 'text-amber-400 fill-amber-400' : 'text-white/20'}`} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-bold text-white/70 block mb-1.5 flex items-center gap-1.5">
+                    <Users className="w-4 h-4 text-cyan-400" /> עם מי צפית?
+                  </label>
+                  <input
+                    type="text"
+                    value={companions}
+                    onChange={(e) => setCompanions(e.target.value)}
+                    placeholder="למשל: בן/בת זוג, חברים, משפחה"
+                    className="w-full bg-white/5 border border-white/12 rounded-2xl px-4 py-3 text-sm text-white placeholder:text-white/35 focus:outline-none focus:border-primary/60"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-white/70 block mb-1.5 flex items-center gap-1.5">
+                    <Film className="w-4 h-4 text-primary" /> סצנה בלתי נשכחת:
+                  </label>
+                  <input
+                    type="text"
+                    value={favoriteScene}
+                    onChange={(e) => setFavoriteScene(e.target.value)}
+                    placeholder="למשל: סצנת השיא, הטוויסט בסיום"
+                    className="w-full bg-white/5 border border-white/12 rounded-2xl px-4 py-3 text-sm text-white placeholder:text-white/35 focus:outline-none focus:border-primary/60"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-white/70 block mb-1.5">רשמים, תחושות וחוויות אישיות:</label>
+                <textarea
+                  rows={3}
+                  value={personalNote}
+                  onChange={(e) => setPersonalNote(e.target.value)}
+                  placeholder="כתוב כאן מה הרגשת במהלך הסרט, איך הייתה האווירה באולם ומה לקחת איתך..."
+                  className="w-full bg-white/5 border border-white/12 rounded-2xl p-4 text-sm text-white placeholder:text-white/35 focus:outline-none focus:border-primary/60 resize-none leading-relaxed"
+                />
+              </div>
+
+              <div className="flex items-center justify-between pt-2">
+                <button
+                  onClick={handleShare}
+                  className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/5 hover:bg-white/10 text-white/80 hover:text-white text-sm font-bold transition-all border border-white/12"
+                >
+                  <Share2 className="w-4 h-4" /> שייר קפסולה
+                </button>
+
+                <button
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="flex items-center gap-2 px-7 py-3 rounded-2xl bg-primary text-black font-black text-sm hover:brightness-110 active:scale-95 transition-all shadow-[0_0_25px_rgba(255,159,10,0.35)] disabled:opacity-50"
+                >
+                  {isSavedSuccess ? (
+                    <>
+                      <Check className="w-5 h-5 text-black" />
+                      <span>הרשמים נשמרו בהצלחה!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-5 h-5 text-black" />
+                      <span>{isSaving ? 'שומר...' : 'שמור רשמים בזיכרון'}</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </motion.div>
         </motion.div>

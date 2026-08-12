@@ -21,7 +21,7 @@ export default function ProfileClient({ activeTickets, history, activeMatches }:
 
   useEffect(() => {
     if (activeTab === "history" && !memories && session?.user?.id) {
-      getUserMemoriesAction(session.user.id).then((res) => {
+      getUserMemoriesAction(session.user.id).then((res: { success: boolean; data?: BookingMemory[] }) => {
         if (res.success && res.data) {
           setMemories(res.data);
         } else {
