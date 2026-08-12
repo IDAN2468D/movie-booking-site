@@ -88,8 +88,12 @@ export default function HolographicTicket({
         animate={{ rotateX, rotateY }}
         transition={{ type: 'spring', stiffness: 150, damping: 20 }}
         style={{ transformStyle: 'preserve-3d' }}
-        className="gradient-border-card group relative overflow-hidden rounded-[36px] p-6 text-white border border-white/20 shadow-2xl transition-all duration-300"
+        className="group relative overflow-hidden rounded-[36px] p-[2px] text-white shadow-[0_0_35px_rgba(6,182,212,0.35)] group-hover:shadow-[0_0_50px_rgba(59,130,246,0.5)] transition-all duration-300"
       >
+        {/* Holographic Rotating Conic Gradient - Clipped */}
+        <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg_at_50%_50%,#06b6d4_0deg,#3b82f6_120deg,#8b5cf6_240deg,#06b6d4_360deg)] animate-[spin_8s_linear_infinite] opacity-80 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+        <div className="relative w-full h-full bg-slate-950/92 backdrop-blur-2xl rounded-[34px] p-6 overflow-hidden border border-white/10">
         {/* Dynamic Cursor-Tracked Radial Gradient Mask */}
         <div
           className="pointer-events-none absolute -inset-[1px] rounded-[inherit] p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
@@ -152,6 +156,7 @@ export default function HolographicTicket({
               <QrCode size={70} className="text-black" />
             </div>
           </div>
+        </div>
         </div>
       </motion.div>
     </div>

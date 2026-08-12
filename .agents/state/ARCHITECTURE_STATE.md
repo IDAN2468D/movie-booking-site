@@ -30,6 +30,8 @@
 10. **Movie Entrance Animation & Shared Element Transition**: Next.js 15 & Framer Motion Hero entrance animation with smooth GPU scale and fade transitions.
 11. **Electric Border Effect & Smart Pick UI Cards**: Electric neon border glow with `public/log_white.svg`, 1000% scale at (56%, 41.7%), `background-origin: content-box` with padding, layered z-index.
 12. **Global Loading Indicator Standardization**: Standardized `LoadingIndicator.tsx` across all pages, modals, buttons, AI studios, and sound synthesizers with GPU acceleration and accessibility.
+13. **Neon Animated Card Skill & Universal Passbook Integration**: Rotating glowing neon gradient borders (`conic-gradient`), 2px `overflow-hidden` edge clipping, ambient drop-shadow aura (`shadow-[0_0_35px...]`), flip-out QR pass, and dark glass layers integrated across `QuantumTicket.tsx`, `HolographicTicket.tsx`, `NeonTicket.tsx`, `TicketsTabSwitcher.tsx`, and `app/(main)/tickets/page.tsx`.
+14. **Standardized Skills Directory Architecture**: All 20 project skills organized into compliant `.agents/skills/<skill-name>/SKILL.md` directory structures.
 
 ---
 

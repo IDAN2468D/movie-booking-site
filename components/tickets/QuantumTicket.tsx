@@ -103,9 +103,14 @@ export default function QuantumTicket({
         layout
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: isAssembled ? 1 : 0.8, scale: isAssembled ? 1 : 0.95 }}
-        className="bg-black/50 backdrop-blur-[50px] border border-white/20 rounded-[40px] overflow-hidden shadow-2xl relative flex flex-col"
+        className="relative rounded-[40px] p-[2px] overflow-hidden shadow-[0_0_35px_rgba(59,130,246,0.35)] group-hover:shadow-[0_0_50px_rgba(168,85,247,0.5)] transition-shadow duration-500"
         style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
       >
+        {/* Rotating Conic Gradient - Perfectly Clipped */}
+        <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg_at_50%_50%,#3b82f6_0deg,#a855f7_120deg,#06b6d4_240deg,#3b82f6_360deg)] animate-[spin_7s_linear_infinite] opacity-80 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+        {/* Inner Card Glass Mask */}
+        <div className="relative w-full h-full bg-slate-950/92 backdrop-blur-[50px] rounded-[38px] overflow-hidden flex flex-col z-10 border border-white/10">
         {/* Dynamic Cursor-Tracked Gradient Border Effect */}
         <div
           className="pointer-events-none absolute -inset-[1px] rounded-[inherit] p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
@@ -153,6 +158,7 @@ export default function QuantumTicket({
             <div className="space-y-1"><p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">אולם</p><p className="text-sm text-white font-black">{ticket.hall}</p></div>
             <div className="space-y-1"><p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">מושבים</p><p className="text-sm text-white font-black truncate">{ticket.seats.join(', ')}</p></div>
           </div>
+        </div>
         </div>
       </motion.div>
 

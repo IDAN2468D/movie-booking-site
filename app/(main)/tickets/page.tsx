@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import QuantumTicket from '@/components/tickets/QuantumTicket';
 import HolographicTicket from '@/components/tickets/HolographicTicket';
+import NeonTicket from '@/components/tickets/NeonTicket';
 import { ChronoRefractiveReel } from '@/components/tickets/ChronoRefractiveReel';
 import { LiquidGlassTicketVault } from '@/components/tickets/LiquidGlassTicketVault';
 import { TicketsHeader } from '@/components/tickets/TicketsHeader';
@@ -18,7 +19,7 @@ export default function TicketsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'countdown' | 'qr' | 'memory'>('countdown');
-  const [ticketStyle, setTicketStyle] = useState<'quantum' | 'holographic' | 'vault'>('quantum');
+  const [ticketStyle, setTicketStyle] = useState<'quantum' | 'holographic' | 'vault' | 'neon'>('quantum');
 
   const handleEmailTicket = async (ticket: TicketType) => {
     setProcessingId(`${ticket.id}-email`);
@@ -145,7 +146,15 @@ export default function TicketsPage() {
               }}
               className="w-full flex justify-center"
             >
-              {ticketStyle === 'holographic' ? (
+              {ticketStyle === 'neon' ? (
+                <NeonTicket
+                  ticket={ticket}
+                  onEmail={() => handleEmailTicket(ticket)}
+                  onDownload={() => handleDownloadPDF(ticket)}
+                  isProcessingEmail={processingId === `${ticket.id}-email`}
+                  isProcessingPDF={processingId === `${ticket.id}-pdf`}
+                />
+              ) : ticketStyle === 'holographic' ? (
                 <HolographicTicket
                   movieTitle={ticket.movie}
                   date={ticket.date}
@@ -173,9 +182,7 @@ export default function TicketsPage() {
                         text: `קניתי כרטיס לסרט ${ticket.movie} ב-CinePulse! מושבים: ${ticket.seats.join(', ')}`,
                         url: window.location.href,
                       });
-                    } else {
-                      alert('שיתוף נתמך במכשירים ניידים');
-                    }
+                    } else alert('שיתוף נתמך במכשירים ניידים');
                   }}
                   isProcessingEmail={processingId === `${ticket.id}-email`}
                   isProcessingPDF={processingId === `${ticket.id}-pdf`}

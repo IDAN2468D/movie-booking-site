@@ -40,6 +40,16 @@
 - **Tech Stack:** Tailwind CSS GPU transforms (`[transform:translateZ(0)]`, `will-change-transform`), CSS custom properties, ARIA roles, `LoadingIndicator.tsx`.
 - **Status:** ✅ Completed
 
+### 🌟 Sprint 87: Universal Neon Animated Card Skill Integration (אפקטי ניאון דינמיים מוארים לכל הכרטיסים)
+- **Concept:** Implementation of `.agents/skills/neon-animated-card.md` skill across all tickets (Quantum, Holographic 3D, and Neon Pass), featuring rotating neon gradient borders (`conic-gradient`), 2px `overflow-hidden` edge clipping, ambient drop-shadow aura (`shadow-[0_0_35px...]`), flip-out QR pass, and dark glass layer.
+- **Tech Stack:** Tailwind CSS, Framer Motion 120Hz GPU, Next.js App Router, `QuantumTicket.tsx`, `HolographicTicket.tsx`, `NeonTicket.tsx`, `TicketsTabSwitcher.tsx`, `app/(main)/tickets/page.tsx`.
+- **Status:** ✅ Completed
+
+### 📁 Sprint 88: Standardized Skills Directory Architecture (ארגון וסדר מלא בתיקיות הסקילים)
+- **Concept:** Full re-organization of all project skills into standard directory formats `.agents/skills/<skill-name>/SKILL.md`, migration of loose markdown files, and cleanup of legacy empty folders.
+- **Tech Stack:** Antigravity Customization Protocol, Markdown frontmatter, `SKILL.md`.
+- **Status:** ✅ Completed
+
 ---
 
 ## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-17)

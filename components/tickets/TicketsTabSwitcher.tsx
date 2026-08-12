@@ -6,8 +6,8 @@ import { motion } from 'framer-motion';
 interface TicketsTabSwitcherProps {
   activeTab: 'countdown' | 'qr' | 'memory';
   setActiveTab: (tab: 'countdown' | 'qr' | 'memory') => void;
-  ticketStyle: 'quantum' | 'holographic' | 'vault';
-  setTicketStyle: (style: 'quantum' | 'holographic' | 'vault') => void;
+  ticketStyle: 'quantum' | 'holographic' | 'vault' | 'neon';
+  setTicketStyle: (style: 'quantum' | 'holographic' | 'vault' | 'neon') => void;
 }
 
 export const TicketsTabSwitcher: React.FC<TicketsTabSwitcherProps> = ({
@@ -49,11 +49,12 @@ export const TicketsTabSwitcher: React.FC<TicketsTabSwitcherProps> = ({
       </div>
 
       {/* Ticket Style Tabs */}
-      <div className="w-full max-w-xs bg-black/40 backdrop-blur-2xl border border-white/5 p-1 rounded-xl flex gap-1 shadow-md">
+      <div className="w-full max-w-md bg-black/40 backdrop-blur-2xl border border-white/5 p-1 rounded-xl flex gap-1 shadow-md">
         {([
           { id: 'quantum', label: 'קוונטי' },
           { id: 'holographic', label: 'הולוגרפי 3D' },
-          { id: 'vault', label: 'כספת Offline' }
+          { id: 'vault', label: 'כספת Offline' },
+          { id: 'neon', label: 'ניאון 4K' }
         ] as const).map((style) => {
           const isActive = ticketStyle === style.id;
           return (
