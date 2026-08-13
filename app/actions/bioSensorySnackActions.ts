@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-export const BioSensoryPairingSchema = z.object({
+const BioSensoryPairingSchema = z.object({
   snackId: z.string(),
   name: z.string(),
   matchScorePercentage: z.number().min(0).max(100),

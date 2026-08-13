@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-export const StemPresetSchema = z.object({
+const StemPresetSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),

@@ -1,11 +1,12 @@
-# Current Active Task: Master Feature Audit Suite Implementation (Sprints 97-101)
+# Active Task Checklist & Milestones
 
-- [x] Implemented **Sprint 97: Live Spoiler Filter & Auto-Archiving Community** (`SpoilerFilterStream.tsx`, `communityLiveAudioActions.ts`).
-- [x] Implemented **Sprint 98: AI Bio-Sensory CineSnacks & Kitchen Timer** (`BioSensoryPalateCard.tsx`, `KitchenDispatchTimer.tsx`, `bioSensorySnackActions.ts`, updated `food/page.tsx`).
-- [x] Implemented **Sprint 99: 10-Min Session Lock & Group Split Payment** (`SplitPaymentTimer.tsx`, `splitPaymentActions.ts`, updated `checkout/page.tsx`).
-- [x] Implemented **Sprint 100: Web Audio 3D Seat Spatializer** (`SeatAcousticPreviewModal.tsx`, updated `SeatMapSection.tsx`).
-- [x] Implemented **Sprint 101: Gemini Live Bio-Sensory Flavor & Mood Predictor** (`BioSensoryMoodPredictor.tsx`, `bioSensoryMoodActions.ts`, updated `concierge/page.tsx`).
-- [x] Verified Vitest test suite (`lib/__tests__/master-suite-sprints97-101.test.ts` - 94/94 passed across 23 test files).
-- [x] Verified TypeScript check (`npx tsc --noEmit` - 0 errors).
-- [x] Verified strict 200 LOC ceiling across all component files.
-- [x] Synchronized all 4 state files in `.agents/state/`.
+- [x] Feature Audit & Gap Analysis for Actor / Cast Profile Engine (`app/(main)/actor/[id]/page.tsx`)
+- [x] Agent Stack Layer 4 Implementation Plan draft & user gatekeeper approval
+- [x] Sprint 107: Implement `actorEmotionActions.ts` (Zod, Gemini AI) and `ActorRoleEmotionGraph.tsx` (120Hz Liquid Glass 4.0)
+- [x] Sprint 108: Implement `ActorAudioSceneSynthesizer.tsx` (Web Audio 35Hz-50Hz Sub-Bass & Speech Synth)
+- [x] Sprint 109: Implement `actorBadgeActions.ts` (HMAC-SHA256) and `ActorFanBadgeShard.tsx` (Biometric Touch-Hold)
+- [x] Redesign `ActorFanBadgeShard.tsx` to Liquid Glass 4.0 Pro with circular SVG scanner, 40Hz Web Audio synth & HMAC passbook
+- [x] Vitest test suite (`npx vitest run` - 25/25 test files passed, 101/101 tests)
+- [x] TypeScript verification (`npx tsc --noEmit` - 0 errors)
+- [x] Auto-synchronize all 4 state files in `.agents/state/`
+

@@ -23,6 +23,7 @@ interface NavItem {
 
 const basicNavItems: NavItem[] = [
   { icon: Home, label: 'בית', href: '/' },
+  { icon: Sparkles, label: 'CinePulse Labs - סוויטת העתיד 🚀', href: '/showcase/master-suite' },
   { icon: CalendarDays, label: 'בקרוב', href: '/coming-soon' },
   { icon: Star, label: 'החזון שלנו', href: '/vision' },
   { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets' },
@@ -36,6 +37,7 @@ const basicNavItems: NavItem[] = [
 ];
 
 const featureNavItems: FeatureNavItem[] = [
+  { icon: Sparkles, label: 'CinePulse Labs - סוויטת העתיד 🚀', href: '/showcase/master-suite' },
   { icon: Zap, label: 'גבול חשמלי & אינדיקטורים', href: '/electric-border' },
   { icon: Gamepad2, label: 'Seating Matcher Game', href: '/booking/seating-game' },
   { icon: Sparkles, label: 'האופק התחושתי', href: '/sensory-horizon' },

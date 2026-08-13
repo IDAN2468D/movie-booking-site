@@ -3,13 +3,13 @@
 import { z } from 'zod';
 import { callGeminiWithRetry } from '@/lib/gemini';
 
-export const ScreenplayBranchInputSchema = z.object({
+const ScreenplayBranchInputSchema = z.object({
   movieTitle: z.string().min(1),
   divergencePoint: z.string().min(3),
   targetGenre: z.string().optional(),
 });
 
-export const SceneBranchNodeSchema = z.object({
+const SceneBranchNodeSchema = z.object({
   id: z.string(),
   title: z.string(),
   summary: z.string(),

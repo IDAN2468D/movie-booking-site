@@ -2,14 +2,14 @@
 
 import { z } from 'zod';
 
-export const SplitPaymentCheckoutSchema = z.object({
+const SplitPaymentCheckoutSchema = z.object({
   sessionId: z.string(),
   seatNumber: z.string(),
   paymentMethod: z.enum(['ILS_CREDIT', 'CRYPTO_USDC', 'CRYPTO_ETH']),
   amountILS: z.number().positive(),
 });
 
-export const SeatAllocationSchema = z.object({
+const SeatAllocationSchema = z.object({
   seatNumber: z.string(),
   assignedUser: z.string(),
   isPaid: z.boolean(),
@@ -17,7 +17,7 @@ export const SeatAllocationSchema = z.object({
   amountCryptoUSDC: z.number(),
 });
 
-export const SplitSessionSchema = z.object({
+const SplitSessionSchema = z.object({
   sessionId: z.string(),
   movieTitle: z.string(),
   totalAmountILS: z.number(),

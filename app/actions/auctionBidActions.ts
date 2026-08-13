@@ -2,13 +2,13 @@
 
 import { z } from 'zod';
 
-export const AuctionBidSchema = z.object({
+const AuctionBidSchema = z.object({
   auctionId: z.string(),
   bidAmount: z.number().min(1),
   bidderName: z.string().min(1),
 });
 
-export const AuctionStateSchema = z.object({
+const AuctionStateSchema = z.object({
   auctionId: z.string(),
   movieTitle: z.string(),
   seatNumber: z.string(),

@@ -27,26 +27,25 @@
 | **Module U** | 10-Min Session Lock & Group Split Payment | `/components/booking/SplitPaymentTimer.tsx` | 10-Minute Group Session Lock, Individual Seat Checkout Execution, Dual ILS / Crypto USDC Pricing | `ACTIVE` |
 | **Module V** | Web Audio 3D Seat Spatializer | `/components/booking/SeatAcousticPreviewModal.tsx` | Seat-Specific Dolby Atmos 3D Spatial Audio Preview with Web Audio PannerNode & BiquadFilterNode | `ACTIVE` |
 | **Module W** | Gemini Live Bio-Sensory Flavor & Mood Predictor | `/components/ai/BioSensoryMoodPredictor.tsx` | Biometric Sliders (Energy, Valence, Intensity), Live Flavor & Movie Perception Matching with Gemini | `ACTIVE` |
+| **Module X** | Haptic Sub-Bass Wavefront Sync & Tactile Modulator | `/components/audio/HapticWavefrontModulator.tsx` | Web Audio 35Hz-50Hz Sub-Bass & Haptics API Vibration Sync | `ACTIVE` |
+| **Module Y** | Dynamic Biometric VIP Seat Auction Stream | `/components/vip/VIPSeatAuctionStream.tsx` | Live VIP Seat Auction, Gavel Sound Synthesizer, Biometric Touch Hold | `ACTIVE` |
+| **Module Z** | AI Neural Mood & Screenplay Scene Graph | `/components/ai/NeuralSceneGraphModal.tsx` | Scene Graph Graph Analysis with `gemini-3.5-flash-lite` | `ACTIVE` |
+| **Module AA** | Acoustic Actor Biography & Audio Reel | `/components/actor/AcousticActorBioPlayer.tsx` | Web Speech API Narration & 120Hz GPU Filmography Reel | `ACTIVE` |
+| **Module AB** | Chrono-Refractive Passbook & NFC Scanner | `/components/tickets/ChronoNFCScannerModal.tsx` | HMAC-SHA256 Encrypted NFC Ticket Scanner & Liquid Glass Refractive Card | `ACTIVE` |
+| **Module AC** | Gemini AI Neural Role Emotion Graph | `/components/actor/ActorRoleEmotionGraph.tsx` | Actor Role Emotion & Intensity Analysis with `gemini-3.5-flash-lite` | `ACTIVE` |
+| **Module AD** | Web Audio Sub-Bass Scene Synthesizer | `/components/actor/ActorAudioSceneSynthesizer.tsx` | Web Audio 35Hz-50Hz Sub-Bass Oscillator & Audio Scene Speech Synthesizer | `ACTIVE` |
+| **Module AE** | Biometric Refractive Fan Badge Shard | `/components/actor/ActorFanBadgeShard.tsx` | HMAC-SHA256 Encrypted Actor Fan Badge & Biometric Touch-Hold Scanner | `ACTIVE` |
 
 ---
 
-## Phase 39: CineBook v5.0 Next-Gen Master Feature Suite (Sprints 6-18 & 92-101)
-1. **Live Spoiler Filter & Auto-Archiving Community**: `SpoilerFilterStream.tsx`, `communityLiveAudioActions.ts`.
-2. **AI Bio-Sensory CineSnacks & Kitchen Timer**: `BioSensoryPalateCard.tsx`, `KitchenDispatchTimer.tsx`, `bioSensorySnackActions.ts`.
-3. **10-Min Session Lock & Group Split Payment**: `SplitPaymentTimer.tsx`, `splitPaymentActions.ts`.
-4. **Web Audio 3D Seat Spatializer**: `SeatAcousticPreviewModal.tsx`, `SeatMapSection.tsx`.
-5. **Gemini Live Bio-Sensory Flavor & Mood Predictor**: `BioSensoryMoodPredictor.tsx`, `bioSensoryMoodActions.ts`.
+## Phase 41: Actor Cast Profile Engine Upgrade Suite (Sprints 107-109)
+1. **Gemini AI Neural Role Emotion Graph**: `ActorRoleEmotionGraph.tsx`, `actorEmotionActions.ts`.
+2. **Web Audio Sub-Bass Scene Synthesizer**: `ActorAudioSceneSynthesizer.tsx`.
+3. **Biometric Refractive Fan Badge Shard**: `ActorFanBadgeShard.tsx`, `actorBadgeActions.ts`.
 
 ---
 
 ## API Routes & Server Actions Map
 - `POST /api/auth/register` - Account Registration
-- `POST /api/auth/2fa/generate` - 2FA Secret & QR Code Generation
-- `POST /api/auth/2fa/verify` - 2FA Verification
-- `POST /api/organization/invite` - Send Team Invitation Token
-- `POST /api/billing/checkout` - Create Stripe Checkout Session
-- `POST /api/webhooks/stripe` - Stripe Webhook Handler
-- Server Action `communityLiveAudioActions.ts` - Live Spoiler & Sentiment Stream
-- Server Action `bioSensorySnackActions.ts` - Palate Pairing & Dispatch Timer
-- Server Action `splitPaymentActions.ts` - Group Session Lock & Seat Checkout
-- Server Action `bioSensoryMoodActions.ts` - Multimodal Gemini Mood & Flavor Prediction
+- Server Action `actorEmotionActions.ts` - Gemini AI Actor Role Emotion Graph Metrics
+- Server Action `actorBadgeActions.ts` - HMAC-SHA256 Encrypted Fan Badge Shard Generation

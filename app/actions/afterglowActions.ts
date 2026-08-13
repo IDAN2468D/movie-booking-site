@@ -2,14 +2,14 @@
 
 import { z } from 'zod';
 
-export const AfterglowTriviaQuestionSchema = z.object({
+const AfterglowTriviaQuestionSchema = z.object({
   id: z.number(),
   question: z.string(),
   options: z.array(z.string()),
   correctIndex: z.number(),
 });
 
-export const AfterglowCommentSchema = z.object({
+const AfterglowCommentSchema = z.object({
   id: z.string(),
   author: z.string(),
   avatar: z.string(),

@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 
-export const CoWatchingMemberSchema = z.object({
+const CoWatchingMemberSchema = z.object({
   id: z.string(),
   name: z.string(),
   avatar: z.string(),
@@ -11,7 +11,7 @@ export const CoWatchingMemberSchema = z.object({
   seatNumber: z.string().optional(),
 });
 
-export const CoWatchingSessionSchema = z.object({
+const CoWatchingSessionSchema = z.object({
   sessionId: z.string(),
   movieTitle: z.string(),
   hostName: z.string(),

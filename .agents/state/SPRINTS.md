@@ -115,7 +115,47 @@
 - **Tech Stack:** `@google/genai` (`gemini-3.5-flash-lite`), React 19, Framer Motion 120Hz GPU, Next.js 15 Server Actions, Zod, `BioSensoryMoodPredictor.tsx`, `bioSensoryMoodActions.ts`, `concierge/page.tsx`.
 - **Status:** ✅ Completed
 
+### 📳 Sprint 102: Haptic Sub-Bass Wavefront Sync & Tactile Modulator (סנכרון תדרי תנודה רטוטים)
+- **Concept:** Web Audio synthesis coupled with Haptics API (`navigator.vibrate`) synchronizing 35Hz-50Hz sub-bass sound waves with trailer haptic vibrations.
+- **Tech Stack:** Web Audio API, Haptics API, Framer Motion 120Hz GPU, `HapticWavefrontModulator.tsx`, `hapticAudioActions.ts`.
+- **Status:** ✅ Completed
+
+### 🔨 Sprint 103: Dynamic Biometric VIP Seat Auction Stream & Live Gavel (מכרז מושבי VIP בזמן אמת)
+- **Concept:** Real-time VIP seat auction stream with Web Audio gavel sound synthesizer, biometric fingerprint touch-hold, and live countdown timer.
+- **Tech Stack:** Web Audio Synthesizer (`OscillatorNode`), React 19, `VIPSeatAuctionStream.tsx`, `vipAuctionStreamActions.ts`.
+- **Status:** ✅ Completed
+
+### 🧠 Sprint 104: AI Neural Mood & Screenplay Scene Graph Engine (מפת סצינות ניוראלית)
+- **Concept:** Interactive scene graph visualizer powered by `@google/generative-ai` (`gemini-3.5-flash-lite`) mapping emotional valence, acoustic intensity, and dialogue density across movie chapters.
+- **Tech Stack:** `@google/generative-ai`, Server Actions, Zod, Liquid Glass Canvas Graph, `NeuralSceneGraphModal.tsx`, `neuralSceneActions.ts`.
+- **Status:** ✅ Completed
+
+### 🎙️ Sprint 105: Acoustic Actor Biography & AI Voiceover Player (קריינות אקוסטית לביוגרפיית שחקנים)
+- **Concept:** Dynamic actor biography player with Web Speech API audio narration and 120Hz GPU filmography reel.
+- **Tech Stack:** Web Speech API, Framer Motion 120Hz GPU, `AcousticActorBioPlayer.tsx`, `actorBioActions.ts`.
+- **Status:** ✅ Completed
+
+### 🎟️ Sprint 106: Chrono-Refractive Passbook Shard & NFC Ticket Scanner (סורק כרטיסי NFC מוצפן)
+- **Concept:** HMAC-SHA256 encrypted biometric passbook shard generator with refractive Liquid Glass 4.0 border and simulated NFC touch gate authentication.
+- **Tech Stack:** Web Crypto API (HMAC-SHA256), Liquid Glass 4.0 Refractive Borders, `ChronoNFCScannerModal.tsx`, `chronoPassbookActions.ts`.
+- **Status:** ✅ Completed
+
+### 🎭 Sprint 107: Gemini AI Neural Role Emotion Graph (מניפת רגשות ודמויות נוירונלית לשחקנים)
+- **Concept:** Deep emotional and intensity distribution analysis across an actor's filmography using `gemini-3.5-flash-lite` and 120Hz Liquid Glass 4.0 graph nodes.
+- **Tech Stack:** `@google/generative-ai`, React 19, Framer Motion 120Hz GPU, Zod, `ActorRoleEmotionGraph.tsx`, `actorEmotionActions.ts`.
+- **Status:** ✅ Completed
+
+### 🔊 Sprint 108: Web Audio Sub-Bass Audio Scene Synthesizer (סינתיסייזר אקוסטי וסאב-באס 35-50Hz)
+- **Concept:** Sub-bass frequency wave pulse synthesizer (42Hz) and speech synthesis monologue narration for actor profiles.
+- **Tech Stack:** Web Audio API (`AudioContext`, `BiquadFilterNode`, `OscillatorNode`), Web Speech API, `ActorAudioSceneSynthesizer.tsx`.
+- **Status:** ✅ Completed
+
+### 🎖️ Sprint 109: Biometric HMAC-SHA256 Refractive Fan Badge Shard (תג מעריץ מוצפן בלחיצה ביומטרית)
+- **Concept:** Biometric touch-hold passbook shard scanner issuing HMAC-SHA256 encrypted fan loyalty badges with haptic pulse feedback.
+- **Tech Stack:** Crypto HMAC-SHA256, Haptics API (`navigator.vibrate`), Framer Motion 120Hz GPU, `ActorFanBadgeShard.tsx`, `actorBadgeActions.ts`.
+- **Status:** ✅ Completed
+
 ---
 
-## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-18 & 92-101)
-- Dynamic Cinema Experiences, Quantum Ticket Passbooks, Group Lounge Sync, Biometric Gateways, Audio-Haptic Modals, AI Screenplay Simulator, 4-Stem Acoustic Mixer, 3D Seat Spatializer, Session Lock Timer, and Bio-Sensory Flavor Predictor.
+## 🚀 Phase 41: Actor Cast Profile Engine Upgrade Suite (Sprints 107-109)
+- Gemini AI Neural Role Emotion Graph, Web Audio Sub-Bass Scene Synthesizer, and Biometric HMAC-SHA256 Refractive Fan Badge Shard.

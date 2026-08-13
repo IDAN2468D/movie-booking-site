@@ -2,13 +2,13 @@
 
 import { z } from 'zod';
 
-export const SpoilerCommentInputSchema = z.object({
+const SpoilerCommentInputSchema = z.object({
   text: z.string().min(1).max(500),
   movieTitle: z.string().min(1),
   authorName: z.string().optional(),
 });
 
-export const LiveCommentSchema = z.object({
+const LiveCommentSchema = z.object({
   id: z.string(),
   author: z.string(),
   avatar: z.string(),

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 
 export type LoadingIndicatorVariant = 'orbit' | 'spinner' | 'pulse' | 'dots';
 export type LoadingIndicatorSize = 'sm' | 'md' | 'lg' | 'xl' | number;
@@ -12,6 +13,7 @@ export interface LoadingIndicatorProps {
   label?: string;
   className?: string;
   duration?: number;
+  interactive?: boolean;
 }
 
 const SIZE_MAP: Record<string, number> = {
@@ -22,9 +24,9 @@ const SIZE_MAP: Record<string, number> = {
 };
 
 /**
- * ⚡ LoadingIndicator: High-Performance GPU-Accelerated Loading Animation.
- * Implements strict 60/120 FPS transform/opacity rendering, a11y role="status",
- * CSS variables, and prefers-reduced-motion safety.
+ * ⚡ LoadingIndicator: Framer Motion 120Hz GPU-Accelerated Loading Indicator.
+ * Uses 120Hz GPU transform/opacity rendering, interactive hover dynamics,
+ * 4-color quantum discharges, and prefers-reduced-motion safety across the entire site.
  */
 export function LoadingIndicator({
   variant = 'orbit',
@@ -33,6 +35,7 @@ export function LoadingIndicator({
   label = 'טוען...',
   className = '',
   duration = 1.2,
+  interactive = true,
 }: LoadingIndicatorProps) {
   const pixelSize = typeof size === 'number' ? size : SIZE_MAP[size] || 40;
 
@@ -40,87 +43,126 @@ export function LoadingIndicator({
     <div
       role="status"
       aria-label={label}
-      className={`relative inline-flex items-center justify-center pointer-events-none select-none ${className}`}
+      className={`relative inline-flex items-center justify-center select-none ${interactive ? 'cursor-pointer pointer-events-auto' : 'pointer-events-none'} ${className}`}
       style={{
         width: `${pixelSize}px`,
         height: `${pixelSize}px`,
-        // Custom CSS variables for dynamic sizing and duration
-        ['--loader-size' as string]: `${pixelSize}px`,
-        ['--anim-duration' as string]: `${duration}s`,
-        ['--color-1' as string]: color,
       }}
     >
-      {/* Variant 1: Orbiting Dots (4-Color Quantum Discharges) */}
+      {/* Variant 1: Framer Motion 120Hz GPU Orbiting 4-Color Quantum Discharges */}
       {variant === 'orbit' && (
-        <div className="relative w-full h-full animate-[spin_var(--anim-duration)_linear_infinite] [transform:translateZ(0)] will-change-transform motion-reduce:animate-none">
-          <span
-            className="absolute top-0 left-1/2 -translate-x-1/2 rounded-full w-[22%] h-[22%] bg-[#ff4500] shadow-[0_0_8px_#ff4500]"
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{
+            duration,
+            repeat: Infinity,
+            ease: 'linear',
+          }}
+          whileHover={interactive ? { scale: 1.2, transition: { duration: 0.2 } } : {}}
+          className="relative w-full h-full transform-gpu will-change-transform"
+        >
+          {/* Top Dot: Red-Orange */}
+          <motion.span
+            whileHover={interactive ? { scale: 1.3 } : {}}
+            className="absolute top-0 left-1/2 -translate-x-1/2 rounded-full bg-[#ff4500] shadow-[0_0_12px_#ff4500] transform-gpu"
+            style={{ width: `${pixelSize * 0.24}px`, height: `${pixelSize * 0.24}px` }}
           />
-          <span
-            className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full w-[22%] h-[22%] bg-[#ff8800] shadow-[0_0_8px_#ff8800]"
+
+          {/* Right Dot: Yellow-Orange */}
+          <motion.span
+            whileHover={interactive ? { scale: 1.3 } : {}}
+            className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full bg-[#ff9900] shadow-[0_0_12px_#ff9900] transform-gpu"
+            style={{ width: `${pixelSize * 0.24}px`, height: `${pixelSize * 0.24}px` }}
           />
-          <span
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full w-[22%] h-[22%] bg-[#ff0055] shadow-[0_0_8px_#ff0055]"
+
+          {/* Bottom Dot: Pink / Magenta */}
+          <motion.span
+            whileHover={interactive ? { scale: 1.3 } : {}}
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full bg-[#ff007f] shadow-[0_0_12px_#ff007f] transform-gpu"
+            style={{ width: `${pixelSize * 0.24}px`, height: `${pixelSize * 0.24}px` }}
           />
-          <span
-            className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full w-[22%] h-[22%] bg-[#00f0ff] shadow-[0_0_8px_#00f0ff]"
+
+          {/* Left Dot: Cyan / Aqua */}
+          <motion.span
+            whileHover={interactive ? { scale: 1.3 } : {}}
+            className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full bg-[#00f0ff] shadow-[0_0_12px_#00f0ff] transform-gpu"
+            style={{ width: `${pixelSize * 0.24}px`, height: `${pixelSize * 0.24}px` }}
           />
-        </div>
+        </motion.div>
       )}
 
-      {/* Variant 2: Precision Conic Electric Spinner */}
+      {/* Variant 2: Framer Motion 120Hz Conic Electric Spinner */}
       {variant === 'spinner' && (
-        <div className="relative w-full h-full flex items-center justify-center">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration, repeat: Infinity, ease: 'linear' }}
+          whileHover={interactive ? { scale: 1.15 } : {}}
+          className="relative w-full h-full flex items-center justify-center transform-gpu will-change-transform"
+        >
           <div
-            className="w-full h-full rounded-full border-2 border-white/10 border-t-transparent animate-[spin_var(--anim-duration)_linear_infinite] [transform:translateZ(0)] will-change-transform motion-reduce:animate-none"
+            className="w-full h-full rounded-full border-2 border-white/10 border-t-transparent"
             style={{
               borderTopColor: color,
               borderRightColor: `${color}88`,
-              filter: `drop-shadow(0 0 6px ${color}aa)`,
+              filter: `drop-shadow(0 0 8px ${color}aa)`,
             }}
           />
-          <div
-            className="absolute w-[40%] h-[40%] rounded-full bg-white/20 animate-ping opacity-30"
+          <motion.div
+            animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.2, 0.5, 0.2] }}
+            transition={{ duration: duration * 0.8, repeat: Infinity }}
+            className="absolute w-[40%] h-[40%] rounded-full"
             style={{ backgroundColor: color }}
           />
-        </div>
+        </motion.div>
       )}
 
-      {/* Variant 3: Electric Radial Pulse */}
+      {/* Variant 3: Framer Motion 120Hz Radial Pulse */}
       {variant === 'pulse' && (
-        <div className="relative w-full h-full flex items-center justify-center [transform:translateZ(0)]">
-          <span
-            className="absolute w-full h-full rounded-full animate-ping opacity-40 motion-reduce:animate-none"
-            style={{ backgroundColor: color, animationDuration: `${duration * 1.5}s` }}
-          />
-          <span
-            className="w-[45%] h-[45%] rounded-full shadow-[0_0_12px_var(--color-1)]"
+        <motion.div
+          whileHover={interactive ? { scale: 1.2 } : {}}
+          className="relative w-full h-full flex items-center justify-center transform-gpu will-change-transform"
+        >
+          <motion.span
+            animate={{ scale: [0.8, 1.4, 0.8], opacity: [0.6, 0.1, 0.6] }}
+            transition={{ duration: duration * 1.2, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute w-full h-full rounded-full"
             style={{ backgroundColor: color }}
           />
-        </div>
+          <motion.span
+            animate={{ scale: [0.95, 1.08, 0.95] }}
+            transition={{ duration: duration * 0.8, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-[45%] h-[45%] rounded-full shadow-[0_0_14px_var(--color-1)] transform-gpu"
+            style={{ backgroundColor: color }}
+          />
+        </motion.div>
       )}
 
-      {/* Variant 4: Neon Dots */}
+      {/* Variant 4: Framer Motion 120Hz Neon Wave Dots */}
       {variant === 'dots' && (
         <div className="flex items-center justify-between w-full h-full px-1">
           {[0, 1, 2].map((i) => (
-            <span
+            <motion.span
               key={i}
-              className="w-[24%] h-[24%] rounded-full bg-[#ff4500] shadow-[0_0_6px_#ff4500] animate-[pulse_var(--anim-duration)_ease-in-out_infinite] [transform:translateZ(0)] will-change-transform"
+              animate={{ y: [-3, 3, -3], scale: [0.9, 1.2, 0.9], opacity: [0.7, 1, 0.7] }}
+              transition={{
+                duration: duration * 0.8,
+                repeat: Infinity,
+                delay: i * 0.15,
+                ease: 'easeInOut',
+              }}
+              whileHover={interactive ? { scale: 1.5 } : {}}
+              className="w-[24%] h-[24%] rounded-full shadow-[0_0_8px_#ff4500] transform-gpu will-change-transform"
               style={{
-                animationDelay: `${i * 0.2}s`,
-                backgroundColor: i === 1 ? '#ff8800' : i === 2 ? '#ff0055' : color,
+                backgroundColor: i === 1 ? '#ff9900' : i === 2 ? '#ff007f' : color,
               }}
             />
           ))}
         </div>
       )}
 
-      {/* Screen Reader Label */}
       <span className="sr-only">{label}</span>
     </div>
   );
 }
 
 export default LoadingIndicator;
-

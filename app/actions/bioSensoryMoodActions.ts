@@ -3,14 +3,14 @@
 import { z } from 'zod';
 import { callGeminiWithRetry } from '@/lib/gemini';
 
-export const BioSensoryMoodInputSchema = z.object({
+const BioSensoryMoodInputSchema = z.object({
   energy: z.number().min(0).max(100),
   valence: z.number().min(0).max(100),
   intensity: z.number().min(0).max(100),
   movieGenre: z.string().optional(),
 });
 
-export const BioSensoryPredictionSchema = z.object({
+const BioSensoryPredictionSchema = z.object({
   predictedMoodName: z.string(),
   moodDescription: z.string(),
   recommendedMovieTitle: z.string(),
