@@ -333,6 +333,16 @@ export default function CheckoutPage() {
           </div>
         </motion.div>
 
+        {/* Full-Width Panoramic Culinary Lounge (חוויה קולינרית פיזיקלית רחבה) */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="w-full mb-10 md:mb-12"
+        >
+          <VisualCateringGrid selectedFood={selectedFood} updateFoodQuantity={updateFoodQuantity} />
+        </motion.div>
+
         {/* Main Content Grid */}
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left Column: Payment & Extras */}
@@ -344,8 +354,7 @@ export default function CheckoutPage() {
           >
             <SplitPayPanel splitTotal={pricing.splitTotal} />
             <PaymentSingularityMatrix />
-            <VisualCateringGrid selectedFood={selectedFood} updateFoodQuantity={updateFoodQuantity} />
-            <div className="mt-12 mb-8">
+            <div className="mt-8 mb-8">
               <h3 className="text-xl font-black text-white font-rubik tracking-tight text-right mb-6">תא כבידה אפס לתשלום קוונטי</h3>
               <ZeroGravityCartChamber 
                 seats={selectedSeats}
