@@ -7,9 +7,10 @@ import { SpatialCinemaPortal360 } from '@/components/booking/SpatialCinemaPortal
 import KineticTicketTransition from '@/components/fx/KineticTicketTransition';
 import CurrencyCascade from '@/components/fx/CurrencyCascade';
 import SeatHapticFeedback from '@/components/booking/SeatHapticFeedback';
+import { SeatAcousticPreviewModal } from '@/components/booking/SeatAcousticPreviewModal';
 import { useBookingStore } from '@/lib/store';
 import { useRouletteStore } from '@/lib/store/rouletteStore';
-import { Ticket } from 'lucide-react';
+import { Ticket, Headphones } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -28,11 +29,11 @@ export default function SeatMapSection() {
   const kineticTicketVisible = useRouletteStore((state) => state.kineticTicketVisible);
   const showKineticTicket = useRouletteStore((state) => state.showKineticTicket);
   const winningSeatCoords = useRouletteStore((state) => state.winningSeatCoords);
-  const winningSeatId = winningSeatCoords ? `${["A", "B", "C", "D", "E", "F", "G", "H"][winningSeatCoords.row]}${winningSeatCoords.col}` : null;
+  const winningSeatId = winningSeatCoords ? `${['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'][winningSeatCoords.row]}${winningSeatCoords.col}` : null;
 
   const [realOccupiedSeats, setRealOccupiedSeats] = useState<string[]>([]);
+  const [isAcousticModalOpen, setIsAcousticModalOpen] = useState(false);
 
-  // Fetch occupied seats to accurately calculate available seats for the roulette
   useEffect(() => {
     if (!selectedMovie) return;
     async function fetchOccupied() {
@@ -56,32 +57,23 @@ export default function SeatMapSection() {
 
   useEffect(() => {
     if (!sectionRef.current || !containerRef.current) return;
-
     const scrollerEl = document.querySelector('main');
-    if (!scrollerEl) return;
 
     const ctx = gsap.context(() => {
-      // 3D-like entry tilt and scale animation
       gsap.fromTo(
         containerRef.current,
-        {
-          transformPerspective: 1000,
-          rotateX: 25,
-          scale: 0.88,
-          opacity: 0.6,
-        },
+        { rotateX: 25, scale: 0.9, opacity: 0.8 },
         {
           rotateX: 0,
           scale: 1,
           opacity: 1,
-          ease: 'power1.out',
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            scroller: scrollerEl,
-            start: 'top 90%',
-            end: 'top 45%',
-            scrub: 0.5,
-            invalidateOnRefresh: true,
+            scroller: scrollerEl || undefined,
+            start: 'top 80%',
+            end: 'top 30%',
+            scrub: 1,
           },
         }
       );
@@ -90,61 +82,59 @@ export default function SeatMapSection() {
     return () => ctx.revert();
   }, []);
 
-  const mockOccupiedSeats = ['A6', 'C1', 'C2', 'E1', 'F2', 'G5', 'H1'];
-  const ROWS = ["A", "B", "C", "D", "E", "F", "G", "H"];
-  const allSeatIds = ROWS.flatMap(row => Array.from({ length: 6 }, (_, i) => `${row}${i + 1}`));
-  const availableSeats = allSeatIds.filter(
-    (id) => !mockOccupiedSeats.includes(id) && !realOccupiedSeats.includes(id) && !selectedSeats.includes(id)
-  );
+  const showtimeId = selectedShowtime || 'st_demo_1';
+  const userId = 'user_me';
+  const mockOccupiedSeats = ['A3', 'A4', 'C7', 'C8', 'D10', 'E5'];
 
-  const showtimeId = `${selectedMovie?.id || 'movie'}-${selectedShowtime || '19:30'}-${selectedDate || 'today'}`;
-  const userId = 'user-roulette-session';
+  const allRows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  const allCols = Array.from({ length: 12 }, (_, i) => i + 1);
+  const totalOccupied = new Set([...mockOccupiedSeats, ...realOccupiedSeats]);
+
+  const availableSeats: string[] = [];
+  allRows.forEach((row) => {
+    allCols.forEach((col) => {
+      const seatId = `${row}${col}`;
+      if (!totalOccupied.has(seatId)) availableSeats.push(seatId);
+    });
+  });
+
+  const lastSeat = selectedSeats.length > 0 ? selectedSeats[selectedSeats.length - 1] : 'E-12';
 
   return (
-    <div
-      ref={sectionRef}
-      id="seat-selection-section"
-      className="relative w-full py-16 px-6 bg-[#050505] flex flex-col items-center border-b border-white/5"
-      dir="rtl"
-    >
-      <div className="max-w-xl w-full text-right mb-10">
-        <div className="flex items-center gap-3 justify-start">
-          <div className="w-10 h-10 rounded-xl bg-primary/15 border border-primary/20 flex items-center justify-center shrink-0">
-            <Ticket className="text-primary w-5 h-5 animate-pulse" />
-          </div>
-          <div>
-            <h2 className="text-2xl md:text-3xl font-black font-display text-white tracking-tight">
-              בחירת מושבים באולם
-            </h2>
-            <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1">
-              בחר את המקומות המועדפים עליך
-            </p>
-          </div>
+    <div ref={sectionRef} className="w-full flex flex-col items-center justify-center my-12 relative px-4" dir="rtl">
+      <div className="text-center mb-6 max-w-md">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold mb-2">
+          <Ticket size={14} />
+          מפת מושבים דינמית
         </div>
+        <h2 className="text-2xl font-bold font-outfit text-white">מפת המושבים באולם</h2>
+        <p className="text-xs text-neutral-400">בחר את המקומות המועדפים עליך</p>
       </div>
 
-      <div 
-        ref={containerRef} 
-        className="w-full max-w-lg origin-bottom transition-all duration-300 mb-10"
-        style={{ transformStyle: 'preserve-3d' }}
-      >
-        <SeatMap 
-          showtimeId={showtimeId} 
-          userId={userId} 
-          occupiedSeats={[...mockOccupiedSeats, ...realOccupiedSeats]} 
+      <div ref={containerRef} className="w-full max-w-lg origin-bottom transition-all duration-300 mb-10" style={{ transformStyle: 'preserve-3d' }}>
+        <SeatMap
+          showtimeId={showtimeId}
+          userId={userId}
+          occupiedSeats={[...mockOccupiedSeats, ...realOccupiedSeats]}
           onSeatLocked={(seatId) => toggleSeat(seatId)}
         />
       </div>
 
-      {/* 360 AR Cinema Seat Walkthrough & Haptics */}
       <div className="w-full max-w-lg mb-8 flex flex-col items-center gap-4">
         <SeatHapticFeedback />
-        <SpatialCinemaPortal360 
-          seatId={selectedSeats.length > 0 ? selectedSeats[selectedSeats.length - 1] : 'E-12'} 
-        />
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => setIsAcousticModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-bold text-xs rounded-2xl shadow-lg transition-all"
+          >
+            <Headphones className="w-4 h-4" />
+            <span>הפעל 3D Spatializer למושב {lastSeat}</span>
+          </button>
+        </div>
+        <SpatialCinemaPortal360 seatId={lastSeat} />
       </div>
 
-      {/* Lucky Seat Roulette Engine integration */}
       <div className="w-full max-w-lg">
         <SeatingRoulette
           showtimeId={showtimeId}
@@ -161,9 +151,14 @@ export default function SeatMapSection() {
         showtimeId={showtimeId}
         movieTitle={selectedMovie?.title}
       />
-      
-      {/* Specular Currency Cascade Particle Overlay */}
       <CurrencyCascade />
+
+      <SeatAcousticPreviewModal
+        seatNumber={lastSeat}
+        rowCategory={lastSeat.startsWith('A') || lastSeat.startsWith('B') ? 'VIP Prime Box' : 'שורה מרכזית standard'}
+        isOpen={isAcousticModalOpen}
+        onClose={() => setIsAcousticModalOpen(false)}
+      />
     </div>
   );
 }

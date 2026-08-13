@@ -75,7 +75,7 @@
 - **Tech Stack:** `@google/genai` (`gemini-3.5-flash-lite`), React 19, Framer Motion 120Hz GPU, Next.js 15 Server Actions, Zod, `WhatIfSandboxModal.tsx`, `SceneGraphTree.tsx`, `screenplayBranchActions.ts`, `WhatIfScenario.tsx`.
 - **Status:** ✅ Completed
 
-### 🌐 Sprint 94: CineSync AR Co-Watching Sphere (ספירת סנכרון צפייה קבוצתית)
+### 🌐 Sprint 94: CineSync AR Co-Watching Sphere (ספירת סנכרון צפייה קבוצתי)
 - **Concept:** Real-time group co-watching lounge with synchronized trailer status, mood beacons, readiness toggling, Web Audio chime synthesizer (D5-A5), and live reactive emojis.
 - **Tech Stack:** Web Audio API, Framer Motion 120Hz GPU, React 19, Next.js 15 Server Actions, Zod, `CineSyncSphere.tsx`, `GroupAuraBeacon.tsx`, `coWatchingActions.ts`, `app/(main)/nexus/page.tsx`.
 - **Status:** ✅ Completed
@@ -90,7 +90,32 @@
 - **Tech Stack:** React 19, Framer Motion 120Hz GPU, Next.js 15 Server Actions, Zod, `AfterglowLounge.tsx`, `SpoilerRevealCard.tsx`, `afterglowActions.ts`, `MovieDetailsContent.tsx`.
 - **Status:** ✅ Completed
 
+### 🎙️ Sprint 97: Live Spoiler Filter & Auto-Archiving Stream (מסנן ספוילרים וארכוב 24 שעות)
+- **Concept:** Real-time AI sentiment and spoiler stream with 24-hour auto-archiving countdown and push notification toggle.
+- **Tech Stack:** React 19, Framer Motion 120Hz GPU, Next.js 15 Server Actions, Zod, `SpoilerFilterStream.tsx`, `communityLiveAudioActions.ts`.
+- **Status:** ✅ Completed
+
+### 🍱 Sprint 98: AI Bio-Sensory CineSnacks & Kitchen Timer (מזנון ביו-סנסורי ושעון מטבח)
+- **Concept:** AI Pick dynamic gradient cards with palate matching algorithms and express kitchen dispatch countdown timer.
+- **Tech Stack:** React 19, Framer Motion 120Hz GPU, Next.js 15 Server Actions, Zod, `BioSensoryPalateCard.tsx`, `KitchenDispatchTimer.tsx`, `bioSensorySnackActions.ts`, `food/page.tsx`.
+- **Status:** ✅ Completed
+
+### 💳 Sprint 99: 10-Min Session Lock & Group Split Payment (נעילת 10 דקות ותשלום מפוצל)
+- **Concept:** 10-minute session lock timer widget with individual seat checkout execution and dual ILS (₪) / Crypto USDC pricing.
+- **Tech Stack:** React 19, Next.js 15 Server Actions, Zod, `SplitPaymentTimer.tsx`, `splitPaymentActions.ts`, `checkout/page.tsx`.
+- **Status:** ✅ Completed
+
+### 🎧 Sprint 100: Web Audio 3D Seat Spatializer (תצוגת שמע 3D מרחבית לכל מושב)
+- **Concept:** Seat-specific Dolby Atmos 3D spatial sound preview simulation utilizing Web Audio `PannerNode` and `BiquadFilterNode`.
+- **Tech Stack:** Web Audio API, React 19, Framer Motion 120Hz GPU, `SeatAcousticPreviewModal.tsx`, `SeatMapSection.tsx`.
+- **Status:** ✅ Completed
+
+### 🔮 Sprint 101: Gemini Live Bio-Sensory Flavor & Mood Predictor (מנבא מצב רוח וטעמים ביומטרי)
+- **Concept:** Interactive biometric sliders (Energy, Valence, Intensity) with live Gemini `gemini-3.5-flash-lite` multimodal flavor and movie perception matching.
+- **Tech Stack:** `@google/genai` (`gemini-3.5-flash-lite`), React 19, Framer Motion 120Hz GPU, Next.js 15 Server Actions, Zod, `BioSensoryMoodPredictor.tsx`, `bioSensoryMoodActions.ts`, `concierge/page.tsx`.
+- **Status:** ✅ Completed
+
 ---
 
-## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-18 & 92-96)
-- Dynamic Cinema Experiences, Quantum Ticket Passbooks, Group Lounge Sync, Biometric Gateways, Audio-Haptic Modals, AI Screenplay Simulator, and 4-Stem Acoustic Mixer.
+## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-18 & 92-101)
+- Dynamic Cinema Experiences, Quantum Ticket Passbooks, Group Lounge Sync, Biometric Gateways, Audio-Haptic Modals, AI Screenplay Simulator, 4-Stem Acoustic Mixer, 3D Seat Spatializer, Session Lock Timer, and Bio-Sensory Flavor Predictor.

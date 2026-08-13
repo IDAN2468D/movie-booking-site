@@ -1,10 +1,10 @@
-# Latest Milestone: CinePulse Next-Gen Cinema Feature Suite (Sprints 92-96)
+# Latest Milestone: Master Feature Audit Upgrade Suite (Sprints 97-101)
 
-- **Enhancement:** Implemented a full suite of 5 cutting-edge features: 
-  1. **Neural Stem-Decomposer Studio** (4 isolated stems: Dialogue, Score, 35-50Hz Sub-Bass, SFX + Web Audio API).
-  2. **Gemini Interactive Screenplay Sandbox** (Multi-branch What-If screenplay timeline graph with `gemini-3.5-flash-lite`).
-  3. **CineSync AR Co-Watching Sphere** (Live group lounge, synchronized trailer status, acoustic chimes, reactive emojis).
-  4. **Dynamic VIP Last-Minute Seat Auction Arena** (Real-time bidding steppers, Web Audio gavel strike synthesizer, countdown clock).
-  5. **AI Afterglow Cine-Debate & Spoiler-Guard Arena** (Post-movie trivia challenge, biometric spoiler unmasking, community comments).
-- **Files Modified/Created:** `StemDecomposerStudio.tsx`, `StemFader.tsx`, `stemMixerActions.ts`, `SoundtrackPlayerCard.tsx`, `WhatIfSandboxModal.tsx`, `SceneGraphTree.tsx`, `screenplayBranchActions.ts`, `WhatIfScenario.tsx`, `CineSyncSphere.tsx`, `GroupAuraBeacon.tsx`, `coWatchingActions.ts`, `LiveSeatAuctionArena.tsx`, `AuctionGavelSound.ts`, `auctionBidActions.ts`, `AfterglowLounge.tsx`, `SpoilerRevealCard.tsx`, `afterglowActions.ts`, `MovieDetailsContent.tsx`, `app/(main)/soundtracks/page.tsx`, `app/(main)/nexus/page.tsx`, `app/(main)/vip/page.tsx`, `lib/__tests__/next-gen-features.test.ts`.
-- **Status:** Complete (TypeScript 0 errors, Vitest 90/90 passed in 22 files, all files strictly under 200 LOC).
+- **Enhancement:** Implemented a full suite of 5 master upgrade features adhering to SKILL.md and SDD criteria:
+  1. **Live Spoiler Filter & Auto-Archiving Stream** (Real-time AI sentiment detection, 24h auto-archive timer, push notification toggle).
+  2. **AI Bio-Sensory CineSnacks & Kitchen Timer** (Dynamic AI Pick gradient cards, bio-sensory taste pairing, express kitchen dispatch countdown).
+  3. **10-Min Session Lock & Group Split Payment** (Session lock timer, individual seat checkout, dual ILS/Crypto USDC pricing).
+  4. **Web Audio 3D Seat Spatializer** (Seat-specific Dolby Atmos 3D spatial simulation with `PannerNode` and `BiquadFilterNode`).
+  5. **Gemini Live Bio-Sensory Flavor & Mood Predictor** (Biometric sliders, live multimodal taste/movie matching with `gemini-3.5-flash-lite`).
+- **Files Modified/Created:** `SpoilerFilterStream.tsx`, `communityLiveAudioActions.ts`, `BioSensoryPalateCard.tsx`, `KitchenDispatchTimer.tsx`, `bioSensorySnackActions.ts`, `SplitPaymentTimer.tsx`, `splitPaymentActions.ts`, `SeatAcousticPreviewModal.tsx`, `SeatMapSection.tsx`, `BioSensoryMoodPredictor.tsx`, `bioSensoryMoodActions.ts`, `food/page.tsx`, `concierge/page.tsx`, `checkout/page.tsx`, `lib/__tests__/master-suite-sprints97-101.test.ts`.
+- **Status:** Complete (TypeScript 0 errors, Vitest 94/94 passed in 23 files, all components strictly under 200 LOC).

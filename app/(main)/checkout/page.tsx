@@ -26,6 +26,7 @@ import { ScratchRewardBanner } from '@/components/booking/ScratchRewardBanner';
 import { HolographicShardFusion } from '@/components/checkout/HolographicShardFusion';
 import { useCheckoutResonance } from '@/hooks/useCheckoutResonance';
 import { useLiquidGlassStore } from '@/lib/store/liquidGlassStore';
+import { SplitPaymentTimer } from '@/components/booking/SplitPaymentTimer';
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
@@ -352,6 +353,7 @@ export default function CheckoutPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:w-[60%] space-y-8 order-2 lg:order-1"
           >
+            <SplitPaymentTimer />
             <SplitPayPanel splitTotal={pricing.splitTotal} />
             <PaymentSingularityMatrix />
             <div className="mt-8 mb-8">

@@ -56,3 +56,10 @@ To maximize execution velocity and eliminate token waste across agent turns:
 ## 7. Model Routing Preference
 - **Primary AI Model:** `gemini-3.5-flash-lite`
 - All automated movie recommendations, audio guides, chat advisors, and background intelligence routines strictly default to `gemini-3.5-flash-lite`.
+
+---
+
+## 8. GitHub Version Control & Push Protocol
+- **Explicit Approval Required:** The agent strictly MUST NOT commit or push code changes to GitHub without receiving explicit prior confirmation and authorization from the USER.
+
+

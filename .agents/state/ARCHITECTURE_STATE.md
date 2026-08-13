@@ -22,15 +22,20 @@
 | **Module P** | CineSync AR Co-Watching Sphere | `/components/social/CineSyncSphere.tsx` | Live Group Sync Lounge, Synchronized Trailer Playback, Web Audio Chime, Reactive Emojis | `ACTIVE` |
 | **Module Q** | Dynamic VIP Last-Minute Seat Auction Arena | `/components/vip/LiveSeatAuctionArena.tsx` | Live Bidding Steppers, Web Audio Gavel Strike Sound Synthesizer, 180s Neon Countdown Clock | `ACTIVE` |
 | **Module R** | AI Afterglow Cine-Debate & Spoiler-Guard Arena | `/components/community/AfterglowLounge.tsx` | Biometric Hold-to-Reveal Spoiler Unmasking, Post-Movie Trivia Quiz & Community Discussions | `ACTIVE` |
+| **Module S** | Live Spoiler Filter & Auto-Archiving Stream | `/components/community/SpoilerFilterStream.tsx` | Real-time AI Sentiment & Spoiler Detection, 24h Auto-Archive Scheduler, Push Notification Toggle | `ACTIVE` |
+| **Module T** | AI Bio-Sensory CineSnacks & Kitchen Timer | `/components/concessions/BioSensoryPalateCard.tsx` | Dynamic AI Pick Cards, Bio-Sensory Palate Matching, Express Kitchen Dispatch Countdown | `ACTIVE` |
+| **Module U** | 10-Min Session Lock & Group Split Payment | `/components/booking/SplitPaymentTimer.tsx` | 10-Minute Group Session Lock, Individual Seat Checkout Execution, Dual ILS / Crypto USDC Pricing | `ACTIVE` |
+| **Module V** | Web Audio 3D Seat Spatializer | `/components/booking/SeatAcousticPreviewModal.tsx` | Seat-Specific Dolby Atmos 3D Spatial Audio Preview with Web Audio PannerNode & BiquadFilterNode | `ACTIVE` |
+| **Module W** | Gemini Live Bio-Sensory Flavor & Mood Predictor | `/components/ai/BioSensoryMoodPredictor.tsx` | Biometric Sliders (Energy, Valence, Intensity), Live Flavor & Movie Perception Matching with Gemini | `ACTIVE` |
 
 ---
 
-## Phase 39: CineBook v5.0 Next-Gen Master Feature Suite (Sprints 6-18 & 92-96)
-1. **Neural Stem-Decomposer & Spatial Mixer Studio**: `StemDecomposerStudio.tsx`, `StemFader.tsx`, `stemMixerActions.ts`, `SoundtrackPlayerCard.tsx`.
-2. **Gemini Interactive Screenplay Sandbox**: `WhatIfSandboxModal.tsx`, `SceneGraphTree.tsx`, `screenplayBranchActions.ts`, `WhatIfScenario.tsx`.
-3. **CineSync AR Co-Watching Sphere**: `CineSyncSphere.tsx`, `GroupAuraBeacon.tsx`, `coWatchingActions.ts`.
-4. **Dynamic VIP Last-Minute Seat Auction Arena**: `LiveSeatAuctionArena.tsx`, `AuctionGavelSound.ts`, `auctionBidActions.ts`.
-5. **AI Afterglow Cine-Debate & Spoiler-Guard Arena**: `AfterglowLounge.tsx`, `SpoilerRevealCard.tsx`, `afterglowActions.ts`.
+## Phase 39: CineBook v5.0 Next-Gen Master Feature Suite (Sprints 6-18 & 92-101)
+1. **Live Spoiler Filter & Auto-Archiving Community**: `SpoilerFilterStream.tsx`, `communityLiveAudioActions.ts`.
+2. **AI Bio-Sensory CineSnacks & Kitchen Timer**: `BioSensoryPalateCard.tsx`, `KitchenDispatchTimer.tsx`, `bioSensorySnackActions.ts`.
+3. **10-Min Session Lock & Group Split Payment**: `SplitPaymentTimer.tsx`, `splitPaymentActions.ts`.
+4. **Web Audio 3D Seat Spatializer**: `SeatAcousticPreviewModal.tsx`, `SeatMapSection.tsx`.
+5. **Gemini Live Bio-Sensory Flavor & Mood Predictor**: `BioSensoryMoodPredictor.tsx`, `bioSensoryMoodActions.ts`.
 
 ---
 
@@ -41,8 +46,7 @@
 - `POST /api/organization/invite` - Send Team Invitation Token
 - `POST /api/billing/checkout` - Create Stripe Checkout Session
 - `POST /api/webhooks/stripe` - Stripe Webhook Handler
-- Server Action `stemMixerActions.ts` - 4-Stem Presets & Acoustic Configurations
-- Server Action `screenplayBranchActions.ts` - Gemini `gemini-3.5-flash-lite` Screenplay Branching
-- Server Action `coWatchingActions.ts` - Real-time Co-Watching Session State
-- Server Action `auctionBidActions.ts` - VIP Seat Live Bidding & State
-- Server Action `afterglowActions.ts` - Post-Movie Trivia & Spoiler-Guarded Discussions
+- Server Action `communityLiveAudioActions.ts` - Live Spoiler & Sentiment Stream
+- Server Action `bioSensorySnackActions.ts` - Palate Pairing & Dispatch Timer
+- Server Action `splitPaymentActions.ts` - Group Session Lock & Seat Checkout
+- Server Action `bioSensoryMoodActions.ts` - Multimodal Gemini Mood & Flavor Prediction
