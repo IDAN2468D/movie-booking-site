@@ -14,7 +14,7 @@
 | **Module H** | Gemini AI Advisor | `/src/app/dashboard/ai-advisor` | Gemini Financial Advisor, Insights (`gemini-3.5-flash-lite`) | `ACTIVE` |
 | **Module I** | Movie Entrance Engine | `/components/movie` | Framer Motion Shared Element Transition (`layoutId`), 3D Hero | `ACTIVE` |
 | **Module J** | Loading Animation & Indicator Engine | `/components/ui/LoadingIndicator.tsx` | 120Hz GPU Indicators (`orbit`, `spinner`, `pulse`, `dots`), Zero-Layout Shift | `ACTIVE` |
-| **Module K** | CineBook Thermal Receipt Printer Engine | `/components/receipt/CineBookReceiptPrinter.tsx` | 120Hz GPU Downward Paper Feed Rollout, Metallic Head Slot, Interactive Serrated Paper Tear, Vector Barcode | `ACTIVE` |
+| **Module K** | CineBook Thermal Receipt Printer Engine | `/components/receipt/CineBookReceiptPrinter.tsx` | 120Hz GPU Dynamic Height Rollout, Key-Based Instant Reprint, Metallic Head Slot, Interactive Serrated Tear, Vector Barcode | `ACTIVE` |
 | **Module L** | Production Cinematic Memory Capsule | `/components/tickets/ChronoRefractiveReel.tsx` | Full MongoDB Booking Shards, User Reflection Journaling, Web Audio 35-50Hz Pulse, Dual Reel/Grid Views | `ACTIVE` |
 
 ---
