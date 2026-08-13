@@ -14,7 +14,7 @@
 | **Module H** | Gemini AI Advisor | `/src/app/dashboard/ai-advisor` | Gemini Financial Advisor, Insights (`gemini-3.5-flash-lite`) | `ACTIVE` |
 | **Module I** | Movie Entrance Engine | `/components/movie` | Framer Motion Shared Element Transition (`layoutId`), 3D Hero | `ACTIVE` |
 | **Module J** | Loading Animation & Indicator Engine | `/components/ui/LoadingIndicator.tsx` | 120Hz GPU Indicators (`orbit`, `spinner`, `pulse`, `dots`), Zero-Layout Shift | `ACTIVE` |
-| **Module K** | CineBook Thermal Receipt Printer Engine | `/components/receipt/CineBookReceiptPrinter.tsx` | 120Hz GPU Clip-Path Reveal, Metallic Head Slot, Interactive Serrated Paper Tear, Vector Barcode | `ACTIVE` |
+| **Module K** | CineBook Thermal Receipt Printer Engine | `/components/receipt/CineBookReceiptPrinter.tsx` | 120Hz GPU Downward Paper Feed Rollout, Metallic Head Slot, Interactive Serrated Paper Tear, Vector Barcode | `ACTIVE` |
 | **Module L** | Production Cinematic Memory Capsule | `/components/tickets/ChronoRefractiveReel.tsx` | Full MongoDB Booking Shards, User Reflection Journaling, Web Audio 35-50Hz Pulse, Dual Reel/Grid Views | `ACTIVE` |
 
 ---
@@ -35,7 +35,7 @@
 12. **Global Loading Indicator Standardization**: Standardized `LoadingIndicator.tsx` across all pages, modals, buttons, AI studios, and sound synthesizers with GPU acceleration and accessibility.
 13. **Neon Animated Card Skill & Universal Passbook Integration**: Rotating glowing neon gradient borders (`conic-gradient`), 2px `overflow-hidden` edge clipping, ambient drop-shadow aura (`shadow-[0_0_35px...]`), flip-out QR pass, and dark glass layers integrated across `QuantumTicket.tsx`, `HolographicTicket.tsx`, `NeonTicket.tsx`, `TicketsTabSwitcher.tsx`, and `app/(main)/tickets/page.tsx`.
 14. **Standardized Skills Directory Architecture**: All 20 project skills organized into compliant `.agents/skills/<skill-name>/SKILL.md` directory structures.
-15. **CineBook 120Hz GPU Thermal Receipt Printer Skill Integration**: Metallic gold printer slot, Framer Motion GPU `clipPath` rollout animation, interactive serrated edge tear effect, barcode, native Hebrew RTL formatting, and dynamic booking data integration in `SuccessView.tsx`.
+15. **CineBook 120Hz GPU Thermal Receipt Printer Skill Integration**: Metallic gold printer slot, Framer Motion GPU downward paper feed rollout (`y: -100% -> 0`), interactive serrated edge tear effect, barcode, native Hebrew RTL formatting, and dynamic booking data integration in `SuccessView.tsx`.
 
 ---
 
