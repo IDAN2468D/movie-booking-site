@@ -32,6 +32,7 @@ import MovieSelectionAnimationContainer from './MovieSelectionAnimationContainer
 import AiMovieAnimationStudioContainer from './AiMovieAnimationStudioContainer';
 import HeroAuraResonance from '../home/HeroAuraResonance';
 import MovieEntranceAnimation from './MovieEntranceAnimation';
+import { AfterglowLounge } from '@/components/community/AfterglowLounge';
 
 interface Props {
   movie: MovieDetails;
@@ -520,6 +521,9 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
 
             {/* Movie Trivia Challenge */}
             <MovieTrivia movieTitle={movie.title} />
+
+            {/* Post-Screening Afterglow Lounge & Spoiler Guard */}
+            <AfterglowLounge movieTitle={movie.title} />
           </motion.div>
 
           {/* Sidebar Info */}

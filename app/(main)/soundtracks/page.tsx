@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Disc3, Search, Music, Sparkles, Filter } from 'lucide-react';
+import { Disc3, Search, Music, Filter } from 'lucide-react';
 import HolographicBackground from '@/components/ui/HolographicBackground';
 import { SoundtrackPlayerCard } from '@/components/soundtrack/SoundtrackPlayerCard';
 import { NeuralSoundtrackSynth } from '@/components/soundtrack/NeuralSoundtrackSynth';
+import { StemDecomposerStudio } from '@/components/soundtrack/StemDecomposerStudio';
 import type { SoundtrackItem } from '@/lib/schemas/soundtrack';
 
 export default function SoundtracksPage() {
@@ -14,28 +15,6 @@ export default function SoundtracksPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [isLoading, setIsLoading] = useState(true);
-
-  // Mouse Drag Scroll state
-  const [isMouseDown, setIsMouseDown] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeftState, setScrollLeftState] = useState(0);
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    setIsMouseDown(true);
-    setStartX(e.pageX - e.currentTarget.offsetLeft);
-    setScrollLeftState(e.currentTarget.scrollLeft);
-  };
-
-  const handleMouseLeave = () => setIsMouseDown(false);
-  const handleMouseUp = () => setIsMouseDown(false);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isMouseDown) return;
-    e.preventDefault();
-    const x = e.pageX - e.currentTarget.offsetLeft;
-    const walk = (x - startX) * 2;
-    e.currentTarget.scrollLeft = scrollLeftState - walk;
-  };
 
   useEffect(() => {
     async function fetchSoundtracks() {
@@ -58,10 +37,10 @@ export default function SoundtracksPage() {
     fetchSoundtracks();
   }, []);
 
-  const genres = ['all', ...Array.from(new Set(soundtracks.map(s => s.genre).filter(Boolean))) as string[]];
+  const genres = ['all', ...(Array.from(new Set(soundtracks.map((s) => s.genre).filter(Boolean))) as string[])];
 
-  const filteredTracks = soundtracks.filter(track => {
-    const matchesSearch = 
+  const filteredTracks = soundtracks.filter((track) => {
+    const matchesSearch =
       track.songTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
       track.movieTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
       track.artist.toLowerCase().includes(searchQuery.toLowerCase());
@@ -70,25 +49,27 @@ export default function SoundtracksPage() {
   });
 
   return (
-    <div className="relative min-h-screen pb-24 text-white font-['Inter'] overflow-x-hidden text-right" dir="rtl">
+    <div className="relative min-h-screen pb-24 text-white font-sans overflow-x-hidden text-right" dir="rtl">
       <HolographicBackground />
 
       <div className="relative z-10 max-w-7xl mx-auto pt-24 px-4 sm:px-6 lg:px-8">
-        {/* Page Header */}
         <header className="mb-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold mb-4">
             <Disc3 size={14} className="animate-spin" style={{ animationDuration: '4s' }} />
-            TMTB ACOUSTIC JUKEBOX & OST ENGINE
+            TMTB ACOUSTIC JUKEBOX & STEM STUDIO
           </div>
-          <h1 className="text-4xl sm:text-6xl font-['Outfit'] font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-500 drop-shadow-[0_0_20px_rgba(99,102,241,0.5)] mb-4 uppercase">
-            פסקולי סרטים & ג'וקבוקס קולנועי
+          <h1 className="text-4xl sm:text-6xl font-outfit font-black leading-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-500 drop-shadow-[0_0_20px_rgba(99,102,241,0.5)] mb-4 uppercase">
+            פסקולי סרטים & אולפן מיקס 4 ערוצים
           </h1>
           <p className="text-neutral-400 text-base sm:text-lg max-w-2xl mx-auto">
-            האזן לשירי הסרטים האהובים עליך, חווה את הוויזואלייזר האקוסטי בזמן אמת והפעל תדרי Sub-Bass מיוחדים!
+            האזן לשירי הסרטים האהובים, פרק את ערוצי הסאונד בזמן אמת והפעל תדרי Sub-Bass מיוחדים!
           </p>
         </header>
 
-        {/* Featured Main Player & AI Neural Synthesizer */}
+        <div className="mb-12">
+          <StemDecomposerStudio />
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 items-start">
           {activeTrack && (
             <div className="w-full flex justify-center">
@@ -104,7 +85,6 @@ export default function SoundtracksPage() {
           </div>
         </div>
 
-        {/* Search & Genre Filters */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 bg-white/[0.02] backdrop-blur-2xl border border-white/10 p-4 rounded-3xl">
           <div className="relative w-full md:w-80">
             <Search size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400" />
@@ -117,21 +97,9 @@ export default function SoundtracksPage() {
             />
           </div>
 
-          <div 
-            onMouseDown={handleMouseDown}
-            onMouseLeave={handleMouseLeave}
-            onMouseUp={handleMouseUp}
-            onMouseMove={handleMouseMove}
-            onWheel={(e) => {
-              if (e.deltaY !== 0) {
-                e.currentTarget.scrollLeft += e.deltaY;
-              }
-            }}
-            className={`flex items-center gap-2 overflow-x-auto w-full md:w-auto no-scrollbar pb-2 md:pb-0 select-none ${isMouseDown ? 'cursor-grabbing' : 'cursor-grab'}`}
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
+          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none">
             <Filter size={16} className="text-indigo-400 shrink-0 ml-1" />
-            {genres.map(g => (
+            {genres.map((g) => (
               <button
                 key={g}
                 onClick={() => setSelectedGenre(g)}
@@ -147,10 +115,9 @@ export default function SoundtracksPage() {
           </div>
         </div>
 
-        {/* Tracks Grid */}
         {isLoading ? (
           <div className="h-48 flex items-center justify-center text-indigo-300 font-bold animate-pulse">
-            טוען את ג'וקבוקס הפסקולים...
+            טוען את ג&apos;וקבוקס הפסקולים...
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

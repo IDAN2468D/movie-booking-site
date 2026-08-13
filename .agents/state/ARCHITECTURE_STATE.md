@@ -17,26 +17,20 @@
 | **Module K** | CineBook Thermal Receipt Printer Engine | `/components/receipt/CineBookReceiptPrinter.tsx` | 120Hz GPU Dynamic Height Rollout, Key-Based Instant Reprint, Metallic Head Slot, Interactive Serrated Tear, Vector Barcode | `ACTIVE` |
 | **Module L** | Production Cinematic Memory Capsule | `/components/tickets/ChronoRefractiveReel.tsx` | Full MongoDB Booking Shards, User Reflection Journaling, Web Audio 35-50Hz Pulse, Dual Reel/Grid Views | `ACTIVE` |
 | **Module M** | Panoramic Kinetic Catering Lounge Engine | `/components/catering/VisualCateringGrid.tsx` | Full-Width Liquid Glass 4.0 Grid, Category Filter Pills, Kinetic Drag & Quick Stepper Controls, Smart Combo AI | `ACTIVE` |
+| **Module N** | Neural Stem-Decomposer & Spatial Mixer Studio | `/components/soundtrack/StemDecomposerStudio.tsx` | 4-Stem Audio Separation (Dialogue, Score, Sub-Bass, SFX), Web Audio Biquad Filter & Gain Nodes | `ACTIVE` |
+| **Module O** | Gemini Interactive Screenplay Sandbox | `/components/movie/WhatIfSandboxModal.tsx` | Multi-Branch Alternative Narrative Graph & Timeline Simulator with `gemini-3.5-flash-lite` | `ACTIVE` |
+| **Module P** | CineSync AR Co-Watching Sphere | `/components/social/CineSyncSphere.tsx` | Live Group Sync Lounge, Synchronized Trailer Playback, Web Audio Chime, Reactive Emojis | `ACTIVE` |
+| **Module Q** | Dynamic VIP Last-Minute Seat Auction Arena | `/components/vip/LiveSeatAuctionArena.tsx` | Live Bidding Steppers, Web Audio Gavel Strike Sound Synthesizer, 180s Neon Countdown Clock | `ACTIVE` |
+| **Module R** | AI Afterglow Cine-Debate & Spoiler-Guard Arena | `/components/community/AfterglowLounge.tsx` | Biometric Hold-to-Reveal Spoiler Unmasking, Post-Movie Trivia Quiz & Community Discussions | `ACTIVE` |
 
 ---
 
-## Phase 39: CineBook v5.0 Next-Gen Master Feature Suite (Sprints 6-18)
-1. **Production-Ready Cinematic Memory Capsule & Shard Vault**: `memoryCapsule.ts`, `defaultMemoryCapsules.ts`, `memoryActions.ts`, `useMemoryCapsules.ts`, `acousticMemory.ts`, `MemoryReelHeader.tsx`, `MemoryShardCard.tsx`, `NeuralFlashbackModal.tsx`, `CreateMemoryModal.tsx`, `ChronoRefractiveReel.tsx`.
-1. **AI Bio-Sync Haptic Seat Resonator**: `sensorySync.ts`, `SensoryProfile.ts`, `sensoryActions.ts`, `sensoryStore.ts`, `SensoryResonatorModal.tsx`.
-2. **CineMatch AR Group Matchmaker & Voice-Vibe Agent**: `groupSync.ts`, `GroupMatch.ts`, `groupMatchActions.ts`, `GroupVibeAgentModal.tsx`.
-3. **Dynamic Last-Minute VIP Seat Auction**: `auction.ts`, `SeatAuction.ts`, `auctionActions.ts`, `LiveSeatAuctionCard.tsx`.
-4. **Interactive AI "What-If" Screenplay Simulator**: `storyBranching.ts`, `StoryNode.ts`, `storyBranchActions.ts`, `StoryBranchViewer.tsx`.
-5. **Post-Screening Digital Memory Shard Vault**: `collectible.ts`, `MemoryShard.ts`, `collectibleActions.ts`, `MemoryShardVault.tsx`.
-6. **Gradient Border Effect Skill & Ticket Cards Integration**: `QuantumTicket.tsx`, `HolographicTicket.tsx`, `GlobalGradientFrame.tsx`, `RightPanel.tsx`, `RightPanelLiveCinemaCard.tsx`, `FeaturesDropdown.tsx`, `SidebarNavItem.tsx`, `MovieCard.tsx`, `BranchCard.tsx`.
-7. **User Data MongoDB Bookings Query Sync**: `app/api/bookings/route.ts` updated to query `{ $or: [{ userId }, { userEmail }] }` ensuring all user bookings from data are fetched.
-8. **Liquid Glass 4.0 & Gradient Border Fusion**: Liquid Glass glassmorphism backdrop blur (`backdrop-blur-[60px]`, `saturate-[250%]`), glass borders, and radial gradient masking preserved in harmony (`LiquidGlassTicketVault.tsx`, `QuantumTicket.tsx`, `HolographicTicket.tsx`).
-9. **Primary AI Model Strict Enforcement**: `gemini-3.5-flash-lite` enforced as default primary AI model across `lib/gemini.ts`, all server actions, and AI API endpoints.
-10. **Movie Entrance Animation & Shared Element Transition**: Next.js 15 & Framer Motion Hero entrance animation with smooth GPU scale and fade transitions.
-11. **Electric Border Effect & Smart Pick UI Cards**: Electric neon border glow with `public/log_white.svg`, 1000% scale at (56%, 41.7%), `background-origin: content-box` with padding, layered z-index.
-12. **Global Loading Indicator Standardization**: Standardized `LoadingIndicator.tsx` across all pages, modals, buttons, AI studios, and sound synthesizers with GPU acceleration and accessibility.
-13. **Neon Animated Card Skill & Universal Passbook Integration**: Rotating glowing neon gradient borders (`conic-gradient`), 2px `overflow-hidden` edge clipping, ambient drop-shadow aura (`shadow-[0_0_35px...]`), flip-out QR pass, and dark glass layers integrated across `QuantumTicket.tsx`, `HolographicTicket.tsx`, `NeonTicket.tsx`, `TicketsTabSwitcher.tsx`, and `app/(main)/tickets/page.tsx`.
-14. **Standardized Skills Directory Architecture**: All 20 project skills organized into compliant `.agents/skills/<skill-name>/SKILL.md` directory structures.
-15. **CineBook 120Hz GPU Thermal Receipt Printer Skill Integration**: Metallic gold printer slot, Framer Motion GPU downward paper feed rollout (`y: -100% -> 0`), interactive serrated edge tear effect, barcode, native Hebrew RTL formatting, and dynamic booking data integration in `SuccessView.tsx`.
+## Phase 39: CineBook v5.0 Next-Gen Master Feature Suite (Sprints 6-18 & 92-96)
+1. **Neural Stem-Decomposer & Spatial Mixer Studio**: `StemDecomposerStudio.tsx`, `StemFader.tsx`, `stemMixerActions.ts`, `SoundtrackPlayerCard.tsx`.
+2. **Gemini Interactive Screenplay Sandbox**: `WhatIfSandboxModal.tsx`, `SceneGraphTree.tsx`, `screenplayBranchActions.ts`, `WhatIfScenario.tsx`.
+3. **CineSync AR Co-Watching Sphere**: `CineSyncSphere.tsx`, `GroupAuraBeacon.tsx`, `coWatchingActions.ts`.
+4. **Dynamic VIP Last-Minute Seat Auction Arena**: `LiveSeatAuctionArena.tsx`, `AuctionGavelSound.ts`, `auctionBidActions.ts`.
+5. **AI Afterglow Cine-Debate & Spoiler-Guard Arena**: `AfterglowLounge.tsx`, `SpoilerRevealCard.tsx`, `afterglowActions.ts`.
 
 ---
 
@@ -47,3 +41,8 @@
 - `POST /api/organization/invite` - Send Team Invitation Token
 - `POST /api/billing/checkout` - Create Stripe Checkout Session
 - `POST /api/webhooks/stripe` - Stripe Webhook Handler
+- Server Action `stemMixerActions.ts` - 4-Stem Presets & Acoustic Configurations
+- Server Action `screenplayBranchActions.ts` - Gemini `gemini-3.5-flash-lite` Screenplay Branching
+- Server Action `coWatchingActions.ts` - Real-time Co-Watching Session State
+- Server Action `auctionBidActions.ts` - VIP Seat Live Bidding & State
+- Server Action `afterglowActions.ts` - Post-Movie Trivia & Spoiler-Guarded Discussions

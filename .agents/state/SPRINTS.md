@@ -65,8 +65,32 @@
 - **Tech Stack:** React 19, Next.js 15, Framer Motion 120Hz GPU, Tailwind CSS, Liquid Glass 4.0 Pro, `VisualCateringGrid.tsx`, `KineticSnackCard.tsx`, `CinemaTrayZone.tsx`, `app/(main)/checkout/page.tsx`.
 - **Status:** ✅ Completed
 
+### 🎛️ Sprint 92: Neural Stem-Decomposer & Spatial Mixer Studio (אולפן פירוק פסקול ל-4 ערוצים)
+- **Concept:** Advanced Web Audio API 4-stem audio isolation engine (Dialogue, Score, 35-50Hz Sub-Bass, SFX), Liquid Glass 4.0 Pro faders, dynamic presets, mute controls, sub-bass pulse sweeps, and responsive audio visualizer integration.
+- **Tech Stack:** Web Audio API (`BiquadFilterNode`, `GainNode`, `OscillatorNode`), React 19, Next.js 15 Server Actions, Zod, `StemDecomposerStudio.tsx`, `StemFader.tsx`, `stemMixerActions.ts`, `SoundtrackPlayerCard.tsx`, `app/(main)/soundtracks/page.tsx`.
+- **Status:** ✅ Completed
+
+### 🎬 Sprint 93: Gemini Interactive Screenplay Sandbox (מעבדת תסריטים אלטרנטיביים עם Gemini AI)
+- **Concept:** Interactive branching narrative generator powered by `gemini-3.5-flash-lite`, visual scene graph timeline tree, choice explorers, and character fate tracking.
+- **Tech Stack:** `@google/genai` (`gemini-3.5-flash-lite`), React 19, Framer Motion 120Hz GPU, Next.js 15 Server Actions, Zod, `WhatIfSandboxModal.tsx`, `SceneGraphTree.tsx`, `screenplayBranchActions.ts`, `WhatIfScenario.tsx`.
+- **Status:** ✅ Completed
+
+### 🌐 Sprint 94: CineSync AR Co-Watching Sphere (ספירת סנכרון צפייה קבוצתית)
+- **Concept:** Real-time group co-watching lounge with synchronized trailer status, mood beacons, readiness toggling, Web Audio chime synthesizer (D5-A5), and live reactive emojis.
+- **Tech Stack:** Web Audio API, Framer Motion 120Hz GPU, React 19, Next.js 15 Server Actions, Zod, `CineSyncSphere.tsx`, `GroupAuraBeacon.tsx`, `coWatchingActions.ts`, `app/(main)/nexus/page.tsx`.
+- **Status:** ✅ Completed
+
+### ⚡ Sprint 95: Dynamic VIP Last-Minute Seat Auction Arena (זירת מכרזי מושבי VIP של הרגע האחרון)
+- **Concept:** Live last-minute seat auction arena with 180s countdown timer, dynamic bid steppers (+₪10, +₪25, +₪50), Web Audio wooden gavel strike synthesizer with 40Hz resonant thump, and haptic pulse feedback.
+- **Tech Stack:** Web Audio API, Haptics API, React 19, Framer Motion 120Hz GPU, Next.js 15 Server Actions, Zod, `LiveSeatAuctionArena.tsx`, `AuctionGavelSound.ts`, `auctionBidActions.ts`, `app/(main)/vip/page.tsx`.
+- **Status:** ✅ Completed
+
+### 💬 Sprint 96: AI Afterglow Cine-Debate & Spoiler-Guard Arena (מתחם Afterglow מוגן ספוילרים וטריוויה)
+- **Concept:** Post-movie community debate lounge with biometric hold-to-reveal spoiler unmasking, interactive trivia challenge with reputation points, and discussion feeds.
+- **Tech Stack:** React 19, Framer Motion 120Hz GPU, Next.js 15 Server Actions, Zod, `AfterglowLounge.tsx`, `SpoilerRevealCard.tsx`, `afterglowActions.ts`, `MovieDetailsContent.tsx`.
+- **Status:** ✅ Completed
+
 ---
 
-## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-18)
-- Dynamic Cinema Experiences, Quantum Ticket Passbooks, Group Lounge Sync, Biometric Gateways, Audio-Haptic Modals, and AI Screenplay Simulator.
-
+## 🚀 Phase 39: CineBook v5.0 Master Feature Suite (Sprints 6-18 & 92-96)
+- Dynamic Cinema Experiences, Quantum Ticket Passbooks, Group Lounge Sync, Biometric Gateways, Audio-Haptic Modals, AI Screenplay Simulator, and 4-Stem Acoustic Mixer.
