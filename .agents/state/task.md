@@ -6,6 +6,7 @@
 - [x] Sprint 108: Implement `ActorAudioSceneSynthesizer.tsx` (Web Audio 35Hz-50Hz Sub-Bass & Speech Synth)
 - [x] Sprint 109: Implement `actorBadgeActions.ts` (HMAC-SHA256) and `ActorFanBadgeShard.tsx` (Biometric Touch-Hold)
 - [x] Redesign `ActorFanBadgeShard.tsx` to Liquid Glass 4.0 Pro with circular SVG scanner, 40Hz Web Audio synth & HMAC passbook
+- [x] Fix NextAuth `[CLIENT_FETCH_ERROR]` by correcting `NEXTAUTH_URL` port mismatch in `.env.local`
 - [x] Vitest test suite (`npx vitest run` - 25/25 test files passed, 101/101 tests)
 - [x] TypeScript verification (`npx tsc --noEmit` - 0 errors)
 - [x] Auto-synchronize all 4 state files in `.agents/state/`
