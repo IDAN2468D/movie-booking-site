@@ -8,6 +8,7 @@ import {
   LayoutDashboard, 
   Ticket, 
   Scan, 
+  BarChart3,
   Settings, 
   ChevronRight,
   LogOut,
@@ -19,6 +20,7 @@ import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'דאשבורד', icon: LayoutDashboard, href: '/erp' },
+  { id: 'stats', label: 'סטטיסטיקות וביצועים', icon: BarChart3, href: '/erp/stats' },
   { id: 'bookings', label: 'ניהול הזמנות', icon: Ticket, href: '/erp/bookings' },
   { id: 'scanner', label: 'מצב סורק', icon: Scan, href: '/erp/scanner' },
   { id: 'settings', label: 'הגדרות', icon: Settings, href: '/erp/settings' },

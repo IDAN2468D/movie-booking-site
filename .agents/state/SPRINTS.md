@@ -266,5 +266,35 @@
 ## 🌐 Phase 49: CineTrailer Cinema Hub & Voice Orchestration (Sprint 121)
 - Movie page trailer button, global trailer library picker modal (`T` / `א`), unbounded full-screen draggable PIP with 760px canvas, Gemini AI voice command trailer playback, and dedicated topbar icons.
 
+## 📊 Phase 56: Movie Site Stats Skill & ERP Analytics Suite (Sprint 129)
+- **Features Implemented:**
+  - `lib/erp/stats/`: Financial normalizer with 18% Israeli VAT (`gross / 1.18`), Hebrew sofit preservation (ך, ם, ן, ף, ץ), universal CSV parser (GA4, Israeli admin, iCount / Green Invoice, pasted table), core metrics calculator (AOV, gross/net, churn, Top 10 movies), Israeli holiday anomaly radar, and bilingual Markdown report generator.
+  - `app/api/erp/stats/`: `/advanced` live MongoDB aggregation with date filters and `/ai-insights` Gemini 3.5 Flash-Lite executive advisor.
+  - `app/(main)/erp/stats/` & `components/erp/stats/`: Liquid Glass 4.0 Pro ERP statistics dashboard (`page.tsx`, `StatsSummaryCards.tsx`, `StatsTimeSeriesChart.tsx`, `StatsTopMoviesTable.tsx`, `StatsRetentionCard.tsx`, `StatsAnomaliesRadar.tsx`, `StatsDataImportModal.tsx`, `StatsAiInsightsCard.tsx`, `StatsExportMenu.tsx`).
+  - Navigation updates in `ERPSidebar.tsx`, `app/(main)/erp/layout.tsx`, and `useERPStore.ts`.
+- **Tech Stack:** Next.js 15 App Router, React 19, Tailwind CSS, Framer Motion 120Hz GPU, Gemini 3.5 Flash-Lite (`@google/genai`), MongoDB Aggregations, Vitest.
+- **Verification:** 131/131 Vitest tests passed, 0 TypeScript errors, strict 200 LOC ceiling maintained across all 21 files.
+- **Status:** ✅ Completed
+
+## ⚡ Phase 57: Stats Chart Hover Jitter Fix & Stable Layout Bonding (Sprint 130)
+- **Features Implemented:**
+  - `components/erp/stats/StatsTimeSeriesChart.tsx`: Fixed hover jitter and layout oscillation by establishing a permanent fixed-height details container (`min-h-[56px]`) with smooth subtle placeholder states when not hovering, preventing DOM height collapse and mouse oscillation loops.
+  - Refined hover transitions to use isolated `transition-colors transition-shadow` preventing height re-animation conflicts with Framer Motion.
+- **Tech Stack:** Next.js 15, React 19, Tailwind CSS, Framer Motion 120Hz GPU.
+- **Verification:** 131/131 Vitest tests passed, 0 TypeScript errors, 163 LOC.
+- **Status:** ✅ Completed
+
+## 💎 Phase 58: Full-Width ERP Retention & Anomalies Radar Redesign (Sprint 131)
+- **Features Implemented:**
+  - `components/erp/stats/StatsRetentionCard.tsx`: Redesigned as a full-width panoramic dashboard section featuring 4 responsive KPI cards and a live dual-gradient visual retention vs single-order cohort bar.
+  - `components/erp/stats/StatsAnomaliesRadar.tsx`: Redesigned as a full-width panoramic section with rotating live radar indicator and responsive 3-column anomaly card grid with Hebrew holiday tags.
+  - `app/(main)/erp/stats/page.tsx`: Restructured page layout to present Top Movies, Retention, and Anomalies Radar in full-width sequential view.
+- **Tech Stack:** Next.js 15, React 19, Tailwind CSS, Framer Motion 120Hz GPU.
+- **Verification:** 131/131 Vitest tests passed, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+
+
+
 
 

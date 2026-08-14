@@ -16,7 +16,10 @@
 - [x] Sprint 126: 100% Verified TMDB Poster Resolution & Fixed 404s (`trailerData.ts`)
 - [x] Sprint 127: Featured Hero Native RTL Alignment (`FeaturedHero.tsx`)
 - [x] Sprint 128: Featured Hero Tight Poster-Text Spatial Bonding (`FeaturedHero.tsx`)
+- [x] Sprint 129: Full Movie Site Stats Skill Integration in ERP (`lib/erp/stats/`, `app/api/erp/stats/`, `components/erp/stats/`, `app/(main)/erp/stats/`)
+- [x] Sprint 130: Stats Chart Hover Jitter Fix & Stable Layout Bonding (`StatsTimeSeriesChart.tsx`)
+- [x] Sprint 131: Full-Width ERP Retention & Anomalies Radar Redesign (`StatsRetentionCard.tsx`, `StatsAnomaliesRadar.tsx`, `page.tsx`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
-- [x] Vitest suite pass (125/125 tests)
+- [x] Vitest suite pass (131/131 tests)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
 - [x] Auto-synchronize all 4 state files in `.agents/state/`

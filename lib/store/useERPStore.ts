@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 interface ERPState {
   isSidebarOpen: boolean;
-  activeTab: 'dashboard' | 'bookings' | 'scanner' | 'settings';
+  activeTab: 'dashboard' | 'stats' | 'bookings' | 'scanner' | 'settings';
   stats: {
     totalRevenue: number;
     ticketsSold: number;

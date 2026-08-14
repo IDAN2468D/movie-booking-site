@@ -40,6 +40,7 @@
 | **Module AI** | Floating Cinema Trailer & Ambient Glow | `/components/media/FloatingTrailerPlayer.tsx` | Global Draggable PIP Player, 120Hz Ambient Glow Frame, Booking CTA | `ACTIVE` |
 | **Module AJ** | AI Smart Mood Recommendations | `/components/ai/AIMoodRecommendations.tsx` | `gemini-3.5-flash-lite` Personalized Movie Recommendations & Match % Scoring | `ACTIVE` |
 | **Module AK** | CineStats & Achievement Badges | `/components/profile/CineStatsContainer.tsx` | User KPIs, Genre Breakdown, 6 Holographic Liquid Glass Achievement Badges | `ACTIVE` |
+| **Module AL** | Movie Site Stats Skill & ERP Analytics Suite | `/components/erp/stats/StatsSummaryCards.tsx` | Israeli 18% VAT, GA4/CSV Universal Parser, Retention, Anomaly Radar, Gemini 3.5 AI Advisor | `ACTIVE` |
 
 ---
 
@@ -138,8 +139,23 @@
 
 ---
 
+## Phase 56: Movie Site Stats Skill & ERP Analytics Suite (Sprint 129)
+1. **Domain & Calculation Engine (`lib/erp/stats/`)**: Normalizer with 18% Israeli VAT (`gross / 1.18`), sofit letter preservation, universal CSV/GA4/table parser, financial KPI calculator, Israeli holiday anomaly detector, and bilingual Markdown report generator.
+2. **ERP Stats Page & UI Suite (`app/(main)/erp/stats/`, `components/erp/stats/`)**: Liquid Glass 4.0 Pro performance dashboard with KPI cards, 120Hz GPU time-series trends chart, Top 10 movies breakdown, customer retention metrics, anomaly radar, CSV modal importer, and Gemini 3.5 AI Executive Advisor.
+
+---
+
+## Phase 58: Full-Width ERP Retention & Anomalies Radar Redesign (Sprint 131)
+1. **StatsRetentionCard (`components/erp/stats/StatsRetentionCard.tsx`)**: Full-width panoramic dashboard layout with 4-card metric cohort grid and dual-gradient live cohort segmentation bar.
+2. **StatsAnomaliesRadar (`components/erp/stats/StatsAnomaliesRadar.tsx`)**: Full-width panoramic section with rotating live radar indicator and 3-column anomaly card grid with Israeli holiday badges.
+3. **ERP Stats Page (`app/(main)/erp/stats/page.tsx`)**: Full-width sequential stack for Top 10 Movies, Retention, and Anomalies Radar.
+
+---
+
 ## API Routes & Server Actions Map
 - `POST /api/auth/register` - Account Registration
+- `GET /api/erp/stats/advanced` - Aggregated MongoDB Bookings & Advanced Financial Metrics
+- `POST /api/erp/stats/ai-insights` - Gemini 3.5 Flash-Lite Executive Strategic Advisor
 - Server Action `watchlistActions.ts` - Smart Watchlist Add, Remove, and Cloud Sync
 - Server Action `spotlightSearchActions.ts` - Spotlight Live Multi-Category Search
 - Server Action `movieReviewActions.ts` - Community Reviews, Verified Ticket Check, Guest Reviews, and Like Voting
@@ -147,3 +163,4 @@
 - Server Action `cineStatsActions.ts` - User Viewing Hours, Genre Analytics, and Achievement Badges
 - Server Action `actorEmotionActions.ts` - Gemini AI Actor Role Emotion Graph Metrics
 - Server Action `actorBadgeActions.ts` - HMAC-SHA256 Encrypted Fan Badge Shard Generation
+

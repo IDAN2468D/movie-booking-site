@@ -13,6 +13,7 @@ import {
   LayoutDashboard, 
   Ticket, 
   Scan, 
+  BarChart3,
   Settings,
   Home
 } from 'lucide-react';
@@ -147,6 +148,7 @@ export default function ERPLayout({
           {[
             { href: '/', icon: Home },
             { href: '/erp', icon: LayoutDashboard },
+            { href: '/erp/stats', icon: BarChart3 },
             { href: '/erp/bookings', icon: Ticket },
             { href: '/erp/scanner', icon: Scan },
             { href: '/erp/settings', icon: Settings },
