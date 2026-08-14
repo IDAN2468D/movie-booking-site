@@ -23,7 +23,6 @@ interface NavItem {
 
 const basicNavItems: NavItem[] = [
   { icon: Home, label: 'בית', href: '/' },
-  { icon: Sparkles, label: 'CinePulse Labs - סוויטת העתיד 🚀', href: '/showcase/master-suite' },
   { icon: CalendarDays, label: 'בקרוב', href: '/coming-soon' },
   { icon: Star, label: 'החזון שלנו', href: '/vision' },
   { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets' },

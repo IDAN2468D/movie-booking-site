@@ -21,6 +21,7 @@ export interface MappedReview {
   userAvatar?: string;
   rating: number;
   content: string;
+  tags?: string[];
   hasSpoilers: boolean;
   isVerifiedBooking: boolean;
   likesCount: number;
@@ -33,17 +34,12 @@ export interface CineScoreData {
   percentage: number;
   totalReviews: number;
   verifiedReviewsCount: number;
+  distribution: { [key: number]: number };
 }
 
 export interface GetMovieReviewsResult {
   reviews: MappedReview[];
   cineScore: CineScoreData;
-}
-
-export interface ToggleReviewLikeResult {
-  reviewId: string;
-  likesCount: number;
-  isLiked: boolean;
 }
 
 type ActionResponse<T = unknown> = {
@@ -56,35 +52,38 @@ export async function submitMovieReviewAction(
   input: CreateMovieReviewInput
 ): Promise<ActionResponse<{ id: string; rating: number; content: string; isVerifiedBooking: boolean }>> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
-      return { success: false, error: "נדרשת התחברות כדי לפרסם ביקורת" };
-    }
-
     const validated = CreateMovieReviewSchema.safeParse(input);
     if (!validated.success) {
       return { success: false, error: validated.error.issues[0].message };
     }
 
-    const { movieId, rating, content, hasSpoilers } = validated.data;
+    const { movieId, rating, content, hasSpoilers, tags, authorName, guestId } = validated.data;
+    const session = await getServerSession(authOptions);
+    const userId = session?.user?.id || guestId || `guest_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+    const userName = session?.user?.name || authorName?.trim() || "חובב קולנוע CinePulse";
+    const userAvatar = session?.user?.image || "";
+
     await connectToDatabase();
 
-    const hasTicket = await Ticket.exists({
-      userId: session.user.id,
-      status: { $ne: "cancelled" },
-    });
-
-    const isVerifiedBooking = Boolean(hasTicket);
+    let isVerifiedBooking = false;
+    if (session?.user?.id) {
+      const hasTicket = await Ticket.exists({
+        userId: session.user.id,
+        status: { $ne: "cancelled" },
+      });
+      isVerifiedBooking = Boolean(hasTicket);
+    }
 
     const doc = await MovieReview.findOneAndUpdate(
-      { movieId, userId: session.user.id },
+      { movieId, userId },
       {
         $set: {
-          userName: session.user.name || "אורח CinePulse",
-          userAvatar: session.user.image || "",
+          userName,
+          userAvatar,
           rating,
           content,
-          hasSpoilers,
+          tags: tags || [],
+          hasSpoilers: Boolean(hasSpoilers),
           isVerifiedBooking,
         },
       },
@@ -125,22 +124,32 @@ export async function getMovieReviewsAction(
 
     const reviews = await MovieReview.find({ movieId }).sort(sortQuery).lean();
 
-    const mapped: MappedReview[] = reviews.map((r) => ({
-      id: r._id.toString(),
-      userId: r.userId,
-      userName: r.userName,
-      userAvatar: r.userAvatar,
-      rating: r.rating,
-      content: r.content,
-      hasSpoilers: r.hasSpoilers,
-      isVerifiedBooking: r.isVerifiedBooking,
-      likesCount: r.likesCount,
-      likedBy: r.likedBy || [],
-      createdAt: r.createdAt,
-    }));
+    const distribution: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 };
+    let positiveCount = 0;
+
+    const mapped: MappedReview[] = reviews.map((r) => {
+      distribution[r.rating] = (distribution[r.rating] || 0) + 1;
+      if (r.rating >= 7) positiveCount++;
+
+      return {
+        id: r._id.toString(),
+        userId: r.userId,
+        userName: r.userName,
+        userAvatar: r.userAvatar,
+        rating: r.rating,
+        content: r.content,
+        tags: r.tags || [],
+        hasSpoilers: r.hasSpoilers,
+        isVerifiedBooking: r.isVerifiedBooking,
+        likesCount: r.likesCount,
+        likedBy: r.likedBy || [],
+        createdAt: r.createdAt,
+      };
+    });
 
     const total = mapped.length;
     const avgRating = total > 0 ? mapped.reduce((acc, r) => acc + r.rating, 0) / total : 0;
+    const percentage = total > 0 ? Math.round((positiveCount / total) * 100) : 0;
     const verifiedCount = mapped.filter((r) => r.isVerifiedBooking).length;
 
     return {
@@ -149,9 +158,10 @@ export async function getMovieReviewsAction(
         reviews: mapped,
         cineScore: {
           score: Number(avgRating.toFixed(1)),
-          percentage: Math.round(avgRating * 10),
+          percentage,
           totalReviews: total,
           verifiedReviewsCount: verifiedCount,
+          distribution,
         },
       },
     };
@@ -163,27 +173,22 @@ export async function getMovieReviewsAction(
 
 export async function toggleReviewLikeAction(
   input: ToggleReviewLikeInput
-): Promise<ActionResponse<ToggleReviewLikeResult>> {
+): Promise<ActionResponse<{ reviewId: string; likesCount: number; isLiked: boolean }>> {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
-      return { success: false, error: "נדרשת התחברות כדי להצביע" };
-    }
-
     const validated = ToggleReviewLikeSchema.safeParse(input);
     if (!validated.success) {
       return { success: false, error: validated.error.issues[0].message };
     }
 
-    const { reviewId } = validated.data;
+    const { reviewId, guestId } = validated.data;
+    const session = await getServerSession(authOptions);
+    const userId = session?.user?.id || guestId || "guest_voter";
+
     await connectToDatabase();
-
     const review = await MovieReview.findById(reviewId);
-    if (!review) {
-      return { success: false, error: "ביקורת לא נמצאה" };
-    }
+    if (!review) return { success: false, error: "ביקורת לא נמצאה" };
 
-    const userIdx = review.likedBy.indexOf(session.user.id);
+    const userIdx = review.likedBy.indexOf(userId);
     let isLiked = false;
 
     if (userIdx > -1) {
@@ -191,7 +196,7 @@ export async function toggleReviewLikeAction(
       review.likesCount = Math.max(0, review.likesCount - 1);
       isLiked = false;
     } else {
-      review.likedBy.push(session.user.id);
+      review.likedBy.push(userId);
       review.likesCount += 1;
       isLiked = true;
     }
@@ -200,11 +205,7 @@ export async function toggleReviewLikeAction(
 
     return {
       success: true,
-      data: {
-        reviewId,
-        likesCount: review.likesCount,
-        isLiked,
-      },
+      data: { reviewId, likesCount: review.likesCount, isLiked },
     };
   } catch (error) {
     console.error("toggleReviewLikeAction error:", error);

@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import QuantumTicket from '@/components/tickets/QuantumTicket';
 import HolographicTicket from '@/components/tickets/HolographicTicket';
 import NeonTicket from '@/components/tickets/NeonTicket';
+import HoloPassbook3DCard from '@/components/tickets/HoloPassbook3DCard';
 import { ChronoRefractiveReel } from '@/components/tickets/ChronoRefractiveReel';
 import { LiquidGlassTicketVault } from '@/components/tickets/LiquidGlassTicketVault';
 import { TicketsHeader } from '@/components/tickets/TicketsHeader';
@@ -19,7 +20,7 @@ export default function TicketsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'countdown' | 'qr' | 'memory'>('countdown');
-  const [ticketStyle, setTicketStyle] = useState<'quantum' | 'holographic' | 'vault' | 'neon'>('quantum');
+  const [ticketStyle, setTicketStyle] = useState<'holopass' | 'quantum' | 'holographic' | 'vault' | 'neon'>('holopass');
 
   const handleEmailTicket = async (ticket: TicketType) => {
     setProcessingId(`${ticket.id}-email`);
@@ -29,24 +30,14 @@ export default function TicketsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: session?.user?.email || 'user@cinepulse.com',
-          movieTitle: ticket.movie,
-          seats: ticket.seats,
-          price: ticket.total || 45,
-          orderId: ticket.id,
-          posterUrl: ticket.image,
-          date: ticket.date,
-          time: ticket.time,
-          hall: ticket.hall,
-          userName: session?.user?.name || 'אורח VIP'
+          movieTitle: ticket.movie, seats: ticket.seats, price: ticket.total || 45,
+          orderId: ticket.id, posterUrl: ticket.image, date: ticket.date, time: ticket.time,
+          hall: ticket.hall, userName: session?.user?.name || 'אורח VIP'
         })
       });
-      if (res.ok) alert('הכרטיס נשלח למייל בהצלחה!');
-      else alert('אירעה שגיאה בשליחת המייל');
-    } catch {
-      alert('שגיאת תקשורת בשליחת המייל');
-    } finally {
-      setProcessingId(null);
-    }
+      alert(res.ok ? 'הכרטיס נשלח למייל בהצלחה!' : 'אירעה שגיאה בשליחת המייל');
+    } catch { alert('שגיאת תקשורת בשליחת המייל'); }
+    finally { setProcessingId(null); }
   };
 
   const handleDownloadPDF = async (ticket: TicketType) => {
@@ -56,35 +47,23 @@ export default function TicketsPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          movieTitle: ticket.movie,
-          seats: ticket.seats,
-          price: ticket.total || 45,
-          orderId: ticket.id,
-          date: ticket.date,
-          time: ticket.time,
-          hall: ticket.hall,
-          userName: session?.user?.name || 'אורח VIP',
-          posterUrl: ticket.image
+          movieTitle: ticket.movie, seats: ticket.seats, price: ticket.total || 45,
+          orderId: ticket.id, date: ticket.date, time: ticket.time, hall: ticket.hall,
+          userName: session?.user?.name || 'אורח VIP', posterUrl: ticket.image
         })
       });
       if (res.ok) {
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = `ticket-${ticket.id}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        a.href = url; a.download = `ticket-${ticket.id}.pdf`;
+        document.body.appendChild(a); a.click(); a.remove();
       } else {
         const errorData = await res.json();
-        alert(`שגיאה ביצירת ה-PDF: ${errorData.error || 'שגיאה לא ידועה'}`);
+        alert(`שגיאה ביצירת ה-PDF: ${errorData.error || 'שגיאה'}`);
       }
-    } catch (err) {
-      alert(`שגיאת תקשורת בהורדת ה-PDF: ${(err as Error).message}`);
-    } finally {
-      setProcessingId(null);
-    }
+    } catch (err) { alert(`שגיאת תקשורת: ${(err as Error).message}`); }
+    finally { setProcessingId(null); }
   };
 
   useEffect(() => {
@@ -146,7 +125,17 @@ export default function TicketsPage() {
               }}
               className="w-full flex justify-center"
             >
-              {ticketStyle === 'neon' ? (
+              {ticketStyle === 'holopass' ? (
+                <HoloPassbook3DCard
+                  ticketId={ticket.id}
+                  movieTitle={ticket.movie}
+                  seats={ticket.seats}
+                  date={ticket.date}
+                  time={ticket.time}
+                  hall={ticket.hall}
+                  price={ticket.total || 45}
+                />
+              ) : ticketStyle === 'neon' ? (
                 <NeonTicket
                   ticket={ticket}
                   onEmail={() => handleEmailTicket(ticket)}

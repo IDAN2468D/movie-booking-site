@@ -2,19 +2,33 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Film } from 'lucide-react';
+import { X, Film, PictureInPicture } from 'lucide-react';
 import { VideoResult } from '@/lib/tmdb';
+import { useTrailerStore } from '@/lib/store/trailer-store';
 
 interface Props {
   videos: VideoResult[];
   isOpen: boolean;
   onClose: () => void;
   movieTitle: string;
+  movieId?: number | string;
 }
 
-export default function TrailerModal({ videos, isOpen, onClose, movieTitle }: Props) {
+export default function TrailerModal({ videos, isOpen, onClose, movieTitle, movieId }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const current = videos[activeIndex];
+  const openTrailer = useTrailerStore((state) => state.openTrailer);
+
+  const handleSwitchToFloating = () => {
+    if (current) {
+      openTrailer({
+        movieId: movieId ? String(movieId) : '',
+        movieTitle,
+        trailerKey: current.key,
+      });
+      onClose();
+    }
+  };
 
   if (!current) return null;
 
@@ -47,12 +61,22 @@ export default function TrailerModal({ videos, isOpen, onClose, movieTitle }: Pr
                 <h3 className="text-white font-black text-lg">{movieTitle}</h3>
                 <span className="text-slate-500 text-sm font-bold">— {current.name}</span>
               </div>
-              <button
-                onClick={onClose}
-                className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all border border-white/10"
-              >
-                <X size={18} className="text-white" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleSwitchToFloating}
+                  className="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white flex items-center gap-1.5 transition-all border border-white/10 hover:border-primary/40"
+                  title="עבור לנגן צף והמשך לגלוש באתר"
+                >
+                  <PictureInPicture size={14} className="text-primary" />
+                  <span>נגן צף</span>
+                </button>
+                <button
+                  onClick={onClose}
+                  className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all border border-white/10"
+                >
+                  <X size={18} className="text-white" />
+                </button>
+              </div>
             </div>
 
             {/* YouTube Player */}

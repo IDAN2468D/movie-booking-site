@@ -67,6 +67,7 @@ export default function TrailerButton({ movieId, movieTitle, variant = 'default'
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         movieTitle={movieTitle}
+        movieId={movieId}
       />
     </>
   );

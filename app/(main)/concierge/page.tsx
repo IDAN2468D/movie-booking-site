@@ -9,6 +9,7 @@ import { Bot } from 'lucide-react';
 import ChatWindow from '@/components/chat/ChatWindow';
 import { CinePersonaAvatarContainer } from '@/components/ai/CinePersonaAvatarContainer';
 import { BioSensoryMoodPredictor } from '@/components/ai/BioSensoryMoodPredictor';
+import { AIMoodRecommendations } from '@/components/ai/AIMoodRecommendations';
 
 export default function ConciergePage() {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -115,6 +116,9 @@ export default function ConciergePage() {
         </div>
         <div className="w-full">
           <BioSensoryMoodPredictor />
+        </div>
+        <div className="w-full">
+          <AIMoodRecommendations />
         </div>
         <ChatWindow
           onClose={() => {}}

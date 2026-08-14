@@ -78,7 +78,15 @@ export default function TopBar() {
           <div className="flex items-center gap-3 md:gap-5 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
             {/* AI Concierge Trigger */}
             <VoiceOrb />
-            <UserProfile />
+            {/* Keyboard Shortcuts Trigger */}
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('toggle-shortcuts-modal'))}
+              title="לוח קיצורי מקלדת (לחץ ?)"
+              className="hidden sm:flex relative w-10 h-10 items-center justify-center rounded-xl bg-white/5 border border-white/10 hover:border-primary/40 text-white/70 hover:text-primary transition-all shadow-xl active:scale-95 shrink-0"
+            >
+              <kbd className="text-xs font-mono font-black">?</kbd>
+            </button>
+
             <button
               onClick={() => setIsNotificationsOpen(true)}
               className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 hover:border-white/20 text-white/80 hover:text-white transition-all shadow-xl active:scale-95 shrink-0"

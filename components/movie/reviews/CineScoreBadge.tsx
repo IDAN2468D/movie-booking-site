@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Award, ShieldCheck, Star } from 'lucide-react';
+import { Award, ShieldCheck, Sparkles } from 'lucide-react';
 
 interface CineScoreBadgeProps {
   score: number; // 1-10
@@ -19,26 +19,29 @@ export default function CineScoreBadge({
   className = '',
 }: CineScoreBadgeProps) {
   const displayScore = score > 0 ? score.toFixed(1) : '–';
-  const displayPercent = percentage ?? Math.round(score * 10);
+  const hasReviews = totalReviews > 0;
 
   return (
     <div
-      className={`relative inline-flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-amber-500/10 via-white/[0.04] to-primary/10 border border-amber-500/20 backdrop-blur-xl shadow-lg ${className}`}
+      className={`relative inline-flex items-center gap-3 p-2.5 sm:p-3 rounded-2xl bg-gradient-to-r from-amber-500/15 via-white/[0.04] to-primary/10 border border-amber-500/30 backdrop-blur-2xl shadow-xl shadow-amber-500/5 ${className}`}
       dir="rtl"
     >
-      {/* Visual Ring / Score Box */}
-      <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex flex-col items-center justify-center text-black font-black shadow-md shadow-amber-500/30 shrink-0">
-        <span className="text-base leading-none">{displayScore}</span>
-        <span className="text-[9px] uppercase tracking-tighter opacity-80">/ 10</span>
+      {/* Visual Score Box with Glowing Gradient */}
+      <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 flex flex-col items-center justify-center text-black font-black shadow-md shadow-amber-500/30 shrink-0 transform-gpu">
+        <span className="text-base sm:text-lg leading-none font-outfit">{displayScore}</span>
+        <span className="text-[8px] sm:text-[9px] uppercase tracking-tighter opacity-85 font-bold">/ 10</span>
       </div>
 
       {/* Details */}
       <div className="text-right">
         <div className="flex items-center gap-1.5 text-xs font-black text-amber-300">
-          <Award size={14} className="text-amber-400" />
+          <Award size={13} className="text-amber-400" />
           <span>CineScore קהילתי</span>
+          {hasReviews && percentage !== undefined && percentage > 0 && (
+            <span className="text-[10px] text-amber-400/80 font-bold">({percentage}%)</span>
+          )}
         </div>
-        <div className="flex items-center gap-2 mt-0.5 text-[11px] text-white/60">
+        <div className="flex items-center gap-2 mt-0.5 text-[10px] sm:text-[11px] text-white/60 font-medium">
           <span>{totalReviews} ביקורות</span>
           {verifiedCount > 0 && (
             <>
@@ -48,6 +51,12 @@ export default function CineScoreBadge({
                 <span>{verifiedCount} מאומתים</span>
               </span>
             </>
+          )}
+          {!hasReviews && (
+            <span className="text-white/40 flex items-center gap-0.5">
+              <Sparkles size={10} className="text-amber-400" />
+              <span>טרם דורג</span>
+            </span>
           )}
         </div>
       </div>

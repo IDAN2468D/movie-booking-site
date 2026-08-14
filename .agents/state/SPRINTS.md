@@ -170,7 +170,58 @@
 - **Tech Stack:** MongoDB / Mongoose, Zod, React 19, Framer Motion 120Hz, `MovieReview.ts`, `movieReviewActions.ts`, `CineScoreBadge.tsx`, `VerifiedReviewCard.tsx`, `MovieReviewModal.tsx`, `CommunityReviewsSection.tsx`.
 - **Status:** ✅ Completed
 
+### 🎞️ Sprint 113: Floating Cinema Trailer & Ambient Glow (נגן טריילרים צף עם תאורת אווירה דינמית)
+- **Concept:** Global draggable PIP trailer player with 120Hz GPU Ambient Glow backlighting frame, spatial audio enhancement toggle, and direct ticket booking integration.
+- **Tech Stack:** Zustand, Framer Motion 120Hz GPU, React 19, Tailwind CSS, `trailer-store.ts`, `AmbientGlowFrame.tsx`, `FloatingTrailerPlayer.tsx`, `TrailerModal.tsx`, `app/(main)/layout.tsx`.
+- **Status:** ✅ Completed
+
+### 🧠 Sprint 114: AI Smart Recommendations & Dynamic Mood Matcher (מנוע המלצות סרטים חכם ומותאם אישית מבוסס AI)
+- **Concept:** Personalized AI movie recommendation engine querying `gemini-3.5-flash-lite`, combining user's Watchlist and past reviews, featuring interactive mood presets and real-time acoustic match scoring.
+- **Tech Stack:** `@google/generative-ai` (`gemini-3.5-flash-lite`), Zod, Next.js Server Actions, Framer Motion 120Hz, `aiRecommendationValidation.ts`, `aiRecommendationActions.ts`, `AIMoodSelector.tsx`, `AIMoodRecommendations.tsx`, `app/(main)/concierge/page.tsx`.
+- **Status:** ✅ Completed
+
+### 🏆 Sprint 115: CineStats Personal Dashboard & Achievement Badges (דשבורד סטטיסטיקות אישיות ותגי הישג)
+- **Concept:** Comprehensive user movie analytics dashboard displaying total runtime hours, genre distribution bars, CineScore reviewer rank, and 6 holographic Liquid Glass 4.0 Pro achievement badges with haptic vibration.
+- **Tech Stack:** MongoDB / Mongoose, Zod, React 19, Framer Motion 120Hz GPU, Haptics API, `cineStatsValidation.ts`, `cineStatsActions.ts`, `CineStatsOverview.tsx`, `AchievementBadgesGrid.tsx`, `CineStatsContainer.tsx`, `ProfileTicketCard.tsx`, `app/(main)/profile/ProfileClient.tsx`.
+- **Status:** ✅ Completed
+
+### 🌟 Sprint 116: Liquid Glass 4.0 Reviews & Button Interactivity Redesign (עיצוב מחדש של ביקורות קהילה ומאומתים ותיקון כפתורים)
+- **Concept:** Complete luxury Liquid Glass 4.0 Pro redesign of the community and verified reviews section with an interactive empty-state VIP card (1-click 1-10 star selector), score histogram and recommendation % meter, interactive modal with rating labels and experience tags, guest + verified ticket buyer review submission, and non-blocking optimistic like buttons.
+- **Tech Stack:** MongoDB / Mongoose, Zod, React 19, Framer Motion 120Hz GPU, NextAuth.js, `MovieReview.ts`, `movieReviewValidation.ts`, `movieReviewActions.ts`, `EmptyReviewsState.tsx`, `ReviewsStatsSummary.tsx`, `CineScoreBadge.tsx`, `MovieReviewModal.tsx`, `VerifiedReviewCard.tsx`, `CommunityReviewsSection.tsx`.
+- **Status:** ✅ Completed
+
+### 🌟 Sprint 117: CinePulse Master Experience Suite Upgrade (שדרוג כולל של כרטיסי קולנוע 3D, הדמיית POV וחיפוש קולי)
+- **Concept:** Major upgrades across core cinema features: 3D Holographic Passbook with mouse/device tilt physics, rolling 30s security QR, and Apple/Google Wallet export; 3D cinema sightline POV preview modal; Hebrew Web Speech API voice search and format filters in Spotlight; and customized watchlist collection filters with WhatsApp sharing.
+- **Tech Stack:** React 19, Framer Motion 3D Tilt, Web Speech API, Web Audio, Next.js 15, `HoloPassbook3DCard.tsx`, `SeatPOVPreviewModal.tsx`, `SpotlightSearchModal.tsx`, `WatchlistGrid.tsx`, `tickets/page.tsx`.
+- **Status:** ✅ Completed
+
+### 🌟 Sprint 118: Global Keyboard Shortcuts & Command Center (מערכת קיצורי מקלדת גלובלית)
+- **Concept:** Enterprise keyboard navigation and action shortcuts suite: `?` for Cheat Sheet modal, `Cmd+K`/`Ctrl+K` for Spotlight, `T` for PIP trailer player, and sequential `G` navigation combinations (`G+H`, `G+T`, `G+W`, `G+L`, `G+V`, `G+F`, `G+C`, `G+P`).
+- **Tech Stack:** React 19, Framer Motion 120Hz GPU, Next.js 15, `useGlobalShortcuts.ts`, `KeyboardShortcutsModal.tsx`, `KeyboardShortcutHint.tsx`, `TopBar.tsx`, `layout.tsx`.
+- **Status:** ✅ Completed
+
+### 🎞️ Sprint 119: Floating Trailer PIP & Hebrew Keymap Enhancement (שדרוג נגן הטריילרים הצף)
+- **Concept:** Comprehensive fix & upgrade for the PIP floating trailer player: dual English/Hebrew keyboard map support (`KeyT`/`א`, `KeyK`/`ל`, `KeyG`/`ע`, `Escape`), `toggle-floating-trailer` custom events, Framer Motion AnimatePresence fix, click/drag gesture conflict resolution, and Coming Soon trailer PIP transition button.
+- **Tech Stack:** React 19, Framer Motion 120Hz GPU, Zustand, Next.js 15, `FloatingTrailerPlayer.tsx`, `useGlobalShortcuts.ts`, `KeyboardShortcutsModal.tsx`, `TrailerModal.tsx`.
+- **Status:** ✅ Completed
+
 ---
 
 ## 🚀 Phase 42: High-Priority Movie Features Suite (Sprints 110-112)
 - Smart Watchlist & Cloud Sync, Spotlight Live Search (`Cmd+K`) & Autocomplete Engine, and Verified Community Reviews & CineScore.
+
+## 🌟 Phase 43: Extended Movie Experience Suite (Sprints 113-115)
+- Floating Cinema Trailer & Ambient Glow, AI Smart Recommendations & Mood Matcher (`gemini-3.5-flash-lite`), and CineStats Personal Dashboard & Achievement Badges.
+
+## 💎 Phase 44: Liquid Glass 4.0 Reviews & Button Interactivity Redesign (Sprint 116)
+- EmptyReviewsState with interactive star selector, ReviewsStatsSummary rating distribution histogram, gold CineScore badge, MovieReviewModal with tag chips and guest/auth flows, and VerifiedReviewCard with instant liking.
+
+## 👑 Phase 45: Master Experience Suite Upgrade (Sprint 117)
+- 3D Holographic Passbook with Apple/Google Wallet export, 3D POV cinema sightline preview, Hebrew voice search in Spotlight, and Watchlist custom collections.
+
+## ⚡ Phase 46: Global Keyboard Shortcuts & Command Center (Sprint 118)
+- Global keyboard navigation and command palette, interactive shortcuts cheat sheet modal, and visual `<kbd>` hints.
+
+## 🎬 Phase 47: Floating Trailer PIP & Hebrew Keymap Enhancement (Sprint 119)
+- Bilingual Hebrew/English physical keymap support, fluid AnimatePresence mounting, and draggable PIP controls.
+

@@ -13,12 +13,16 @@ import ResolutionWrapper from "@/components/layout/ResolutionWrapper";
 import { useBookingStore } from '@/lib/store';
 import { ParticleUniverse } from "@/components/fx/ParticleUniverse";
 import { GlobalGradientFrame } from "@/components/ui/GlobalGradientFrame";
+import FloatingTrailerPlayer from "@/components/media/FloatingTrailerPlayer";
+import KeyboardShortcutsModal from "@/components/ui/KeyboardShortcutsModal";
+import { useGlobalShortcuts } from "@/hooks/useGlobalShortcuts";
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  useGlobalShortcuts();
   const pathname = usePathname();
   const mainRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ container: mainRef });
@@ -79,6 +83,12 @@ export default function MainLayout({
 
           {/* Mobile Navigation */}
           <MobileNav />
+
+          {/* Global Floating Cinema Trailer Player */}
+          <FloatingTrailerPlayer />
+
+          {/* Global Keyboard Shortcuts Cheat Sheet Modal */}
+          <KeyboardShortcutsModal />
         </div>
       </GlobalGradientFrame>
     </ResolutionWrapper>

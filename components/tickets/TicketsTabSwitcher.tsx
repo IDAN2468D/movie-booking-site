@@ -6,8 +6,8 @@ import { motion } from 'framer-motion';
 interface TicketsTabSwitcherProps {
   activeTab: 'countdown' | 'qr' | 'memory';
   setActiveTab: (tab: 'countdown' | 'qr' | 'memory') => void;
-  ticketStyle: 'quantum' | 'holographic' | 'vault' | 'neon';
-  setTicketStyle: (style: 'quantum' | 'holographic' | 'vault' | 'neon') => void;
+  ticketStyle: 'holopass' | 'quantum' | 'holographic' | 'vault' | 'neon';
+  setTicketStyle: (style: 'holopass' | 'quantum' | 'holographic' | 'vault' | 'neon') => void;
 }
 
 export const TicketsTabSwitcher: React.FC<TicketsTabSwitcherProps> = ({
@@ -49,12 +49,13 @@ export const TicketsTabSwitcher: React.FC<TicketsTabSwitcherProps> = ({
       </div>
 
       {/* Ticket Style Tabs */}
-      <div className="w-full max-w-md bg-black/40 backdrop-blur-2xl border border-white/5 p-1 rounded-xl flex gap-1 shadow-md">
+      <div className="w-full max-w-lg bg-black/40 backdrop-blur-2xl border border-white/5 p-1 rounded-xl flex gap-1 shadow-md">
         {([
+          { id: 'holopass', label: 'Passbook 3D 💎' },
           { id: 'quantum', label: 'קוונטי' },
-          { id: 'holographic', label: 'הולוגרפי 3D' },
-          { id: 'vault', label: 'כספת Offline' },
-          { id: 'neon', label: 'ניאון 4K' }
+          { id: 'holographic', label: 'הולוגרפי' },
+          { id: 'vault', label: 'כספת' },
+          { id: 'neon', label: 'ניאון' }
         ] as const).map((style) => {
           const isActive = ticketStyle === style.id;
           return (

@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Bell, Share2, Calendar, Film } from "lucide-react";
+import { X, Bell, Share2, Calendar, Film, PictureInPicture } from "lucide-react";
 import { UpcomingMovie } from "@/lib/validations/movieValidation";
+import { useTrailerStore } from "@/lib/store/trailer-store";
 import { TrailerAudioCompanion } from "./TrailerAudioCompanion";
 import { TrailerTriviaOverlay } from "./TrailerTriviaOverlay";
 
@@ -17,6 +18,18 @@ interface TrailerModalProps {
 export function TrailerModal({ isOpen, onClose, trailerKey, movie }: TrailerModalProps) {
   const [isSaved, setIsSaved] = useState(false);
   const [showShareToast, setShowShareToast] = useState(false);
+  const openTrailer = useTrailerStore((state) => state.openTrailer);
+
+  const handleSwitchToFloating = () => {
+    if (trailerKey) {
+      openTrailer({
+        movieId: movie?.movieId ? String(movie.movieId) : '',
+        movieTitle: movie?.title || 'טריילר קולנועי',
+        trailerKey,
+      });
+      onClose();
+    }
+  };
 
   const handleShare = async () => {
     const shareUrl = window.location.href;
@@ -80,6 +93,15 @@ export function TrailerModal({ isOpen, onClose, trailerKey, movie }: TrailerModa
             {/* Controls */}
             <div className="flex items-center gap-2 shrink-0">
               <TrailerAudioCompanion />
+
+              <button
+                onClick={handleSwitchToFloating}
+                className="px-2.5 py-1.5 bg-white/5 hover:bg-white/15 border border-white/10 hover:border-primary/40 rounded-xl flex items-center gap-1.5 text-white/80 hover:text-white transition-all text-xs font-bold"
+                title="העבר לנגן צף והמשך לגלוש"
+              >
+                <PictureInPicture className="w-3.5 h-3.5 text-primary" />
+                <span className="hidden sm:inline">נגן צף</span>
+              </button>
 
               <button
                 onClick={handleShare}
