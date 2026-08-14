@@ -36,16 +36,23 @@
 | **Module AD** | Web Audio Sub-Bass Scene Synthesizer | `/components/actor/ActorAudioSceneSynthesizer.tsx` | Web Audio 35Hz-50Hz Sub-Bass Oscillator & Audio Scene Speech Synthesizer | `ACTIVE` |
 | **Module AE** | Biometric Refractive Fan Badge Shard | `/components/actor/ActorFanBadgeShard.tsx` | HMAC-SHA256 Encrypted Actor Fan Badge & Biometric Touch-Hold Scanner | `ACTIVE` |
 
+| **Module AF** | Smart Watchlist & Cloud Sync | `/components/watchlist/WatchlistGrid.tsx` | Mongoose Watchlist Model, LocalStorage & DB Sync, dedicated `/watchlist` View | `ACTIVE` |
+| **Module AG** | Spotlight Live Search Engine | `/components/search/SpotlightSearchModal.tsx` | Global `Cmd+K` / `Ctrl+K`, Multi-Category Live Search (Movies, Actors, Genres) | `ACTIVE` |
+| **Module AH** | Verified Community Reviews & CineScore | `/components/movie/reviews/CommunityReviewsSection.tsx` | Mongoose MovieReview Model, Verified Ticket Check, Spoiler Shield, CineScore Badge | `ACTIVE` |
+
 ---
 
-## Phase 41: Actor Cast Profile Engine Upgrade Suite (Sprints 107-109)
-1. **Gemini AI Neural Role Emotion Graph**: `ActorRoleEmotionGraph.tsx`, `actorEmotionActions.ts`.
-2. **Web Audio Sub-Bass Scene Synthesizer**: `ActorAudioSceneSynthesizer.tsx`.
-3. **Biometric Refractive Fan Badge Shard**: `ActorFanBadgeShard.tsx`, `actorBadgeActions.ts`.
+## Phase 42: High-Priority Movie Features Suite (Sprints 110-112)
+1. **Smart Watchlist & Cloud Sync**: `Watchlist.ts`, `watchlistValidation.ts`, `watchlistActions.ts`, `WatchlistButton.tsx`, `WatchlistCard.tsx`, `WatchlistGrid.tsx`, `app/(main)/watchlist/page.tsx`.
+2. **Spotlight Live Search Engine**: `spotlightSearchValidation.ts`, `spotlightSearchActions.ts`, `SpotlightResultsList.tsx`, `SpotlightSearchModal.tsx`, `TopBar.tsx`.
+3. **Verified Community Reviews & CineScore**: `MovieReview.ts`, `movieReviewValidation.ts`, `movieReviewActions.ts`, `CineScoreBadge.tsx`, `VerifiedReviewCard.tsx`, `MovieReviewModal.tsx`, `CommunityReviewsSection.tsx`.
 
 ---
 
 ## API Routes & Server Actions Map
 - `POST /api/auth/register` - Account Registration
+- Server Action `watchlistActions.ts` - Smart Watchlist Add, Remove, and Cloud Sync
+- Server Action `spotlightSearchActions.ts` - Spotlight Live Multi-Category Search
+- Server Action `movieReviewActions.ts` - Community Reviews, Verified Ticket Check, and Like Voting
 - Server Action `actorEmotionActions.ts` - Gemini AI Actor Role Emotion Graph Metrics
 - Server Action `actorBadgeActions.ts` - HMAC-SHA256 Encrypted Fan Badge Shard Generation

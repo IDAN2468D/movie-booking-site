@@ -16,7 +16,8 @@ import VIPScreeningModal from './VIPScreeningModal';
 import MovieInfographic from './MovieInfographic';
 import MovieTrivia from './MovieTrivia';
 import { useUIStore } from '@/lib/store/ui-store';
-import ReviewsSection from './ReviewsSection';
+import CommunityReviewsSection from './reviews/CommunityReviewsSection';
+import WatchlistButton from '@/components/watchlist/WatchlistButton';
 import { TMDBReview } from '@/lib/tmdb';
 import { CharacterInsights } from './CharacterInsights';
 import { CinematicDeepDive } from './CinematicDeepDive';
@@ -546,14 +547,10 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
         {/* Cast */}
         <MovieCastSection cast={cast} />
 
-        {/* Movie Soundtracks & OST */}
-        <MovieSoundtracksSection movieId={movie.id} movieTitle={movie.title} />
-
-        {/* Reviews Section */}
-        <ReviewsSection 
+        {/* Community & Verified Reviews Section */}
+        <CommunityReviewsSection 
           movieId={movie.id} 
           movieTitle={movie.title} 
-          tmdbReviews={tmdbReviews}
         />
 
         {/* Similar Movies */}

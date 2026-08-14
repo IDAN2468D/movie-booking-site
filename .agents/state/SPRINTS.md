@@ -155,7 +155,22 @@
 - **Tech Stack:** Crypto HMAC-SHA256, Haptics API (`navigator.vibrate`), Framer Motion 120Hz GPU, `ActorFanBadgeShard.tsx`, `actorBadgeActions.ts`.
 - **Status:** ✅ Completed
 
+### 📑 Sprint 110: Smart Watchlist & Cloud Sync (רשימת צפייה אישית וסנכרון ענן)
+- **Concept:** Full Mongoose Watchlist model with automatic LocalStorage & NextAuth user sync, 120Hz GPU bookmark buttons, haptic feedback, and dedicated `/watchlist` grid view.
+- **Tech Stack:** MongoDB / Mongoose, Zod, React 19, Framer Motion 120Hz, `Watchlist.ts`, `watchlistActions.ts`, `WatchlistButton.tsx`, `WatchlistGrid.tsx`, `app/(main)/watchlist/page.tsx`.
+- **Status:** ✅ Completed
+
+### 🔍 Sprint 111: Spotlight Live Search & Autocomplete Engine (מנוע חיפוש חי Spotlight וקיצור Cmd+K)
+- **Concept:** Global `Cmd+K` / `Ctrl+K` Spotlight modal with debounced multi-category live search (Movies, Actors, Genres), keyboard navigation, and Liquid Glass 4.0 Pro styling.
+- **Tech Stack:** Next.js App Router, Zod, Framer Motion 120Hz GPU, TMDB Multi-Search API, `spotlightSearchActions.ts`, `SpotlightSearchModal.tsx`, `SpotlightResultsList.tsx`, `TopBar.tsx`.
+- **Status:** ✅ Completed
+
+### ⭐ Sprint 112: Verified Community Reviews & CineScore (מערכת ביקורות קהילה מאומתות רכישה וציון משוקלל)
+- **Concept:** Community review platform with automatic `Ticket` collection purchase verification, CineScore badge (1-10), interactive 10-star review modal, spoiler blur shield, and optimistic like voting.
+- **Tech Stack:** MongoDB / Mongoose, Zod, React 19, Framer Motion 120Hz, `MovieReview.ts`, `movieReviewActions.ts`, `CineScoreBadge.tsx`, `VerifiedReviewCard.tsx`, `MovieReviewModal.tsx`, `CommunityReviewsSection.tsx`.
+- **Status:** ✅ Completed
+
 ---
 
-## 🚀 Phase 41: Actor Cast Profile Engine Upgrade Suite (Sprints 107-109)
-- Gemini AI Neural Role Emotion Graph, Web Audio Sub-Bass Scene Synthesizer, and Biometric HMAC-SHA256 Refractive Fan Badge Shard.
+## 🚀 Phase 42: High-Priority Movie Features Suite (Sprints 110-112)
+- Smart Watchlist & Cloud Sync, Spotlight Live Search (`Cmd+K`) & Autocomplete Engine, and Verified Community Reviews & CineScore.

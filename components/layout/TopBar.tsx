@@ -16,15 +16,23 @@ import LiveActivityPulse from '@/components/ui/LiveActivityPulse';
 import { NotificationDrawer } from '@/components/notifications/NotificationDrawer';
 import { useNotificationStore } from '@/lib/store/notification-store';
 import VoiceOrb from '@/components/ai/VoiceOrb';
+import SpotlightSearchModal from '@/components/search/SpotlightSearchModal';
 
 export default function TopBar() {
   const { filters, setFilters } = useBookingStore();
   const [isFilterOpen, setIsFilterOpen] = React.useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = React.useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = React.useState(false);
+  const [isSpotlightOpen, setIsSpotlightOpen] = React.useState(false);
   const unreadCount = useNotificationStore(
     React.useCallback((state) => state.notifications.filter((n) => n.unread).length, [])
   );
+
+  React.useEffect(() => {
+    const handleOpenSpotlight = () => setIsSpotlightOpen(true);
+    window.addEventListener('open-spotlight-search', handleOpenSpotlight);
+    return () => window.removeEventListener('open-spotlight-search', handleOpenSpotlight);
+  }, []);
 
   const genres = ['הכל', 'פעולה', 'מדע בדיוני', 'דרמה', 'אימה', 'קומדיה'];
   const years = ['הכל', '2024', '2025', '2026'];
@@ -105,6 +113,11 @@ export default function TopBar() {
       <NotificationDrawer 
         isOpen={isNotificationsOpen} 
         onClose={() => setIsNotificationsOpen(false)} 
+      />
+
+      <SpotlightSearchModal
+        isOpen={isSpotlightOpen}
+        onClose={() => setIsSpotlightOpen(false)}
       />
     </>
   );

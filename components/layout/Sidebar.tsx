@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   Home, Gift, Utensils, Bell, Settings, LogOut, Clapperboard, MapPin, RefreshCw,
   Heart, ShieldCheck, Crown, Sparkles, CalendarDays, Star, Activity, Shield,
-  Disc3, Users, Volume2, Languages, Trophy, Mic, Zap, Compass, Newspaper, Share2, Gamepad2
+  Disc3, Users, Volume2, Languages, Trophy, Mic, Zap, Compass, Newspaper, Share2, Gamepad2, Bookmark
 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
@@ -27,6 +27,7 @@ const basicNavItems: NavItem[] = [
   { icon: CalendarDays, label: 'בקרוב', href: '/coming-soon' },
   { icon: Star, label: 'החזון שלנו', href: '/vision' },
   { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets' },
+  { icon: Bookmark, label: 'רשימת צפייה', href: '/watchlist' },
   { icon: Heart, label: 'מועדפים', href: '/favorites' },
   { icon: Utensils, label: 'אוכל ושתייה', href: '/food' },
   { icon: Bell, label: 'התראות', href: '/notifications' },
