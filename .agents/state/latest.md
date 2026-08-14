@@ -1,13 +1,11 @@
-# Latest Milestone: Floating Trailer PIP & Global Keymap Optimization (Sprint 119)
+# Latest Milestone: Featured Hero Tight Poster-Text Spatial Bonding (Sprint 128)
 
 - **Completed Sprints & Upgrades:**
-  1. **Floating Trailer PIP & Global Shortcuts Optimization**:
-     - `hooks/useGlobalShortcuts.ts`: Added full bilingual support for Hebrew & English keyboard layouts (`KeyT`/`א`, `KeyK`/`ל`, `KeyG`/`ע`, sequential keys), `Escape` close handling, and `toggle-floating-trailer` custom event listener.
-     - `components/media/FloatingTrailerPlayer.tsx`: Optimized `AnimatePresence` wrapper placement, isolated drag listeners from button clicks (`onPointerDown` stopPropagation), and added double-click header minimize toggle.
-     - `components/ui/KeyboardShortcutsModal.tsx`: Wired direct click action for the 'T' shortcut to instantly toggle the PIP trailer player.
-     - `components/coming-soon/TrailerModal.tsx`: Added PIP floating player transition button.
+  1. **Sprint 128: Featured Hero Tight Poster-Text Spatial Bonding**:
+     - `components/home/FeaturedHero.tsx`: Removed wide space dispersion (`justify-between`) and bonded the text details and action buttons directly and tightly adjacent to the 3D Movie Poster (`justify-start` with responsive compact gaps `gap-6 md:gap-8 lg:gap-10`).
+     - Maintained high-fidelity RTL alignment where the poster sits on the right and the text is immediately adjacent to its left.
 - **Quality & Verification:**
   - TypeScript: `npx tsc --noEmit` - 0 errors.
-  - Vitest: 28 test files passed (124/124 tests).
+  - Vitest: 28 test files passed (125/125 tests).
+  - ESLint: Clean pass (0 warnings/errors).
   - Strict 200 LOC ceiling maintained across all files.
-

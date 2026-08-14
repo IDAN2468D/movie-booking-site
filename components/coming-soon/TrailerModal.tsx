@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Bell, Share2, Calendar, Film, PictureInPicture } from "lucide-react";
+import { X, Bell, Share2, Calendar, Film, PictureInPicture, Sparkles } from "lucide-react";
 import { UpcomingMovie } from "@/lib/validations/movieValidation";
 import { useTrailerStore } from "@/lib/store/trailer-store";
 import { TrailerAudioCompanion } from "./TrailerAudioCompanion";
@@ -23,8 +23,8 @@ export function TrailerModal({ isOpen, onClose, trailerKey, movie }: TrailerModa
   const handleSwitchToFloating = () => {
     if (trailerKey) {
       openTrailer({
-        movieId: movie?.movieId ? String(movie.movieId) : '',
-        movieTitle: movie?.title || 'טריילר קולנועי',
+        movieId: movie?.movieId ? String(movie.movieId) : "",
+        movieTitle: movie?.title || "טריילר קולנועי",
         trailerKey,
       });
       onClose();
@@ -41,9 +41,7 @@ export function TrailerModal({ isOpen, onClose, trailerKey, movie }: TrailerModa
           url: shareUrl,
         });
         return;
-      } catch {
-        // Fallback to clipboard
-      }
+      } catch {}
     }
     await navigator.clipboard.writeText(shareUrl);
     setShowShareToast(true);
@@ -55,36 +53,52 @@ export function TrailerModal({ isOpen, onClose, trailerKey, movie }: TrailerModa
     setTimeout(() => setIsSaved(false), 3000);
   };
 
+  if (!isOpen || !trailerKey) return null;
+
   return (
-    <AnimatePresence mode="wait">
-      {isOpen && trailerKey && (
+    <AnimatePresence>
+      <div className="fixed inset-0 z-[300] flex items-center justify-center p-3 sm:p-6 overflow-y-auto" dir="rtl">
+        {/* Backdrop Blur */}
         <motion.div
-          initial={{ opacity: 0, height: 0, y: -20 }}
-          animate={{ opacity: 1, height: "auto", y: 0 }}
-          exit={{ opacity: 0, height: 0, y: -20 }}
-          transition={{ type: "spring", stiffness: 220, damping: 25 }}
-          className="relative w-full max-w-5xl mx-auto mb-12 rounded-3xl overflow-hidden bg-neutral-950/90 border border-white/15 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.2)] flex flex-col"
-          dir="rtl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/92 backdrop-blur-3xl"
+          onClick={onClose}
+        />
+
+        {/* Modal Stage */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, y: 30 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9, y: 30 }}
+          transition={{ type: "spring", damping: 25, stiffness: 300 }}
+          className="relative z-10 w-full max-w-5xl rounded-3xl overflow-hidden bg-neutral-950/95 border border-white/20 shadow-[0_30px_90px_rgba(0,0,0,0.95)] flex flex-col my-auto"
+          onClick={(e) => e.stopPropagation()}
         >
-          {/* Dynamic Backlight Halo Glow */}
-          <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-r from-primary/20 via-purple-600/15 to-cyan-500/20 blur-[80px] opacity-60 animate-pulse" />
-          </div>
+          {/* Dynamic Radial Ambient Aura */}
+          <div className="absolute -top-36 -left-36 w-96 h-96 bg-cyan-500/25 rounded-full blur-[100px] pointer-events-none -z-10 animate-pulse" />
+          <div className="absolute -bottom-36 -right-36 w-96 h-96 bg-purple-600/25 rounded-full blur-[100px] pointer-events-none -z-10" />
 
           {/* Header Bar */}
-          <div className="relative z-10 px-6 py-4 bg-black/50 backdrop-blur-xl border-b border-white/10 flex items-center justify-between gap-4">
+          <div className="relative z-10 px-5 sm:px-6 py-4 bg-white/[0.04] border-b border-white/10 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center text-primary shrink-0">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-500/30 to-blue-600/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 shrink-0 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
                 <Film className="w-5 h-5" />
               </div>
               <div className="min-w-0">
-                <h2 className="font-outfit text-lg sm:text-xl font-bold text-white truncate">
-                  {movie ? movie.title : "טריילר רשמי"}
-                </h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="font-outfit text-base sm:text-xl font-extrabold text-white truncate">
+                    {movie ? movie.title : "טריילר רשמי"}
+                  </h2>
+                  <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-300 text-[10px] font-bold border border-cyan-400/30">
+                    <Sparkles className="w-2.5 h-2.5" /> 4K Ultra HD
+                  </span>
+                </div>
                 {movie?.releaseDate && (
-                  <span className="text-xs text-white/50 flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-primary" />
-                    יוצא ב- {new Date(movie.releaseDate).toLocaleDateString('he-IL')}
+                  <span className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
+                    <Calendar className="w-3 h-3 text-cyan-400" />
+                    יוצא לאקרנים: {new Date(movie.releaseDate).toLocaleDateString("he-IL")}
                   </span>
                 )}
               </div>
@@ -96,10 +110,10 @@ export function TrailerModal({ isOpen, onClose, trailerKey, movie }: TrailerModa
 
               <button
                 onClick={handleSwitchToFloating}
-                className="px-2.5 py-1.5 bg-white/5 hover:bg-white/15 border border-white/10 hover:border-primary/40 rounded-xl flex items-center gap-1.5 text-white/80 hover:text-white transition-all text-xs font-bold"
-                title="העבר לנגן צף והמשך לגלוש"
+                className="px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/15 hover:border-cyan-400/50 rounded-xl flex items-center gap-1.5 text-white/90 hover:text-white transition-all text-xs font-bold"
+                title="עבור לנגן צף"
               >
-                <PictureInPicture className="w-3.5 h-3.5 text-primary" />
+                <PictureInPicture className="w-3.5 h-3.5 text-cyan-400" />
                 <span className="hidden sm:inline">נגן צף</span>
               </button>
 
@@ -113,58 +127,54 @@ export function TrailerModal({ isOpen, onClose, trailerKey, movie }: TrailerModa
 
               <button
                 onClick={onClose}
-                className="w-9 h-9 bg-primary/80 hover:bg-primary text-white border border-primary/40 rounded-xl flex items-center justify-center transition-all hover:scale-110 shadow-[0_0_15px_rgba(255,20,100,0.5)]"
-                title="סגור טריילר"
+                className="w-9 h-9 bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 rounded-xl flex items-center justify-center transition-all hover:scale-105"
+                title="סגור"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
           </div>
 
-          {/* 16:9 Video Container */}
+          {/* 16:9 Video Canvas */}
           <div className="relative aspect-video w-full bg-black overflow-hidden group">
             <iframe
-              src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&controls=1&modestbranding=1&rel=0`}
+              src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&controls=1&modestbranding=1&rel=0&enablejsapi=1`}
               title={movie?.title || "YouTube trailer player"}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               className="w-full h-full border-0 relative z-10"
             />
 
-            {/* AI Director Trivia Overlay */}
-            {movie?.title && (
-              <TrailerTriviaOverlay movieTitle={movie.title} isOpen={isOpen} />
-            )}
+            {/* AI Trivia Overlay */}
+            {movie?.title && <TrailerTriviaOverlay movieTitle={movie.title} isOpen={isOpen} />}
           </div>
 
           {/* Footer Bar */}
-          <div className="relative z-10 px-6 py-3.5 bg-black/60 backdrop-blur-xl border-t border-white/10 flex items-center justify-between flex-wrap gap-3">
-            <p className="text-xs text-white/50 line-clamp-1 max-w-md hidden sm:block">
-              {movie?.overview || "צפו בהצצה בלעדית לסרט שעומד לצאת בקרוב בבתי הקולנוע."}
+          <div className="relative z-10 px-5 sm:px-6 py-3.5 bg-black/60 backdrop-blur-xl border-t border-white/10 flex items-center justify-between flex-wrap gap-3">
+            <p className="text-xs text-slate-400 line-clamp-1 max-w-lg hidden sm:block">
+              {movie?.overview || "צפו בהצצה בלעדית לסרט שעומד לצאת בקרוב בבתי הקולנוע של CinePulse."}
             </p>
 
             <div className="flex items-center gap-3 ml-auto sm:ml-0">
               {showShareToast && (
-                <span className="text-xs text-cyan-400 font-medium animate-pulse">
-                  קישור הועתק ללוח!
-                </span>
+                <span className="text-xs text-cyan-400 font-medium animate-pulse">קישור הועתק ללוח!</span>
               )}
 
               <button
                 onClick={handleSaveToCalendar}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                   isSaved
-                    ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                    : "bg-white/10 text-white hover:bg-white/20 border border-white/10"
+                    ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_12px_rgba(16,185,129,0.3)]"
+                    : "bg-gradient-to-r from-cyan-500/20 to-blue-600/20 text-cyan-300 hover:brightness-125 border border-cyan-400/30"
                 }`}
               >
                 <Bell className={`w-3.5 h-3.5 ${isSaved ? "fill-current" : ""}`} />
-                {isSaved ? "נשמר בהצלחה!" : "הזכר לי ביומן"}
+                {isSaved ? "נשמר ביומן ✓" : "הזכר לי ביומן"}
               </button>
             </div>
           </div>
         </motion.div>
-      )}
+      </div>
     </AnimatePresence>
   );
 }

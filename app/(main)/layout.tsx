@@ -15,6 +15,7 @@ import { ParticleUniverse } from "@/components/fx/ParticleUniverse";
 import { GlobalGradientFrame } from "@/components/ui/GlobalGradientFrame";
 import FloatingTrailerPlayer from "@/components/media/FloatingTrailerPlayer";
 import KeyboardShortcutsModal from "@/components/ui/KeyboardShortcutsModal";
+import TrailerPickerModal from "@/components/trailer/TrailerPickerModal";
 import { useGlobalShortcuts } from "@/hooks/useGlobalShortcuts";
 
 export default function MainLayout({
@@ -89,6 +90,9 @@ export default function MainLayout({
 
           {/* Global Keyboard Shortcuts Cheat Sheet Modal */}
           <KeyboardShortcutsModal />
+
+          {/* Global Trailer Picker Library Hub */}
+          <TrailerPickerModal />
         </div>
       </GlobalGradientFrame>
     </ResolutionWrapper>

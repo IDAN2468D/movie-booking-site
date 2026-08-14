@@ -46,6 +46,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
 
   return (
     <section
+      dir="rtl"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className="relative w-full h-[620px] md:h-[670px] rounded-[2.5rem] overflow-hidden group mx-auto max-w-[1600px] mt-4 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)] [transform:translateZ(0)] perspective-1000"
@@ -66,10 +67,25 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
 
       <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent z-10" />
 
-      <div className="absolute inset-0 flex flex-col md:flex-row items-center md:items-end justify-center md:justify-between p-8 md:p-16 z-30 gap-12 text-center md:text-right">
+      <div className="absolute inset-0 flex flex-col md:flex-row items-center md:items-end justify-center md:justify-start p-8 md:p-14 z-30 gap-6 md:gap-8 lg:gap-10 text-center md:text-right">
+        {/* 1. Right Side (in RTL): Movie Poster */}
+        <motion.div
+          style={{ x: posterX, y: posterY, rotateX, rotateY, translateZ: 80, willChange: 'transform' }}
+          className="hidden lg:block w-72 h-[420px] rounded-[3rem] overflow-hidden border border-white/20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] relative preserve-3d transform-gpu shrink-0"
+        >
+          <Image
+            src={getImageUrl(movie.poster_path || movie.backdrop_path, 'w500')}
+            alt={movie.displayTitle}
+            fill
+            sizes="288px"
+            className="object-cover saturate-[1.1]"
+          />
+        </motion.div>
+
+        {/* 2. Left Side (in RTL): Details & Action Buttons tightly attached */}
         <motion.div
           style={{ x: textX, y: textY, rotateX, rotateY, willChange: 'transform' }}
-          className="flex-1 w-full flex flex-col items-center md:items-end preserve-3d transform-gpu"
+          className="flex-1 w-full flex flex-col items-center md:items-start text-center md:text-right preserve-3d transform-gpu max-w-2xl"
         >
           <div className="flex items-center gap-1.5 bg-white/5 backdrop-blur-xl px-3 py-1.5 rounded-xl text-white text-[10px] md:text-xs border border-white/10 shadow-2xl mb-4">
             <Star className="w-3.5 h-3.5 text-primary fill-primary" />
@@ -84,6 +100,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
             {movie.overview}
           </p>
 
+          {/* Action Row - Proper RTL Order */}
           <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
             <motion.button
               whileHover={{ scale: 1.05, translateY: -4 }}
@@ -109,19 +126,6 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
               </motion.button>
             </div>
           </div>
-        </motion.div>
-
-        <motion.div
-          style={{ x: posterX, y: posterY, rotateX, rotateY, translateZ: 80, willChange: 'transform' }}
-          className="hidden lg:block w-72 h-[420px] rounded-[3rem] overflow-hidden border border-white/20 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] relative preserve-3d transform-gpu"
-        >
-          <Image
-            src={getImageUrl(movie.poster_path || movie.backdrop_path, 'w500')}
-            alt={movie.displayTitle}
-            fill
-            sizes="288px"
-            className="object-cover saturate-[1.1]"
-          />
         </motion.div>
       </div>
     </section>

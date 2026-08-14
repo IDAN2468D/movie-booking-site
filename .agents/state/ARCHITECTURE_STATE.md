@@ -88,6 +88,56 @@
 
 ---
 
+## Phase 48: CineTrailer Ultra Pro 4.0 & Multi-Video Audio Suite (Sprint 120)
+1. **TrailerModal**: Liquid Glass 4.0 Pro redesign, dual-radial ambient aura, multi-video selector tabs, 3D audio, and booking CTA.
+2. **FloatingTrailerPlayer & FloatingTrailerMiniBar**: Multi-video stepper, 3 acoustic modes (Spatial/Sub-bass/Balanced), and minimize pill.
+3. **TrailerButton**: Chromatic shimmer, neon hover glow, and loading spinner.
+
+---
+
+## Phase 49: CineTrailer Cinema Hub & Voice Orchestration (Sprint 121)
+1. **MovieDetailsContent**: Direct `TrailerButton` in the hero action bar for every movie.
+2. **TrailerPickerModal**: Liquid Glass 4.0 trailer library hub triggered globally via `T` / `א` keymap or TopBar trigger.
+3. **FloatingTrailerPlayer**: Unbounded drag movement across the entire viewport, expandable canvas up to 760px.
+4. **Voice Navigation (`voice-nav`)**: Natural language trailer commands (`play_trailer`) routing directly to `useTrailerStore`.
+5. **TopBar**: Custom `Keyboard` and `Film` icon buttons with shortcut badges.
+
+---
+
+## Phase 50: CineTrailer Ultra Stage & Luxury Button Redesign (Sprint 122)
+1. **TrailerModal (`components/coming-soon/TrailerModal.tsx`)**: Fixed full-screen luxury cinema stage (`fixed inset-0 z-[300]`) with backdrop blur, dynamic dual radial backlights, 4K HDR tags, share button, and floating PIP transfer.
+2. **UpcomingMovieCard (`components/coming-soon/UpcomingMovieCard.tsx`)**: Card hover trailer play overlay with animated neon glow ring, glass badge, play orb, and tactile 120Hz micro-interactions.
+3. **TrailerButton (`components/movie/TrailerButton.tsx`)**: Liquid Glass 4.0 Pro design with pulsating gradient orb, chromatic shimmer, 4K HDR badge, and cinema quality typography.
+4. **TrailerModal (`components/movie/TrailerModal.tsx`)**: Enhanced cinema stage with responsive 16:9 canvas, spatial sound toggle, and multi-trailer playlist selection.
+
+---
+
+## Phase 51: Full-Spectrum Cinema Trailer Library & TMDB Imagery (Sprint 124)
+1. **trailerData (`components/trailer/trailerData.ts`)**: Comprehensive catalog of top blockbusters with high-res TMDB backdrops & posters, ratings, years, and verified 4K trailer keys.
+2. **TrailerPickerModal (`components/trailer/TrailerPickerModal.tsx`)**: Upgraded cinema hub with bilingual search, genre pills, 4K badges, and instant trailer launch.
+
+---
+
+## Phase 52: Official Cinema Posters & Resilient Fallbacks (Sprint 125)
+1. **TrailerPickerModal (`components/trailer/TrailerPickerModal.tsx`)**: 2:3 vertical movie poster gallery (כרזות קולנוע רשמיות) with hover play orb, 4K badges, star ratings, and automatic fallback error recovery.
+
+---
+
+## Phase 53: 100% Verified TMDB Poster Hashes (Sprint 126)
+1. **trailerData (`components/trailer/trailerData.ts`)**: Direct TMDB API sync for accurate 200 OK poster hashes eliminating all previous 404 images.
+
+---
+
+## Phase 54: Featured Hero Native RTL Alignment (Sprint 127)
+1. **FeaturedHero (`components/home/FeaturedHero.tsx`)**: Reoriented homepage hero banner to place the 3D Movie Poster on the RIGHT and text details/actions on the LEFT with proper right alignment in RTL.
+
+---
+
+## Phase 55: Featured Hero Tight Poster-Text Spatial Bonding (Sprint 128)
+1. **FeaturedHero (`components/home/FeaturedHero.tsx`)**: Eliminated gap dispersion by switching to `justify-start` and compact spacing, placing the text details directly adjacent to the movie poster.
+
+---
+
 ## API Routes & Server Actions Map
 - `POST /api/auth/register` - Account Registration
 - Server Action `watchlistActions.ts` - Smart Watchlist Add, Remove, and Cloud Sync

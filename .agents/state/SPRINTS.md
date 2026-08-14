@@ -205,6 +205,41 @@
 - **Tech Stack:** React 19, Framer Motion 120Hz GPU, Zustand, Next.js 15, `FloatingTrailerPlayer.tsx`, `useGlobalShortcuts.ts`, `KeyboardShortcutsModal.tsx`, `TrailerModal.tsx`.
 - **Status:** ✅ Completed
 
+### 🎬 Sprint 120: CineTrailer Ultra Pro 4.0 Redesign & Multi-Video PIP Suite (שדרוג ועיצוב מחדש של הטריילר)
+- **Concept:** Comprehensive redesign of the cinema trailer player suite: Liquid Glass 4.0 Pro modal with dual-radial ambient backlight auras, 4K HDR badges, multi-video selector carousel tabs, 3-mode acoustic spatial soundstage, WhatsApp timestamp sharing, and instant ticket booking integration. Next-gen floating mini-theater with video stepper and minimize bar.
+- **Tech Stack:** React 19, Framer Motion 120Hz GPU, Next.js 15, Zustand, Web Audio, `TrailerModal.tsx`, `FloatingTrailerPlayer.tsx`, `FloatingTrailerMiniBar.tsx`, `TrailerButton.tsx`, `trailer-store.ts`.
+- **Status:** ✅ Completed
+
+### 🎬 Sprint 122: CineTrailer Ultra Cinema Stage & Luxury Play Button Redesign (עיצוב מחדש של במת הטריילרים והכפתור)
+- **Concept:** Luxury redesign of the trailer modal stage and interactive buttons: fixed full-screen modal overlay (`fixed inset-0 z-[300]`) with heavy backdrop blur, pulsating dual radial backlights, 16:9 responsive cinema canvas, 4K HDR badges, and floating PIP transfer button. Elevated `TrailerButton` with chromatic shimmer, glowing play orb, and 120Hz hover states.
+- **Tech Stack:** React 19, Framer Motion 120Hz GPU, Next.js 15, Tailwind CSS, `components/coming-soon/TrailerModal.tsx`, `components/coming-soon/UpcomingMovieCard.tsx`, `components/movie/TrailerButton.tsx`, `components/movie/TrailerModal.tsx`.
+- **Status:** ✅ Completed
+
+### 🌟 Sprint 124: Full-Spectrum Cinema Trailer Library & TMDB Imagery (ספריית טריילרים מורחבת)
+- **Concept:** Expanded cinema trailer library containing all top blockbusters, verified YouTube trailer keys, authentic TMDB high-res backdrops and posters, live bilingual search (Hebrew/English), category chips, and 4K badges.
+- **Tech Stack:** React 19, Next.js 15, Zustand, TMDB, `components/trailer/trailerData.ts`, `components/trailer/TrailerPickerModal.tsx`.
+- **Status:** ✅ Completed
+
+### 🎨 Sprint 125: Official Cinema Posters & Resilient Fallbacks (גלריית כרזות קולנוע רשמיות)
+- **Concept:** 2:3 vertical movie poster gallery (כרזות קולנוע רשמיות) with hover play orb, 4K badges, star ratings, and automatic fallback error recovery.
+- **Tech Stack:** React 19, Framer Motion 120Hz GPU, Next.js 15, `components/trailer/TrailerPickerModal.tsx`, `components/trailer/trailerData.ts`.
+- **Status:** ✅ Completed
+
+### 💎 Sprint 126: 100% Verified TMDB Poster Resolution (תיקון מלא של תמונות הכרזה)
+- **Concept:** Direct TMDB API resolution and validation of all poster and backdrop image paths, eliminating previous 404 image errors for Furiosa, Oppenheimer, Moana 2, Wicked, Alien: Romulus, Joker 2, and others.
+- **Tech Stack:** TMDB REST API, Node.js image verification, `components/trailer/trailerData.ts`.
+- **Status:** ✅ Completed
+
+### 🔄 Sprint 127: Featured Hero Native RTL Alignment (יישור RTL מלא לבאנר הראשי)
+- **Concept:** Reoriented homepage hero banner to place the 3D Movie Poster on the RIGHT and text details/actions on the LEFT with proper right alignment in RTL.
+- **Tech Stack:** React 19, Framer Motion 120Hz GPU, Next.js 15, `components/home/FeaturedHero.tsx`.
+- **Status:** ✅ Completed
+
+### 🎯 Sprint 128: Featured Hero Tight Poster-Text Spatial Bonding (הצמדת הטקסט לתמונה)
+- **Concept:** Eliminated wide spatial dispersion (`justify-between`) and bonded the title, synopsis, and action buttons directly and tightly adjacent to the 3D Movie Poster (`justify-start` with compact spacing).
+- **Tech Stack:** React 19, Tailwind CSS, `components/home/FeaturedHero.tsx`.
+- **Status:** ✅ Completed
+
 ---
 
 ## 🚀 Phase 42: High-Priority Movie Features Suite (Sprints 110-112)
@@ -224,4 +259,12 @@
 
 ## 🎬 Phase 47: Floating Trailer PIP & Hebrew Keymap Enhancement (Sprint 119)
 - Bilingual Hebrew/English physical keymap support, fluid AnimatePresence mounting, and draggable PIP controls.
+
+## 🌟 Phase 48: CineTrailer Ultra Pro 4.0 & Multi-Video Audio Suite (Sprint 120)
+- Liquid Glass 4.0 cinema stage modal, dual ambient backlights, multi-video tabs, 3D spatial soundstage switcher, and floating mini-theater.
+
+## 🌐 Phase 49: CineTrailer Cinema Hub & Voice Orchestration (Sprint 121)
+- Movie page trailer button, global trailer library picker modal (`T` / `א`), unbounded full-screen draggable PIP with 760px canvas, Gemini AI voice command trailer playback, and dedicated topbar icons.
+
+
 

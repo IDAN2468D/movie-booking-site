@@ -7,7 +7,16 @@
 - [x] Sprint 117: CinePulse Master Experience Suite Upgrade (`HoloPassbook3DCard.tsx`, `TicketsTabSwitcher.tsx`, `tickets/page.tsx`, `SeatPOVPreviewModal.tsx`, `SpotlightSearchModal.tsx`, `WatchlistGrid.tsx`)
 - [x] Sprint 118: Global Keyboard Shortcuts & Interactive Command Center (`useGlobalShortcuts.ts`, `KeyboardShortcutsModal.tsx`, `KeyboardShortcutHint.tsx`, `TopBar.tsx`, `layout.tsx`)
 - [x] Sprint 119: Floating Trailer PIP & Hebrew Keymap Enhancement (`FloatingTrailerPlayer.tsx`, `useGlobalShortcuts.ts`, `KeyboardShortcutsModal.tsx`, `TrailerModal.tsx`)
+- [x] Sprint 120: CineTrailer Ultra Pro 4.0 Redesign & Multi-Video PIP Suite (`TrailerModal.tsx`, `FloatingTrailerPlayer.tsx`, `FloatingTrailerMiniBar.tsx`, `TrailerButton.tsx`, `trailer-store.ts`)
+- [x] Sprint 121: CineTrailer Cinema Hub, Unbounded Drag, Voice Routing & Movie Page Action Bar (`TrailerPickerModal.tsx`, `trailerData.ts`, `MovieDetailsContent.tsx`, `FloatingTrailerPlayer.tsx`, `voice-nav/route.ts`, `autoBooking.ts`, `useVoiceEngine.ts`, `TopBar.tsx`, `layout.tsx`)
+- [x] Sprint 122: CineTrailer Ultra Stage & Luxury Button Redesign (`components/coming-soon/TrailerModal.tsx`, `components/coming-soon/UpcomingMovieCard.tsx`, `components/movie/TrailerButton.tsx`, `components/movie/TrailerModal.tsx`)
+- [x] Sprint 123: Movie Hero Action Bar Streamlining (`MovieDetailsContent.tsx`)
+- [x] Sprint 124: Full-Spectrum Cinema Trailer Library & TMDB Imagery (`trailerData.ts`, `TrailerPickerModal.tsx`)
+- [x] Sprint 125: Official Cinema Posters (כרזות קולנוע) & Resilient Image Fallbacks (`TrailerPickerModal.tsx`, `trailerData.ts`)
+- [x] Sprint 126: 100% Verified TMDB Poster Resolution & Fixed 404s (`trailerData.ts`)
+- [x] Sprint 127: Featured Hero Native RTL Alignment (`FeaturedHero.tsx`)
+- [x] Sprint 128: Featured Hero Tight Poster-Text Spatial Bonding (`FeaturedHero.tsx`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
+- [x] Vitest suite pass (125/125 tests)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
 - [x] Auto-synchronize all 4 state files in `.agents/state/`
-

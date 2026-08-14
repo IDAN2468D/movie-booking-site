@@ -68,6 +68,29 @@ describe('Sprint 113: Floating Trailer Store', () => {
     expect(useTrailerStore.getState().isOpen).toBe(true);
     expect(useTrailerStore.getState().movieTitle).toBe('חולית: חלק 2');
   });
+
+  it('should support multi-video list and video switching', () => {
+    useTrailerStore.getState().openTrailer({
+      movieId: '101',
+      movieTitle: 'Dune: Part Two',
+      trailerKey: 'key-1',
+      videoList: [
+        { id: '1', key: 'key-1', name: 'Trailer 1' },
+        { id: '2', key: 'key-2', name: 'Trailer 2' },
+      ],
+    });
+
+    const state = useTrailerStore.getState();
+    expect(state.videoList.length).toBe(2);
+    expect(state.activeVideoIndex).toBe(0);
+
+    useTrailerStore.getState().selectVideoIndex(1);
+    expect(useTrailerStore.getState().activeVideoIndex).toBe(1);
+    expect(useTrailerStore.getState().trailerKey).toBe('key-2');
+
+    useTrailerStore.getState().setAudioEnhanceMode('sub-bass');
+    expect(useTrailerStore.getState().audioEnhanceMode).toBe('sub-bass');
+  });
 });
 
 describe('Sprint 114: AI Mood Recommendation Validation', () => {

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useVoiceStore } from '@/lib/store/voiceStore';
+import { useTrailerStore } from '@/lib/store/trailer-store';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SpeechRecognition = typeof window !== 'undefined' ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition : null;
@@ -85,7 +86,14 @@ export const useVoiceEngine = () => {
           utterance.volume = 0.7; // Lower TTS volume slightly
           utterance.rate = 0.85; // Speak slightly slower for better comprehension
           
-          if (action === 'navigate' && route) {
+          if (action === 'play_trailer' && data.data.trailerKey) {
+            useTrailerStore.getState().openTrailer({
+              movieId: data.data.movieId,
+              movieTitle: data.data.movieTitle,
+              trailerKey: data.data.trailerKey,
+              videoList: data.data.videoList || [],
+            });
+          } else if (action === 'navigate' && route) {
             let navigated = false;
             const navigateOnce = () => {
               if (!navigated) {
@@ -99,6 +107,13 @@ export const useVoiceEngine = () => {
           }
           
           window.speechSynthesis.speak(utterance);
+        } else if (action === 'play_trailer' && data.data.trailerKey) {
+          useTrailerStore.getState().openTrailer({
+            movieId: data.data.movieId,
+            movieTitle: data.data.movieTitle,
+            trailerKey: data.data.trailerKey,
+            videoList: data.data.videoList || [],
+          });
         } else if (action === 'navigate' && route) {
           router.push(route);
         }

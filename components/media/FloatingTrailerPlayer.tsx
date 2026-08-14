@@ -1,26 +1,46 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Minimize2, Maximize2, Sparkles, Volume2, Ticket, Play } from 'lucide-react';
+import { X, Minimize2, Sparkles, Volume2, Ticket, ChevronLeft, ChevronRight, Waves, Maximize2 } from 'lucide-react';
 import Link from 'next/link';
 import { useTrailerStore } from '@/lib/store/trailer-store';
 import AmbientGlowFrame from './AmbientGlowFrame';
+import FloatingTrailerMiniBar from './FloatingTrailerMiniBar';
 
 export function FloatingTrailerPlayer() {
+  const [isExpanded, setIsExpanded] = useState(false);
   const {
     isOpen,
     isMinimized,
     movieId,
     movieTitle,
     trailerKey,
+    videoList,
+    activeVideoIndex,
     ambientGlow,
     spatialAudio,
+    audioEnhanceMode,
     closeTrailer,
     toggleMinimize,
     toggleAmbientGlow,
     toggleSpatialAudio,
+    setAudioEnhanceMode,
+    selectVideoIndex,
   } = useTrailerStore();
+
+  const handleNextVideo = () => {
+    if (videoList.length > 1) selectVideoIndex((activeVideoIndex + 1) % videoList.length);
+  };
+
+  const handlePrevVideo = () => {
+    if (videoList.length > 1) selectVideoIndex((activeVideoIndex - 1 + videoList.length) % videoList.length);
+  };
+
+  const cycleAudioMode = () => {
+    const modes: Array<'spatial-3d' | 'sub-bass' | 'balanced'> = ['spatial-3d', 'sub-bass', 'balanced'];
+    setAudioEnhanceMode(modes[(modes.indexOf(audioEnhanceMode) + 1) % modes.length]);
+  };
 
   return (
     <AnimatePresence mode="wait">
@@ -29,52 +49,29 @@ export function FloatingTrailerPlayer() {
           key="floating-trailer-player"
           drag={!isMinimized}
           dragMomentum={false}
-          dragConstraints={{ left: -100, right: 400, top: -500, bottom: 50 }}
-          dragElastic={0.08}
+          dragElastic={0}
           initial={{ opacity: 0, y: 50, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 50, scale: 0.9 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="fixed bottom-6 left-6 z-[9999] max-w-[calc(100vw-3rem)] pointer-events-auto select-none"
+          className="fixed bottom-6 left-6 z-[9999] max-w-[calc(100vw-2rem)] pointer-events-auto select-none"
           dir="rtl"
         >
           {isMinimized ? (
-            /* Minimized Compact Bar */
-            <div className="flex items-center gap-3 p-2.5 px-4 rounded-full bg-neutral-950/95 backdrop-blur-2xl border border-primary/40 shadow-[0_10px_35px_rgba(0,0,0,0.85)]">
-              <div className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
-              <Play className="w-4 h-4 text-primary shrink-0" />
-              <span className="text-xs font-semibold text-white/90 truncate max-w-[160px]">
-                {movieTitle || 'טריילר פעיל'}
-              </span>
-              <button
-                type="button"
-                onPointerDown={(e) => e.stopPropagation()}
-                onClick={toggleMinimize}
-                className="p-1 rounded-lg hover:bg-white/10 text-white/70 hover:text-white transition-colors"
-                title="הגדל נגן"
-              >
-                <Maximize2 className="w-3.5 h-3.5" />
-              </button>
-              <button
-                type="button"
-                onPointerDown={(e) => e.stopPropagation()}
-                onClick={closeTrailer}
-                className="p-1 rounded-lg hover:bg-red-500/20 text-white/70 hover:text-red-400 transition-colors"
-                title="סגור נגן"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
+            <FloatingTrailerMiniBar
+              movieTitle={movieTitle}
+              onMaximize={toggleMinimize}
+              onClose={closeTrailer}
+            />
           ) : (
-            /* Full Floating Player Window */
-            <AmbientGlowFrame isActive={ambientGlow} className="w-[360px] sm:w-[440px]">
+            <AmbientGlowFrame isActive={ambientGlow} className={isExpanded ? 'w-[520px] sm:w-[680px] md:w-[760px] transition-all duration-300' : 'w-[420px] sm:w-[520px] md:w-[580px] transition-all duration-300'}>
               {/* Header Controls */}
               <div 
                 className="flex items-center justify-between px-3.5 py-2.5 bg-white/[0.04] border-b border-white/10 cursor-move"
                 onDoubleClick={toggleMinimize}
               >
                 <div className="flex items-center gap-2 truncate">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
+                  <span className="w-2 h-2 rounded-full bg-primary animate-ping shrink-0" />
                   <h4 className="text-xs font-bold text-white tracking-wide truncate">
                     {movieTitle || 'טריילר קולנועי'}
                   </h4>
@@ -83,41 +80,27 @@ export function FloatingTrailerPlayer() {
                   <button
                     type="button"
                     onPointerDown={(e) => e.stopPropagation()}
-                    onClick={toggleAmbientGlow}
-                    className={`p-1.5 rounded-lg text-xs transition-colors ${
-                      ambientGlow ? 'bg-primary/20 text-primary' : 'text-white/40 hover:text-white/80'
+                    onClick={cycleAudioMode}
+                    className={`p-1.5 rounded-lg text-xs transition-colors flex items-center gap-1 ${
+                      audioEnhanceMode === 'sub-bass' ? 'bg-[#FF1464]/20 text-[#FF1464]' : audioEnhanceMode === 'spatial-3d' ? 'bg-purple-500/20 text-purple-400' : 'text-white/40'
                     }`}
-                    title="תאורת אווירה דינמית"
+                    title={`מצב שמע: ${audioEnhanceMode === 'sub-bass' ? 'באס 35Hz' : audioEnhanceMode === 'spatial-3d' ? 'מרחבי 3D' : 'מאוזן'}`}
                   >
+                    <Waves className="w-3.5 h-3.5" />
+                  </button>
+                  <button type="button" onPointerDown={(e) => e.stopPropagation()} onClick={() => setIsExpanded(!isExpanded)} className="p-1.5 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors" title={isExpanded ? 'הקטן גודל' : 'הגדל גודל קולנועי'}>
+                    <Maximize2 className="w-3.5 h-3.5" />
+                  </button>
+                  <button type="button" onPointerDown={(e) => e.stopPropagation()} onClick={toggleAmbientGlow} className={`p-1.5 rounded-lg text-xs transition-colors ${ambientGlow ? 'bg-primary/20 text-primary' : 'text-white/40 hover:text-white/80'}`} title="תאורת אווירה דינמית">
                     <Sparkles className="w-3.5 h-3.5" />
                   </button>
-                  <button
-                    type="button"
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={toggleSpatialAudio}
-                    className={`p-1.5 rounded-lg text-xs transition-colors ${
-                      spatialAudio ? 'bg-purple-500/20 text-purple-400' : 'text-white/40 hover:text-white/80'
-                    }`}
-                    title="שמע מרחבי מועצם"
-                  >
+                  <button type="button" onPointerDown={(e) => e.stopPropagation()} onClick={toggleSpatialAudio} className={`p-1.5 rounded-lg text-xs transition-colors ${spatialAudio ? 'bg-cyan-500/20 text-cyan-400' : 'text-white/40 hover:text-white/80'}`} title="שמע מרחבי מועצם">
                     <Volume2 className="w-3.5 h-3.5" />
                   </button>
-                  <button
-                    type="button"
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={toggleMinimize}
-                    className="p-1.5 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
-                    title="מזער"
-                  >
+                  <button type="button" onPointerDown={(e) => e.stopPropagation()} onClick={toggleMinimize} className="p-1.5 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors" title="מזער">
                     <Minimize2 className="w-3.5 h-3.5" />
                   </button>
-                  <button
-                    type="button"
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={closeTrailer}
-                    className="p-1.5 rounded-lg text-white/60 hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                    title="סגור נגן"
-                  >
+                  <button type="button" onPointerDown={(e) => e.stopPropagation()} onClick={closeTrailer} className="p-1.5 rounded-lg text-white/60 hover:text-red-400 hover:bg-red-500/10 transition-colors" title="סגור נגן">
                     <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -134,20 +117,45 @@ export function FloatingTrailerPlayer() {
                 />
               </div>
 
-              {/* Bottom Booking Action Bar */}
-              {movieId && (
-                <div className="p-2.5 bg-neutral-950/80 border-t border-white/5 flex items-center justify-between">
+              {/* Multi-video mini stepper & Booking Bar */}
+              <div className="p-2.5 bg-neutral-950/85 border-t border-white/5 flex items-center justify-between gap-2">
+                {videoList.length > 1 ? (
+                  <div className="flex items-center gap-1 text-[11px] text-white/60">
+                    <button
+                      type="button"
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onClick={handlePrevVideo}
+                      className="p-1 rounded-lg hover:bg-white/10 text-white/70"
+                      title="סרטון קודם"
+                    >
+                      <ChevronRight className="w-3 h-3" />
+                    </button>
+                    <span className="font-mono text-[10px]">{activeVideoIndex + 1}/{videoList.length}</span>
+                    <button
+                      type="button"
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onClick={handleNextVideo}
+                      className="p-1 rounded-lg hover:bg-white/10 text-white/70"
+                      title="סרטון הבא"
+                    >
+                      <ChevronLeft className="w-3 h-3" />
+                    </button>
+                  </div>
+                ) : (
                   <span className="text-[11px] text-white/50">חוויית צפייה בקולנוע</span>
+                )}
+
+                {movieId && (
                   <Link
                     href={`/movie/${movieId}`}
                     onPointerDown={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary text-black text-xs font-bold hover:brightness-110 active:scale-95 transition-all shadow-[0_0_15px_rgba(0,242,254,0.3)]"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary text-black text-xs font-black hover:brightness-110 active:scale-95 transition-all shadow-[0_0_15px_rgba(0,242,254,0.3)]"
                   >
                     <Ticket className="w-3.5 h-3.5" />
                     <span>הזמן כרטיסים</span>
                   </Link>
-                </div>
-              )}
+                )}
+              </div>
             </AmbientGlowFrame>
           )}
         </motion.div>
@@ -157,4 +165,3 @@ export function FloatingTrailerPlayer() {
 }
 
 export default FloatingTrailerPlayer;
-

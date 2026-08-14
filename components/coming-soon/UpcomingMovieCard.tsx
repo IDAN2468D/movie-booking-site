@@ -106,12 +106,18 @@ export function UpcomingMovieCard({
           </div>
         )}
 
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
+        {/* Luxury Play Trailer Overlay on Card Hover */}
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 z-20">
           <button
             onClick={(e) => { e.stopPropagation(); onPlayTrailer(movie.movieId); }}
-            className="w-16 h-16 rounded-full bg-cyan-500/90 text-white flex items-center justify-center backdrop-blur-md hover:scale-110 transition-transform shadow-lg"
+            className="group/btn relative flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 text-white font-black text-xs uppercase tracking-wider shadow-[0_0_30px_rgba(6,182,212,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 border border-white/30"
           >
-            <Play className="w-8 h-8 ml-1" />
+            {/* Animated Pulsing Ring */}
+            <span className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-cyan-400 to-purple-500 opacity-40 blur-sm group-hover/btn:opacity-75 transition-opacity animate-pulse" />
+            <div className="relative z-10 w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center border border-white/40">
+              <Play className="w-3.5 h-3.5 fill-white text-white ml-0.5" />
+            </div>
+            <span className="relative z-10 font-outfit tracking-wide drop-shadow">צפה בטריילר 4K</span>
           </button>
         </div>
 

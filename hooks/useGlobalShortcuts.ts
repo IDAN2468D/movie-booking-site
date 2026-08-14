@@ -40,13 +40,14 @@ export function useGlobalShortcuts() {
       const key = e.key.toLowerCase();
       const code = e.code;
 
-      // 0. Escape: Close trailer or modals
+      // 0. Escape: Close trailer, modals or picker
       if (key === 'escape' || code === 'Escape') {
         const trailerState = useTrailerStore.getState();
         if (trailerState.isOpen) {
           trailerState.closeTrailer();
         }
         window.dispatchEvent(new CustomEvent('close-shortcuts-modal'));
+        window.dispatchEvent(new CustomEvent('close-trailer-picker'));
         return;
       }
 
@@ -64,11 +65,11 @@ export function useGlobalShortcuts() {
         return;
       }
 
-      // 3. Toggle Trailer Player: 't' / 'א' / KeyT (standalone)
+      // 3. Toggle/Open Trailer Picker Hub: 't' / 'א' / KeyT (standalone)
       const isKeyT = key === 't' || key === 'א' || code === 'KeyT';
       if (isKeyT && !e.metaKey && !e.ctrlKey && lastKeyRef.current !== 'g') {
         e.preventDefault();
-        handleTrailerToggleEvent();
+        window.dispatchEvent(new CustomEvent('open-trailer-picker'));
         return;
       }
 

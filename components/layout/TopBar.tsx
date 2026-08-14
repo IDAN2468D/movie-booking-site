@@ -8,7 +8,7 @@ import { useBookingStore } from '@/lib/store';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, Bell } from 'lucide-react';
+import { Search, Bell, Keyboard, Film } from 'lucide-react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 import { PremiumLogo } from '@/components/ui/PremiumLogo';
@@ -78,13 +78,24 @@ export default function TopBar() {
           <div className="flex items-center gap-3 md:gap-5 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
             {/* AI Concierge Trigger */}
             <VoiceOrb />
+
+            {/* Trailer Library Picker Trigger */}
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-trailer-picker'))}
+              title="ספריית טריילרים קולנועית (לחץ T / א)"
+              className="hidden sm:flex relative w-10 h-10 items-center justify-center rounded-xl bg-white/5 border border-white/10 hover:border-primary/40 text-white/70 hover:text-primary transition-all shadow-xl active:scale-95 shrink-0 group"
+            >
+              <Film size={18} className="group-hover:scale-110 transition-transform" />
+              <span className="absolute -bottom-1 -left-1 px-1 rounded bg-black/80 text-primary font-mono text-[9px] border border-primary/30">T</span>
+            </button>
+
             {/* Keyboard Shortcuts Trigger */}
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('toggle-shortcuts-modal'))}
               title="לוח קיצורי מקלדת (לחץ ?)"
-              className="hidden sm:flex relative w-10 h-10 items-center justify-center rounded-xl bg-white/5 border border-white/10 hover:border-primary/40 text-white/70 hover:text-primary transition-all shadow-xl active:scale-95 shrink-0"
+              className="hidden sm:flex relative w-10 h-10 items-center justify-center rounded-xl bg-white/5 border border-white/10 hover:border-primary/40 text-white/70 hover:text-primary transition-all shadow-xl active:scale-95 shrink-0 group"
             >
-              <kbd className="text-xs font-mono font-black">?</kbd>
+              <Keyboard size={18} className="group-hover:scale-110 transition-transform" />
             </button>
 
             <button
