@@ -1,9 +1,12 @@
 'use client';
 
-import React from 'react';
-import { Sparkles, Flame, Play, Clock, Heart, Ghost, Rocket, Tv, Clapperboard, MonitorPlay } from 'lucide-react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { 
+  Sparkles, Flame, Play, Clock, Heart, Ghost, Rocket, Tv, Clapperboard, MonitorPlay,
+  ChevronLeft, ChevronRight
+} from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { VoiceAiCommandShell } from '@/components/ai/VoiceAiCommandShell';
 
 const categories = [
@@ -21,19 +24,123 @@ const categories = [
 
 export default function CategoryFilters() {
   const { activeCategory, setActiveCategory } = useBookingStore();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftState, setScrollLeftState] = useState(0);
+
+  const checkScroll = useCallback(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    const maxScroll = scrollWidth - clientWidth;
+    // In RTL, scrollLeft can be negative or positive depending on browser engine
+    const absScroll = Math.abs(scrollLeft);
+    setCanScrollLeft(absScroll < maxScroll - 4);
+    setCanScrollRight(absScroll > 4);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener('scroll', checkScroll, { passive: true });
+    window.addEventListener('resize', checkScroll);
+    return () => {
+      el.removeEventListener('scroll', checkScroll);
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, [checkScroll]);
+
+  // Smooth mouse wheel conversion (vertical wheel -> horizontal scroll)
+  const handleWheel = (e: React.WheelEvent) => {
+    if (!scrollContainerRef.current) return;
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      e.preventDefault();
+      scrollContainerRef.current.scrollBy({
+        left: -e.deltaY * 1.5,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeftState(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    scrollContainerRef.current.scrollLeft = scrollLeftState - walk;
+  };
+
+  const handleMouseUp = () => setIsDragging(false);
+
+  const scrollByAmount = (amount: number) => {
+    if (!scrollContainerRef.current) return;
+    scrollContainerRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+  };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full group/filter">
       {/* Hebrew Voice AI Search Dock */}
       <div className="mb-4">
         <VoiceAiCommandShell />
       </div>
 
-      {/* Premium Horizontal Scroll Container */}
+      {/* Navigation Arrows for Mouse Users */}
+      <AnimatePresence>
+        {canScrollRight && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={() => scrollByAmount(260)}
+            aria-label="גלול קטגוריות ימינה"
+            title="גלול ימינה"
+            className="absolute -right-3 top-1/2 mt-3 -translate-y-1/2 z-30 w-10 h-10 rounded-2xl bg-neutral-950/90 border border-white/20 text-white flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:scale-110 hover:border-cyan-400/60 hover:text-cyan-300 transition-all hidden md:flex"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {canScrollLeft && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={() => scrollByAmount(-260)}
+            aria-label="גלול קטגוריות שמאלה"
+            title="גלול שמאלה"
+            className="absolute -left-3 top-1/2 mt-3 -translate-y-1/2 z-30 w-10 h-10 rounded-2xl bg-neutral-950/90 border border-white/20 text-white flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:scale-110 hover:border-cyan-400/60 hover:text-cyan-300 transition-all hidden md:flex"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* Hidden Scrollbar Container with Mouse Navigation & Drag */}
       <div 
+        ref={scrollContainerRef}
         role="tablist"
         aria-label="סינון קטגוריות סרטים"
-        className="flex items-center gap-3 py-4 overflow-x-auto no-scrollbar px-4 -mx-4 md:px-0 md:mx-0 snap-x"
+        onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        className={`flex items-center gap-3 py-4 overflow-x-auto px-4 -mx-4 md:px-0 md:mx-0 select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${
+          isDragging ? 'cursor-grabbing' : 'cursor-grab md:cursor-pointer'
+        }`}
       >
         {categories.map((category) => {
           const isActive = activeCategory === category.id;
@@ -46,7 +153,7 @@ export default function CategoryFilters() {
               aria-selected={isActive}
               aria-label={`קטגוריית ${category.name}`}
               onClick={() => setActiveCategory(category.id)}
-              className="relative flex-shrink-0 snap-start outline-none group"
+              className="relative flex-shrink-0 outline-none group"
             >
               <motion.div
                 className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl transition-all duration-500 border relative overflow-hidden ${

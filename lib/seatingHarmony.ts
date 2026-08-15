@@ -25,7 +25,7 @@ export const FEATURED_MOVIES: MovieOption[] = [
     id: 'm3',
     title: 'Avatar: Fire and Ash',
     hebrewTitle: 'אווטאר: אש ואפר',
-    poster: 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg',
+    poster: 'https://image.tmdb.org/t/p/w500/kyeqWdyUXW608qlYkRqosgbbJyK.jpg',
     genre: 'מדע בדיוני / 3D IMAX',
     duration: '190 דקות',
     pricePerTicket: 55,

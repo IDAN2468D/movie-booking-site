@@ -23,6 +23,11 @@
 - [x] Resilient Seat Locking Engine (`app/api/seats/lock/route.ts`): Fast-fail timeout with in-memory TTL lock fallback preventing 500 errors and seat deselect rollbacks when MongoDB is offline
 - [x] Sprint 133: Grand Cinema Theater Stage & Unobstructed Widescreen Trailer Player (`TrailerModal.tsx`, `components/coming-soon/TrailerModal.tsx`, `FloatingTrailerPlayer.tsx`)
 - [x] Sprint 134: Direct Floating Trailer Player Activation (`TrailerButton.tsx`, `ComingSoonClient.tsx`, `useTrailerStore.ts`)
+- [x] Sprint 135: Resilient Cinema Branches Engine & Upstream Poster 404 Resolution (`lib/actions/cinemas.ts`, `app/api/bookings/route.ts`, `NeonTicket.tsx`, `QuantumTicket.tsx`, `fallbackTickets.ts`, `screensaverMovies.ts`, `seatingHarmony.ts`)
+- [x] Sprint 136: Mouse-Navigated Category Filters & High-Accuracy GPS Locator (`CategoryFilters.tsx`, `BranchesClient.tsx`)
+- [x] Sprint 137: Zero-Scrollbar Branch Facilities Filter Suite (`components/branches/BranchFilters.tsx`)
+- [x] Sprint 138: Interactive Mouse Drag, Wheel & Arrow Navigation for Branch Facilities (`BranchFilters.tsx`)
+- [x] Sprint 139: Bilingual Region Matching & Full Israeli Coverage (`BranchesClient.tsx`, `cinemas.ts`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
 - [x] Vitest suite pass (131/131 tests)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files

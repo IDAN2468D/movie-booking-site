@@ -52,7 +52,7 @@ export const SCREEN_SAVER_MOVIES: ScreensaverMovieData[] = [
     year: '2022',
     genres: ['מדע בדיוני', 'הרפתקאות', 'פנטזיה'],
     backdropUrl: 'https://image.tmdb.org/t/p/original/kJsPVzdyBrYHLomuNv5SJDXUQ2f.jpg',
-    posterUrl: 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/kyeqWdyUXW608qlYkRqosgbbJyK.jpg',
   },
   {
     id: 6,

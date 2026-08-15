@@ -319,6 +319,49 @@
 - **Verification:** 131/131 Vitest tests passed, 0 TypeScript errors, strict 200 LOC ceiling maintained.
 - **Status:** ✅ Completed
 
+## 🛡️ Phase 62: Resilient Cinema Branches Engine & Upstream Poster 404 Resolution (Sprint 135)
+- **Features Implemented:**
+  - `lib/actions/cinemas.ts`: Fast-timeout (1200ms) with full Israeli branch fallback for Tel Aviv, Jerusalem, Haifa, and Rishon LeZion, eliminating unhandled `MongoServerSelectionError` timeout crashes.
+  - Replaced deprecated 404 TMDB Avatar poster URL with verified 200 OK asset across all booking, ticket, and screensaver components.
+- **Tech Stack:** Next.js 15, React 19, TypeScript, MongoDB Client.
+- **Verification:** 131/131 Vitest tests passed, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+## 🧭 Phase 63: Mouse-Navigated Category Filters & High-Accuracy GPS Locator (Sprint 136)
+- **Features Implemented:**
+  - `components/home/CategoryFilters.tsx`: Completely eliminated visible scrollbars (`scrollbar-none`), integrated dynamic mouse drag panning (`cursor-grab` / `cursor-grabbing`), vertical-to-horizontal mouse wheel conversion, and glowing Liquid Glass 4.0 Left/Right navigation chevron buttons.
+  - `components/branches/BranchesClient.tsx`: Upgraded geolocation locator with intelligent fallback coordinates (`DEFAULT_ISRAEL_COORDS` - Tel Aviv / Merkaz), guaranteeing real-time branch distance calculation and sorting without GPS permission errors.
+- **Tech Stack:** React 19, Next.js 15 App Router, Tailwind CSS, Framer Motion, HTML5 Geolocation API.
+- **Verification:** 131/131 Vitest tests passed, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+## 💎 Phase 64: Zero-Scrollbar Branch Facilities Filter Suite (Sprint 137)
+- **Features Implemented:**
+  - `components/branches/BranchFilters.tsx`: Eliminated all visible horizontal scrollbars from facility tags and region tabs (`[scrollbar-width:none]`, `[&::-webkit-scrollbar]:hidden`).
+  - Added smooth mouse wheel horizontal panning for effortless, clean facility filtering.
+- **Tech Stack:** React 19, Next.js 15 App Router, Tailwind CSS.
+- **Verification:** 131/131 Vitest tests passed, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+## 🖱️ Phase 65: Interactive Mouse Drag, Wheel & Arrow Navigation for Facilities (Sprint 138)
+- **Features Implemented:**
+  - `components/branches/BranchFilters.tsx`: Implemented complete mouse drag panning (`cursor-grab` / `cursor-grabbing`), responsive Left & Right clickable chevron navigation arrows (`ChevronLeft` / `ChevronRight`), and non-passive wheel listeners.
+- **Tech Stack:** React 19, Next.js 15 App Router, Tailwind CSS, Lucide Icons.
+- **Verification:** 131/131 Vitest tests passed, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+## 🇮🇱 Phase 66: Bilingual Region Matching & Full Israeli Coverage (Sprint 139)
+- **Features Implemented:**
+  - `components/branches/BranchesClient.tsx`: Fixed region filtering by implementing `matchRegion` supporting Hebrew ("מרכז", "צפון", "דרום", "ירושלים") and English keys across branch region, city, and location fields.
+  - `lib/actions/cinemas.ts`: Added CinePulse Beer Sheva branch in Southern Israel.
+- **Tech Stack:** React 19, Next.js 15 App Router, TypeScript.
+- **Verification:** 131/131 Vitest tests passed, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+
+
+
+
 
 
 

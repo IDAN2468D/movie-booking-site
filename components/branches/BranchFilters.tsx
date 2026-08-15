@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Heart, Filter, Navigation } from 'lucide-react';
+import { Search, Heart, Filter, Navigation, ChevronLeft, ChevronRight } from 'lucide-react';
 import LoadingIndicator from '@/components/ui/LoadingIndicator';
 
 interface BranchFiltersProps {
@@ -30,6 +30,57 @@ export function BranchFilters({
   regions, allFacilities, facilityIcons,
   userCoords, isLocating, onRefreshLocation
 }: BranchFiltersProps) {
+  const regionsRef = useRef<HTMLDivElement>(null);
+  const facilitiesRef = useRef<HTMLDivElement>(null);
+  const [isDraggingFac, setIsDraggingFac] = useState(false);
+  const [startFacX, setStartFacX] = useState(0);
+  const [scrollFacLeft, setScrollFacLeft] = useState(0);
+
+  // Wheel to horizontal scroll
+  useEffect(() => {
+    const handleWheel = (el: HTMLDivElement | null) => (e: WheelEvent) => {
+      if (!el) return;
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY * 1.5;
+      }
+    };
+
+    const regEl = regionsRef.current;
+    const facEl = facilitiesRef.current;
+    const regHandler = handleWheel(regEl);
+    const facHandler = handleWheel(facEl);
+
+    regEl?.addEventListener('wheel', regHandler, { passive: false });
+    facEl?.addEventListener('wheel', facHandler, { passive: false });
+
+    return () => {
+      regEl?.removeEventListener('wheel', regHandler);
+      facEl?.removeEventListener('wheel', facHandler);
+    };
+  }, []);
+
+  const handleFacMouseDown = (e: React.MouseEvent) => {
+    if (!facilitiesRef.current) return;
+    setIsDraggingFac(true);
+    setStartFacX(e.pageX - facilitiesRef.current.offsetLeft);
+    setScrollFacLeft(facilitiesRef.current.scrollLeft);
+  };
+
+  const handleFacMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingFac || !facilitiesRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - facilitiesRef.current.offsetLeft;
+    const walk = (x - startFacX) * 1.8;
+    facilitiesRef.current.scrollLeft = scrollFacLeft - walk;
+  };
+
+  const stopFacDrag = () => setIsDraggingFac(false);
+
+  const scrollFac = (amount: number) => {
+    facilitiesRef.current?.scrollBy({ left: amount, behavior: 'smooth' });
+  };
+
   return (
     <header className="mb-12 relative z-20">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-10">
@@ -73,7 +124,12 @@ export function BranchFilters({
       </div>
       
       <div className="flex flex-col gap-6 p-6 rounded-[2.5rem] bg-white/[0.02] backdrop-blur-3xl border border-white/5 shadow-2xl">
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar border-b border-white/5 justify-end" dir="rtl">
+        {/* Region Filter Bar */}
+        <div 
+          ref={regionsRef}
+          className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-white/5 justify-end select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden" 
+          dir="rtl"
+        >
           {Object.entries(regions).map(([key, label]) => (
             <button 
               key={key}
@@ -90,36 +146,66 @@ export function BranchFilters({
           <Filter className="w-4 h-4 text-slate-500 mr-2 flex-shrink-0" />
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 justify-end">
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-            {allFacilities.map(f => (
-              <button 
-                key={f}
-                onClick={() => setSelectedFacility(f === selectedFacility ? null : f)}
-                className={`px-4 py-2 rounded-xl text-[10px] font-black transition-all whitespace-nowrap flex items-center gap-2 border ${
-                  selectedFacility === f 
-                    ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.2)]' 
-                    : 'bg-white/5 border-white/5 text-slate-500 hover:bg-white/10'
-                }`}
-              >
-                {facilityIcons[f]?.icon && React.createElement(facilityIcons[f].icon, { className: "w-3 h-3" })}
-                {facilityIcons[f]?.label || f}
-              </button>
-            ))}
+        {/* Facilities Filter Bar with Drag, Wheel & Clickable Arrows */}
+        <div className="flex flex-wrap items-center gap-4 justify-between" dir="rtl">
+          <div className="relative flex items-center max-w-full lg:max-w-[70%]">
+            <button
+              type="button"
+              onClick={() => scrollFac(200)}
+              aria-label="גלול מתקנים ימינה"
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-white/80 transition-all shrink-0 me-1"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+
+            <div 
+              ref={facilitiesRef}
+              onMouseDown={handleFacMouseDown}
+              onMouseMove={handleFacMouseMove}
+              onMouseUp={stopFacDrag}
+              onMouseLeave={stopFacDrag}
+              className={`flex items-center gap-2 overflow-x-auto py-1 select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${
+                isDraggingFac ? 'cursor-grabbing' : 'cursor-grab'
+              }`}
+            >
+              {allFacilities.map(f => (
+                <button 
+                  key={f}
+                  onClick={() => setSelectedFacility(f === selectedFacility ? null : f)}
+                  className={`px-4 py-2.5 rounded-xl text-[11px] font-black transition-all whitespace-nowrap flex items-center gap-2 border shrink-0 ${
+                    selectedFacility === f 
+                      ? 'bg-cyan-500/25 border-cyan-400 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.3)]' 
+                      : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10 hover:text-white'
+                  }`}
+                >
+                  {facilityIcons[f]?.icon && React.createElement(facilityIcons[f].icon, { className: "w-3.5 h-3.5" })}
+                  {facilityIcons[f]?.label || f}
+                </button>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => scrollFac(-200)}
+              aria-label="גלול מתקנים שמאלה"
+              className="p-2 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-white/80 transition-all shrink-0 ms-1"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
           </div>
 
-          <div className="flex items-center gap-4 p-3 pr-4 rounded-2xl bg-white/[0.03] border border-white/5">
-            <div className={`w-2 h-2 rounded-full ${userCoords ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]' : 'bg-red-500 animate-pulse'}`} />
-            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">
-              {userCoords ? 'GPS Active' : 'Locating...'}
+          <div className="flex items-center gap-3 p-2.5 px-4 rounded-2xl bg-white/[0.04] border border-white/10 shrink-0">
+            <div className={`w-2.5 h-2.5 rounded-full ${userCoords ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]' : 'bg-amber-400 animate-pulse'}`} />
+            <span className="text-[10px] font-black text-slate-200 uppercase tracking-widest">
+              {userCoords ? 'GPS פעיל' : 'מאתר...'}
             </span>
             <button 
               onClick={onRefreshLocation}
               disabled={isLocating}
-              className="mr-4 text-primary hover:text-white transition-colors flex items-center gap-2 font-bold text-[10px] uppercase tracking-wider bg-primary/10 px-3 py-1 rounded-lg"
+              className="mr-2 text-primary hover:text-white transition-colors flex items-center gap-1.5 font-black text-[10px] uppercase tracking-wider bg-primary/15 hover:bg-primary/25 px-3 py-1.5 rounded-xl border border-primary/30"
             >
               {isLocating ? (
-                <LoadingIndicator variant="spinner" size={12} color="#ff4500" label="מאתר מיקום..." />
+                <LoadingIndicator variant="spinner" size={12} color="#ff4500" label="מאתר..." />
               ) : (
                 <Navigation className="w-3 h-3" />
               )}

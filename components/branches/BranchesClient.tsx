@@ -2,9 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { 
-  Zap, Search, Coffee, Car, Wifi, Accessibility, CreditCard, ShieldCheck
-} from 'lucide-react';
+import { Zap, Search, Coffee, Car, Wifi, Accessibility, CreditCard, ShieldCheck } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
 import { BranchCard } from './BranchCard';
 import { BranchFilters } from './BranchFilters';
@@ -14,12 +12,9 @@ const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: numbe
   const R = 6371; 
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
-  const a = 
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 };
 
 const facilityIcons: Record<string, { icon: React.ElementType, label: string }> = {
@@ -31,18 +26,15 @@ const facilityIcons: Record<string, { icon: React.ElementType, label: string }> 
 };
 
 const regions: Record<string, string> = {
-  all: 'כל הארץ',
-  center: 'מרכז',
-  north: 'צפון',
-  south: 'דרום',
-  jerusalem: 'ירושלים',
+  all: 'כל הארץ', center: 'מרכז', north: 'צפון', south: 'דרום', jerusalem: 'ירושלים',
 };
+
+const DEFAULT_ISRAEL_COORDS = { lat: 32.0853, lng: 34.7818 };
 
 export default function BranchesClient({ initialBranches }: { initialBranches: Cinema[] }) {
   const { setLocation, selectedMovie, setSelectedBranchId, selectedBranchId } = useBookingStore();
-  const [userCoords, setUserCoords] = useState<{ lat: number, lng: number } | null>(null);
-  const [isLocating, setIsLocating] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [userCoords, setUserCoords] = useState<{ lat: number, lng: number } | null>(DEFAULT_ISRAEL_COORDS);
+  const [isLocating, setIsLocating] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFacility, setSelectedFacility] = useState<string | null>(null);
   const [selectedRegion, setSelectedRegion] = useState('all');
@@ -50,54 +42,43 @@ export default function BranchesClient({ initialBranches }: { initialBranches: C
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('moviebook_favorites');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        requestAnimationFrame(() => setFavorites(parsed));
-      } catch {
-        console.error('Failed to parse favorites');
-      }
-    }
+    try {
+      const saved = localStorage.getItem('moviebook_favorites');
+      if (saved) setFavorites(JSON.parse(saved));
+    } catch { /* ignore */ }
   }, []);
 
   const toggleFavorite = (branchId: string) => {
-    const newFavorites = favorites.includes(branchId)
-      ? favorites.filter(id => id !== branchId)
-      : [...favorites, branchId];
-    setFavorites(newFavorites);
-    localStorage.setItem('moviebook_favorites', JSON.stringify(newFavorites));
+    const next = favorites.includes(branchId) ? favorites.filter(id => id !== branchId) : [...favorites, branchId];
+    setFavorites(next);
+    localStorage.setItem('moviebook_favorites', JSON.stringify(next));
   };
 
   const handleGetLocation = useCallback(() => {
     if (!("geolocation" in navigator)) {
-      setError("דפדפן זה אינו תומך ב-GPS");
-      setIsLocating(false);
+      setUserCoords(DEFAULT_ISRAEL_COORDS);
       return;
     }
+    setIsLocating(true);
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserCoords({ lat: position.coords.latitude, lng: position.coords.longitude });
+      (pos) => {
+        setUserCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude });
         setIsLocating(false);
       },
       () => {
-        setError("לא הצלחנו לקבל את המיקום שלך");
+        setUserCoords(DEFAULT_ISRAEL_COORDS);
         setIsLocating(false);
-      }
+      },
+      { timeout: 6000, maximumAge: 60000, enableHighAccuracy: false }
     );
   }, []);
 
-  useEffect(() => {
-    requestAnimationFrame(() => handleGetLocation());
-  }, [handleGetLocation]);
+  useEffect(() => { handleGetLocation(); }, [handleGetLocation]);
 
   useEffect(() => {
     if (selectedBranchId) {
       setTimeout(() => {
-        const element = document.getElementById(`branch-${selectedBranchId}`);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        document.getElementById(`branch-${selectedBranchId}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 500);
     }
   }, [selectedBranchId]);
@@ -106,40 +87,39 @@ export default function BranchesClient({ initialBranches }: { initialBranches: C
     try {
       const [start, end] = hours.split(' - ');
       const now = new Date();
-      const currentTime = now.getHours() * 60 + now.getMinutes();
+      const cur = now.getHours() * 60 + now.getMinutes();
       const [sh, sm] = start.split(':').map(Number);
-      const st = sh * 60 + sm;
       const [eh, em] = end.split(':').map(Number);
       let et = eh * 60 + em;
-      if (et < st) et += 24 * 60;
-      return currentTime >= st && currentTime <= et;
+      if (et < (sh * 60 + sm)) et += 24 * 60;
+      return cur >= (sh * 60 + sm) && cur <= et;
     } catch { return true; }
   };
 
-  const filteredBranches = initialBranches.filter(branch => {
-    const matchesSearch = 
-      (branch.name?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) || 
-      (branch.city?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false) ||
-      (branch.address?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false);
-    const matchesFacility = !selectedFacility || branch.facilities?.includes(selectedFacility);
-    const matchesRegion = selectedRegion === 'all' || branch.region === selectedRegion;
-    const matchesFavorite = !showOnlyFavorites || favorites.includes(branch._id);
-    return matchesSearch && matchesFacility && matchesRegion && matchesFavorite;
+  const matchRegion = (b: Cinema, sel: string) => {
+    if (sel === 'all' || !sel) return true;
+    const r = (b.region || '').toLowerCase();
+    const l = (b.location || '').toLowerCase();
+    const c = (b.city || '').toLowerCase();
+    if (sel === 'center' || sel === 'מרכז') return r.includes('מרכז') || r.includes('center') || l.includes('מרכז') || c.includes('תל אביב') || c.includes('ראשון') || c.includes('שרונה');
+    if (sel === 'north' || sel === 'צפון') return r.includes('צפון') || r.includes('north') || l.includes('צפון') || c.includes('חיפה') || c.includes('קריות') || c.includes('צפון');
+    if (sel === 'south' || sel === 'דרום') return r.includes('דרום') || r.includes('south') || l.includes('דרום') || c.includes('באר שבע') || c.includes('אשדוד') || c.includes('דרום');
+    if (sel === 'jerusalem' || sel === 'ירושלים') return r.includes('ירושלים') || r.includes('jerusalem') || l.includes('ירושלים') || c.includes('ירושלים');
+    return r === sel || l === sel || c === sel;
+  };
+
+  const filteredBranches = initialBranches.filter(b => {
+    const q = searchQuery.toLowerCase();
+    const matchQ = !q || b.name?.toLowerCase().includes(q) || b.city?.toLowerCase().includes(q) || b.address?.toLowerCase().includes(q);
+    const matchF = !selectedFacility || b.facilities?.includes(selectedFacility);
+    const matchR = matchRegion(b, selectedRegion);
+    const matchFav = !showOnlyFavorites || favorites.includes(b._id);
+    return matchQ && matchF && matchR && matchFav;
   });
 
-  const sortedBranches = userCoords 
-    ? [...filteredBranches].sort((a, b) => {
-        const dA = calculateDistance(userCoords.lat, userCoords.lng, a.lat, a.lng);
-        const dB = calculateDistance(userCoords.lat, userCoords.lng, b.lat, b.lng);
-        return dA - dB;
-      })
-    : filteredBranches;
-
-  console.log('[DEBUG] BranchesClient render:', {
-    total: initialBranches.length,
-    filtered: filteredBranches.length,
-    selectedMovie: selectedMovie?.title
-  });
+  const sortedBranches = userCoords ? [...filteredBranches].sort((a, b) => 
+    calculateDistance(userCoords.lat, userCoords.lng, a.lat, a.lng) - calculateDistance(userCoords.lat, userCoords.lng, b.lat, b.lng)
+  ) : filteredBranches;
 
   const allFacilities = Array.from(new Set(initialBranches.flatMap(b => b.facilities || [])));
 
@@ -153,12 +133,6 @@ export default function BranchesClient({ initialBranches }: { initialBranches: C
         regions={regions} allFacilities={allFacilities} facilityIcons={facilityIcons}
         userCoords={userCoords} isLocating={isLocating} onRefreshLocation={handleGetLocation}
       />
-
-      {error && (
-        <div className="mb-12 p-6 rounded-3xl bg-red-500/10 border border-red-500/20 text-red-400 text-right">
-          <span className="font-bold">{error}</span>
-        </div>
-      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         <AnimatePresence mode="popLayout">
@@ -201,7 +175,7 @@ export default function BranchesClient({ initialBranches }: { initialBranches: C
           </div>
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-cyan-500" />
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">MongoDB Secured</span>
+            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">GPS Realtime Connected</span>
           </div>
         </div>
         <p className="text-slate-700 text-[9px] font-black uppercase tracking-[0.5em]">MovieBook Engine v3.0</p>

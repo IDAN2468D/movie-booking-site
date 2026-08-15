@@ -303,7 +303,7 @@ export async function GET(req: NextRequest) {
       if (!posterImg || posterImg.includes('null') || posterImg.includes('undefined')) {
         if (movieTitle.includes('גלדיאטור') || movieTitle.toLowerCase().includes('gladiator')) posterImg = 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
         else if (movieTitle.includes('דיונה') || movieTitle.toLowerCase().includes('dune')) posterImg = 'https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg';
-        else if (movieTitle.includes('אווטאר') || movieTitle.toLowerCase().includes('avatar')) posterImg = 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg';
+        else if (movieTitle.includes('אווטאר') || movieTitle.toLowerCase().includes('avatar')) posterImg = 'https://image.tmdb.org/t/p/w500/kyeqWdyUXW608qlYkRqosgbbJyK.jpg';
         else posterImg = 'https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg';
       }
 

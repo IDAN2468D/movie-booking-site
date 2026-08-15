@@ -43,7 +43,7 @@ export const FALLBACK_VIP_TICKETS: TicketType[] = [
     time: '19:45',
     hall: 'אולם 3D Haptic 05',
     seats: ['C-08'],
-    image: 'https://image.tmdb.org/t/p/w500/t6HIrqRAclMCA60NsSmeqe9RmNV.jpg',
+    image: 'https://image.tmdb.org/t/p/w500/kyeqWdyUXW608qlYkRqosgbbJyK.jpg',
     active: true,
     points: 90,
     total: 45

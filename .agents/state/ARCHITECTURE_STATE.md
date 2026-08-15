@@ -174,6 +174,36 @@
 
 ---
 
+## Phase 62: Resilient Cinema Branches Engine & Upstream Poster 404 Fix (Sprint 135)
+1. **Resilient Branches Query (`lib/actions/cinemas.ts`)**: Fast-timeout (1200ms) with full Israeli branch fallback for Tel Aviv, Jerusalem, Haifa, and Rishon LeZion.
+2. **Zero Upstream 404s**: Replaced deprecated TMDB Avatar poster URL with verified 200 OK assets.
+
+---
+
+## Phase 63: Mouse-Navigated Category Filters & High-Accuracy GPS Locator (Sprint 136)
+1. **Mouse-Navigated Filters (`components/home/CategoryFilters.tsx`)**: Removed scrollbars; enabled horizontal mouse wheel scrolling, mouse drag-to-pan, and desktop navigation arrows.
+2. **Robust Cinema Locator (`components/branches/BranchesClient.tsx`)**: Upgraded geolocation handler with fallback coordinates (`DEFAULT_ISRAEL_COORDS`).
+
+---
+
+## Phase 64: Zero-Scrollbar Branch Facilities Filter Suite (Sprint 137)
+1. **Zero-Scrollbar Facilities Bar (`components/branches/BranchFilters.tsx`)**: Completely removed the grey scrollbar on facility tags and region tabs (`[scrollbar-width:none]`, `[&::-webkit-scrollbar]:hidden`).
+2. **Smooth Mouse Wheel Panning**: Automatic vertical-to-horizontal mouse wheel conversion.
+
+---
+
+## Phase 65: Interactive Mouse Drag, Wheel & Arrow Navigation for Facilities (Sprint 138)
+1. **Mouse Drag Panning (`components/branches/BranchFilters.tsx`)**: Fluid mouse drag-to-scroll (`cursor-grab` / `cursor-grabbing`).
+2. **Dedicated Clickable Arrow Buttons**: Quick Left/Right chevron buttons to navigate facilities with a click.
+
+---
+
+## Phase 66: Bilingual Region Matching & Full Israeli Coverage (Sprint 139)
+1. **Bilingual Region Matcher (`components/branches/BranchesClient.tsx`)**: Integrated multi-criteria matching for Hebrew and English region keys across cities, locations, and regions.
+2. **Full Geographic Coverage (`lib/actions/cinemas.ts`)**: Added Southern Israel flagship branch (Beer Sheva).
+
+---
+
 ## API Routes & Server Actions Map
 - `POST /api/auth/register` - Account Registration
 - `GET /api/erp/stats/advanced` - Aggregated MongoDB Bookings & Advanced Financial Metrics
