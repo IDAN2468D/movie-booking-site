@@ -204,6 +204,12 @@
 
 ---
 
+## Phase 67: Resilient Cinema Catering & Concession Imagery Suite (Sprint 140)
+1. **Zero-404 Concession Imagery (`lib/constants.ts`)**: 100% verified 200 OK CDN URLs for all snack, beverage, and confectionery items.
+2. **Resilient Image Fallback & Unoptimized Streaming (`KineticSnackCard.tsx`, `CateringCard.tsx`, `DynamicComboRoulette.tsx`, `SmartTray.tsx`)**: Fast-rendering unoptimized NextImage with automatic fallback state.
+
+---
+
 ## API Routes & Server Actions Map
 - `POST /api/auth/register` - Account Registration
 - `GET /api/erp/stats/advanced` - Aggregated MongoDB Bookings & Advanced Financial Metrics

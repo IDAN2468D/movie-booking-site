@@ -55,7 +55,14 @@ export function SmartTray({ movieTitle, movieGenre }: { movieTitle: string, movi
         <div className="flex items-center gap-3">
           {data.items.map((item, idx) => (
             <div key={item.id} className="relative group">
-              <img src={item.image} alt={item.name} className="w-16 h-16 rounded-2xl object-cover border border-white/10 opacity-80 group-hover:opacity-100 transition-opacity" />
+              <img 
+                src={item.image} 
+                alt={item.name} 
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&q=80&w=300';
+                }}
+                className="w-16 h-16 rounded-2xl object-cover border border-white/10 opacity-80 group-hover:opacity-100 transition-opacity bg-white/5" 
+              />
               <button 
                 onClick={() => updateFoodQuantity(item.id, 1)}
                 className="absolute -bottom-2 -left-2 w-7 h-7 rounded-full bg-[#FF1464] text-white flex items-center justify-center shadow-[0_0_15px_rgba(255,20,100,0.5)] hover:scale-110 transition-transform"

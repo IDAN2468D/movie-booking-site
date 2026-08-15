@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useOptimistic, startTransition, useState, useRef } from 'react';
+import React, { useOptimistic, startTransition, useState, useRef, useEffect } from 'react';
 import NextImage from 'next/image';
 import { motion, PanInfo } from 'framer-motion';
 import { useMultisensoryFeedback } from '@/lib/hooks/useMultisensoryFeedback';
+import { Popcorn } from 'lucide-react';
 
 export interface KineticItem {
   id: number; name: string; category: string; price: number; image: string; tag?: string; isLargeFormat?: boolean;
@@ -13,11 +14,23 @@ interface KineticSnackCardProps {
   item: KineticItem; quantity: number; onUpdateQuantity: (id: number, delta: number) => void;
 }
 
+const FALLBACK_CATEGORY_IMAGES: Record<string, string> = {
+  'חטיפים': 'https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&q=80&w=600',
+  'משקאות': 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&q=80&w=600',
+  'קינוחים': 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=600',
+  'ממתקים': 'https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&q=80&w=600',
+};
+
 export const KineticSnackCard = ({ item, quantity, onUpdateQuantity }: KineticSnackCardProps) => {
   const [optimisticQuantity, addOptimisticUpdate] = useOptimistic(quantity, (_state: number, newQty: number) => newQty);
   const [isDragging, setIsDragging] = useState(false);
+  const [imgSrc, setImgSrc] = useState(item.image);
   const { initAudio, playDragPulse, playDropRealization } = useMultisensoryFeedback();
   const lastPulseTime = useRef<number>(0);
+
+  useEffect(() => {
+    setImgSrc(item.image);
+  }, [item.image]);
 
   const getHaloColor = () => {
     if (item.isLargeFormat) return 'from-amber-500/40 to-yellow-600/20';
@@ -71,8 +84,16 @@ export const KineticSnackCard = ({ item, quantity, onUpdateQuantity }: KineticSn
         style={{ backdropFilter: 'blur(40px) saturate(200%)', boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.15), 0 12px 40px rgba(0,0,0,0.6)' }}
         dir="rtl"
       >
-        <div className="relative w-full overflow-hidden shrink-0 h-28 sm:h-32">
-          <NextImage src={item.image} alt={item.name} fill sizes="33vw" className="object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none" />
+        <div className="relative w-full overflow-hidden shrink-0 h-28 sm:h-32 bg-white/5">
+          <NextImage 
+            src={imgSrc} 
+            alt={item.name} 
+            fill 
+            unoptimized
+            onError={() => setImgSrc(FALLBACK_CATEGORY_IMAGES[item.category] || FALLBACK_CATEGORY_IMAGES['חטיפים'])}
+            sizes="33vw" 
+            className="object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none" 
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-transparent to-transparent pointer-events-none" />
           {item.tag && (
             <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-[#E5FF00] text-black text-[9px] font-black uppercase tracking-wider pointer-events-none" style={{ fontFamily: 'Outfit, sans-serif' }}>

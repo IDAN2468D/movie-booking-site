@@ -86,7 +86,10 @@ export function DynamicComboRoulette({ movieTitle }: { movieTitle: string }) {
                   key={idx}
                   src={item.image} 
                   alt={item.name} 
-                  className="w-14 h-14 rounded-full object-cover border-2 border-[#1a1a24] shadow-lg relative"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1585647347384-2593bc35786b?auto=format&fit=crop&q=80&w=300';
+                  }}
+                  className="w-14 h-14 rounded-full object-cover border-2 border-[#1a1a24] shadow-lg relative bg-white/5"
                   style={{ zIndex: 10 - idx }}
                 />
               )

@@ -57,6 +57,7 @@ export const CateringCard = ({ item, quantity, onUpdateQuantity }: CateringCardP
           src={item.image}
           alt={item.name}
           fill
+          unoptimized
           sizes={item.isLargeFormat ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
           className="object-cover transform-gpu scale-100 group-hover:scale-105 transition-transform duration-500 ease-out"
         />
