@@ -58,8 +58,8 @@ export const PremiumLogo: React.FC<PremiumLogoProps> = ({ className = '', size =
         <div className="absolute inset-0 bg-[#051424]/70 backdrop-blur-md rounded-2xl border border-white/10 overflow-hidden shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]">
           {/* Shimmer Streak Effect */}
           <motion.div 
-            className="absolute top-0 -left-[100%] w-[50%] h-[200%] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[45deg]"
-            animate={{ left: ['-100%', '200%'] }}
+            className="absolute top-0 left-0 w-[50%] h-[200%] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[45deg] pointer-events-none transform-gpu"
+            animate={{ x: ['-100%', '300%'] }}
             transition={{ duration: 3, ease: 'linear', repeat: Infinity, repeatDelay: 2 }}
           />
         </div>
@@ -118,7 +118,7 @@ export const PremiumLogo: React.FC<PremiumLogoProps> = ({ className = '', size =
 
       {/* Typographic Logo */}
       <div className={`${currentSize.textLayout}`}>
-        <h1 className={`font-outfit ${currentSize.text} flex items-center gap-0.5 md:gap-1 font-black leading-none`}>
+        <span className={`font-outfit ${currentSize.text} flex items-center gap-0.5 md:gap-1 font-black leading-none`}>
           <motion.span 
             className="text-white drop-shadow-md"
             initial={{ opacity: 0, x: -20 }}
@@ -135,16 +135,16 @@ export const PremiumLogo: React.FC<PremiumLogoProps> = ({ className = '', size =
           >
             BOOK
           </motion.span>
-        </h1>
+        </span>
         
-        <motion.h2 
+        <motion.span 
           className={`font-outfit ${currentSize.subtitle} text-white/80 tracking-[0.4em] uppercase group-hover:text-white transition-colors duration-300`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}
         >
           Premium Cinema
-        </motion.h2>
+        </motion.span>
       </div>
     </motion.div>
   );

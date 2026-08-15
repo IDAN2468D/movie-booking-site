@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { NOISE_TEXTURE_DATA_URI } from '@/constants/textures';
 
 export const MeshBackground = () => {
   const mouseX = useMotionValue(0);
@@ -51,7 +52,10 @@ export const MeshBackground = () => {
       />
 
       {/* Static Grain Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div 
+        className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" 
+        style={{ backgroundImage: `url("${NOISE_TEXTURE_DATA_URI}")` }}
+      />
       
       {/* Subtle Grid for depth */}
       <div 

@@ -149,6 +149,8 @@ export default function PosterRefractor({ src, alt, className = "" }: PosterRefr
           src={currentSrc}
           alt={alt}
           onError={handleError}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover rounded-xl transition-all duration-300 group-hover:scale-105"
           draggable={false}
         />

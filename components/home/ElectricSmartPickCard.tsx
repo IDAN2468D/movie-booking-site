@@ -33,8 +33,17 @@ export default function ElectricSmartPickCard({
     >
       {/* 1. Main Outer Wrapper with Rotating Electric Neon Border */}
       <div
+        role="button"
+        tabIndex={0}
+        aria-label={`בחר המלצת סרט ${rec.title}`}
         onClick={onClick}
-        className={`electric-movie-card w-full text-right cursor-pointer select-none transition-all duration-300 ${
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClick();
+          }
+        }}
+        className={`electric-movie-card w-full text-right cursor-pointer select-none transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-[22px] ${
           isSelected
             ? 'ring-2 ring-orange-500 shadow-[0_0_35px_rgba(255,69,0,0.6),0_0_15px_rgba(255,0,85,0.4)]'
             : ''

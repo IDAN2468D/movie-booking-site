@@ -115,27 +115,29 @@ export default function SpotlightSearchModal({
           <motion.div initial={{ opacity: 0, scale: 0.96, y: -10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96, y: -10 }} className="relative w-full max-w-2xl bg-[#0d0e15]/95 border border-white/20 rounded-3xl shadow-2xl overflow-hidden z-10" dir="rtl">
             {/* Search Input Bar */}
             <div className="flex items-center px-4 py-3.5 border-b border-white/10 gap-3">
-              <Search className="w-5 h-5 text-primary shrink-0" />
+              <Search className="w-5 h-5 text-primary shrink-0" aria-hidden="true" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={isListening ? 'מקשיב... דבר עכשיו 🎙️' : 'חפש סרט, שחקן, במאי או פורמט...'}
+                aria-label="חיפוש מהיר בספוטלייט"
                 className="w-full bg-transparent text-white text-base placeholder:text-white/40 focus:outline-none font-medium text-right"
               />
               <button
                 type="button"
                 onClick={toggleVoiceSearch}
+                aria-label={isListening ? "עצור חיפוש קולי" : "הפעל חיפוש קולי בספוטלייט"}
                 className={`p-2 rounded-xl transition-all ${isListening ? 'bg-rose-500/20 text-rose-400 animate-pulse' : 'bg-white/5 text-white/60 hover:text-white'}`}
                 title="חיפוש קולי בעברית"
               >
-                {isListening ? <MicOff size={16} /> : <Mic size={16} />}
+                {isListening ? <MicOff size={16} aria-hidden="true" /> : <Mic size={16} aria-hidden="true" />}
               </button>
-              {loading && <Loader2 className="w-5 h-5 text-primary animate-spin shrink-0" />}
+              {loading && <Loader2 className="w-5 h-5 text-primary animate-spin shrink-0" aria-hidden="true" />}
               {query && !loading && (
-                <button onClick={() => setQuery('')} className="p-1 rounded-lg text-white/40 hover:text-white">
-                  <X size={16} />
+                <button onClick={() => setQuery('')} aria-label="נקה חיפוש" className="p-1 rounded-lg text-white/40 hover:text-white">
+                  <X size={16} aria-hidden="true" />
                 </button>
               )}
             </div>

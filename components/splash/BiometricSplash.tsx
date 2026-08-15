@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import { NOISE_TEXTURE_DATA_URI } from "@/constants/textures";
 
 export function BiometricSplash() {
   const [isVisible, setIsVisible] = useState(true);
@@ -40,8 +41,10 @@ export function BiometricSplash() {
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Volumetric Film Grain */}
-          <div className="absolute inset-0 opacity-15 mix-blend-overlay pointer-events-none" 
-               style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")', backgroundRepeat: 'repeat' }} />
+          <div 
+            className="absolute inset-0 opacity-15 mix-blend-overlay pointer-events-none" 
+            style={{ backgroundImage: `url("${NOISE_TEXTURE_DATA_URI}")`, backgroundRepeat: 'repeat' }} 
+          />
           
           {/* Dynamic Aura Gradient */}
           <motion.div 

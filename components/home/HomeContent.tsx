@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+import dynamic from 'next/dynamic';
 import CategoryFilters from './CategoryFilters';
 import MovieSection from './MovieSection';
 import FeaturedHero from './FeaturedHero';
@@ -16,8 +17,12 @@ import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 import HolographicBackground from '@/components/ui/HolographicBackground';
 import StoryBar from '@/components/stories/StoryBar';
 import { useFilteredMovies } from '@/hooks/useFilteredMovies';
-import { SocialPulseRings } from './SocialPulseRings';
 import LoadingIndicator from '@/components/ui/LoadingIndicator';
+
+const SocialPulseRings = dynamic(
+  () => import('./SocialPulseRings').then((m) => m.SocialPulseRings),
+  { ssr: false }
+);
 
 interface HomeContentProps {
   popularMovies: Movie[];
@@ -168,6 +173,7 @@ export default function HomeContent({
             </div>
             <button 
               onClick={() => window.dispatchEvent(new CustomEvent('open-mobile-booking'))}
+              aria-label={`הזמן כרטיס לסרט ${selectedMovie.displayTitle}`}
               className="px-5 py-3 bg-gradient-to-r from-primary to-yellow-500 text-white font-black rounded-full text-[10px] uppercase tracking-widest relative z-10 shadow-[0_10px_25px_rgba(255,20,100,0.35)] active:scale-95 transition-all shrink-0 ml-1 font-display"
             >
               <MarkerHighlight color="#ffffff" delay={0.1} strokeWidth={4}>

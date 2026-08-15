@@ -124,6 +124,7 @@ export function SocialPulseRings() {
               <motion.button
                 onClick={() => handleVibeClick(pulse.id)}
                 disabled={isVibed}
+                aria-label={isVibed ? "Vibe נשלח בהצלחה" : `שלח Vibe: ${pulse.message}`}
                 className={`absolute backdrop-blur-md px-4 py-2 rounded-full border flex items-center gap-2 whitespace-nowrap transition-colors cursor-pointer
                   ${isVibed ? "bg-fuchsia-500/30 border-fuchsia-400/50 shadow-[0_0_15px_rgba(217,70,239,0.5)]" : "bg-black/60 border-white/10 hover:bg-black/80 hover:border-[#0AEFFF]/50"}`}
                 initial={{ opacity: 0, y: 10 }}

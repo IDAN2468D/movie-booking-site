@@ -12,11 +12,19 @@ interface StoryCircleProps {
 
 export default function StoryCircle({ posterUrl, title, hasViewed, onClick }: StoryCircleProps) {
   return (
-    <motion.div
-      className="flex flex-col items-center gap-2 cursor-pointer flex-shrink-0"
+    <motion.button
+      type="button"
+      aria-label={`צפה בסטורי של ${title}`}
+      className="flex flex-col items-center gap-2 cursor-pointer flex-shrink-0 bg-transparent border-0 p-0 text-right focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
     >
       <div
         className={`p-[3px] rounded-full ${
@@ -40,6 +48,6 @@ export default function StoryCircle({ posterUrl, title, hasViewed, onClick }: St
       <span className="text-xs md:text-sm font-medium text-white/80 max-w-[80px] truncate">
         {title}
       </span>
-    </motion.div>
+    </motion.button>
   );
 }

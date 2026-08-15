@@ -82,31 +82,36 @@ export function TrailerPickerModal() {
               </div>
               <button
                 onClick={() => setIsOpen(false)}
+                aria-label="סגור ספריית טריילרים"
                 className="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-white/70 hover:text-white transition-colors"
               >
-                <X size={20} />
+                <X size={20} aria-hidden="true" />
               </button>
             </div>
 
             {/* Search Input & Category Filters */}
             <div className="p-4 sm:p-5 space-y-3.5 border-b border-white/10 bg-black/50">
               <div className="relative">
-                <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-cyan-400" />
+                <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-cyan-400" aria-hidden="true" />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="חפש כרזה או טריילר לפי שם סרט, שם באנגלית, ז'אנר..."
+                  aria-label="חפש כרזה או טריילר לסרט"
                   className="w-full pr-10 pl-4 py-3 rounded-2xl bg-white/5 border border-white/15 text-white text-xs sm:text-sm placeholder:text-slate-400 focus:outline-none focus:border-cyan-400 transition-all text-right shadow-inner"
                   autoFocus
                 />
               </div>
 
               {/* Categories */}
-              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide" role="tablist" aria-label="סינון קטגוריות טריילרים">
                 {categories.map((cat) => (
                   <button
                     key={cat}
+                    role="tab"
+                    aria-selected={selectedCategory === cat}
+                    aria-label={`קטגוריית טריילרים ${cat}`}
                     onClick={() => setSelectedCategory(cat)}
                     className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap border ${
                       selectedCategory === cat
@@ -125,8 +130,17 @@ export function TrailerPickerModal() {
               {filtered.map((item) => (
                 <div
                   key={item.id}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`צפה בטריילר לסרט ${item.title}`}
                   onClick={() => handleSelectTrailer(item)}
-                  className="group relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 hover:border-cyan-400/60 shadow-xl cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_15px_30px_rgba(6,182,212,0.25)] flex flex-col"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleSelectTrailer(item);
+                    }
+                  }}
+                  className="group relative rounded-2xl overflow-hidden bg-neutral-900 border border-white/10 hover:border-cyan-400/60 shadow-xl cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_15px_30px_rgba(6,182,212,0.25)] flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
                 >
                   {/* Vertical Poster Container (כרזה) */}
                   <div className="relative aspect-[2/3] w-full overflow-hidden bg-neutral-950">

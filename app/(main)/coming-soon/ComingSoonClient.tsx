@@ -2,12 +2,12 @@
 
 import React, { useState, useCallback } from "react";
 import { UpcomingMovie } from "@/lib/validations/movieValidation";
-import { TrailerModal } from "@/components/coming-soon/TrailerModal";
 import { UpcomingMovieCard } from "@/components/coming-soon/UpcomingMovieCard";
 import { ReminderModal } from "@/components/coming-soon/ReminderModal";
 import { getMovieTrailerAction } from "@/app/actions/movieActions";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBookingStore } from "@/lib/store";
+import { useTrailerStore } from "@/lib/store/trailer-store";
 import { Sparkles, CalendarDays, Flame, Clapperboard } from "lucide-react";
 
 import { getImageUrl } from "@/lib/tmdb";
@@ -18,9 +18,7 @@ interface ComingSoonClientProps {
 
 export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
   const [hoveredMovie, setHoveredMovie] = useState<UpcomingMovie | null>(null);
-  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
-  const [activeTrailerKey, setActiveTrailerKey] = useState<string | null>(null);
-  const [activeMovie, setActiveMovie] = useState<UpcomingMovie | null>(null);
+  const openTrailer = useTrailerStore((state) => state.openTrailer);
 
   // Reminder modal states
   const [reminderMovie, setReminderMovie] = useState<UpcomingMovie | null>(null);
@@ -35,14 +33,17 @@ export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
 
   const handlePlayTrailer = async (movieId: number) => {
     const movieObj = initialMovies.find((m) => m.movieId === movieId) || null;
-    setActiveMovie(movieObj);
 
     try {
       const res = await getMovieTrailerAction(movieId);
       if (res.success && res.data && res.data.length > 0) {
         const trailer = res.data.find((v) => v.official) || res.data[0];
-        setActiveTrailerKey(trailer.key);
-        setIsTrailerOpen(true);
+        openTrailer({
+          movieId: String(movieId),
+          movieTitle: movieObj?.title || "טריילר קולנועי",
+          trailerKey: trailer.key,
+          videoList: res.data.map((v) => ({ id: v.id, key: v.key, name: v.name, type: v.type })),
+        });
       } else {
         alert("לא נמצא טריילר לסרט זה.");
       }
@@ -180,14 +181,6 @@ export function ComingSoonClient({ initialMovies }: ComingSoonClientProps) {
             </button>
           </div>
         </header>
-
-        {/* Trailer Modal */}
-        <TrailerModal
-          isOpen={isTrailerOpen}
-          onClose={() => setIsTrailerOpen(false)}
-          trailerKey={activeTrailerKey}
-          movie={activeMovie}
-        />
 
         {/* Reminder Modal */}
         <ReminderModal

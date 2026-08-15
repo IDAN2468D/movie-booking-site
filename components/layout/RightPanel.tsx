@@ -119,10 +119,11 @@ export default function RightPanel() {
             </h3>
             <button 
               onClick={() => setSelectedMovie(null)}
+              aria-label="החלף סרט שנבחר"
               className="flex items-center gap-1.5 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-xl border border-white/10 text-[10px] font-bold text-slate-300"
             >
               <span>החלף</span>
-              <X className="w-3 h-3 text-primary" />
+              <X className="w-3 h-3 text-primary" aria-hidden="true" />
             </button>
           </div>
 
@@ -163,6 +164,7 @@ export default function RightPanel() {
 
             <Link 
               href="/checkout"
+              aria-label={seatCount > 0 ? `הזמן ${seatCount} כרטיסי שידור חי` : "בחר מושבים בשידור חי למעבר לתשלום"}
               className={`block w-full mt-6 h-16 rounded-2xl font-black flex items-center justify-center transition-all duration-300 shadow-2xl relative overflow-hidden ${
                 seatCount > 0 
                   ? 'bg-primary text-black shadow-primary/30 hover:scale-[1.02]' 

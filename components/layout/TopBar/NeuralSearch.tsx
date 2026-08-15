@@ -75,13 +75,15 @@ export default function NeuralSearch({
         {isMobile && (
           <button
             onClick={onCloseMobile}
+            aria-label="סגור חיפוש נייד"
             className="absolute right-0 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white transition-colors z-20"
           >
-            <ArrowRight className="w-6 h-6" />
+            <ArrowRight className="w-6 h-6" aria-hidden="true" />
           </button>
         )}
 
         <Search
+          aria-hidden="true"
           className={`absolute ${isMobile ? 'right-12' : 'right-6'} w-5 h-5 transition-all duration-300 ${
             isSearchFocused ? 'text-primary scale-110' : 'text-slate-300'
           }`}
@@ -95,6 +97,7 @@ export default function NeuralSearch({
           onBlur={() => setTimeout(() => setIsSearchFocused(false), 250)}
           onKeyDown={handleKeyDown}
           placeholder={isMobile ? 'תאר לנו מה בא לך לראות...' : 'תאר לנו איזה סרט בא לך לראות (למשל: "בא לי סרט חלל מטורף")...'}
+          aria-label="חיפוש נוירלי חכם לסרטים"
           className={`w-full bg-[#12131a] border border-white/20 rounded-[28px] ${
             isMobile ? 'py-3.5 pr-20 pl-24 text-sm' : 'py-6 pr-16 pl-48 text-base'
           } text-white focus:outline-none focus:border-primary focus:bg-[#161722] transition-all duration-300 placeholder:text-slate-400 font-bold tracking-tight shadow-3xl`}
@@ -107,13 +110,14 @@ export default function NeuralSearch({
               handleNeuralScan();
             }}
             disabled={isScanning || searchQuery.trim().length < 3}
+            aria-label="הפעל סריקה נוירלית"
             className={`flex items-center gap-2 px-4 ${isMobile ? 'py-2' : 'py-3'} rounded-2xl font-black text-xs md:text-sm transition-all shadow-xl ${
               isScanning || searchQuery.trim().length < 3
                 ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed border-zinc-700'
                 : 'bg-primary text-black hover:bg-primary/90 hover:scale-105 border-primary/50'
             } border`}
           >
-            {isScanning ? <LoadingIndicator variant="spinner" size={16} color="#000000" label="סורק..." /> : <BrainCircuit size={16} />}
+            {isScanning ? <LoadingIndicator variant="spinner" size={16} color="#000000" label="סורק..." /> : <BrainCircuit size={16} aria-hidden="true" />}
             <span className="hidden sm:inline">סריקה נוירלית</span>
           </button>
 
@@ -122,11 +126,13 @@ export default function NeuralSearch({
               e.stopPropagation();
               onOpenFilter();
             }}
+            aria-label="פתח מסנני סרטים מתקדמים"
+            title="מסננים"
             className={`${
               isMobile ? 'w-9 h-9' : 'w-12 h-12'
             } flex items-center justify-center rounded-2xl border bg-zinc-850 text-slate-200 hover:bg-zinc-800 border-zinc-700 active:scale-95 transition-transform`}
           >
-            <SlidersHorizontal size={isMobile ? 16 : 20} />
+            <SlidersHorizontal size={isMobile ? 16 : 20} aria-hidden="true" />
           </button>
         </div>
       </div>

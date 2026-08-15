@@ -35,7 +35,6 @@ const SwipeSessionSchema = new Schema<ISwipeSession>(
     sessionId: {
       type: String,
       required: true,
-      unique: true,
       match: [/^[a-zA-Z0-9]{6}$/, 'Session ID must be exactly 6 alphanumeric characters'],
     },
     hostUserId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },

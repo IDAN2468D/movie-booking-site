@@ -66,9 +66,10 @@ export default function TopBar() {
           {!isMobileSearchOpen && (
             <button 
               onClick={() => setIsMobileSearchOpen(true)}
+              aria-label="פתח חיפוש קולי וחכם"
               className="md:hidden w-11 h-11 flex items-center justify-center rounded-xl bg-white/5 backdrop-blur-2xl border border-white/10 text-white shadow-xl active:scale-90 transition-all group animate-in fade-in zoom-in duration-500"
             >
-              <Search className="w-5 h-5 group-hover:text-primary transition-colors" />
+              <Search className="w-5 h-5 group-hover:text-primary transition-colors" aria-hidden="true" />
             </button>
           )}
         </div>
@@ -83,9 +84,10 @@ export default function TopBar() {
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-trailer-picker'))}
               title="ספריית טריילרים קולנועית (לחץ T / א)"
+              aria-label="פתח ספריית טריילרים קולנועית"
               className="hidden sm:flex relative w-10 h-10 items-center justify-center rounded-xl bg-white/5 border border-white/10 hover:border-primary/40 text-white/70 hover:text-primary transition-all shadow-xl active:scale-95 shrink-0 group"
             >
-              <Film size={18} className="group-hover:scale-110 transition-transform" />
+              <Film size={18} className="group-hover:scale-110 transition-transform" aria-hidden="true" />
               <span className="absolute -bottom-1 -left-1 px-1 rounded bg-black/80 text-primary font-mono text-[9px] border border-primary/30">T</span>
             </button>
 
@@ -93,16 +95,19 @@ export default function TopBar() {
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('toggle-shortcuts-modal'))}
               title="לוח קיצורי מקלדת (לחץ ?)"
+              aria-label="הצג לוח קיצורי מקלדת"
               className="hidden sm:flex relative w-10 h-10 items-center justify-center rounded-xl bg-white/5 border border-white/10 hover:border-primary/40 text-white/70 hover:text-primary transition-all shadow-xl active:scale-95 shrink-0 group"
             >
-              <Keyboard size={18} className="group-hover:scale-110 transition-transform" />
+              <Keyboard size={18} className="group-hover:scale-110 transition-transform" aria-hidden="true" />
             </button>
 
             <button
               onClick={() => setIsNotificationsOpen(true)}
+              aria-label={unreadCount > 0 ? `התראות - יש ${unreadCount} התראות חדשות` : "פתח מרכז התראות"}
+              title="התראות"
               className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 hover:border-white/20 text-white/80 hover:text-white transition-all shadow-xl active:scale-95 shrink-0"
             >
-              <Bell size={18} />
+              <Bell size={18} aria-hidden="true" />
               {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-black text-[9px] font-black rounded-full flex items-center justify-center border-2 border-black animate-pulse">
                   {unreadCount}

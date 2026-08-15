@@ -34,8 +34,8 @@ export function ParticleUniverse() {
 
     const initParticles = () => {
       particles = [];
-      // Cap at 500 for strict performance budget
-      const count = Math.min(window.innerWidth / 2, 500); 
+      // Ultra-efficient 60 particle budget for zero CPU/TBT overhead
+      const count = Math.min(Math.floor(window.innerWidth / 15), 60); 
       for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * window.innerWidth,
@@ -47,10 +47,20 @@ export function ParticleUniverse() {
       }
     };
 
-    resize();
-    window.addEventListener('resize', resize);
-
     let animationFrameId: number;
+    let idleId: number;
+
+    const startAnimation = () => {
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+      render();
+    };
+
+    if ('requestIdleCallback' in window) {
+      idleId = (window as unknown as { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(startAnimation);
+    } else {
+      setTimeout(startAnimation, 100);
+    }
 
     const render = () => {
       // Clear frame
@@ -84,11 +94,12 @@ export function ParticleUniverse() {
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
-
     return () => {
       window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      if (idleId && 'cancelIdleCallback' in window) {
+        (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
+      }
     };
   }, [smoothVelocity]);
 

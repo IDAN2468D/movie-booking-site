@@ -22,6 +22,8 @@ export default function VoiceOrb() {
       {/* Interactive Orb */}
       <motion.button
         onClick={toggleListening}
+        aria-label={isListening ? "עצור שיחה עם עוזר AI" : "הפעל עוזר קולי AI"}
+        title="עוזר קולי AI (לחץ V / ה)"
         animate={{ scale, rotate: isProcessing ? [0, -10, 10, -10, 10, 0] : 0 }}
         transition={{ 
           scale: { type: 'spring', stiffness: 300, damping: 20 },

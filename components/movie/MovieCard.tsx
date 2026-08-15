@@ -104,6 +104,8 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         href={`/movie/${movie.id}`} 
         className="block" 
         data-testid="movie-link"
+        aria-label={`לצפייה בפרטי הסרט ${movie.displayTitle}`}
+        title={movie.displayTitle}
         onClick={() => setSelectedMovie(movie)}
       >
         <div
@@ -125,17 +127,21 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
           <div className="absolute top-2 left-2 md:top-4 md:left-4 flex flex-col gap-2 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 z-20">
             <button 
               onClick={handleFavorite}
+              aria-label={isFavorite ? `הסר את ${movie.displayTitle} מהמועדפים` : `הוסף את ${movie.displayTitle} למועדפים`}
+              title={isFavorite ? 'הסר ממועדפים' : 'הוסף למועדפים'}
               className={`w-9 h-9 rounded-xl flex items-center justify-center border transition-all ${
                 isFavorite ? 'bg-primary border-primary text-white' : 'bg-[#0A0A0A]/60 border-white/10 text-white hover:bg-primary'
               }`}
             >
-              <Heart size={15} className={isFavorite ? 'fill-current' : ''} />
+              <Heart size={15} className={isFavorite ? 'fill-current' : ''} aria-hidden="true" />
             </button>
             <button 
               onClick={handleShare}
+              aria-label={`שתף את הסרט ${movie.displayTitle}`}
+              title="שתף סרט"
               className="w-9 h-9 bg-[#0A0A0A]/60 rounded-xl flex items-center justify-center border border-white/10 text-white hover:bg-white/10 transition-all"
             >
-              <Share2 size={15} />
+              <Share2 size={15} aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -151,6 +157,8 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
               e?.preventDefault();
               setSelectedMovie(movie);
             }}
+            aria-label={`הזמן כרטיסים לסרט ${movie.displayTitle}`}
+            title={`הזמן כרטיסים לסרט ${movie.displayTitle}`}
             className="text-xs font-black bg-gradient-to-r from-primary to-yellow text-white px-5 py-2.5 rounded-xl uppercase tracking-widest flex-1 text-center"
           >
             <MarkerHighlight color="#000000" delay={0.1} strokeWidth={4}>

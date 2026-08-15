@@ -40,6 +40,8 @@ export default function MobileNav() {
             <Link
               key={item.label}
               href={item.href}
+              aria-label={item.label}
+              title={item.label}
               className="relative flex flex-col items-center justify-center h-full flex-1 transition-all duration-500"
             >
               {isActive && (

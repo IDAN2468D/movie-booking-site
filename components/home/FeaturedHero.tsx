@@ -56,12 +56,14 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
         className="absolute inset-0 z-0 select-none pointer-events-none transform-gpu"
       >
         <Image
-          src={getImageUrl(movie.backdrop_path || movie.poster_path, 'original')}
-          alt={movie.displayTitle}
+          src={getImageUrl(movie.backdrop_path || movie.poster_path, 'w780')}
+          alt={`כרזה פנורמית של הסרט ${movie.displayTitle}`}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1400px"
+          quality={80}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1200px"
           className="object-cover saturate-[1.1]"
           priority
+          fetchPriority="high"
         />
       </motion.div>
 
@@ -75,10 +77,11 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
         >
           <Image
             src={getImageUrl(movie.poster_path || movie.backdrop_path, 'w500')}
-            alt={movie.displayTitle}
+            alt={`כרזת הסרט ${movie.displayTitle}`}
             fill
             sizes="288px"
             className="object-cover saturate-[1.1]"
+            priority
           />
         </motion.div>
 
@@ -88,7 +91,7 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
           className="flex-1 w-full flex flex-col items-center md:items-start text-center md:text-right preserve-3d transform-gpu max-w-2xl"
         >
           <div className="flex items-center gap-1.5 bg-white/5 backdrop-blur-xl px-3 py-1.5 rounded-xl text-white text-[10px] md:text-xs border border-white/10 shadow-2xl mb-4">
-            <Star className="w-3.5 h-3.5 text-primary fill-primary" />
+            <Star className="w-3.5 h-3.5 text-primary fill-primary" aria-hidden="true" />
             <span className="font-black text-white/90">דירוג {movie.vote_average.toFixed(1)}</span>
           </div>
 
@@ -106,10 +109,11 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
               whileHover={{ scale: 1.05, translateY: -4 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedMovie(movie)}
-              className="flex-1 md:flex-none bg-primary text-white px-8 h-16 rounded-[1.5rem] font-black flex items-center justify-center gap-3 transition-all shadow-[0_20px_50px_rgba(255,20,100,0.4)] relative overflow-hidden border border-white/20 hover:brightness-110"
+              aria-label={`הזמן כרטיסים לסרט ${movie.displayTitle}`}
+              className="flex-1 md:flex-none bg-gradient-to-r from-primary via-primary to-yellow-400 text-black px-8 h-16 rounded-[1.5rem] font-black flex items-center justify-center gap-3 transition-all shadow-[0_20px_50px_rgba(255,20,100,0.4)] relative overflow-hidden border border-white/20 hover:brightness-110"
             >
-              <Ticket className="w-5 h-5 text-white" />
-              <span className="text-lg md:text-xl font-black font-display">הזמן כרטיסים</span>
+              <Ticket className="w-5 h-5 text-black" aria-hidden="true" />
+              <span className="text-lg md:text-xl font-black font-display text-black">הזמן כרטיסים</span>
             </motion.button>
 
             <div className="flex items-center gap-3">
@@ -118,11 +122,13 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
                 whileHover={{ scale: 1.1, translateY: -2 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => toggleFavorite(movie)}
+                aria-label={isFavorite ? `הסר את ${movie.displayTitle} מהמועדפים` : `הוסף את ${movie.displayTitle} למועדפים`}
+                title={isFavorite ? 'הסר ממועדפים' : 'הוסף למועדפים'}
                 className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all ${
                   isFavorite ? 'bg-primary border-primary text-white shadow-[0_0_20px_rgba(255,20,100,0.4)]' : 'bg-white/10 border-white/20 text-white'
                 }`}
               >
-                <Heart size={22} className={isFavorite ? 'fill-current text-white' : ''} />
+                <Heart size={22} className={isFavorite ? 'fill-current text-white' : ''} aria-hidden="true" />
               </motion.button>
             </div>
           </div>

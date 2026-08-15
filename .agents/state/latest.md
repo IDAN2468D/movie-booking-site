@@ -1,13 +1,13 @@
-# Latest Milestone: Full-Width ERP Retention & Anomalies Radar Redesign (Sprint 131)
+# Latest Milestone: Direct Floating Cinema Trailer Player Integration (Sprint 134)
 
 - **Completed Sprints & Upgrades:**
-  1. **Sprint 131: Full-Width ERP Retention & Anomalies Radar Redesign**:
-     - `components/erp/stats/StatsRetentionCard.tsx`: Redesigned across the full width (`w-full`) with a 4-column KPI grid (Unique customers, Returning customers, Single-order customers, Avg order frequency) and an interactive visual dual-gradient cohort split bar.
-     - `components/erp/stats/StatsAnomaliesRadar.tsx`: Redesigned across the full width (`w-full`) with a 3-column luxury glass card layout, live radar scanner pulse indicator, and Hebrew holiday season tags.
-     - `app/(main)/erp/stats/page.tsx`: Re-architected layout into spacious full-width stacked sections for Top Movies, Retention, and Anomalies Radar.
-  2. **Sprint 130: Stats Chart Hover Jitter Fix & Stable Layout Bonding**:
-     - `components/erp/stats/StatsTimeSeriesChart.tsx`: Fixed hover jitter and layout oscillation with a permanent fixed-height details container (`min-h-[56px]`).
+  1. **Sprint 134: Direct Floating Trailer Player Activation (`TrailerButton.tsx`, `ComingSoonClient.tsx`, `useTrailerStore.ts`)**:
+     - Connected all "צפה בטריילר" buttons (Featured Hero, Movie Details, and Coming Soon Cards) directly to the **Floating Cinema Trailer Player**.
+     - Replaced internal screen-locking modals with the drag-enabled, ambient-backlit floating player with 3D spatial audio modes and seamless multi-page browsing.
+  2. **Sprint 133: Grand Cinema Theater Stage & Unobstructed Trailer Player (`TrailerModal.tsx`, `components/coming-soon/TrailerModal.tsx`, `FloatingTrailerPlayer.tsx`)**:
+     - Full-bleed 16:9 cinema stages with unobstructed YouTube controls and 4K HDR metadata.
 - **Quality & Verification:**
   - TypeScript: `npx tsc --noEmit` - 0 errors.
   - Vitest: 29 test files passed (131/131 tests).
+  - Next.js Production Build: 116 routes compiled successfully.
   - Strict 200 LOC ceiling maintained across all files.

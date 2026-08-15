@@ -77,6 +77,7 @@ export function VoiceAiCommandShell({ onSearchCompleted }: VoiceAiCommandShellPr
       <div className="relative rounded-2xl bg-neutral-950/70 backdrop-blur-[40px] saturate-[250%] border border-white/15 p-2 flex items-center gap-3 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
         <button
           onClick={toggleListening}
+          aria-label={isListening ? "עצור הקשבה קולית" : "הפעל חיפוש קולי בעברית"}
           className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
             isListening
               ? "bg-rose-500 text-white animate-pulse shadow-[0_0_25px_rgba(244,63,94,0.6)]"
@@ -84,7 +85,7 @@ export function VoiceAiCommandShell({ onSearchCompleted }: VoiceAiCommandShellPr
           }`}
           title="חיפוש קולי בעברית"
         >
-          <Mic className={`w-5 h-5 ${isListening ? "animate-bounce" : ""}`} />
+          <Mic className={`w-5 h-5 ${isListening ? "animate-bounce" : ""}`} aria-hidden="true" />
         </button>
 
         <input
@@ -93,12 +94,14 @@ export function VoiceAiCommandShell({ onSearchCompleted }: VoiceAiCommandShellPr
           onChange={(e) => setTranscript(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
           placeholder={isListening ? "מקשיב... דברו חופשי בעברית..." : "חפש סרט קולית או בהקלדה..."}
+          aria-label="חיפוש סרטים קולי או טקסטואלי"
           className="flex-1 bg-transparent text-white placeholder-neutral-500 text-sm font-['Inter'] focus:outline-none px-2"
         />
 
         <button
           onClick={() => handleSearchSubmit()}
           disabled={loading || !transcript.trim()}
+          aria-label="בצע חיפוש סרטים"
           className="px-5 py-2.5 rounded-xl bg-primary text-black font-bold text-xs hover:brightness-110 transition-all flex items-center gap-1.5 disabled:opacity-50"
         >
           {loading ? (

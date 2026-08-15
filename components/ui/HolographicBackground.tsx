@@ -14,25 +14,24 @@ export default function HolographicBackground() {
   }, [selectedMovie]);
 
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none [contain:strict] [isolation:isolate]" aria-hidden="true">
       {/* Base Dark Mesh */}
       <div className="absolute inset-0 bg-[#0A0A0A]" />
       
       {/* Animated Holographic Fog */}
-      <AnimatePresence mode="sync">
+      <div className="absolute inset-0 overflow-hidden [contain:strict] pointer-events-none">
         <motion.div 
           key={`${palette.primary}-1`}
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ 
             opacity: [0.2, 0.4, 0.2]
           }}
-          exit={{ opacity: 0 }}
           transition={{ 
             duration: 15, 
             repeat: Infinity, 
             ease: "easeInOut" 
           }}
-          className="absolute -top-[10%] -left-[10%] w-[120%] h-[120%] blur-[64px]"
+          className="absolute -top-[10%] -left-[10%] w-[120%] h-[120%] blur-[64px] transform-gpu pointer-events-none"
           style={{
             background: `radial-gradient(circle at center, ${palette.primary}0D 0%, transparent 50%)`,
             willChange: 'opacity'
@@ -41,23 +40,22 @@ export default function HolographicBackground() {
         
         <motion.div 
           key={`${palette.secondary}-2`}
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ 
             opacity: [0.15, 0.3, 0.15]
           }}
-          exit={{ opacity: 0 }}
           transition={{ 
             duration: 18, 
             repeat: Infinity, 
             ease: "easeInOut" 
           }}
-          className="absolute -bottom-[10%] -right-[10%] w-[120%] h-[120%] blur-[64px]"
+          className="absolute -bottom-[10%] -right-[10%] w-[120%] h-[120%] blur-[64px] transform-gpu pointer-events-none"
           style={{
             background: `radial-gradient(circle at center, ${palette.secondary}0D 0%, transparent 50%)`,
             willChange: 'opacity'
           }}
         />
-      </AnimatePresence>
+      </div>
 
       {/* 3D Parallax Glass Orbs */}
       <ParallaxOrb size={450} offsetX="5%" offsetY="10%" parallaxFactor={0.03} />

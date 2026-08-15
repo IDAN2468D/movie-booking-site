@@ -30,7 +30,11 @@ export default function CategoryFilters() {
       </div>
 
       {/* Premium Horizontal Scroll Container */}
-      <div className="flex items-center gap-3 py-4 overflow-x-auto no-scrollbar px-4 -mx-4 md:px-0 md:mx-0 snap-x">
+      <div 
+        role="tablist"
+        aria-label="סינון קטגוריות סרטים"
+        className="flex items-center gap-3 py-4 overflow-x-auto no-scrollbar px-4 -mx-4 md:px-0 md:mx-0 snap-x"
+      >
         {categories.map((category) => {
           const isActive = activeCategory === category.id;
           const Icon = category.icon;
@@ -38,6 +42,9 @@ export default function CategoryFilters() {
           return (
             <button
               key={category.id}
+              role="tab"
+              aria-selected={isActive}
+              aria-label={`קטגוריית ${category.name}`}
               onClick={() => setActiveCategory(category.id)}
               className="relative flex-shrink-0 snap-start outline-none group"
             >

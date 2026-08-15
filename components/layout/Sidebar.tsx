@@ -108,11 +108,11 @@ export default function Sidebar() {
       onPointerMove={handlePointerMove}
       className="hidden md:flex h-screen w-64 bg-black/10 backdrop-blur-3xl saturate-[200%] brightness-110 border-l border-white/10 flex-col py-10 px-6 z-50 flex-shrink-0 shadow-[0_0_40px_rgba(0,0,0,0.5),_inset_0_0_0_1px_rgba(255,255,255,0.1)] relative overflow-y-auto custom-scrollbar font-inter dir-rtl"
     >
-      <Link href="/" className="mb-8 block">
+      <Link href="/" aria-label="דף הבית של CinePulse" className="mb-8 block">
         <PremiumLogo size="sm" />
       </Link>
 
-      <nav className="flex-1 space-y-2 relative">
+      <nav className="flex-1 space-y-2 relative" aria-label="ניווט ראשי">
         {mainNav.slice(0, 1).map((item) => (
           <SidebarNavItem key={item.label} href={item.href} label={item.label} icon={item.icon} isActive={pathname === item.href} />
         ))}
@@ -146,12 +146,14 @@ export default function Sidebar() {
             <button
               onClick={(e) => { e.stopPropagation(); handleGPS(); }}
               disabled={isUpdating}
+              aria-label="אתר סניף קרוב לפי מיקום נוכחי"
+              title="אתר לפי GPS"
               className="p-1.5 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 flex items-center justify-center"
             >
               {isUpdating ? (
                 <LoadingIndicator variant="spinner" size={14} color="#94a3b8" label="מרענן..." />
               ) : (
-                <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
+                <RefreshCw className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -159,9 +161,10 @@ export default function Sidebar() {
 
         <button
           onClick={() => signOut({ callbackUrl: '/login' })}
+          aria-label="התנתקות מהמערכת"
           className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-all text-xs font-bold border border-transparent hover:border-red-500/20"
         >
-          <LogOut className="w-4 h-4" />
+          <LogOut className="w-4 h-4" aria-hidden="true" />
           <span>התנתקות מהמערכת</span>
         </button>
       </div>

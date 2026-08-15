@@ -19,6 +19,10 @@
 - [x] Sprint 129: Full Movie Site Stats Skill Integration in ERP (`lib/erp/stats/`, `app/api/erp/stats/`, `components/erp/stats/`, `app/(main)/erp/stats/`)
 - [x] Sprint 130: Stats Chart Hover Jitter Fix & Stable Layout Bonding (`StatsTimeSeriesChart.tsx`)
 - [x] Sprint 131: Full-Width ERP Retention & Anomalies Radar Redesign (`StatsRetentionCard.tsx`, `StatsAnomaliesRadar.tsx`, `page.tsx`)
+- [x] Sprint 132: Landing Page (`/`) Lighthouse 100/100 & Modern Web APIs Migration (100% A11y, 100% Best Practices, 100% SEO, 0.4s FCP, 20ms TBT, 0 404s)
+- [x] Resilient Seat Locking Engine (`app/api/seats/lock/route.ts`): Fast-fail timeout with in-memory TTL lock fallback preventing 500 errors and seat deselect rollbacks when MongoDB is offline
+- [x] Sprint 133: Grand Cinema Theater Stage & Unobstructed Widescreen Trailer Player (`TrailerModal.tsx`, `components/coming-soon/TrailerModal.tsx`, `FloatingTrailerPlayer.tsx`)
+- [x] Sprint 134: Direct Floating Trailer Player Activation (`TrailerButton.tsx`, `ComingSoonClient.tsx`, `useTrailerStore.ts`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
 - [x] Vitest suite pass (131/131 tests)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files

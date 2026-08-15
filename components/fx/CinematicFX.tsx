@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { MeshBackground } from '../effects/MeshBackground';
+import { NOISE_TEXTURE_DATA_URI } from '@/constants/textures';
 
 export const CinematicFX = () => {
   const mouseX = useMotionValue(0);
@@ -38,7 +39,10 @@ export const CinematicFX = () => {
     <div className="fixed inset-0 pointer-events-none overflow-hidden">
       <MeshBackground />
       {/* 1. Cinematic Film Grain */}
-      <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div 
+        className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" 
+        style={{ backgroundImage: `url("${NOISE_TEXTURE_DATA_URI}")` }}
+      />
 
       {/* 2. Dynamic Light Streaks */}
       <motion.div 

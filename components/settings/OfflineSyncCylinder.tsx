@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { CloudOff, HardDriveDownload, CheckCircle2 } from "lucide-react";
 import LoadingIndicator from "@/components/ui/LoadingIndicator";
+import { NOISE_TEXTURE_DATA_URI } from "@/constants/textures";
 
 export function OfflineSyncCylinder() {
   const [isSyncing, setIsSyncing] = useState(false);
@@ -81,7 +82,8 @@ export function OfflineSyncCylinder() {
           {/* Waves */}
           {isSyncing && (
             <motion.div 
-              className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30 mix-blend-overlay"
+              className="absolute inset-0 opacity-30 mix-blend-overlay"
+              style={{ backgroundImage: `url("${NOISE_TEXTURE_DATA_URI}")` }}
               animate={{ backgroundPosition: ["0% 0%", "100% 100%"] }}
               transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
             />

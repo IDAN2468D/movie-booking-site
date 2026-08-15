@@ -28,7 +28,10 @@ const item = {
 
 export default function MovieSection({ title, movies, onSeeAll }: MovieSectionProps) {
   return (
-        <section className="py-8">
+    <section 
+      className="py-8 [content-visibility:auto] [contain-intrinsic-size:0_450px]"
+      aria-label={title}
+    >
       <motion.div 
         initial={{ opacity: 0, x: 20 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -40,13 +43,16 @@ export default function MovieSection({ title, movies, onSeeAll }: MovieSectionPr
           <MarkerHighlight delay={0.5}>{title}</MarkerHighlight>
           <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(255,20,100,0.5)]" />
         </h2>
-        <button 
-          onClick={onSeeAll}
-          className="text-xs font-black text-off-white/40 hover:text-primary transition-all flex items-center gap-1 group uppercase tracking-widest"
-        >
-          ראה הכל
-          <ChevronRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
-        </button>
+        {onSeeAll && (
+          <button 
+            onClick={onSeeAll}
+            aria-label={`ראה את כל הסרטים בקטגוריית ${title}`}
+            className="text-xs font-black text-off-white/40 hover:text-primary transition-all flex items-center gap-1 group uppercase tracking-widest"
+          >
+            ראה הכל
+            <ChevronRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
+          </button>
+        )}
       </motion.div>
 
       <motion.div 

@@ -72,9 +72,10 @@ export default function FilterModal({
                 </div>
                 <button 
                   onClick={onClose} 
+                  aria-label="סגור מסנן קולנועי"
                   className="group w-12 h-12 flex items-center justify-center rounded-full bg-white/[0.03] hover:bg-white/[0.08] text-slate-500 hover:text-white transition-all border border-white/5"
                 >
-                  <X size={20} className="group-hover:rotate-90 transition-transform duration-500" />
+                  <X size={20} className="group-hover:rotate-90 transition-transform duration-500" aria-hidden="true" />
                 </button>
               </header>
 

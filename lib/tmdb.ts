@@ -33,8 +33,11 @@ export const GENRE_MAP: Record<string, number> = {
   'מלחמה': 10752, 'מערבון': 37,
 };
 
-export const getImageUrl = (path: string | null | undefined, size: 'w500' | 'original' = 'w500') => {
-  if (!path || path === 'null' || path === 'undefined' || path === '/null' || path === '/undefined' || path.endsWith('/w500/') || path.endsWith('/original/')) {
+export const getImageUrl = (
+  path: string | null | undefined, 
+  size: 'w185' | 'w342' | 'w500' | 'w780' | 'w1280' | 'original' = 'w342'
+) => {
+  if (!path || path === 'null' || path === 'undefined' || path === '/null' || path === '/undefined' || path.endsWith('/w500/') || path.endsWith('/w342/') || path.endsWith('/original/')) {
     return '/posters/default.svg';
   }
   if (path.startsWith('http') || path.startsWith('/posters/')) return path;

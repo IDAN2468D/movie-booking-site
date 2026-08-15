@@ -79,30 +79,44 @@ export default function KeyboardShortcutsModal() {
                   <p className="text-xs text-white/50">שליטה וניווט מהיר במערכת CinePulse</p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-colors">
-                <X size={18} />
+              <button 
+                onClick={() => setIsOpen(false)} 
+                aria-label="סגור לוח קיצורי מקלדת"
+                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-colors"
+              >
+                <X size={18} aria-hidden="true" />
               </button>
             </div>
 
             {/* Search Filter */}
             <div className="relative mb-4">
-              <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+              <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" aria-hidden="true" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="סנן קיצורי מקלדת..."
+                aria-label="סנן קיצורי מקלדת"
                 className="w-full pr-10 pl-4 py-2.5 rounded-xl bg-black/50 border border-white/10 text-white text-xs placeholder:text-white/40 focus:outline-none focus:border-primary transition-all text-right"
               />
             </div>
 
             {/* Shortcuts List */}
-            <div className="space-y-2 max-h-[50vh] overflow-y-auto custom-scrollbar pr-1 pl-1">
+            <div className="space-y-2 max-h-[50vh] overflow-y-auto custom-scrollbar pr-1 pl-1" role="list">
               {filtered.map((item, index) => (
                 <div
                   key={index}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`הפעל קיצור: ${item.description}`}
                   onClick={() => handleExecute(item)}
-                  className="flex items-center justify-between p-3 rounded-2xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/5 hover:border-white/15 transition-all cursor-pointer group"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleExecute(item);
+                    }
+                  }}
+                  className="flex items-center justify-between p-3 rounded-2xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/5 hover:border-white/15 transition-all cursor-pointer group focus:outline-none focus-visible:ring-1 focus-visible:ring-primary"
                 >
                   <span className="text-xs font-medium text-white/80 group-hover:text-white transition-colors">
                     {item.description}
