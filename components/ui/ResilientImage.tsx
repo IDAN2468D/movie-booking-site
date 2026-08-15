@@ -20,6 +20,7 @@ export function ResilientImage({
   alt,
   fallbackTitle,
   className = '',
+  unoptimized = true,
   ...props
 }: ResilientImageProps) {
   const [currentSrc, setCurrentSrc] = useState<string | null>(typeof src === 'string' ? src : null);
@@ -69,6 +70,7 @@ export function ResilientImage({
   return (
     <Image
       {...props}
+      unoptimized={unoptimized}
       src={currentSrc}
       alt={alt}
       className={className}

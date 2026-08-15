@@ -29,6 +29,7 @@
 - [x] Sprint 138: Interactive Mouse Drag, Wheel & Arrow Navigation for Branch Facilities (`BranchFilters.tsx`)
 - [x] Sprint 139: Bilingual Region Matching & Full Israeli Coverage (`BranchesClient.tsx`, `cinemas.ts`)
 - [x] Sprint 140: Resilient Cinema Catering & Concession Imagery Suite (`constants.ts`, `KineticSnackCard.tsx`, `CateringCard.tsx`, `DynamicComboRoulette.tsx`, `SmartTray.tsx`)
+- [x] Sprint 141: Resilient Screensaver & Production Image Engine Fix (`next.config.ts`, `ResilientImage.tsx`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
 - [x] Vitest suite pass (131/131 tests)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files

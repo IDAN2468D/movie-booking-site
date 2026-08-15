@@ -210,6 +210,12 @@
 
 ---
 
+## Phase 68: Resilient Screensaver & Production Image Engine Fix (Sprint 141)
+1. **Global Unoptimized CDN Image Pipeline (`next.config.ts`)**: Bypasses Render server memory/CPU limits by streaming remote TMDB/Unsplash CDN assets directly in the client browser.
+2. **Resilient Screensaver Image Rendering (`ResilientImage.tsx`)**: Guaranteed direct TMDB backdrop and poster display with unoptimized pass-through and procedural fallback protection.
+
+---
+
 ## API Routes & Server Actions Map
 - `POST /api/auth/register` - Account Registration
 - `GET /api/erp/stats/advanced` - Aggregated MongoDB Bookings & Advanced Financial Metrics
