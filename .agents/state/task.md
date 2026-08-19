@@ -30,7 +30,9 @@
 - [x] Sprint 139: Bilingual Region Matching & Full Israeli Coverage (`BranchesClient.tsx`, `cinemas.ts`)
 - [x] Sprint 140: Resilient Cinema Catering & Concession Imagery Suite (`constants.ts`, `KineticSnackCard.tsx`, `CateringCard.tsx`, `DynamicComboRoulette.tsx`, `SmartTray.tsx`)
 - [x] Sprint 141: Resilient Screensaver & Production Image Engine Fix (`next.config.ts`, `ResilientImage.tsx`)
+- [x] Sprint 142: Day/Night Dynamic Lighting Theme Engine (`hooks/useDayNight.ts`, `DayNightProvider.tsx`, `DayNightLightingPill.tsx`, `globals.css`, `layout.tsx`, `HomeContent.tsx`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
-- [x] Vitest suite pass (131/131 tests)
+- [x] Vitest suite pass (138/138 tests across 30 test files)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
 - [x] Auto-synchronize all 4 state files in `.agents/state/`
+

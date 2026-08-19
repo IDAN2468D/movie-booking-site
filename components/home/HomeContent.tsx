@@ -81,7 +81,7 @@ export default function HomeContent({
     || popularMovies[0];
 
   return (
-    <div className="relative min-h-screen pb-20 overflow-x-hidden [transform:translateZ(0)]">
+    <div className="relative min-h-screen pb-20 overflow-x-hidden [transform:translateZ(0)] day-night-transition">
       <HolographicBackground />
       <SocialPulseRings />
       

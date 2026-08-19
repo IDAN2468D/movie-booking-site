@@ -63,6 +63,7 @@ export const metadata: Metadata = {
 };
 
 import AmbientThemeProvider from "@/src/components/providers/AmbientThemeProvider";
+import { DayNightProvider } from "@/components/providers/DayNightProvider";
 import { BiometricSplash } from "@/components/splash/BiometricSplash";
 import TimeShiftProactiveAgent from "@/components/concierge/TimeShiftProactiveAgent";
 import { GlobalTabAudioController } from "@/components/effects/GlobalTabAudioController";
@@ -93,17 +94,19 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
         />
       </head>
-      <body className={`${inter.variable} ${anton.variable} ${rubik.variable} ${assistant.variable} ${outfit.variable} antialiased bg-[#0A0A0A] text-[#FAFAF7] font-body`}>
+      <body className={`${inter.variable} ${anton.variable} ${rubik.variable} ${assistant.variable} ${outfit.variable} antialiased bg-[var(--bg-main,#0A0A0A)] text-[var(--text-primary,#FAFAF7)] font-body transition-colors duration-700`}>
         <AuthProvider>
-          <AmbientThemeProvider>
-            <GlobalTabAudioController />
-            <BiometricSplash />
-            <ScreenSaverListener />
-            <CinematicScreenSaver />
-            <CinematicFX />
-            <TimeShiftProactiveAgent />
-            {children}
-          </AmbientThemeProvider>
+          <DayNightProvider>
+            <AmbientThemeProvider>
+              <GlobalTabAudioController />
+              <BiometricSplash />
+              <ScreenSaverListener />
+              <CinematicScreenSaver />
+              <CinematicFX />
+              <TimeShiftProactiveAgent />
+              {children}
+            </AmbientThemeProvider>
+          </DayNightProvider>
         </AuthProvider>
       </body>
     </html>

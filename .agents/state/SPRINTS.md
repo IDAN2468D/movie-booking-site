@@ -374,6 +374,22 @@
 - **Verification:** 131/131 Vitest tests passed, 0 TypeScript errors, strict 200 LOC ceiling maintained.
 - **Status:** ✅ Completed
 
+## 🌅 Phase 69: Day/Night Dynamic Lighting Theme Engine (Sprint 142)
+- **Features Implemented:**
+  - `hooks/useDayNight.ts`: Real-time time band detection across 4 bands (dawn: 05:00-07:59, day: 08:00-17:59, sunset: 18:00-20:59, night: 21:00-04:59), 60-second synchronization interval, manual override controls, and full Hebrew metadata.
+  - `hooks/__tests__/useDayNight.test.ts`: 7 unit tests verifying time bands, boundaries, Hebrew metadata, and manual switching.
+  - `components/providers/DayNightProvider.tsx`: Global client provider and context synchronizing `data-band` attribute onto `document.documentElement` (`<html>`).
+  - `app/layout.tsx`: Integrated `DayNightProvider` into `RootLayout` and bound body background to `--bg-main` with smooth 700ms GPU transitions.
+  - `app/globals.css`: High-intensity vivid color tokens for all 4 bands (Day sky sapphire, Dawn golden peach, Sunset magenta crimson, Night OLED nebula) with `--lighting-aura`, `--card-bg`, and glassmorphic card tinting.
+  - `components/ui/HolographicBackground.tsx`: Dynamically morphs base canvas and atmospheric aura according to the active lighting mode.
+  - `components/home/DayNightLightingPill.tsx`: Liquid Glass 4.0 interactive indicator and popup switcher in the global `TopBar` with BiDi Hebrew formatting.
+  - `components/layout/TopBar.tsx`: Integrated lighting pill seamlessly in the top action bar.
+- **Tech Stack:** React 19, Next.js 15 App Router, Tailwind CSS v4, Framer Motion, Vitest.
+- **Verification:** 138/138 Vitest tests passed across 30 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+
+
 
 
 

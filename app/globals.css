@@ -31,8 +31,8 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg-main, #0A0A0A);
+  color: var(--text-primary, #FAFAF7);
   font-family: var(--font-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -40,6 +40,7 @@ body {
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  transition: background 1s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -66,9 +67,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--card-bg, rgba(255, 255, 255, 0.03));
   backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--lighting-border, rgba(255, 255, 255, 0.08));
+  transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
 }
 
 .glass-orange {
@@ -78,21 +80,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .liquid-glass {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  background: linear-gradient(135deg, var(--card-bg, rgba(255, 255, 255, 0.05)) 0%, rgba(255, 255, 255, 0.01) 100%);
   backdrop-filter: blur(30px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--lighting-border, rgba(255, 255, 255, 0.1));
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
 }
 
 .liquid-glass-3 {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--card-bg, rgba(0, 0, 0, 0.1));
   backdrop-filter: blur(40px) saturate(200%) brightness(110%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--lighting-border, rgba(255, 255, 255, 0.1));
+  box-shadow: 0 0 40px var(--lighting-glow, rgba(0, 0, 0, 0.5)), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
 }
 
 .text-glow {
-  text-shadow: 0 0 15px rgba(255, 20, 100, 0.4);
+  text-shadow: 0 0 15px var(--lighting-glow, rgba(255, 20, 100, 0.4));
 }
 
 @keyframes float {
@@ -167,7 +171,6 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 
-
 [dir="rtl"] .font-display {
   letter-spacing: normal;
 }
@@ -175,109 +178,6 @@ h1, h2, h3, h4, h5, h6 {
 .leading-relaxed-hebrew {
   line-height: 1.8;
 }
-
-.glass-orange {
-  background: rgba(255, 159, 10, 0.03);
-  backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 
-    0 8px 32px 0 rgba(0, 0, 0, 0.37),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  position: relative;
-}
-
-.glass-orange::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 159, 10, 0.05) 0%, transparent 100%);
-  pointer-events: none;
-}
-
-/* Resolution & Layout Control */
-.res-fullhd #main-content-wrapper {
-  max-width: 1920px !important;
-  width: 100% !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-.res-laptop #main-content-wrapper {
-  max-width: 1440px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-.res-mobile-view {
-  background: #000;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem 0;
-}
-
-.res-mobile-view #main-content-wrapper {
-  width: 430px !important;
-  height: 932px !important;
-  margin: 0 auto !important;
-  border: 12px solid #1A1A1A;
-  border-radius: 50px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  background: var(--background);
-  position: relative;
-  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
-}
-
-/* Hide scrollbar for mobile frame view */
-.res-mobile-view #main-content-wrapper::-webkit-scrollbar {
-  display: none;
-}
-
-.res-mobile-view #main-content-wrapper {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.res-laptop #main-content-wrapper {
-  max-width: 1440px !important;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.res-mobile-view {
-  background: #000;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem 0;
-}
-
-.res-mobile-view #main-content-wrapper {
-  width: 430px !important;
-  height: 932px !important;
-  margin: 0 auto !important;
-  border: 12px solid #1A1A1A;
-  border-radius: 50px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  background: var(--background);
-  position: relative;
-  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
-}
-
-/* Hide scrollbar for mobile frame view */
-.res-mobile-view #main-content-wrapper::-webkit-scrollbar {
-  display: none;
-}
-
-.res-mobile-view #main-content-wrapper {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
 
 /* Liquid Capital AI Scoped Theme */
 .liquid-glass-theme {
@@ -324,7 +224,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: text-shadow 0.6s ease-in-out;
 }
 
-/* ⚡ Electric Animated Conic Border Effect (electric_border_movie_cards_skill_prompt.md Spec) */
+/* ⚡ Electric Animated Conic Border Effect */
 .electric-movie-card {
   position: relative;
   background: #090507;
@@ -374,5 +274,62 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* 🌅 Day/Night Dynamic Lighting Variants (Tailwind v4 / Custom Data-Band) */
+@custom-variant dawn (&:where([data-band="dawn"], [data-band="dawn"] *));
+@custom-variant day-mode (&:where([data-band="day"], [data-band="day"] *));
+@custom-variant sunset (&:where([data-band="sunset"], [data-band="sunset"] *));
+@custom-variant night (&:where([data-band="night"], [data-band="night"] *));
 
+/* 🌅 Day/Night Dynamic Lighting Band Palettes - Refined, Subtle & Elegant */
+:root[data-band="dawn"] {
+  --bg-main: linear-gradient(165deg, #180e08 0%, #22140b 35%, #140b06 70%, #080402 100%);
+  --text-primary: #FAFAF7;
+  --card-bg: rgba(40, 22, 12, 0.35);
+  --nav-bg: rgba(24, 14, 8, 0.85);
+  --lighting-glow: rgba(255, 154, 60, 0.2);
+  --lighting-border: rgba(255, 154, 60, 0.18);
+  --lighting-accent: #FF9A3C;
+  --lighting-aura: radial-gradient(circle at 80% 0%, rgba(255, 154, 60, 0.16) 0%, rgba(245, 158, 11, 0.06) 50%, transparent 80%);
+}
 
+:root[data-band="day"] {
+  --bg-main: linear-gradient(165deg, #071524 0%, #0d2238 35%, #081726 70%, #03080e 100%);
+  --text-primary: #FAFAF7;
+  --card-bg: rgba(14, 35, 60, 0.35);
+  --nav-bg: rgba(7, 21, 36, 0.85);
+  --lighting-glow: rgba(56, 189, 248, 0.2);
+  --lighting-border: rgba(56, 189, 248, 0.18);
+  --lighting-accent: #38BDF8;
+  --lighting-aura: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.16) 0%, rgba(14, 165, 233, 0.06) 50%, transparent 80%);
+}
+
+:root[data-band="sunset"] {
+  --bg-main: linear-gradient(165deg, #1c0817 0%, #290d22 35%, #170614 70%, #080107 100%);
+  --text-primary: #FAFAF7;
+  --card-bg: rgba(45, 14, 38, 0.35);
+  --nav-bg: rgba(28, 8, 23, 0.85);
+  --lighting-glow: rgba(236, 72, 153, 0.2);
+  --lighting-border: rgba(236, 72, 153, 0.18);
+  --lighting-accent: #EC4899;
+  --lighting-aura: radial-gradient(circle at 20% 0%, rgba(236, 72, 153, 0.16) 0%, rgba(168, 85, 247, 0.06) 50%, transparent 80%);
+}
+
+:root[data-band="night"] {
+  --bg-main: linear-gradient(165deg, #060609 0%, #0a0b12 40%, #050508 70%, #020204 100%);
+  --text-primary: #FAFAF7;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --nav-bg: rgba(6, 6, 9, 0.88);
+  --lighting-glow: rgba(129, 140, 248, 0.18);
+  --lighting-border: rgba(255, 255, 255, 0.08);
+  --lighting-accent: #818CF8;
+  --lighting-aura: radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.12) 0%, rgba(255, 20, 100, 0.05) 50%, transparent 80%);
+}
+
+@keyframes bandShift {
+  from { opacity: 0.85; }
+  to { opacity: 1; }
+}
+
+.day-night-transition {
+  transition: background 1.2s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+}

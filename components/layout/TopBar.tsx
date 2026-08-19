@@ -17,6 +17,7 @@ import { NotificationDrawer } from '@/components/notifications/NotificationDrawe
 import { useNotificationStore } from '@/lib/store/notification-store';
 import VoiceOrb from '@/components/ai/VoiceOrb';
 import SpotlightSearchModal from '@/components/search/SpotlightSearchModal';
+import DayNightLightingPill from '@/components/home/DayNightLightingPill';
 
 export default function TopBar() {
   const { filters, setFilters } = useBookingStore();
@@ -60,8 +61,6 @@ export default function TopBar() {
             />
           </div>
           
-
-
           {/* Mobile Search Toggle Button */}
           {!isMobileSearchOpen && (
             <button 
@@ -74,9 +73,12 @@ export default function TopBar() {
           )}
         </div>
 
-        {/* User Profile & AI Concierge - Hidden on mobile search */}
+        {/* User Profile & Actions - Hidden on mobile search */}
         {!isMobileSearchOpen && (
-          <div className="flex items-center gap-3 md:gap-5 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
+          <div className="flex items-center gap-2.5 md:gap-4 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
+            {/* Dynamic Day/Night Lighting Pill */}
+            <DayNightLightingPill />
+
             {/* AI Concierge Trigger */}
             <VoiceOrb />
 
