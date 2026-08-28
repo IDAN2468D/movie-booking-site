@@ -9,6 +9,7 @@ interface DayNightContextType {
   isManualOverride: boolean;
   setManualBand: (band: TimeBand | null) => void;
   bands: BandInfo[];
+  mounted: boolean;
 }
 
 const DayNightContext = createContext<DayNightContextType | undefined>(undefined);

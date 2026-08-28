@@ -1,13 +1,11 @@
-# Latest Milestone: Day/Night Refined & Elegant Lighting Palette (Sprint 142)
+﻿# Latest Milestone: Full Movie Subtitle Track & Multi-Language Translation Suite (Sprint 146)
 
 - **Completed Sprints & Upgrades:**
-  1. **Sprint 142: Refined & Elegant Day/Night Dynamic Lighting Theme Engine (`app/globals.css`, `HolographicBackground.tsx`, `useEnvironmentalTheme.ts`)**:
-     - Softened and refined the lighting palettes to achieve subtle, sophisticated, high-end cinema luxury tones with delicate glassmorphism and balanced opacities.
-     - **Day (`day`):** Soft sapphire/daylight ambience (`#071524` to `#0d2238`), restrained 16% sky aura, subtle cyan border accents.
-     - **Dawn (`dawn`):** Velvety warm sunrise peach and amber (`#180e08` to `#22140b`), soft morning glow.
-     - **Sunset (`sunset`):** Elegant dusk magenta and violet (`#1c0817` to `#290d22`), refined twilight aura.
-     - **Night (`night`):** Pristine OLED cinema black (`#060609` to `#0a0b12`), delicate indigo ambient starlight.
-     - Retained distinct contrast while delivering a harmonious, luxurious dark-mode experience.
+  1. **Sprint 146: Full Movie Subtitle Track & Multi-Language Translation Suite**:
+     - **Full Movie Subtitles Action (`lib/actions/fullMovieSubtitles.ts`):** Chronological multi-scene subtitle generator & translator using Gemini 2.0 / 1.5 with MongoDB caching.
+     - **Full Movie Subtitles Viewer (`components/cinesub/FullMovieSubtitlesViewer.tsx`):** Complete movie timeline navigator (00:00:00 -> 02:00:00), multi-language switcher (Hebrew, English, Spanish, French, Arabic, Japanese), instant dialogue search, spoken voice player, and 1-click Full Movie `.SRT` download.
+     - **Modal Dual Tabs (`components/movie/CineSubTranscriberModal.tsx`):** Seamless switching between "תמלול חי" (Live Mic) and "תרגום מלא לכל הסרט" (Full Movie Subtitles).
+     - **Showcase Studio (`app/(main)/cinesub/page.tsx`):** Dedicated tabs for full movie translation and live acoustic stream.
 - **Quality & Verification:**
   - TypeScript: `npx tsc --noEmit` - 0 errors.
   - Vitest: 30 test files passed (138/138 tests).

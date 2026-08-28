@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   Home, Gift, Utensils, Bell, Settings, LogOut, Clapperboard, MapPin, RefreshCw,
   Heart, ShieldCheck, Crown, Sparkles, CalendarDays, Star, Activity, Shield,
-  Disc3, Users, Volume2, Languages, Trophy, Mic, Zap, Compass, Newspaper, Share2, Gamepad2, Bookmark
+  Disc3, Users, Volume2, Languages, Trophy, Mic, Zap, Compass, Newspaper, Share2, Gamepad2, Bookmark, Subtitles
 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
@@ -37,6 +37,7 @@ const basicNavItems: NavItem[] = [
 ];
 
 const featureNavItems: FeatureNavItem[] = [
+  { icon: Subtitles, label: 'CineSub AI Live (כתוביות חיות)', href: '/cinesub' },
   { icon: Sparkles, label: 'CinePulse Labs - סוויטת העתיד 🚀', href: '/showcase/master-suite' },
   { icon: Zap, label: 'גבול חשמלי & אינדיקטורים', href: '/electric-border' },
   { icon: Gamepad2, label: 'Seating Matcher Game', href: '/booking/seating-game' },

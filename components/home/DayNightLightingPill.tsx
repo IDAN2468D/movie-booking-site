@@ -26,6 +26,7 @@ export default function DayNightLightingPill() {
         onClick={() => setIsOpen((prev) => !prev)}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
+        suppressHydrationWarning
         className="h-10 px-3 flex items-center gap-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 backdrop-blur-2xl text-white shadow-xl transition-all group shrink-0 cursor-pointer"
         aria-label={`מצב תאורה: ${info.labelHe}`}
         title={`תאורה קולנועית: ${info.labelHe}`}

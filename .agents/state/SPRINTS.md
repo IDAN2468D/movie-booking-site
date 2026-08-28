@@ -388,6 +388,55 @@
 - **Verification:** 138/138 Vitest tests passed across 30 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
 - **Status:** ✅ Completed
 
+## 🎙️ Phase 70: CineSub AI Live Audio Transcription, Diarization & Subtitles Engine (Sprint 143)
+- **Features Implemented:**
+  - `lib/schemas/subtitleSync.ts`: Zod schema contracts for `SubtitleCue`, `TranscribeRequest`, `TranscribeResponse`, and speaker color mapping.
+  - `lib/models/SubtitleTrack.ts`: Mongoose schema for persistent movie subtitle caching and millisecond timestamp indexing.
+  - `lib/actions/transcribeActions.ts`: Server Action invoking Google Gemini Multimodal Audio API with structured JSON output, multi-speaker diarization, Hebrew localization, and sound effect tags.
+  - `lib/store/subtitleStore.ts`: Zustand store managing recording state, live audio level, active cues, font scaling, and OLED Stealth Mode.
+  - `hooks/useLiveAudioTranscriber.ts`: Real-time browser audio chunk streamer using `MediaRecorder` and `AudioContext` frequency visualizer.
+  - `components/movie/CineSubTranscriberModal.tsx`: Liquid Glass 4.0 Pro live transcriber modal with pure-black OLED Stealth Mode, speaker chips, font size controls, and Hebrew RTL layout.
+- **Tech Stack:** React 19, Next.js 15 App Router, Google Generative AI (Gemini), Zustand, Mongoose, Zod, Framer Motion, Tailwind CSS.
+- **Verification:** 138/138 Vitest tests passed across 30 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+## 💎 Phase 71: CineSub AI Ultra-Luxurious Studio Redesign & Spectrum Visualizer Suite (Sprint 144)
+- **Features Implemented:**
+  - `components/cinesub/CineSubSpectrumVisualizer.tsx`: 20-band responsive audio spectrum with frequency gradient, dynamic spring physics, and decibel meter.
+  - `components/cinesub/CineSubSpeakerCard.tsx`: Glassmorphic speaker card with speaker badges, confidence scoring, sound effect tags, and OLED stealth styling.
+  - `components/cinesub/CineSubTelemetryHud.tsx`: Live telemetry widget with engine status, chunks counter, and network indicator.
+  - `components/movie/CineSubTranscriberModal.tsx`: Modular refactoring under 165 LOC with glassmorphism 4.0, font controls, and stealth transitions.
+  - `app/(main)/cinesub/page.tsx`: Dedicated holographic studio with live preset simulations (Dune, Oppenheimer, Interstellar) and instant microphone testing.
+  - `components/layout/TopBar.tsx`, `components/layout/Sidebar.tsx`: Global glowing triggers and navigation links.
+- **Tech Stack:** React 19, Next.js 15 App Router, Tailwind CSS, Framer Motion, Web Audio API, Gemini Multimodal Audio.
+- **Verification:** 138/138 Vitest tests passed across 30 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+## 🚀 Phase 72: CineSub AI Ultra Suite v6.0 & Multi-Source Audio Engine (Sprint 145)
+- **Features Implemented:**
+  - `lib/utils/exportSubtitles.ts`: Client-side `.SRT` subtitle generator and instant download helper.
+  - `lib/store/subtitleStore.ts`: Multilingual 6-language switcher, voice-over speech synthesis trigger, timestamp offset calibrator (`+/- 500ms`), and active cue history.
+  - `hooks/useLiveAudioTranscriber.ts`: Real-time audio streamer with selected language and offset integration.
+  - `components/movie/CineSubTranscriberModal.tsx`: Complete cinema HUD with inline SRT export, offset sync, stealth mode, and audio visualizer.
+  - `app/(main)/cinesub/page.tsx`: Interactive studio hub with live voice simulation for iconic movie scenes (*Dune 2*, *Interstellar*, *Oppenheimer*) and microphone test.
+- **Tech Stack:** React 19, Next.js 15 App Router, Web Speech API, Google Gemini Multimodal Audio, Zustand, Tailwind CSS, Vitest.
+- **Verification:** 138/138 Vitest tests passed across 30 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+## 🌐 Phase 73: Full Movie Subtitle Track & Multi-Language Translation Suite (Sprint 146)
+- **Features Implemented:**
+  - `lib/actions/fullMovieSubtitles.ts`: Server action generating full-length chronological movie subtitles (00:00:00 to 02:00:00) translated into any target language with MongoDB caching.
+  - `components/cinesub/FullMovieSubtitlesViewer.tsx`: Interactive full movie timeline viewer with search, speech player, multi-language switcher (HE, EN, ES, FR, AR, JA), and 1-click `.SRT` download.
+  - `components/movie/CineSubTranscriberModal.tsx`: Dual-tab support for "תמלול חי" and "תרגום מלא לכל הסרט".
+  - `app/(main)/cinesub/page.tsx`: Studio showcase with full movie subtitle navigation.
+- **Tech Stack:** React 19, Next.js 15 App Router, Google Generative AI (Gemini 2.0 / 1.5), MongoDB / Mongoose, Zustand, Tailwind CSS.
+- **Verification:** 138/138 Vitest tests passed across 30 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+
+
+
+
 
 
 

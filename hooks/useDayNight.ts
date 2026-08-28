@@ -51,6 +51,8 @@ export const BAND_METADATA: Record<TimeBand, BandInfo> = {
   },
 };
 
+export const DEFAULT_TIME_BAND: TimeBand = 'night';
+
 export function getBandForHour(hour: number): TimeBand {
   if (hour >= 5 && hour < 8) return 'dawn';
   if (hour >= 8 && hour < 18) return 'day';
@@ -59,11 +61,9 @@ export function getBandForHour(hour: number): TimeBand {
 }
 
 export function useDayNight() {
-  const [activeBand, setActiveBand] = useState<TimeBand>(() => {
-    if (typeof window === 'undefined') return 'night';
-    return getBandForHour(new Date().getHours());
-  });
+  const [activeBand, setActiveBand] = useState<TimeBand>(DEFAULT_TIME_BAND);
   const [isManualOverride, setIsManualOverride] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
 
   const syncTimeBand = useCallback(() => {
     if (!isManualOverride) {
@@ -73,6 +73,7 @@ export function useDayNight() {
   }, [isManualOverride]);
 
   useEffect(() => {
+    setMounted(true);
     syncTimeBand();
     const intervalId = setInterval(syncTimeBand, 60_000);
     return () => clearInterval(intervalId);
@@ -95,5 +96,7 @@ export function useDayNight() {
     isManualOverride,
     setManualBand,
     bands: Object.values(BAND_METADATA),
+    mounted,
   };
 }
+

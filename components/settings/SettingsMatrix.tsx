@@ -22,7 +22,7 @@ export default function SettingsMatrix({ userEmail }: { userEmail: string }) {
     audioCtx.current = new (window.AudioContext || (window as any).webkitAudioContext)();
     return () => {
       if (audioCtx.current?.state !== 'closed') {
-        audioCtx.current?.close();
+        audioCtx.current?.close().catch(() => {});
       }
     };
   }, []);

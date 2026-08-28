@@ -31,8 +31,14 @@
 - [x] Sprint 140: Resilient Cinema Catering & Concession Imagery Suite (`constants.ts`, `KineticSnackCard.tsx`, `CateringCard.tsx`, `DynamicComboRoulette.tsx`, `SmartTray.tsx`)
 - [x] Sprint 141: Resilient Screensaver & Production Image Engine Fix (`next.config.ts`, `ResilientImage.tsx`)
 - [x] Sprint 142: Day/Night Dynamic Lighting Theme Engine (`hooks/useDayNight.ts`, `DayNightProvider.tsx`, `DayNightLightingPill.tsx`, `globals.css`, `layout.tsx`, `HomeContent.tsx`)
+- [x] Sprint 143: CineSub AI Live Audio Transcription & Translation Engine (`lib/schemas/subtitleSync.ts`, `lib/models/SubtitleTrack.ts`, `lib/actions/transcribeActions.ts`, `lib/store/subtitleStore.ts`, `hooks/useLiveAudioTranscriber.ts`, `components/movie/CineSubTranscriberModal.tsx`)
+- [x] Sprint 144: CineSub AI Ultra-Luxurious Studio Redesign & Spectrum Visualizer Suite (`components/cinesub/`, `app/(main)/cinesub/page.tsx`, `components/layout/TopBar.tsx`, `components/layout/Sidebar.tsx`)
+- [x] Sprint 145: CineSub AI Ultra Suite v6.0 & Multi-Source Engine (`lib/utils/exportSubtitles.ts`, `lib/store/subtitleStore.ts`, `hooks/useLiveAudioTranscriber.ts`, `components/movie/CineSubTranscriberModal.tsx`, `app/(main)/cinesub/page.tsx`)
+- [x] Sprint 146: Full Movie Subtitle Track & Multi-Language Translation Suite (`lib/actions/fullMovieSubtitles.ts`, `components/cinesub/FullMovieSubtitlesViewer.tsx`, `components/movie/CineSubTranscriberModal.tsx`, `app/(main)/cinesub/page.tsx`)
+
+
+
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
 - [x] Vitest suite pass (138/138 tests across 30 test files)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
 - [x] Auto-synchronize all 4 state files in `.agents/state/`
-

@@ -6,13 +6,15 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Headphones, Sparkles, Crown } from 'lucide-react';
+import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Headphones, Sparkles, Crown, Subtitles } from 'lucide-react';
 import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { MovieDetails, CastMember, CrewMember, Movie, VideoResult, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import MovieCastSection from './MovieCastSection';
 import MovieSimilarSection from './MovieSimilarSection';
 import VIPScreeningModal from './VIPScreeningModal';
+import CineSubTranscriberModal from './CineSubTranscriberModal';
+
 import MovieInfographic from './MovieInfographic';
 import MovieTrivia from './MovieTrivia';
 import { useUIStore } from '@/lib/store/ui-store';
@@ -66,6 +68,7 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   const { setSelectedMovie, favorites, toggleFavorite } = useBookingStore();
   const { setMovieContext } = useUIStore();
   const [showVIPModal, setShowVIPModal] = useState(false);
+  const [showCineSubModal, setShowCineSubModal] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const [trailerFailed, setTrailerFailed] = useState(false);
   const [insights, setInsights] = useState<{
@@ -324,6 +327,15 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             <motion.button
               whileHover={{ scale: 1.1, translateY: -2 }}
               whileTap={{ scale: 0.9 }}
+              onClick={() => setShowCineSubModal(true)}
+              title="כתוביות חיות CineSub AI (זיהוי דוברים ותרגום)"
+              className="w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group bg-gradient-to-tr from-cyan-500/20 to-indigo-600/20 border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/30"
+            >
+              <Subtitles size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1, translateY: -2 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => {
                 document.getElementById('movie-animation-section')?.scrollIntoView({ behavior: 'smooth' });
               }}
@@ -561,6 +573,14 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
       <VIPScreeningModal
         isOpen={showVIPModal}
         onClose={() => setShowVIPModal(false)}
+        movieTitle={movie.title}
+      />
+
+      {/* CineSub AI Live Subtitles & Translation Modal */}
+      <CineSubTranscriberModal
+        isOpen={showCineSubModal}
+        onClose={() => setShowCineSubModal(false)}
+        movieId={movie.id.toString()}
         movieTitle={movie.title}
       />
     </div>

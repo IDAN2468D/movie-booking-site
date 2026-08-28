@@ -43,6 +43,8 @@
 | **Module AL** | Movie Site Stats Skill & ERP Analytics Suite | `/components/erp/stats/StatsSummaryCards.tsx` | Israeli 18% VAT, GA4/CSV Universal Parser, Retention, Anomaly Radar, Gemini 3.5 AI Advisor | `ACTIVE` |
 | **Module AM** | Lighthouse 100/100 & Modern Web APIs Engine | `/app/layout.tsx` | Next.js 16 AVIF/WebP, WCAG 2.1 AA 100%, Robots & Sitemap, Local SVG Data URIs, Strict Containment | `ACTIVE` |
 | **Module AN** | Day/Night Dynamic Lighting Theme Engine | `/components/providers/DayNightProvider.tsx` | 4 Time Bands, 60s Sync, Tailwind v4 `@custom-variant`, `DayNightLightingPill.tsx`, Liquid Glass 4.0 | `ACTIVE` |
+| **Module AO** | CineSub AI Live Transcription & Subtitles Engine | `/components/movie/CineSubTranscriberModal.tsx` | MediaRecorder, Google Gemini Multimodal Audio, Multi-Speaker Diarization, OLED Stealth Mode | `ACTIVE` |
+
 
 
 ---

@@ -8,7 +8,7 @@ import { useBookingStore } from '@/lib/store';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, Bell, Keyboard, Film } from 'lucide-react';
+import { Search, Bell, Keyboard, Film, Subtitles } from 'lucide-react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
 import { PremiumLogo } from '@/components/ui/PremiumLogo';
@@ -18,6 +18,8 @@ import { useNotificationStore } from '@/lib/store/notification-store';
 import VoiceOrb from '@/components/ai/VoiceOrb';
 import SpotlightSearchModal from '@/components/search/SpotlightSearchModal';
 import DayNightLightingPill from '@/components/home/DayNightLightingPill';
+import CineSubTranscriberModal from '@/components/movie/CineSubTranscriberModal';
+
 
 export default function TopBar() {
   const { filters, setFilters } = useBookingStore();
@@ -25,14 +27,20 @@ export default function TopBar() {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = React.useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = React.useState(false);
   const [isSpotlightOpen, setIsSpotlightOpen] = React.useState(false);
+  const [isCineSubOpen, setIsCineSubOpen] = React.useState(false);
   const unreadCount = useNotificationStore(
     React.useCallback((state) => state.notifications.filter((n) => n.unread).length, [])
   );
 
   React.useEffect(() => {
     const handleOpenSpotlight = () => setIsSpotlightOpen(true);
+    const handleOpenCineSub = () => setIsCineSubOpen(true);
     window.addEventListener('open-spotlight-search', handleOpenSpotlight);
-    return () => window.removeEventListener('open-spotlight-search', handleOpenSpotlight);
+    window.addEventListener('open-cinesub-transcriber', handleOpenCineSub);
+    return () => {
+      window.removeEventListener('open-spotlight-search', handleOpenSpotlight);
+      window.removeEventListener('open-cinesub-transcriber', handleOpenCineSub);
+    };
   }, []);
 
   const genres = ['הכל', 'פעולה', 'מדע בדיוני', 'דרמה', 'אימה', 'קומדיה'];
@@ -81,6 +89,19 @@ export default function TopBar() {
 
             {/* AI Concierge Trigger */}
             <VoiceOrb />
+
+            {/* CineSub AI Live Trigger */}
+            <button
+              onClick={() => setIsCineSubOpen(true)}
+              title="כתוביות חיות CineSub AI (לחץ C)"
+              aria-label="פתח כתוביות חיות CineSub AI"
+              className="relative h-10 px-2.5 sm:px-3 flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-cyan-500/15 via-indigo-500/15 to-purple-500/15 hover:from-cyan-500/25 hover:to-indigo-500/25 border border-cyan-400/30 hover:border-cyan-400/60 text-cyan-300 transition-all shadow-lg active:scale-95 shrink-0 group cursor-pointer"
+            >
+              <Subtitles size={17} className="text-cyan-400 group-hover:scale-110 transition-transform" aria-hidden="true" />
+              <span className="hidden xl:inline text-[11px] font-bold tracking-tight text-white/90">CineSub AI</span>
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            </button>
+
 
             {/* Trailer Library Picker Trigger */}
             <button
@@ -144,6 +165,12 @@ export default function TopBar() {
       <SpotlightSearchModal
         isOpen={isSpotlightOpen}
         onClose={() => setIsSpotlightOpen(false)}
+      />
+
+      <CineSubTranscriberModal
+        isOpen={isCineSubOpen}
+        onClose={() => setIsCineSubOpen(false)}
+        movieTitle="שידור קולנועי חי - CinePulse Live"
       />
     </>
   );

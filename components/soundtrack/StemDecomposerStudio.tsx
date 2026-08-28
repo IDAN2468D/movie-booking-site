@@ -27,7 +27,7 @@ export function StemDecomposerStudio() {
     });
     return () => {
       if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
-        audioCtxRef.current.close();
+        audioCtxRef.current.close().catch(() => {});
       }
     };
   }, []);
