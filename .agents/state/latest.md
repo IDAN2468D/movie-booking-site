@@ -1,12 +1,13 @@
-﻿# Latest Milestone: Full Movie Subtitle Track & Multi-Language Translation Suite (Sprint 146)
+# Latest Milestone: CineDNA Feature Suite & Next-Gen Cinema Architecture (Sprint 147)
 
 - **Completed Sprints & Upgrades:**
-  1. **Sprint 146: Full Movie Subtitle Track & Multi-Language Translation Suite**:
-     - **Full Movie Subtitles Action (`lib/actions/fullMovieSubtitles.ts`):** Chronological multi-scene subtitle generator & translator using Gemini 2.0 / 1.5 with MongoDB caching.
-     - **Full Movie Subtitles Viewer (`components/cinesub/FullMovieSubtitlesViewer.tsx`):** Complete movie timeline navigator (00:00:00 -> 02:00:00), multi-language switcher (Hebrew, English, Spanish, French, Arabic, Japanese), instant dialogue search, spoken voice player, and 1-click Full Movie `.SRT` download.
-     - **Modal Dual Tabs (`components/movie/CineSubTranscriberModal.tsx`):** Seamless switching between "תמלול חי" (Live Mic) and "תרגום מלא לכל הסרט" (Full Movie Subtitles).
-     - **Showcase Studio (`app/(main)/cinesub/page.tsx`):** Dedicated tabs for full movie translation and live acoustic stream.
+  1. **Sprint 147: CineDNA Feature Suite & Next-Gen Cinema Architecture**:
+     - **🧬 CineDNA Graph Explorer:** Multi-dimensional stylistic fingerprint graph (`/cinedna`, `CineDnaCanvas.tsx`, `DnaNodeCard.tsx`, `DnaFilterControls.tsx`, `CineDnaModal.tsx`).
+     - **🎧 Acoustic Sweet-Spot 3D Simulator:** Web Audio API 3D spatial acoustic wavefront engine with 35-50Hz sub-bass and HRTF panner (`/sweetspot`, `AcousticSweetspotSimulator.tsx`, `SpeakerImmersionGauge.tsx`, `AcousticFrequencyCurve.tsx`).
+     - **👥 CineSquad Smart Split & Sync:** Real-time group booking room with host/member sync and smart bill splitting (`/cinesquad`, `/cinesquad/[roomId]`, `CineSquadLobby.tsx`, `SquadSplitLedger.tsx`, `SquadInviteModal.tsx`).
+     - **🎙️ Director's Cut Audio AI Commentary:** Gemini AI multi-track commentary companion with live audio speech synthesis and timeline sync (`/directors-cut`, `DirectorsCutPlayer.tsx`, `PersonaSelector.tsx`, `SceneTimelineScrubber.tsx`).
+     - **💎 Post-Show Memory Capsules:** Collectible digital memory shards with holographic tilt cards, audio echoes, and trading vault (`/memory-capsules`, `MemoryShardCard.tsx`, `ShardVaultGrid.tsx`, `ShardMintModal.tsx`).
 - **Quality & Verification:**
   - TypeScript: `npx tsc --noEmit` - 0 errors.
-  - Vitest: 30 test files passed (138/138 tests).
+  - Vitest: 31 test files passed (145/145 tests).
   - Strict 200 LOC ceiling maintained across all files.

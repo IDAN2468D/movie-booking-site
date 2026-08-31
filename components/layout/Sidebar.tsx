@@ -6,7 +6,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   Home, Gift, Utensils, Bell, Settings, LogOut, Clapperboard, MapPin, RefreshCw,
   Heart, ShieldCheck, Crown, Sparkles, CalendarDays, Star, Activity, Shield,
-  Disc3, Users, Volume2, Languages, Trophy, Mic, Zap, Compass, Newspaper, Share2, Gamepad2, Bookmark, Subtitles
+  Disc3, Users, Volume2, Languages, Trophy, Mic, Zap, Compass, Newspaper, Share2, Gamepad2, Bookmark, Subtitles,
+  Dna, Headphones, Gem
 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useBookingStore } from '@/lib/store';
@@ -37,6 +38,11 @@ const basicNavItems: NavItem[] = [
 ];
 
 const featureNavItems: FeatureNavItem[] = [
+  { icon: Dna, label: 'CineDNA Graph Explorer 🧬', href: '/cinedna' },
+  { icon: Volume2, label: 'Acoustic Sweet-Spot 3D 🎧', href: '/sweetspot' },
+  { icon: Users, label: 'CineSquad Smart Split 👥', href: '/cinesquad' },
+  { icon: Headphones, label: 'Director\'s Cut Audio AI 🎙️', href: '/directors-cut' },
+  { icon: Gem, label: 'כספת שברי זיכרון (Memory Capsules) 💎', href: '/memory-capsules' },
   { icon: Subtitles, label: 'CineSub AI Live (כתוביות חיות)', href: '/cinesub' },
   { icon: Sparkles, label: 'CinePulse Labs - סוויטת העתיד 🚀', href: '/showcase/master-suite' },
   { icon: Zap, label: 'גבול חשמלי & אינדיקטורים', href: '/electric-border' },

@@ -44,8 +44,11 @@
 | **Module AM** | Lighthouse 100/100 & Modern Web APIs Engine | `/app/layout.tsx` | Next.js 16 AVIF/WebP, WCAG 2.1 AA 100%, Robots & Sitemap, Local SVG Data URIs, Strict Containment | `ACTIVE` |
 | **Module AN** | Day/Night Dynamic Lighting Theme Engine | `/components/providers/DayNightProvider.tsx` | 4 Time Bands, 60s Sync, Tailwind v4 `@custom-variant`, `DayNightLightingPill.tsx`, Liquid Glass 4.0 | `ACTIVE` |
 | **Module AO** | CineSub AI Live Transcription & Subtitles Engine | `/components/movie/CineSubTranscriberModal.tsx` | MediaRecorder, Google Gemini Multimodal Audio, Multi-Speaker Diarization, OLED Stealth Mode | `ACTIVE` |
-
-
+| **Module AP** | CineDNA Multidimensional Graph Explorer | `/components/cinedna/CineDnaCanvas.tsx` | Force-Directed Radial Layout, Stylistic Fingerprint, TMDB + Gemini AI, `/cinedna` | `ACTIVE` |
+| **Module AQ** | Acoustic Sweet-Spot 3D Simulator | `/components/sweetspot/AcousticSweetspotSimulator.tsx` | Web Audio API (HRTF Panner, 35Hz Sub-Bass Rumble), 3D Hall Grid, `/sweetspot` | `ACTIVE` |
+| **Module AR** | CineSquad Smart Split & Synchronized Booking | `/components/cinesquad/CineSquadLobby.tsx` | Real-time Seat Locking, Smart Bill Split Ledger, QR & Link Sharing, `/cinesquad` | `ACTIVE` |
+| **Module AS** | Director's Cut Audio AI Commentary Companion | `/components/directors-cut/DirectorsCutPlayer.tsx` | Multi-Persona Commentary (Director, DP, Critic, Easter Eggs), Speech Synthesis, `/directors-cut` | `ACTIVE` |
+| **Module AT** | Post-Show Collectible Memory Shards Vault | `/components/memory-capsule/ShardVaultGrid.tsx` | 3D Tilt Holographic Cards, Acoustic Quotes, Rarity Minting, `/memory-capsules` | `ACTIVE` |
 
 ---
 

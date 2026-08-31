@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Headphones, Sparkles, Crown, Subtitles } from 'lucide-react';
+import { ArrowRight, Star, Clock, Calendar, Globe, Play, Ticket, Heart, Headphones, Sparkles, Crown, Subtitles, Dna, Gem } from 'lucide-react';
 import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { MovieDetails, CastMember, CrewMember, Movie, VideoResult, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
@@ -14,6 +14,8 @@ import MovieCastSection from './MovieCastSection';
 import MovieSimilarSection from './MovieSimilarSection';
 import VIPScreeningModal from './VIPScreeningModal';
 import CineSubTranscriberModal from './CineSubTranscriberModal';
+import { CineDnaModal } from '@/components/cinedna/CineDnaModal';
+import { ShardMintModal } from '@/components/memory-capsule/ShardMintModal';
 
 import MovieInfographic from './MovieInfographic';
 import MovieTrivia from './MovieTrivia';
@@ -69,6 +71,8 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
   const { setMovieContext } = useUIStore();
   const [showVIPModal, setShowVIPModal] = useState(false);
   const [showCineSubModal, setShowCineSubModal] = useState(false);
+  const [showCineDnaModal, setShowCineDnaModal] = useState(false);
+  const [showShardModal, setShowShardModal] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const [trailerFailed, setTrailerFailed] = useState(false);
   const [insights, setInsights] = useState<{
@@ -336,6 +340,24 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
             <motion.button
               whileHover={{ scale: 1.1, translateY: -2 }}
               whileTap={{ scale: 0.9 }}
+              onClick={() => setShowCineDnaModal(true)}
+              title="חוקר הגנום הקולנועי CineDNA"
+              className="w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group bg-gradient-to-tr from-cyan-500/20 to-teal-500/20 border-cyan-400/40 text-cyan-300 hover:bg-cyan-500/30"
+            >
+              <Dna size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110 animate-spin-slow" />
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1, translateY: -2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setShowShardModal(true)}
+              title="הנפק שבר זיכרון דיגיטלי (Memory Shard)"
+              className="w-16 h-16 rounded-2xl flex items-center justify-center border transition-all duration-500 shadow-2xl relative overflow-hidden group bg-gradient-to-tr from-purple-500/20 to-pink-500/20 border-purple-400/40 text-purple-300 hover:bg-purple-500/30"
+            >
+              <Gem size={24} className="relative z-10 transition-transform duration-300 group-hover:scale-110" />
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1, translateY: -2 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => {
                 document.getElementById('movie-animation-section')?.scrollIntoView({ behavior: 'smooth' });
               }}
@@ -580,6 +602,22 @@ export default function MovieDetailsContent({ movie, cast, director, similarMovi
       <CineSubTranscriberModal
         isOpen={showCineSubModal}
         onClose={() => setShowCineSubModal(false)}
+        movieId={movie.id.toString()}
+        movieTitle={movie.title}
+      />
+
+      {/* CineDNA Graph Explorer Modal */}
+      <CineDnaModal
+        isOpen={showCineDnaModal}
+        onClose={() => setShowCineDnaModal(false)}
+        movieId={movie.id.toString()}
+        movieTitle={movie.title}
+      />
+
+      {/* Post-Show Memory Shard Mint Modal */}
+      <ShardMintModal
+        isOpen={showShardModal}
+        onClose={() => setShowShardModal(false)}
         movieId={movie.id.toString()}
         movieTitle={movie.title}
       />
