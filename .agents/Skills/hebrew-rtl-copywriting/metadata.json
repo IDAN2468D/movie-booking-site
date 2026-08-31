@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "localization",
+  "tags": {
+    "he": ["עברית", "יישור לימין", "מיקרו קופי", "יוניקוד RLM", "שקלים", "ישראל"],
+    "en": ["hebrew", "rtl alignment", "microcopy", "unicode rlm", "currency ils", "israel"]
+  },
+  "display_name": {
+    "he": "מנוע עברית RTL, קופירייטינג וטיפוגרפיה",
+    "en": "Hebrew RTL Copywriting & Typography Engine"
+  },
+  "display_description": {
+    "he": "סטנדרטים וכללי קופירייטינג בעברית, יישור מלא לימין (RTL), תווי יוניקוד RLM, עימוד BiDi וטיפוגרפיית Rubik/Inter.",
+    "en": "Hebrew RTL copywriting standards, right-to-left alignment, Unicode RLM formatting, BiDi layout, and Rubik/Inter typography."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

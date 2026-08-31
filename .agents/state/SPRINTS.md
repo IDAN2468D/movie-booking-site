@@ -445,6 +445,41 @@
 - **Verification:** 145/145 Vitest tests passed across 31 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
 - **Status:** ✅ Completed
 
+## 🇮🇱 Phase 75: Skills-IL Organization Standardization & 15-Skill Ecosystem Upgrade (Sprint 148)
+- **Features Implemented:**
+  - Standardized all 15 skills across `.agents/skills/` with bilingual `metadata.json`, complete `SKILL_HE.md` Hebrew companions, dedicated `references/` guides, and executable Python `scripts/` helpers with `--help`.
+  - Upgraded skills: `cinedna-feature-suite`, `actor-biography-engine`, `ai-curated-cinesnacks`, `spatial-acoustic-wavefront`, `vip-seat-auctions`, `post-movie-spoiler-lounge`, `receipt-print-animation`, `movie-site-day-night-lighting`, `movie-site-stats`, `loading-animation-generator`, `electric-border-effect`, `neon-animated-card`, `liquid-glass-ui`, `hebrew-rtl-copywriting`, `skills-il-skill-creator`.
+  - Full compliance with zero em-dashes, master branch github links, and valid YAML frontmatter.
+- **Tech Stack:** Skills-IL Specification, Python 3 Stdlib, Markdown, JSON, Vitest.
+- **Verification:** 145/145 Vitest tests passed across 31 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+## 🚀 Phase 76: Cinema Platform Core Feature Upgrades (Sprint 149)
+- **Features Implemented:**
+  - **Actor Biography Narration:** `hooks/useActorNarrationEngine.ts` (102 LOC) + `components/actor/ActorAcousticNarration.tsx` (135 LOC) with multi-lingual voiceover (Hebrew/English) and 432Hz ambient audio.
+  - **AI Concession Pairing:** `components/concessions/AiSnackPairer.tsx` (118 LOC) with combo discounts (-15%), calorie estimates, and kosher badge.
+  - **VIP Seat Auctions:** `components/vip/LiveSeatAuctionArena.tsx` (146 LOC) with Anti-Sniping timer extension (+30s), spatial gavel sound synthesis, and urgent bid indicators.
+  - **Post-Movie Spoiler Lounge:** `components/community/AfterglowLounge.tsx` (129 LOC) with Memory Shard minting link and verified attendee badges.
+  - **Thermal Receipt Printer:** `components/receipt/CineBookReceiptPrinter.tsx` (176 LOC) with Israeli 18% VAT breakdown, paper tear physics, and instant re-print.
+- **Tech Stack:** React 19, Next.js 15, Web Audio API, Framer Motion 120Hz GPU, Liquid Glass 4.0 Pro, Vitest.
+- **Verification:** 145/145 Vitest tests passed across 31 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+## 🖨️ Phase 77: Thermal Receipt Printer Acoustic Mechanical Audio Engine (Sprint 150)
+- **Features Implemented:**
+  - Built `components/receipt/receiptAudio.ts` with 4-layer Web Audio API acoustic synthesis:
+    - Mechanical gear engagement click (triangle wave impulse).
+    - Stepper motor line-feed stepping pulses (sawtooth frequency shifts 140Hz - 190Hz).
+    - Thermal pin sizzle and paper friction noise (bandpass filtered white noise at 3.6kHz modulated by 14Hz square LFO).
+    - Paper tear highpass noise burst with synchronized haptic pulse (`navigator.vibrate([35, 45, 20])`).
+  - Integrated into `components/receipt/CineBookReceiptPrinter.tsx`.
+- **Tech Stack:** Web Audio API, Haptics API, React 19, Next.js 15, Framer Motion.
+- **Verification:** 145/145 Vitest tests passed across 31 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+
+
+
 
 
 

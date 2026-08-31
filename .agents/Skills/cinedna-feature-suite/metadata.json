@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "developer-tools",
+  "tags": {
+    "he": ["קולנוע", "גנום", "אקוסטיקה", "הזמנה קבוצתית", "בינה מלאכותית", "ישראל"],
+    "en": ["cinema", "cinedna", "acoustics", "group booking", "ai", "israel"]
+  },
+  "display_name": {
+    "he": "סוויטת הפיצ'רים CineDNA",
+    "en": "CineDNA Feature Suite"
+  },
+  "display_description": {
+    "he": "מערך פיצ'רים קולנועיים מתקדמים: מפת גנים קולנועית, סימולטור אקוסטיקה 3D, הזמנה קבוצתית בסקוואד, פרשנות במאי AI וכספת שברי זיכרון דיגיטליים.",
+    "en": "Advanced cinema features: multi-dimensional stylistic fingerprint graph, 3D acoustic sweet-spot simulator, CineSquad synchronized group booking, Director's Cut audio AI commentary, and digital memory capsules."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

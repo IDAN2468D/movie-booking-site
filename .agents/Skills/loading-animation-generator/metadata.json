@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "developer-tools",
+  "tags": {
+    "he": ["אנימציית טעינה", "אינדיקטור", "ביצועי GPU", "ספינר", "חוויית משתמש", "ישראל"],
+    "en": ["loading animation", "indicator", "gpu performance", "spinner", "user experience", "israel"]
+  },
+  "display_name": {
+    "he": "מחולל אנימציות טעינה ואינדיקטורים 120Hz GPU",
+    "en": "Loading Animation & GPU Indicator Generator"
+  },
+  "display_description": {
+    "he": "יצירה והטמעה של אינדיקטורי טעינה קולנועיים ב-4 גרסאות (orbit, spinner, pulse, dots) ללא הבהובי פריסה.",
+    "en": "Generation and integration of cinematic GPU-accelerated loading indicators across 4 variants without layout shift."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

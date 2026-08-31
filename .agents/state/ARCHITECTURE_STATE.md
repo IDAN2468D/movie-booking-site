@@ -49,6 +49,9 @@
 | **Module AR** | CineSquad Smart Split & Synchronized Booking | `/components/cinesquad/CineSquadLobby.tsx` | Real-time Seat Locking, Smart Bill Split Ledger, QR & Link Sharing, `/cinesquad` | `ACTIVE` |
 | **Module AS** | Director's Cut Audio AI Commentary Companion | `/components/directors-cut/DirectorsCutPlayer.tsx` | Multi-Persona Commentary (Director, DP, Critic, Easter Eggs), Speech Synthesis, `/directors-cut` | `ACTIVE` |
 | **Module AT** | Post-Show Collectible Memory Shards Vault | `/components/memory-capsule/ShardVaultGrid.tsx` | 3D Tilt Holographic Cards, Acoustic Quotes, Rarity Minting, `/memory-capsules` | `ACTIVE` |
+| **Module AU** | Complete Skills-IL 15-Skill Ecosystem | `/.agents/skills/*/` | Bilingual `metadata.json`, `SKILL_HE.md`, `references/`, Python `scripts/` | `ACTIVE` |
+| **Module AV** | Liquid Glass 4.0 Core Cinema Features Upgrades | `/components/` | Voiceover Hook, Concession Pairing, VIP Anti-Sniping, Spoiler Lounge, Thermal Receipt | `ACTIVE` |
+| **Module AW** | Thermal Receipt Printer Multi-Layer Audio Engine | `/components/receipt/receiptAudio.ts` | Stepper Motor Stepping, Thermal Pin Sizzle, Paper Tear Noise, Haptics | `ACTIVE` |
 
 ---
 

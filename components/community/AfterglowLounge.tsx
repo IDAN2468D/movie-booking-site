@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { MessageSquare, Award, Sparkles, CheckCircle2 } from 'lucide-react';
+import { MessageSquare, Award, Sparkles, Gem, ShieldCheck } from 'lucide-react';
+import Link from 'next/link';
 import {
   getAfterglowTriviaAction,
   getAfterglowDiscussionsAction,
@@ -17,8 +18,7 @@ interface AfterglowLoungeProps {
 export function AfterglowLounge({ movieTitle = 'דילמת המד"ב 2026' }: AfterglowLoungeProps) {
   const [questions, setQuestions] = useState<AfterglowTriviaQuestion[]>([]);
   const [comments, setComments] = useState<AfterglowComment[]>([]);
-  const [activeTab, setActiveTab] = useState<'trivia' | 'discussions'>('discussions');
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<'discussions' | 'trivia'>('discussions');
   const [score, setScore] = useState<number | null>(null);
 
   useEffect(() => {
@@ -31,7 +31,6 @@ export function AfterglowLounge({ movieTitle = 'דילמת המד"ב 2026' }: Af
   }, [movieTitle]);
 
   const handleSelectOption = (idx: number) => {
-    setSelectedIndex(idx);
     if (questions.length > 0 && idx === questions[0].correctIndex) {
       setScore(100);
     } else {
@@ -40,41 +39,52 @@ export function AfterglowLounge({ movieTitle = 'דילמת המד"ב 2026' }: Af
   };
 
   return (
-    <div className="w-full bg-neutral-950/80 backdrop-blur-2xl border border-white/15 rounded-3xl p-6 shadow-[0_20px_50px_rgba(0,0,0,0.8)] my-8" dir="rtl">
+    <div className="w-full bg-neutral-950/80 backdrop-blur-2xl border border-white/15 rounded-3xl p-6 shadow-2xl my-8 text-right" dir="rtl">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-4 mb-5">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
             <MessageSquare className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="font-outfit text-xl font-bold text-white">מתחם Afterglow לאחר ההקרנה</h4>
-            <span className="text-xs text-cyan-400">טרקלין דיונים מוגן ספוילרים + טריוויית פרסים</span>
+            <h4 className="font-outfit text-xl font-bold text-white flex items-center gap-2">
+              מתחם Afterglow לאחר ההקרנה
+              <span className="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <ShieldCheck size={11} /> צופים מאומתים
+              </span>
+            </h4>
+            <span className="text-xs text-cyan-400 font-medium">טרקלין שיח מוגן ספוילרים + קפסולות זיכרון אספניות</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
-          <button
-            type="button"
-            onClick={() => setActiveTab('discussions')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-              activeTab === 'discussions'
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                : 'text-gray-400 hover:text-white'
-            }`}
+        <div className="flex items-center gap-2">
+          <Link
+            href="/memory-capsules"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-xs font-bold transition-all"
           >
-            דיוני צופים ({comments.length})
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('trivia')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-              activeTab === 'trivia'
-                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                : 'text-gray-400 hover:text-white'
-            }`}
-          >
-            טריוויה קולנועית 🏆
-          </button>
+            <Gem size={13} />
+            <span>הנפק שבר זיכרון</span>
+          </Link>
+
+          <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
+            <button
+              type="button"
+              onClick={() => setActiveTab('discussions')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                activeTab === 'discussions' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              דיונים ({comments.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('trivia')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                activeTab === 'trivia' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              טריוויה 🏆
+            </button>
+          </div>
         </div>
       </div>
 
@@ -111,7 +121,7 @@ export function AfterglowLounge({ movieTitle = 'דילמת המד"ב 2026' }: Af
               </div>
               <h5 className="font-bold text-white text-base">כל הכבוד! ענית על שאלת הטריוויה</h5>
               <p className="text-xs text-gray-300">
-                צברת <strong className="text-cyan-400">+{score} נקודות מוניטין קולנועי</strong> וכרטיס גירוד בונוס!
+                צברת <strong className="text-cyan-400">+{score} נקודות מוניטין קולנועי</strong> וכרטיס אספנות דיגיטלי!
               </p>
             </div>
           )}

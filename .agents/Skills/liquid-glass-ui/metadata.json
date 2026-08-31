@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "developer-tools",
+  "tags": {
+    "he": ["זכוכית נוזלת", "גלאסמורפיזם", "עיצוב כהה", "רפרקציה", "אנימציות GPU", "ישראל"],
+    "en": ["liquid glass", "glassmorphism", "dark mode", "refraction", "gpu animation", "israel"]
+  },
+  "display_name": {
+    "he": "שפת עיצוב זכוכית נוזלת Liquid Glass 4.0 Pro",
+    "en": "Liquid Glass 4.0 Pro UI Design System"
+  },
+  "display_description": {
+    "he": "שפת עיצוב גלאסמורפיזם יוקרתית, גבולות רפרקציה כרומטית, רקעי אובסידיאן עמוקים ואנימציות 120Hz GPU חלקות.",
+    "en": "Luxury glassmorphism design system, chromatic refraction borders, deep obsidian backdrops, and 120Hz GPU animations."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

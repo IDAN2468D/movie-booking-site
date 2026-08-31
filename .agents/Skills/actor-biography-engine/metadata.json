@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "communication",
+  "tags": {
+    "he": ["שחקנים", "ביוגרפיה", "פילמוגרפיה", "קריינות", "בינה מלאכותית", "ישראל"],
+    "en": ["actors", "biography", "filmography", "narration", "ai", "israel"]
+  },
+  "display_name": {
+    "he": "מנוע ביוגרפיית שחקנים ופילמוגרפיה קולנועית",
+    "en": "Actor Biography & Filmography Engine"
+  },
+  "display_description": {
+    "he": "פרופילי שחקנים אינטראקטיביים, ציר זמן פילמוגרפיה מלא מ-TMDB, קריינות אודיו קולית מונעת AI וכרטיסי אספנות ביומטריים.",
+    "en": "Interactive actor profiles, full TMDB filmography timeline, AI-narrated audio voice-overs, and biometric fan collectibles."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

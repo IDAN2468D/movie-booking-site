@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "communication",
+  "tags": {
+    "he": ["ספוילרים", "דיון סרטים", "קהילה", "קפסולת זיכרון", "לאחר הקרנה", "ישראל"],
+    "en": ["spoilers", "movie discussion", "community", "memory capsule", "post screening", "israel"]
+  },
+  "display_name": {
+    "he": "מתחם שיח ודיון מוגן ספוילרים לאחר הקרנה",
+    "en": "Post-Movie Spoiler Lounge & Discussion"
+  },
+  "display_description": {
+    "he": "מתחם קהילתי לשיח מעמיק לאחר הסרט עם הגנת ספוילרים חכמה, תגי מאומתים שצפו בסרט ושברי ציטוטים קוליים.",
+    "en": "Community discussion lounge for post-screening analysis with intelligent spoiler shields, verified viewer badges, and quote shards."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

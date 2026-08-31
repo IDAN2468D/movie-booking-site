@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "tax-and-finance",
+  "tags": {
+    "he": ["מדפסת קבלות", "אנימציה", "קבלה דיגיטלית", "קריעת נייר", "כרטיס קולנוע", "ישראל"],
+    "en": ["receipt printer", "animation", "digital receipt", "torn paper", "movie ticket", "israel"]
+  },
+  "display_name": {
+    "he": "אנימציית מדפסת קבלות וכרטיסי קולנוע 120Hz",
+    "en": "120Hz GPU Receipt Print Animation"
+  },
+  "display_description": {
+    "he": "אנימציית גלילת קבלה תרמית מבוססת Framer Motion 120Hz GPU, אפקט קריעת נייר משונן, ברקוד מאומת ותמיכת RTL מלאה.",
+    "en": "120Hz GPU thermal receipt paper rollout animation with Framer Motion, serrated paper tear effect, verified barcode, and Hebrew RTL."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

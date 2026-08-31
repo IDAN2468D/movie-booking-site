@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "developer-tools",
+  "tags": {
+    "he": ["גבול חשמלי", "אפקט ניאון", "כרטיסיות זוהרות", "עיצוב כרומטי", "אנימציה", "ישראל"],
+    "en": ["electric border", "neon effect", "glowing cards", "chromatic ui", "animation", "israel"]
+  },
+  "display_name": {
+    "he": "אפקט גבול חשמלי וניאון לכרטיסיות",
+    "en": "Electric Border & Neon Glow Effect"
+  },
+  "display_description": {
+    "he": "יצירה והטמעה של גבולות חשמליים זוהרים, מסגרות ניאון דינמיות ורפרקציה כרומטית לכרטיסיות UI.",
+    "en": "Generation and integration of animated electric glowing border effects, neon gradient borders, and chromatic refractions."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

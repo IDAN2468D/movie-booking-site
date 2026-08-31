@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "developer-tools",
+  "tags": {
+    "he": ["תאורה דינמית", "יום לילה", "עיצוב מותאם שעה", "ערכת נושא", "מצב לילה", "ישראל"],
+    "en": ["dynamic lighting", "day night", "time based theme", "lighting theme", "dark mode", "israel"]
+  },
+  "display_name": {
+    "he": "מנוע תאורה דינמית יום/לילה לפי שעות היממה",
+    "en": "Movie Site Dynamic Day/Night Lighting"
+  },
+  "display_description": {
+    "he": "החלפת תאורה וצבעי רקע דינמיים באתר הקולנוע ב-4 רצועות שעה ביממה (שחר, יום, שקיעה, לילה) עם רפרקציה כרומטית.",
+    "en": "Dynamic time-based background lighting and adaptive UI themes across 4 Israeli time bands with Liquid Glass 4.0 chromatic reflections."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "food-and-dining",
+  "tags": {
+    "he": ["מזנון", "פופקורן", "אוכל בקולנוע", "קומבו", "התאמת ז'אנר", "ישראל"],
+    "en": ["concession", "popcorn", "cinema food", "combo", "genre pairing", "israel"]
+  },
+  "display_name": {
+    "he": "מזנון קולנועי מותאם אישית ב-AI",
+    "en": "AI Curated CineSnacks & Dining"
+  },
+  "display_description": {
+    "he": "התאמת פופקורן, משקאות וחבילות אוכל יוקרתיות לפי ז'אנר ומצב הרוח של הסרט, כולל מידע תזונתי וכשרות.",
+    "en": "AI-driven popcorn, beverage, and gourmet dining pairings matched to movie genres and moods with dietary info and kashrut."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

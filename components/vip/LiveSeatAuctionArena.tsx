@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Crown, Gavel, Clock, Sparkles, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { Crown, Gavel, Clock, CheckCircle2, ShieldAlert } from 'lucide-react';
 import { getLiveAuctionStateAction, submitAuctionBidAction, AuctionState } from '@/app/actions/auctionBidActions';
 import { playAuctionGavelSound } from './AuctionGavelSound';
 
@@ -42,7 +42,11 @@ export function LiveSeatAuctionArena() {
 
     if (res.success && res.data) {
       setAuction(res.data);
-      setBidNotice(`הצעתך בסך ₪${targetBid} מובילה כעת!`);
+      // Anti-sniping protection: if time is under 30s, extend clock by resetting to 30s
+      if (timeLeft < 30) {
+        setTimeLeft(30);
+      }
+      setBidNotice(`הצעתך בסך ₪${targetBid} מובילה כעת! 🔨`);
       setTimeout(() => setBidNotice(null), 3000);
     }
   };
@@ -54,9 +58,12 @@ export function LiveSeatAuctionArena() {
   };
 
   if (!auction) return null;
+  const isUrgent = timeLeft <= 30;
 
   return (
-    <div className="w-full bg-neutral-950/80 backdrop-blur-2xl border border-amber-500/20 rounded-3xl p-6 shadow-[0_20px_60px_rgba(245,158,11,0.1)] my-8" dir="rtl">
+    <div className={`w-full bg-neutral-950/90 backdrop-blur-3xl border rounded-3xl p-6 shadow-2xl transition-all ${
+      isUrgent ? 'border-red-500/40 shadow-[0_0_40px_rgba(239,68,68,0.2)]' : 'border-amber-500/20 shadow-[0_20px_60px_rgba(245,158,11,0.1)]'
+    }`} dir="rtl">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-4 mb-6">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400">
@@ -64,7 +71,7 @@ export function LiveSeatAuctionArena() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-xl font-bold font-outfit text-white">זירת מכרזי מושבי VIP של הרגע האחרון</h3>
+              <h3 className="text-xl font-bold font-outfit text-white">זירת מכרזי מושבי VIP ברגע האחרון</h3>
               <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold">
                 LIVE AUCTION
               </span>
@@ -73,9 +80,11 @@ export function LiveSeatAuctionArena() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 bg-black/40 px-4 py-2 rounded-2xl border border-white/10">
-          <Clock className="w-4 h-4 text-amber-400 animate-pulse" />
-          <span className="text-sm font-mono font-bold text-white">{formatTimer(timeLeft)}</span>
+        <div className={`flex items-center gap-2 px-4 py-2 rounded-2xl border ${
+          isUrgent ? 'bg-red-500/20 border-red-500/40 text-red-300 animate-pulse' : 'bg-black/40 border-white/10 text-white'
+        }`}>
+          <Clock className={`w-4 h-4 ${isUrgent ? 'text-red-400' : 'text-amber-400'}`} />
+          <span className="text-sm font-mono font-bold">{formatTimer(timeLeft)}</span>
           <span className="text-[10px] text-gray-400">לסיום</span>
         </div>
       </div>
@@ -94,7 +103,14 @@ export function LiveSeatAuctionArena() {
         </div>
 
         <div className="space-y-3">
-          <span className="text-xs font-bold text-gray-300 block">העלה הצעה בלחיצה מיידית:</span>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-gray-300">העלה הצעה בלחיצה מיידית:</span>
+            {isUrgent && (
+              <span className="flex items-center gap-1 text-[10px] text-amber-400 font-bold">
+                <ShieldAlert size={12} /> הגנת סנייפר פעילה (+30s)
+              </span>
+            )}
+          </div>
           <div className="grid grid-cols-3 gap-2">
             {[10, 25, 50].map((delta) => (
               <button

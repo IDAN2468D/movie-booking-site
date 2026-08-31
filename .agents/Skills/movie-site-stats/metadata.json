@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "accounting",
+  "tags": {
+    "he": ["סטטיסטיקות", "הכנסות", "הזמנות סרטים", "אנליטיקה", "דוחות כספיים", "ישראל"],
+    "en": ["statistics", "revenue", "movie orders", "analytics", "financial reports", "israel"]
+  },
+  "display_name": {
+    "he": "אנליטיקת הזמנות וסטטיסטיקות אתר סרטים",
+    "en": "Movie Site Orders & Revenue Analytics"
+  },
+  "display_description": {
+    "he": "ניתוח הזמנות כרטיסים, פילוח הכנסות עם 18% מע״מ ישראלי, חישוב מדדי שימור לקוחות ותובנות עסקיות מונעות AI.",
+    "en": "Ticket order analysis, revenue breakdown with 18% Israeli VAT, user retention metrics, and AI business insights."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

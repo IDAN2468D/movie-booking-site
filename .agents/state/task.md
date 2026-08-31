@@ -36,6 +36,9 @@
 - [x] Sprint 145: CineSub AI Ultra Suite v6.0 & Multi-Source Engine (`lib/utils/exportSubtitles.ts`, `lib/store/subtitleStore.ts`, `hooks/useLiveAudioTranscriber.ts`, `components/movie/CineSubTranscriberModal.tsx`, `app/(main)/cinesub/page.tsx`)
 - [x] Sprint 146: Full Movie Subtitle Track & Multi-Language Translation Suite (`lib/actions/fullMovieSubtitles.ts`, `components/cinesub/FullMovieSubtitlesViewer.tsx`, `components/movie/CineSubTranscriberModal.tsx`, `app/(main)/cinesub/page.tsx`)
 - [x] Sprint 147: CineDNA Feature Suite & Next-Gen Cinema Architecture (`lib/schemas/`, `lib/actions/`, `hooks/`, `components/cinedna/`, `components/sweetspot/`, `components/cinesquad/`, `components/directors-cut/`, `components/memory-capsule/`, `app/(main)/`)
+- [x] Sprint 148: Complete Skills-IL Organization Standardization & 15-Skill Ecosystem Upgrade (`.agents/skills/*/metadata.json`, `SKILL_HE.md`, `references/`, `scripts/`)
+- [x] Sprint 149: Cinema Platform Core Feature Upgrades (`hooks/useActorNarrationEngine.ts`, `components/actor/ActorAcousticNarration.tsx`, `components/concessions/AiSnackPairer.tsx`, `components/vip/LiveSeatAuctionArena.tsx`, `components/community/AfterglowLounge.tsx`, `components/receipt/CineBookReceiptPrinter.tsx`)
+- [x] Sprint 150: Multi-Layer Web Audio Thermal Receipt Printer Mechanical Sound & Paper Tear Haptics (`components/receipt/receiptAudio.ts`, `components/receipt/CineBookReceiptPrinter.tsx`)
 
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
 - [x] Vitest suite pass (145/145 tests across 31 test files)

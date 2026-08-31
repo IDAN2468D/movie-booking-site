@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "tax-and-finance",
+  "tags": {
+    "he": ["מכרזים", "מושבי VIP", "הצעות מחיר", "דקה 90", "פטיש אקוסטי", "ישראל"],
+    "en": ["auctions", "vip seats", "bidding", "last minute", "gavel sound", "israel"]
+  },
+  "display_name": {
+    "he": "מכרזי מושבי VIP והצעות מחיר בזמן אמת",
+    "en": "VIP Seat Live Auctions & Bidding"
+  },
+  "display_description": {
+    "he": "מכרזים חיים למושבי VIP ברגע האחרון, ספירה לאחור נגד צליפות מחיר, צליל פטיש אקוסטי ונעילה אוטומטית.",
+    "en": "Real-time last-minute VIP cinema seat auctions with anti-sniping countdowns, acoustic gavel audio, and instant locking."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

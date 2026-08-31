@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "developer-tools",
+  "tags": {
+    "he": ["שמע מרחבי", "אקוסטיקה", "סאב באס", "רטט הפטי", "אודיו", "ישראל"],
+    "en": ["spatial audio", "acoustics", "sub-bass", "haptic feedback", "audio", "israel"]
+  },
+  "display_name": {
+    "he": "מנוע שמע מרחבי תלת-ממדי וסאב-באס",
+    "en": "3D Spatial Acoustic Wavefront Engine"
+  },
+  "display_description": {
+    "he": "סימולציית אקוסטיקה תלת-ממדית מבוססת Web Audio API, סינתוז סאב-באס 35Hz-50Hz, פנרים בינאורליים ורטט הפטי מסונכרן.",
+    "en": "3D spatial acoustics simulation using Web Audio API, 35Hz-50Hz sub-bass synthesis, binaural HRTF panners, and synchronized haptic vibration."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

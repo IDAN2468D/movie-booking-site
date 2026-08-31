@@ -2,6 +2,8 @@
 
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { Scissors } from 'lucide-react';
+import { playThermalPrintSound, playPaperTearSound } from './receiptAudio';
 
 export interface CineBookReceiptItem { name: string; qty: number; price: number; }
 export interface CineBookReceiptData {
@@ -12,48 +14,14 @@ export interface CineBookReceiptData {
 
 const defaultReceiptData: CineBookReceiptData = {
   cinemaName: 'CINEPULSE DIGITAL CINEMA', tagline: 'אישור הזמנה וכרטיס קולנוע דיגיטלי',
-  movieTitle: 'ספיידרמן: מעבר לממדי הזמן', formatAndHall: 'אולם 1 | IMAX 3D Laser',
+  movieTitle: 'חולית: חלק שני', formatAndHall: 'אולם 1 | IMAX 3D Laser',
   showtime: 'יום חמישי, 14 באוגוסט | 20:30', selectedSeats: ['שורה 7 - מושב 12', 'שורה 7 - מושב 13'],
   bookingCode: 'CNB-98420192',
   items: [
     { name: '2X כרטיס קולנוע IMAX 3D', qty: 2, price: 110.00 },
-    { name: '1X קומבו פופקורן ענק + 2 שתייה', qty: 1, price: 45.00 },
+    { name: '1X קומבו פופקורן ענק + שתייה', qty: 1, price: 45.00 },
   ],
-  subtotal: 155.00, taxAmount: 0.00, total: 155.00,
-};
-
-const playThermalMotorSound = () => {
-  try {
-    const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
-    if (ctx.state === 'suspended') ctx.resume();
-    const osc = ctx.createOscillator(); const gain = ctx.createGain();
-    osc.type = 'sawtooth'; osc.frequency.setValueAtTime(160, ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(110, ctx.currentTime + 2.0);
-    gain.gain.setValueAtTime(0.04, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.0);
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.start(); osc.stop(ctx.currentTime + 2.0);
-  } catch {}
-};
-
-const playPaperTearSound = () => {
-  try {
-    const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
-    if (ctx.state === 'suspended') ctx.resume();
-    const bufferSize = ctx.sampleRate * 0.12; const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const output = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-    const whiteNoise = ctx.createBufferSource(); whiteNoise.buffer = buffer;
-    const filter = ctx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 1200;
-    const gain = ctx.createGain(); gain.gain.setValueAtTime(0.07, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
-    whiteNoise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
-    whiteNoise.start();
-  } catch {}
+  subtotal: 131.36, taxAmount: 23.64, total: 155.00,
 };
 
 export default function CineBookReceiptPrinter({ data = defaultReceiptData }: { data?: CineBookReceiptData }) {
@@ -67,13 +35,12 @@ export default function CineBookReceiptPrinter({ data = defaultReceiptData }: { 
     setIsTorn(false);
     setIsPrinting(true);
     setPrintKey(prev => prev + 1);
-    playThermalMotorSound();
-    setTimeout(() => { setIsPrinting(false); }, 2100);
+    playThermalPrintSound(1800);
+    setTimeout(() => setIsPrinting(false), 1900);
   };
 
   const handleTear = () => {
     if (!isTorn && !isPrinting) {
-      if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate([25, 40, 25]);
       playPaperTearSound();
       setIsTorn(true);
     }
@@ -86,82 +53,78 @@ export default function CineBookReceiptPrinter({ data = defaultReceiptData }: { 
   return (
     <div ref={containerRef} dir="rtl" className="flex flex-col items-center justify-center p-2 text-slate-100 font-sans w-full">
       <div className="relative w-full max-w-md flex flex-col items-center">
-        {/* 1. Metallic Thermal Printer Slot */}
-        <div className="relative z-20 w-[92%] h-12 rounded-2xl bg-gradient-to-r from-amber-600 via-yellow-400 to-amber-700 p-[2px] shadow-[0_10px_30px_rgba(245,158,11,0.25)] border border-amber-300/40 transform-gpu">
-          <div className="w-full h-full bg-gradient-to-b from-stone-900 via-stone-950 to-black rounded-xl flex items-center justify-center shadow-inner relative overflow-hidden">
-            <div className="w-[86%] h-2.5 bg-black rounded-full shadow-[inset_0_2px_4px_rgba(0,0,0,0.9)] border-b border-amber-500/30 flex items-center justify-center relative">
-              {isPrinting && <div className="w-20 h-1 bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-400 rounded-full animate-pulse blur-[1px] shadow-[0_0_10px_#f59e0b]" />}
+        {/* Metallic Thermal Head Slot */}
+        <div className="relative z-20 w-[92%] h-12 rounded-2xl bg-gradient-to-r from-amber-600 via-yellow-400 to-amber-700 p-[2px] shadow-2xl border border-amber-300/40">
+          <div className="w-full h-full bg-stone-950 rounded-xl flex items-center justify-center relative overflow-hidden">
+            <div className="w-[86%] h-2.5 bg-black rounded-full border-b border-amber-500/30 flex items-center justify-center">
+              {isPrinting && <div className="w-20 h-1 bg-amber-400 rounded-full animate-pulse blur-[1px]" />}
             </div>
           </div>
         </div>
 
-        {/* 2. Fluid Paper Feed / Rollout Container */}
+        {/* Paper Container */}
         <div className="relative z-10 w-full flex flex-col items-center -mt-2 overflow-hidden pb-4">
           <motion.div
             key={printKey}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
-            transition={{ duration: 1.9, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
             className="w-full flex flex-col items-center overflow-hidden"
           >
             <motion.div
               initial={{ y: -40 }}
-              animate={{ y: isTorn ? 22 : 0, rotate: isTorn ? 1.2 : 0, clipPath: paperPolygon || 'none' }}
-              transition={{
-                y: { duration: isTorn ? 0.35 : 1.9, ease: isTorn ? 'easeOut' : [0.16, 1, 0.3, 1] },
-                rotate: { duration: 0.35, ease: 'easeOut' }, clipPath: { duration: 0.2 },
-              }}
+              animate={{ y: isTorn ? 20 : 0, rotate: isTorn ? 1 : 0, clipPath: paperPolygon || 'none' }}
+              transition={{ y: { duration: isTorn ? 0.3 : 1.8 }, clipPath: { duration: 0.2 } }}
               onClick={handleTear}
-              className={`relative w-[88%] bg-[#FAF8F5] text-stone-900 p-6 shadow-[0_20px_50px_rgba(0,0,0,0.8)] transform-gpu will-change-transform origin-top select-none ${
+              className={`relative w-[88%] bg-[#FAF8F5] text-stone-900 p-6 shadow-2xl origin-top select-none ${
                 isTorn ? 'cursor-default' : 'cursor-pointer hover:translate-y-1 transition-transform'
               }`}
             >
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] select-none font-black text-4xl tracking-widest text-stone-950 rotate-[-25deg]">
-                CINEPULSE PASS
-              </div>
               {!isTorn && !isPrinting && (
                 <div className="flex items-center justify-center gap-1 text-[10px] font-mono text-amber-700/80 mb-2 border-b border-dashed border-amber-300/60 pb-1">
-                  <span>✂️</span><span>לחץ כאן לתלישת הכרטיס</span><span>✂️</span>
+                  <Scissors size={10} /><span>לחץ כאן לתלישת הכרטיס</span>
                 </div>
               )}
-              <div className="flex flex-col items-center text-center border-b border-stone-300 pb-4 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-stone-950 font-black text-2xl mb-2 shadow-md">🎬</div>
-                <h2 className="font-black text-stone-900 tracking-wide text-base">{data.cinemaName}</h2>
-                <p className="text-xs text-stone-600 font-mono mt-0.5">{data.tagline}</p>
+              <div className="flex flex-col items-center text-center border-b border-stone-300 pb-3 mb-3">
+                <h2 className="font-black text-stone-900 text-base">{data.cinemaName}</h2>
+                <p className="text-xs text-stone-600 font-mono">{data.tagline}</p>
               </div>
-              <div className="text-center my-3 bg-stone-100 p-3 rounded-xl border border-stone-200">
-                <h3 className="text-lg font-black text-stone-900 leading-snug">{data.movieTitle}</h3>
-                <p className="text-xs font-semibold text-amber-700 mt-1">{data.formatAndHall}</p>
-                <p className="text-[11px] font-mono text-stone-600 mt-0.5">{data.showtime}</p>
+              <div className="text-center my-2 bg-stone-100 p-3 rounded-xl border border-stone-200">
+                <h3 className="text-base font-black text-stone-900">{data.movieTitle}</h3>
+                <p className="text-xs font-semibold text-amber-700 mt-0.5">{data.formatAndHall}</p>
+                <p className="text-[11px] font-mono text-stone-600">{data.showtime}</p>
               </div>
               <div className="my-3 text-center">
                 <span className="text-xs font-bold text-stone-700 bg-stone-200 px-3 py-1 rounded-full font-mono">
                   מושבים: {data.selectedSeats.length > 0 ? data.selectedSeats.join(' | ') : 'ללא שיוך'}
                 </span>
               </div>
-              <div className="my-5 border-t border-b border-dashed border-stone-400 py-3 text-xs font-mono space-y-2">
+              <div className="my-3 border-t border-b border-dashed border-stone-400 py-2.5 text-xs font-mono space-y-1.5">
                 {data.items.map((item, idx) => (
                   <div key={idx} className="flex justify-between items-center">
-                    <span className="text-stone-800 font-medium">{item.name}</span>
-                    <span className="font-bold text-stone-900 shrink-0">₪{item.price.toFixed(2)}</span>
+                    <span className="text-stone-800">{item.name}</span>
+                    <span className="font-bold text-stone-900">₪{item.price.toFixed(2)}</span>
                   </div>
                 ))}
               </div>
-              <div className="text-xs font-mono space-y-1.5 text-stone-700 mb-5">
-                <div className="flex justify-between text-base font-black text-stone-950 border-t border-stone-300 pt-2">
-                  <span>סה"כ לתשלום</span>
-                  <span className="text-amber-800">₪{data.total.toFixed(2)}</span>
+              <div className="text-xs font-mono space-y-1 text-stone-700 mb-4">
+                <div className="flex justify-between text-[11px]">
+                  <span>סכום לפני מע״מ:</span><span>₪{data.subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-[11px]">
+                  <span>מע״מ ישראלי (18%):</span><span>₪{data.taxAmount.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-base font-black text-stone-950 border-t border-stone-300 pt-1.5">
+                  <span>סה&quot;כ לתשלום</span><span className="text-amber-800">₪{data.total.toFixed(2)}</span>
                 </div>
               </div>
-              <div className="flex flex-col items-center text-center pt-1">
-                <p className="text-[11px] font-mono tracking-widest text-stone-600 mb-2">תהנו בסרט! 🍿</p>
-                <div className="relative flex items-center justify-center gap-[2px] h-10 w-52 bg-stone-950 p-1.5 rounded-sm overflow-hidden">
-                  <div className="absolute top-0 bottom-0 w-1 bg-red-500/80 shadow-[0_0_8px_#ff0000] animate-pulse" style={{ right: '40%' }} />
-                  {Array.from({ length: 34 }).map((_, i) => (
-                    <div key={i} className="bg-white h-full" style={{ width: `${(i % 3) + 1}px`, opacity: i % 6 === 0 ? 0.25 : 1 }} />
+              <div className="flex flex-col items-center text-center">
+                <div className="flex items-center justify-center gap-[2px] h-8 w-48 bg-stone-950 p-1 rounded-sm">
+                  {Array.from({ length: 30 }).map((_, i) => (
+                    <div key={i} className="bg-white h-full" style={{ width: `${(i % 3) + 1}px` }} />
                   ))}
                 </div>
-                <span className="text-[10px] font-mono font-bold text-stone-700 mt-1.5 tracking-wider">
+                <span className="text-[10px] font-mono font-bold text-stone-700 mt-1">
                   קוד הזמנה: {data.bookingCode}
                 </span>
               </div>
@@ -169,21 +132,15 @@ export default function CineBookReceiptPrinter({ data = defaultReceiptData }: { 
           </motion.div>
         </div>
 
-        {/* 3. Control Panel */}
-        <div className="mt-2 w-full text-center bg-slate-900/80 border border-white/10 rounded-2xl p-5 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] transform-gpu">
-          <h3 className="text-lg font-bold text-white mb-1">
-            {isPrinting ? 'מדפיס כרטיס טרמי... 🖨️' : isTorn ? 'הכרטיס נתלש בהצלחה ✂️' : 'ההזמנה אושרה בהצלחה! 🎉'}
-          </h3>
-          <p className="text-xs text-slate-400 mb-4">
-            {isPrinting ? 'המדפסת הטרמית מזינה וגוללת את הנייר מטה...' : isTorn ? 'הכרטיס הדיגיטלי מוכן. ניתן להדפיס עותק נוסף בכל עת.' : 'לחץ על הקבלה למעלה לתלישה או לחץ להדפסה מחדש.'}
-          </p>
+        {/* Control Panel */}
+        <div className="mt-2 w-full text-center bg-slate-900/80 border border-white/10 rounded-2xl p-4 backdrop-blur-2xl shadow-xl">
           <button
             type="button"
             onClick={handlePrint}
             disabled={isPrinting}
-            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all duration-200 active:scale-95 shadow-lg shadow-amber-500/25 disabled:opacity-50 transform-gpu cursor-pointer"
+            className="px-6 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-black font-black text-xs transition-all active:scale-95 disabled:opacity-50"
           >
-            {isPrinting ? 'מדפיס כרטיס...' : isTorn ? 'הדפס כרטיס חדש' : 'הדפס כרטיס מחדש 🎟️'}
+            {isPrinting ? 'מדפיס כרטיס... 🖨️' : isTorn ? 'הדפס כרטיס חדש' : 'הדפס כרטיס מחדש 🎟️'}
           </button>
         </div>
       </div>
