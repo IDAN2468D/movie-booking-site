@@ -484,6 +484,24 @@
 - **Verification:** 145/145 Vitest tests passed across 31 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
 - **Status:** ✅ Completed
 
+## 📰 Phase 79: Cinema News AI Feed Robust Fallback Images & Error Recovery (Sprint 152)
+- **Features Implemented:**
+  - Added robust `onError` image fallback in `components/home/NewsWidget.tsx` to prevent broken image icons and text overflows.
+  - Refactored `app/api/ai/news-curator/route.ts` with validated Unsplash cinema imagery and localized CinePulse updates.
+- **Tech Stack:** React 19, Next.js 15 App Router, Unsplash CDN, Tailwind CSS.
+- **Verification:** 145/145 Vitest tests passed across 31 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+## 🌐 Phase 80: Expanded 12-16 Story Cinema News Feed & Fallback Database (Sprint 153)
+- **Features Implemented:**
+  - Created `lib/data/newsFallback.ts` (134 LOC) with 12 comprehensive cinema news articles covering Hollywood blockbusters, IMAX laser theaters in Israel, Marvel Phase 6, Dune 3, Cannes Film Festival, and CinePulse tech innovations.
+  - Refactored `app/api/ai/news-curator/route.ts` (125 LOC) to request 12-16 stories from Gemini AI with complete fallback resilience.
+- **Tech Stack:** Next.js 15 App Router, Google Gemini AI (`gemini-3.5-flash-lite`), Zod, Tailwind CSS.
+- **Verification:** 145/145 Vitest tests passed across 31 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+
+
 
 
 

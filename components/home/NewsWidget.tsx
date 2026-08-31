@@ -2,14 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Newspaper, Rss, Clock, Sparkles, ExternalLink, Tag } from 'lucide-react';
+import { Newspaper, Rss, Clock, Sparkles, Tag, Film } from 'lucide-react';
 import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import type { NewsCuratorOutput, NewsArticle } from '@/lib/schemas/newsCurator';
+
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80';
 
 const playHoverSound = () => {
   if (typeof window === 'undefined') return;
   try {
-    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const ctx = new AudioCtx();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'sine';
@@ -73,7 +76,7 @@ export default function NewsWidget({ fullWidth = false }: { fullWidth?: boolean 
               <Newspaper size={24} className="text-indigo-400" />
             </div>
             <div>
-              <h3 className="font-['Outfit'] font-black text-white text-xl tracking-wide uppercase drop-shadow-md">חדשות קולנוע ועידכוני TMTB</h3>
+              <h3 className="font-['Outfit'] font-black text-white text-xl tracking-wide uppercase drop-shadow-md">חדשות קולנוע ומבזקי CinePulse</h3>
               <div className="flex items-center gap-1.5 text-xs text-indigo-300/80 font-semibold tracking-widest uppercase">
                 <Sparkles size={12} className="text-indigo-400 animate-pulse" />
                 AI CURATED LIVE FEED ({newsData?.news.length || 0} כתבות)
@@ -106,15 +109,21 @@ export default function NewsWidget({ fullWidth = false }: { fullWidth?: boolean 
                     onClick={() => setSelectedArticle(item)}
                     className="group/card rounded-2xl bg-white/[0.03] border border-white/10 hover:bg-white/[0.07] hover:border-indigo-500/40 transition-all duration-300 cursor-pointer overflow-hidden flex flex-col transform-gpu hover:-translate-y-1 shadow-lg"
                   >
-                    {item.imageUrl && (
-                      <div className="relative h-40 w-full overflow-hidden">
-                        <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500 transform-gpu" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent" />
-                        <span className={`absolute top-3 right-3 text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20 shadow-md ${badge.color}`}>
-                          {badge.label}
-                        </span>
-                      </div>
-                    )}
+                    <div className="relative h-40 w-full overflow-hidden bg-neutral-900 flex items-center justify-center">
+                      <img
+                        src={item.imageUrl || FALLBACK_IMAGE}
+                        alt=""
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = FALLBACK_IMAGE;
+                        }}
+                        className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500 transform-gpu"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent" />
+                      <span className={`absolute top-3 right-3 text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/20 shadow-md ${badge.color}`}>
+                        {badge.label}
+                      </span>
+                    </div>
                     <div className="p-4 flex-1 flex flex-col justify-between">
                       <div>
                         <h4 className="text-white font-bold text-base leading-snug group-hover/card:text-indigo-300 transition-colors mb-2">{item.title}</h4>
@@ -148,9 +157,15 @@ export default function NewsWidget({ fullWidth = false }: { fullWidth?: boolean 
           {selectedArticle && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
               <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} className="max-w-lg w-full rounded-3xl bg-neutral-900 border border-white/20 overflow-hidden shadow-2xl p-6 relative text-right">
-                {selectedArticle.imageUrl && (
-                  <img src={selectedArticle.imageUrl} alt={selectedArticle.title} className="w-full h-48 object-cover rounded-2xl mb-4 border border-white/10" />
-                )}
+                <img
+                  src={selectedArticle.imageUrl || FALLBACK_IMAGE}
+                  alt=""
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = FALLBACK_IMAGE;
+                  }}
+                  className="w-full h-48 object-cover rounded-2xl mb-4 border border-white/10"
+                />
                 <span className="text-xs px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 mb-2 inline-block">
                   {selectedArticle.source} • {selectedArticle.date}
                 </span>
