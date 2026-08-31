@@ -477,6 +477,14 @@
 - **Verification:** 145/145 Vitest tests passed across 31 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
 - **Status:** ✅ Completed
 
+## 🇮🇱 Phase 78: 100% Sidebar Advanced Features Hebrew RTL Localization (Sprint 151)
+- **Features Implemented:**
+  - Translated all 25 advanced feature menu items in `components/layout/Sidebar.tsx` to clear, authentic Hebrew terms (e.g., מפת גנים קולנועית, סימולטור אקוסטיקה 3D, הזמנה קבוצתית ופיצול חכם, פרשנות במאי קולית AI, כספת שברי זיכרון דיגיטליים, כתוביות חיות ותרגום AI, פקודות קוליות AI ועוד).
+- **Tech Stack:** React 19, Next.js 15, Tailwind CSS, Hebrew RTL Copywriting.
+- **Verification:** 145/145 Vitest tests passed across 31 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+- **Status:** ✅ Completed
+
+
 
 
 
