@@ -32,6 +32,8 @@ jobs:
         GOOGLE_CLIENT_SECRET: 'ci-dummy'
         MONGODB_URI: 'mongodb://localhost:27017/test'
         JWT_SECRET: 'ci-dummy-jwt-secret'
+        RESEND_API_KEY: 're_dummy_ci_key'
+        TMDB_API_KEY: 'ci-dummy-key'
       
     - name: Build Project
       run: npm run build
@@ -42,3 +44,5 @@ jobs:
         GOOGLE_CLIENT_SECRET: 'ci-dummy'
         MONGODB_URI: 'mongodb://localhost:27017/test'
         JWT_SECRET: 'ci-dummy-jwt-secret'
+        RESEND_API_KEY: 're_dummy_ci_key'
+        TMDB_API_KEY: 'ci-dummy-key'

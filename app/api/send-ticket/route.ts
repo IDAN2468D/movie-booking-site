@@ -5,7 +5,7 @@ import QRCode from 'qrcode';
 import path from 'path';
 import fs from 'fs';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_build_fallback_key');
 
 // Helper to handle Hebrew text in PDFKit for RTL with better mixed content support
 const fixHebrew = (text: string) => {
