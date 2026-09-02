@@ -6,7 +6,7 @@ test.describe('Movie Booking Flow', () => {
     await page.goto('/');
 
     // Verify the page loaded successfully by checking the title or a main heading
-    await expect(page).toHaveTitle(/Movie/i);
+    await expect(page).toHaveTitle(/CinePulse|Movie/i);
 
     // Wait for movies to load (assuming movies have a specific test ID or role)
     // Here we just ensure the body is visible
