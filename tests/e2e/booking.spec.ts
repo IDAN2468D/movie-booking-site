@@ -13,6 +13,6 @@ test.describe('Movie Booking Flow', () => {
     await expect(page.locator('body')).toBeVisible();
     
     // We can also verify that the Navbar or Sidebar is present
-    await expect(page.locator('nav')).toBeVisible();
+    await expect(page.locator('nav').first()).toBeVisible();
   });
 });
