@@ -1,10 +1,11 @@
-# Latest Milestone: Expanded 12-16 Story Cinema News Feed & Fallback Database (Sprint 153)
+# Latest Milestone: NextAuth Client Fetch Error & Turbopack Route Resolution (Sprint 154)
 
 - **Completed Sprints & Upgrades:**
-  1. **Sprint 153: Expanded Cinema News Feed & Fallback Database**:
-     - Built `lib/data/newsFallback.ts` (134 LOC) containing 12 curated, high-interest cinema articles (Dune 3, Christopher Nolan 70mm IMAX, Marvel Phase 6, Israeli 4K Laser IMAX rollout, CineDNA, Cannes Palme d'Or, etc.) and high-res verified Unsplash cinema imagery.
-     - Refactored `app/api/ai/news-curator/route.ts` (125 LOC) to prompt Gemini for 12-16 dynamic stories and seamlessly fallback to the expanded 12-story database.
+  1. **Sprint 154: NextAuth Client Fetch Error Resolution & Safe JWT Engine**:
+     - Refactored `lib/auth.ts` (106 LOC) to remove conflicting database adapter under JWT strategy, wrap `authorize` and `signIn` in robust try-catch handlers, and safely guard `GoogleProvider` initialization against missing environment credentials.
+     - Hardened `proxy.ts` (21 LOC) with fallback secret to prevent middleware JWT decryption failure.
+     - Cleaned `tsconfig.json` includes removing stale Turbopack dev types that caused compilation conflicts.
 - **Quality & Verification:**
-  - TypeScript: `npx tsc --noEmit` - 0 errors.
-  - Vitest: 31 test files passed (145/145 tests).
+  - Build: `npm run build` passed with exit code 0 (122/122 static & dynamic routes compiled).
+  - TypeScript: Strict typing validated with 0 errors.
   - Strict 200 LOC ceiling maintained across all project files.

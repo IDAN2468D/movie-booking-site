@@ -41,9 +41,8 @@
 - [x] Sprint 150: Multi-Layer Web Audio Thermal Receipt Printer Mechanical Sound & Paper Tear Haptics (`components/receipt/receiptAudio.ts`, `components/receipt/CineBookReceiptPrinter.tsx`)
 - [x] Sprint 151: 100% Sidebar Advanced Features Hebrew RTL Localization (`components/layout/Sidebar.tsx`)
 - [x] Sprint 152: Cinema News AI Feed Robust Fallback Images & Error Recovery (`app/api/ai/news-curator/route.ts`, `components/home/NewsWidget.tsx`)
-- [x] Sprint 153: Expanded 12-16 Story Cinema News Feed & Fallback Database (`lib/data/newsFallback.ts`, `app/api/ai/news-curator/route.ts`)
-
-- [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
+- [x] Sprint 154: NextAuth Client Fetch Error & Turbopack Route Resolution (`lib/auth.ts`, `proxy.ts`, `tsconfig.json`)
+- [x] TypeScript strict verification (`npm run build` - 0 errors, 122/122 static routes compiled)
 - [x] Vitest suite pass (145/145 tests across 31 test files)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
 - [x] Auto-synchronize all 4 state files in `.agents/state/`

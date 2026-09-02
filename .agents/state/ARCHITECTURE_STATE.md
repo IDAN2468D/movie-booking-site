@@ -52,6 +52,7 @@
 | **Module AU** | Complete Skills-IL 15-Skill Ecosystem | `/.agents/skills/*/` | Bilingual `metadata.json`, `SKILL_HE.md`, `references/`, Python `scripts/` | `ACTIVE` |
 | **Module AV** | Liquid Glass 4.0 Core Cinema Features Upgrades | `/components/` | Voiceover Hook, Concession Pairing, VIP Anti-Sniping, Spoiler Lounge, Thermal Receipt | `ACTIVE` |
 | **Module AW** | Thermal Receipt Printer Multi-Layer Audio Engine | `/components/receipt/receiptAudio.ts` | Stepper Motor Stepping, Thermal Pin Sizzle, Paper Tear Noise, Haptics | `ACTIVE` |
+| **Module AX** | NextAuth Resilient JWT Authentication Engine | `/lib/auth.ts`, `/app/api/auth/[...nextauth]/route.ts` | NextAuth v4, Pure JWT Strategy, Guarded OAuth Providers, Turbopack Ready | `ACTIVE` |
 
 ---
 

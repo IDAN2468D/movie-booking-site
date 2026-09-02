@@ -5,6 +5,7 @@ const authMiddleware = withAuth({
   pages: {
     signIn: "/login",
   },
+  secret: process.env.NEXTAUTH_SECRET || "dev-secret-placeholder-for-stability",
 }) as NextMiddleware;
 
 // Next.js 16 requires the function name to be 'proxy'

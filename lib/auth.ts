@@ -1,29 +1,23 @@
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import clientPromise from "./mongodb";
 import bcrypt from "bcryptjs";
 
-export const authOptions: NextAuthOptions = {
-  adapter: MongoDBAdapter(clientPromise),
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+const providers: NextAuthOptions["providers"] = [
+  CredentialsProvider({
+    name: "Credentials",
+    credentials: {
+      email: { label: "Email", type: "email" },
+      password: { label: "Password", type: "password" }
+    },
+    async authorize(credentials) {
+      if (!credentials?.email || !credentials?.password) return null;
 
+      try {
         const client = await clientPromise;
         const db = client.db();
-        const normalizedEmail = credentials.email.toLowerCase();
+        const normalizedEmail = credentials.email.toLowerCase().trim();
         const user = await db.collection("users").findOne({ email: normalizedEmail });
 
         if (!user || !user.password) return null;
@@ -35,12 +29,31 @@ export const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           email: user.email,
           name: user.name,
+          image: user.image || null,
         };
+      } catch (error) {
+        console.error("[NextAuth Authorize Error]:", error);
+        return null;
       }
+    }
+  })
+];
+
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  providers.push(
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
     })
-  ],
+  );
+}
+
+export const authOptions: NextAuthOptions = {
+  providers,
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
     signIn: "/login",
@@ -48,18 +61,23 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
-        const client = await clientPromise;
-        const db = client.db();
-        const normalizedEmail = user.email?.toLowerCase();
-        const existingUser = await db.collection("users").findOne({ email: normalizedEmail });
-        
-        if (!existingUser) {
-          await db.collection("users").insertOne({
-            email: normalizedEmail,
-            name: user.name,
-            image: user.image,
-            createdAt: new Date(),
-          });
+        try {
+          const client = await clientPromise;
+          const db = client.db();
+          const normalizedEmail = user.email?.toLowerCase().trim();
+          if (normalizedEmail) {
+            const existingUser = await db.collection("users").findOne({ email: normalizedEmail });
+            if (!existingUser) {
+              await db.collection("users").insertOne({
+                email: normalizedEmail,
+                name: user.name,
+                image: user.image,
+                createdAt: new Date(),
+              });
+            }
+          }
+        } catch (error) {
+          console.error("[NextAuth Google SignIn Error]:", error);
         }
       }
       return true;
@@ -72,7 +90,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string;
+        session.user.id = (token.id as string) || (token.sub as string);
         
         // Ensure development/test sessions reflect the desired Google profile
         if (session.user.email === 'test@example.com' || session.user.email === 'idankzm@gmail.com') {

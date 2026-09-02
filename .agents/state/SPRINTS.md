@@ -497,14 +497,15 @@
   - Created `lib/data/newsFallback.ts` (134 LOC) with 12 comprehensive cinema news articles covering Hollywood blockbusters, IMAX laser theaters in Israel, Marvel Phase 6, Dune 3, Cannes Film Festival, and CinePulse tech innovations.
   - Refactored `app/api/ai/news-curator/route.ts` (125 LOC) to request 12-16 stories from Gemini AI with complete fallback resilience.
 - **Tech Stack:** Next.js 15 App Router, Google Gemini AI (`gemini-3.5-flash-lite`), Zod, Tailwind CSS.
-- **Verification:** 145/145 Vitest tests passed across 31 files, 0 TypeScript errors, strict 200 LOC ceiling maintained.
+## 🛡️ Phase 81: NextAuth Client Fetch Error & Turbopack Route Resolution (Sprint 154)
+- **Features Implemented:**
+  - Resolved `[CLIENT_FETCH_ERROR] Unexpected token '<', "<!DOCTYPE "... is not valid JSON` across NextAuth endpoints.
+  - Hardened `lib/auth.ts` (106 LOC) by removing conflicting database adapter under JWT strategy, wrapping `authorize` and `signIn` in robust try-catch blocks, and safely initializing `GoogleProvider` only when credentials are provided.
+  - Enhanced `proxy.ts` (21 LOC) with fallback secret to prevent middleware token decoding errors.
+  - Cleaned `tsconfig.json` includes removing stale `.next/dev/types/**/*.ts` paths.
+- **Tech Stack:** NextAuth.js v4, Next.js 16 (Turbopack), TypeScript, MongoDB.
+- **Verification:** `npm run build` passed with exit code 0 (122/122 routes generated), 0 TypeScript errors, strict 200 LOC ceiling maintained.
 - **Status:** ✅ Completed
-
-
-
-
-
-
 
 
 
