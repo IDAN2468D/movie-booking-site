@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "developer-tools",
+  "tags": {
+    "he": ["תכנון פיצ'רים", "קולנוע", "סיפורי משתמש", "ארכיטקטורה", "ספרינט"],
+    "en": ["feature-planning", "cinema", "user-stories", "architecture", "sprint"]
+  },
+  "display_name": {
+    "he": "מתכנן פיצ'רים לאתרי קולנוע ומדיה",
+    "en": "Movie Site Feature Planner"
+  },
+  "display_description": {
+    "he": "תכנון, תיעדוף ואפיון מפרטי יישום לפיצ'רים חדשים באתרי קולנוע, סיפורי משתמש ומודלי נתונים לפי תקן SDD.",
+    "en": "Plans, scopes, and drafts implementation specs for new features on a cinema platform with prioritized backlogs and user stories."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

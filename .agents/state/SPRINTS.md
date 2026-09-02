@@ -559,6 +559,16 @@
 - **Verification:** Both GitHub Actions workflows (`CI Pipeline` #33617963239 and `QA E2E Tests` #33617963256) completed with **success**.
 - **Status:** ✅ Completed
 
+## 🇮🇱 Phase 88: CinePulse Feature & Skills-IL Upgrade Suite (Sprint 161)
+- **Features Implemented:**
+  - **Orb AI Concierge & Israeli Cinema Mood (`src/components/ai/moodData.ts`, `src/components/ai/OrbMoodPicker.tsx`):** Added authentic Israeli cinema category with curated Israeli films, Hebrew voice command intent matching, and Web Audio harmonic chimes.
+  - **Israeli Concessions & Kosher Tagging (`components/concessions/AiSnackPairer.tsx`):** Added Israeli cinema concessions (Bamba, large popcorn, hot nachos), Kosher certification filtering (Badatz, Mehadrin, Rabbanut), and 18% Israeli VAT breakdown.
+  - **Israeli VIP Seat Auction Arena (`components/vip/LiveSeatAuctionArena.tsx`):** Added venue selector for Israeli VIP cinema complexes (Cinema City Glilot, Yes Planet Rishon, Hot Cinema Kfar Saba), spatial gavel sound synthesis, and double haptic vibration.
+  - **Skills-IL Organization Ecosystem Standardization:** Upgraded `agent-stack-framework`, `feature-audit-skill`, and `movie-site-feature-planner` with bilingual `metadata.json`, complete `SKILL_HE.md` Hebrew companions, `references/` guides, and Python 3 CLI scripts (`scripts/agent_stack_validator.py`, `scripts/audit_reporter.py`, `scripts/planner_generator.py`).
+- **Tech Stack:** Next.js 16, React 19, Tailwind CSS, Web Audio API, Web Haptics API, Python 3 Stdlib.
+- **Verification:** `npx tsc --noEmit` passed (0 errors), `npm run build` passed (123/123 routes), 161/161 Vitest tests passing, all Python CLI tools tested with `--help` and live execution, strict 200 LOC ceiling maintained across all project files.
+- **Status:** ✅ Completed
+
 
 
 

@@ -1,15 +1,14 @@
-# Latest Milestone: GitHub Actions CI/CD & Playwright E2E Full Resolution (Sprint 159)
+# Latest Milestone: CinePulse Feature & Skills-IL Upgrade Suite (Sprint 161)
 
 - **Completed Sprints & Upgrades:**
-  1. **Sprint 159: GitHub Actions CI/CD & Playwright E2E Full Resolution**:
-     - Upgraded GitHub Workflows (`.github/workflows/ci.yml`, `.github/workflows/qa.yml`) to `actions/checkout@v4`, `actions/setup-node@v4` (Node 20.x), and `actions/upload-artifact@v4`.
-     - Added `@testing-library/dom` to `package.json` devDependencies and fully synchronized `package-lock.json` to eliminate `npm ci` errors.
-     - Added resilient `FALLBACK_MOVIES` in `lib/tmdb.ts` to prevent 401 unhandled exceptions during Next.js SSG build in CI.
-     - Fixed `Resend` initialization with a fallback in `app/api/send-ticket/route.ts` and cleaned experimental options in `next.config.ts`.
-     - Fixed Playwright strict mode locator and brand title matcher in `tests/e2e/booking.spec.ts`.
-     - Verified: **100% Green status** on GitHub Actions for both `CI Pipeline` and `QA E2E Tests`.
+  1. **Sprint 161: CinePulse Feature & Skills-IL Upgrade Suite (Agent Stack v9.5 SDD & Feature Audit)**:
+     - **Orb AI Concierge & Israeli Cinema Mood**: Built `src/components/ai/moodData.ts` (62 LOC) and upgraded `src/components/ai/OrbMoodPicker.tsx` (139 LOC) with authentic Israeli cinema mode, Israeli movie recommendations, and Hebrew voice command intents.
+     - **Israeli Concessions & Kosher Certification**: Upgraded `components/concessions/AiSnackPairer.tsx` (151 LOC) with Israeli snack pairings, 18% VAT breakdown, and Kosher certification tags (Badatz, Mehadrin, Rabbanut).
+     - **Israeli VIP Seat Auction Arena**: Upgraded `components/vip/LiveSeatAuctionArena.tsx` (176 LOC) with Israeli VIP cinema branches (Cinema City Glilot, Yes Planet Rishon, Hot Cinema Kfar Saba), spatial gavel sound, and double haptic vibration.
+     - **Skills-IL Organization Ecosystem Standardization**: Standardized `agent-stack-framework`, `feature-audit-skill`, and `movie-site-feature-planner` with bilingual `metadata.json`, complete Hebrew companion `SKILL_HE.md`, `references/` guides, and standalone Python 3 utilities in `scripts/`.
 - **Quality & Verification:**
-  - GitHub Actions: Both `CI Pipeline` (#33617963239) and `QA E2E Tests` (#33617963256) completed with **success**.
   - TypeScript: `npx tsc --noEmit` passed with 0 errors.
-  - Tests: Total 159/159 Vitest tests passing across 33 test files.
+  - Build: `npm run build` passed with exit code 0 (123/123 static and dynamic routes compiled).
+  - Tests: Total 161/161 Vitest tests passing across 34 test files.
+  - Scripts: All 3 Python scripts (`agent_stack_validator.py`, `audit_reporter.py`, `planner_generator.py`) verified with `--help` and live execution.
   - Strict 200 LOC ceiling maintained across all project files.

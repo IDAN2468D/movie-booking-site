@@ -2,12 +2,19 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Crown, Gavel, Clock, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Crown, Gavel, Clock, CheckCircle2, ShieldAlert, MapPin } from 'lucide-react';
 import { getLiveAuctionStateAction, submitAuctionBidAction, AuctionState } from '@/app/actions/auctionBidActions';
 import { playAuctionGavelSound } from './AuctionGavelSound';
 
+const VIP_BRANCHES = [
+  { id: 'cc-glilot', name: 'סינמה סיטי VIP גלילות' },
+  { id: 'yp-rishon', name: 'יס פלאנט VIP ראשל״צ' },
+  { id: 'hc-kfar-saba', name: 'הוט סינמה VIP כפ״ס' },
+];
+
 export function LiveSeatAuctionArena() {
   const [auction, setAuction] = useState<AuctionState | null>(null);
+  const [selectedBranch, setSelectedBranch] = useState(VIP_BRANCHES[0].id);
   const [timeLeft, setTimeLeft] = useState(180);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bidNotice, setBidNotice] = useState<string | null>(null);
@@ -32,20 +39,20 @@ export function LiveSeatAuctionArena() {
 
     setIsSubmitting(true);
     playAuctionGavelSound();
+    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+      navigator.vibrate([40, 60, 40]);
+    }
 
     const res = await submitAuctionBidAction({
       auctionId: auction.auctionId,
       bidAmount: targetBid,
-      bidderName: 'אני (משתמש מחובר)',
+      bidderName: 'אני (משתמש VIP)',
     });
     setIsSubmitting(false);
 
     if (res.success && res.data) {
       setAuction(res.data);
-      // Anti-sniping protection: if time is under 30s, extend clock by resetting to 30s
-      if (timeLeft < 30) {
-        setTimeLeft(30);
-      }
+      if (timeLeft < 30) setTimeLeft(30);
       setBidNotice(`הצעתך בסך ₪${targetBid} מובילה כעת! 🔨`);
       setTimeout(() => setBidNotice(null), 3000);
     }
@@ -64,14 +71,14 @@ export function LiveSeatAuctionArena() {
     <div className={`w-full bg-neutral-950/90 backdrop-blur-3xl border rounded-3xl p-6 shadow-2xl transition-all ${
       isUrgent ? 'border-red-500/40 shadow-[0_0_40px_rgba(239,68,68,0.2)]' : 'border-amber-500/20 shadow-[0_20px_60px_rgba(245,158,11,0.1)]'
     }`} dir="rtl">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-4 mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-4 mb-4">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400">
             <Crown className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-xl font-bold font-outfit text-white">זירת מכרזי מושבי VIP ברגע האחרון</h3>
+              <h3 className="text-xl font-bold font-outfit text-white">זירת מכרזי מושבי VIP בישראל</h3>
               <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold">
                 LIVE AUCTION
               </span>
@@ -86,6 +93,26 @@ export function LiveSeatAuctionArena() {
           <Clock className={`w-4 h-4 ${isUrgent ? 'text-red-400' : 'text-amber-400'}`} />
           <span className="text-sm font-mono font-bold">{formatTimer(timeLeft)}</span>
           <span className="text-[10px] text-gray-400">לסיום</span>
+        </div>
+      </div>
+
+      {/* Israeli VIP Cinema Selector */}
+      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-white/5 text-xs">
+        <span className="text-gray-400 flex items-center gap-1"><MapPin size={12} className="text-amber-400" /> מתחם:</span>
+        <div className="flex flex-wrap gap-1.5">
+          {VIP_BRANCHES.map((b) => (
+            <button
+              key={b.id}
+              onClick={() => setSelectedBranch(b.id)}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all ${
+                selectedBranch === b.id
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                  : 'bg-white/5 text-gray-400 border border-white/5 hover:text-white'
+              }`}
+            >
+              {b.name}
+            </button>
+          ))}
         </div>
       </div>
 

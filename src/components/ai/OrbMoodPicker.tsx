@@ -2,60 +2,10 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Film, ArrowLeft, Zap, Heart, Compass, Smile, Eye } from 'lucide-react';
-import { useAudioContextManager } from '@/hooks/useAudioContextManager';
-
-interface MoodOption {
-  id: string;
-  label: string;
-  icon: React.ComponentType<{ className?: string }>;
-  accent: string;
-  desc: string;
-  recommended: string[];
-}
-
-const MOODS: MoodOption[] = [
-  {
-    id: 'action',
-    label: 'אקשן ואדרנלין',
-    icon: Zap,
-    accent: 'from-amber-500/20 to-rose-500/30 text-amber-400 border-amber-500/40',
-    desc: 'קצב דופק מהיר, פיצוצים וסאונד היקפי ב-4K',
-    recommended: ['חולית: חלק 2', 'דדפול & וולברין'],
-  },
-  {
-    id: 'romance',
-    label: 'דייט ורומנטיקה',
-    icon: Heart,
-    accent: 'from-pink-500/20 to-rose-500/30 text-pink-400 border-pink-500/40',
-    desc: 'חוויה זוגית עוטפת, מושבי VIP ואווירה אינטימית',
-    recommended: ['רק לא אתה', 'לה לה לנד'],
-  },
-  {
-    id: 'scifi',
-    label: 'מד"ב וחלל עמוק',
-    icon: Compass,
-    accent: 'from-cyan-500/20 to-blue-500/30 text-cyan-400 border-cyan-500/40',
-    desc: 'מסע בין ממדים, ויזואליה עוצרת נשימה והרמוניות סאב-באס',
-    recommended: ['בין כוכבים', 'מטריקס: התחייה'],
-  },
-  {
-    id: 'thriller',
-    label: 'מתח ומסתורין',
-    icon: Eye,
-    accent: 'from-purple-500/20 to-indigo-500/30 text-purple-400 border-purple-500/40',
-    desc: 'תעלומות מפותלות, סצנות חשוכות ועצירת נשימה',
-    recommended: ['אופנהיימר', 'שאטר איילנד'],
-  },
-  {
-    id: 'comedy',
-    label: 'צחוק וקלילות',
-    icon: Smile,
-    accent: 'from-emerald-500/20 to-teal-500/30 text-emerald-400 border-emerald-500/40',
-    desc: 'הומור משחרר, פופקורן ענק ומצב רוח מרומם',
-    recommended: ['הקול בראש 2', 'קונג פו פנדה 4'],
-  },
-];
+import { Sparkles, Film, ArrowLeft } from 'lucide-react';
+import { useAudioContextManager } from '../../hooks/useAudioContextManager';
+import { OrbVoiceInput } from './OrbVoiceInput';
+import { MOODS, MoodOption } from './moodData';
 
 interface OrbMoodPickerProps {
   onClose?: () => void;
@@ -71,16 +21,35 @@ export const OrbMoodPicker: React.FC<OrbMoodPickerProps> = ({ onClose }) => {
     playHapticBass(55, 0.15);
   };
 
+  const handleVoiceCommand = (spokenText: string) => {
+    const text = spokenText.toLowerCase();
+    let matched = MOODS[0];
+    if (text.includes('ישראל') || text.includes('בורקס') || text.includes('שולי') || text.includes('חלפון') || text.includes('קישון') || text.includes('נשר')) {
+      matched = MOODS.find((m) => m.id === 'israeli') || MOODS[0];
+    } else if (text.includes('רומנט') || text.includes('דייט') || text.includes('אהבה')) {
+      matched = MOODS.find((m) => m.id === 'romance') || MOODS[2];
+    } else if (text.includes('מתח') || text.includes('מסתורין') || text.includes('פסיכולוגי') || text.includes('אימה')) {
+      matched = MOODS.find((m) => m.id === 'thriller') || MOODS[4];
+    } else if (text.includes('חלל') || text.includes('מד"ב') || text.includes('מדע בדיוני') || text.includes('פנטז')) {
+      matched = MOODS.find((m) => m.id === 'scifi') || MOODS[3];
+    } else if (text.includes('צחוק') || text.includes('קומדי') || text.includes('קליל') || text.includes('מצחיק')) {
+      matched = MOODS.find((m) => m.id === 'comedy') || MOODS[5];
+    } else if (text.includes('אקשן') || text.includes('פעולה') || text.includes('אדרנלין')) {
+      matched = MOODS.find((m) => m.id === 'action') || MOODS[1];
+    }
+    handleSelect(matched);
+  };
+
   return (
-    <div className="flex flex-col gap-4 text-white font-sans text-right" dir="rtl">
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+    <div className="flex flex-col gap-3 text-white font-sans text-right" dir="rtl">
+      <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-xl bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 border border-white/15">
             <Sparkles className="w-4 h-4 text-cyan-400 animate-pulse" />
           </div>
           <div>
             <h3 className="text-sm font-bold text-white font-outfit tracking-wide">CinePulse AI Concierge</h3>
-            <p className="text-xs text-white/50">מה הווייב הקולנועי שלך להיום?</p>
+            <p className="text-[11px] text-white/50">מה הווייב הקולנועי שלך להיום?</p>
           </div>
         </div>
       </div>
@@ -92,29 +61,33 @@ export const OrbMoodPicker: React.FC<OrbMoodPickerProps> = ({ onClose }) => {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto scrollbar-hide pe-1"
+            className="flex flex-col gap-2.5"
           >
-            {MOODS.map((m) => {
-              const Icon = m.icon;
-              return (
-                <button
-                  key={m.id}
-                  onClick={() => handleSelect(m)}
-                  className={`flex items-center justify-between p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 group text-right ${m.accent}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-xl bg-black/40 border border-white/10 group-hover:scale-110 transition-transform duration-200">
-                      <Icon className="w-4 h-4" />
+            <OrbVoiceInput onVoiceCommand={handleVoiceCommand} />
+
+            <div className="grid grid-cols-1 gap-2 max-h-56 overflow-y-auto scrollbar-hide pe-1">
+              {MOODS.map((m) => {
+                const Icon = m.icon;
+                return (
+                  <button
+                    key={m.id}
+                    onClick={() => handleSelect(m)}
+                    className={`flex items-center justify-between p-2.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200 group text-right ${m.accent}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-xl bg-black/40 border border-white/10 group-hover:scale-110 transition-transform duration-200">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <span className="text-xs font-semibold text-white block">{m.label}</span>
+                        <span className="text-[10px] text-white/45 line-clamp-1">{m.desc}</span>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-xs font-semibold text-white block">{m.label}</span>
-                      <span className="text-[10px] text-white/45 line-clamp-1">{m.desc}</span>
-                    </div>
-                  </div>
-                  <ArrowLeft className="w-3.5 h-3.5 text-white/30 group-hover:text-white group-hover:-translate-x-1 transition-all duration-200" />
-                </button>
-              );
-            })}
+                    <ArrowLeft className="w-3.5 h-3.5 text-white/30 group-hover:text-white group-hover:-translate-x-1 transition-all duration-200" />
+                  </button>
+                );
+              })}
+            </div>
           </motion.div>
         ) : (
           <motion.div

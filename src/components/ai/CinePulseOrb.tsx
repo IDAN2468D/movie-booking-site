@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, X, Bot, Activity } from 'lucide-react';
 import { OrbMoodPicker } from './OrbMoodPicker';
-import { useAudioContextManager } from '@/hooks/useAudioContextManager';
+import { useAudioContextManager } from '../../hooks/useAudioContextManager';
 
 export const CinePulseOrb: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

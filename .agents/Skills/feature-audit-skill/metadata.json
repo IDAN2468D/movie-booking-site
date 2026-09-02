@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "developer-tools",
+  "tags": {
+    "he": ["ביקורת", "מפת דרכים", "ארכיטקטורה", "פערים", "איכות"],
+    "en": ["audit", "roadmap", "architecture", "gap-analysis", "quality"]
+  },
+  "display_name": {
+    "he": "מנוע ביקורת פיצ'רים ומפת דרכים",
+    "en": "Feature Audit & Roadmap Generator"
+  },
+  "display_description": {
+    "he": "ניתוח מצב המערכת הקיים, ביקורת פערים טכנולוגיים וארכיטקטוניים, וגיבוש מפת דרכים לשדרוג פיצ'רים מתקדמים לפי תקן SDD.",
+    "en": "Analyzes current project capabilities, conducts deep gap audits, and architects next-generation premium feature roadmaps following SDD standards."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

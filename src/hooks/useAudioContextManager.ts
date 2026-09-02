@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useCallback } from 'react';
-import { audioContextManager } from '@/lib/audio/audioContextManager';
+import { audioContextManager } from '../lib/audio/audioContextManager';
 
 export function useAudioContextManager() {
   useEffect(() => {

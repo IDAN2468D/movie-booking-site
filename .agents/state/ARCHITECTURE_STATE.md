@@ -59,6 +59,8 @@
 | **Module BB** | WhisperTrack Personal In-Seat Audio Stream | `/components/audio/WhisperTrackBar.tsx` | Web Audio API (EQ Presets, Latency Slider), Non-Obstructive Layout & Minimized Pill | `ACTIVE` |
 | **Module BC** | Dynamic Surge Peer-to-Peer Seat Exchange | `/components/booking/SeatExchangeBoard.tsx` | Mongoose Atomic Swap Transaction, Bid Difference Pricing, Live Board | `ACTIVE` |
 | **Module BD** | CinePulse AI Concierge Floating Orb & Audio Optimizer | `/components/ai/CinePulseOrb.tsx` | Web Audio Singleton Auto-Suspend, Framer Motion 120Hz GPU, Liquid Glass 4.0 | `ACTIVE` |
+| **Module BE** | Israeli Cinema Concierge & Mood Synthesis | `/src/components/ai/OrbMoodPicker.tsx` | Web Speech API, Israeli Cinema Recommendations, Web Audio Harmonic Chimes | `ACTIVE` |
+| **Module BF** | Skills-IL Ecosystem Standards & SDD Tooling | `/.agents/skills/*/` | Bilingual Metadata, Hebrew Companions, Python CLI Validators, Agent Stack SDD v9.5 | `ACTIVE` |
 
 ---
 

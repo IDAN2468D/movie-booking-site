@@ -1,0 +1,27 @@
+{
+  "author": "Idan Kazam",
+  "version": "1.0.0",
+  "category": "developer-tools",
+  "tags": {
+    "he": ["ארכיטקטורה", "אג'נטים", "פיתוח מונחה מפרט", "בקרת איכות", "אוטונומיה"],
+    "en": ["architecture", "agents", "spec-driven-development", "qa", "autonomous"]
+  },
+  "display_name": {
+    "he": "מסגרת העבודה Agent Stack Framework",
+    "en": "Agent Stack Framework"
+  },
+  "display_description": {
+    "he": "מנוע ביצוע ב-5 שכבות (Memory, PRD, Spec, Plan, Loop) לפיתוח אוטונומי מדויק, שמירת זיכרון עקבית ובקרת שגיאות קפדנית.",
+    "en": "5-layer enterprise execution engine (Memory, PRD, Spec, Plan, Loop) for autonomous precision, zero-drift memory persistence, and strict error mitigation."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli",
+    "antigravity"
+  ]
+}

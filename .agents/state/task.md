@@ -47,7 +47,11 @@
 - [x] Sprint 157: Floating Audio Player Non-Obstructive Layout & Minimized Pill Mode (`components/audio/WhisperTrackBar.tsx`) - Repositioned to `md:right-[17.5rem]` and `bottom-24 md:bottom-6`, with collapsible pill and dismiss actions to prevent sidebar overlap
 - [x] Sprint 158: CinePulse AI Concierge Floating Orb & Web Audio Context Optimization Suite (`src/lib/audio/audioContextManager.ts`, `src/hooks/useAudioContextManager.ts`, `src/components/ai/OrbMoodPicker.tsx`, `src/components/ai/CinePulseOrb.tsx`, `app/(main)/layout.tsx`, `src/lib/audio/__tests__/audioContextManager.test.ts`)
 - [x] Sprint 159: GitHub Actions CI/CD & Playwright E2E Full Resolution (`.github/workflows/ci.yml`, `.github/workflows/qa.yml`, `lib/tmdb.ts`, `tests/e2e/booking.spec.ts`, `package.json`, `package-lock.json`, `app/api/send-ticket/route.ts`, `next.config.ts`) - 100% Green CI & QA Runs on GitHub
+- [x] Sprint 160: CinePulse Orb Hebrew AI Voice Shell Engine Upgrade (`src/hooks/useOrbVoiceEngine.ts`, `src/components/ai/OrbVoiceInput.tsx`, `src/components/ai/OrbMoodPicker.tsx`, `src/hooks/__tests__/useOrbVoiceEngine.test.ts`)
+- [x] Sprint 161: CinePulse Feature & Skills-IL Upgrade Suite via Agent Stack Framework & Feature Audit (`src/components/ai/moodData.ts`, `src/components/ai/OrbMoodPicker.tsx`, `components/concessions/AiSnackPairer.tsx`, `components/vip/LiveSeatAuctionArena.tsx`, `.agents/skills/agent-stack-framework/`, `.agents/skills/feature-audit-skill/`, `.agents/skills/movie-site-feature-planner/`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
-- [x] Vitest suite pass (159/159 total tests across 33 test files)
+- [x] Vitest suite pass (161/161 total tests across 34 test files)
+- [x] Next.js build verification (`npm run build` - 123/123 routes compiled)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
 - [x] Auto-synchronize all 4 state files in `.agents/state/`
+
