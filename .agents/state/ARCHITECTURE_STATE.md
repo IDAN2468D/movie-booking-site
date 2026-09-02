@@ -53,6 +53,11 @@
 | **Module AV** | Liquid Glass 4.0 Core Cinema Features Upgrades | `/components/` | Voiceover Hook, Concession Pairing, VIP Anti-Sniping, Spoiler Lounge, Thermal Receipt | `ACTIVE` |
 | **Module AW** | Thermal Receipt Printer Multi-Layer Audio Engine | `/components/receipt/receiptAudio.ts` | Stepper Motor Stepping, Thermal Pin Sizzle, Paper Tear Noise, Haptics | `ACTIVE` |
 | **Module AX** | NextAuth Resilient JWT Authentication Engine | `/lib/auth.ts`, `/app/api/auth/[...nextauth]/route.ts` | NextAuth v4, Pure JWT Strategy, Guarded OAuth Providers, Turbopack Ready | `ACTIVE` |
+| **Module AY** | CineCrowd On-Demand Community Screening Engine | `/app/(main)/cinecrowd/page.tsx` | Mongoose Crowdfunding Model, Zod, Server Actions, Liquid Glass 4.0 | `ACTIVE` |
+| **Module AZ** | In-Theater Stealth Tray Zero-Glare Ordering Mode | `/components/concessions/StealthTrayOverlay.tsx` | Zustand State, Night Vision Tint, <5 Nits Deep Obsidian UI, Silent Haptics | `ACTIVE` |
+| **Module BA** | Letterboxd & Trakt Diary Scrobble Sync Engine | `/components/profile/ExternalSyncSettings.tsx` | Mongoose Sync Profile, Hall Scanner Trigger, Two-way Watchlist Import | `ACTIVE` |
+| **Module BB** | WhisperTrack Personal In-Seat Audio Stream | `/components/audio/WhisperTrackBar.tsx` | Web Audio API (EQ Presets, Latency Calibration Slider, Biquad Filter) | `ACTIVE` |
+| **Module BC** | Dynamic Surge Peer-to-Peer Seat Exchange | `/components/booking/SeatExchangeBoard.tsx` | Mongoose Atomic Swap Transaction, Bid Difference Pricing, Live Board | `ACTIVE` |
 
 ---
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 import SeatMap from "@/components/booking/SeatMap";
 import DigitalTicket from "@/components/booking/DigitalTicket";
 import { CrowdHeatmapContainer } from "@/components/booking/CrowdHeatmapContainer";
+import { SeatExchangeBoard } from "@/components/booking/SeatExchangeBoard";
 import { CreditCard, RotateCcw, Ticket } from "lucide-react";
 
 interface BookingClientWrapperProps {
@@ -50,6 +51,10 @@ export default function BookingClientWrapper({ showtimeId, userId, occupiedSeats
               occupiedSeats={occupiedSeats} 
               onSeatLocked={handleSeatLocked}
             />
+
+            <div className="mt-12">
+              <SeatExchangeBoard showtimeId={showtimeId} />
+            </div>
           </motion.div>
         ) : (
           <motion.div

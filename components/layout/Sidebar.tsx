@@ -38,6 +38,7 @@ const basicNavItems: NavItem[] = [
 ];
 
 const featureNavItems: FeatureNavItem[] = [
+  { icon: Users, label: 'הקרנות קהילה (CineCrowd) 🎟️', href: '/cinecrowd' },
   { icon: Dna, label: 'מפת גנים קולנועית (CineDNA) 🧬', href: '/cinedna' },
   { icon: Volume2, label: 'סימולטור אקוסטיקה 3D 🎧', href: '/sweetspot' },
   { icon: Users, label: 'הזמנה קבוצתית ופיצול חכם 👥', href: '/cinesquad' },

@@ -8,6 +8,7 @@ import { getUserMemoriesAction } from "@/app/actions/memoryActions";
 import SettingsMatrix from "@/components/settings/SettingsMatrix";
 import ProfileTicketCard from "@/components/profile/ProfileTicketCard";
 import CineStatsContainer from "@/components/profile/CineStatsContainer";
+import { ExternalSyncSettings } from "@/components/profile/ExternalSyncSettings";
 
 interface ProfileClientProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -164,7 +165,17 @@ export default function ProfileClient({ activeTickets, history, activeMatches }:
           )}
 
           {activeTab === "settings" && (
-            <SettingsMatrix key="settings" userEmail="user@example.com" />
+            <motion.div
+              key="settings"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <ExternalSyncSettings userId={session?.user?.id || 'default_user'} />
+              <SettingsMatrix userEmail={session?.user?.email || "user@example.com"} />
+            </motion.div>
           )}
         </AnimatePresence>
       </div>

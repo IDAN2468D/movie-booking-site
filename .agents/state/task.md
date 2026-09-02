@@ -42,7 +42,8 @@
 - [x] Sprint 151: 100% Sidebar Advanced Features Hebrew RTL Localization (`components/layout/Sidebar.tsx`)
 - [x] Sprint 152: Cinema News AI Feed Robust Fallback Images & Error Recovery (`app/api/ai/news-curator/route.ts`, `components/home/NewsWidget.tsx`)
 - [x] Sprint 154: NextAuth Client Fetch Error & Turbopack Route Resolution (`lib/auth.ts`, `proxy.ts`, `tsconfig.json`)
-- [x] TypeScript strict verification (`npm run build` - 0 errors, 122/122 static routes compiled)
-- [x] Vitest suite pass (145/145 tests across 31 test files)
+- [x] Sprint 155: CineBook Next-Gen Feature Suite (v1.0 SDD) - CineCrowd, Stealth Tray Mode, Letterboxd & Trakt Scrobble, WhisperTrack In-Seat Audio, Dynamic Surge Seat Exchange (`lib/models/`, `lib/validations/`, `app/actions/`, `lib/store/`, `lib/audio/`, `hooks/`, `components/`, `app/(main)/cinecrowd/page.tsx`)
+- [x] TypeScript strict verification (`npm run build` - 0 errors, 123/123 static routes compiled)
+- [x] Vitest suite pass (9/9 new tests, 154/154 total tests across 32 test files)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
 - [x] Auto-synchronize all 4 state files in `.agents/state/`

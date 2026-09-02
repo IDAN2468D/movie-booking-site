@@ -19,6 +19,7 @@ import VoiceOrb from '@/components/ai/VoiceOrb';
 import SpotlightSearchModal from '@/components/search/SpotlightSearchModal';
 import DayNightLightingPill from '@/components/home/DayNightLightingPill';
 import CineSubTranscriberModal from '@/components/movie/CineSubTranscriberModal';
+import { StealthTrayToggle } from '@/components/concessions/StealthTrayToggle';
 
 
 export default function TopBar() {
@@ -86,6 +87,9 @@ export default function TopBar() {
           <div className="flex items-center gap-2.5 md:gap-4 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
             {/* Dynamic Day/Night Lighting Pill */}
             <DayNightLightingPill />
+
+            {/* In-Theater Stealth Tray Mode Toggle */}
+            <StealthTrayToggle />
 
             {/* AI Concierge Trigger */}
             <VoiceOrb />

@@ -17,6 +17,8 @@ import FloatingTrailerPlayer from "@/components/media/FloatingTrailerPlayer";
 import KeyboardShortcutsModal from "@/components/ui/KeyboardShortcutsModal";
 import TrailerPickerModal from "@/components/trailer/TrailerPickerModal";
 import { useGlobalShortcuts } from "@/hooks/useGlobalShortcuts";
+import { StealthTrayOverlay } from "@/components/concessions/StealthTrayOverlay";
+import { WhisperTrackBar } from "@/components/audio/WhisperTrackBar";
 
 export default function MainLayout({
   children,
@@ -93,6 +95,12 @@ export default function MainLayout({
 
           {/* Global Trailer Picker Library Hub */}
           <TrailerPickerModal />
+
+          {/* In-Theater Stealth Tray Mode (Ultra-Dark Concessions) */}
+          <StealthTrayOverlay />
+
+          {/* WhisperTrack In-Seat Audio Stream Bar */}
+          <WhisperTrackBar />
         </div>
       </GlobalGradientFrame>
     </ResolutionWrapper>
