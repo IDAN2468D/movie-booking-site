@@ -2,37 +2,43 @@ name: QA E2E Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
 
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
     
-    - name: Use Node.js 18.x
-      uses: actions/setup-node@v3
+    - name: Setup Node.js 20.x
+      uses: actions/setup-node@v4
       with:
-        node-version: 18.x
+        node-version: 20.x
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci
+      run: npm install --legacy-peer-deps
       
     - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      run: npx playwright install --with-deps chromium
       
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx playwright test --project=chromium
       env:
         NEXTAUTH_SECRET: 'ci-dummy-secret'
+        NEXTAUTH_URL: 'http://localhost:3000'
         GOOGLE_CLIENT_ID: 'ci-dummy'
         GOOGLE_CLIENT_SECRET: 'ci-dummy'
+        MONGODB_URI: 'mongodb://localhost:27017/test'
+        JWT_SECRET: 'ci-dummy-jwt-secret'
+        CI: 'true'
         
-    - uses: actions/upload-artifact@v3
+    - name: Upload Playwright Report
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: playwright-report

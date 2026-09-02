@@ -19,6 +19,7 @@ import TrailerPickerModal from "@/components/trailer/TrailerPickerModal";
 import { useGlobalShortcuts } from "@/hooks/useGlobalShortcuts";
 import { StealthTrayOverlay } from "@/components/concessions/StealthTrayOverlay";
 import { WhisperTrackBar } from "@/components/audio/WhisperTrackBar";
+import { CinePulseOrb } from "@/components/ai/CinePulseOrb";
 
 export default function MainLayout({
   children,
@@ -101,6 +102,9 @@ export default function MainLayout({
 
           {/* WhisperTrack In-Seat Audio Stream Bar */}
           <WhisperTrackBar />
+
+          {/* CinePulse AI Floating Concierge Orb */}
+          <CinePulseOrb />
         </div>
       </GlobalGradientFrame>
     </ResolutionWrapper>

@@ -58,6 +58,7 @@
 | **Module BA** | Letterboxd & Trakt Diary Scrobble Sync Engine | `/components/profile/ExternalSyncSettings.tsx` | Mongoose Sync Profile, Hall Scanner Trigger, Two-way Watchlist Import | `ACTIVE` |
 | **Module BB** | WhisperTrack Personal In-Seat Audio Stream | `/components/audio/WhisperTrackBar.tsx` | Web Audio API (EQ Presets, Latency Slider), Non-Obstructive Layout & Minimized Pill | `ACTIVE` |
 | **Module BC** | Dynamic Surge Peer-to-Peer Seat Exchange | `/components/booking/SeatExchangeBoard.tsx` | Mongoose Atomic Swap Transaction, Bid Difference Pricing, Live Board | `ACTIVE` |
+| **Module BD** | CinePulse AI Concierge Floating Orb & Audio Optimizer | `/components/ai/CinePulseOrb.tsx` | Web Audio Singleton Auto-Suspend, Framer Motion 120Hz GPU, Liquid Glass 4.0 | `ACTIVE` |
 
 ---
 
