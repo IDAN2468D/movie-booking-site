@@ -91,6 +91,42 @@ export async function fetchFromTMDB<T>(endpoint: string, params: Record<string, 
   return response.json();
 }
 
+export const FALLBACK_MOVIES: Movie[] = [
+  {
+    id: 693134,
+    title: 'חולית: חלק 2',
+    displayTitle: 'חולית: חלק 2',
+    poster_path: '/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
+    backdrop_path: '/xOMo8BRK7PfcJv9JCnx7s520bIn.jpg',
+    vote_average: 8.3,
+    release_date: '2024-02-27',
+    overview: 'המסע של פול אטריידיס ממשיך כשהוא מתאחד עם צ\'אני והפרמנים.',
+    genre_ids: [878, 12],
+  },
+  {
+    id: 533535,
+    title: 'דדפול & וולברין',
+    displayTitle: 'דדפול & וולברין',
+    poster_path: '/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
+    backdrop_path: '/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg',
+    vote_average: 7.8,
+    release_date: '2024-07-24',
+    overview: 'דדפול חובר לוולברין במשימה להציל את היקום שלהם.',
+    genre_ids: [28, 35, 878],
+  },
+  {
+    id: 1022789,
+    title: 'הקול בראש 2',
+    displayTitle: 'הקול בראש 2',
+    poster_path: '/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg',
+    backdrop_path: '/stKGOm8wqGOFc26YGE6fTMR3wZ6.jpg',
+    vote_average: 7.7,
+    release_date: '2024-06-11',
+    overview: 'רגשות חדשים מצטרפים למוחה של ריילי.',
+    genre_ids: [16, 10751, 35],
+  },
+];
+
 /**
  * Advanced Search & Discover (ADVANCED_SEARCH_LOGIC)
  */
@@ -101,47 +137,72 @@ export async function discoverMovies(params: {
   query?: string;
   page?: number;
   maxRuntime?: number;
-}) {
-  if (params.query) {
-    const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/search/movie', {
-      query: params.query,
+}): Promise<Movie[]> {
+  try {
+    if (params.query) {
+      const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/search/movie', {
+        query: params.query,
+        page: (params.page || 1).toString(),
+      });
+      return data.results.map(formatMovieData);
+    }
+
+    const discoverParams: Record<string, string> = {
+      sort_by: 'popularity.desc',
       page: (params.page || 1).toString(),
-    });
+    };
+
+    if (params.genre) discoverParams.with_genres = params.genre.toString();
+    if (params.rating) discoverParams['vote_average.gte'] = params.rating.toString();
+    if (params.year) discoverParams['primary_release_year'] = params.year.toString();
+    if (params.maxRuntime) discoverParams['with_runtime.lte'] = params.maxRuntime.toString();
+
+    const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/discover/movie', discoverParams);
     return data.results.map(formatMovieData);
+  } catch (error) {
+    console.warn('TMDB discoverMovies fallback triggered:', error);
+    return FALLBACK_MOVIES;
   }
-
-  const discoverParams: Record<string, string> = {
-    sort_by: 'popularity.desc',
-    page: (params.page || 1).toString(),
-  };
-
-  if (params.genre) discoverParams.with_genres = params.genre.toString();
-  if (params.rating) discoverParams['vote_average.gte'] = params.rating.toString();
-  if (params.year) discoverParams['primary_release_year'] = params.year.toString();
-  if (params.maxRuntime) discoverParams['with_runtime.lte'] = params.maxRuntime.toString();
-
-  const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/discover/movie', discoverParams);
-  return data.results.map(formatMovieData);
 }
 
 export async function getPopularMovies(): Promise<Movie[]> {
-  const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/movie/popular');
-  return data.results.map(formatMovieData);
+  try {
+    const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/movie/popular');
+    return data.results.map(formatMovieData);
+  } catch (error) {
+    console.warn('TMDB getPopularMovies fallback triggered:', error);
+    return FALLBACK_MOVIES;
+  }
 }
 
 export async function getTopRatedMovies(): Promise<Movie[]> {
-  const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/movie/top_rated');
-  return data.results.map(formatMovieData);
+  try {
+    const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/movie/top_rated');
+    return data.results.map(formatMovieData);
+  } catch (error) {
+    console.warn('TMDB getTopRatedMovies fallback triggered:', error);
+    return FALLBACK_MOVIES;
+  }
 }
 
 export async function getTrendingMovies(): Promise<Movie[]> {
-  const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/trending/movie/day');
-  return data.results.map(formatMovieData);
+  try {
+    const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/trending/movie/day');
+    return data.results.map(formatMovieData);
+  } catch (error) {
+    console.warn('TMDB getTrendingMovies fallback triggered:', error);
+    return FALLBACK_MOVIES;
+  }
 }
 
 export async function getNowPlayingMovies(): Promise<Movie[]> {
-  const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/movie/now_playing');
-  return data.results.map(formatMovieData);
+  try {
+    const data = await fetchFromTMDB<TMDBResponse<TMDBMovie>>('/movie/now_playing');
+    return data.results.map(formatMovieData);
+  } catch (error) {
+    console.warn('TMDB getNowPlayingMovies fallback triggered:', error);
+    return FALLBACK_MOVIES;
+  }
 }
 
 export async function searchMovies(query: string): Promise<Movie[]> {
