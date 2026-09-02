@@ -46,6 +46,7 @@
 - [x] Sprint 156: Ultra-Luxury Thermal Receipt Printer Pro Upgrade - LED Status, Haptic Tear Physics, WhatsApp Sharing, Apple Wallet, Israeli 18% VAT & Pulse Points (`components/receipt/CineBookReceiptPrinter.tsx`, `ReceiptPaperContent.tsx`, `ReceiptActionButtons.tsx`, `receiptAudio.ts`)
 - [x] Sprint 157: Floating Audio Player Non-Obstructive Layout & Minimized Pill Mode (`components/audio/WhisperTrackBar.tsx`) - Repositioned to `md:right-[17.5rem]` and `bottom-24 md:bottom-6`, with collapsible pill and dismiss actions to prevent sidebar overlap
 - [x] Sprint 158: CinePulse AI Concierge Floating Orb & Web Audio Context Optimization Suite (`src/lib/audio/audioContextManager.ts`, `src/hooks/useAudioContextManager.ts`, `src/components/ai/OrbMoodPicker.tsx`, `src/components/ai/CinePulseOrb.tsx`, `app/(main)/layout.tsx`, `src/lib/audio/__tests__/audioContextManager.test.ts`)
+- [x] Sprint 159: GitHub Actions CI/CD & Playwright E2E Full Resolution (`.github/workflows/ci.yml`, `.github/workflows/qa.yml`, `lib/tmdb.ts`, `tests/e2e/booking.spec.ts`, `package.json`, `package-lock.json`, `app/api/send-ticket/route.ts`, `next.config.ts`) - 100% Green CI & QA Runs on GitHub
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
 - [x] Vitest suite pass (159/159 total tests across 33 test files)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files

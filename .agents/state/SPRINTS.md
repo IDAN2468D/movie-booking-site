@@ -548,6 +548,17 @@
 - **Verification:** `npx tsc --noEmit` passed (0 errors), 4/4 unit tests passed in `audioContextManager.test.ts` (159/159 total Vitest tests), strict 200 LOC ceiling maintained.
 - **Status:** ✅ Completed
 
+## 🚀 Phase 86: GitHub Actions CI/CD & Playwright E2E Full Resolution (Sprint 159)
+- **Features Implemented:**
+  - Upgraded `.github/workflows/ci.yml` and `qa.yml` to `actions/checkout@v4`, `actions/setup-node@v4` (Node 20.x), and `actions/upload-artifact@v4`.
+  - Added `@testing-library/dom` to `package.json` devDependencies and fully synchronized `package-lock.json`.
+  - Added `FALLBACK_MOVIES` in `lib/tmdb.ts` to prevent 401 unhandled exceptions during Next.js SSG build in CI.
+  - Fixed `Resend` initialization with a fallback in `app/api/send-ticket/route.ts` and cleaned experimental options in `next.config.ts`.
+  - Fixed Playwright strict mode locator (`locator('nav').first()`) and brand title matcher in `tests/e2e/booking.spec.ts`.
+- **Tech Stack:** GitHub Actions, Playwright, Next.js 16, Vitest, Node 20.
+- **Verification:** Both GitHub Actions workflows (`CI Pipeline` #33617963239 and `QA E2E Tests` #33617963256) completed with **success**.
+- **Status:** ✅ Completed
+
 
 
 
