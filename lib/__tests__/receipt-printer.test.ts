@@ -1,8 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import { CineBookReceiptData } from '@/components/receipt/CineBookReceiptPrinter';
+import { CineBookReceiptData, defaultReceiptData } from '@/components/receipt/CineBookReceiptPrinter';
 
-describe('CineBookReceiptPrinter', () => {
-  it('calculates total correctly for receipt data', () => {
+describe('CineBookReceiptPrinter Suite', () => {
+  it('verifies defaultReceiptData integrity and structure', () => {
+    expect(defaultReceiptData.cinemaName).toBe('CINEPULSE DIGITAL CINEMA');
+    expect(defaultReceiptData.movieTitle).toContain('חולית');
+    expect(defaultReceiptData.items.length).toBeGreaterThan(0);
+    expect(defaultReceiptData.total).toBe(155.00);
+  });
+
+  it('calculates total and 18% Israeli VAT accurately', () => {
     const data: CineBookReceiptData = {
       cinemaName: 'CINEPULSE VIP CINEMA',
       tagline: 'אישור הזמנה וכרטיס קולנוע דיגיטלי',
@@ -15,8 +22,8 @@ describe('CineBookReceiptPrinter', () => {
         { name: '1X כרטיס קולנוע IMAX 3D', qty: 1, price: 55 },
         { name: '1X פופקורן ענק', qty: 1, price: 35 },
       ],
-      subtotal: 90,
-      taxAmount: 0,
+      subtotal: 90 / 1.18,
+      taxAmount: 90 - (90 / 1.18),
       total: 90,
     };
 
@@ -24,5 +31,6 @@ describe('CineBookReceiptPrinter', () => {
     expect(data.items.length).toBe(2);
     expect(data.bookingCode).toContain('CNB-');
     expect(data.selectedSeats[0]).toBe('שורה 5 - מושב 10');
+    expect(data.subtotal + data.taxAmount).toBeCloseTo(90, 2);
   });
 });
