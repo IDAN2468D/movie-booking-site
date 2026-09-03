@@ -98,7 +98,7 @@ export const VisualCateringGrid = ({ selectedFood, updateFoodQuantity }: VisualC
 
         {/* AI Smart Deals & Combo (Wide 2-Column or Stack) */}
         {selectedMovie && (
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 my-6 relative z-10">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 my-6 relative z-10 items-stretch">
             <DynamicComboRoulette movieTitle={(selectedMovie as any).displayTitle || (selectedMovie as any).title} />
             <SmartTray 
               movieTitle={(selectedMovie as any).displayTitle || (selectedMovie as any).title} 

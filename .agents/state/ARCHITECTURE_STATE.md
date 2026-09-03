@@ -272,6 +272,15 @@
 
 ---
 
+## Phase 82: AI Concession & Dynamic Combo Redesign Suite (Sprint 166)
+1. **SmartTray Redesign (`components/catering/SmartTray.tsx`)**: Liquid Glass 4.0 Pro dark glass card with genre pairing tags, mini item cards with high-res thumbnails, price tags, and 1-click bundle add.
+2. **DynamicComboRoulette Redesign (`components/catering/DynamicComboRoulette.tsx`)**: Cosmic violet & neon cyan card with an electric golden discount pill, real-time price calculation with strikethrough original and savings badge, and "ערבב שוב 🎲" re-roll capability.
+3. **Backend & Data Hygiene (`app/actions/smartTrayActions.ts`, `app/actions/comboRouletteActions.ts`)**: Mapped genre-based snacks to real numeric `FOOD_ITEMS` IDs, eliminated English bleed and copywriting typos, and implemented deterministic fallbacks.
+4. **Concession Sound & Haptics (`lib/audio/concession-audio.ts`)**: Web Audio API dual-tone chime and vibration pulses on cart additions.
+5. **Strict 200 LOC Ceiling**: 100% compliance across all touched files (<185 LOC).
+
+---
+
 ## API Routes & Server Actions Map
 - `POST /api/auth/register` - Account Registration
 - `GET /api/erp/stats/advanced` - Aggregated MongoDB Bookings & Advanced Financial Metrics

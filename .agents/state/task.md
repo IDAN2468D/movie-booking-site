@@ -8,19 +8,16 @@
 - [x] Sprint 162: CinePulse Master Agent OS & MCP Modernization Suite
 - [x] Sprint 163: Next.js Root Architecture Modularization & 200 LOC Ceiling Compliance
 - [x] Sprint 164: BiometricAuth Framer Motion Declarative Refactor & Runtime Fix
-- [x] Sprint 165: 120Hz Zero-Reflow Smooth Motion & Jank Elimination Suite:
-  - [x] Eliminate Forced Synchronous Layout / Layout Thrashing in `GlobalGradientFrame.tsx` (removed card `querySelectorAll` loop)
-  - [x] Localize card pointer tracking in `Sidebar.tsx` and `RightPanel.tsx` (eliminated panel-wide query loops)
-  - [x] Remove `filter: 'blur(10px)'` from GSAP ScrollTrigger in `HomeContent.tsx` (restored GPU compositor thread scroll performance)
-  - [x] Remove `scroll-behavior: smooth` from `body` in `theme.css` to prevent scroll jank and physics conflicts
-  - [x] Remove heavy `layout` prop and throttle mouse coordinates with rAF in `MovieCard.tsx`
-  - [x] Throttle 8 3D tilt springs in `FeaturedHero.tsx` using `requestAnimationFrame`
-  - [x] Remove heavy CSS blur filter from 120Hz canvas in `ParticleUniverse.tsx`
-  - [x] Throttle mousemove in `CinematicFX.tsx`, `MeshBackground.tsx`, and `ParallaxOrb.tsx` with rAF and `{ passive: true }`
-  - [x] Add `{ passive: true }` to `ScreenSaverListener.tsx` activity listeners
-  - [x] Promote glass styling classes in `glass.css` to dedicated compositor layers (`transform: translateZ(0)`)
+- [x] Sprint 165: 120Hz Zero-Reflow Smooth Motion & Jank Elimination Suite
+- [x] Sprint 166: AI Concession & Dynamic Combo Redesign Suite (Liquid Glass 4.0 Pro):
+  - [x] Redesign `SmartTray.tsx` with Liquid Glass 4.0 Pro, real `FOOD_ITEMS` numeric IDs, and 1-click bundle add
+  - [x] Redesign `DynamicComboRoulette.tsx` with live pricing breakdown (original strikethrough, discounted price, savings badge), re-roll 🎲, and glowing neon pill badge
+  - [x] Upgrade `smartTrayActions.ts` with comprehensive genre-to-snack mapping and clean Hebrew typography (eliminated English bleed and typos)
+  - [x] Upgrade `comboRouletteActions.ts` with robust deterministic fallbacks
+  - [x] Add Web Audio API & Web Haptics chime utility in `lib/audio/concession-audio.ts`
+  - [x] Harmonize `VisualCateringGrid.tsx` with `items-stretch` for equal-height cards
   - [x] Auto-synchronize all 4 state files (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
 - [x] Vitest suite pass (161/161 total tests across 34 test files)
-- [x] Next.js production build (`npm run build` - 123/123 routes compiled in 10.1s)
+- [x] Next.js production build (`npm run build` - 123/123 routes compiled in 9.4s)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
