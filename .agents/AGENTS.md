@@ -7,12 +7,10 @@ AI Agents operating in this codebase act as **Senior Full-Stack Engineers & AI S
 ---
 
 ## 2. Token Optimization & Context Management Protocol (CRITICAL)
-To maximize execution velocity and eliminate token waste across agent turns:
 - **Strict 200 LOC Ceiling:** Every file created or modified must strictly obey the **200 lines of code** limit. Split larger logic into hooks (`use*.ts`), sub-components, or server actions (`app/actions/`).
 - **Targeted Reading:** Never read whole files (>100 lines) if modifying or inspecting specific functions. Use line-bounded reads or grep.
-- **State Compression & Auto-Sync:** Maintain `.agents/state/task.md` and `.agents/state/latest.md` in dense markdown format using short bullet points and `- [x]` status indicators. EVERY new feature or upgrade MUST automatically synchronize all 4 files in `.agents/state/` (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`).
+- **State Compression & Auto-Sync:** Maintain `.agents/state/task.md` and `.agents/state/latest.md` in dense markdown format. EVERY new feature or upgrade MUST automatically synchronize all 4 files in `.agents/state/` (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`).
 - **Output Conciseness:** Summarize results in 2–4 concise bullet points or structured markdown tables. Avoid fluff or repetitive narrative explanations.
-- **Single Context Read:** Read master configuration files (`AGENTS.md`, `ARCHITECTURE_STATE.md`) once per workflow initialization; avoid re-reading unchanged files.
 
 ---
 
@@ -28,16 +26,16 @@ To maximize execution velocity and eliminate token waste across agent turns:
 ---
 
 ## 4. Global Agent RTL & Hebrew Localization Rules
-- **Mandatory Agent Chat Language & Global RTL:** ALL agent responses, communications, explanations, code walkthroughs, and chat outputs in Antigravity MUST strictly be written in Hebrew with full RTL (Right-To-Left) text direction and right alignment.
-- **HTML Block Wrapping & Unicode RLM:** Every agent chat message MUST be wrapped inside explicit HTML container tags with `<div dir="rtl" style="text-align: right; direction: rtl;">` and every paragraph/list item MUST start with Unicode RLM (`\u200F`) to guarantee strict right-to-left alignment in the chat UI renderer.
+- **Mandatory Agent Chat Language & Global RTL:** ALL agent responses, communications, explanations, and chat outputs in Antigravity MUST strictly be written in Hebrew with full RTL (Right-To-Left) text direction and right alignment.
+- **HTML Block Wrapping & Unicode RLM:** Every agent chat message MUST be wrapped inside `<div dir="rtl" style="text-align: right; direction: rtl;">` and every paragraph/list item MUST start with Unicode RLM (`\u200F`).
 - **Document Direction:** Ensure `dir="rtl"` is configured on all root layouts, modals, and user-facing views.
-- **Tailwind Flex/Grid:** Use logical spacing (`ms-*`, `me-*`, `ps-*`, `pe-*`) or explicit `rtl:` modifiers for layout mirroring in RTL mode.
-- **Typography & Bidi:** `Outfit` for headings, `Inter` for metadata/body. Preserve number alignment, currency symbols (₪ / $), and mixed English/Hebrew strings without layout breaking.
+- **Tailwind Flex/Grid:** Use logical spacing (`ms-*`, `me-*`, `ps-*`, `pe-*`) or explicit `rtl:` modifiers for layout mirroring.
+- **Typography & Bidi:** `Outfit` for headings, `Inter` for metadata/body. Preserve number alignment, currency symbols (₪ / $), and mixed English/Hebrew strings.
 
 ---
 
 ## 5. Security & Data Protection Guardrails
-- **Secret Isolation:** NEVER commit or log passwords, session tokens, JWT secrets, Stripe secret keys, or credit card details.
+- **Secret Isolation:** NEVER commit or log passwords, session tokens, JWT secrets, Stripe keys, or credit card details.
 - **Zero MongoDB Client Exposure:** All database operations strictly reside in server actions or API routes. Connection strings must remain server-side.
 - **Schema Validation:** All server actions and API route inputs MUST be sanitized using Zod schemas. Return unified contract: `{ success: boolean; data?: T; error?: string }`.
 - **Session Verification:** Enforce session checks (`getServerSession(authOptions)`) on protected booking and checkout routes.
@@ -46,10 +44,10 @@ To maximize execution velocity and eliminate token waste across agent turns:
 
 ## 6. Agent Execution Workflow (5-Layer Agent Stack)
 1. **Initialize Session:** Check `.agents/state/task.md` and `.agents/state/latest.md`.
-2. **Plan & Contract:** Use `.agents/templates/PLAN_TEMPLATE.md` to draft feature steps before code changes.
+2. **Plan & Contract:** Use `.agents/templates/PLAN_TEMPLATE.md` to draft feature steps before code changes. Present `implementation_plan.md` artifact.
 3. **Execute & Test:** Implement data contracts (Zod), backend logic, and frontend components incrementally (Max 200 LOC/file).
 4. **Verify Quality:** Run TypeScript check (`npx tsc --noEmit`), build verification (`npm run build`), and test suite (`npx vitest run`).
-5. **Update State (MANDATORY):** Record finished milestones and updated files across ALL 4 state files (`.agents/state/task.md`, `.agents/state/latest.md`, `ARCHITECTURE_STATE.md`, and `SPRINTS.md`) without exception after every feature addition or upgrade.
+5. **Update State (MANDATORY):** Record finished milestones across ALL 4 state files (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`) without exception after every feature addition or upgrade.
 
 ---
 
@@ -62,4 +60,33 @@ To maximize execution velocity and eliminate token waste across agent turns:
 ## 8. GitHub Version Control & Push Protocol
 - **Explicit Approval Required:** The agent strictly MUST NOT commit or push code changes to GitHub without receiving explicit prior confirmation and authorization from the USER.
 
+---
 
+## 9. MCP Tool Orchestration Matrix
+The agent leverages connected MCP servers during planning, analysis, and verification:
+
+| MCP Server | Primary Capabilities | Target Tasks in CinePulse |
+|---|---|---|
+| `mongodb-mcp-server` | `find`, `aggregate`, `collection-schema` | Live database inspection, analytics pipelines, collection validation |
+| `visualization` | `render_chart` | Interactive business intelligence charts, box office graphs |
+| `github-mcp-server` | `search_code`, `list_pull_requests`, `get_commit` | Code navigation, PR reviews (Commits/Pushes require explicit user approval) |
+| `StitchMCP` | `list_screens`, `get_screen`, `generate_variants` | Prototyping and auditing UI layouts and design system tokens |
+| `mcp-obsidian` | `obsidian_patch_content`, `obsidian_put_content` | Synchronizing architectural notes and cinema memory capsules |
+| `google-gemma-31b` | `describe_image`, `gemini_deep_research` | Poster visual analysis, multimodal actor research, screenplay analysis |
+
+---
+
+## 10. Consolidated Skills Architecture (Streamlined Registry)
+Only high-impact, single-responsibility skills remain active in `.agents/skills/`:
+- `agent-stack-framework`: Autonomous 5-layer execution engine with MCP bindings and QA gates.
+- `cinepulse-analytics-bi`: Live MongoDB & Visualization MCP analytics engine.
+- `cinepulse-motion-engine`: Unified 120Hz GPU motion, conic neon borders, 3D card tilt, and receipt print physics.
+- `cinedna-feature-suite`: Core cinema features (CineDNA Graph, Smart Split, Memory Capsules).
+- `spatial-acoustic-wavefront`: Web Audio API 3D spatial acoustics, 35Hz sub-bass, and haptics.
+- `actor-biography-engine`: Actor profiles, filmography, and AI narration.
+- `ai-curated-cinesnacks`: Concession menu pairing with movie mood and dietary tags.
+- `post-movie-spoiler-lounge`: Spoiler-free lounge with Obsidian memory sync.
+- `liquid-glass-ui`: Liquid Glass 4.0 Pro design system specifications and tokens.
+- `hebrew-rtl-copywriting`: Israeli Hebrew typography, Bidi rules, and localized UI copy.
+- `gemini-managed-agents`: Multimodal research and managed agents coordination.
+- `movie-site-day-night-lighting`: Dynamic solar lighting and adaptive theme switching.

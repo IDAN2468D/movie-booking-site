@@ -61,6 +61,8 @@
 | **Module BD** | CinePulse AI Concierge Floating Orb & Audio Optimizer | `/components/ai/CinePulseOrb.tsx` | Web Audio Singleton Auto-Suspend, Framer Motion 120Hz GPU, Liquid Glass 4.0 | `ACTIVE` |
 | **Module BE** | Israeli Cinema Concierge & Mood Synthesis | `/src/components/ai/OrbMoodPicker.tsx` | Web Speech API, Israeli Cinema Recommendations, Web Audio Harmonic Chimes | `ACTIVE` |
 | **Module BF** | Skills-IL Ecosystem Standards & SDD Tooling | `/.agents/skills/*/` | Bilingual Metadata, Hebrew Companions, Python CLI Validators, Agent Stack SDD v9.5 | `ACTIVE` |
+| **Module BG** | CinePulse Motion Engine (120Hz GPU & Conic Neon) | `/.agents/skills/cinepulse-motion-engine/` | Framer Motion, Conic Gradients, 3D Tilt, Receipt Physics | `ACTIVE` |
+| **Module BH** | Live MongoDB Analytics & BI Engine | `/.agents/skills/cinepulse-analytics-bi/` | `mongodb-mcp-server`, `visualization` MCP (`render_chart`), Zod Schemas | `ACTIVE` |
 
 ---
 
@@ -232,6 +234,15 @@
 ## Phase 68: Resilient Screensaver & Production Image Engine Fix (Sprint 141)
 1. **Global Unoptimized CDN Image Pipeline (`next.config.ts`)**: Bypasses Render server memory/CPU limits by streaming remote TMDB/Unsplash CDN assets directly in the client browser.
 2. **Resilient Screensaver Image Rendering (`ResilientImage.tsx`)**: Guaranteed direct TMDB backdrop and poster display with unoptimized pass-through and procedural fallback protection.
+
+---
+
+## Phase 78: CinePulse Master Agent OS & MCP Modernization Suite (Sprint 162)
+1. **Context Pruning & Skills Streamlining**: Permanently removed 16 bloated, duplicate, and low-value skills from `.agents/skills/` (pruned `skills-il-skill-creator`, `movie-site-feature-planner`, `movie-site-stats`, and 6 micro-snippets), preventing prompt context dilution.
+2. **Unified Motion Engine (`.agents/skills/cinepulse-motion-engine/`)**: Consolidated 120Hz GPU animation rules, conic neon glowing borders, Framer Motion 3D card tilt, thermal receipt printer physics, and zero-reflow GPU loaders into a single high-performance skill.
+3. **Live MongoDB Analytics & BI Engine (`.agents/skills/cinepulse-analytics-bi/`)**: Integrated `mongodb-mcp-server` aggregation pipelines and `visualization` MCP chart generation for autonomous, live data querying without manual CSV workflows.
+4. **Agent Stack Framework v10.0 SDD**: Upgraded execution layers with automated QA gates (TypeScript, Vitest, 200 LOC ceiling) and direct MCP server orchestration.
+5. **Master Agent OS Update (`.agents/AGENTS.md`)**: Added Section 9 (MCP Tool Orchestration Matrix) and Section 10 (Consolidated Skills Registry) strictly within 98 LOC.
 
 ---
 

@@ -2,56 +2,16 @@
 
 - [x] Feature Planning via `movie-site-feature-planner` Skill for High & Medium Priority Suites
 - [x] Layer 4 Implementation Plan draft & user gatekeeper approval
-- [x] Removal of duplicate CinePulse Labs button from main Sidebar (`Sidebar.tsx`)
-- [x] Sprint 116: Liquid Glass 4.0 Community Reviews & Interactive CineScore Hub Redesign
-- [x] Sprint 117: CinePulse Master Experience Suite Upgrade (`HoloPassbook3DCard.tsx`, `TicketsTabSwitcher.tsx`, `tickets/page.tsx`, `SeatPOVPreviewModal.tsx`, `SpotlightSearchModal.tsx`, `WatchlistGrid.tsx`)
-- [x] Sprint 118: Global Keyboard Shortcuts & Interactive Command Center (`useGlobalShortcuts.ts`, `KeyboardShortcutsModal.tsx`, `KeyboardShortcutHint.tsx`, `TopBar.tsx`, `layout.tsx`)
-- [x] Sprint 119: Floating Trailer PIP & Hebrew Keymap Enhancement (`FloatingTrailerPlayer.tsx`, `useGlobalShortcuts.ts`, `KeyboardShortcutsModal.tsx`, `TrailerModal.tsx`)
-- [x] Sprint 120: CineTrailer Ultra Pro 4.0 Redesign & Multi-Video PIP Suite (`TrailerModal.tsx`, `FloatingTrailerPlayer.tsx`, `FloatingTrailerMiniBar.tsx`, `TrailerButton.tsx`, `trailer-store.ts`)
-- [x] Sprint 121: CineTrailer Cinema Hub, Unbounded Drag, Voice Routing & Movie Page Action Bar (`TrailerPickerModal.tsx`, `trailerData.ts`, `MovieDetailsContent.tsx`, `FloatingTrailerPlayer.tsx`, `voice-nav/route.ts`, `autoBooking.ts`, `useVoiceEngine.ts`, `TopBar.tsx`, `layout.tsx`)
-- [x] Sprint 122: CineTrailer Ultra Stage & Luxury Button Redesign (`components/coming-soon/TrailerModal.tsx`, `components/coming-soon/UpcomingMovieCard.tsx`, `components/movie/TrailerButton.tsx`, `components/movie/TrailerModal.tsx`)
-- [x] Sprint 123: Movie Hero Action Bar Streamlining (`MovieDetailsContent.tsx`)
-- [x] Sprint 124: Full-Spectrum Cinema Trailer Library & TMDB Imagery (`trailerData.ts`, `TrailerPickerModal.tsx`)
-- [x] Sprint 125: Official Cinema Posters (כרזות קולנוע) & Resilient Image Fallbacks (`TrailerPickerModal.tsx`, `trailerData.ts`)
-- [x] Sprint 126: 100% Verified TMDB Poster Resolution & Fixed 404s (`trailerData.ts`)
-- [x] Sprint 127: Featured Hero Native RTL Alignment (`FeaturedHero.tsx`)
-- [x] Sprint 128: Featured Hero Tight Poster-Text Spatial Bonding (`FeaturedHero.tsx`)
-- [x] Sprint 129: Full Movie Site Stats Skill Integration in ERP (`lib/erp/stats/`, `app/api/erp/stats/`, `components/erp/stats/`, `app/(main)/erp/stats/`)
-- [x] Sprint 130: Stats Chart Hover Jitter Fix & Stable Layout Bonding (`StatsTimeSeriesChart.tsx`)
-- [x] Sprint 131: Full-Width ERP Retention & Anomalies Radar Redesign (`StatsRetentionCard.tsx`, `StatsAnomaliesRadar.tsx`, `page.tsx`)
-- [x] Sprint 132: Landing Page (`/`) Lighthouse 100/100 & Modern Web APIs Migration (100% A11y, 100% Best Practices, 100% SEO, 0.4s FCP, 20ms TBT, 0 404s)
-- [x] Resilient Seat Locking Engine (`app/api/seats/lock/route.ts`): Fast-fail timeout with in-memory TTL lock fallback preventing 500 errors and seat deselect rollbacks when MongoDB is offline
-- [x] Sprint 133: Grand Cinema Theater Stage & Unobstructed Widescreen Trailer Player (`TrailerModal.tsx`, `components/coming-soon/TrailerModal.tsx`, `FloatingTrailerPlayer.tsx`)
-- [x] Sprint 134: Direct Floating Trailer Player Activation (`TrailerButton.tsx`, `ComingSoonClient.tsx`, `useTrailerStore.ts`)
-- [x] Sprint 135: Resilient Cinema Branches Engine & Upstream Poster 404 Resolution (`lib/actions/cinemas.ts`, `app/api/bookings/route.ts`, `NeonTicket.tsx`, `QuantumTicket.tsx`, `fallbackTickets.ts`, `screensaverMovies.ts`, `seatingHarmony.ts`)
-- [x] Sprint 136: Mouse-Navigated Category Filters & High-Accuracy GPS Locator (`CategoryFilters.tsx`, `BranchesClient.tsx`)
-- [x] Sprint 137: Zero-Scrollbar Branch Facilities Filter Suite (`components/branches/BranchFilters.tsx`)
-- [x] Sprint 138: Interactive Mouse Drag, Wheel & Arrow Navigation for Branch Facilities (`BranchFilters.tsx`)
-- [x] Sprint 139: Bilingual Region Matching & Full Israeli Coverage (`BranchesClient.tsx`, `cinemas.ts`)
-- [x] Sprint 140: Resilient Cinema Catering & Concession Imagery Suite (`constants.ts`, `KineticSnackCard.tsx`, `CateringCard.tsx`, `DynamicComboRoulette.tsx`, `SmartTray.tsx`)
-- [x] Sprint 141: Resilient Screensaver & Production Image Engine Fix (`next.config.ts`, `ResilientImage.tsx`)
-- [x] Sprint 142: Day/Night Dynamic Lighting Theme Engine (`hooks/useDayNight.ts`, `DayNightProvider.tsx`, `DayNightLightingPill.tsx`, `globals.css`, `layout.tsx`, `HomeContent.tsx`)
-- [x] Sprint 143: CineSub AI Live Audio Transcription & Translation Engine (`lib/schemas/subtitleSync.ts`, `lib/models/SubtitleTrack.ts`, `lib/actions/transcribeActions.ts`, `lib/store/subtitleStore.ts`, `hooks/useLiveAudioTranscriber.ts`, `components/movie/CineSubTranscriberModal.tsx`)
-- [x] Sprint 144: CineSub AI Ultra-Luxurious Studio Redesign & Spectrum Visualizer Suite (`components/cinesub/`, `app/(main)/cinesub/page.tsx`, `components/layout/TopBar.tsx`, `components/layout/Sidebar.tsx`)
-- [x] Sprint 145: CineSub AI Ultra Suite v6.0 & Multi-Source Engine (`lib/utils/exportSubtitles.ts`, `lib/store/subtitleStore.ts`, `hooks/useLiveAudioTranscriber.ts`, `components/movie/CineSubTranscriberModal.tsx`, `app/(main)/cinesub/page.tsx`)
-- [x] Sprint 146: Full Movie Subtitle Track & Multi-Language Translation Suite (`lib/actions/fullMovieSubtitles.ts`, `components/cinesub/FullMovieSubtitlesViewer.tsx`, `components/movie/CineSubTranscriberModal.tsx`, `app/(main)/cinesub/page.tsx`)
-- [x] Sprint 147: CineDNA Feature Suite & Next-Gen Cinema Architecture (`lib/schemas/`, `lib/actions/`, `hooks/`, `components/cinedna/`, `components/sweetspot/`, `components/cinesquad/`, `components/directors-cut/`, `components/memory-capsule/`, `app/(main)/`)
-- [x] Sprint 148: Complete Skills-IL Organization Standardization & 15-Skill Ecosystem Upgrade (`.agents/skills/*/metadata.json`, `SKILL_HE.md`, `references/`, `scripts/`)
-- [x] Sprint 149: Cinema Platform Core Feature Upgrades (`hooks/useActorNarrationEngine.ts`, `components/actor/ActorAcousticNarration.tsx`, `components/concessions/AiSnackPairer.tsx`, `components/vip/LiveSeatAuctionArena.tsx`, `components/community/AfterglowLounge.tsx`, `components/receipt/CineBookReceiptPrinter.tsx`)
-- [x] Sprint 150: Multi-Layer Web Audio Thermal Receipt Printer Mechanical Sound & Paper Tear Haptics (`components/receipt/receiptAudio.ts`, `components/receipt/CineBookReceiptPrinter.tsx`)
-- [x] Sprint 151: 100% Sidebar Advanced Features Hebrew RTL Localization (`components/layout/Sidebar.tsx`)
-- [x] Sprint 152: Cinema News AI Feed Robust Fallback Images & Error Recovery (`app/api/ai/news-curator/route.ts`, `components/home/NewsWidget.tsx`)
-- [x] Sprint 154: NextAuth Client Fetch Error & Turbopack Route Resolution (`lib/auth.ts`, `proxy.ts`, `tsconfig.json`)
-- [x] Sprint 155: CineBook Next-Gen Feature Suite (v1.0 SDD) - CineCrowd, Stealth Tray Mode, Letterboxd & Trakt Scrobble, WhisperTrack In-Seat Audio, Dynamic Surge Seat Exchange (`lib/models/`, `lib/validations/`, `app/actions/`, `lib/store/`, `lib/audio/`, `hooks/`, `components/`, `app/(main)/cinecrowd/page.tsx`)
-- [x] Sprint 156: Ultra-Luxury Thermal Receipt Printer Pro Upgrade - LED Status, Haptic Tear Physics, WhatsApp Sharing, Apple Wallet, Israeli 18% VAT & Pulse Points (`components/receipt/CineBookReceiptPrinter.tsx`, `ReceiptPaperContent.tsx`, `ReceiptActionButtons.tsx`, `receiptAudio.ts`)
-- [x] Sprint 157: Floating Audio Player Non-Obstructive Layout & Minimized Pill Mode (`components/audio/WhisperTrackBar.tsx`) - Repositioned to `md:right-[17.5rem]` and `bottom-24 md:bottom-6`, with collapsible pill and dismiss actions to prevent sidebar overlap
-- [x] Sprint 158: CinePulse AI Concierge Floating Orb & Web Audio Context Optimization Suite (`src/lib/audio/audioContextManager.ts`, `src/hooks/useAudioContextManager.ts`, `src/components/ai/OrbMoodPicker.tsx`, `src/components/ai/CinePulseOrb.tsx`, `app/(main)/layout.tsx`, `src/lib/audio/__tests__/audioContextManager.test.ts`)
-- [x] Sprint 159: GitHub Actions CI/CD & Playwright E2E Full Resolution (`.github/workflows/ci.yml`, `.github/workflows/qa.yml`, `lib/tmdb.ts`, `tests/e2e/booking.spec.ts`, `package.json`, `package-lock.json`, `app/api/send-ticket/route.ts`, `next.config.ts`) - 100% Green CI & QA Runs on GitHub
-- [x] Sprint 160: CinePulse Orb Hebrew AI Voice Shell Engine Upgrade (`src/hooks/useOrbVoiceEngine.ts`, `src/components/ai/OrbVoiceInput.tsx`, `src/components/ai/OrbMoodPicker.tsx`, `src/hooks/__tests__/useOrbVoiceEngine.test.ts`)
-- [x] Sprint 161: CinePulse Feature & Skills-IL Upgrade Suite via Agent Stack Framework & Feature Audit (`src/components/ai/moodData.ts`, `src/components/ai/OrbMoodPicker.tsx`, `components/concessions/AiSnackPairer.tsx`, `components/vip/LiveSeatAuctionArena.tsx`, `.agents/skills/agent-stack-framework/`, `.agents/skills/feature-audit-skill/`, `.agents/skills/movie-site-feature-planner/`)
+- [x] Sprint 159: GitHub Actions CI/CD & Playwright E2E Full Resolution
+- [x] Sprint 160: CinePulse Orb Hebrew AI Voice Shell Engine Upgrade
+- [x] Sprint 161: CinePulse Feature & Skills-IL Upgrade Suite via Agent Stack Framework & Feature Audit
+- [x] Sprint 162: CinePulse Master Agent OS & MCP Modernization Suite:
+  - [x] Delete 16 redundant, duplicated, or bloated skills from `.agents/skills/`
+  - [x] Create `cinepulse-motion-engine` consolidating 120Hz GPU motion, conic neon borders, 3D card tilt, thermal receipt physics, and GPU loaders (<200 LOC)
+  - [x] Create `cinepulse-analytics-bi` powered by `mongodb-mcp-server` aggregation pipelines and `visualization` MCP chart generation
+  - [x] Upgrade `agent-stack-framework` to v10.0 SDD with dynamic MCP tool orchestration and automated QA gates
+  - [x] Upgrade `.agents/AGENTS.md` with Section 9 (MCP Tool Orchestration Matrix) and Section 10 (Consolidated Skills Registry) (<100 LOC)
+  - [x] Auto-synchronize all 4 state files (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
 - [x] Vitest suite pass (161/161 total tests across 34 test files)
-- [x] Next.js build verification (`npm run build` - 123/123 routes compiled)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
-- [x] Auto-synchronize all 4 state files in `.agents/state/`
-
