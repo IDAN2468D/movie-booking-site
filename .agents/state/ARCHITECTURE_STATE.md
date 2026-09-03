@@ -246,6 +246,23 @@
 
 ---
 
+## Phase 79: Next.js Root Architecture Modularization (Sprint 163)
+1. **Root Layout Modularization (`app/layout.tsx`)**: Reduced from 115 to 28 LOC by extracting Google Fonts to `lib/fonts.ts` (33 LOC), SEO/JSON-LD to `lib/seo.ts` (43 LOC), and composite client providers to `components/providers/RootProviders.tsx` (30 LOC).
+2. **Main Shell Modularization (`app/(main)/layout.tsx`)**: Reduced from 113 to 74 LOC by extracting floating modals, players, and overlays to `components/layout/GlobalCinemaOverlays.tsx` (24 LOC).
+3. **Main Page Modularization (`app/(main)/page.tsx`)**: Reduced from 62 to 46 LOC by extracting offline/test movie fallbacks to `lib/tmdb-fallback.ts` (21 LOC).
+4. **Stylesheet Modularization (`app/globals.css`)**: Reduced from 336 to 5 LOC by decomposing design tokens, glassmorphism, and keyframe animations into `styles/theme.css` (135 LOC), `styles/glass.css` (74 LOC), and `styles/animations.css` (110 LOC).
+5. **Strict 200 LOC Ceiling**: 100% of all created and modified files are under 140 lines of code.
+
+---
+
+## Phase 80: BiometricAuth Declarative Motion & Lifecycle Hardening (Sprint 164)
+1. **Declarative Framer Motion Refactor (`components/checkout/BiometricAuth.tsx`)**: Completely eliminated runtime error `controls.start() should only be called after a component has mounted` by migrating from imperative `useAnimation()` controls to declarative `sensorVariants` and `animate={status}`.
+2. **Audio Lifecycle Hook (`hooks/useBiometricAudio.ts`)**: Extracted Web Audio API heartbeat, sub-bass oscillator, and success chime into a reusable custom hook with unmount cleanup and state guards (79 LOC).
+3. **Lifecycle Leak Protection**: Added `isMountedRef` safety checks to avoid state updates on unmounted components during asynchronous checkout.
+4. **Strict 200 LOC Ceiling**: `BiometricAuth.tsx` reduced from 233 to 169 LOC.
+
+---
+
 ## API Routes & Server Actions Map
 - `POST /api/auth/register` - Account Registration
 - `GET /api/erp/stats/advanced` - Aggregated MongoDB Bookings & Advanced Financial Metrics

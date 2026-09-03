@@ -1,12 +1,11 @@
-# Latest Milestone: CinePulse Master Agent OS & MCP Modernization Suite (Sprint 162)
+# Latest Milestone: BiometricAuth Framer Motion Declarative Refactor & Runtime Fix (Sprint 164)
 
 - **Completed Sprints & Upgrades:**
-  1. **Sprint 162: CinePulse Master Agent OS & MCP Modernization Suite**:
-     - **Skill Pruning & Token Optimization**: Permanently deleted 16 redundant, duplicate, or bloated skills/files from `.agents/skills/` (including `skills-il-skill-creator`, `movie-site-feature-planner`, `movie-site-stats`, 6 micro-snippets, and 6 fragmented CSS skills), saving thousands of context tokens per turn.
-     - **Unified Motion Engine**: Created `cinepulse-motion-engine` (76 LOC) consolidating 120Hz GPU motion, conic neon glowing borders, Framer Motion 3D card tilt, thermal receipt printer physics, and zero-reflow GPU loaders.
-     - **Live MongoDB BI Analytics**: Created `cinepulse-analytics-bi` (79 LOC) connecting directly to `mongodb-mcp-server` aggregation pipelines and `visualization` MCP for automated box office, attendance, and concession revenue charts.
-     - **Agent Stack v10.0 SDD**: Upgraded `agent-stack-framework` with automated verification gates and dynamic MCP server orchestration across all 5 layers.
-     - **Master Agent OS Matrix**: Updated `.agents/AGENTS.md` (98 LOC) with Section 9: MCP Tool Orchestration Matrix and Section 10: Consolidated Skills Registry.
+  1. **Sprint 164: BiometricAuth Framer Motion Declarative Refactor**:
+     - **Runtime Error Resolution**: Eliminated `Error: controls.start() should only be called after a component has mounted` by completely replacing imperative `useAnimation()` controls with declarative Framer Motion `variants` (`sensorVariants`) and `animate={status}`.
+     - **Modular Audio Hook**: Extracted Web Audio API heartbeat, sub-bass pulse, and success chime into `hooks/useBiometricAudio.ts` (79 LOC) with automatic `useEffect` cleanup and unmounted safety guards.
+     - **Safe Lifecycle Management**: Added `isMountedRef` to prevent state updates after unmount during asynchronous quantum checkout requests.
+     - **LOC Compliance**: `BiometricAuth.tsx` is now 169 LOC (<200 LOC ceiling), and `useBiometricAudio.ts` is 79 LOC (<200 LOC ceiling).
 - **Quality & Verification:**
   - TypeScript: `npx tsc --noEmit` verified with 0 errors.
   - Vitest: 161/161 tests passing across 34 test files.

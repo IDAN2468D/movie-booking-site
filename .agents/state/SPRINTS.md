@@ -580,6 +580,26 @@
 - **Verification:** `npx tsc --noEmit` passed (0 errors), 161/161 Vitest tests passing across 34 test files, strict 200 LOC ceiling maintained across all files, and 100% synchronization across all 4 state files.
 - **Status:** ✅ Completed
 
+## 🚀 Phase 90: Next.js Root Architecture Modularization (Sprint 163)
+- **Features & Infrastructure Implemented:**
+  - **Root Layout Modularization (`app/layout.tsx`)**: Reduced from 115 to 28 LOC by extracting Google Fonts to `lib/fonts.ts` (33 LOC), SEO/JSON-LD to `lib/seo.ts` (43 LOC), and composite client providers to `components/providers/RootProviders.tsx` (30 LOC).
+  - **Main Shell Modularization (`app/(main)/layout.tsx`)**: Reduced from 113 to 74 LOC by extracting floating modals, players, and overlays to `components/layout/GlobalCinemaOverlays.tsx` (24 LOC).
+  - **Main Page Modularization (`app/(main)/page.tsx`)**: Reduced from 62 to 46 LOC by extracting offline/test movie fallbacks to `lib/tmdb-fallback.ts` (21 LOC).
+  - **Stylesheet Modularization (`app/globals.css`)**: Reduced from 336 to 5 LOC by decomposing design tokens, glassmorphism, and keyframe animations into `styles/theme.css` (135 LOC), `styles/glass.css` (74 LOC), and `styles/animations.css` (110 LOC).
+- **Tech Stack:** Next.js 15+ App Router, React 19, TypeScript, Tailwind CSS v4, Framer Motion.
+- **Verification:** `npx tsc --noEmit` passed (0 errors), 161/161 Vitest tests passing across 34 test files, `npm run build` compiled 123/123 routes in 29.7s, strict 200 LOC ceiling maintained across all files (all <140 LOC), and 100% synchronization across all 4 state files.
+- **Status:** ✅ Completed
+
+## 🚀 Phase 91: BiometricAuth Declarative Motion & Lifecycle Hardening (Sprint 164)
+- **Features & Infrastructure Implemented:**
+  - **Declarative Framer Motion Refactor (`components/checkout/BiometricAuth.tsx`)**: Replaced imperative `useAnimation()` controls with declarative `sensorVariants` and `animate={status}`, completely eliminating the unmounted lifecycle runtime error `controls.start() should only be called after a component has mounted`.
+  - **Audio & Haptic Lifecycle Hook (`hooks/useBiometricAudio.ts`)**: Extracted Web Audio API heartbeat, sub-bass oscillator, and success chime into a reusable custom hook with unmount cleanup and state guards (79 LOC).
+  - **Lifecycle Leak Protection**: Added `isMountedRef` safety checks to avoid state updates on unmounted components during asynchronous checkout.
+  - **Strict 200 LOC Ceiling**: `BiometricAuth.tsx` is now 169 LOC, and `useBiometricAudio.ts` is 79 LOC.
+- **Tech Stack:** Next.js 16, React 19, Framer Motion, Web Audio API, Web Haptics API.
+- **Verification:** `npx tsc --noEmit` passed (0 errors), 161/161 Vitest tests passing across 34 test files, strict 200 LOC ceiling maintained across all files, and 100% synchronization across all 4 state files.
+- **Status:** ✅ Completed
+
 
 
 

@@ -1,0 +1,120 @@
+/* CinePulse Motion & Keyframe Animations */
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Liquid Glass 2.0 Animations */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.05) 55%,
+    transparent 100%
+  );
+  animation: shimmer 8s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: translate(-30%, -30%) rotate(0deg); }
+  100% { transform: translate(30%, 30%) rotate(0deg); }
+}
+
+.warp-speed {
+  animation: warp 0.8s cubic-bezier(0.85, 0, 0.15, 1) forwards;
+}
+
+@keyframes warp {
+  0% {
+    transform: scale(0.8) translateZ(0);
+    filter: blur(20px) brightness(0.5);
+    opacity: 0;
+  }
+  50% {
+    filter: blur(5px) brightness(1.5);
+  }
+  100% {
+    transform: scale(1) translateZ(0);
+    filter: blur(0) brightness(1);
+    opacity: 1;
+  }
+}
+
+/* ⚡ Electric Animated Conic Border Effect */
+.electric-movie-card {
+  position: relative;
+  background: #090507;
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 2px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 69, 0, 0.35);
+}
+
+.electric-movie-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 0 30px rgba(255, 69, 0, 0.55), 0 0 10px rgba(255, 0, 85, 0.4);
+}
+
+.electric-movie-card::before {
+  content: '';
+  position: absolute;
+  inset: -100%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 280deg,
+    #ff4500 320deg,
+    #ff8800 340deg,
+    #ff0055 360deg
+  );
+  animation: rotate-electric-border 4s linear infinite;
+  will-change: transform;
+  z-index: 0;
+}
+
+.electric-card-inner {
+  position: relative;
+  background: #11090d;
+  border-radius: 22px;
+  z-index: 1;
+  padding: 24px;
+}
+
+@keyframes rotate-electric-border {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bandShift {
+  from { opacity: 0.85; }
+  to { opacity: 1; }
+}
+
+.day-night-transition {
+  transition: background 1.2s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+}

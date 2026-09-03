@@ -13,13 +13,8 @@ import ResolutionWrapper from "@/components/layout/ResolutionWrapper";
 import { useBookingStore } from '@/lib/store';
 import { ParticleUniverse } from "@/components/fx/ParticleUniverse";
 import { GlobalGradientFrame } from "@/components/ui/GlobalGradientFrame";
-import FloatingTrailerPlayer from "@/components/media/FloatingTrailerPlayer";
-import KeyboardShortcutsModal from "@/components/ui/KeyboardShortcutsModal";
-import TrailerPickerModal from "@/components/trailer/TrailerPickerModal";
 import { useGlobalShortcuts } from "@/hooks/useGlobalShortcuts";
-import { StealthTrayOverlay } from "@/components/concessions/StealthTrayOverlay";
-import { WhisperTrackBar } from "@/components/audio/WhisperTrackBar";
-import { CinePulseOrb } from "@/components/ai/CinePulseOrb";
+import GlobalCinemaOverlays from "@/components/layout/GlobalCinemaOverlays";
 
 export default function MainLayout({
   children,
@@ -62,17 +57,11 @@ export default function MainLayout({
         <div 
           className="flex h-screen overflow-hidden transition-colors duration-1000 relative z-0" 
           dir="rtl"
-          style={{
-            '--primary': auraColor,
-          } as React.CSSProperties}
+          style={{ '--primary': auraColor } as React.CSSProperties}
         >
-          {/* Right Sidebar */}
           <Sidebar />
-
-          {/* Main Center Area */}
           <div className="flex-1 flex flex-col min-w-0 relative">
             <TopBar />
-            {/* Global Scroll Progress Bar */}
             <motion.div 
               style={{ scaleX: scrollYProgress, transformOrigin: 'right' }}
               className="absolute top-16 md:top-24 left-0 right-0 h-[3px] bg-gradient-to-l from-primary via-[#FF1464] to-cyan-400 z-50 shadow-[0_0_12px_rgba(255,20,100,0.8)] pointer-events-none"
@@ -81,30 +70,9 @@ export default function MainLayout({
               {children}
             </main>
           </div>
-
-          {/* Left Panel - Live Cinema / Booking */}
           <RightPanel />
-
-          {/* Mobile Navigation */}
           <MobileNav />
-
-          {/* Global Floating Cinema Trailer Player */}
-          <FloatingTrailerPlayer />
-
-          {/* Global Keyboard Shortcuts Cheat Sheet Modal */}
-          <KeyboardShortcutsModal />
-
-          {/* Global Trailer Picker Library Hub */}
-          <TrailerPickerModal />
-
-          {/* In-Theater Stealth Tray Mode (Ultra-Dark Concessions) */}
-          <StealthTrayOverlay />
-
-          {/* WhisperTrack In-Seat Audio Stream Bar */}
-          <WhisperTrackBar />
-
-          {/* CinePulse AI Floating Concierge Orb */}
-          <CinePulseOrb />
+          <GlobalCinemaOverlays />
         </div>
       </GlobalGradientFrame>
     </ResolutionWrapper>
