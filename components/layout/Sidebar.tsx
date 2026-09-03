@@ -81,14 +81,10 @@ export default function Sidebar() {
   const isAdmin = session?.user?.email === 'idankzm@gmail.com' || session?.user?.email === 'test@example.com';
   const mainNav = isAdmin ? [...basicNavItems, ...ADMIN_ITEMS] : basicNavItems;
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
-    if (!sidebarRef.current) return;
-    const cards = sidebarRef.current.querySelectorAll<HTMLElement>('.gradient-border-card');
-    cards.forEach((card) => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty('--x', `${e.clientX - rect.left}px`);
-      card.style.setProperty('--y', `${e.clientY - rect.top}px`);
-    });
+  const handleCardPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--x', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--y', `${e.clientY - rect.top}px`);
   };
 
   const handleGPS = () => {
@@ -112,8 +108,6 @@ export default function Sidebar() {
 
   return (
     <aside
-      ref={sidebarRef}
-      onPointerMove={handlePointerMove}
       className="hidden md:flex h-screen w-64 bg-black/10 backdrop-blur-3xl saturate-[200%] brightness-110 border-l border-white/10 flex-col py-10 px-6 z-50 flex-shrink-0 shadow-[0_0_40px_rgba(0,0,0,0.5),_inset_0_0_0_1px_rgba(255,255,255,0.1)] relative overflow-y-auto custom-scrollbar font-inter dir-rtl"
     >
       <Link href="/" aria-label="דף הבית של CinePulse" className="mb-8 block">
@@ -135,6 +129,7 @@ export default function Sidebar() {
       <div className="space-y-4 mt-6 relative">
         <div
           onClick={() => router.push('/branches')}
+          onPointerMove={handleCardPointerMove}
           className="gradient-border-card group p-4 rounded-2xl bg-white/[0.03] backdrop-blur-3xl border border-white/10 relative overflow-hidden shadow-2xl cursor-pointer active:scale-95 transition-transform"
         >
           <div

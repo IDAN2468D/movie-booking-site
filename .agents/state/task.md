@@ -7,12 +7,20 @@
 - [x] Sprint 161: CinePulse Feature & Skills-IL Upgrade Suite via Agent Stack Framework & Feature Audit
 - [x] Sprint 162: CinePulse Master Agent OS & MCP Modernization Suite
 - [x] Sprint 163: Next.js Root Architecture Modularization & 200 LOC Ceiling Compliance
-- [x] Sprint 164: BiometricAuth Framer Motion Declarative Refactor & Runtime Fix:
-  - [x] Eliminate `controls.start()` runtime lifecycle error in `components/checkout/BiometricAuth.tsx`
-  - [x] Replace imperative animation controls with declarative `sensorVariants`
-  - [x] Extract audio/haptics synthesis to `hooks/useBiometricAudio.ts` (79 LOC)
-  - [x] `BiometricAuth.tsx` reduced to 169 LOC (<200 LOC ceiling) with unmount-safe timer and audio context cleanup
+- [x] Sprint 164: BiometricAuth Framer Motion Declarative Refactor & Runtime Fix
+- [x] Sprint 165: 120Hz Zero-Reflow Smooth Motion & Jank Elimination Suite:
+  - [x] Eliminate Forced Synchronous Layout / Layout Thrashing in `GlobalGradientFrame.tsx` (removed card `querySelectorAll` loop)
+  - [x] Localize card pointer tracking in `Sidebar.tsx` and `RightPanel.tsx` (eliminated panel-wide query loops)
+  - [x] Remove `filter: 'blur(10px)'` from GSAP ScrollTrigger in `HomeContent.tsx` (restored GPU compositor thread scroll performance)
+  - [x] Remove `scroll-behavior: smooth` from `body` in `theme.css` to prevent scroll jank and physics conflicts
+  - [x] Remove heavy `layout` prop and throttle mouse coordinates with rAF in `MovieCard.tsx`
+  - [x] Throttle 8 3D tilt springs in `FeaturedHero.tsx` using `requestAnimationFrame`
+  - [x] Remove heavy CSS blur filter from 120Hz canvas in `ParticleUniverse.tsx`
+  - [x] Throttle mousemove in `CinematicFX.tsx`, `MeshBackground.tsx`, and `ParallaxOrb.tsx` with rAF and `{ passive: true }`
+  - [x] Add `{ passive: true }` to `ScreenSaverListener.tsx` activity listeners
+  - [x] Promote glass styling classes in `glass.css` to dedicated compositor layers (`transform: translateZ(0)`)
   - [x] Auto-synchronize all 4 state files (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
 - [x] Vitest suite pass (161/161 total tests across 34 test files)
+- [x] Next.js production build (`npm run build` - 123/123 routes compiled in 10.1s)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files

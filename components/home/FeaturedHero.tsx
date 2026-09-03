@@ -30,13 +30,34 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
   const rotateX = useSpring(useTransform(mouseY, [-350, 350], [12, -12]), { stiffness: 100, damping: 30 });
   const rotateY = useSpring(useTransform(mouseX, [-350, 350], [-12, 12]), { stiffness: 100, damping: 30 });
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left - rect.width / 2);
-    mouseY.set(e.clientY - rect.top - rect.height / 2);
+  const rafRef = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (rafRef.current) return;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    const currentTarget = e.currentTarget;
+
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      if (!currentTarget) return;
+      const rect = currentTarget.getBoundingClientRect();
+      mouseX.set(clientX - rect.left - rect.width / 2);
+      mouseY.set(clientY - rect.top - rect.height / 2);
+    });
   };
 
   const handleMouseLeave = () => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
     mouseX.set(0);
     mouseY.set(0);
   };

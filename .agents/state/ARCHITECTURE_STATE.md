@@ -263,6 +263,15 @@
 
 ---
 
+## Phase 81: 120Hz Zero-Reflow Smooth Motion & Jank Elimination Suite (Sprint 165)
+1. **Layout Thrashing Elimination (`GlobalGradientFrame.tsx`, `Sidebar.tsx`, `RightPanel.tsx`)**: Removed global `querySelectorAll('.gradient-border-card')` loops and repeated `getBoundingClientRect()` calls on every pointer movement. Throttled CSS variable updates with `requestAnimationFrame`.
+2. **GPU Compositor Scroll Restored (`HomeContent.tsx`)**: Eliminated `filter: 'blur(10px)'` from GSAP ScrollTrigger scrubbing, running 100% on compositor transforms (`scale`, `y`, `opacity`). Removed conflicting `scroll-behavior: smooth` from `body` in `theme.css`.
+3. **MovieCard & Hero Motion Optimization (`MovieCard.tsx`, `FeaturedHero.tsx`)**: Removed `layout` prop causing mass reflows across cards in the grid. Batched spring coordinate updates using rAF.
+4. **Canvas & Background Optimization (`ParticleUniverse.tsx`, `CinematicFX.tsx`, `MeshBackground.tsx`, `ParallaxOrb.tsx`, `ScreenSaverListener.tsx`)**: Removed CSS blur filter from 120Hz canvas, added `{ passive: true }` to all input event listeners, and promoted glass classes to compositor layers (`transform: translateZ(0)`).
+5. **Strict 200 LOC Ceiling**: 100% compliance across all touched files (<190 LOC).
+
+---
+
 ## API Routes & Server Actions Map
 - `POST /api/auth/register` - Account Registration
 - `GET /api/erp/stats/advanced` - Aggregated MongoDB Bookings & Advanced Financial Metrics

@@ -50,10 +50,9 @@ export default function HomeContent({
 
     const ctx = gsap.context(() => {
       gsap.to(heroWrapperRef.current, {
-        scale: 0.93,
-        y: 60,
-        opacity: 0.35,
-        filter: 'blur(10px)',
+        scale: 0.94,
+        y: 50,
+        opacity: 0.25,
         ease: 'none',
         scrollTrigger: {
           trigger: heroWrapperRef.current,
@@ -89,7 +88,8 @@ export default function HomeContent({
         <StoryBar />
         <div 
           ref={heroWrapperRef}
-          style={{ transformOrigin: 'top center' }}
+          className="transform-gpu"
+          style={{ transformOrigin: 'top center', willChange: 'transform, opacity' }}
         >
           {heroMovie && <FeaturedHero movie={heroMovie} />}
         </div>

@@ -14,12 +14,22 @@ export const CinematicFX = () => {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
+    let rafId: number | null = null;
     const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set((e.clientX / window.innerWidth - 0.5) * 20);
-      mouseY.set((e.clientY / window.innerHeight - 0.5) * 20);
+      if (rafId) return;
+      const clientX = e.clientX;
+      const clientY = e.clientY;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        mouseX.set((clientX / window.innerWidth - 0.5) * 20);
+        mouseY.set((clientY / window.innerHeight - 0.5) * 20);
+      });
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, [mouseX, mouseY]);
 
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });

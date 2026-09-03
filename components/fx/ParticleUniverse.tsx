@@ -106,10 +106,9 @@ export function ParticleUniverse() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[-1] opacity-70 mix-blend-screen"
+      className="fixed inset-0 pointer-events-none z-[-1] opacity-60 mix-blend-screen [contain:strict] transform-gpu"
       style={{ 
         willChange: 'transform',
-        filter: 'blur(2px) contrast(120%)' // Liquid glass ambient baseline filter
       }}
     />
   );

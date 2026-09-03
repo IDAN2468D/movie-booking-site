@@ -600,6 +600,16 @@
 - **Verification:** `npx tsc --noEmit` passed (0 errors), 161/161 Vitest tests passing across 34 test files, strict 200 LOC ceiling maintained across all files, and 100% synchronization across all 4 state files.
 - **Status:** ✅ Completed
 
+## 🚀 Phase 92: 120Hz Zero-Reflow Smooth Motion & Jank Elimination Suite (Sprint 165)
+- **Features & Infrastructure Implemented:**
+  - **Layout Thrashing Elimination (`GlobalGradientFrame.tsx`, `Sidebar.tsx`, `RightPanel.tsx`)**: Removed global `querySelectorAll('.gradient-border-card')` loops and repeated `getBoundingClientRect()` calls on every pointer movement. Throttled CSS variable updates with `requestAnimationFrame`.
+  - **GPU Compositor Scroll Restored (`HomeContent.tsx`)**: Eliminated `filter: 'blur(10px)'` from GSAP ScrollTrigger scrubbing, running 100% on compositor transforms (`scale`, `y`, `opacity`). Removed conflicting `scroll-behavior: smooth` from `body` in `theme.css`.
+  - **MovieCard & Hero Motion Optimization (`MovieCard.tsx`, `FeaturedHero.tsx`)**: Removed `layout` prop causing mass reflows across cards in the grid. Batched spring coordinate updates using rAF.
+  - **Canvas & Background Optimization (`ParticleUniverse.tsx`, `CinematicFX.tsx`, `MeshBackground.tsx`, `ParallaxOrb.tsx`, `ScreenSaverListener.tsx`)**: Removed CSS blur filter from 120Hz canvas, added `{ passive: true }` to all input event listeners, and promoted glass classes to compositor layers (`transform: translateZ(0)`).
+- **Tech Stack:** React 19, Next.js 16, GSAP ScrollTrigger, Framer Motion, HTML5 Canvas 120Hz, Tailwind CSS v4.
+- **Verification:** `npx tsc --noEmit` passed (0 errors), 161/161 Vitest tests passing across 34 test files, `npm run build` compiled 123/123 routes in 10.1s, strict 200 LOC ceiling maintained across all files, and 100% synchronization across all 4 state files.
+- **Status:** ✅ Completed
+
 
 
 

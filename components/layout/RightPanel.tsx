@@ -28,14 +28,10 @@ export default function RightPanel() {
   const showtimeId = selectedShowtime || "default-st-1";
   const userId = "current-user-id";
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
-    if (!panelRef.current) return;
-    const cards = panelRef.current.querySelectorAll<HTMLElement>('.gradient-border-card');
-    cards.forEach((card) => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty('--x', `${e.clientX - rect.left}px`);
-      card.style.setProperty('--y', `${e.clientY - rect.top}px`);
-    });
+  const handleCardPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--x', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--y', `${e.clientY - rect.top}px`);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -65,8 +61,6 @@ export default function RightPanel() {
 
   return (
     <aside 
-      ref={panelRef}
-      onPointerMove={handlePointerMove}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -86,6 +80,7 @@ export default function RightPanel() {
 
       {!selectedMovie ? (
         <div 
+          onPointerMove={handleCardPointerMove}
           className={`gradient-border-card group flex-1 flex flex-col items-center justify-center text-center p-8 rounded-[40px] border transition-all duration-500 mb-8 relative overflow-hidden ${
             isDraggingOver 
               ? 'bg-primary/10 border-primary/50 shadow-2xl scale-[1.02]' 

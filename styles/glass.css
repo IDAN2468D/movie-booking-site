@@ -4,13 +4,15 @@
   background: var(--card-bg, rgba(255, 255, 255, 0.03));
   backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--lighting-border, rgba(255, 255, 255, 0.08));
-  transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+  transform: translateZ(0);
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .glass-orange {
   background: rgba(255, 159, 10, 0.05);
   backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 159, 10, 0.15);
+  transform: translateZ(0);
 }
 
 .liquid-glass {
@@ -18,7 +20,8 @@
   backdrop-filter: blur(30px) saturate(200%);
   border: 1px solid var(--lighting-border, rgba(255, 255, 255, 0.1));
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+  transform: translateZ(0);
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .liquid-glass-3 {
@@ -26,7 +29,8 @@
   backdrop-filter: blur(40px) saturate(200%) brightness(110%);
   border: 1px solid var(--lighting-border, rgba(255, 255, 255, 0.1));
   box-shadow: 0 0 40px var(--lighting-glow, rgba(0, 0, 0, 0.5)), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  transition: background 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease;
+  transform: translateZ(0);
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .text-glow {

@@ -26,19 +26,29 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
   const y = useMotionValue(0);
   const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [12, -12]), { stiffness: 300, damping: 30 });
   const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-12, 12]), { stiffness: 300, damping: 30 });
+  const rafRef = useRef<number | null>(null);
 
   function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const mouseXPos = event.clientX - rect.left;
-    const mouseYPos = event.clientY - rect.top;
-    x.set(mouseXPos / rect.width - 0.5);
-    y.set(mouseYPos / rect.height - 0.5);
-    cardRef.current.style.setProperty('--x', `${mouseXPos}px`);
-    cardRef.current.style.setProperty('--y', `${mouseYPos}px`);
+    if (!cardRef.current || rafRef.current) return;
+    const { clientX, clientY } = event;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      if (!cardRef.current) return;
+      const rect = cardRef.current.getBoundingClientRect();
+      const mouseXPos = clientX - rect.left;
+      const mouseYPos = clientY - rect.top;
+      x.set(mouseXPos / rect.width - 0.5);
+      y.set(mouseYPos / rect.height - 0.5);
+      cardRef.current.style.setProperty('--x', `${mouseXPos}px`);
+      cardRef.current.style.setProperty('--y', `${mouseYPos}px`);
+    });
   }
 
   function handleMouseLeave() {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
     x.set(0);
     y.set(0);
   }
@@ -76,14 +86,13 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
     <motion.div 
       ref={cardRef}
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-      layout
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileTap={{ scale: 0.96 }}
-      className={`gradient-border-card group relative overflow-hidden rounded-[24px] md:rounded-[40px] transition-all duration-500 cursor-pointer border-[0.5px] ${
+      className={`gradient-border-card group relative overflow-hidden rounded-[24px] md:rounded-[40px] transition-all duration-500 cursor-pointer border-[0.5px] transform-gpu ${
         isSelected 
           ? 'border-primary bg-primary/10 shadow-[0_0_60px_rgba(255,20,100,0.3)]' 
           : 'border-white/10 bg-[#0A0A0A]/40 backdrop-blur-[40px] saturate-[200%] brightness-110 shadow-2xl'

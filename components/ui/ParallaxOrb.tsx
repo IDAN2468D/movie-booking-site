@@ -37,17 +37,23 @@ export default function ParallaxOrb({
   const translateY = useTransform(springY, (val) => val * parallaxFactor);
 
   useEffect(() => {
+    let rafId: number | null = null;
     const handleMouseMove = (e: MouseEvent) => {
-      // Center coordinates relative to window
-      const xOffset = e.clientX - window.innerWidth / 2;
-      const yOffset = e.clientY - window.innerHeight / 2;
-
-      mouseX.set(xOffset);
-      mouseY.set(yOffset);
+      if (rafId) return;
+      const clientX = e.clientX;
+      const clientY = e.clientY;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const xOffset = clientX - window.innerWidth / 2;
+        const yOffset = clientY - window.innerHeight / 2;
+        mouseX.set(xOffset);
+        mouseY.set(yOffset);
+      });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, [mouseX, mouseY]);

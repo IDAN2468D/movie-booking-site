@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 interface GlobalGradientFrameProps {
   children: React.ReactNode;
@@ -9,22 +9,25 @@ interface GlobalGradientFrameProps {
 
 export const GlobalGradientFrame: React.FC<GlobalGradientFrameProps> = ({ children, className = '' }) => {
   const frameRef = useRef<HTMLDivElement>(null);
+  const rafIdRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+    };
+  }, []);
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!frameRef.current) return;
-    const rect = frameRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    if (!frameRef.current || rafIdRef.current) return;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
 
-    frameRef.current.style.setProperty('--x', `${x}px`);
-    frameRef.current.style.setProperty('--y', `${y}px`);
-    
-    // Also update all nested gradient border cards if present
-    const cards = frameRef.current.querySelectorAll<HTMLElement>('.gradient-border-card');
-    cards.forEach((card) => {
-      const cardRect = card.getBoundingClientRect();
-      card.style.setProperty('--x', `${e.clientX - cardRect.left}px`);
-      card.style.setProperty('--y', `${e.clientY - cardRect.top}px`);
+    rafIdRef.current = requestAnimationFrame(() => {
+      rafIdRef.current = null;
+      if (!frameRef.current) return;
+      const rect = frameRef.current.getBoundingClientRect();
+      frameRef.current.style.setProperty('--x', `${clientX - rect.left}px`);
+      frameRef.current.style.setProperty('--y', `${clientY - rect.top}px`);
     });
   };
 
