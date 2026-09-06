@@ -7,6 +7,8 @@ import TrailerPickerModal from "@/components/trailer/TrailerPickerModal";
 import { StealthTrayOverlay } from "@/components/concessions/StealthTrayOverlay";
 import { WhisperTrackBar } from "@/components/audio/WhisperTrackBar";
 import { CinePulseOrb } from "@/components/ai/CinePulseOrb";
+import MobileLiveBookingSheet from "@/components/booking/MobileLiveBookingSheet";
+import MobileHubDrawer from "@/components/layout/MobileHubDrawer";
 
 export default function GlobalCinemaOverlays() {
   return (
@@ -17,6 +19,8 @@ export default function GlobalCinemaOverlays() {
       <StealthTrayOverlay />
       <WhisperTrackBar />
       <CinePulseOrb />
+      <MobileLiveBookingSheet />
+      <MobileHubDrawer />
     </>
   );
 }

@@ -84,22 +84,22 @@ export default function TopBar() {
 
         {/* User Profile & Actions - Hidden on mobile search */}
         {!isMobileSearchOpen && (
-          <div className="flex items-center gap-2.5 md:gap-4 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
-            {/* Dynamic Day/Night Lighting Pill */}
-            <DayNightLightingPill />
-
-            {/* In-Theater Stealth Tray Mode Toggle */}
-            <StealthTrayToggle />
+          <div className="flex items-center gap-2 md:gap-4 relative z-10 md:mr-0 mr-2 animate-in fade-in slide-in-from-left-4 duration-500">
+            {/* Dynamic Day/Night Lighting & Stealth Tray (hidden on narrow mobile) */}
+            <div className="hidden sm:flex items-center gap-2">
+              <DayNightLightingPill />
+              <StealthTrayToggle />
+            </div>
 
             {/* AI Concierge Trigger */}
             <VoiceOrb />
 
-            {/* CineSub AI Live Trigger */}
+            {/* CineSub AI Live Trigger (hidden on mobile, accessible via Hub) */}
             <button
               onClick={() => setIsCineSubOpen(true)}
               title="כתוביות חיות CineSub AI (לחץ C)"
               aria-label="פתח כתוביות חיות CineSub AI"
-              className="relative h-10 px-2.5 sm:px-3 flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-cyan-500/15 via-indigo-500/15 to-purple-500/15 hover:from-cyan-500/25 hover:to-indigo-500/25 border border-cyan-400/30 hover:border-cyan-400/60 text-cyan-300 transition-all shadow-lg active:scale-95 shrink-0 group cursor-pointer"
+              className="hidden md:flex relative h-10 px-2.5 sm:px-3 items-center gap-1.5 rounded-xl bg-gradient-to-r from-cyan-500/15 via-indigo-500/15 to-purple-500/15 hover:from-cyan-500/25 hover:to-indigo-500/25 border border-cyan-400/30 hover:border-cyan-400/60 text-cyan-300 transition-all shadow-lg active:scale-95 shrink-0 group cursor-pointer"
             >
               <Subtitles size={17} className="text-cyan-400 group-hover:scale-110 transition-transform" aria-hidden="true" />
               <span className="hidden xl:inline text-[11px] font-bold tracking-tight text-white/90">CineSub AI</span>

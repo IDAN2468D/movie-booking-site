@@ -66,7 +66,7 @@ export default function MainLayout({
               style={{ scaleX: scrollYProgress, transformOrigin: 'right' }}
               className="absolute top-16 md:top-24 left-0 right-0 h-[3px] bg-gradient-to-l from-primary via-[#FF1464] to-cyan-400 z-50 shadow-[0_0_12px_rgba(255,20,100,0.8)] pointer-events-none"
             />
-            <main ref={mainRef} className="flex-1 overflow-y-auto scrollbar-hide pb-44 md:pb-0">
+            <main ref={mainRef} className="flex-1 overflow-y-auto scrollbar-hide pb-24 md:pb-0">
               {children}
             </main>
           </div>

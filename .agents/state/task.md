@@ -9,15 +9,18 @@
 - [x] Sprint 163: Next.js Root Architecture Modularization & 200 LOC Ceiling Compliance
 - [x] Sprint 164: BiometricAuth Framer Motion Declarative Refactor & Runtime Fix
 - [x] Sprint 165: 120Hz Zero-Reflow Smooth Motion & Jank Elimination Suite
-- [x] Sprint 166: AI Concession & Dynamic Combo Redesign Suite (Liquid Glass 4.0 Pro):
-  - [x] Redesign `SmartTray.tsx` with Liquid Glass 4.0 Pro, real `FOOD_ITEMS` numeric IDs, and 1-click bundle add
-  - [x] Redesign `DynamicComboRoulette.tsx` with live pricing breakdown (original strikethrough, discounted price, savings badge), re-roll 🎲, and glowing neon pill badge
-  - [x] Upgrade `smartTrayActions.ts` with comprehensive genre-to-snack mapping and clean Hebrew typography (eliminated English bleed and typos)
-  - [x] Upgrade `comboRouletteActions.ts` with robust deterministic fallbacks
-  - [x] Add Web Audio API & Web Haptics chime utility in `lib/audio/concession-audio.ts`
-  - [x] Harmonize `VisualCateringGrid.tsx` with `items-stretch` for equal-height cards
+- [x] Sprint 166: AI Concession & Dynamic Combo Redesign Suite (Liquid Glass 4.0 Pro)
+- [x] Sprint 167: CinePulse Mobile Productivity & Ultra-Ergonomic Architecture Suite:
+  - [x] Redesign `MobileNav.tsx` with anchored Liquid Glass 4.0 Pro bottom dock, 5 ergonomic action buttons, center live booking trigger, and Web Haptics
+  - [x] Create `MobileHubDrawer.tsx` with categorized 4-pillar feature grid (Personal, AI/Sensory, Community, Tools/GPS) and quick spotlight search
+  - [x] Create `MobileLiveBookingSheet.tsx` resolving mobile booking gap: movie header, live showtimes carousel, compact touch seat map, and 1-tap checkout
+  - [x] Clean up `TopBar.tsx` on mobile to prevent overcrowding and overflow on narrow viewports
+  - [x] Mount global mobile sheets in `GlobalCinemaOverlays.tsx`
+  - [x] Optimize mobile padding in `app/(main)/layout.tsx` (`pb-24`) and dock floating movie card in `HomeContent.tsx` (`bottom-20`) with dismissal `X`
+  - [x] Add 1-tap mobile booking dispatch in `MovieCard.tsx`
+  - [x] Unit test suite in `lib/__tests__/mobile-productivity-suite.test.ts` (165/165 tests passing)
   - [x] Auto-synchronize all 4 state files (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
-- [x] Vitest suite pass (161/161 total tests across 34 test files)
-- [x] Next.js production build (`npm run build` - 123/123 routes compiled in 9.4s)
+- [x] Vitest suite pass (165/165 total tests across 35 test files)
+- [x] Next.js production build (`npm run build` - 123/123 routes compiled in 3.8s)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files

@@ -63,6 +63,8 @@
 | **Module BF** | Skills-IL Ecosystem Standards & SDD Tooling | `/.agents/skills/*/` | Bilingual Metadata, Hebrew Companions, Python CLI Validators, Agent Stack SDD v9.5 | `ACTIVE` |
 | **Module BG** | CinePulse Motion Engine (120Hz GPU & Conic Neon) | `/.agents/skills/cinepulse-motion-engine/` | Framer Motion, Conic Gradients, 3D Tilt, Receipt Physics | `ACTIVE` |
 | **Module BH** | Live MongoDB Analytics & BI Engine | `/.agents/skills/cinepulse-analytics-bi/` | `mongodb-mcp-server`, `visualization` MCP (`render_chart`), Zod Schemas | `ACTIVE` |
+| **Module BI** | Mobile Bottom Action Dock & Haptic Engine | `/components/layout/MobileNav.tsx` | Safe-Area Aware Bottom Dock, Liquid Glass 4.0, Web Haptics, Spring Physics | `ACTIVE` |
+| **Module BJ** | Mobile Live Booking & Hub Drawer Suite | `/components/booking/MobileLiveBookingSheet.tsx`, `/components/layout/MobileHubDrawer.tsx` | Slide-Up Bottom Sheets, Touch SeatMap, 1-Tap Checkout, 20+ Feature Matrix | `ACTIVE` |
 
 ---
 
@@ -278,6 +280,16 @@
 3. **Backend & Data Hygiene (`app/actions/smartTrayActions.ts`, `app/actions/comboRouletteActions.ts`)**: Mapped genre-based snacks to real numeric `FOOD_ITEMS` IDs, eliminated English bleed and copywriting typos, and implemented deterministic fallbacks.
 4. **Concession Sound & Haptics (`lib/audio/concession-audio.ts`)**: Web Audio API dual-tone chime and vibration pulses on cart additions.
 5. **Strict 200 LOC Ceiling**: 100% compliance across all touched files (<185 LOC).
+
+---
+
+## Phase 83: CinePulse Mobile Productivity & Ultra-Ergonomic Architecture Suite (Sprint 167)
+1. **Bottom Action Dock (`components/layout/MobileNav.tsx`)**: Safe-area aware anchored Liquid Glass 4.0 Pro dock with 5 clear touch targets (בית, סרטים, הזמנה מהירה זוהרת, אוכל, תפריט מלא), Framer Motion active layout transitions, and tactile Web Haptics.
+2. **Mobile Hub Drawer (`components/layout/MobileHubDrawer.tsx`)**: Full-screen slide-up drawer grouping 20+ features into 4 structured pillars (כרטיסים ואישי, קולנוע AI וסאונד מרחבי, קהילה וצפייה, סניפים והגדרות) plus a 1-tap Spotlight Search launcher.
+3. **Mobile Live Booking Engine (`components/booking/MobileLiveBookingSheet.tsx`)**: Selected movie header, horizontal showtime pills with pricing/formats, compact touch SeatMap, live price calculation, and 1-tap checkout CTA.
+4. **TopBar Streamlining (`components/layout/TopBar.tsx`)**: Eliminated header cramping on small mobile viewports (360px-420px) by hiding secondary controls on `< md` screens.
+5. **Mobile Card & Home Flow (`MovieCard.tsx`, `HomeContent.tsx`, `layout.tsx`)**: Tapping "הזמן כרטיסים" on mobile directly opens the booking sheet; floating selected movie capsule docks at `bottom-20` with dismissal `X`; main layout bottom padding reduced from `pb-44` to `pb-24`.
+6. **Strict 200 LOC Ceiling**: 100% compliance across all touched files (<198 LOC).
 
 ---
 

@@ -3,86 +3,175 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import { Home, Clapperboard, Utensils, Zap, Settings, ShieldCheck, CalendarDays, Star } from 'lucide-react';
+import { Home, Clapperboard, Utensils, Ticket, LayoutGrid } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useBookingStore } from '@/lib/store';
+import { useUIStore } from '@/lib/store/ui-store';
 
-const navItems = [
-  { icon: Home, label: 'בית', href: '/' },
-  { icon: Zap, label: 'מאצ׳ר', href: '/showcase' },
-  { icon: Clapperboard, label: 'כרטיסים', href: '/tickets' },
-  { icon: Star, label: 'חזון', href: '/vision' },
-  { icon: Utensils, label: 'אוכל', href: '/food' },
-  { icon: Settings, label: 'פרופיל', href: '/profile' },
-];
-
-const ADMIN_ITEM = { icon: ShieldCheck, label: 'ERP', href: '/erp' };
+const triggerHaptic = () => {
+  if (typeof window !== 'undefined' && 'vibrate' in navigator) {
+    try {
+      navigator.vibrate(12);
+    } catch {
+      // Ignore vibration errors
+    }
+  }
+};
 
 export default function MobileNav() {
   const pathname = usePathname();
-  const { data: session } = useSession();
+  const { selectedMovie } = useBookingStore();
+  const { setMobileBookingOpen, setMobileHubOpen, isMobileHubOpen } = useUIStore();
 
-  const isAdmin = session?.user?.email === 'idankzm@gmail.com' || session?.user?.email === 'test@example.com';
-  const displayItems = isAdmin ? [...navItems.slice(0, 4), ADMIN_ITEM, navItems[4]] : navItems;
+  const handleCenterAction = (e: React.MouseEvent) => {
+    e.preventDefault();
+    triggerHaptic();
+    setMobileBookingOpen(true);
+  };
+
+  const handleHubToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    triggerHaptic();
+    setMobileHubOpen(!isMobileHubOpen);
+  };
 
   return (
-    <div className="md:hidden fixed bottom-10 inset-x-0 z-50 flex justify-center px-6 pointer-events-none">
-      <nav className="pointer-events-auto relative h-20 w-full max-w-[420px] bg-black/40 backdrop-blur-[60px] saturate-[280%] brightness-110 rounded-[40px] border-[0.5px] border-white/20 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.9),inset_0_0_0_1px_rgba(255,255,255,0.15)] flex items-center justify-around flex-row-reverse overflow-hidden px-2">
-        {/* Holographic Interior Glow */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-cyan-500/10 opacity-30 pointer-events-none" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-        
-        {displayItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = pathname === item.href;
+    <div className="md:hidden fixed bottom-0 inset-x-0 z-40 pointer-events-none">
+      {/* Dynamic Ambient Blur Backdrop */}
+      <div className="pointer-events-auto relative w-full bg-[#07090E]/85 backdrop-blur-3xl saturate-[220%] border-t border-white/10 shadow-[0_-10px_35px_rgba(0,0,0,0.8)] pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-1 px-3">
+        {/* Subtle Top Gradient Line */}
+        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-          return (
-            <Link
-              key={item.label}
-              href={item.href}
-              aria-label={item.label}
-              title={item.label}
-              className="relative flex flex-col items-center justify-center h-full flex-1 transition-all duration-500"
+        <nav aria-label="ניווט ראשי במובייל" className="relative flex items-center justify-between h-16 max-w-lg mx-auto">
+          {/* 1. דף הבית */}
+          <Link
+            href="/"
+            onClick={triggerHaptic}
+            aria-label="דף הבית"
+            className="relative flex flex-col items-center justify-center flex-1 h-full py-1 text-center group"
+          >
+            {pathname === '/' && (
+              <motion.div
+                layoutId="mobileActiveTab"
+                className="absolute inset-x-2 inset-y-1 bg-white/[0.06] border border-white/10 rounded-2xl"
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              />
+            )}
+            <Home
+              size={20}
+              className={`relative z-10 transition-transform duration-300 ${
+                pathname === '/' ? 'text-primary scale-110' : 'text-slate-400 group-hover:text-white'
+              }`}
+            />
+            <span className={`relative z-10 text-[10px] font-black mt-1 transition-colors ${
+              pathname === '/' ? 'text-primary' : 'text-slate-400'
+            }`}>
+              בית
+            </span>
+          </Link>
+
+          {/* 2. קטלוג ומאצ'ר סרטים */}
+          <Link
+            href="/showcase"
+            onClick={triggerHaptic}
+            aria-label="סרטים ומאצ׳ר"
+            className="relative flex flex-col items-center justify-center flex-1 h-full py-1 text-center group"
+          >
+            {pathname?.startsWith('/showcase') && (
+              <motion.div
+                layoutId="mobileActiveTab"
+                className="absolute inset-x-2 inset-y-1 bg-white/[0.06] border border-white/10 rounded-2xl"
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              />
+            )}
+            <Clapperboard
+              size={20}
+              className={`relative z-10 transition-transform duration-300 ${
+                pathname?.startsWith('/showcase') ? 'text-primary scale-110' : 'text-slate-400 group-hover:text-white'
+              }`}
+            />
+            <span className={`relative z-10 text-[10px] font-black mt-1 transition-colors ${
+              pathname?.startsWith('/showcase') ? 'text-primary' : 'text-slate-400'
+            }`}>
+              סרטים
+            </span>
+          </Link>
+
+          {/* 3. כפתור הזמנה חי מרכזי (Action Hub) */}
+          <div className="relative flex items-center justify-center flex-1 -mt-4">
+            <motion.button
+              whileTap={{ scale: 0.92 }}
+              onClick={handleCenterAction}
+              aria-label={selectedMovie ? `הזמן כרטיס לסרט ${selectedMovie.displayTitle}` : 'הזמנת כרטיסים מהירה'}
+              className="relative w-14 h-14 rounded-full bg-gradient-to-tr from-primary via-[#FF1464] to-amber-400 p-[2px] shadow-[0_0_25px_rgba(255,20,100,0.6)] flex items-center justify-center group"
             >
-              {isActive && (
-                <motion.div
-                  layoutId="mobileNavActivePill"
-                  className="absolute inset-x-1 inset-y-2 bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 rounded-[24px] shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]"
-                  initial={false}
-                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                />
-              )}
-              
-              <div className="relative z-10 flex flex-col items-center justify-center">
-                <div className={`relative transition-all duration-500 ${isActive ? 'scale-125 -translate-y-0.5' : 'opacity-40 hover:opacity-100'}`}>
-                  <Icon 
-                    size={24} 
-                    className={`${isActive ? 'text-primary drop-shadow-[0_0_20px_rgba(255,159,10,0.8)]' : 'text-white'}`}
-                    strokeWidth={isActive ? 2.5 : 2}
-                  />
-                  
-                  {/* Active Aura */}
-                  {isActive && (
-                    <motion.div 
-                      layoutId="activeAura"
-                      className="absolute inset-0 bg-primary/20 blur-xl rounded-full -z-10"
-                    />
-                  )}
-                </div>
+              <div className="w-full h-full rounded-full bg-[#0A0A0A] flex flex-col items-center justify-center group-hover:bg-[#111] transition-colors relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-transparent opacity-80" />
+                <Ticket size={22} className="text-white relative z-10 group-hover:rotate-12 transition-transform" />
+                <span className="text-[8px] font-black uppercase text-amber-300 relative z-10 mt-0.5 tracking-tighter">
+                  {selectedMovie ? 'הזמן' : 'כרטיס'}
+                </span>
               </div>
-
-              {isActive && (
-                <motion.div 
-                  layoutId="activeIndicator"
-                  className="absolute bottom-2.5 w-6 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent rounded-full"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                />
+              {selectedMovie && (
+                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-cyan-400 border-2 border-black rounded-full animate-pulse" />
               )}
-            </Link>
-          );
-        })}
-      </nav>
+            </motion.button>
+          </div>
+
+          {/* 4. מזנון ואוכל */}
+          <Link
+            href="/food"
+            onClick={triggerHaptic}
+            aria-label="מזנון ואוכל"
+            className="relative flex flex-col items-center justify-center flex-1 h-full py-1 text-center group"
+          >
+            {pathname === '/food' && (
+              <motion.div
+                layoutId="mobileActiveTab"
+                className="absolute inset-x-2 inset-y-1 bg-white/[0.06] border border-white/10 rounded-2xl"
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              />
+            )}
+            <Utensils
+              size={20}
+              className={`relative z-10 transition-transform duration-300 ${
+                pathname === '/food' ? 'text-primary scale-110' : 'text-slate-400 group-hover:text-white'
+              }`}
+            />
+            <span className={`relative z-10 text-[10px] font-black mt-1 transition-colors ${
+              pathname === '/food' ? 'text-primary' : 'text-slate-400'
+            }`}>
+              אוכל
+            </span>
+          </Link>
+
+          {/* 5. מרכז פעולות / תפריט מלא */}
+          <button
+            onClick={handleHubToggle}
+            aria-label="תפריט מלא ופעולות מהירות"
+            className="relative flex flex-col items-center justify-center flex-1 h-full py-1 text-center group"
+          >
+            {isMobileHubOpen && (
+              <motion.div
+                layoutId="mobileActiveTab"
+                className="absolute inset-x-2 inset-y-1 bg-primary/20 border border-primary/40 rounded-2xl"
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              />
+            )}
+            <LayoutGrid
+              size={20}
+              className={`relative z-10 transition-transform duration-300 ${
+                isMobileHubOpen ? 'text-primary scale-110' : 'text-slate-400 group-hover:text-white'
+              }`}
+            />
+            <span className={`relative z-10 text-[10px] font-black mt-1 transition-colors ${
+              isMobileHubOpen ? 'text-primary' : 'text-slate-400'
+            }`}>
+              תפריט
+            </span>
+          </button>
+        </nav>
+      </div>
     </div>
   );
 }

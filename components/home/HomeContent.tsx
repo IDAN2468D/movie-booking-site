@@ -14,6 +14,7 @@ import { Movie, getImageUrl } from '@/lib/tmdb';
 import { useBookingStore } from '@/lib/store';
 import NextImage from 'next/image';
 import { MarkerHighlight } from '@/components/fx/MarkerHighlight';
+import { X } from 'lucide-react';
 import HolographicBackground from '@/components/ui/HolographicBackground';
 import StoryBar from '@/components/stories/StoryBar';
 import { useFilteredMovies } from '@/hooks/useFilteredMovies';
@@ -39,7 +40,7 @@ export default function HomeContent({
   nowPlayingMovies,
   recommendationsNode
 }: HomeContentProps) {
-  const { activeCategory, setActiveCategory, selectedMovie } = useBookingStore();
+  const { activeCategory, setActiveCategory, selectedMovie, setSelectedMovie } = useBookingStore();
   const heroWrapperRef = useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -148,38 +149,45 @@ export default function HomeContent({
           )}
         </div>
 
-        {/* Mobile Booking Trigger (Liquid Glass 2.0) */}
+        {/* Mobile Booking Trigger (Liquid Glass 4.0 Pro) */}
         {selectedMovie && (
           <motion.div 
-            initial={{ y: 100, opacity: 0 }}
+            initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="xl:hidden fixed bottom-28 left-6 right-6 mx-auto max-w-md bg-[#05070B]/60 backdrop-blur-3xl saturate-[220%] brightness-110 p-3.5 rounded-full flex items-center justify-between shadow-[0_30px_60px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.08)] z-40 border border-white/10 overflow-hidden"
+            className="xl:hidden fixed bottom-20 left-4 right-4 mx-auto max-w-md bg-[#05070B]/80 backdrop-blur-3xl saturate-[220%] brightness-110 p-2.5 rounded-2xl flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-30 border border-white/15 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/15 via-transparent to-cyan-500/10 opacity-50 pointer-events-none" />
-            <div className="flex items-center gap-3 relative z-10 flex-1 min-w-0 pr-1">
-              <div className="w-11 h-11 rounded-full bg-white/5 border border-white/15 overflow-hidden relative shadow-2xl shrink-0">
+            <div className="flex items-center gap-2.5 relative z-10 flex-1 min-w-0 pr-1">
+              <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/15 overflow-hidden relative shadow-lg shrink-0">
                 <NextImage 
                   src={getImageUrl(selectedMovie.poster_path, 'w500')} 
                   alt={selectedMovie.displayTitle}
                   fill
-                  sizes="44px"
+                  sizes="40px"
                   className="object-cover saturate-[1.1]"
                 />
               </div>
               <div className="text-right flex-1 min-w-0">
-                <p className="text-[8px] text-primary font-black uppercase tracking-[0.25em] mb-0.5">הסרט שנבחר</p>
+                <p className="text-[8px] text-primary font-black uppercase tracking-[0.2em] mb-0.5">סרט נבחר להזמנה</p>
                 <p className="text-xs text-white font-black truncate leading-tight">{selectedMovie.displayTitle}</p>
               </div>
             </div>
-            <button 
-              onClick={() => window.dispatchEvent(new CustomEvent('open-mobile-booking'))}
-              aria-label={`הזמן כרטיס לסרט ${selectedMovie.displayTitle}`}
-              className="px-5 py-3 bg-gradient-to-r from-primary to-yellow-500 text-white font-black rounded-full text-[10px] uppercase tracking-widest relative z-10 shadow-[0_10px_25px_rgba(255,20,100,0.35)] active:scale-95 transition-all shrink-0 ml-1 font-display"
-            >
-              <MarkerHighlight color="#ffffff" delay={0.1} strokeWidth={4}>
+            <div className="flex items-center gap-2 relative z-10 shrink-0">
+              <button 
+                onClick={() => window.dispatchEvent(new CustomEvent('open-mobile-booking'))}
+                aria-label={`הזמן כרטיס לסרט ${selectedMovie.displayTitle}`}
+                className="px-4 py-2 bg-gradient-to-r from-primary to-amber-500 text-white font-black rounded-xl text-[10px] uppercase tracking-wider shadow-lg active:scale-95 transition-all"
+              >
                 הזמן כרטיס
-              </MarkerHighlight>
-            </button>
+              </button>
+              <button
+                onClick={() => setSelectedMovie(null)}
+                aria-label="בטל בחירת סרט"
+                className="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-400 hover:text-white"
+              >
+                <X size={14} />
+              </button>
+            </div>
           </motion.div>
         )}
       </div>

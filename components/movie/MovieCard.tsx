@@ -165,6 +165,9 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
             onClick={(e) => {
               e?.preventDefault();
               setSelectedMovie(movie);
+              if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+                window.dispatchEvent(new CustomEvent('open-mobile-booking'));
+              }
             }}
             aria-label={`הזמן כרטיסים לסרט ${movie.displayTitle}`}
             title={`הזמן כרטיסים לסרט ${movie.displayTitle}`}

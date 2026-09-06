@@ -25,6 +25,12 @@ interface UIState {
   // Resolution & Layout
   resolution: 'auto' | 'fullhd' | 'laptop' | 'mobile';
   setResolution: (res: 'auto' | 'fullhd' | 'laptop' | 'mobile') => void;
+
+  // Mobile Experience
+  isMobileBookingOpen: boolean;
+  setMobileBookingOpen: (open: boolean) => void;
+  isMobileHubOpen: boolean;
+  setMobileHubOpen: (open: boolean) => void;
 }
 
 export const useUIStore = create<UIState>((set) => ({
@@ -42,6 +48,12 @@ export const useUIStore = create<UIState>((set) => ({
   resolution: 'auto',
   setResolution: (res) => set({ resolution: res }),
   
+  // Mobile Experience
+  isMobileBookingOpen: false,
+  setMobileBookingOpen: (open) => set({ isMobileBookingOpen: open }),
+  isMobileHubOpen: false,
+  setMobileHubOpen: (open) => set({ isMobileHubOpen: open }),
+  
   toggleConcierge: () => set((state) => ({ isConciergeOpen: !state.isConciergeOpen })),
   
   addMessage: (content, role, type = 'text', movieData?: Movie) => set((state) => ({
@@ -50,5 +62,4 @@ export const useUIStore = create<UIState>((set) => ({
   
   setThinking: (val) => set({ isThinking: val }),
   setMovieContext: (id, title) => set({ currentMovieId: id, currentMovieTitle: title }),
-
 }));
