@@ -86,6 +86,7 @@ export default function PosterRefractor({ src, alt, className = "" }: PosterRefr
   const chromaticOffsetY = useTransform(springY, [-0.5, 0.5], [-4, 4]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) return;
     if (!containerRef.current) return;
     
     const rect = containerRef.current.getBoundingClientRect();
@@ -122,7 +123,7 @@ export default function PosterRefractor({ src, alt, className = "" }: PosterRefr
           rotateY,
           transformStyle: "preserve-3d",
         }}
-        className="absolute inset-0 w-full h-full transition-transform duration-100 ease-out bg-gradient-to-br from-[#120D24] via-[#1A1238] to-[#0A0A0A] flex items-center justify-center"
+        className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#120D24] via-[#1A1238] to-[#0A0A0A] flex items-center justify-center transform-gpu"
       >
         {/* Chromatic Shadow Layer 1 (Red Accent) */}
         <motion.div

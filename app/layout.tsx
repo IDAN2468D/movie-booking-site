@@ -20,8 +20,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var h=new Date().getHours();var b='night';if(h>=5&&h<8)b='dawn';else if(h>=8&&h<18)b='day';else if(h>=18&&h<21)b='sunset';document.documentElement.setAttribute('data-band',b);}catch(e){}})();`,
+          }}
+        />
       </head>
-      <body className={`${fontVariables} antialiased bg-[var(--bg-main,#0A0A0A)] text-[var(--text-primary,#FAFAF7)] font-body transition-colors duration-700`}>
+      <body className={`${fontVariables} antialiased bg-[var(--bg-main,#0A0A0A)] text-[var(--text-primary,#FAFAF7)] font-body`}>
         <RootProviders>{children}</RootProviders>
       </body>
     </html>

@@ -40,7 +40,8 @@ export const WhisperTrackBar: React.FC = () => {
   return (
     <>
       <div 
-        className="fixed bottom-24 md:bottom-6 right-4 left-4 md:left-auto md:right-[17.5rem] z-40 max-w-sm"
+        style={{ transform: 'translate3d(0, 0, 0)', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
+        className="fixed bottom-24 md:bottom-6 right-4 left-4 md:left-auto md:right-[17.5rem] z-40 max-w-sm transform-gpu"
         dir="rtl"
       >
         <AnimatePresence mode="wait">

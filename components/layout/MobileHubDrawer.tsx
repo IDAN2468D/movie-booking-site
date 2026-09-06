@@ -16,10 +16,8 @@ interface HubItem {
 }
 
 const PERSONAL_ITEMS: HubItem[] = [
-  { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets', color: 'text-amber-400' },
-  { icon: Bookmark, label: 'רשימת צפייה', href: '/watchlist', color: 'text-cyan-400' },
-  { icon: Heart, label: 'מועדפים', href: '/favorites', color: 'text-rose-400' },
-  { icon: Crown, label: 'מועדון VIP', href: '/vip', color: 'text-yellow-400', badge: 'PRO' },
+  { icon: Clapperboard, label: 'הכרטיסים שלי', href: '/tickets', color: 'text-amber-400' }, { icon: Bookmark, label: 'רשימת צפייה', href: '/watchlist', color: 'text-cyan-400' },
+  { icon: Heart, label: 'מועדפים', href: '/favorites', color: 'text-rose-400' }, { icon: Crown, label: 'מועדון VIP', href: '/vip', color: 'text-yellow-400', badge: 'PRO' },
 ];
 
 const AI_SENSORY_ITEMS: HubItem[] = [
@@ -70,7 +68,8 @@ export default function MobileHubDrawer() {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-            className="relative z-10 w-full max-h-[88vh] bg-[#0A0D14]/95 backdrop-blur-3xl saturate-[240%] border-t border-white/15 rounded-t-[36px] shadow-[0_-20px_50px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden"
+            style={{ transform: 'translate3d(0, 0, 0)', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
+            className="relative z-10 w-full max-h-[88dvh] bg-[#0A0D14]/95 backdrop-blur-xl md:backdrop-blur-3xl saturate-[180%] border-t border-white/15 rounded-t-[36px] shadow-[0_-20px_50px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden transform-gpu"
           >
             {/* Grab Bar & Header */}
             <div className="pt-3 pb-2 px-6 flex flex-col items-center border-b border-white/10 shrink-0">

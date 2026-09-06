@@ -21,7 +21,10 @@ export const CinePulseOrb: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-24 left-4 md:bottom-8 md:left-8 z-40 select-none">
+    <div 
+      style={{ transform: 'translate3d(0, 0, 0)', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
+      className="fixed bottom-24 left-4 md:bottom-8 md:left-8 z-40 select-none transform-gpu"
+    >
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -65,7 +68,7 @@ export const CinePulseOrb: React.FC = () => {
         aria-label="פתח יועץ קולנוע AI"
       >
         {/* Shimmering Halo Rings */}
-        <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-500/30 via-fuchsia-500/30 to-rose-500/30 blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-500 animate-pulse pointer-events-none" />
+        <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-500/30 via-fuchsia-500/30 to-rose-500/30 blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
         <div className="relative flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full bg-gradient-to-tr from-cyan-600 via-indigo-600 to-fuchsia-600 shadow-inner">
           <Sparkles className="w-5 h-5 text-white animate-spin-slow" />

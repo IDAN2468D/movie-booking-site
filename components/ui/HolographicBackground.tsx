@@ -54,9 +54,11 @@ export default function HolographicBackground() {
         />
       </div>
 
-      {/* 3D Parallax Glass Orbs */}
-      <ParallaxOrb size={450} offsetX="5%" offsetY="10%" parallaxFactor={0.03} />
-      <ParallaxOrb size={300} offsetX="65%" offsetY="50%" parallaxFactor={0.06} />
+      {/* 3D Parallax Glass Orbs - Desktop Only */}
+      <div className="hidden md:block">
+        <ParallaxOrb size={450} offsetX="5%" offsetY="10%" parallaxFactor={0.03} />
+        <ParallaxOrb size={300} offsetX="65%" offsetY="50%" parallaxFactor={0.06} />
+      </div>
 
       {/* Static Refraction Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)] pointer-events-none" />

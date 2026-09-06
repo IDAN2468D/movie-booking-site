@@ -36,9 +36,12 @@ export default function MobileNav() {
   };
 
   return (
-    <div className="md:hidden fixed bottom-0 inset-x-0 z-40 pointer-events-none">
+    <div 
+      style={{ transform: 'translate3d(0, 0, 0)', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 pointer-events-none transform-gpu"
+    >
       {/* Dynamic Ambient Blur Backdrop */}
-      <div className="pointer-events-auto relative w-full bg-[#07090E]/85 backdrop-blur-3xl saturate-[220%] border-t border-white/10 shadow-[0_-10px_35px_rgba(0,0,0,0.8)] pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-1 px-3">
+      <div className="pointer-events-auto relative w-full bg-[#07090E]/90 backdrop-blur-xl saturate-[180%] border-t border-white/10 shadow-[0_-10px_35px_rgba(0,0,0,0.8)] pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-1 px-3">
         {/* Subtle Top Gradient Line */}
         <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 

@@ -55,7 +55,7 @@ export default function MainLayout({
       <GlobalGradientFrame>
         <ParticleUniverse />
         <div 
-          className="flex h-screen overflow-hidden transition-colors duration-1000 relative z-0" 
+          className="flex h-[100dvh] min-h-[100dvh] overflow-hidden relative z-0" 
           dir="rtl"
           style={{ '--primary': auraColor } as React.CSSProperties}
         >
@@ -66,7 +66,7 @@ export default function MainLayout({
               style={{ scaleX: scrollYProgress, transformOrigin: 'right' }}
               className="absolute top-16 md:top-24 left-0 right-0 h-[3px] bg-gradient-to-l from-primary via-[#FF1464] to-cyan-400 z-50 shadow-[0_0_12px_rgba(255,20,100,0.8)] pointer-events-none"
             />
-            <main ref={mainRef} className="flex-1 overflow-y-auto scrollbar-hide pb-24 md:pb-0">
+            <main ref={mainRef} className="flex-1 overflow-y-auto scrollbar-hide pb-24 md:pb-0 [touch-action:pan-y] [-webkit-overflow-scrolling:touch] overscroll-y-contain [transform:translateZ(0)]">
               {children}
             </main>
           </div>

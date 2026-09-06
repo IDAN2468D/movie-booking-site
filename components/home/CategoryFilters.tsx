@@ -10,16 +10,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { VoiceAiCommandShell } from '@/components/ai/VoiceAiCommandShell';
 
 const categories = [
-  { id: 'all', name: 'כל הסרטים', icon: Sparkles },
-  { id: 'trending', name: 'במגמה', icon: Flame },
-  { id: 'series', name: 'סדרות', icon: Tv },
-  { id: 'drama', name: 'דרמה', icon: Clapperboard },
-  { id: 'animation', name: 'אנימציה', icon: MonitorPlay },
-  { id: 'action', name: 'פעולה', icon: Play },
-  { id: 'comedy', name: 'קומדיה', icon: Heart },
-  { id: 'horror', name: 'אימה', icon: Ghost },
-  { id: 'scifi', name: 'מדע בדיוני', icon: Rocket },
-  { id: 'recent', name: 'חדשים', icon: Clock },
+  { id: 'all', name: 'כל הסרטים', icon: Sparkles }, { id: 'trending', name: 'במגמה', icon: Flame },
+  { id: 'series', name: 'סדרות', icon: Tv }, { id: 'drama', name: 'דרמה', icon: Clapperboard },
+  { id: 'animation', name: 'אנימציה', icon: MonitorPlay }, { id: 'action', name: 'פעולה', icon: Play },
+  { id: 'comedy', name: 'קומדיה', icon: Heart }, { id: 'horror', name: 'אימה', icon: Ghost },
+  { id: 'scifi', name: 'מדע בדיוני', icon: Rocket }, { id: 'recent', name: 'חדשים', icon: Clock },
 ];
 
 export default function CategoryFilters() {
@@ -99,12 +94,8 @@ export default function CategoryFilters() {
       <AnimatePresence>
         {canScrollRight && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={() => scrollByAmount(260)}
-            aria-label="גלול קטגוריות ימינה"
-            title="גלול ימינה"
+            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }}
+            onClick={() => scrollByAmount(260)} aria-label="גלול קטגוריות ימינה" title="גלול ימינה"
             className="absolute -right-3 top-1/2 mt-3 -translate-y-1/2 z-30 w-10 h-10 rounded-2xl bg-neutral-950/90 border border-white/20 text-white flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:scale-110 hover:border-cyan-400/60 hover:text-cyan-300 transition-all hidden md:flex"
           >
             <ChevronRight className="w-5 h-5" />
@@ -115,12 +106,8 @@ export default function CategoryFilters() {
       <AnimatePresence>
         {canScrollLeft && (
           <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={() => scrollByAmount(-260)}
-            aria-label="גלול קטגוריות שמאלה"
-            title="גלול שמאלה"
+            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }}
+            onClick={() => scrollByAmount(-260)} aria-label="גלול קטגוריות שמאלה" title="גלול שמאלה"
             className="absolute -left-3 top-1/2 mt-3 -translate-y-1/2 z-30 w-10 h-10 rounded-2xl bg-neutral-950/90 border border-white/20 text-white flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.8)] backdrop-blur-xl hover:scale-110 hover:border-cyan-400/60 hover:text-cyan-300 transition-all hidden md:flex"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -138,7 +125,7 @@ export default function CategoryFilters() {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        className={`flex items-center gap-3 py-4 overflow-x-auto px-4 -mx-4 md:px-0 md:mx-0 select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${
+        className={`flex items-center gap-3 py-4 overflow-x-auto px-4 -mx-4 md:px-0 md:mx-0 select-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden [touch-action:pan-x] [-webkit-overflow-scrolling:touch] overscroll-x-contain ${
           isDragging ? 'cursor-grabbing' : 'cursor-grab md:cursor-pointer'
         }`}
       >
@@ -156,10 +143,10 @@ export default function CategoryFilters() {
               className="relative flex-shrink-0 outline-none group"
             >
               <motion.div
-                className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl transition-all duration-500 border relative overflow-hidden ${
+                className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl transition-all duration-500 border relative overflow-hidden transform-gpu ${
                   isActive
-                    ? 'bg-gradient-to-r from-primary/20 to-cyan-500/10 border-primary shadow-[0_0_40px_rgba(255,20,100,0.35),inset_0_0_0_1px_rgba(255,255,255,0.25)] backdrop-blur-3xl saturate-[220%] brightness-110'
-                    : 'bg-[#05070B]/50 border-white/5 hover:border-white/20 backdrop-blur-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]'
+                    ? 'bg-gradient-to-r from-primary/20 to-cyan-500/10 border-primary shadow-[0_0_40px_rgba(255,20,100,0.35),inset_0_0_0_1px_rgba(255,255,255,0.25)] backdrop-blur-xl md:backdrop-blur-3xl saturate-[180%]'
+                    : 'bg-[#05070B]/50 border-white/5 hover:border-white/20 backdrop-blur-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]'
                 }`}
                 whileHover={{ y: -3 }}
                 whileTap={{ scale: 0.95 }}

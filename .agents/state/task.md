@@ -10,17 +10,17 @@
 - [x] Sprint 164: BiometricAuth Framer Motion Declarative Refactor & Runtime Fix
 - [x] Sprint 165: 120Hz Zero-Reflow Smooth Motion & Jank Elimination Suite
 - [x] Sprint 166: AI Concession & Dynamic Combo Redesign Suite (Liquid Glass 4.0 Pro)
-- [x] Sprint 167: CinePulse Mobile Productivity & Ultra-Ergonomic Architecture Suite:
-  - [x] Redesign `MobileNav.tsx` with anchored Liquid Glass 4.0 Pro bottom dock, 5 ergonomic action buttons, center live booking trigger, and Web Haptics
-  - [x] Create `MobileHubDrawer.tsx` with categorized 4-pillar feature grid (Personal, AI/Sensory, Community, Tools/GPS) and quick spotlight search
-  - [x] Create `MobileLiveBookingSheet.tsx` resolving mobile booking gap: movie header, live showtimes carousel, compact touch seat map, and 1-tap checkout
-  - [x] Clean up `TopBar.tsx` on mobile to prevent overcrowding and overflow on narrow viewports
-  - [x] Mount global mobile sheets in `GlobalCinemaOverlays.tsx`
-  - [x] Optimize mobile padding in `app/(main)/layout.tsx` (`pb-24`) and dock floating movie card in `HomeContent.tsx` (`bottom-20`) with dismissal `X`
-  - [x] Add 1-tap mobile booking dispatch in `MovieCard.tsx`
-  - [x] Unit test suite in `lib/__tests__/mobile-productivity-suite.test.ts` (165/165 tests passing)
+- [x] Sprint 167: CinePulse Mobile Productivity & Ultra-Ergonomic Architecture Suite
+- [x] Sprint 168: CinePulse Zero-Flicker & Mobile Smartphone Browser Stability Suite:
+  - [x] GPU Compositing & Anti-Flicker Isolation in `styles/glass.css` & `styles/theme.css`
+  - [x] Mobile Viewport Height (`100dvh`) & Touch Scroll Momentum in `app/(main)/layout.tsx`
+  - [x] Synchronous Pre-FCP `data-band` in `app/layout.tsx` (Eliminating hydration background flash)
+  - [x] Deactivate heavy background canvas & mask overlays on mobile (`ParticleUniverse`, `GlobalGradientFrame`, `ParallaxOrb`, `SocialPulseRings`)
+  - [x] Spring vs CSS Transition conflict decoupling in `MovieCard.tsx`, `PosterRefractor.tsx`, `HomeContent.tsx`
+  - [x] Floating dock & header GPU isolation (`translate3d`, `backface-visibility: hidden`) in `MobileNav.tsx`, `TopBar.tsx`, `MobileLiveBookingSheet.tsx`, `MobileHubDrawer.tsx`, `WhisperTrackBar.tsx`, `CinePulseOrb.tsx`
+  - [x] Unit test suite in `lib/__tests__/zero-flicker-mobile-stability.test.ts` (168/168 tests passing across 36 test files)
   - [x] Auto-synchronize all 4 state files (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
-- [x] Vitest suite pass (165/165 total tests across 35 test files)
-- [x] Next.js production build (`npm run build` - 123/123 routes compiled in 3.8s)
+- [x] Vitest suite pass (168/168 total tests across 36 test files)
+- [x] Next.js production build (`npm run build` - 123/123 routes compiled successfully)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files

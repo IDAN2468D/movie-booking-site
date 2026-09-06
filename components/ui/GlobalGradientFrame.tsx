@@ -18,7 +18,7 @@ export const GlobalGradientFrame: React.FC<GlobalGradientFrameProps> = ({ childr
   }, []);
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!frameRef.current || rafIdRef.current) return;
+    if (e.pointerType === 'touch' || !frameRef.current || rafIdRef.current) return;
     const clientX = e.clientX;
     const clientY = e.clientY;
 
@@ -37,9 +37,9 @@ export const GlobalGradientFrame: React.FC<GlobalGradientFrameProps> = ({ childr
       onPointerMove={handlePointerMove}
       className={`relative w-full h-full min-h-screen overflow-hidden group/frame ${className}`}
     >
-      {/* Outer Application Frame Glowing Gradient Border Overlay */}
+      {/* Outer Application Frame Glowing Gradient Border Overlay - Desktop Only */}
       <div
-        className="pointer-events-none fixed inset-0 z-[9999] p-[2px] opacity-80 group-hover/frame:opacity-100 transition-opacity duration-300"
+        className="hidden md:block pointer-events-none fixed inset-0 z-[9999] p-[2px] opacity-80 group-hover/frame:opacity-100 transition-opacity duration-300"
         style={{
           background: 'radial-gradient(650px circle at var(--x, 50%) var(--y, 50%), rgba(255, 159, 10, 0.95), rgba(59, 130, 246, 0.8), rgba(168, 85, 247, 0.7), transparent 65%)',
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',

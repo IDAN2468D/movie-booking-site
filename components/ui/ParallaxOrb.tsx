@@ -78,7 +78,7 @@ export default function ParallaxOrb({
         repeat: Infinity,
         ease: 'easeInOut',
       }}
-      className="absolute rounded-full border border-white/5 backdrop-blur-[60px] saturate-[180%] pointer-events-none shadow-[inset_0_0_20px_rgba(255,255,255,0.05),0_20px_50px_rgba(0,0,0,0.3)]"
+      className="absolute rounded-full border border-white/5 backdrop-blur-md pointer-events-none shadow-[inset_0_0_20px_rgba(255,255,255,0.05),0_20px_50px_rgba(0,0,0,0.3)] transform-gpu"
     />
   );
 }

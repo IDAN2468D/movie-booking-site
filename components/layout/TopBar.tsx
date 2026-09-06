@@ -49,7 +49,10 @@ export default function TopBar() {
 
   return (
     <>
-      <header className="h-16 md:h-24 flex items-center justify-between px-4 md:px-10 bg-black/40 backdrop-blur-[40px] saturate-[200%] brightness-110 sticky top-0 z-40 border-b-[0.5px] border-white/20 shadow-[0_15px_45px_rgba(0,0,0,0.6),inset_0_0_0_1px_rgba(255,255,255,0.05)] transition-all duration-700">
+      <header 
+        style={{ transform: 'translate3d(0, 0, 0)', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
+        className="h-16 md:h-24 flex items-center justify-between px-4 md:px-10 bg-black/50 backdrop-blur-xl md:backdrop-blur-[40px] saturate-[180%] sticky top-0 z-40 border-b-[0.5px] border-white/15 shadow-[0_15px_45px_rgba(0,0,0,0.6)] transform-gpu"
+      >
         {/* Holographic Subtle Glow */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-cyan-500/5 pointer-events-none" />
 

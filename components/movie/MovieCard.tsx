@@ -29,6 +29,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
   const rafRef = useRef<number | null>(null);
 
   function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) return;
     if (!cardRef.current || rafRef.current) return;
     const { clientX, clientY } = event;
     rafRef.current = requestAnimationFrame(() => {
@@ -92,15 +93,15 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       whileTap={{ scale: 0.96 }}
-      className={`gradient-border-card group relative overflow-hidden rounded-[24px] md:rounded-[40px] transition-all duration-500 cursor-pointer border-[0.5px] transform-gpu ${
+      className={`gradient-border-card group relative overflow-hidden rounded-[24px] md:rounded-[40px] transition-[border-color,box-shadow,background-color] duration-300 cursor-pointer border-[0.5px] transform-gpu ${
         isSelected 
           ? 'border-primary bg-primary/10 shadow-[0_0_60px_rgba(255,20,100,0.3)]' 
-          : 'border-white/10 bg-[#0A0A0A]/40 backdrop-blur-[40px] saturate-[200%] brightness-110 shadow-2xl'
+          : 'border-white/10 bg-[#0A0A0A]/40 backdrop-blur-md md:backdrop-blur-[40px] saturate-[180%] brightness-110 shadow-2xl'
       }`}
     >
-      {/* Dynamic Cursor-Tracked Gradient Border Effect */}
+      {/* Dynamic Cursor-Tracked Gradient Border Effect - Desktop Only */}
       <div
-        className="pointer-events-none absolute -inset-[1px] rounded-[inherit] p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
+        className="hidden md:block pointer-events-none absolute -inset-[1px] rounded-[inherit] p-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30"
         style={{
           background: 'radial-gradient(450px circle at var(--x, 50%) var(--y, 50%), rgba(255, 20, 100, 0.95), rgba(59, 130, 246, 0.8), transparent 65%)',
           WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',

@@ -85,7 +85,7 @@ export function SocialPulseRings() {
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-40 overflow-hidden">
+    <div className="hidden md:block fixed inset-0 pointer-events-none z-40 overflow-hidden">
       <AnimatePresence>
         {pulses.map((pulse) => {
           const maxRadius = pulse.size === "large" ? 400 : pulse.size === "medium" ? 250 : 150;
@@ -104,19 +104,22 @@ export function SocialPulseRings() {
             >
               {/* Ripple Ring 1 */}
               <motion.div
-                className="absolute rounded-full border-[1.5px] border-[#0AEFFF]/40 shadow-[0_0_30px_rgba(10,239,255,0.4)]"
+                className="absolute rounded-full border-[1.5px] border-[#0AEFFF]/40 shadow-[0_0_30px_rgba(10,239,255,0.4)] transform-gpu"
+                style={{ width: maxRadius, height: maxRadius }}
+                initial={{ scale: 0, opacity: 0 }}
                 animate={{ 
-                  width: [0, maxRadius], 
-                  height: [0, maxRadius], 
-                  opacity: isReceivingVibe ? [1, 1, 0] : [1, 0],
-                  borderColor: isReceivingVibe ? "#a855f7" : "#0AEFFF" // Shift to purple if vibed
+                  scale: [0, 1], 
+                  opacity: isReceivingVibe ? [1, 1, 0] : [0.8, 0],
+                  borderColor: isReceivingVibe ? "#a855f7" : "#0AEFFF"
                 }}
                 transition={{ duration: 5, ease: "easeOut" }}
               />
               {/* Ripple Ring 2 */}
               <motion.div
-                className="absolute rounded-full border border-[#FF1464]/30"
-                animate={{ width: [0, maxRadius * 0.8], height: [0, maxRadius * 0.8], opacity: [1, 0] }}
+                className="absolute rounded-full border border-[#FF1464]/30 transform-gpu"
+                style={{ width: maxRadius * 0.8, height: maxRadius * 0.8 }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: [0, 1], opacity: [0.7, 0] }}
                 transition={{ duration: 6, ease: "easeOut", delay: 0.2 }}
               />
               

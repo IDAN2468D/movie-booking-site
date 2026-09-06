@@ -12,6 +12,7 @@ export function ParticleUniverse() {
   const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -106,7 +107,7 @@ export function ParticleUniverse() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[-1] opacity-60 mix-blend-screen [contain:strict] transform-gpu"
+      className="hidden md:block fixed inset-0 pointer-events-none z-[-1] opacity-60 mix-blend-screen [contain:strict] transform-gpu"
       style={{ 
         willChange: 'transform',
       }}

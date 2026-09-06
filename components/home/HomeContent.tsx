@@ -44,6 +44,7 @@ export default function HomeContent({
   const heroWrapperRef = useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) return;
     if (!heroWrapperRef.current) return;
 
     const scrollerEl = document.querySelector('main');
@@ -154,7 +155,8 @@ export default function HomeContent({
           <motion.div 
             initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="xl:hidden fixed bottom-20 left-4 right-4 mx-auto max-w-md bg-[#05070B]/80 backdrop-blur-3xl saturate-[220%] brightness-110 p-2.5 rounded-2xl flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-30 border border-white/15 overflow-hidden"
+            style={{ transform: 'translate3d(0, 0, 0)', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
+            className="xl:hidden fixed bottom-20 left-4 right-4 mx-auto max-w-md bg-[#05070B]/90 backdrop-blur-xl saturate-[180%] p-2.5 rounded-2xl flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-30 border border-white/15 overflow-hidden transform-gpu"
           >
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/15 via-transparent to-cyan-500/10 opacity-50 pointer-events-none" />
             <div className="flex items-center gap-2.5 relative z-10 flex-1 min-w-0 pr-1">

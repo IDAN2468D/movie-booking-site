@@ -56,7 +56,8 @@ export default function MobileLiveBookingSheet() {
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-            className="relative z-10 w-full max-h-[92vh] bg-[#0A0D14] border-t border-white/15 rounded-t-[36px] shadow-[0_-25px_60px_rgba(0,0,0,0.95)] flex flex-col overflow-hidden"
+            style={{ transform: 'translate3d(0, 0, 0)', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
+            className="relative z-10 w-full max-h-[92dvh] bg-[#0A0D14] border-t border-white/15 rounded-t-[36px] shadow-[0_-25px_60px_rgba(0,0,0,0.95)] flex flex-col overflow-hidden transform-gpu"
           >
             {/* Grab Bar & Top Controls */}
             <div className="pt-3 pb-2 px-5 flex items-center justify-between border-b border-white/10 shrink-0">
