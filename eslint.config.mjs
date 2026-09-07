@@ -2,8 +2,30 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
-const nextVitals = require("eslint-config-next/core-web-vitals");
-const nextTs = require("eslint-config-next/typescript");
+
+function normalizeConfig(cfg) {
+  if (Array.isArray(cfg)) return cfg;
+  if (cfg && typeof cfg === "object") {
+    if (Array.isArray(cfg.default)) return cfg.default;
+    if (cfg.default && typeof cfg.default === "object") return [cfg.default];
+    return [cfg];
+  }
+  return [];
+}
+
+let nextVitals = [];
+let nextTs = [];
+try {
+  nextVitals = normalizeConfig(require("eslint-config-next/core-web-vitals"));
+} catch {
+  // Graceful fallback if missing
+}
+
+try {
+  nextTs = normalizeConfig(require("eslint-config-next/typescript"));
+} catch {
+  // Graceful fallback if missing
+}
 
 const eslintConfig = defineConfig([
   ...nextVitals,
