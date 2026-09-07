@@ -17,13 +17,13 @@ export default function HolographicBackground() {
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none [contain:strict] [isolation:isolate]" aria-hidden="true">
       {/* Base Dynamic Lighting Band Mesh */}
       <div 
-        className="absolute inset-0 transition-all duration-1000 ease-in-out" 
+        className="absolute inset-0" 
         style={{ background: 'var(--bg-main, #0A0A0A)' }}
       />
       
       {/* Dynamic Day/Night Lighting Atmospheric Aura */}
       <div 
-        className="absolute inset-0 pointer-events-none transition-all duration-1000 ease-in-out"
+        className="absolute inset-0 pointer-events-none"
         style={{ background: 'var(--lighting-aura, transparent)' }}
       />
 

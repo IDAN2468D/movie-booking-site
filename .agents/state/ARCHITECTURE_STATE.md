@@ -65,6 +65,8 @@
 | **Module BH** | Live MongoDB Analytics & BI Engine | `/.agents/skills/cinepulse-analytics-bi/` | `mongodb-mcp-server`, `visualization` MCP (`render_chart`), Zod Schemas | `ACTIVE` |
 | **Module BI** | Mobile Bottom Action Dock & Haptic Engine | `/components/layout/MobileNav.tsx` | Safe-Area Aware Bottom Dock, Liquid Glass 4.0, Web Haptics, Spring Physics | `ACTIVE` |
 | **Module BJ** | Mobile Live Booking & Hub Drawer Suite | `/components/booking/MobileLiveBookingSheet.tsx`, `/components/layout/MobileHubDrawer.tsx` | Slide-Up Bottom Sheets, Touch SeatMap, 1-Tap Checkout, 20+ Feature Matrix | `ACTIVE` |
+| **Module BK** | Ultra-Productive Cinematic Concession Suite | `/components/concessions/productive/` | 1-Tap Express Bundles, Live Kitchen Telemetry, Kosher/Dietary Filters, Popcorn Seasoning Customizer, Sticky Tray POS | `ACTIVE` |
+| **Module BL** | Homepage Anti-Flicker & Strobe Elimination Suite | `/components/movie/MovieCard.tsx`, `/styles/effects.css` | Hover-Only Shimmer, GPU Compositor Tile Invalidation Fix, Canvas Alpha Reset, Hydration Band Sync | `ACTIVE` |
 
 ---
 

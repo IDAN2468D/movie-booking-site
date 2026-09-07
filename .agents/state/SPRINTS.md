@@ -654,8 +654,37 @@
     - `CategoryFilters.tsx`: Added `[touch-action:pan-x] [-webkit-overflow-scrolling:touch] overscroll-x-contain` to horizontal tabs.
   - **Unit Test Suite (`lib/__tests__/zero-flicker-mobile-stability.test.ts`)**: Added comprehensive tests verifying 24-hour time band calculations, UI store rapid drawer/sheet toggling, and movie selection stability.
 - **Tech Stack:** Next.js 16, React 19, Framer Motion, Tailwind CSS v4, Web Audio API, Web Haptics.
-- **Verification:** `npx tsc --noEmit` passed (0 errors), 168/168 Vitest tests passing across 36 test files, `npm run build` compiled 123/123 routes, strict 200 LOC ceiling maintained across all files, and 100% synchronization across all 4 state files.
 - **Status:** ✅ Completed
+
+## 🚀 Phase 96: CinePulse Ultra-Productive Cinematic Concession Suite (Sprint 169)
+- **Features & Infrastructure Implemented:**
+  - **1-Tap Express Bundles Bar (`components/concessions/productive/ConcessionExpressBar.tsx`)**: Instant 1-tap addition of curated movie bundles (Solo Express, VIP Romantic Duo, Family Feast) with discounted pricing, calories display, and 35Hz sub-bass resonant audio chimes.
+  - **Hall & Trailer Countdown Telemetry (`components/concessions/productive/ConcessionTelemetryBar.tsx`)**: Real-time preparation estimate (~3 min) correlated with hall trailer runtime countdown, providing moviegoers with instant ordering safety status before lights dim.
+  - **High-Density Productive Grid (`components/concessions/productive/ConcessionProductiveGrid.tsx`)**: High-efficiency POS-style catalog featuring instant dietary pills (כשר למהדרין ✡️, טבעוני 🌱, ללא גלוטן 🌾, דל קלוריות 🥗), real-time query search, and rapid `+`/`-` quantity steppers.
+  - **Popcorn Seasoning Shaker & Drink Customizer Modal (`components/concessions/productive/ConcessionCustomizerModal.tsx`)**: Dedicated modal for choosing popcorn shakers (Smoked Cheddar, Black Truffle, Caramel Sea Salt, Paprika Garlic) and cold drinks without leaving the ordering flow.
+  - **Sticky Dynamic Tray POS & Checkout Drawer (`components/concessions/productive/ConcessionStickyTray.tsx`)**: Floating persistent tray showing live item count, total price in ILS ₪, 18% Israeli VAT, delivery mode toggle (דלפק אקספרס מול משלוח ישיר למושב), and quick checkout modal with simulated pickup QR.
+  - **Unified Page Architecture (`app/(main)/food/page.tsx` & `app/(main)/concession/page.tsx`)**: Unified hubs enabling instant switching between ⚡ Express Productivity, ✨ 3D AR Holographic Menu, and 🍱 Kinetic Grid.
+  - **Zod Contract & Schemas (`lib/validations/productive-concession.ts`)**: Strict runtime validation of bundles, modifiers, delivery modes, and order totals.
+  - **Zustand State Store (`lib/store/productiveConcessionStore.ts`)**: Lightweight store with Web Audio 35Hz sub-bass pulse and `navigator.vibrate` haptic feedback.
+  - **Unit Test Suite (`lib/__tests__/productive-concession.test.ts`)**: 8 comprehensive unit tests verifying store actions, bundle resolution, modifiers, and Zod validation.
+- **Tech Stack:** Next.js 16, React 19, Framer Motion, Tailwind CSS v4, Web Audio API (35Hz Sub-Bass), Web Haptics, Zustand, Zod.
+- **Verification:** `npx tsc --noEmit` passed (0 errors), 176/176 Vitest tests passing across 37 test files, `npm run build` compiled 123/123 routes in 4.3s, strict 200 LOC ceiling maintained across all files, and 100% synchronization across all 4 state files.
+- **Status:** ✅ Completed
+
+## 🚀 Phase 97: CinePulse White Flickering & Homepage Strobe Elimination Suite (Sprint 170)
+- **Features & Infrastructure Implemented:**
+  - **Infinite Shimmer Sweep Removal (`styles/effects.css`, `components/movie/MovieCard.tsx`)**: Removed the constant `shimmer-mask` class from `MovieCard.tsx` and modified `styles/effects.css` so `.shimmer-mask::after` is strictly `opacity: 0` by default and only activates on explicit hover (`:hover`). Eliminated the 3-second infinite linear sweeping white gradient across 36 cards simultaneously, which also resolved the Chromium GPU compositor tile drop bug (white flash tile invalidation).
+  - **Card Compositing & Brightness Normalization (`components/movie/MovieCard.tsx`)**: Replaced `bg-[#0A0A0A]/40 backdrop-blur-[40px] brightness-110` with `bg-[#0D0D12]/85 backdrop-blur-md saturate-[160%]`. This stopped luminance blow-out to pure white and reduced GPU fillrate load.
+  - **Background Canvas White Particle Removal & Alpha Reset (`components/fx/ParticleUniverse.tsx`)**: Replaced harsh pure white particles `rgba(255, 255, 255, 0.3)` with deep, calm ambient cinema tones (`rgba(6, 182, 212, 0.6)`, `rgba(139, 92, 246, 0.6)`). Wrapped rendering in `ctx.save()` / `ctx.restore()` and ensured `ctx.globalAlpha = 1` before `clearRect`.
+  - **Zero-Flicker Hydration State Sync (`hooks/useDayNight.ts`)**: Initialized `useDayNight` synchronously from `document.documentElement.getAttribute('data-band')` or the current hour, preventing the hydration theme-flip flash (Night -> Day -> Night).
+  - **Background Transition Normalization (`components/ui/HolographicBackground.tsx`)**: Removed `transition-all duration-1000` from background divs, allowing CSS custom properties to update without transition strobe.
+  - **Softened Ambient Social Pulse (`components/home/SocialPulseRings.tsx`)**: Reduced pulse radius from 400px to 180px, capped opacity to 0.4, and eliminated screen-wide jarring border flashes.
+  - **Unit Test Suite (`lib/__tests__/anti-flicker-home.test.ts`)**: Added 3 unit tests verifying time band calculations, CSS tokens, and default stability.
+- **Tech Stack:** Next.js 16, React 19, Framer Motion 120Hz GPU, Tailwind CSS v4, HTML5 Canvas API.
+- **Verification:** `npx tsc --noEmit` passed (0 errors), 179/179 Vitest tests passing across 38 test files, `npm run build` compiled 123/123 routes in 4.8s, strict 200 LOC ceiling maintained across all files, and 100% synchronization across all 4 state files.
+- **Status:** ✅ Completed
+
+
 
 
 

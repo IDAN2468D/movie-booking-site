@@ -88,7 +88,7 @@ export function SocialPulseRings() {
     <div className="hidden md:block fixed inset-0 pointer-events-none z-40 overflow-hidden">
       <AnimatePresence>
         {pulses.map((pulse) => {
-          const maxRadius = pulse.size === "large" ? 400 : pulse.size === "medium" ? 250 : 150;
+          const maxRadius = pulse.size === "large" ? 180 : pulse.size === "medium" ? 120 : 80;
           const isVibed = vibedPulseIds.has(pulse.id);
           const isReceivingVibe = receivedVibeId === pulse.id;
           
@@ -98,28 +98,28 @@ export function SocialPulseRings() {
               className="absolute flex items-center justify-center pointer-events-auto"
               style={{ left: `${pulse.x}%`, top: `${pulse.y}%` }}
               initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: [0, 0.8, 0], scale: [0, 1.5, 2] }}
+              animate={{ opacity: [0, 0.4, 0], scale: [0, 1.2, 1.4] }}
               exit={{ opacity: 0 }}
               transition={{ duration: 6, ease: "easeOut" }}
             >
-              {/* Ripple Ring 1 */}
+              {/* Ripple Ring 1 - Soft Cine Ambient */}
               <motion.div
-                className="absolute rounded-full border-[1.5px] border-[#0AEFFF]/40 shadow-[0_0_30px_rgba(10,239,255,0.4)] transform-gpu"
+                className="absolute rounded-full border border-[#0AEFFF]/20 shadow-[0_0_15px_rgba(10,239,255,0.15)] transform-gpu"
                 style={{ width: maxRadius, height: maxRadius }}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ 
                   scale: [0, 1], 
-                  opacity: isReceivingVibe ? [1, 1, 0] : [0.8, 0],
+                  opacity: isReceivingVibe ? [0.6, 0.6, 0] : [0.35, 0],
                   borderColor: isReceivingVibe ? "#a855f7" : "#0AEFFF"
                 }}
                 transition={{ duration: 5, ease: "easeOut" }}
               />
-              {/* Ripple Ring 2 */}
+              {/* Ripple Ring 2 - Deep Magenta */}
               <motion.div
-                className="absolute rounded-full border border-[#FF1464]/30 transform-gpu"
+                className="absolute rounded-full border border-[#FF1464]/15 transform-gpu"
                 style={{ width: maxRadius * 0.8, height: maxRadius * 0.8 }}
                 initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: [0, 1], opacity: [0.7, 0] }}
+                animate={{ scale: [0, 1], opacity: [0.3, 0] }}
                 transition={{ duration: 6, ease: "easeOut", delay: 0.2 }}
               />
               

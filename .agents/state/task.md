@@ -11,16 +11,18 @@
 - [x] Sprint 165: 120Hz Zero-Reflow Smooth Motion & Jank Elimination Suite
 - [x] Sprint 166: AI Concession & Dynamic Combo Redesign Suite (Liquid Glass 4.0 Pro)
 - [x] Sprint 167: CinePulse Mobile Productivity & Ultra-Ergonomic Architecture Suite
-- [x] Sprint 168: CinePulse Zero-Flicker & Mobile Smartphone Browser Stability Suite:
-  - [x] GPU Compositing & Anti-Flicker Isolation in `styles/glass.css` & `styles/theme.css`
-  - [x] Mobile Viewport Height (`100dvh`) & Touch Scroll Momentum in `app/(main)/layout.tsx`
-  - [x] Synchronous Pre-FCP `data-band` in `app/layout.tsx` (Eliminating hydration background flash)
-  - [x] Deactivate heavy background canvas & mask overlays on mobile (`ParticleUniverse`, `GlobalGradientFrame`, `ParallaxOrb`, `SocialPulseRings`)
-  - [x] Spring vs CSS Transition conflict decoupling in `MovieCard.tsx`, `PosterRefractor.tsx`, `HomeContent.tsx`
-  - [x] Floating dock & header GPU isolation (`translate3d`, `backface-visibility: hidden`) in `MobileNav.tsx`, `TopBar.tsx`, `MobileLiveBookingSheet.tsx`, `MobileHubDrawer.tsx`, `WhisperTrackBar.tsx`, `CinePulseOrb.tsx`
-  - [x] Unit test suite in `lib/__tests__/zero-flicker-mobile-stability.test.ts` (168/168 tests passing across 36 test files)
+- [x] Sprint 168: CinePulse Zero-Flicker & Mobile Smartphone Browser Stability Suite
+- [x] Sprint 169: CinePulse Ultra-Productive Cinematic Concession Suite (המזנון הסינמטי הפרודוקטיבי)
+- [x] Sprint 170: CinePulse White Flickering & Homepage Strobe Elimination Suite (ביטול מוחלט של ריצודים והבהובים לבנים בדף הבית):
+  - [x] Converted `.shimmer-mask::after` to hover-only in `styles/effects.css` and removed constant mask from `components/movie/MovieCard.tsx`
+  - [x] Optimized movie card background to `bg-[#0D0D12]/85 backdrop-blur-md` eliminating `brightness-110` overdraw and GPU compositor tile invalidation
+  - [x] Removed white particles (`rgba(255, 255, 255, 0.3)`) and added `ctx.save`/`restore` and alpha reset in `components/fx/ParticleUniverse.tsx`
+  - [x] Synchronous `useDayNight.ts` state initialization from DOM attribute preventing theme-flipping flash on hydration
+  - [x] Removed disruptive `transition-all` on `components/ui/HolographicBackground.tsx` background divs
+  - [x] Softened `components/home/SocialPulseRings.tsx` to prevent intrusive screen-wide flashing rings
+  - [x] Added unit tests in `lib/__tests__/anti-flicker-home.test.ts` (3/3 tests passing, 179/179 suite total)
   - [x] Auto-synchronize all 4 state files (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
-- [x] Vitest suite pass (168/168 total tests across 36 test files)
+- [x] Vitest suite pass (179/179 total tests across 38 test files)
 - [x] Next.js production build (`npm run build` - 123/123 routes compiled successfully)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files

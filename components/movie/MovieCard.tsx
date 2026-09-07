@@ -96,7 +96,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       className={`gradient-border-card group relative overflow-hidden rounded-[24px] md:rounded-[40px] transition-[border-color,box-shadow,background-color] duration-300 cursor-pointer border-[0.5px] transform-gpu ${
         isSelected 
           ? 'border-primary bg-primary/10 shadow-[0_0_60px_rgba(255,20,100,0.3)]' 
-          : 'border-white/10 bg-[#0A0A0A]/40 backdrop-blur-md md:backdrop-blur-[40px] saturate-[180%] brightness-110 shadow-2xl'
+          : 'border-white/10 bg-[#0D0D12]/85 backdrop-blur-md saturate-[160%] shadow-2xl'
       }`}
     >
       {/* Dynamic Cursor-Tracked Gradient Border Effect - Desktop Only */}
@@ -119,7 +119,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
         onClick={() => setSelectedMovie(movie)}
       >
         <div
-          className="aspect-[2/3] relative w-full overflow-hidden shimmer-mask"
+          className="aspect-[2/3] relative w-full overflow-hidden"
           style={{ transform: 'translateZ(20px)' }}
         >
           <PosterRefractor

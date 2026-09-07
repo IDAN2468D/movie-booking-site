@@ -21,8 +21,8 @@ export function ParticleUniverse() {
     if (!ctx) return;
 
     let particles: { x: number; y: number; z: number; speed: number; color: string }[] = [];
-    // Deep cinema ambient colors
-    const colors = ['rgba(6, 182, 212, 0.8)', 'rgba(139, 92, 246, 0.8)', 'rgba(236, 72, 153, 0.6)', 'rgba(255, 255, 255, 0.3)'];
+    // Deep cinema ambient colors (soft cyan, purple, and magenta - zero harsh white)
+    const colors = ['rgba(6, 182, 212, 0.6)', 'rgba(139, 92, 246, 0.6)', 'rgba(236, 72, 153, 0.4)', 'rgba(6, 182, 212, 0.35)'];
 
     const resize = () => {
       // Manage device pixel ratio for retina displays
@@ -35,8 +35,8 @@ export function ParticleUniverse() {
 
     const initParticles = () => {
       particles = [];
-      // Ultra-efficient 60 particle budget for zero CPU/TBT overhead
-      const count = Math.min(Math.floor(window.innerWidth / 15), 60); 
+      // Ultra-efficient 40 particle budget for zero CPU/TBT overhead
+      const count = Math.min(Math.floor(window.innerWidth / 25), 40); 
       for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * window.innerWidth,
@@ -64,6 +64,8 @@ export function ParticleUniverse() {
     }
 
     const render = () => {
+      ctx.save();
+      ctx.globalAlpha = 1;
       // Clear frame
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       
@@ -87,9 +89,10 @@ export function ParticleUniverse() {
         ctx.arc(p.x, p.y, p.z * 1.5, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         // Blur distance scaling based on depth
-        ctx.globalAlpha = Math.min(1, p.z / 2.5);
+        ctx.globalAlpha = Math.min(0.7, p.z / 3);
         ctx.fill();
       }
+      ctx.restore();
 
       // Lock to 120Hz loop
       animationFrameId = requestAnimationFrame(render);
