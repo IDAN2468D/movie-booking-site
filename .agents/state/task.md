@@ -13,16 +13,20 @@
 - [x] Sprint 167: CinePulse Mobile Productivity & Ultra-Ergonomic Architecture Suite
 - [x] Sprint 168: CinePulse Zero-Flicker & Mobile Smartphone Browser Stability Suite
 - [x] Sprint 169: CinePulse Ultra-Productive Cinematic Concession Suite (המזנון הסינמטי הפרודוקטיבי)
-- [x] Sprint 170: CinePulse White Flickering & Homepage Strobe Elimination Suite (ביטול מוחלט של ריצודים והבהובים לבנים בדף הבית):
-  - [x] Converted `.shimmer-mask::after` to hover-only in `styles/effects.css` and removed constant mask from `components/movie/MovieCard.tsx`
-  - [x] Optimized movie card background to `bg-[#0D0D12]/85 backdrop-blur-md` eliminating `brightness-110` overdraw and GPU compositor tile invalidation
-  - [x] Removed white particles (`rgba(255, 255, 255, 0.3)`) and added `ctx.save`/`restore` and alpha reset in `components/fx/ParticleUniverse.tsx`
-  - [x] Synchronous `useDayNight.ts` state initialization from DOM attribute preventing theme-flipping flash on hydration
-  - [x] Removed disruptive `transition-all` on `components/ui/HolographicBackground.tsx` background divs
-  - [x] Softened `components/home/SocialPulseRings.tsx` to prevent intrusive screen-wide flashing rings
-  - [x] Added unit tests in `lib/__tests__/anti-flicker-home.test.ts` (3/3 tests passing, 179/179 suite total)
+- [x] Sprint 170: CinePulse White Flickering & Homepage Strobe Elimination Suite (ביטול מוחלט של ריצודים והבהובים לבנים בדף הבית)
+- [x] Sprint 171: CinePulse Liquid ERP 5.0 Cockpit Suite (שדרוג מקיף של Liquid ERP בהשראת דוגמאות MCP):
+  - [x] Web Audio 800Hz tactical tick acoustic engine (`components/erp/cockpit/LiquidCockpitAudio.ts`)
+  - [x] Central AI Command Node Omni-Box with Gemini 3.5 Flash-Lite (`components/erp/cockpit/ERPOmniBox.tsx`, `app/api/erp/command/route.ts`)
+  - [x] 120Hz GPU vector SVG sparkline telemetry wave cards (`components/erp/cockpit/ERPMarketWaveCard.tsx`)
+  - [x] Real-time net/gross liquidity stream and currency/VAT anchor (`components/erp/cockpit/ERPLiquidityStream.tsx`, `components/erp/cockpit/ERPTopBarAnchor.tsx`)
+  - [x] Anomalous intent and ticket scanner radar (`components/erp/cockpit/ERPSecurityRadar.tsx`)
+  - [x] Refactored monolithic `components/admin/ErpDashboard.tsx` from 251 LOC down to 58 LOC
+  - [x] Updated `app/(main)/erp/page.tsx` with Quantum Cockpit 5.0 tokens
+  - [x] Unit test suite in `lib/__tests__/liquid-erp-cockpit.test.ts` (4/4 passing, 183/183 suite total)
   - [x] Auto-synchronize all 4 state files (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
-- [x] Vitest suite pass (179/179 total tests across 38 test files)
-- [x] Next.js production build (`npm run build` - 123/123 routes compiled successfully)
+- [x] ESLint verification (`npm run lint` - 0 errors)
+- [x] Vitest suite pass (183/183 total tests across 39 test files)
+- [x] Next.js production build (`npm run build` - 124/124 routes compiled successfully)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
+

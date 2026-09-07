@@ -67,6 +67,7 @@
 | **Module BJ** | Mobile Live Booking & Hub Drawer Suite | `/components/booking/MobileLiveBookingSheet.tsx`, `/components/layout/MobileHubDrawer.tsx` | Slide-Up Bottom Sheets, Touch SeatMap, 1-Tap Checkout, 20+ Feature Matrix | `ACTIVE` |
 | **Module BK** | Ultra-Productive Cinematic Concession Suite | `/components/concessions/productive/` | 1-Tap Express Bundles, Live Kitchen Telemetry, Kosher/Dietary Filters, Popcorn Seasoning Customizer, Sticky Tray POS | `ACTIVE` |
 | **Module BL** | Homepage Anti-Flicker & Strobe Elimination Suite | `/components/movie/MovieCard.tsx`, `/styles/effects.css` | Hover-Only Shimmer, GPU Compositor Tile Invalidation Fix, Canvas Alpha Reset, Hydration Band Sync | `ACTIVE` |
+| **Module BM** | CinePulse Liquid ERP 5.0 Cockpit Suite | `/components/admin/ErpDashboard.tsx`, `/components/erp/cockpit/` | Gemini 3.5 Flash-Lite Omni-Box, 120Hz GPU Sparklines, 800Hz Web Audio Tick, Quantum Glass 4.0 | `ACTIVE` |
 
 ---
 
