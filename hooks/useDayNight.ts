@@ -61,14 +61,7 @@ export function getBandForHour(hour: number): TimeBand {
 }
 
 export function useDayNight() {
-  const [activeBand, setActiveBand] = useState<TimeBand>(() => {
-    if (typeof document !== 'undefined') {
-      const currentAttr = document.documentElement.getAttribute('data-band') as TimeBand;
-      if (currentAttr && BAND_METADATA[currentAttr]) return currentAttr;
-      return getBandForHour(new Date().getHours());
-    }
-    return DEFAULT_TIME_BAND;
-  });
+  const [activeBand, setActiveBand] = useState<TimeBand>(DEFAULT_TIME_BAND);
   const [isManualOverride, setIsManualOverride] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { MgmSplashScreen } from '@/components/ui/MgmSplashScreen';
+import { ElementalSplash } from '@/components/splash/ElementalSplash';
 
 export default function SplashPage() {
   const router = useRouter();
@@ -12,6 +12,6 @@ export default function SplashPage() {
   };
 
   return (
-    <MgmSplashScreen onComplete={handleComplete} />
+    <ElementalSplash onComplete={handleComplete} />
   );
 }

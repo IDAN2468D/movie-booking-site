@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Movie, getImageUrl } from '@/lib/tmdb';
-import { Star, Heart, Ticket } from 'lucide-react';
+import { Star, Heart, Ticket, Sparkles } from 'lucide-react';
 import { useBookingStore } from '@/lib/store';
 import TrailerButton from '@/components/movie/TrailerButton';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
@@ -139,6 +139,16 @@ export default function FeaturedHero({ movie }: FeaturedHeroProps) {
 
             <div className="flex items-center gap-3">
               <TrailerButton movieId={movie.id} movieTitle={movie.displayTitle} variant="hero" />
+              <motion.button
+                whileHover={{ scale: 1.1, translateY: -2 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => window.dispatchEvent(new CustomEvent('open-elemental-splash'))}
+                aria-label="בחר לצפות בפתיח אלמנטלי"
+                title="פתיח אלמנטלי (3D)"
+                className="w-14 h-14 rounded-2xl flex items-center justify-center border border-amber-400/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 transition-all shadow-[0_0_20px_rgba(255,184,0,0.15)]"
+              >
+                <Sparkles size={22} aria-hidden="true" />
+              </motion.button>
               <motion.button
                 whileHover={{ scale: 1.1, translateY: -2 }}
                 whileTap={{ scale: 0.9 }}

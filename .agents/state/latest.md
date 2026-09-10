@@ -1,19 +1,11 @@
-# Latest Milestone: CinePulse Liquid ERP 5.0 Cockpit Suite (Sprint 171)
+# Latest Milestone: CinePulse TopBar Streamlining & Cinema Experience Menu Suite (Sprint 174)
 
 - **Completed Sprints & Upgrades:**
-  1. **Sprint 171: CinePulse Liquid ERP 5.0 Cockpit Suite (שדרוג מקיף של Liquid ERP בהשראת דוגמאות MCP)**:
-     - **Web Audio Tactical Tick (`components/erp/cockpit/LiquidCockpitAudio.ts`)**: 800Hz sine wave acoustic feedback engine with safe SSR lifecycle for responsive haptic-like tactile clicks across cockpit buttons.
-     - **Central AI Command Omni-Box (`components/erp/cockpit/ERPOmniBox.tsx`, `app/api/erp/command/route.ts`)**: Single-input command capsule with pulsing `ai-purple` aura, quick suggestion chips, and full `gemini-3.5-flash-lite` natural language command processing in Hebrew.
-     - **120Hz GPU Market Wave Sparklines (`components/erp/cockpit/ERPMarketWaveCard.tsx`)**: Real-time vector SVG sparklines for Box Office metrics, occupancy rates, and risk indices with `growth-neon` and `volatility-red` indicators.
-     - **Real-Time Liquidity Stream & Global Anchor (`components/erp/cockpit/ERPLiquidityStream.tsx`, `components/erp/cockpit/ERPTopBarAnchor.tsx`)**: Bento block showing net/gross revenue, active pending cart values, live VAT adjustment, and ILS ₪ / USD $ base currency toggle.
-     - **Anomalous Intent & Security Radar (`components/erp/cockpit/ERPSecurityRadar.tsx`)**: Threat intelligence block monitoring ticket barcode double-scans, HMAC validation status, and cinema firewall lock.
-     - **Monolithic Decomposition (`components/admin/ErpDashboard.tsx`)**: Replaced 251 LOC monolith with a modular orchestrator (58 LOC) strictly respecting the 200 LOC ceiling.
-     - **Unit Test Suite (`lib/__tests__/liquid-erp-cockpit.test.ts`)**: 4 comprehensive tests validating VAT math, currency conversions, yield recommendations, and Web Audio safety.
-- **Quality & Verification:**
-  - TypeScript: `npx tsc --noEmit` verified with 0 errors.
-  - ESLint: `npm run lint` verified with 0 errors.
-  - Vitest: 183/183 tests passing across 39 test files (100% pass rate).
-  - Production Build: `npm run build` compiled 124/124 routes successfully in Turbopack.
-  - Strict 200 LOC ceiling maintained across all edited and created files (all < 170 LOC).
-  - 100% synchronization across all 4 state files.
+  1. **Sprint 174: CinePulse TopBar Navigation Streamlining & Cinema Experience Menu Suite (ארגון שורת הניווט, איחוד מצבי קולנוע ויישור גבהים)**:
+     - **Unified Cinema Experience Hub (`components/layout/TopBar/CinemaExperienceMenu.tsx` - 184 LOC)**: Consolidated 4 disparate text pills (`תאורת יום`, `פתיח אלמנטלי`, `מגש שקט`, `כתוביות CineSub AI`) into a single luxury Liquid Glass 4.0 Pro popover menu (`✨ חוויית צפייה ▼`), saving ~350px of navbar width and eliminating visual collision.
+     - **Streamlined Neural Search (`components/layout/TopBar/NeuralSearch.tsx` - 153 LOC)**: Reduced input vertical padding from bloated `py-6` (72px height) to sleek `py-3` (48px luxury height), balanced buttons inside (`סריקה נוירלית` and `מסננים`), and limited max-width to `max-w-2xl xl:max-w-3xl`.
+     - **Header Architecture & Proportional Baseline (`components/layout/TopBar.tsx` - 176 LOC)**: Reduced header height from `md:h-24` (96px) to modern `md:h-20` (80px), grouped actions into 3 distinct functional clusters (Community/Live, Media & AI, Cinema Experience) separated by subtle glass dividers (`h-5 w-px bg-white/10`).
+     - **Quality & Verification**: TypeScript `npx tsc --noEmit` passed with 0 errors; Vitest suite passed 186/186 tests; strict 200 LOC ceiling maintained across all touched files.
+
+
 

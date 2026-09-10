@@ -697,6 +697,41 @@
 - **Verification:** `npx tsc --noEmit` passed (0 errors), `npm run lint` passed (0 errors), 183/183 Vitest tests passing across 39 test files, `npm run build` compiled 124/124 routes in Turbopack, strict 200 LOC ceiling maintained across all files, and 100% synchronization across all 4 state files.
 - **Status:** ✅ Completed
 
+### 🛠️ Sprint 172 (Hotfix): Day/Night Dynamic Lighting SSR Hydration Mismatch Resolution (ביטול שגיאת Hydration במנוע התאורה)
+- **Concept:** Elimination of React 19 / Next.js 16 SSR hydration mismatches in `<DayNightLightingPill />` and `useDayNight()`.
+- **Root Cause & Fix:** Replaced client/server branching (`typeof document !== 'undefined'`) and non-deterministic clock access (`new Date().getHours()`) inside the initial `useState` pass in `hooks/useDayNight.ts` with stable `DEFAULT_TIME_BAND = 'night'`. Client-side hour synchronization executes cleanly in `useEffect`, matching server and client initial DOM trees 100%.
+- **Tech Stack:** React 19, Next.js 16 App Router, Framer Motion 120Hz, Vitest.
+- **Verification:** `npx tsc --noEmit` passed (0 errors), 183/183 Vitest unit tests passed across 39 files, `npm run build` compiled 124/124 routes successfully in Turbopack.
+- **Status:** ✅ Completed
+
+### 🌊 Sprint 173: CinePulse Elemental Splash TMDB Movie Suite (ביטול הפעלה אוטומטית, הסרת אותיות סיניות והתאמה לסרטי מופת מ-TMDB)
+- **Concept:** Full re-engineering of the splash experience with the verified Raw WebGL2 + Canvas 2D Elemental Marks engine from `.agents/skills/SKILL.md` while preserving the site branding **MOVIEBOOK / CinePulse**, empowering users to choose when to launch and re-theming the 3 elements after iconic TMDB blockbusters.
+- **Features Implemented:**
+  - **TMDB Movie-Inspired Elements (`elemental-splash.html`, `ElementalSplashControls.tsx`, `SplashLauncherPill.tsx`)**:
+    - **מים (Water) ← אווטאר: דרכי המים (Avatar: The Way of Water)** (TMDB #76600, 7.7★, 2022): גלי מים דינמיים ושבירת אור תת-ימית באוקיינוס פנדורה.
+    - **ברק (Lightning) ← בין כוכבים (Interstellar)** (TMDB #157339, 8.4★, 2014): שדה קוונטי, קשתות אנרגיה של חור תולעת והקרנת לייזר.
+    - **אש (Fire) ← חולית: חלק 2 (Dune: Part Two)** (TMDB #693134, 8.3★, 2024): להבות מדבר אראקיס, סערת תבלין תרמית וגחלים זוהרות.
+    - **תגיות TMDB מעוצבות:** תגית מותג `#01b4e4` עם ציון כוכבים ושנת יציאה בראש כל פאנל.
+  - **Official Movie Vector Logos (`LOGO_PATHS`)**: החלפת הסמלים הגנריים בלוגואים הווקטוריים האותנטיים: סמל ה-'A' של אווטאר עם כנפי באנשי וגל, טבעת החללית 'אנדורנס' של בין כוכבים, וארבעת תווי '⊃ ∪ ∩ ⊂' של חולית עם שמש אראקיס.
+  - **Kanji Removal**: הסרה מוחלטת של כל אותיות הקאנג'י הסיניות (`水`, `雷`, `炎`) והסגנונות הנלווים.
+  - **User Choice Opt-In (`components/splash/BiometricSplash.tsx`)**: Removed automatic display on home page load (`isVisible: false` by default). Listens to global `open-elemental-splash` event and handles specific element targeting.
+  - **TopBar Elemental Launcher Pill (`components/splash/SplashLauncherPill.tsx`)**: Liquid Glass 4.0 Pro dropdown launcher embedded in `TopBar.tsx`.
+  - **Hero 1-Click Trigger (`components/home/FeaturedHero.tsx`)**: Integrated golden `Sparkles` action button into the hero row.
+  - **Mobile Hub Integration (`components/layout/MobileHubDrawer.tsx`)**: Added entry in the mobile sensory items drawer.
+  - **Ergonomic Unified Actions Dock (`ElementalSplashControls.tsx`)**: העברת לחצני השמע והדילוג מהפינה העליונה-שמאלית ישירות למעגן הפקדים התחתון לצד כפתור הכניסה לקולנוע לנוחות ארגונומית מירבית.
+  - **Unit Test Suite (`lib/__tests__/elemental-splash.test.tsx`)**: 3 comprehensive unit tests covering user choice opt-in, variant selection, and branding stability.
+- **Tech Stack:** Raw WebGL2, Canvas 2D, React 19, Next.js 16 App Router, Web Audio API, Framer Motion 120Hz.
+- **Verification:** `npx tsc --noEmit` (0 errors), 186/186 Vitest tests passing across 40 files, `npm run build` compiled 124/124 routes successfully in Turbopack, strict 200 LOC ceiling maintained across all files (all < 199 LOC).
+
+### 📐 Sprint 174: CinePulse TopBar Navigation Streamlining & Cinema Experience Menu Suite (ארגון שורת הניווט, יישור גבהים ואיחוד מצבי קולנוע)
+- **Concept:** Reorganize the congested global TopBar navigation bar into 3 proportional, ergonomically balanced clusters separated by subtle glass dividers. Consolidate 4 disparate mode pills into a unified luxury Liquid Glass 4.0 Pro popover menu (`✨ חוויית צפייה ▼`), and reduce the NeuralSearch input height from 72px (`py-6`) to an elegant, proportional 48px (`py-3`).
+- **Core Architecture & Components:**
+  - **Cinema Experience Menu (`components/layout/TopBar/CinemaExperienceMenu.tsx` - 184 LOC)**: Unified dropdown popover hosting dynamic Day/Night lighting selector with 4 bands (Dawn, Day, Sunset, Night) and auto reset, TMDB Elemental Splash fast triggers (Avatar 2, Interstellar, Dune 2, All), silent in-theater Stealth Tray Mode toggle with animated switch, and CineSub AI live transcription trigger.
+  - **Proportional Neural Search (`components/layout/TopBar/NeuralSearch.tsx` - 153 LOC)**: Reduced input vertical padding to `py-3`, balanced font size to `text-sm font-medium`, standardized internal buttons (`סריקה נוירלית` and `מסננים`) with `rounded-xl`, and constrained desktop max-width to `max-w-2xl xl:max-w-3xl` to preserve action bar breathing room.
+  - **Header Structure & Geometry (`components/layout/TopBar.tsx` - 176 LOC)**: Reduced header height from `md:h-24` (96px) to modern `md:h-20` (80px), organized actions into 3 distinct functional clusters (Community/Live, Media & AI, Cinema Experience) separated by subtle glass dividers (`h-5 w-px bg-white/10`).
+- **Tech Stack:** React 19, Next.js 16 App Router, Framer Motion 120Hz GPU, Tailwind CSS, Lucide Icons.
+- **Verification:** `npx tsc --noEmit` (0 errors), 186/186 Vitest tests passing across 40 files, `npm run build` compiled 124/124 routes successfully in Turbopack, strict 200 LOC ceiling maintained across all touched files.
+
 
 
 

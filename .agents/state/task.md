@@ -14,19 +14,12 @@
 - [x] Sprint 168: CinePulse Zero-Flicker & Mobile Smartphone Browser Stability Suite
 - [x] Sprint 169: CinePulse Ultra-Productive Cinematic Concession Suite (המזנון הסינמטי הפרודוקטיבי)
 - [x] Sprint 170: CinePulse White Flickering & Homepage Strobe Elimination Suite (ביטול מוחלט של ריצודים והבהובים לבנים בדף הבית)
-- [x] Sprint 171: CinePulse Liquid ERP 5.0 Cockpit Suite (שדרוג מקיף של Liquid ERP בהשראת דוגמאות MCP):
-  - [x] Web Audio 800Hz tactical tick acoustic engine (`components/erp/cockpit/LiquidCockpitAudio.ts`)
-  - [x] Central AI Command Node Omni-Box with Gemini 3.5 Flash-Lite (`components/erp/cockpit/ERPOmniBox.tsx`, `app/api/erp/command/route.ts`)
-  - [x] 120Hz GPU vector SVG sparkline telemetry wave cards (`components/erp/cockpit/ERPMarketWaveCard.tsx`)
-  - [x] Real-time net/gross liquidity stream and currency/VAT anchor (`components/erp/cockpit/ERPLiquidityStream.tsx`, `components/erp/cockpit/ERPTopBarAnchor.tsx`)
-  - [x] Anomalous intent and ticket scanner radar (`components/erp/cockpit/ERPSecurityRadar.tsx`)
-  - [x] Refactored monolithic `components/admin/ErpDashboard.tsx` from 251 LOC down to 58 LOC
-  - [x] Updated `app/(main)/erp/page.tsx` with Quantum Cockpit 5.0 tokens
-  - [x] Unit test suite in `lib/__tests__/liquid-erp-cockpit.test.ts` (4/4 passing, 183/183 suite total)
-  - [x] Auto-synchronize all 4 state files (`task.md`, `latest.md`, `ARCHITECTURE_STATE.md`, `SPRINTS.md`)
+- [x] Sprint 171: CinePulse Liquid ERP 5.0 Cockpit Suite (שדרוג מקיף של Liquid ERP בהשראת דוגמאות MCP)
+- [x] Hotfix: Day/Night Dynamic Lighting SSR Hydration Mismatch Resolution (תיקון שגיאת ה-Hydration במנוע התאורה והשוואת עצי SSR/Client)
+- [x] Sprint 173: CinePulse Elemental Splash TMDB Movie Suite (ביטול הפעלה אוטומטית, הסרת אותיות סיניות, שדרוג האלמנטים בהשראת סרטי TMDB ועיצוב צורת האלמנטים על פי לוגואי הסרטים: אווטאר, בין כוכבים, וחולית 2)
+- [x] Sprint 174: CinePulse TopBar Navigation Streamlining & Cinema Experience Menu Suite (ארגון שורת הניווט, יישור גבהים וטיפוגרפיה, חיפוש נוירלי מעודן, ואיחוד מצבי קולנוע לתפריט חוויה מרהיב)
 - [x] TypeScript strict verification (`npx tsc --noEmit` - 0 errors)
-- [x] ESLint verification (`npm run lint` - 0 errors)
-- [x] Vitest suite pass (183/183 total tests across 39 test files)
+- [x] Vitest suite pass (186/186 total tests across 40 test files)
 - [x] Next.js production build (`npm run build` - 124/124 routes compiled successfully)
 - [x] Strict 200 LOC ceiling maintained across all new and edited files
 

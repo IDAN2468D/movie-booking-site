@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Search, Clapperboard, Bookmark, Heart, Crown, Dna, Volume2, Subtitles, Mic, Gem, Users, Trophy, MapPin, Settings, Headphones } from 'lucide-react';
+import { X, Search, Clapperboard, Bookmark, Heart, Crown, Dna, Volume2, Subtitles, Mic, Gem, Users, Trophy, MapPin, Settings, Headphones, Sparkles } from 'lucide-react';
 import { useUIStore } from '@/lib/store/ui-store';
 import { useSession } from 'next-auth/react';
 
@@ -21,12 +21,12 @@ const PERSONAL_ITEMS: HubItem[] = [
 ];
 
 const AI_SENSORY_ITEMS: HubItem[] = [
+  { icon: Sparkles, label: 'פתיח אלמנטלי MOVIEBOOK', href: '/splash', color: 'text-amber-400', badge: '3D FX' },
   { icon: Dna, label: 'גנום קולנועי CineDNA', href: '/cinedna', color: 'text-cyan-400' },
   { icon: Volume2, label: 'אקוסטיקה 3D SweetSpot', href: '/sweetspot', color: 'text-primary' },
   { icon: Subtitles, label: 'כתוביות חיות CineSub', href: '/cinesub', color: 'text-indigo-400', badge: 'LIVE' },
   { icon: Mic, label: 'פקודות קוליות AI', href: '/voice-shell', color: 'text-purple-400' },
-  { icon: Gem, label: 'כספת שברי זיכרון', href: '/memory-capsules', color: 'text-pink-400' },
-  { icon: Headphones, label: 'פרשנות במאי קולית', href: '/directors-cut', color: 'text-emerald-400' },
+  { icon: Gem, label: 'כספת שברי זיכרון', href: '/memory-capsules', color: 'text-pink-400' }, { icon: Headphones, label: 'פרשנות במאי קולית', href: '/directors-cut', color: 'text-emerald-400' },
 ];
 
 const SOCIAL_TOOLS_ITEMS: HubItem[] = [

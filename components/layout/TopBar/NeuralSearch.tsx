@@ -63,13 +63,13 @@ export default function NeuralSearch({
   };
 
   return (
-    <div className={`relative flex-1 group ${isMobile ? 'w-full' : 'max-w-5xl'} font-inter`}>
+    <div className={`relative flex-1 group ${isMobile ? 'w-full' : 'max-w-2xl xl:max-w-3xl'} font-inter`}>
       <div className="relative flex items-center">
         {/* Optical ambient radial glow border */}
         <motion.div
           animate={{ opacity: isSearchFocused ? 1 : 0, scale: isSearchFocused ? 1.01 : 0.99 }}
           transition={{ duration: 0.3 }}
-          className="absolute inset-0 rounded-[28px] bg-gradient-to-r from-primary/50 via-purple-500/30 to-blue-500/30 blur-[30px] pointer-events-none"
+          className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/50 via-purple-500/30 to-blue-500/30 blur-[24px] pointer-events-none"
         />
 
         {isMobile && (
@@ -84,7 +84,7 @@ export default function NeuralSearch({
 
         <Search
           aria-hidden="true"
-          className={`absolute ${isMobile ? 'right-12' : 'right-6'} w-5 h-5 transition-all duration-300 ${
+          className={`absolute ${isMobile ? 'right-10' : 'right-4 sm:right-5'} w-4.5 h-4.5 transition-all duration-300 ${
             isSearchFocused ? 'text-primary scale-110' : 'text-slate-300'
           }`}
         />
@@ -98,12 +98,12 @@ export default function NeuralSearch({
           onKeyDown={handleKeyDown}
           placeholder={isMobile ? 'תאר לנו מה בא לך לראות...' : 'תאר לנו איזה סרט בא לך לראות (למשל: "בא לי סרט חלל מטורף")...'}
           aria-label="חיפוש נוירלי חכם לסרטים"
-          className={`w-full bg-[#12131a] border border-white/20 rounded-[28px] ${
-            isMobile ? 'py-3.5 pr-20 pl-24 text-sm' : 'py-6 pr-16 pl-48 text-base'
-          } text-white focus:outline-none focus:border-primary focus:bg-[#161722] transition-all duration-300 placeholder:text-slate-400 font-bold tracking-tight shadow-3xl`}
+          className={`w-full bg-[#12131a]/90 backdrop-blur-xl border border-white/15 rounded-2xl ${
+            isMobile ? 'py-2.5 pr-14 pl-24 text-xs' : 'py-3 pr-12 pl-44 text-sm'
+          } text-white focus:outline-none focus:border-primary/80 focus:bg-[#161722] transition-all duration-300 placeholder:text-slate-400 font-medium tracking-tight shadow-xl`}
         />
 
-        <div className="absolute left-3 flex items-center gap-2">
+        <div className="absolute left-2.5 flex items-center gap-1.5">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -111,13 +111,13 @@ export default function NeuralSearch({
             }}
             disabled={isScanning || searchQuery.trim().length < 3}
             aria-label="הפעל סריקה נוירלית"
-            className={`flex items-center gap-2 px-4 ${isMobile ? 'py-2' : 'py-3'} rounded-2xl font-black text-xs md:text-sm transition-all shadow-xl ${
+            className={`flex items-center gap-1.5 px-3 ${isMobile ? 'py-1.5 text-[11px]' : 'py-2 text-xs'} rounded-xl font-bold transition-all shadow-md ${
               isScanning || searchQuery.trim().length < 3
-                ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed border-zinc-700'
-                : 'bg-primary text-black hover:bg-primary/90 hover:scale-105 border-primary/50'
+                ? 'bg-zinc-800/80 text-zinc-500 cursor-not-allowed border-zinc-700/60'
+                : 'bg-primary text-black hover:bg-primary/90 hover:scale-102 border-primary/50'
             } border`}
           >
-            {isScanning ? <LoadingIndicator variant="spinner" size={16} color="#000000" label="סורק..." /> : <BrainCircuit size={16} aria-hidden="true" />}
+            {isScanning ? <LoadingIndicator variant="spinner" size={14} color="#000000" label="סורק..." /> : <BrainCircuit size={14} aria-hidden="true" />}
             <span className="hidden sm:inline">סריקה נוירלית</span>
           </button>
 
@@ -129,10 +129,10 @@ export default function NeuralSearch({
             aria-label="פתח מסנני סרטים מתקדמים"
             title="מסננים"
             className={`${
-              isMobile ? 'w-9 h-9' : 'w-12 h-12'
-            } flex items-center justify-center rounded-2xl border bg-zinc-850 text-slate-200 hover:bg-zinc-800 border-zinc-700 active:scale-95 transition-transform`}
+              isMobile ? 'w-8 h-8' : 'w-9 h-9'
+            } flex items-center justify-center rounded-xl border bg-white/5 hover:bg-white/10 text-slate-200 hover:text-white border-white/10 active:scale-95 transition-all`}
           >
-            <SlidersHorizontal size={isMobile ? 16 : 20} aria-hidden="true" />
+            <SlidersHorizontal size={isMobile ? 15 : 17} aria-hidden="true" />
           </button>
         </div>
       </div>

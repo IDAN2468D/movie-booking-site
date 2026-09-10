@@ -42,7 +42,7 @@
 | **Module AK** | CineStats & Achievement Badges | `/components/profile/CineStatsContainer.tsx` | User KPIs, Genre Breakdown, 6 Holographic Liquid Glass Achievement Badges | `ACTIVE` |
 | **Module AL** | Movie Site Stats Skill & ERP Analytics Suite | `/components/erp/stats/StatsSummaryCards.tsx` | Israeli 18% VAT, GA4/CSV Universal Parser, Retention, Anomaly Radar, Gemini 3.5 AI Advisor | `ACTIVE` |
 | **Module AM** | Lighthouse 100/100 & Modern Web APIs Engine | `/app/layout.tsx` | Next.js 16 AVIF/WebP, WCAG 2.1 AA 100%, Robots & Sitemap, Local SVG Data URIs, Strict Containment | `ACTIVE` |
-| **Module AN** | Day/Night Dynamic Lighting Theme Engine | `/components/providers/DayNightProvider.tsx` | 4 Time Bands, 60s Sync, Tailwind v4 `@custom-variant`, `DayNightLightingPill.tsx`, Liquid Glass 4.0 | `ACTIVE` |
+| **Module AN** | Day/Night Dynamic Lighting Theme Engine | `/components/providers/DayNightProvider.tsx` | 4 Time Bands, SSR Hydration Safe, Tailwind v4 `@custom-variant`, `DayNightLightingPill.tsx`, Liquid Glass 4.0 | `ACTIVE` |
 | **Module AO** | CineSub AI Live Transcription & Subtitles Engine | `/components/movie/CineSubTranscriberModal.tsx` | MediaRecorder, Google Gemini Multimodal Audio, Multi-Speaker Diarization, OLED Stealth Mode | `ACTIVE` |
 | **Module AP** | CineDNA Multidimensional Graph Explorer | `/components/cinedna/CineDnaCanvas.tsx` | Force-Directed Radial Layout, Stylistic Fingerprint, TMDB + Gemini AI, `/cinedna` | `ACTIVE` |
 | **Module AQ** | Acoustic Sweet-Spot 3D Simulator | `/components/sweetspot/AcousticSweetspotSimulator.tsx` | Web Audio API (HRTF Panner, 35Hz Sub-Bass Rumble), 3D Hall Grid, `/sweetspot` | `ACTIVE` |
@@ -67,7 +67,8 @@
 | **Module BJ** | Mobile Live Booking & Hub Drawer Suite | `/components/booking/MobileLiveBookingSheet.tsx`, `/components/layout/MobileHubDrawer.tsx` | Slide-Up Bottom Sheets, Touch SeatMap, 1-Tap Checkout, 20+ Feature Matrix | `ACTIVE` |
 | **Module BK** | Ultra-Productive Cinematic Concession Suite | `/components/concessions/productive/` | 1-Tap Express Bundles, Live Kitchen Telemetry, Kosher/Dietary Filters, Popcorn Seasoning Customizer, Sticky Tray POS | `ACTIVE` |
 | **Module BL** | Homepage Anti-Flicker & Strobe Elimination Suite | `/components/movie/MovieCard.tsx`, `/styles/effects.css` | Hover-Only Shimmer, GPU Compositor Tile Invalidation Fix, Canvas Alpha Reset, Hydration Band Sync | `ACTIVE` |
-| **Module BM** | CinePulse Liquid ERP 5.0 Cockpit Suite | `/components/admin/ErpDashboard.tsx`, `/components/erp/cockpit/` | Gemini 3.5 Flash-Lite Omni-Box, 120Hz GPU Sparklines, 800Hz Web Audio Tick, Quantum Glass 4.0 | `ACTIVE` |
+| **Module BN** | Elemental Marks WebGL2 Splash Experience | `/components/splash/ElementalSplash.tsx` | Raw WebGL2, Canvas 2D Shaders, Water/Lightning/Fire, Web Audio, `/splash` | `ACTIVE` |
+| **Module BO** | TopBar Navigation Streamlining & Cinema Experience Menu | `/components/layout/TopBar.tsx`, `/components/layout/TopBar/CinemaExperienceMenu.tsx` | Unified Cinema Experience Popover, 48px Proportional NeuralSearch, Glass Dividers, Liquid Glass 4.0 | `ACTIVE` |
 
 ---
 
@@ -305,6 +306,22 @@
 6. **Framer Motion Spring Decoupling (`MovieCard.tsx`, `PosterRefractor.tsx`, `HomeContent.tsx`)**: Removed `transition-all duration-500` fighting inline 3D springs (`rotateX`/`rotateY`). Disabled mouse 3D tilt calculations on touch/mobile screens (< 1024px). Disabled GSAP ScrollTrigger scrub on mobile.
 7. **Overlays & Navigation Dock Isolation (`MobileNav.tsx`, `TopBar.tsx`, `MobileLiveBookingSheet.tsx`, `MobileHubDrawer.tsx`, `WhisperTrackBar.tsx`, `CinePulseOrb.tsx`)**: Injected `translate3d(0, 0, 0)` and `backface-visibility: hidden` layer isolation to eliminate fixed element stutter and vibrating artifacts during inertia scroll.
 8. **Strict 200 LOC Ceiling**: 100% compliance across all touched files (<199 LOC).
+
+---
+
+## Phase 85: CinePulse Elemental Splash TMDB Movie Suite (Sprint 173)
+1. **User Choice Opt-In (`components/splash/BiometricSplash.tsx`)**: Eliminated automatic overlay takeover on home page load (`isVisible: false`). Responds to `open-elemental-splash` custom event and supports specific element target parameters (`water`, `lightning`, `fire`, `all`).
+2. **TMDB Movie-Inspired Elements (`elemental-splash.html`, `ElementalSplashControls.tsx`, `SplashLauncherPill.tsx`)**: Re-imagined the 3 elements based on iconic TMDB blockbusters: Water (Avatar: The Way of Water - TMDB #76600, 7.7★), Lightning (Interstellar - TMDB #157339, 8.4★), and Fire (Dune: Part Two - TMDB #693134, 8.3★), with custom `#01b4e4` TMDB score tags and release years.
+3. **Official Movie Vector Logo Silhouettes (`public/splash/elemental-splash.html`)**: Replaced generic geometric marks in `LOGO_PATHS` with authentic vector logos: Avatar 'A' with Banshee wings and wave, Interstellar Endurance orbital ring and navigation star, and Dune: Part Two iconic '⊃ ∪ ∩ ⊂' letterforms and Arrakis sun, rendered via `evenodd` rasterization.
+4. **Kanji Elimination**: Removed all oversized Chinese/Japanese characters (`水`, `雷`, `炎`) and CSS from splash overlays.
+5. **TopBar Launcher Pill (`components/splash/SplashLauncherPill.tsx`)**: Liquid Glass 4.0 Pro dropdown launcher embedded in `TopBar.tsx`, presenting TMDB movie choices to the user.
+6. **Hero 1-Click Trigger (`components/home/FeaturedHero.tsx`)**: Integrated golden `Sparkles` action button into the hero row.
+7. **Mobile Hub Integration (`components/layout/MobileHubDrawer.tsx`)**: Added sensory drawer entry for mobile devices.
+8. **Standalone WebGL2 Elemental Engine (`public/splash/elemental-splash.html`)**: Shader pipeline featuring Water ping-pong wave equations, Lightning distance field arcs, and Fire convective noise flame ribbons.
+9. **Liquid Glass 4.0 Pro React Host (`components/splash/ElementalSplash.tsx`)**: Sandboxed iframe host (152 LOC) featuring `initialVariant` support, 3D typography, and Web Audio spatial acoustics.
+10. **Floating Controls Overlay (`components/splash/ElementalSplashControls.tsx`)**: Modular control bar (103 LOC) with variant switcher, and unified bottom actions dock integrating Audio toggle, Enter Cinema, and Skip buttons within one ergonomic thumb-friendly touch zone.
+11. **Unit Test Suite (`lib/__tests__/elemental-splash.test.tsx`)**: 3 unit tests verifying no auto-show and user choice event activation (186/186 suite total).
+12. **Strict 200 LOC Ceiling**: 100% compliance across all touched files (all < 199 LOC).
 
 ---
 
